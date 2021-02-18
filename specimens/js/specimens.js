@@ -28,7 +28,27 @@ targetDiv="CitPubFormMedia";
     	minHeight: 450,
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        	{ text: "Save", click: function () { function(){ 
+				var datasub = $('#identificationForm').serialize();
+				if ($('#identificationForm')[0].checkValidity()) {
+					$.ajax({
+						url: "/specimens/component/functions.cfc",
+						type: 'post',
+						returnformat: 'plain',
+						data: datasub,
+						success: function(data) { 
+							if (jQuery.type(okcallback)==='function') {
+								okcallback();
+							};
+							$("#"+dialogid+"_div").html(data);
+						},
+						fail: function (jqXHR, textStatus,error) { 
+							handleFail(jqXHR,textStatus,error,"saving identification");
+						}	
+					});
+		 		} else { 
+					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+		 		}; }, class:"btn btn-primary"}
         
     	],
         close: function() {
@@ -68,31 +88,4 @@ function loadIdentification(identification_id,form) {
 		dataType: "html"
 	});
 };
-//function loadIdentification(identification_id,form) {
-//	//$(".dialog").dialog( "option", "title", "Edit Identification here:" + identification_id );
-//	$("#identificationHTML").html(""); 
-//	jQuery.getJSON("/specimens/component/functions.cfc",
-//		{
-//			method : "getIdentificationHTML",
-//			identification_id : identification_id,
-//			returnformat : "json",
-//			queryformat : 'column'
-//		},
-//		function (result) {
-//			try{
-//				if (result.ROWCOUNT == 1) {
-//					var i = 0;
-//					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
-//					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
-//					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);
-//					
-//				} else { 
-//					 $(".dialog").dialog( "close" );
-//				}
-//			}
-//			catch(e){ alert(e); }
-//		}
-//	).fail(function(jqXHR,textStatus,error){
-//		handleFail(jqXHR,textStatus,error,"loading identification record");
-//	});
-//};
+

@@ -617,7 +617,8 @@ limitations under the License.
 							</h3>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');loadIdentification(#identification_id#)">Edit</button>
 						</div>
-						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+						<form id="identificationForm">
+							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
 								<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -754,6 +755,7 @@ limitations under the License.
 						</div>
 							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
+						</form>
 					</div>
 				</div>
 
