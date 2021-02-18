@@ -24,7 +24,7 @@ targetDiv="CitPubFormMedia";
 		bgiframe: true,
         autoOpen: false,
     	width: '500px',
-    	minWidth: 'auto',
+    	minWidth: 500,
     	minHeight: 450,
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
