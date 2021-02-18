@@ -618,7 +618,7 @@ limitations under the License.
 					
 
 						<button type="button" class="btn btn-xs small float-right" onClick="$('##dialog-identification').dialog('open'); getIdentification(#identification_id#);">Edit</button>
-							onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);"
+						
 						</div>
 							
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
