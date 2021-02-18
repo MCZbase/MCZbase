@@ -619,9 +619,7 @@ limitations under the License.
 
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); getIdentifications(#identification_id#);">Edit</button>
 						</div>
-											<script>
-									$( document ).ready(loadIdentifications(#identification_id#));
-								</script>
+							
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
@@ -757,7 +755,7 @@ limitations under the License.
 								</ul>
 										
 										
-							<div class="dialog" title="Edit Identification (id: #identification_id#)">
+							<div class="dialog" id="dialog-identification" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationForm"></div>
 							</div>
 							</cfloop>
