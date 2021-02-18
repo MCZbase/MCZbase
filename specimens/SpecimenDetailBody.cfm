@@ -628,7 +628,7 @@ limitations under the License.
 											modal: true,
 											height: 'auto',
 											width: 'auto',
-											minWidth: 360,
+											minWidth: 560,
 											minHeight: 450,
 											draggable:true,
 											resizable:true,
