@@ -17,7 +17,9 @@ targetDiv="CitPubFormMedia";
 	});
 }
 
-	$(function() {
+	$(function(dialogid,identification_id,okcallback) {
+		var datasub = $('#identificationForm').serialize();
+		var content = '<div id="'+dialogid+'_div">Loading....</div>';
      $(".dialog").dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
@@ -27,30 +29,24 @@ targetDiv="CitPubFormMedia";
     	minWidth: 500,
     	minHeight: 450,
 		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function () { function(){ 
-				var datasub = $('#identificationForm').serialize();
-				if ($('#identificationForm')[0].checkValidity()) {
+			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function(){ $('#identificationForm').serialize();
+			
 					$.ajax({
 						url: "/specimens/component/functions.cfc",
 						type: 'post',
 						returnformat: 'plain',
 						data: datasub,
 						success: function(data) { 
-							if (jQuery.type(okcallback)==='function') {
-								okcallback();
-							};
+							if (jQuery.type(this)==='function') {
+								this();
+							}
 							$("#"+dialogid+"_div").html(data);
 						},
 						fail: function (jqXHR, textStatus,error) { 
-							handleFail(jqXHR,textStatus,error,"saving identification");
+							'error saving identification';
 						}	
-					});
-		 		} else { 
-					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
-		 		}; }, class:"btn btn-primary"}
-        
-    	],
+					});},class:"btn btn-primary"}],
         close: function() {
             $(this).dialog( "close" );
         },
