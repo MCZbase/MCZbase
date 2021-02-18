@@ -63,7 +63,7 @@ function loadIdentification(identfication_id,form) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getIdentificationHTML",
-			shipmentidList : identfication_id,
+			identification_id : identfication_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
