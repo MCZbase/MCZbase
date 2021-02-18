@@ -26,13 +26,12 @@ targetDiv="CitPubFormMedia";
     	width: '500px',
     	minWidth: 500,
     	minHeight: 450,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
-        
-    	],
-        close: function() {
-            $(this).dialog( "close" );
+		buttons: {
+			"Ok": function () { loadIdentification(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
+			close: function() { loadIdentification(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
+        // },
+        //close: function() {
+        //    $(this).dialog( "close" );
         },
         modal: true
        }
@@ -56,42 +55,14 @@ targetDiv="CitPubFormMedia";
  *  @param shipmentId the shipment_id of the shipment to edit
  *  @param form the id without a leading # selector of the shipment form.
  */
-//function getIdentification(identfication_id,form) {
-//	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identfication_id );
-//	$("#identificationForm").html(""); 
-//	$("#identificationFormStatus").html(""); 
-//	jQuery.getJSON("/transactions/component/functions.cfc",
-//		{
-//			method : "getidentification",
-//			shipmentidList : identfication_id,
-//			returnformat : "json",
-//			queryformat : 'column'
-//		},
-//		function (result) {
-//			try{
-//				if (result.ROWCOUNT == 1) {
-//					var i = 0;
-//					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
-//					$("#identification_id").val(result.DATA.identification_ID[i]);
-//					$("#scientific_name").val(result.DATA.scientific_name[i]);	
-//				} else { 
-//					 $("#dialog-identification").dialog( "close" );
-//				}
-//				loadIdentificationForm(identification_id);
-//			}
-//			catch(e){ alert(e); }
-//		}
-//	).fail(function(jqXHR,textStatus,error){
-//		handleFail(jqXHR,textStatus,error,"loading identification");
-//	});
-//};
-function loadIdentification(identification_id,form) {
-	$("#dialog_identification").dialog( "option", "title", "Edit Identification here:" + identification_id );
+function loadIdentification(identfication_id,form) {
+	$("#dialog").dialog( "option", "title", "Edit Identification " + identfication_id );
 	$("#identificationForm").html(""); 
+	$("#identificationFormStatus").html(""); 
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
-			method : "getIdentification",
-			shipmentidList : identification_id,
+			method : "getidentification",
+			shipmentidList : identfication_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -99,17 +70,45 @@ function loadIdentification(identification_id,form) {
 			try{
 				if (result.ROWCOUNT == 1) {
 					var i = 0;
-					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);
-					
+					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
+					$("#identification_id").val(result.DATA.identification_ID[i]);
+					$("#scientific_name").val(result.DATA.scientific_name[i]);	
 				} else { 
-					 $("#dialog_identification").dialog( "close" );
+					 $("#dialog-identification").dialog( "close" );
 				}
+				loadIdentificationForm(identification_id);
 			}
 			catch(e){ alert(e); }
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"loading identification record");
+		handleFail(jqXHR,textStatus,error,"loading identification");
 	});
 };
+//function loadIdentification(identification_id,form) {
+//	$("#dialog_identification").dialog( "option", "title", "Edit Identification here:" + identification_id );
+//	$("#identificationForm").html(""); 
+//	jQuery.getJSON("/transactions/component/functions.cfc",
+//		{
+//			method : "getIdentification",
+//			shipmentidList : identification_id,
+//			returnformat : "json",
+//			queryformat : 'column'
+//		},
+//		function (result) {
+//			try{
+//				if (result.ROWCOUNT == 1) {
+//					var i = 0;
+//					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
+//					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
+//					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);
+//					
+//				} else { 
+//					 $("#dialog_identification").dialog( "close" );
+//				}
+//			}
+//			catch(e){ alert(e); }
+//		}
+//	).fail(function(jqXHR,textStatus,error){
+//		handleFail(jqXHR,textStatus,error,"loading identification record");
+//	});
+//};
