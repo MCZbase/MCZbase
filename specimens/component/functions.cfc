@@ -6,8 +6,10 @@
 	<cfhttp url="#uri#" method="head"></cfhttp>
 	<cfreturn left(cfhttp.statuscode,3)>
 </cffunction>
+		
+
 <!------EXISTING----------------------------------------------------------------------------------------------------------->
-<cffunction name="getIdentification" returntype="query" access="remote">
+<cffunction name="loadIdentification" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -25,13 +27,13 @@
 	   	<cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
 	  </cfcatch>
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getIdentificationTable" returntype="query" access="remote">
+<cffunction name="loadIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
