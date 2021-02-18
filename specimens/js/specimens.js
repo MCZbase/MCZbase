@@ -34,7 +34,8 @@ targetDiv="CitPubFormMedia";
             $(this).dialog( "close" );
         },
         modal: true
-       },
+	 }
+       );
      $('body')
       .bind(
        'click',
