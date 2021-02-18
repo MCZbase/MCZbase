@@ -40,7 +40,7 @@ limitations under the License.
 </cfoutput> 
 <script>
 	$(function() {
-     $(".dialog").dialog({
+     $("#dialog_identification").dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
