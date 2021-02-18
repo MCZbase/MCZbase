@@ -88,17 +88,15 @@
       <cfset resulthtml = "<div id='identificationHTML'> ">
 
       <cfloop query="theResult">
-
          <cfset resulthtml = resulthtml & "<div class='identifcationNewForm'>">
             <cfset resulthtml = resulthtml & "<form><div class='container pl-1'>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
 			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='scientific_name'>Scientific Name:</label><input type='text' name='taxona' id='taxona' class='reqdClr form-control form-control-sm' value='#scientific_name#' size='1' onChange='taxaPick(''taxona_id'',''taxona'',''newID'',this.value); return false;'	onKeyPress=return noenter(event);'><input type='hidden' name='taxona_id' id=taxona_id' class='reqdClr'></div>">
 			<cfset resulthtml = resulthtml & "<div class='form-group w-25 mb-3 float-left'><label for='taxa_formula'>Formula:</label><select class='border custom-select form-control input-sm id='select'><option value='' disabled='' selected=''>#taxa_formula#</option><option value='A'>A</option><option value='B'>B</option><option value='sp.'>sp.</option></select></div>">
-					<cfset resulthtml = resulthtml & "<div class='form-group w-50 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
+			<cfset resulthtml = resulthtml & "<div class='form-group w-50 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
-    <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' value='#agent_name#'></div>">
-            <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><input type='text' class='form-control-sm' id='nature_of_id' value='#nature_of_id#'></div>">
-
+    		<cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' value='#agent_name#'></div>">
+            <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><select name='nature_of_id' id='nature_of_id' size='1' class='reqdClr'><cfloop query='ctnature'><option <cfif #ctnature.nature_of_id# EQ 'expert id'>selected</cfif> value='#ctnature.nature_of_id#'>#ctnature.nature_of_id#</option></cfloop></select><input type='text' class='form-control-sm' id='nature_of_id' value='#nature_of_id#'></div>">
 			<cfset resulthtml = resulthtml & "</div>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-12 col-sm-12 float-left'>">
          	<cfset resulthtml = resulthtml & "<div class='form-group'><label for='full_taxon_name'>Full Taxon Name:</label><input type='text' class='form-control-sm' id='full_taxon_name' value='#full_taxon_name#'></div> ">
