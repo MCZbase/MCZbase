@@ -28,22 +28,13 @@ targetDiv="CitPubFormMedia";
     	minHeight: 450,
 	buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", class:"btn btn-primary", click: function() { 
-				$('#identificationForm').serialize(); 
-				$.ajax({
-					url: "/specimens/component/functions.cfc",
-					data : {
-						method : "saveIdentification",
-						identification_id: identification_id
-					} 
-				});
-		},
+        	{ text: "Save",  click: function() { }, class:"btn btn-primary"}
+		 ],
         close: function() {
             $(this).dialog( "close" );
         },
         modal: true
-       }
-      ],
+       },
      $('body')
       .bind(
        'click',
