@@ -776,7 +776,7 @@ limitations under the License.
 										
 										
 							<div id="loadIdentificationForm" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
-										</div></div>
+							
 							</cfloop>
 						</div>
 						</div>
