@@ -28,7 +28,7 @@ targetDiv="CitPubFormMedia";
     	minHeight: 450,
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save",  click: function() { alert("save";) }, class:"btn btn-primary"}
+        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
 		 ],
         close: function() {
             $(this).dialog( "close" );
