@@ -57,7 +57,7 @@
       <cfset resulthtml = "<div id='identificationHTML'> ">
 
       <cfloop query="theResult">
-         <cfset resulthtml = resulthtml & "<div class='identifcationNewForm'>">
+         <cfset resulthtml = resulthtml & "<div class='identifcationExistingForm'>">
             <cfset resulthtml = resulthtml & "<form><div class='container pl-1'>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
 			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='scientific_name'>Scientific Name:</label><input type='text' name='taxona' id='taxona' class='reqdClr form-control form-control-sm' value='#scientific_name#' size='1' onChange='taxaPick(''taxona_id'',''taxona'',''newID'',this.value); return false;'	onKeyPress=return noenter(event);'><input type='hidden' name='taxona_id' id=taxona_id' class='reqdClr'></div>">
