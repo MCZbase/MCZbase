@@ -48,24 +48,16 @@ limitations under the License.
 				specimen_part,
 				coll_object,
 				cataloged_item,
-				coll_object_encumbrance,
-				encumbrance,
-				agent_name,
 				identification,
-				collection,
-				accn
+				collection
 			WHERE
 				deacc_item.collection_object_id = specimen_part.collection_object_id AND
 				deaccession.transaction_id = deacc_item.transaction_id AND
 				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 				specimen_part.collection_object_id = coll_object.collection_object_id AND
-				cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-				coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-				encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
 				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
 				cataloged_item.collection_id=collection.collection_id AND
-				cataloged_item.accn_id = accn.transaction_id AND
 				deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 	<cfelse>
@@ -229,7 +221,7 @@ limitations under the License.
 						loan.transaction_id is not null and
 						deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					group by
-						loan.transaction_id loan_id, loan_number, loan_status, 
+						loan.transaction_id, loan_number, loan_status, 
 						return_due_date, closed_date, 
 						loan.return_due_date
 				</cfquery>
