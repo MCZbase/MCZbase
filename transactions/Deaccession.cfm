@@ -1183,7 +1183,7 @@ limitations under the License.
 						'additional in-house contact')
 				</cfquery>
 			</cfif>
-			<cfif isdefined("additional_outcontact_agent_id") and len(additional_incontact_agent_id) gt 0>
+			<cfif isdefined("additional_outcontact_agent_id") and len(additional_outcontact_agent_id) gt 0>
 				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
