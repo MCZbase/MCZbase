@@ -166,7 +166,8 @@ limitations under the License.
 						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
 						left join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
 						left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-						left join permit_trans on cataloged_item.accn_id = permit_trans.transaction_id
+						left join accn on cataloged_item.accn_id = accn.transaction_id
+						left join permit_trans on accn.transaction_id_id = permit_trans.transaction_id
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
 						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
