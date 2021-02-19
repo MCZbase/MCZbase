@@ -217,14 +217,14 @@ function autogrow (event) {
 	{
 		var em = $(this).val().length * parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0])['fontSize']);
 		var width = $(this).width();
-		var fontsize = $(this).css("font-size");
+		var fontsize = Number.parseFloat($(this).css("font-size"));
 		var widthem = width/fontsize;
 		var lines = Math.floor(em/widthem)+1;
-		var newlines = $(this).val().split("\n");
+		var newlines = $(this).val().split("\n").length;
 		lines=newlines+lines;
 		lines=lines+2;
 		var needs = lines*fontsize;
-		if ($(this)[0].scrollHeight+tb+bb < needs) { 
+		if (Number.isNaN(needs) || $(this)[0].scrollHeight+tb+bb < needs) { 
 			// increase the height such that the text fits into the scroll bar height, taking borders into account.
 			$(this).height($(this)[0].scrollHeight+tb+bb);
 		}
