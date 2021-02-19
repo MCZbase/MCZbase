@@ -76,6 +76,7 @@ limitations under the License.
 	</cfif>
 	<cfreturn rankCount>
 </cffunction>
+
 <!--- obtain an html block containing dispositions of items in a deaccession --->
 <cffunction name="getDeaccItemDispositions" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">

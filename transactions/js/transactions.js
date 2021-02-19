@@ -2062,7 +2062,7 @@ function updateDeaccItemCount(transactionId,targetDiv) {
  * @param transactionId the transaction_id of the deaccession to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).
  */
-function updateDeaccnItemDispositions(transaction_id,targetDiv) {
+function updateDeaccItemDispositions(transaction_id,targetDiv) {
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
 		data : {
