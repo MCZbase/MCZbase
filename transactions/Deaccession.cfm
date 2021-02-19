@@ -560,6 +560,17 @@ limitations under the License.
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
+								<label for="deacc_status" class="data-entry-label">Deaccession Status</label>
+								<span>
+									<select name="deacc_status" id="deacc_status" class="reqdClr data-entry-select" required >
+										<cfloop query="ctDeaccessionStatus">
+											<option <cfif ctDeaccessionStatus.deacc_status is deaccessionDetails.deacc_status> selected="selected" </cfif>
+												value="#ctDeaccessionStatus.deacc_status#">#ctDeaccessionStatus.deacc_status#</option>
+										</cfloop>
+									</select>
+								</span>
+							</div>
+							<div class="col-12 col-md-3">
 								<label for="deacc_type" class="data-entry-label">Deaccession Type</label>
 								<!--- special case handling of other and transfer deaccession types --->
 								<cfif deaccessionDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#">
@@ -585,36 +596,30 @@ limitations under the License.
 									</select>
 								</cfif>
 							</div>
-							<div class="col-12 col-md-3">
-								<label for="value" class="data-entry-label">Value</label>
-								<input type="text" name="value" id="value" 
-									value="#encodeForHTML(deaccessionDetails.value)#" class="reqdClr data-entry-input" required >
-							</div>
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="deacc_status" class="data-entry-label">Deaccession Status</label>
-								<span>
-									<select name="deacc_status" id="deacc_status" class="reqdClr data-entry-select" required >
-										<cfloop query="ctDeaccessionStatus">
-											<option <cfif ctDeaccessionStatus.deacc_status is deaccessionDetails.deacc_status> selected="selected" </cfif>
-												value="#ctDeaccessionStatus.deacc_status#">#ctDeaccessionStatus.deacc_status#</option>
-										</cfloop>
-									</select>
-								</span>
+								<label for="method" class="data-entry-label">Method of Transfer</label>
+								<input type="text" name="method" id="value" 
+									value="#encodeForHTML(deaccessionDetails.method)#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
+								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
+								<input type="text" name="value" id="value" 
+									value="#encodeForHTML(deaccessionDetails.value)#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
 								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" required
 									value="#dateformat(deaccessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Date Entered</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(deaccessionDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Entered By</span>
 								<div class="col-12 bg-light: border non-field-text">
 									<span id="entered_by">#encodeForHTML(deaccessionDetails.enteredby)#</span>
@@ -655,6 +660,14 @@ limitations under the License.
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(deaccessionDetails.nature_of_material)#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12">
+								<label for="deacc_reason" class="data-entry-label">Reason For Deaccession (<span id="length_deacc_reason"></span>)</label>
+								<textarea name="deacc_reason" id="deacc_reason" rows="1"
+									onkeyup="countCharsLeft('deacc_reason', 4000, 'length_deacc_reason');"
+									class="autogrow data-entry-textarea">#encodeForHTML(deaccessionDetails.deacc_reason)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
