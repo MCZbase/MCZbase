@@ -561,21 +561,34 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="deacc_type" class="data-entry-label">Deaccession Type</label>
-								<select name="deacc_type" id="deacc_type" class="reqdClr data-entry-select" required >
-									<cfloop query="ctDeaccessionType">
-										<cfif ctDeaccessionType.deacc_type NEQ "transfer" OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif>
-												value="#ctDeaccessionType.deacc_type#">#ctDeaccessionType.deacc_type#</option>
-										<cfelseif deaccessionDetails.deacc_type EQ "transfer" AND deaccessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif> value="" ></option>
-										</cfif>
-									</cfloop>
-								</select>
+								<!--- special case handling of other and transfer deaccession types --->
+								<cfif deacccessionDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#">
+									<!--- deacc_type other (MAGIC_TTYPE_OTHER) is read only --->
+									<input type="hidden" name="deacc_type" id="deacc_type" value="#MAGIC_TTYPE_OTHER#">
+									<select name="deacc_type_readonly" id="deacc_type" class="reqdClr data-entry-select" disabled="true">
+										<option selected="selected" value="#MAGIC_TTYPE_OTHER#">#MAGIC_TTYPE_OTHER#</option>
+									</select>
+								<cfelse>
+									<select name="deacc_type" id="deacc_type" class="reqdClr data-entry-select" required>
+										<cfloop query="ctDeaccessionType">
+											<!--- Other is not an allowed option (unless it is already set) --->
+											<cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
+												<!--- Only the MCZ Collection is allowed to make transfers --->
+												<cfif ctDeaccType.deacc_type NEQ MAGIC_DTYPE_TRANSFER OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+													<option <cfif ctDeaccType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif>
+														value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
+												<cfelseif deaccessionDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" AND deaccessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+													<option <cfif ctDeaccType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif> value=""></option>
+												</cfif>
+											</cfif>
+										</cfloop>
+									</select>
+								</cfif>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" 
-									value="#encodeForHTML(deaccessionDetails.estimated_count)#" class="reqdClr data-entry-input" required >
+								<label for="value" class="data-entry-label">Value</label>
+								<input type="text" name="value" id="value" 
+									value="#encodeForHTML(deaccessionDetails.value)#" class="reqdClr data-entry-input" required >
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -591,7 +604,7 @@ limitations under the License.
 								</span>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="trans_date" class="data-entry-label">Date Received</label>
+								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" required
 									value="#dateformat(deaccessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
