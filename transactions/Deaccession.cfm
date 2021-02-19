@@ -228,18 +228,18 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
-									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="inhouse_contact_agent_name" class="data-entry-label">In-House Contact:</label>
+									<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller bg-lightgreen" id="inhouse_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
+									<input type="text" name="inhouse_contact_agent_name" id="inhouse_contact_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
 								</div>
-								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
+								<input type="hidden" name="inhouse_contact_agent_id" id="inhouse_contact_agent_id" >
 								<script>
-									$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
+									$(makeRichTransAgentPicker('inhouse_contact_agent_name','inhouse_contact_agent_id','inhouse_contact_agent_icon','inhouse_contact_agent_view',null));
 								</script> 
 							</div>
 							<div class="col-12 col-md-6">
