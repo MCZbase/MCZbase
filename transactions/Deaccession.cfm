@@ -1,4 +1,7 @@
 <cfset pageTitle = "Deaccession Management">
+<cfif isdefined("action") AND action EQ 'newDeacc'>
+	<cfset action = "new">
+</cfif>
 <cfif isdefined("action") AND action EQ 'new'>
 	<cfset pageTitle = "Create New Deaccession">
 </cfif>
@@ -275,7 +278,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="foruseby_agent_name" class="data-entry-label">Additional Outside Contact:</label>
+									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -1027,22 +1030,31 @@ limitations under the License.
 				not isDefined("collection_id") OR 
 				not isDefined("deacc_number") OR
 				not isDefined("deacc_status") OR
+				not isDefined("deacc_type") OR
 				not isDefined("trans_date") OR
 				not isDefined("nature_of_material")  OR
-				not isDefined("deacc_type") OR
+				not isDefined("deacc_reason")  OR
 				not isDefined("auth_agent_id") 
+				not isDefined("rec_agent_id") 
+				not isDefined("inhouse_contact_agent_id") 
+				not isDefined("recipient_institution_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
 				len(deacc_number) is 0 OR
 				len(deacc_status) is 0 OR
+				len(deacc_type) is 0 OR
 				len(trans_date) is 0 OR
 				len(nature_of_material) is 0 OR
-				len(deacc_type) is 0 OR
-				len(auth_agent_id) is 0
+				len(deacc_reason) is 0 OR
+				len(auth_agent_id) is 0 OR
+				len(rec_agent_id) is 0 OR
+				len(inhouse_contact_agent_id) is 0 OR
+				len(recipient_institution_agent_id) is 0
 			)
 		>
+			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Deaccession Number, Status, Date Received, Nature of Material, Received From, and Deaccession Type.</p>
+			<p>You must fill in Collection, Deaccession Number, Deaccession Type, Status, Date Received, Nature of Material, Deaccession Reason, Received From, In-House Authorized By, Recipient Institution, and Received By.  Use the agent <i>not applicable</i> if recipient institution or received by are not applicable to a discarded deaccession.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
@@ -1078,28 +1090,34 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="newDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccession_result">
 				INSERT INTO deaccession (
-					TRANSACTION_ID,
-					ACCN_TYPE
+					TRANSACTION_ID
+					,ACCN_TYPE
 					,deacc_number
-					,RECEIVED_DATE,
-					ACCN_STATUS,
-					estimated_count
-					)
-				VALUES (
+					,deacc_reason
+					,RECEIVED_DATE
+					,ACCN_STATUS
+					<cfif len(#value#) gt 0>
+						,value
+					</cfif>)
+					<cfif len(#method#) gt 0>
+						,method
+					</cfif>)
+				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_number#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_reason#'>
 					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(trans_date,"yyyy-mm-dd")#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_status#'>
-					<cfif len(estimated_count) gt 0>
-						, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
-					<cfelse>
-						, null
+					<cfif len(#value#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value#">
 					</cfif>
-					)
+					<cfif len(#method#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#method#">
+					</cfif>
+				)
 			</cfquery>
 			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
-				<!--- support for radio button passing agent id for HMNH agents --->
 				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1120,6 +1138,16 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
 					'in-house authorized by')
+			</cfquery>
+			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recipient_institution_agent_id#">,
+					'recipient institution')
 			</cfquery>
 			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
 				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1157,8 +1185,20 @@ limitations under the License.
 						'additional in-house contact')
 				</cfquery>
 			</cfif>
+			<cfif isdefined("additional_outcontact_agent_id") and len(additional_incontact_agent_id) gt 0>
+				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO trans_agent (
+						transaction_id,
+						agent_id,
+						trans_agent_role
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_outcontact_agent_id#">,
+						'additional outside contact')
+				</cfquery>
+			</cfif>
 		</cftransaction>
-		<cflocation url="/transactions/Deaccession.cfm?Action=edit&transaction_id=#new_transaction_id#" addtoken="false">
+		<cflocation url="/transactions/Deaccession.cfm?action=edit&transaction_id=#new_transaction_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 
