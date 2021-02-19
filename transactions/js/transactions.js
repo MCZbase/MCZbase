@@ -2031,3 +2031,29 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,targetAddressCo
 		}
 	)
 };
+
+
+/* Update the content of a div containing a count of the items in a Deaccession.
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccItemCount(transactionId,targetDiv) {
+	jQuery.getJSON("/transaction/component/functions.cfc",
+		{
+			method : "getDeaccItemCounts",
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message = "There are " + result.DATA.CATITEMCOUNT[0];
+				message += " items from " + result.DATA.PARTCOUNT[0];
+				message += " specimens in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] + " preservation types in this deaccession."
+				$('#' + targetDiv).html(message);
+			}
+		}
+	)
+};
+

@@ -744,10 +744,10 @@ limitations under the License.
 				</section>
 				<script>
 					function updateItemSections() { 
-						updateDeaccessionItemCount('#transaction_id#','deaccessionItemCountDiv');
-						updateDeaccessionItemDispositions('#transaction_id#','deaccessionItemDispositionsDiv');
+						updateDeaccItemCount('#transaction_id#','deaccessionItemCountDiv');
+						updateDeaccItemDispositions('#transaction_id#','deaccessionItemDispositionsDiv');
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
-						updateDeaccessionLoans('#transaction_id#','deaccessionLoansDiv');
+						updateDeaccLoans('#transaction_id#','deaccessionLoansDiv');
 					};
 					$(document).ready(function() {
 						updateItemSections();
@@ -830,11 +830,11 @@ limitations under the License.
 									if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
 										$('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
 									}
-									updateDeaccessionLimitations('#transaction_id#','deaccessionLimitationsDiv');
+									updateDeaccLimitations('#transaction_id#','deaccessionLimitationsDiv');
 								};
 								$( document ).ready( function() { 
 									loadTransactionFormPermits(#transaction_id#);
-									updateDeaccessionLimitations('#transaction_id#','deaccessionLimitationsDiv');
+									updateDeaccLimitations('#transaction_id#','deaccessionLimitationsDiv');
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
