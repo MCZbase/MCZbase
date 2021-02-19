@@ -17,8 +17,12 @@ targetDiv="CitPubFormMedia";
 	});
 }
 
-	$(function() {
-     $(".dialog").dialog({
+	function openIdentificationEdit(dialogid, collection_object_id, okcallback) { 
+	var title = "Add identification to " + collection_object_id;
+	console.log("TODO: Redesign opencreatemediadialog()");
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var thedialog = $("#"+dialogid).html(content)
+     .dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
@@ -26,6 +30,7 @@ targetDiv="CitPubFormMedia";
     	width: '700px',
     	minWidth: 500,
     	minHeight: 450,
+		
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
         	{ text: "Save",  click: function() { 
