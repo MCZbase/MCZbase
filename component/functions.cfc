@@ -1199,10 +1199,12 @@
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="onOff" type="numeric" required="yes">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+	   <cfthread name="saveLocSrchThread" >
 		<cftry>
 			<cfquery name="ins" datasource="cf_dbuser">
-				select LOCSRCHPREFS from cf_users
-				where username='#session.username#'
+				select LOCSRCHPREFS 
+				from cf_users
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset cv=valuelist(ins.LOCSRCHPREFS)>
 			<cfif onOff is 1>
@@ -1215,12 +1217,15 @@
 				</cfif>
 			</cfif>
 			<cfquery name="ins" datasource="cf_dbuser">
-				update cf_users set LOCSRCHPREFS='#nv#'
-				where username='#session.username#'
+				update cf_users 
+				set LOCSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
+				where 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.locSrchPrefs=nv>
 			<cfcatch><!-- nada --></cfcatch>
 		</cftry>
+	   </cfthread>
 	</cfif>
 	<cfreturn 1>
 </cffunction>

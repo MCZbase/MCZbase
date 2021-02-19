@@ -68,7 +68,7 @@ limitations under the License.
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
+		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="3">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
 			<cfset r=1>
 		</cfif>
