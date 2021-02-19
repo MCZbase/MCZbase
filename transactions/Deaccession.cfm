@@ -1078,7 +1078,7 @@ limitations under the License.
 					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#date_entered#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(trans_date,"yyyy-mm-dd")#'>,
 					0,
 					'deaccession',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
@@ -1094,7 +1094,6 @@ limitations under the License.
 					,DEACC_TYPE
 					,deacc_number
 					,deacc_reason
-					,RECEIVED_DATE
 					,DEACC_STATUS
 					<cfif len(#value#) gt 0>
 						,value
@@ -1107,7 +1106,6 @@ limitations under the License.
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_number#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_reason#'>
-					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(trans_date,"yyyy-mm-dd")#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_status#'>
 					<cfif len(#value#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value#">
