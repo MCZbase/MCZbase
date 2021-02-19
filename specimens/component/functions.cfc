@@ -90,7 +90,7 @@
 </cffunction>
 
 			
-			
+<!---			
 <cffunction name="getNewIdentificationForm" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
    <cfset r=1>
@@ -133,7 +133,7 @@
 			<cfset resulthtml = resulthtml & "</div></div></form>">
        
             <cfset resulthtml = resulthtml & "</div>"> 
-      </cfloop> <!--- theResult --->
+      </cfloop> 
 
    <cfcatch>
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
@@ -143,7 +143,7 @@
    </cfthread>
     <cfthread action="join" name="getIdentificationThread2" />
     <cfreturn getIdentificationThread2.output>
-</cffunction>
+</cffunction>--->
 			
 			
 			
