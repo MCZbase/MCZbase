@@ -22,7 +22,7 @@ targetDiv="CitPubFormMedia";
 	console.log("TODO: Redesign opencreatemediadialog()");
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogid).html(content)
-     .dialog({
+     $(.dialog).dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
