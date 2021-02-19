@@ -29,35 +29,7 @@ targetDiv="CitPubFormMedia";
 		var
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save",  click: function() { 
-							
-				if (jQuery.type(okcallback)==='function') {
-					if ($('#identificationForm')[0].checkValidity()) {
-						$.ajax({
-							url: '/specimens/component/functions.cfc',
-							type: 'post',
-		  					returnformat: 'plain',
-							data: $('#identificationForm').serialize(),
-							success: function(data) { 
-								okcallback();
-								$("#"+dialogid+"_div").html(data);
-							},
-							error: function (jqXHR, status, error) {
-								var message = "";
-								if (error == 'timeout') { 
-									message = ' Server took too long to respond.';
-								} else { 
-									message = jqXHR.responseText;
-								}
-								$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
-							}
-						});
-					} else { 
-						messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
-					}
-				}
-		
-			}, class:"btn btn-primary"}
+        	{ text: "Save",  click: function() { }, class:"btn btn-primary"}
 		 ],
         close: function() {
             $(this).dialog( "close" );
