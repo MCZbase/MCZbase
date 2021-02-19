@@ -215,6 +215,7 @@ function autogrow (event) {
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
 	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
 	{
+		// estimate how much height is needed for the textarea to contain all its text 
 		var em = $(this).val().length * parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0])['fontSize']);
 		var width = $(this).width();
 		var fontsize = Number.parseFloat($(this).css("font-size"));
@@ -224,6 +225,9 @@ function autogrow (event) {
 		lines=newlines+lines;
 		lines=lines+2;
 		var needs = lines*fontsize;
+		// if our calculation failed or if the height is less that the estimaged needed height, increase the height.
+		// this if statement is needed as some browsers with some fonts appear to provide an overestimate of 
+		// scrollHeight plus top/bottom borders and end up growing with each keystroke.
 		if (Number.isNaN(needs) || $(this)[0].scrollHeight+tb+bb < needs) { 
 			// increase the height such that the text fits into the scroll bar height, taking borders into account.
 			$(this).height($(this)[0].scrollHeight+tb+bb);
