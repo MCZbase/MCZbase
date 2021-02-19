@@ -1091,11 +1091,11 @@ limitations under the License.
 			<cfquery name="newDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccession_result">
 				INSERT INTO deaccession (
 					TRANSACTION_ID
-					,ACCN_TYPE
+					,DEACC_TYPE
 					,deacc_number
 					,deacc_reason
 					,RECEIVED_DATE
-					,ACCN_STATUS
+					,DEACC_STATUS
 					<cfif len(#value#) gt 0>
 						,value
 					</cfif>
