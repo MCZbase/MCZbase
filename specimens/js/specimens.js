@@ -96,22 +96,7 @@ function loadIdentification(identification_id,form) {
 		dataType: "html"
 	});
 };
-function loadNewIdentificationForm(identification_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getNewIdentificationForm",
-			identification_id: identification_id,
-		},
-		success: function (result) {
-			$("#identificationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
-		},
-		dataType: "html"
-	});
-};
+
 function checkFormValidity(form) { 
 	var result = false;
 	if (!form.checkValidity || form.checkValidity()) { 
