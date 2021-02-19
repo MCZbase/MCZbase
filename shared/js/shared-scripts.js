@@ -219,7 +219,7 @@ function autogrow (event) {
 		var width = $(this).width();
 		var fontsize = $(this).css("font-size");
 		var widthem = width/fontsize;
-		var lines = floor(em/widthem)+1;
+		var lines = Math.floor(em/widthem)+1;
 		var newlines = $(this).val().split("\n");
 		lines=newlines+lines;
 		lines=lines+2;
