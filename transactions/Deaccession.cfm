@@ -1034,9 +1034,9 @@ limitations under the License.
 				not isDefined("trans_date") OR
 				not isDefined("nature_of_material")  OR
 				not isDefined("deacc_reason")  OR
-				not isDefined("auth_agent_id") 
-				not isDefined("rec_agent_id") 
-				not isDefined("inhouse_contact_agent_id") 
+				not isDefined("auth_agent_id") OR
+				not isDefined("rec_agent_id") OR
+				not isDefined("inhouse_contact_agent_id") OR
 				not isDefined("recipient_institution_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
