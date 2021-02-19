@@ -95,12 +95,12 @@ limitations under the License.
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
 				<!--- TODO: Generalize to other transaction types --->
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					select collection_cde, count(cataloged_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 					from deaccession
 						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-						left join cataloged_item on deacc_item.collection_object_id = specimen_part.collection_object_id
-						left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+						left join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
+						left join collection_object on deacc_item.collection_object_id = collection_object.collection_object_id
+						left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 					where deaccession.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 						and coll_obj_disposition is not null
 					group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
@@ -149,6 +149,125 @@ limitations under the License.
 	<cfthread action="join" name="getDeaccItemDispThread" />
 	<cfreturn getDeaccItemDispThread.output>
 </cffunction>
+
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in a deaccession --->
+<cffunction name="getDeaccLimitations" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getDeaccLimitThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="deaccLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(deacc_item.collection_object_id) as ct,
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						accn.transaction_id as accn_id, accn.accn_number
+					from  
+						deaccession 
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
+						left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join permit_trans on cataloged_item.accn_id = permit_trans.transaction_id
+						left join permit on permit_trans.permit_id = permit.permit_id
+					where 
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary IS NOT NULL
+					group by
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						accn.transaction_id, accn.accn_number
+				</cfquery>
+				<cfif deaccLimitations.recordcount GT 0>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Items</th><th>Accession</th><th>Document</th><th>Restrictions Summary</th><th>Agreed Benefits</th><th>Benefits Provided</th></thead>
+						<tbody>
+							<cfloop query="deaccLimitations">
+								<tr>
+									<td>#ct#</td>
+									<td><a href='/transactions/Accession.cfm?Action=edit&transaction_id=#accn_id#'>#accn_number#</a></td>
+									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
+									<td>#restriction_summary#</td>
+									<td>#benefits_summary#</td>
+									<td>#benefits_provided#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None recorded.
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDeaccLimitThread" />
+	<cfreturn getDeaccLimitThread.output>
+</cffunction>
+
+<!--- obtain an html block containing a list of loans on which any material in a deaccession had been sent --->
+<cffunction name="getDeaccLoans" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getDeaccLoanThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="deaccLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(specimen_part.collection_object_id) as ct, 
+						loan.transaction_id loan_id, loan_number, loan_status, 
+						return_due_date, closed_date, 
+						loan.return_due_date - trunc(sysdate) dueindays
+					from 
+						deacc_item 
+						left join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
+						left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+						left join loan on loan_item.transaction_id = loan.transaction_id
+					where 
+						loan.transaction_id is not null and
+						deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					group by
+						loan.transaction_id loan_id, loan_number, loan_status, 
+						return_due_date, closed_date, 
+						loan.return_due_date
+				</cfquery>
+				<cfif deaccLoans.recordcount GT 0>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Items</th><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<tbody>
+							<cfloop query="deaccLoans">
+								<tr>
+									<td>#ct#</td>
+									<cfif len(deaccLoans.closed_date) EQ 0 AND deaccLoans.dueindays LT 0>
+										<cfset returndate = "<strong class='text-danger'>#dateformat(deaccLoans.return_due_date,'yyyy-mm-dd')#</strong>">
+									<cfelse>
+										<cfset returndate = "#dateformat(deaccLoans.return_due_date,'yyyy-mm-dd')#" >
+									</cfif>
+									<td><a href='/transactions/Loan.cfm?action=edit&transaction_id=#deaccLoans.loan_id#'>#deaccLoans.loan_number#</a></td>
+									<td>#deaccLoans.loan_status#</td>
+									<td>#returndate#</td>
+									<td>#dateformat(deaccLoans.closed_date,'yyyy-mm-dd')#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None.
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDeaccLoanThread" />
+	<cfreturn getDeaccLoanThread.output>
+</cffunction>
+
 
 <!--- obtain counts of items cataloged within an accession --->
 <cffunction name="getAccnItemCounts" access="remote">

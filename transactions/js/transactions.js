@@ -2073,9 +2073,53 @@ function updateDeaccItemDispositions(transaction_id,targetDiv) {
 			$("#"+targetDiv).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in a deaccession.");
 		},
 		dataType: "html"
 	});
 };
 
+/* Update the content of a div containing restrictions and benefits summaries for permissons
+ * and rights documents on an accession.
+ *
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccLimitations(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccLimitations",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for a deaccession");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing a list of loans of material in a deaccession
+ *
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccLoans(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccLoans",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining loans of items in a deaccession");
+		},
+		dataType: "html"
+	});
+};
