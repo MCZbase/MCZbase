@@ -17,12 +17,8 @@ targetDiv="CitPubFormMedia";
 	});
 }
 
-	function openIdentificationEdit(dialogid, collection_object_id, okcallback) { 
-	var title = "Add identification to " + collection_object_id;
-	console.log("TODO: Redesign opencreatemediadialog()");
-	var content = '<div id="'+dialogid+'_div">Loading....</div>';
-	var thedialog = $("#"+dialogid).html(content)
-     $(.dialog).dialog({
+	$(function() {
+     $(".dialog").dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
@@ -30,7 +26,7 @@ targetDiv="CitPubFormMedia";
     	width: '700px',
     	minWidth: 500,
     	minHeight: 450,
-		
+		var
 		buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
         	{ text: "Save",  click: function() { 
@@ -89,6 +85,22 @@ function loadIdentification(identification_id,form) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getIdentificationHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing identification");
+		},
+		dataType: "html"
+	});
+};
+function loadNewIdentificationForm(identification_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getNewIdentificationForm",
 			identification_id: identification_id,
 		},
 		success: function (result) {
