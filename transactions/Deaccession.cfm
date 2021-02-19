@@ -556,7 +556,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="deacc_number" class="data-entry-label">Deaccession Number (nnnnnn)</label>
-								<input type="text" name="deacc_number" id="deacc_number" value="#encodeForHTML(accessionDetails.deacc_number)#" class="reqdClr data-entry-input" 
+								<input type="text" name="deacc_number" id="deacc_number" value="#encodeForHTML(deaccessionDetails.deacc_number)#" class="reqdClr data-entry-input" 
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
@@ -575,7 +575,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
 								<input type="text" name="estimated_count" id="estimated_count" 
-									value="#encodeForHTML(accessionDetails.estimated_count)#" class="reqdClr data-entry-input" required >
+									value="#encodeForHTML(deaccessionDetails.estimated_count)#" class="reqdClr data-entry-input" required >
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -593,18 +593,18 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="trans_date" class="data-entry-label">Date Received</label>
 								<input type="text" name="trans_date" id="trans_date" required
-									value="#dateformat(accessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+									value="#dateformat(deaccessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Date Entered</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
+									<span id="date_entered">#dateformat(deaccessionDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Entered By</span>
-								<div class="col-12 bg-light border non-field-text">
-									<span id="entered_by">#encodeForHTML(accessionDetails.enteredby)#</span>
+								<div class="col-12 bg-light: border non-field-text">
+									<span id="entered_by">#encodeForHTML(deaccessionDetails.enteredby)#</span>
 								</div>
 							</div>
 						</div>
@@ -641,7 +641,7 @@ limitations under the License.
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(accessionDetails.nature_of_material)#</textarea>
+									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(deaccessionDetails.nature_of_material)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -649,7 +649,7 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="autogrow data-entry-textarea">#encodeForHTML(accessionDetails.trans_remarks)#</textarea>
+									class="autogrow data-entry-textarea">#encodeForHTML(deaccessionDetails.trans_remarks)#</textarea>
 							</div>
 						</div>
 						<script>
