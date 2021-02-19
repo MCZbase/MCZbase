@@ -562,7 +562,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="deacc_type" class="data-entry-label">Deaccession Type</label>
 								<!--- special case handling of other and transfer deaccession types --->
-								<cfif deacccessionDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#">
+								<cfif deaccessionDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#">
 									<!--- deacc_type other (MAGIC_TTYPE_OTHER) is read only --->
 									<input type="hidden" name="deacc_type" id="deacc_type" value="#MAGIC_TTYPE_OTHER#">
 									<select name="deacc_type_readonly" id="deacc_type" class="reqdClr data-entry-select" disabled="true">
