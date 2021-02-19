@@ -76,6 +76,78 @@ limitations under the License.
 	</cfif>
 	<cfreturn rankCount>
 </cffunction>
+<!--- obtain an html block containing dispositions of items in a deaccession --->
+<cffunction name="getDeaccItemDispositions" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getDeaccItemDispThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select transaction_type
+					from trans
+					where
+						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
+				<cfset transaction = transType.transaction_type>
+				<cfif transaction EQ 'deaccession'><cfset transaction='deaccession'></cfif>
+				<h2 class="h3">Disposition of material in this #transaction#:</h2>
+				<!--- TODO: Generalize to other transaction types --->
+				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					from deaccession
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join cataloged_item on deacc_item.collection_object_id = specimen_part.collection_object_id
+						left join specimen_part specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+					where deaccession.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and coll_obj_disposition is not null
+					group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+				</cfquery>
+				<cfif getDispositions.RecordCount EQ 0 >
+					<h4>There are no attached collection objects.</h4>
+				<cfelse>
+					<table class="table table-responsive">
+						<thead class="thead-light">
+							<tr>
+								<th>Collection</th>
+								<th>Cataloged Items</th>
+								<th>Disposition</th>
+								<th>Deaccession</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getDispositions">
+								<tr>
+									<cfif len(trim(getDispositions.deacc_number)) GT 0>
+										<td>#collection_cde#</td>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+									<cfelse>
+										<!--- we should never end up in this block, as all items in this deaccession should be in this deaccession... --->
+										<td>#collection_cde#</td>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td>Error: Not in a Deaccession</td>
+									</cfif>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDeaccItemDispThread" />
+	<cfreturn getDeaccItemDispThread.output>
+</cffunction>
 
 <!--- obtain counts of items cataloged within an accession --->
 <cffunction name="getAccnItemCounts" access="remote">

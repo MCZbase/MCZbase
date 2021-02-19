@@ -2057,3 +2057,25 @@ function updateDeaccItemCount(transactionId,targetDiv) {
 	)
 };
 
+
+/* Update the content of a div containing dispositions of the items in a deaccession.
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccnItemDispositions(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccItemDispositions",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+		},
+		dataType: "html"
+	});
+};
+
