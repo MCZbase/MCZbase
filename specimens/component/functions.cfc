@@ -33,37 +33,6 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="loadIdentificationTable" returntype="query" access="remote">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfset r=1>
-	<cftry>
-	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
-            from identification
-            where identification_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-		</cfquery>
-		<cfif theResult.recordcount eq 0>
-	  	  <cfset theResult=queryNew("status, message")>
-		  <cfset t = queryaddrow(theResult,1)>
-		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
-		</cfif>
-	<cfcatch>
-	  <cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-	  </cfcatch>
-	</cftry>
-    <cfif isDefined("asTable") AND asTable eq "true">
-	    <cfreturn resulthtml>
-    <cfelse>
-   	    <cfreturn theResult>
-    </cfif>
-</cffunction>
-<!----------------------------------------------------------------------------------------------------------------->
-	
-
 
 <cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
