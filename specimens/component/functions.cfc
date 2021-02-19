@@ -89,23 +89,6 @@
     <cfreturn getIdentificationThread.output>
 </cffunction>
 
-			
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getPartName" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
