@@ -572,13 +572,13 @@ limitations under the License.
 									<select name="deacc_type" id="deacc_type" class="reqdClr data-entry-select" required>
 										<cfloop query="ctDeaccessionType">
 											<!--- Other is not an allowed option (unless it is already set) --->
-											<cfif ctDeaccType.deacc_type NEQ MAGIC_TTYPE_OTHER >
+											<cfif ctDeaccessionType.deacc_type NEQ MAGIC_TTYPE_OTHER >
 												<!--- Only the MCZ Collection is allowed to make transfers --->
-												<cfif ctDeaccType.deacc_type NEQ MAGIC_DTYPE_TRANSFER OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctDeaccType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif>
-														value="#ctDeaccType.deacc_type#">#ctDeaccType.deacc_type#</option>
+												<cfif ctDeaccessionType.deacc_type NEQ MAGIC_DTYPE_TRANSFER OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+													<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif>
+														value="#ctDeaccessionType.deacc_type#">#ctDeaccessionType.deacc_type#</option>
 												<cfelseif deaccessionDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" AND deaccessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctDeaccType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif> value=""></option>
+													<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif> value=""></option>
 												</cfif>
 											</cfif>
 										</cfloop>
