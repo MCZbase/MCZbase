@@ -1075,8 +1075,8 @@ limitations under the License.
 					collection_id
 					<cfif len(#trans_remarks#) gt 0>
 						,trans_remarks
-					</cfif>)
-				VALUES (
+					</cfif>
+				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#date_entered#">,
 					0,
@@ -1086,7 +1086,7 @@ limitations under the License.
 					<cfif len(#trans_remarks#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 					</cfif>
-					)
+				)
 			</cfquery>
 			<cfquery name="newDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccession_result">
 				INSERT INTO deaccession (
@@ -1098,10 +1098,10 @@ limitations under the License.
 					,ACCN_STATUS
 					<cfif len(#value#) gt 0>
 						,value
-					</cfif>)
+					</cfif>
 					<cfif len(#method#) gt 0>
 						,method
-					</cfif>)
+					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_type#'>
