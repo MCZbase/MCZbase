@@ -76,6 +76,7 @@ limitations under the License.
 	<cfthread name="getDeaccItemDispThread">
 		<cftry>
 			<cfoutput>
+				<cftry>
 				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select transaction_type
 					from trans
@@ -83,11 +84,11 @@ limitations under the License.
 						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				</cfquery>
 				<cfset transaction = transType.transaction_type>
-				<cfif transaction EQ 'deaccession'><cfset transaction='deaccession'></cfif>
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
-				<!--- TODO: Generalize to other transaction types --->
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select collection_cde, count(cataloged_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					select collection_cde, 
+						count(cataloged_item.collection_object_id) as pcount, 
+						coll_obj_disposition, deacc_number, deacc_type, deacc_status
 					from deaccession
 						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
 						left join specimen_part on deacc_item.collection_object_id = specimen_part.collection_object_id
@@ -129,6 +130,10 @@ limitations under the License.
 						</tbody>
 					</table>
 				</cfif>
+				<cfcatch>
+					<cfdump var="#cfcatch#">
+				</cfcatch>
+				</cftry>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
