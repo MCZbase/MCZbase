@@ -665,9 +665,9 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12">
 								<label for="deacc_reason" class="data-entry-label">Reason For Deaccession (<span id="length_deacc_reason"></span>)</label>
-								<textarea name="deacc_reason" id="deacc_reason" rows="1"
+								<textarea name="deacc_reason" id="deacc_reason" rows="1" 
 									onkeyup="countCharsLeft('deacc_reason', 4000, 'length_deacc_reason');"
-									class="autogrow data-entry-textarea">#encodeForHTML(deaccessionDetails.deacc_reason)#</textarea>
+									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(deaccessionDetails.deacc_reason)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
