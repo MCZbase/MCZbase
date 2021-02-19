@@ -18,7 +18,7 @@ targetDiv="CitPubFormMedia";
 }
 
 	$(function() {
-     $(".dialog").dialog({
+     $(".dialog-ID").dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
@@ -45,7 +45,7 @@ targetDiv="CitPubFormMedia";
          && !$(e.target).is('.ui-dialog, button')
          && !$(e.target).closest('.ui-dialog').length
         ){
-         $('.dialog').dialog('close');
+         $('.dialog-ID').dialog('close');
         }
        }
       );
