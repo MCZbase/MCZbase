@@ -19,7 +19,6 @@ targetDiv="CitPubFormMedia";
 
 	$(function() {
      $(".dialog").dialog({
-		 console.log("initializing dialog");
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
@@ -53,29 +52,31 @@ targetDiv="CitPubFormMedia";
     }
    );
 
+	////dialog needs to have a minimum of 320px and then be 90% of ipad and up
+//	$( document ).ready(function() {
+//		console.log("initializing dialog-identification");
+//		$("##dialog-identification").dialog({
+//			autoOpen: false,
+//			modal: true,
+//			width: 'auto',
+//			height: 'auto',
+//			minWidth: 320,
+//			minHeight: 500,
+//			buttons: {
+//				"Save": function() {  saveIdentification(#identification_id#); } ,
+//				Cancel: function() { $(this).dialog( "close" ); }
+//			},
+//			close: function() {
+//				$(this).dialog( "close" );
+//			}
+//		});
+//	});
 
 function loadIdentification(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getIdentificationHtml",
-			identification_id: identification_id,
-		},
-		success: function (result) {
-			$("#identificationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
-		},
-		dataType: "html"
-	});
-};
-
-function loadNewIdentificationForm(identification_id,form) {
-	jQuery.ajax({
-		url: "/specimens/identificationDialog.cfm",
-		data : {
-			method : "getPartName",
 			identification_id: identification_id,
 		},
 		success: function (result) {

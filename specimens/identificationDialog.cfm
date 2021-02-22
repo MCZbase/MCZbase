@@ -65,6 +65,24 @@
 		return valid;
 	};
 </script>
+	<script>
+	function loadNewIdentificationForm(identification_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getNewIdentificationHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing identification");
+		},
+		dataType: "html"
+	});
+	};
+	</script>
 	<dialog id="dialog-identification" title="Create New Identification">
 		<div class="container-fluid">
 			<div class="row">
