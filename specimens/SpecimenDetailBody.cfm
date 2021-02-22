@@ -754,6 +754,7 @@ limitations under the License.
 							</cfloop>
 						</div>
 							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
+							<cfinclude template="/specimens/shipmentDialog.cfm">
 						</div>
 						</form>	
 					</div>

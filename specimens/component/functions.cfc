@@ -73,8 +73,8 @@
 				
 			<cfset resulthtml = resulthtml & "<div class='form-check'><input type='checkbox' class='form-check-input' id='materialUnchecked'><label class='mt-2 form-check-label' for='materialUnchecked'>Stored as #scientific_name#</label></div>">
 			
-			<cfset resulthtml = resulthtml & "<div class='form-group float-right'><button type='button' value='Create New Identification' class='btn btn-primary ml-2' onClick=""$('.dialog').dialog('open'); loadNewIdentificationForm(addIdentification_#collection_object_id#,'newIdentificationForm');"">Create New Identification</button></div> ">
-			<cfset resulthtml = resulthtml & "<div class='form-group float-right'><button type='button' value='Save Identification' class='btn btn-primary ml-2' onClick=""$('.dialog-ID').dialog('open'); saveIdentification(saveTo_#collection_object_id#,'identification_id');"">Save Identification</button></div> ">
+			<cfset resulthtml = resulthtml & "<div class='form-group float-right'><button type='button' value='Create New Identification' class='btn btn-primary ml-2' onClick=""$('.dialog-ID').dialog('open'); loadNewIdentificationForm(addIdentification_#collection_object_id#,'newIdentificationForm');"">Create New Identification</button></div> ">
+		
 			<cfset resulthtml = resulthtml & "</div></div></form>">
        
             <cfset resulthtml = resulthtml & "</div>"> 
