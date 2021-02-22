@@ -5,7 +5,7 @@
 	////identification dialog needs to have a minimum of 320px and then be 90% of ipad and up
 	$( document ).ready(function() {
 		console.log("initializing dialog-identification");
-		$("##dialog").dialog({
+		$("##dialog-ident").dialog({
 			autoOpen: false,
 			modal: true,
 			width: 'auto',
@@ -68,7 +68,7 @@
 	
 	
 	
-	<dialog id="dialog-identification" title="Create New Identification">
+	<dialog id="dialog-ident" title="Create New Identification">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 px-0">
