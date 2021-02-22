@@ -33,8 +33,8 @@
 	<cfreturn theResult>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
-<!---
-<cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
+
+<cffunction name="getIdentificationByHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
    <cfset r=1>
    <cfthread name="getIdentificationThread">
@@ -87,10 +87,10 @@
    </cfthread>
     <cfthread action="join" name="getIdentificationThread" />
     <cfreturn getIdentificationThread.output>
-</cffunction>--->
+</cffunction>
 
 	<!----------------------------------------------------------------------------------------------------------------->		
-<cffunction name="getIdentificationByHtml" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getIdentificationByHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfset r=1>
 	<cfthread name="getSBTHtmlThread">
@@ -131,7 +131,7 @@
 							loadIdentification(#identification_id#); 
 						} 
 					</script>
-						
+						--->
 <!---<div class='shipments bg-white border my-2'>
 <table class='table table-responsive d-md-table mb-0'>
 <thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
@@ -218,7 +218,7 @@
 </div>
 </cfif>
 </div>--->
-						<form id="identificationForm">
+<!---						<form id="identificationForm">
 							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
@@ -357,13 +357,13 @@
 							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
 						</form>
-				</cfloop> <!--- theResult --->
+				</cfloop>---> <!--- theResult --->
 							
-				<cfif theResult.recordcount eq 0>
+	<!---			<cfif theResult.recordcount eq 0>
 					<p class="mt-2">No Identifications found for this transaction.</p>
 				</cfif>
-					</div><!--- ID div --->
-			<cfcatch>
+					</div>---><!--- ID div --->
+<!---			<cfcatch>
 				  <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 			</cfcatch>
 			</cftry>
@@ -371,7 +371,7 @@
 	</cfthread>
 	<cfthread action="join" name="getSBTHtmlThread" />
 	<cfreturn getSBTHtmlThread.output>
-</cffunction>
+</cffunction>--->
 
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getPartName" access="remote" returntype="any" returnformat="json">

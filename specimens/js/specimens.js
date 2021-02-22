@@ -51,88 +51,25 @@ targetDiv="CitPubFormMedia";
       );
     }
    );
-//function loadIdentification(identification_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getIdentificationHtml",
-//			identification_id: identification_id,
-//		},
-//		success: function (result) {
-//			$("#identificationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing identification");
-//		},
-//		dataType: "html"
-//	});
-//};
-//function loadIdentification(identification_id) {
-//	console.log("Reloading ID in #indentificationHTML");
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getIdentificationByHtml",
-//			identification_id : identification_id
-//		},
-//		success: function (result) {
-//			$("#identificationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"deleting ID");
-//		},
-//		dataType: "html"
-//	});
-//};
-function loadIdentification(identificationId,form) {
-	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identificationId ); 
-	jQuery.getJSON("/specimens/component/functions.cfc",
-		{
-			method : "getIdentification",
-			identificationidList : identificationId,
-			returnformat : "json",
-			queryformat : 'column'
+
+function loadIdentification(identification_id) {
+	console.log("Reloading ID in #indentificationHTML");
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getIdentificationByHtml",
+			identification_id : identification_id
 		},
-		function (result) {
-			try{
-				if (result.ROWCOUNT == 1) {
-					var i = 0;
-					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#collection_object_id").val(result.DATA.COLLECTION_OBJECT_ID[i]);
-					$("#made_date").val(result.DATA.MADE_DATE[i]);
-					$("#nature_of_id").val(result.DATA.NATURE_OF_ID[i]);
-					$("#identification_remarks").val(result.DATA.IDENTIFICATION_REMARKS[i]);
-					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);
-					$("#accepted_id_fg").val(result.DATA.ACCEPTED_ID_FG[i]);
-					$("#taxa_formula").val(result.DATA.TAXA_FORMULA[i]);
-					$("#formatted_publication").val(result.DATA.FORMATTED_PUBLICATION[i]);
-					$("#publication_id").val(result.DATA.PUBLICATION_ID[i]);
-					$("#stored_as_fg").val(result.DATA.STORED_AS_FG[i]);
-				//loadIdentification(identificationId);
-			}
-			//catch(e){ alert(e); }
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"loading identification record");
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting ID");
+		},
+		dataType: "html"
 	});
 };
-//function loadNewIdentificationForm(addIdentification_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getIdentificationHtml",
-//			identification_id: identification_id,
-//		},
-//		success: function (result) {
-//			$("#identificationHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing identification");
-//		},
-//		dataType: "html"
-//	});
-//};
+
 function checkFormValidity(form) { 
 	var result = false;
 	if (!form.checkValidity || form.checkValidity()) { 
