@@ -782,7 +782,7 @@ limitations under the License.
 									ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 								</cfquery>
 									<div id="identificationHTML" class="bg-light"> 
-										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
+										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Identifications</div>
 									</div>
 								<!--- shippmentTable for ajax replace ---> 
 								<script>
