@@ -109,7 +109,7 @@ function loadIdentification(identificationId,form) {
 					$("#formatted_publication").val(result.DATA.FORMATTED_PUBLICATION[i]);
 					$("#publication_id").val(result.DATA.PUBLICATION_ID[i]);
 					$("#stored_as_fg").val(result.DATA.STORED_AS_FG[i]);
-				loadIdentification(identificationId);
+				//loadIdentification(identificationId);
 			}
 			//catch(e){ alert(e); }
 		}
