@@ -91,7 +91,7 @@ function loadIdentification(identification_id,form) {
 
 function loadNewIdentificationForm(identification_id,form) {
 	jQuery.ajax({
-		url: "/specimens/shipmentDialog.cfm",
+		url: "/specimens/identificationDialog.cfm",
 		data : {
 			method : "getIdentificationHtml",
 			identification_id: identification_id,
