@@ -109,11 +109,9 @@ function loadIdentification(identificationId,form) {
 					$("#formatted_publication").val(result.DATA.FORMATTED_PUBLICATION[i]);
 					$("#publication_id").val(result.DATA.PUBLICATION_ID[i]);
 					$("#stored_as_fg").val(result.DATA.STORED_AS_FG[i]);
-					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
-
 				loadIdentification(identificationId);
 			}
-			catch(e){ alert(e); }
+			//catch(e){ alert(e); }
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"loading identification record");
