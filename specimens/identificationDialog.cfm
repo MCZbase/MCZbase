@@ -74,7 +74,7 @@
 				<div class="col-12 px-0">
 					<form name="newIdentificationForm" id="newIdentificationForm" >
 						<fieldset>
-						<input type="hidden" name="identification_id" value="#identification_id#" id="identificationForm_identification_id" >
+						<input type="hidden" name="identification_id" value="#identification_id#" id="newIdentificationForm_identification_id" >
 						<input type="hidden" name="identification_id" value="" id="identification_id">
 						<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 							<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
@@ -128,9 +128,7 @@
 												<input type='checkbox' class='form-check-input' id='materialUnchecked'>
 												<label class='mt-2 form-check-label' for='materialUnchecked'>Stored as #scientific_name#</label>
 											</div>
-											<div class='form-group float-right'>
-												<button type='button' value='Create New Identification' class='btn btn-primary ml-2' onClick=""$('.dialog-ID').dialog('open'); loadNewIdentificationForm(addIdentification_#collection_object_id#,'newIdentificationForm');"">Create New Identification</button>
-											</div>
+
 										</div>
 									</div>
 								</form>
