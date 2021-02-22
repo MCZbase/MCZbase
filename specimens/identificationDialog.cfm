@@ -72,7 +72,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 px-0">
-					<form name="identificationForm" id="identificationForm" >
+					<form name="newIdentificationForm" id="newIdentificationForm" >
 						<fieldset>
 						<input type="hidden" name="identification_id" value="#identification_id#" id="identificationForm_identification_id" >
 						<input type="hidden" name="identification_id" value="" id="identification_id">
