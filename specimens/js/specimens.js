@@ -46,10 +46,6 @@ targetDiv="CitPubFormMedia";
          && !$(e.target).closest('.ui-dialog').length
         ){
          $('.dialog').dialog('close');
-	     buttons: {
-				"Save": function() {  saveIdentification(#identification_id#); } ,
-				Cancel: function() { $(this).dialog( "close" ); }
-			},
         }
        }
       );
