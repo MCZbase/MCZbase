@@ -67,28 +67,28 @@ targetDiv="CitPubFormMedia";
 //		dataType: "html"
 //	});
 //};
-function loadIdentification(identification_id) {
-	console.log("Reloading ID in #indentificationHTML");
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getIdentificationByHtml",
-			identification_id : identification_id
-		},
-		success: function (result) {
-			$("#identificationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"deleting ID");
-		},
-		dataType: "html"
-	});
-};
+//function loadIdentification(identification_id) {
+//	console.log("Reloading ID in #indentificationHTML");
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getIdentificationByHtml",
+//			identification_id : identification_id
+//		},
+//		success: function (result) {
+//			$("#identificationHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"deleting ID");
+//		},
+//		dataType: "html"
+//	});
+//};
 function loadIdentification(identificationId,form) {
 	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identificationId ); 
 	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
-			method : "getIdentificationByHtml",
+			method : "getIdentification",
 			identificatonidList : identificationId,
 			returnformat : "json",
 			queryformat : 'column'
@@ -111,7 +111,7 @@ function loadIdentification(identificationId,form) {
 					$("#stored_as_fg").val(result.DATA.STORED_AS_FG[i]);
 					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
 
-				loadIdentificationFormPermits(identificationId);
+				loadIdentification(identificationId);
 			}
 			catch(e){ alert(e); }
 		}
