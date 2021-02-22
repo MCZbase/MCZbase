@@ -89,6 +89,23 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
+function loadNewIdentificationForm(collection_object_id,identification_id) {
+	jQuery.ajax({
+		url: "/specimens/shipmentDialog.cfm",
+		data : {
+			method : "getIdentificationHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing identification");
+		},
+		dataType: "html"
+	});
+};
+
 function checkFormValidity(form) { 
 	var result = false;
 	if (!form.checkValidity || form.checkValidity()) { 
