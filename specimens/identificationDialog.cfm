@@ -65,6 +65,9 @@
 		return valid;
 	};
 </script>
+	
+	
+	
 	<dialog id="dialog-identification" title="Create New Identification">
 		<div class="container-fluid">
 			<div class="row">
