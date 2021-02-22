@@ -615,7 +615,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog-ID').dialog('open');loadIdentification(#identification_id#)">Edit</button>
+						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');loadIdentification(#identification_id#)">Edit</button>
 						</div>
 						<form id="identificationForm">
 							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
