@@ -51,20 +51,18 @@ targetDiv="CitPubFormMedia";
       );
     }
    );
-
-function loadIdentification(identification_id) {
-	console.log("Reloading ID in #indentificationHTML");
+function loadIdentification(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationByHtml",
-			identification_id : identification_id
+			method : "getIdentificationHtml",
+			identification_id: identification_id,
 		},
 		success: function (result) {
 			$("#identificationHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"deleting ID");
+			handleFail(jqXHR,textStatus,error,"removing identification");
 		},
 		dataType: "html"
 	});
