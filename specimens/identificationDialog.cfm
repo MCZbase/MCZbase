@@ -81,7 +81,7 @@
 								<div class='identifcationForm'>
 								<form>
 									<div class='container pl-1'>
-										<div class='col-md-6 col-sm-12 float-left'>
+				<!---						<div class='col-md-6 col-sm-12 float-left'>
 											<div class='form-group'>
 												<label for='scientific_name'>Scientific Name:</label>
 												<input type='text' name='taxona' id='taxona' class='reqdClr form-control form-control-sm' value='#scientific_name#' size='1' onChange='taxaPick(''taxona_id'',''taxona'',''newID'',this.value); return false;'	onKeyPress=return noenter(event);'>
@@ -129,7 +129,7 @@
 												<label class='mt-2 form-check-label' for='materialUnchecked'>Stored as #scientific_name#</label>
 											</div>
 
-										</div>
+										</div>--->
 									</div>
 								</form>
 								</div>
