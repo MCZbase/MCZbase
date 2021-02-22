@@ -131,7 +131,6 @@ Change to: <select name="format">
 				</ul>
 			</cfif>
 		</cfoutput>
-		</cfabort>
 	</cfcatch>
 	</cftry>
     <cfset maxRow = 28>
