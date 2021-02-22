@@ -130,7 +130,7 @@ Change to: <select name="format">
 			</cfif>
 		</cfoutput>
 	</cfcatch>
-	<cftry>
+	</cftry>
     <cfset maxRow = 28>
     <cfset maxCol = 1>
     <cfset labelWidth = 'width: 1100px;'>
