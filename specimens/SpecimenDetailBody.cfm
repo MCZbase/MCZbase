@@ -755,49 +755,7 @@ limitations under the License.
 						</div>
 							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
-						</form>
-											
-											
-							<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
-							<div class="col-12 pb-3">
-								<h2 class="h3">Shipment Information</h2>
-								<script>
-									function opendialog(page,id,title) {
-									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-									var adialog = $(id)
-										.html(content)
-										.dialog({
-											title: title,
-											autoOpen: false,
-											dialogClass: 'dialog_fixed,ui-widget-header',
-											modal: true,
-											height: 'auto',
-											width: 'auto',
-											minWidth: 360,
-											minHeight: 450,
-											draggable:true,
-											resizable:true,
-											buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-											close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
-										});
-										adialog.dialog('open');
-									};
-								</script>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
-										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-								</cfquery>
-									<div id="shipmentTable" class="bg-light"> 
-										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
-									</div>
-								<!--- shippmentTable for ajax replace ---> 
-								<script>
-									$( document ).ready(loadShipments(#transaction_id#));
-								</script>
-								<div>
+						</form>	
 					</div>
 				</div>
 
