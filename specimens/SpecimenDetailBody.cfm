@@ -587,29 +587,8 @@ limitations under the License.
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!----------------------------- identifications ----------------------------------> 
 
-				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						identification.scientific_name,
-						identification.collection_object_id,
-						concatidagent(identification.identification_id) agent_name,
-						made_date,
-						nature_of_id,
-						identification_remarks,
-						identification.identification_id,
-						accepted_id_fg,
-						taxa_formula,
-						formatted_publication,
-						identification.publication_id,
-						stored_as_fg
-					FROM
-						identification,
-						(select * from formatted_publication where format_style='short') formatted_publication
-					WHERE
-						identification.publication_id=formatted_publication.publication_id (+) and
-						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
-				</cfquery>
-				<div class="accordion" id="accordionB">
+
+				<section class="accordion" id="accordionB" tabindex="0">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
@@ -617,7 +596,7 @@ limitations under the License.
 							</h3>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');loadIdentification(#identification_id#)">Edit</button>
 						</div>
-						<form id="identificationForm">
+<!---						<form id="identificationForm">
 							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
@@ -677,7 +656,7 @@ limitations under the License.
 													common_name order by common_name
 											</cfquery>
 											<cfif len(cName.common_name) gt 0><div class="h5 mb-1 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
-											<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")><!---  common name for current id--->
+											<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 										</cfloop>
 										<div class="form-row mx-0">
 											<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
@@ -691,16 +670,16 @@ limitations under the License.
 											<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
 										</cfif>
 									</ul>	
-									<cfelse><!---Start of former Identifications--->
+									<cfelse>
 										<cfif getTaxa.recordcount gt 0>		
 											<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
-										</cfif><!---Add Title for former identifications--->
+										</cfif>
 									<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 									<li class="px-0">
 									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-										<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span><!---identification  for former names when there is no author--->
+										<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 										<cfif len(getTaxa.author_text) gt 0>
-											<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
+											<span class="color-black sm-caps">#getTaxa.author_text#</span>
 										</cfif>
 										<cfelse>
 										<cfset link="">
@@ -711,7 +690,7 @@ limitations under the License.
 											<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 											<cfset i=#i#+1>
 										</cfloop>
-										#thisSciName# <!---identification for former names when there is an author--it put the sci name with the author--->
+										#thisSciName# 
 									</cfif>
 									<cfif oneOfUs is 1 and stored_as_fg is 1>
 										<span style="float-right rounded p-1 bg-light">STORED AS</span>
@@ -720,8 +699,8 @@ limitations under the License.
 										<cfset metaDesc="">
 									</cfif>
 									<cfloop query="getTaxa">
-										<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-										<p class="small text-muted mb-0"> #full_taxon_name#</p><!--- full taxon name for former id--->
+									
+										<p class="small text-muted mb-0"> #full_taxon_name#</p>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT 
@@ -735,10 +714,10 @@ limitations under the License.
 													common_name order by common_name
 										</cfquery>
 										<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
-										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif><!---  common name for former id--->
+										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif>
 									</cfloop>
 									<cfif len(formatted_publication) gt 0>
-										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
+										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
 									</cfif>
 									<span class="small">Determination: #agent_name#
 										<cfif len(made_date) gt 0>
@@ -755,9 +734,68 @@ limitations under the License.
 						</div>
 							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
-						</form>
+						</form>--->
+											
+							
+								<script>
+									function opendialog(page,id,title) {
+									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+									var adialog = $(id)
+										.html(content)
+										.dialog({
+											title: title,
+											autoOpen: false,
+											dialogClass: 'dialog_fixed,ui-widget-header',
+											modal: true,
+											height: 'auto',
+											width: 'auto',
+											minWidth: 360,
+											minHeight: 450,
+											draggable:true,
+											resizable:true,
+											buttons: { "Ok": function () { loadIdentification(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
+											close: function() { loadIdentification(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
+										});
+										adialog.dialog('open');
+									};
+								</script>
+								<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT
+										identification.scientific_name,
+										identification.collection_object_id,
+										concatidagent(identification.identification_id) agent_name,
+										made_date,
+										nature_of_id,
+										identification_remarks,
+										identification.identification_id,
+										accepted_id_fg,
+										taxa_formula,
+										formatted_publication,
+										identification.publication_id,
+										stored_as_fg
+									FROM
+										identification,
+										(select * from formatted_publication where format_style='short') formatted_publication
+									WHERE
+										identification.publication_id=formatted_publication.publication_id (+) and
+										identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+									ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
+								</cfquery>
+									<div id="identificationHTML" class="bg-light"> 
+										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
+									</div>
+								<!--- shippmentTable for ajax replace ---> 
+								<script>
+									$( document ).ready(loadIdentification(#identification_id#));
+								</script>
+								<div>
+									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Identification" onClick="$('##dialog-shipment').dialog('open'); setupNewIdentification(#identification_id#);">
+								</div>
+							</div>
+						</section>
+					<cfinclude template="/specimens/identificationDialog.cfm">
 					</div>
-				</div>
+			</div>
 
 				<!------------------------------------ citations ------------------------------------------>
 	
@@ -1110,11 +1148,11 @@ limitations under the License.
 											</tbody>
 										</table>
 									</div>
-								</div>
-							</div>
-						</div>
-					</cfif>
-				</cfoutput> 
+				</section>
+			</div>
+		</div>
+		</cfif>
+	</cfoutput> 
 
 				
 				<!------------------------------------ attributes ----------------------------------------->
