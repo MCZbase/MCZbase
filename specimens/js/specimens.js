@@ -26,10 +26,10 @@ targetDiv="CitPubFormMedia";
     	width: '700px',
     	minWidth: 500,
     	minHeight: 450,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
-		 ],
+			buttons: {
+				"Save": function() {  saveIdentification(#identification_id#); } ,
+				Cancel: function() { $(this).dialog( "close" ); }
+			},
         close: function() {
             $(this).dialog( "close" );
         },
@@ -53,24 +53,24 @@ targetDiv="CitPubFormMedia";
    );
 
 	////shipment dialog needs to have a minimum of 320px and then be 90% of ipad and up
-	$( document ).ready(function() {
-		console.log("initializing dialog-identification");
-		$("##dialog-identification").dialog({
-			autoOpen: false,
-			modal: true,
-			width: 'auto',
-			height: 'auto',
-			minWidth: 320,
-			minHeight: 500,
-			buttons: {
-				"Save": function() {  saveIdentification(#identification_id#); } ,
-				Cancel: function() { $(this).dialog( "close" ); }
-			},
-			close: function() {
-				$(this).dialog( "close" );
-			}
-		});
-	});
+//	$( document ).ready(function() {
+//		console.log("initializing dialog-identification");
+//		$("##dialog-identification").dialog({
+//			autoOpen: false,
+//			modal: true,
+//			width: 'auto',
+//			height: 'auto',
+//			minWidth: 320,
+//			minHeight: 500,
+//			buttons: {
+//				"Save": function() {  saveIdentification(#identification_id#); } ,
+//				Cancel: function() { $(this).dialog( "close" ); }
+//			},
+//			close: function() {
+//				$(this).dialog( "close" );
+//			}
+//		});
+//	});
 
 function loadIdentification(identification_id,form) {
 	jQuery.ajax({
