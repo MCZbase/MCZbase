@@ -89,7 +89,7 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
-function loadNewIdentificationForm(collection_object_id,identification_id) {
+function loadNewIdentificationForm(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/shipmentDialog.cfm",
 		data : {
