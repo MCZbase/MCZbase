@@ -5,7 +5,7 @@
 	////identification dialog needs to have a minimum of 320px and then be 90% of ipad and up
 	$( document ).ready(function() {
 		console.log("initializing dialog-identification");
-		$("##dialog").dialog({
+		$("##dialog-ID").dialog({
 			autoOpen: false,
 			modal: true,
 			width: 'auto',
