@@ -89,7 +89,7 @@ function loadIdentification(identificationId,form) {
 	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
 			method : "getIdentification",
-			identificatonidList : identificationId,
+			identificationidList : identificationId,
 			returnformat : "json",
 			queryformat : 'column'
 		},
