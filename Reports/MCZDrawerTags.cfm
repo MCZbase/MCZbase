@@ -85,9 +85,11 @@ Change to: <select name="format">
 		<cfoutput>
 			<h3>Query Error obtaining item/container records for spreadsheet.</h3>
 			<strong>#cfcatch.message#</strong>
-			<cfif cfcatch.message contains 'ORA-01722: invalid number'>
-				<h3>It is likely that a part is not placed correctly in the container heirarchy, this report expects that all parts are vials in a position within a box, slot, and rack.</h3>
-		     <cfquery name="getItemsFailed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<strong>#cfcatch.detail#</strong>
+			<cfif cfcatch.detail contains 'ORA-01722: invalid number'>
+				<h3>It is likely that a part is not placed correctly in the container heirarchy, or this report is not applicable to this material.  This report expects that all parts are vials in a position within a box, slot, and rack.</h3>
+				<!--- repeat the query, but without the decimal sort --->
+		     <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       		select
 		           cataloged_item.collection_cde,
       		     cataloged_item.cat_num,
@@ -123,12 +125,13 @@ Change to: <select name="format">
 				<p>Check for one or more non-numeric position values on the list of parts below</p>
 				<ul>
 						<li>cat_num rack:slot:box:<strong>position</strong>:vial part_remarks</li>
-					<cfloop query="getItemsFailed">
+					<cfloop query="getItems">
 						<li>#cat_num# #rack#:#slot#:#box#:<strong>#position#</strong>:#vial# #part_remarks#</li>
 					</cfloop>
 				</ul>
 			</cfif>
 		</cfoutput>
+		</cfabort>
 	</cfcatch>
 	</cftry>
     <cfset maxRow = 28>
