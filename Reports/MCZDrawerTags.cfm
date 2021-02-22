@@ -47,6 +47,7 @@ Change to: <select name="format">
 </form>
 </cfoutput>
 <cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
+	<cftry>
      <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       select
            cataloged_item.collection_cde,
@@ -80,7 +81,56 @@ Change to: <select name="format">
             loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
         ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
      </cfquery>
-
+	<cfcatch>
+		<cfoutput>
+			<h3>Query Error obtaining item/container records for spreadsheet.</h3>
+			<strong>#cfcatch.message#</strong>
+			<cfif cfcatch.message contains 'ORA-01722: invalid number'>
+				<h3>It is likely that a part is not placed correctly in the container heirarchy, this report expects that all parts are vials in a position within a box, slot, and rack.</h3>
+		     <cfquery name="getItemsFailed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      		select
+		           cataloged_item.collection_cde,
+      		     cataloged_item.cat_num,
+		           cataloged_item.collection_object_id,
+      		     identification.scientific_name as sciName,
+		           MCZBASE.concatotherid(cataloged_item.collection_object_id) as otherids,
+		           c5.barcode as rack,
+      		     c4.barcode as slot,
+		           c3.barcode as box,
+      		     c2.label as position,
+		           c1.barcode as vial,
+      		     corem.coll_object_remarks as part_remarks,
+		           pcorem.coll_object_remarks as sampled_from_part_remarks
+		      from
+      		   loan_item
+		            left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+      		      left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
+		            left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
+      		      left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
+		            left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+      		      left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+		            left join MCZBASE.container c  on coll_obj_cont_hist.container_id = c.container_id
+      		      left join MCZBASE.container c1 on c.parent_container_id = c1.container_id
+		            left join MCZBASE.container c2 on c1.parent_container_id = c2.container_id
+      		      left join MCZBASE.container c3 on c2.parent_container_id = c3.container_id
+		            left join MCZBASE.container c4 on c3.parent_container_id = c4.container_id
+      		      left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
+		      where identification.accepted_id_fg = 1 AND
+      		      coll_obj_cont_hist.current_container_fg = 1 AND
+            		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		      ORDER BY c5.barcode, c4.barcode, c3.barcode, c1.barcode, cat_num
+		     </cfquery>
+				<p>Check for one or more non-numeric position values on the list of parts below</p>
+				<ul>
+						<li>cat_num rack:slot:box:<strong>position</strong>:vial part_remarks</li>
+					<cfloop query="getItemsFailed">
+						<li>#cat_num# #rack#:#slot#:#box#:<strong>#position#</strong>:#vial# #part_remarks#</li>
+					</cfloop>
+				</ul>
+			</cfif>
+		</cfoutput>
+	</cfcatch>
+	<cftry>
     <cfset maxRow = 28>
     <cfset maxCol = 1>
     <cfset labelWidth = 'width: 1100px;'>
