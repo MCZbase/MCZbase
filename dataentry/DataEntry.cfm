@@ -633,9 +633,8 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 							<div class="col-sm-9">
-								<p>
 									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
-								</p>
+							
 							</div>
 						</div>
 						<div class="form-group mb-0 row">
