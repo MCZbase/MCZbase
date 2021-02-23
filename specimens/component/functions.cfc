@@ -93,12 +93,13 @@
 
 <!------EXISTING----------------------------------------------------------------------------------------------------------->
 <cffunction name="loadLocality" returntype="query" access="remote">
-	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		   select 1 as status, locality_id, geog_auth_rec_id, spec_locality
-             from locality
-             where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		   select 1 as status, collecting_event_id, locality_id, geog_auth_rec_id, spec_locality
+             from locality, collecting_event
+             where locality.locality_id = collecting_event.locality_id 
+			and collecting_event_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		</cfquery>
 		<cfif theResults.recordcount eq 0>
 	  	  <cfset theResults=queryNew("status, message")>
@@ -124,10 +125,10 @@
    <cfthread name="getLocalityThread">
    <cftry>
     <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 1 as status, locality.locality_id, locality.spec_locality, geog_auth_rec.higher_geog
+		select 1 as status, collecting_event.collecting_event_id, collecting_event.verbatim_locality,locality.spec_locality, geog_auth_rec.higher_geog
 		from locality, geog_auth_rec, collecting_event 
 		where locality.geog_auth_rec_id= geog_auth_rec.geog_auth_rec_id
-		and locality.collecting_event_id = collecting_event.collecting_event_id
+		and locality.locality_id = collecting_event.locality_id
 		and collecting_event.collecting_event_id = <cfqueryparam value="#collecting_event_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 
