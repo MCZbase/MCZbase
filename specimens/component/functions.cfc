@@ -152,8 +152,8 @@
    </cftry>
      <cfoutput>#resulthtml1#</cfoutput>
    </cfthread>
-    <cfthread action="join" name="getIdentificationThread" />
-    <cfreturn getIdentificationThread.output>
+    <cfthread action="join" name="getLocalityThread" />
+    <cfreturn getLocalityThread.output>
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
