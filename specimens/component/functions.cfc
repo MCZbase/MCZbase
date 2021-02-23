@@ -133,7 +133,7 @@
 				</cfquery>
 				<cfquery name="getColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select verbatim_locality from collecting_event where
-					collecting_event_id= <cfqueryparam value="#one.collecting_event_id#" cfsqltype="CF_SQL_DECIMAL">
+					locality_id= <cfqueryparam value="#theResults.locality_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 
 
