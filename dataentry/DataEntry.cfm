@@ -62,7 +62,7 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border-fill px-3 py-1 m-1">
 							<h2 class="data-entry-title">Encumbrance</h2>
-							<h3 class="data-entry-subtitle">This is step 5</h3>
+							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div id="encumbrance">
 								<div class="row mb-2">
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
@@ -79,7 +79,7 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border-fill px-3 py-1 m-1">
 							<h2 class="data-entry-title">Accession Number</h2>
-							<h3 class="data-entry-subtitle">This is step 3</h3>
+							<h3 class="data-entry-subtitle">This is step 4</h3>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
 								<div class="col-xl-9">
@@ -93,11 +93,11 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border-fill px-3 py-1 m-1">
 							<h2 class="data-entry-title">Other IDs</h2>
-							<h3 class="data-entry-subtitle">This is step 3</h3>
+							<h3 class="data-entry-subtitle">This is step 5</h3>
 							<div id="customOtherID">
 								<div class="row">
 									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
-									<div class="col-xl-4 px-xl-0">
+									<div class="col-xl-4 px-xl-0 pr-0">
 										<select class="data-entry-select" required>
 											<option value="">Other ID Type</option>
 											<option value="1">Field Number</option>
@@ -105,7 +105,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-xl-5">
+									<div class="col-xl-5 pl-0">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
 								</div>
