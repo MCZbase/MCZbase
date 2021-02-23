@@ -386,7 +386,7 @@ limitations under the License.
 			order by
 				substr(formatted_publication, - 4)
 		</cfquery>
-		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 					FROM
@@ -402,16 +402,7 @@ limitations under the License.
 						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
-	<cfoutput query="one">
-		<cfif oneOfUs is 1>
-			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
-			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
-			<input type="hidden" name="suppressHeader" value="true">
-			<input type="hidden" name="action" value="nothing">
-			<input type="hidden" name="Srch" value="Part">
-			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-		</cfif>
-		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -431,6 +422,16 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
+	<cfoutput query="one">
+		<cfif oneOfUs is 1>
+			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
+			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
+			<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">
+			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+		</cfif>
+		
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
@@ -446,7 +447,7 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
+								<a href="/media/#publication_media.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
 													media.media_id,
@@ -853,7 +854,7 @@ limitations under the License.
 						</div>
 					</div>
 				</cfif>
-<!------------------------------------ other identifiers ---------------------------------->
+			<!------------------------------------ other identifiers ---------------------------------->
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
