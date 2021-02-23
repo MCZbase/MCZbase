@@ -465,10 +465,33 @@ sho err
 								CREATED_BY_AGENT_ID,
 								RELATED_PRIMARY_KEY
 							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.permit_id#">
+							)
+						</cfquery>
+					<cfelse>
+						<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
+					</cfif>
+				<cfelseif table_name is "borrow">
+					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select transaction_id 
+						from borrow 
+						where borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
+					</cfquery>
+					<cfif c.recordcount is 1 and len(c.transaction_id) gt 0>
+						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into cf_temp_media_relations (
+ 								key,
+								MEDIA_RELATIONSHIP,
+								CREATED_BY_AGENT_ID,
+								RELATED_PRIMARY_KEY
+							) values (
 								#key#,
 								'#ln#',
 								#session.myAgentId#,
-								#c.permit_id#
+								#c.transaction_id#
 							)
 						</cfquery>
 					<cfelse>
