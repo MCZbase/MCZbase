@@ -96,7 +96,7 @@
 	<cfargument name="collecting_event_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		   select 1 as status, collecting_event_id, locality_id, geog_auth_rec_id, spec_locality
+		   select 1 as status, collecting_event_id, locality_id
              from locality, collecting_event
              where locality.locality_id = collecting_event.locality_id 
 			and collecting_event_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
