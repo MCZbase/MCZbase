@@ -101,20 +101,7 @@
 					select  spec_locality, geog_auth_rec_id from locality
 					where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-								<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select higher_geog from geog_auth_rec where
-					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-								<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 
-								media_id 
-							FROM 
-								media_relations 
-							WHERE 
-								RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-								MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-	</cfquery>
+			
 
 	
 	
