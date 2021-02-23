@@ -131,15 +131,7 @@
 					select higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#theResults.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 
-								media_id 
-							FROM 
-								media_relations 
-							WHERE 
-								RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-								MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
+
 
       <cfset resulthtml1 = "<div id='localityHTML'> ">
 
