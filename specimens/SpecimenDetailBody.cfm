@@ -402,7 +402,16 @@ limitations under the License.
 						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
-	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput query="one">
+		<cfif oneOfUs is 1>
+			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
+			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
+			<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">
+			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+		</cfif>
+		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -422,16 +431,6 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
-	<cfoutput query="one">
-		<cfif oneOfUs is 1>
-			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
-			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
-			<input type="hidden" name="suppressHeader" value="true">
-			<input type="hidden" name="action" value="nothing">
-			<input type="hidden" name="Srch" value="Part">
-			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-		</cfif>
-		
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
@@ -447,7 +446,7 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-								<a href="/media/#one.media_id#" class="btn-link">Media Record</a>
+								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
 													media.media_id,
@@ -509,10 +508,10 @@ limitations under the License.
 									
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #one.media_uri# contains "specimen_images">
-											<cfset aForThisHref = "/MediaSet.cfm?media_id=#one.media_id#" >
+										<cfif #mediaS2.media_uri# contains "specimen_images">
+											<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS2.media_id#" >
 											<a href="#aForThisHref#" target="_blank" class="w-100">
-											<img src="#one.media_uri#" class="w-100 mb-2">
+											<img src="#mediaS2.media_uri#" class="w-100 mb-2">
 											</a>
 										<cfelse>
 									
@@ -584,7 +583,7 @@ limitations under the License.
 			</div>
 		</cfif>
 		<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 px-0 <cfif one.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!----------------------------- identifications ----------------------------------> 
 
