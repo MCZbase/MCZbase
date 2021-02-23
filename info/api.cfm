@@ -9,9 +9,9 @@
 	<h2>
 		Partial list of ways to talk to MCZbase
 	</h2>
-	<p>
+	<!--- p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
-	</p>
+	</p --->
 	<p>
 		You may open KML files of MCZbase data using the <a href="/api/kml">KML API</a>. 
 	</p>
@@ -304,7 +304,8 @@
 		</tr>
 	</table>
 </cfif>
-<cfif action is "specsrch">
+<!---  cfif action is "specsrch">
+	<!--- Never actually documented.  Expected to be replaced in redesign --->
 	<cfquery name="st" datasource="cf_dbuser">
 		select * from cf_search_terms order by term
 	</cfquery>
@@ -319,19 +320,19 @@
 		<cfloop query="st">
 			<cfif left(code_table,2) is "CT">
 				<cftry>
-				<cfquery name="docs" datasource="cf_dbuser">
+				<!--- cfquery name="docs" datasource="cf_dbuser">
 					select * from #code_table#
-				</cfquery>
+				</cfquery --->
 				<cfloop list="#docs.columnlist#" index="colName">
 					<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
 						<cfset theColumnName = #colName#>
 					</cfif>
 				</cfloop>
-				<cfquery name="theRest" dbtype="query">
+				<!--- cfquery name="theRest" dbtype="query">
 					select #theColumnName# from docs
 						group by #theColumnName#
 						order by #theColumnName#
-				</cfquery>
+				</cfquery --->
 				<cfset ct="">
 				<cfloop query="theRest">
 					<cfset ct=ct & evaluate(theColumnName) & "<br>">
@@ -351,7 +352,7 @@
 			</tr>
 		</cfloop>
 	</table>
-</cfif>
+</cfif --->
 <cfif action is "kml">
 	Base URL: #Application.serverRootUrl#/bnhmMaps/kml.cfm?action=newReq
 	<table border>
@@ -363,7 +364,7 @@
 		<tr>
 			<td>{search criteria}</td>
 			<td>{various}</td>
-			<td><a href="/api/specsrch">API</a></td>
+			<td>{see SpecimenSearch}</td>
 		</tr>		
 		<tr>
 			<td>userFileName</td>

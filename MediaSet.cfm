@@ -344,10 +344,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
              <cfset labellist = "#labellist#<li>#media_label#: #label_value#</li>">
            </cfloop>
            <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-             select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-             from media_relations
-   			 where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
-                 and media_relationship in ('created by agent', 'shows cataloged_item')
+					select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+					from media_relations
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
+					and media_relationship in ('created by agent', 'shows cataloged_item')
            </cfquery>
            <cfloop query="relations">
              <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
@@ -355,10 +355,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
              </cfif>
            </cfloop>
            <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                       select keywords
-                       from media_keywords
-   					where media_id=#relm.media_id#
-                   </cfquery>
+					select keywords
+					from media_keywords
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm.media_id#">
+           </cfquery>
            <cfset kwlist="">
            <cfloop query="keywords">
              <cfset kwlist = "#kwlist# #keywords#">
