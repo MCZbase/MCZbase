@@ -638,8 +638,8 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group mb-0 row">
-							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
-							<div class="col-sm-4 col-md-4">
+							<label for="other_id" class="col-sm-3 col-form-label px-0 pt-0 text-center text-md-right">Other ID</label>
+							<div class="col-sm-4 col-md-4 px-0">
 								<select class="data-entry-select border" oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
@@ -647,11 +647,11 @@ limitations under the License.
 									<option value="3">Previous Number</option>
 								</select>
 							</div>
-							<div class="col-sm-5">
+							<div class="col-sm-5 pr-0">
 								<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group form-row">
 							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Mask Record</label>
 							<div class="col-sm-9 col-md-9 text-left">
 								<div class="form-check form-check-inline">
@@ -660,9 +660,9 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="form-group row">
-							<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
-							<div class="col-sm-4 col-md-4 text-left">
+						<div class="form-group form-row">
+							<label for="relations" class="col-sm-3 px-0 col-form-label pt-0 text-center text-md-right">Other Records</label>
+							<div class="col-sm-4 col-md-4 px-0 text-left">
 								<select class="data-entry-select border mt-0" required>
 									<option value="">Relationship Type</option>
 									<option value="1">Re-Cataloged as</option>
@@ -671,7 +671,7 @@ limitations under the License.
 									<option value="4">Duplicate Recataloged as</option>
 								</select>
 							</div>
-							<div class="col-sm-5">
+							<div class="col-sm-5 px-0">
 								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 							</div>
 						</div>
