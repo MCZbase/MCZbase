@@ -2389,8 +2389,7 @@ You deleted a collecting event.
 				<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
 			</td>
 			<td rowspan="2">
-				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
-				<cfif curated_fg EQ 1>*</cfif>
+				<span><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a><cfif curated_fg EQ 1>*</cfif></span>
 			</td>
 			<td style="min-width: 500px;">
 				<b>#spec_locality#</b>
