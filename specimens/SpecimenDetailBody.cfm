@@ -768,7 +768,7 @@ limitations under the License.
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadCitation(#citation_name_id#);">Edit</button>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadCitation(#locality_id#);">Edit</button>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
@@ -1278,7 +1278,6 @@ limitations under the License.
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 							<div class="card-body px-0 pb-0"> 
 								<div class="col-5 pl-0 pr-3 mb-2 float-right">
-								<!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>---> 
 								<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 								<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select  spec_locality, geog_auth_rec_id from locality
@@ -1394,6 +1393,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 										</div>
+									<div id="localityHTML"></div>
 
 							</div>
 						</div>
