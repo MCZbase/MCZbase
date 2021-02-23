@@ -754,6 +754,7 @@ a#showLeftPush.hiddenclass {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	width: 100%;
 }
+#regForm select {font-size: .875rem;}
 
 /* Mark input boxes that gets an error on validation: */
 #regForm input.invalid, #regForm select.invalid {
