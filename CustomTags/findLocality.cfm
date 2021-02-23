@@ -119,6 +119,9 @@
 			<cfif isdefined("locality_id") and len(#locality_id#) gt 0>
 				AND locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfif>
+			<cfif isdefined("curated_fg") and len(#curated_fg#) gt 0>
+				AND locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
+			</cfif>
 			<cfif isdefined("geog_auth_rec_id") and len(#geog_auth_rec_id#) gt 0>
 				AND geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 			</cfif>

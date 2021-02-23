@@ -398,7 +398,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan=2>
 					<table>
 						<tr>
 							<td>
@@ -424,6 +424,8 @@
 						</tr>
 					</table>
 				</td>
+			</tr>
+			<tr>
 				<td>
 					<label for="sovereign_nation">Sovereign Nation</label>
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
@@ -436,6 +438,13 @@
 						</cfloop>
 					</select>
 				</td>
+				<td>
+					<label for="curated_fg">Vetted</label>
+					<select name="curated_fg" id="curated_fg">
+						<option value=""></option>
+						<option value="0">No</option>
+						<option value="1">Yes *</option>
+					</select>
 			</tr>
 		</table>
 		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
