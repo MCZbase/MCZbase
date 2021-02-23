@@ -744,19 +744,19 @@ limitations under the License.
 						<h2 class="fs-title text-center">Scientific Name</h2>
 						<h3 class="fs-subtitle text-center">This is step 3</h3>
 						<div class="form-group row">
-							<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
+							<label for="scientific_name" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Scientific Name</label>
 							<div class="col-sm-9">
 								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
+							<label for="made_by" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Made By</label>
 							<div class="col-sm-9">
 								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
+							<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
 								<select class="data-entry-select border" required>
 									<option value="">Expert ID</option>
@@ -770,7 +770,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row my-0">
-							<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
+							<label for="id_remark" class="col-sm-3 col-form-label pt-0 text-center text-md-right">ID Remark</label>
 							<div class="col-sm-9">
 								<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
 								</textarea>
@@ -781,19 +781,19 @@ limitations under the License.
 						<h2 class="fs-title text-center">Locality</h2>
 						<h3 class="fs-subtitle text-center">This is step 4</h3>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Higher Geography</label>
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Higher Geography</label>
 							<div class="col-sm-9">
 								<input type="text" name="higher_geog" class="form-control" placeholder="Higher Geography" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Specific Locality</label>
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Specific Locality</label>
 							<div class="col-sm-9">
 								<input type="text" name="spec_locality" class="form-control" placeholder="Specific Locality" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Elevation</label>
+							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Elevation</label>
 							<div class="col-sm-3">
 								<input type="text" class="form-control" id="inputMinElev" placeholder="Min Elevation">
 							</div>
@@ -812,7 +812,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="inputPassword3" class="col-sm-3 col-form-label text-center text-md-right">Depth</label>
+							<label for="inputPassword3" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Depth</label>
 							<div class="col-sm-3">
 								<input type="text" class="form-control" id="inputMinDepth" placeholder="Min Depth">
 							</div>
@@ -831,19 +831,19 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="sovereign_nation" class="col-sm-3 col-form-label text-center text-md-right">Sovereign Nation</label>
+							<label for="sovereign_nation" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Sovereign Nation</label>
 							<div class="col-sm-9">
 								<input type="text" name="sovereign_nation" class="form-control" placeholder="Sovereign Nation" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="higher_geog" class="col-sm-3 col-form-label text-center text-md-right">Geology Attribute</label>
+							<label for="higher_geog" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Geology Attribute</label>
 							<div class="col-sm-9 my-0">
 								<input type="text" name="geology_attribute" class="form-control" placeholder="Geology Attribute" />
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="habitat" class="col-sm-3 col-form-label text-center text-md-right">Habitat</label>
+							<label for="habitat" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Habitat</label>
 							<div class="col-sm-9">
 								<input type="text" name="habitat" class="form-control" placeholder="Habitat" />
 							</div>
