@@ -81,8 +81,8 @@ limitations under the License.
 							<h2 class="data-entry-title">Accession Number</h2>
 							<h3 class="data-entry-subtitle">This is step 4</h3>
 							<div class="row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Accession</label>
-								<div class="col-xl-9">
+								<label for="cat_num" class="data-entry-label col-12 pr-0 col-xl-3 text-center text-xl-right px-0">Accession</label>
+								<div class="col-xl-9 pl-0">
 									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
 									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
 							</div>
