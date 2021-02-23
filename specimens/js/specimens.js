@@ -71,7 +71,22 @@ function loadIdentification(identification_id,form) {
 	});
 };
 
-
+function loadLocality(locality_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getLocalityHtml",
+			locality_id: locality_id,
+		},
+		success: function (result) {
+			$("#localityHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing locality");
+		},
+		dataType: "html"
+	});
+};
 
 function checkFormValidity(form) { 
 	var result = false;
