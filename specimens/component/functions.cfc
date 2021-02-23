@@ -120,20 +120,21 @@
 			
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
    <cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="collecting_event_id" type="string" required="yes">
    <cfset r=1>
    <cfthread name="getLocalityThread">
    <cftry>
    <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select  spec_locality, geog_auth_rec_id from locality
+					select 1 as status, spec_locality, geog_auth_rec_id from locality
 					where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select higher_geog from geog_auth_rec where
+					select 1 as status, higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#theResults.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfquery name="getColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select verbatim_locality from collecting_event where
-					locality_id= <cfqueryparam value="#theResults.locality_id#" cfsqltype="CF_SQL_DECIMAL">
+					select verbatim_locality from collecting_event, co where
+					collecting_event_id= <cfqueryparam value="#one.collecting_event_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 
 
