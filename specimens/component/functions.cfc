@@ -128,7 +128,7 @@
    <cfthread name="getLocalityThread">
    <cftry>
     <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select locality.spec_locality, locality.geog_auth_rec_id, collecting_event.collecting_event_id, collecting_event.verbatim_locality, collecting_event.collecting_source 
+		select locality.spec_locality, locality.geog_auth_rec_id, collecting_event.collecting_event_id, collecting_event.verbatim_locality, collecting_event.began_date, collecting_event.ended_date, collecting_event.collecting_source 
 		from locality, collecting_event 
 		where collecting_event.locality_id = locality.locality_id
 		and locality.locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -146,8 +146,10 @@
 			<cfset resulthtml1 = resulthtml1 & "<input name='verbatim_locality' class='data-entry-input' value='#verbatim_locality#'>">
 			<cfset resulthtml1 = resulthtml1 & "<label for='collecting_source' class='data-entry-label mb-0'>Collecting Source</label>">
 			<cfset resulthtml1 = resulthtml1 & "<input name='collecting_source' class='data-entry-input' value='#collecting_source#'>">
-			<cfset resulthtml1 = resulthtml1 & "<label for='began_date' class='data-entry-label mb-0'>Began Date</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='began_date' class='data-entry-input' value='#began_date#'>">
+			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-3'><label for='began_date' class='data-entry-label mb-0'>Began Date</label>">
+			<cfset resulthtml1 = resulthtml1 & "<input name='began_date' class='data-entry-input' value='#began_date#'></div>">
+			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-3'><label for='ended_date' class='data-entry-label mb-0'>End Date</label>">
+			<cfset resulthtml1 = resulthtml1 & "<input name='ended_date' class='data-entry-input' value='#ended_date#'></div>">
 		
 			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
        
