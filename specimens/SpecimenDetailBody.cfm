@@ -394,7 +394,7 @@ limitations under the License.
 					WHERE
 						mr.media_id = ml.media_id and
 						mr.media_id = m.media_id and
-						ml.media_label = 'description' and
+						m.media_id=ml.media_id (+) and
 						MEDIA_RELATIONSHIP like '% publication' and
 						RELATED_PRIMARY_KEY = c.publication_id and
 						c.publication_id = fp.publication_id and
