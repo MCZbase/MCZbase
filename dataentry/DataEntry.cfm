@@ -682,62 +682,62 @@ limitations under the License.
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
-								<select class="custom-select border mt-0 validate">
-									<option value="">Select Role...</option>
+								<select class="data-entry-select border mt-0 validate">
+									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
 								</select>
 							</label>
 							<div class="col-sm-9 col-md-9 mt-1">
-								<input type="text" class="form-control validate" id="collector1" placeholder="Agent Name">
+								<input type="text" class="data-entry-input validate" id="collector1" placeholder="Agent Name">
 							</div>
 						</div>
 						<div class="form-group row my-0">
 							<label for="collector2" class="col-sm-3 col-form-label mt-0">
-								<select class="custom-select border mt-0">
-									<option value="">Select Role...</option>
+								<select class="data-entry-select border mt-0">
+									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
 								</select>
 							</label>
 							<div class="col-sm-9 col-md-9 mt-1">
-								<input type="text" class="form-control" id="collector2" placeholder="Agent Name">
+								<input type="text" class="data-entry-input" id="collector2" placeholder="Agent Name">
 							</div>
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector3" class="col-sm-3 col-form-label mt-0">
-								<select class="custom-select border mt-0" required>
-									<option value="">Select Role...</option>
+								<select class="data-entry-select border mt-0" required>
+									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
 								</select>
 							</label>
 							<div class="col-sm-9 col-md-9 mt-1">
-								<input type="text" class="form-control" id="collector3" placeholder="Agent Name">
+								<input type="text" class="data-entry-input" id="collector3" placeholder="Agent Name">
 							</div>
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector4" class="col-sm-3 col-form-label mt-0">
-								<select class="custom-select border mt-0" required >
-									<option value="">Select Role...</option>
+								<select class="data-entry-select border mt-0" required >
+									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
 								</select>
 							</label>
 							<div class="col-sm-9 col-md-9 mt-1">
-								<input type="text" class="form-control" id="collector4" placeholder="Agent Name">
+								<input type="text" class="data-entry-input" id="collector4" placeholder="Agent Name">
 							</div>
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector5" class="col-sm-3 col-form-label mt-0">
-								<select class="custom-select border mt-0">
-									<option value="">Select Role...</option>
+								<select class="data-entry-select  border mt-0">
+									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
 								</select>
 							</label>
 							<div class="col-sm-9 col-md-9 mt-1">
-								<input type="text" class="form-control" id="collector5" placeholder="Agent Name">
+								<input type="text" class="data-entry-input" id="collector5" placeholder="Agent Name">
 							</div>
 						</div>
 					</div>
@@ -747,19 +747,19 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="scientific_name" class="col-sm-3 col-form-label text-center text-md-right">Scientific Name</label>
 							<div class="col-sm-9">
-								<input type="text" name="scientific_name" class="form-control" placeholder="Scientific Name" />
+								<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="made_by" class="col-sm-3 col-form-label text-center text-md-right">ID Made By</label>
 							<div class="col-sm-9">
-								<input type="text" name="made_by" class="form-control" placeholder="Identifier's Name" />
+								<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="nature_of_id" class="col-sm-3 col-form-label text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
-								<select class="custom-select border form-control" required>
+								<select class="data-entry-select border" required>
 									<option value="">Expert ID</option>
 									<option value="1">Field ID</option>
 									<option value="2">Non-Expert ID</option>
@@ -767,13 +767,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<input type="text" name="made_by_date" class="form-control" placeholder="Date of ID" />
+								<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 							</div>
 						</div>
 						<div class="form-group row my-0">
 							<label for="id_remark" class="col-sm-3 col-form-label text-center text-md-right">ID Remark</label>
 							<div class="col-sm-9">
-								<textarea type="text" name="id_remark" class="form-control" placeholder="ID remark"/>
+								<textarea type="text" name="id_remark" class="data-entry-input" placeholder="ID remark"/>
 								</textarea>
 							</div>
 						</div>
