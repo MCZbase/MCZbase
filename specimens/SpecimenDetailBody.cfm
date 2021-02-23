@@ -433,7 +433,7 @@ limitations under the License.
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 		</cfif>
 		
-		<cfif mediaS2.recordcount gt 1>
+		<cfif publicationMedia.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
 					<div class="card bg-light">
@@ -510,7 +510,7 @@ limitations under the License.
 									
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS2.media_uri# contains "specimen_images">
+										<cfif #publicationMedia.media_uri# contains "specimen_images">
 											<cfset aForThisHref = "/MediaSet.cfm?media_id=#publicationMedia.media_id#" >
 											<a href="#aForThisHref#" target="_blank" class="w-100">
 											<img src="#publicationMedia.media_uri#" class="w-100 mb-2">
