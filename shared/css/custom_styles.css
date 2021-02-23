@@ -739,7 +739,7 @@ a#showLeftPush.hiddenclass {
 	width: 100%;
 	min-width: 300px;
 }
-#regForm input {
+#regForm input, #regForm select {
 	display: block;
 	height: calc(1.2em + .35rem + 2px);
 	padding: .5rem .75rem;
