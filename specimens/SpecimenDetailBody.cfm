@@ -768,7 +768,7 @@ limitations under the License.
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadCitation(#citation_name_id#);">Edit</button>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
@@ -1273,7 +1273,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
-						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadLocality(#locality_id#);">Edit</button>
 						</div>
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 							<div class="card-body px-0 pb-0"> 
