@@ -768,7 +768,7 @@ limitations under the License.
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadCitation();">Edit</button>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('.dialog').dialog('open'); loadCitatio();">Edit</button>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
