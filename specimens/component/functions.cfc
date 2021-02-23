@@ -31,12 +31,7 @@
 	  </cfcatch>
 	</cftry>
 	<cfreturn theResult>
-</cffunction>
-			
-			
-<!----------------------------------------------------------------------------------------------------------------->
-
-			
+</cffunction>	
 			
 <!----------------------------------------------------------------------------------------------------------------->
 
@@ -95,7 +90,7 @@
     <cfreturn getIdentificationThread.output>
 </cffunction>
 
-<!----------------------------------------------------------------------------------------------------------------->
+
 <!------EXISTING----------------------------------------------------------------------------------------------------------->
 <cffunction name="loadLocality" returntype="query" access="remote">
 	<cfargument name="locality_id" type="string" required="yes">
@@ -121,7 +116,7 @@
 	<cfreturn theResults>
 </cffunction>
 		
-			
+<!----------------------------------------------------------------------------------------------------------------->			
 			
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
    <cfargument name="locality_id" type="string" required="yes">
