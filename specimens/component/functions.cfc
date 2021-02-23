@@ -107,15 +107,15 @@
 		</cfquery>
 		<cfif theResults.recordcount eq 0>
 	  	  <cfset theResults=queryNew("status, message")>
-		  <cfset t = queryaddrow(theResult,1)>
-		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No localities found.", 1)>
+		  <cfset t = queryaddrow(theResults,1)>
+		  <cfset t = QuerySetCell(theResults, "status", "0", 1)>
+		  <cfset t = QuerySetCell(theResults, "message", "No localities found.", 1)>
 		</cfif>
 	  <cfcatch>
 	   	<cfset theResults=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfset t = queryaddrow(theResults,1)>
+		<cfset t = QuerySetCell(theResults, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResults, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
 	  </cfcatch>
 	</cftry>
 	<cfreturn theResults>
@@ -132,7 +132,7 @@
 		where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 
-      <cfset resulthtml = "<div id='localityHTML'> ">
+      <cfset resulthtml1 = "<div id='localityHTML'> ">
 
       <cfloop query="theResults">
          <cfset resulthtml = resulthtml1 & "<div class='localityExistingForm'>">
