@@ -447,7 +447,7 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-								<a href="/media/#publication_media.media_id#" class="btn-link">Media Record</a>
+								<a href="/media/#publicationMedia.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
 													media.media_id,
