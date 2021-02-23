@@ -399,10 +399,11 @@ limitations under the License.
 						RELATED_PRIMARY_KEY = c.publication_id and
 						c.publication_id = fp.publication_id and
 						fp.format_style='short' and
+						MCZBASE.is_media_encumbered(media.media_id) < 1 AND 
 						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
-	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -421,7 +422,7 @@ limitations under the License.
 					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
-			</cfquery>
+			</cfquery>--->
 	<cfoutput query="one">
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
