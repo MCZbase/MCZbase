@@ -149,7 +149,7 @@
 			<cfset resulthtml1 = resulthtml1 & "<label for='began_date' class='data-entry-label mb-0'>Began Date</label>">
 			<cfset resulthtml1 = resulthtml1 & "<input name='began_date' class='data-entry-input' value='#began_date#'>">
 			<cfset resulthtml1 = resulthtml1 & "<label for='ended_date' class='data-entry-label mb-0'>End Date</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='ended_date' class='data-entry-input' value='#ended_date#'>">
+			<cfset resulthtml1 = resulthtml1 & "<input name='ended_date' class='data-entry-input' value='#ended_date#'></div>">
 		
 			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
        
