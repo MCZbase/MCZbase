@@ -138,8 +138,8 @@
          <cfset resulthtml1 = resulthtml1 & "<div class='localityExistingForm'>">
             <cfset resulthtml1 = resulthtml1 & "<form><div class='container pl-1'>">
 			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
-		
-				<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' value='#spec_locality#'>">
+		<cfset resulthtml1 = resulthtml1 & "<label for='spec_locality' class='data-entry-label mb-0'>Specific Locality</label>">
+				<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#spec_locality#'>">
 		
 			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
        
