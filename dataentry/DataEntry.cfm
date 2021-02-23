@@ -801,7 +801,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
 							</div>
 							<div class="col-sm-2">
-								<select class="custom-select border form-control" required>
+								<select class="data-entry-select border" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
@@ -820,7 +820,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
 							</div>
 							<div class="col-sm-2">
-								<select class="custom-select border form-control" required>
+								<select class="border data-entry-select" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
