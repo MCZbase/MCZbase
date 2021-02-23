@@ -124,7 +124,7 @@
    <cfthread name="getLocalityThread">
    <cftry>
     <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 1 as status, locality.locality_id, collecting_event.collection_object_id,locality.spec_locality,  
+		select 1 as status, locality.locality_id, locality.spec_locality, geog_auth_rec.higher_geog
 		from locality, geog_auth_rec 
 		where locality.geog_auth_rec_id= geog_auth_rec.geog_auth_rec_id
 		and locality.locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -136,6 +136,8 @@
          <cfset resulthtml1 = resulthtml1 & "<div class='localityExistingForm'>">
             <cfset resulthtml1 = resulthtml1 & "<form><div class='container pl-1'>">
 			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
+						<cfset resulthtml1 = resulthtml1 & "<div class='form-group'><label for='higher_geog' class='data-entry-label mb-0'>Higher Geography</label>">
+			<cfset resulthtml1 = resulthtml1 & "<input name='higher_geog' id='higher_geog' class='data-entry-input' value='#higher_geog#'></div>">
 			<cfset resulthtml1 = resulthtml1 & "<div class='form-group'><label for='spec_locality' class='data-entry-label mb-0'>Specific Locality</label>">
 			<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#spec_locality#'></div>">
 
