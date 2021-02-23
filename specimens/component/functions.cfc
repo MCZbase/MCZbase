@@ -135,19 +135,19 @@
       <cfset resulthtml1 = "<div id='localityHTML'> ">
 
       <cfloop query="theResults">
-         <cfset resulthtml = resulthtml1 & "<div class='localityExistingForm'>">
-            <cfset resulthtml = resulthtml1 & "<form><div class='container pl-1'>">
-			<cfset resulthtml = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
+         <cfset resulthtml1 = resulthtml1 & "<div class='localityExistingForm'>">
+            <cfset resulthtml1 = resulthtml1 & "<form><div class='container pl-1'>">
+			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
 		
-				<cfset resulthtml = resulthtml1 & "<input name='spec_locality' value='#spec_locality#'>">
+				<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' value='#spec_locality#'>">
 		
-			<cfset resulthtml = resulthtml1 & "</div></div></form>">
+			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
        
-            <cfset resulthtml = resulthtml1 & "</div>"> 
+            <cfset resulthtml1 = resulthtml1 & "</div>"> 
       </cfloop> <!--- theResult --->
 
    <cfcatch>
-       <cfset resulthtml = resulthtml1 & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
+       <cfset resulthtml1 = resulthtml1 & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
    </cftry>
      <cfoutput>#resulthtml1#</cfoutput>
