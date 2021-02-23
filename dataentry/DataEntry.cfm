@@ -64,7 +64,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Encumbrance</h2>
 							<h3 class="data-entry-subtitle">This is step 3</h3>
 							<div id="encumbrance">
-								<div class="row mb-2">
+								<div class="row mb-3">
 									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
