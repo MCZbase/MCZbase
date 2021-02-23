@@ -120,7 +120,7 @@ limitations under the License.
 							<div id="customCurRelations">
 								<div class="row">
 									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-									<div class="col-xl-4 px-xl-0">
+									<div class="col-xl-4 px-xl-0 pr-0">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Re-Cataloged as</option>
@@ -129,7 +129,7 @@ limitations under the License.
 											<option value="4">Duplicate Recataloged as</option>
 										</select>
 									</div>
-									<div class="col-xl-5">
+									<div class="col-xl-5 pl-0">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
 								</div>
