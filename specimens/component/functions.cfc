@@ -133,7 +133,7 @@
 					geog_auth_rec_id= <cfqueryparam value="#theResults.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfquery name="getColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select verbatim_locality from collecting_event, co where
+					select verbatim_locality from collecting_event where
 					collecting_event_id= <cfqueryparam value="#collecting_event_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 
