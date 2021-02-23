@@ -1273,7 +1273,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadLocality(#locality_id#);">Edit</button>
+						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog-locality').dialog('open'); loadLocality(#locality_id#);">Edit</button>
 						</div>
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 							<div class="card-body px-0 pb-0"> 
@@ -1393,7 +1393,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 										</div>
-									<div id="localityHTML" class="dialog" title="Edit Locality (id: #locality_id#)"></div>
+									<div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
 
 							</div>
 						</div>
