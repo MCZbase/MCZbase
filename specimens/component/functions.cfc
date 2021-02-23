@@ -132,10 +132,7 @@
 					select 1 as status, higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#theResults.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfquery name="getColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 1 as status, verbatim_locality from collecting_event where
-					collecting_event_id=<cfqueryparam value="#collecting_event_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
+		
 
 
       <cfset resulthtml1 = "<div id='localityHTML'> ">
@@ -148,14 +145,7 @@
 			<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#spec_locality#'></div>">
 			<cfset resulthtml1 = resulthtml1 & "<div class='form-row form-group'><label for='verbatim_locality' class='data-entry-label mb-0'>Verbatim Locality</label>">
 			<cfset resulthtml1 = resulthtml1 & "<input name='verbatim_locality' id='verbatim_locality' class='data-entry-input' value='#verbatim_locality#'></div></div>">
-			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'><label for='collecting_source' class='data-entry-label mb-0'>Collecting Source</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='collecting_source' class='data-entry-input' value='#collecting_source#'>">
-			<cfset resulthtml1 = resulthtml1 & "<label for='verbatim_date' class='data-entry-label mb-0'>Verbatim Date</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='verbatim_date' class='data-entry-input' value='#verbatim_date#'>">
-
-			<cfset resulthtml1 = resulthtml1 & "</div>">
-		
-			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
+		<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
        
 				<cfset resulthtml1 = resulthtml1 & "</div></div>"> 
       </cfloop> <!--- theResult --->
