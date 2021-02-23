@@ -100,25 +100,25 @@
 <cffunction name="loadLocality" returntype="query" access="remote">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		   select 1 as status, locality_id, geog_auth_rec_id, spec_locality
              from locality
              where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
-		<cfif theResult.recordcount eq 0>
-	  	  <cfset theResult=queryNew("status, message")>
+		<cfif theResults.recordcount eq 0>
+	  	  <cfset theResults=queryNew("status, message")>
 		  <cfset t = queryaddrow(theResult,1)>
 		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
 		  <cfset t = QuerySetCell(theResult, "message", "No localities found.", 1)>
 		</cfif>
 	  <cfcatch>
-	   	<cfset theResult=queryNew("status, message")>
+	   	<cfset theResults=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
 		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
 	  </cfcatch>
 	</cftry>
-	<cfreturn theResult>
+	<cfreturn theResults>
 </cffunction>
 			
 			
@@ -127,30 +127,30 @@
    <cfset r=1>
    <cfthread name="getLocalityThread">
    <cftry>
-    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select  spec_locality, geog_auth_rec_id from locality
 		where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 
       <cfset resulthtml = "<div id='localityHTML'> ">
 
-      <cfloop query="theResult">
-         <cfset resulthtml = resulthtml & "<div class='localityExistingForm'>">
-            <cfset resulthtml = resulthtml & "<form><div class='container pl-1'>">
-			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
+      <cfloop query="theResults">
+         <cfset resulthtml = resulthtml1 & "<div class='localityExistingForm'>">
+            <cfset resulthtml = resulthtml1 & "<form><div class='container pl-1'>">
+			<cfset resulthtml = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
 		
-				<cfset resulthtml = resulthtml & "<input name='spec_locality' value='#spec_locality#'>">
+				<cfset resulthtml = resulthtml1 & "<input name='spec_locality' value='#spec_locality#'>">
 		
-			<cfset resulthtml = resulthtml & "</div></div></form>">
+			<cfset resulthtml = resulthtml1 & "</div></div></form>">
        
-            <cfset resulthtml = resulthtml & "</div>"> 
+            <cfset resulthtml = resulthtml1 & "</div>"> 
       </cfloop> <!--- theResult --->
 
    <cfcatch>
-       <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
+       <cfset resulthtml = resulthtml1 & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
    </cftry>
-     <cfoutput>#resulthtml#</cfoutput>
+     <cfoutput>#resulthtml1#</cfoutput>
    </cfthread>
     <cfthread action="join" name="getIdentificationThread" />
     <cfreturn getIdentificationThread.output>
