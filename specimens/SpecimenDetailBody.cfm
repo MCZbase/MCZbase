@@ -1393,7 +1393,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 										</div>
-									<div id="localityHTML"></div>
+									<div id="localityHTML" class="dialog" title="Edit Locality (id: #locality_id#)"></div>
 
 							</div>
 						</div>
