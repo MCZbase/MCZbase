@@ -634,14 +634,14 @@ limitations under the License.
 							<label for="cat_num" class="col-sm-3 col-form-label text-center text-md-right">Catalog Number</label>
 							<div class="col-sm-9">
 								<p>
-									<input placeholder="Catalog Number" class="form-control form-control-sm validate" oninput="this.className = ''" name="cat_num">
+									<input placeholder="Catalog Number" class="data-entry-input validate" oninput="this.className = ''" name="cat_num">
 								</p>
 							</div>
 						</div>
 						<div class="form-group mb-0 row">
 							<label for="other_id" class="col-sm-3 col-form-label text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
-								<select class="custom-select form-control-sm input-xs border" oninput="this.className = ''" mt-0 required>
+								<select class="data-entry-select border" oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
 									<option value="2">Collector Number</option>
@@ -649,7 +649,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<input type="text" class="form-control form-control-sm" oninput="this.className = ''" name="other_id" placeholder="Other ID">
+								<input type="text" class="data-entry-input" oninput="this.className = ''" name="other_id" placeholder="Other ID">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -664,7 +664,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="relations" class="col-sm-3 col-form-label text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
-								<select class="custom-select border form-control form-control-sm mt-0" required>
+								<select class="data-entry-select border mt-0" required>
 									<option value="">Relationship Type</option>
 									<option value="1">Re-Cataloged as</option>
 									<option value="2">Bad Duplicate of</option>
@@ -673,7 +673,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-sm-5">
-								<input type="text" class="form-control"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
+								<input type="text" class="data-entry-input"  oninput="this.className = ''"  id="record_number" placeholder="Record Number">
 							</div>
 						</div>
 					</div>
