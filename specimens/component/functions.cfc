@@ -123,15 +123,23 @@
    <cfset r=1>
    <cfthread name="getLocalityThread">
    <cftry>
-    <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 1 as status, locality.locality_id, locality.spec_locality, collecting_event.collecting_event_id,collecting_event.verbatim_locality, collecting_event.verbatim_date,collecting_event.began_date, collecting_event.ended_date, collecting_event.collecting_source 
-		from locality, collecting_event, geog_auth_rec, cataloged_item
-		where locality.geog_auth_rec_id= geog_auth_rec.geog_auth_rec_id
-		and collecting_event.locality_id = locality.locality_id
-        and cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-        and cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		and locality.locality_id = 1086442; <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-	</cfquery>
+   <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select  spec_locality, geog_auth_rec_id from locality
+					where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select higher_geog from geog_auth_rec where
+					geog_auth_rec_id= <cfqueryparam value="#theResults.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								media_id 
+							FROM 
+								media_relations 
+							WHERE 
+								RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+								MEDIA_RELATIONSHIP like '% locality'
+				</cfquery>
 
       <cfset resulthtml1 = "<div id='localityHTML'> ">
 
