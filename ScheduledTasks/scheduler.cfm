@@ -6,22 +6,6 @@
 	<cfschedule action="delete" task="#allTasks[i].task#">
 </cfloop>
 
-<!---cfschedule action = "update"
-    task = "ocr_specimens" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc_ocr.cfm?action=getSpecs"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:31 AM"
-    interval = "daily"
-    requestTimeOut = "600">
-<cfschedule action = "update"
-    task = "ocr_crawl" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc_ocr.cfm?action=crawl"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:01 AM"
-    interval = "600"
-    requestTimeOut = "300"--->
 <!-----------------------------------   media bulkloader    ------------------------------------------>
 <!---cfschedule action = "update"
     task = "MBL_cleanup" 
@@ -150,41 +134,6 @@
     startTime = "06:00 AM"
     interval = "daily"
     requestTimeOut = "600">
-<cfschedule action = "update"
-    task = "tacc1_findAllDirectories" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc.cfm?action=findAllDirectories"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "04:30 AM"
-    interval = "daily">
-<cfschedule action = "update"
-    task = "TACC2_findFilesOnePath" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc.cfm?action=findFilesOnePath"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:17 AM"
-    interval = "7200">
-<cfschedule action = "update"
-    task = "TACC3_linkToSpecimens" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc.cfm?action=linkToSpecimens"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:27 AM"
-    interval = "3600">
-<cfschedule action = "update"
-    task = "TACC4_makeDNGMedia" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc.cfm?action=makeDNGMedia"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:37 AM"
-    interval = "3600">
-<cfschedule action = "update"
-    task = "TACC5_makeJPGMedia" 
-    operation = "HTTPRequest"
-    url = "127.0.0.1/ScheduledTasks/tacc.cfm?action=makeJPGMedia"
-    startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
-    startTime = "12:47 AM"
-    interval = "3600"--->
 	
 <!-----------------------------------   curatorial alerts    ------------------------------------------>
 <!---cfschedule action = "update"
