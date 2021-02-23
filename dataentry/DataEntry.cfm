@@ -43,7 +43,7 @@ limitations under the License.
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets the template for the rest of the fields.</small> </div>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
 							</div>
 						</div>
 					</div>
@@ -110,7 +110,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Other ID</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addOtherID btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
@@ -134,7 +134,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Curatorial Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addCurRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
@@ -158,7 +158,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addBiolRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Biological Relationship</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addBiolRelations btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1">
@@ -179,7 +179,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Agent</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAgent btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 				</div>
@@ -461,7 +461,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-primary addCoord btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Georeference</a></div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-primary addCoord btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
 				</div>
@@ -505,7 +505,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Identification</a></div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-primary addSciName btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 pb-1 px-1">
@@ -564,7 +564,7 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Part</a></div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addPart btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a></div>
 							</div>
 						</div>
 					</div>
@@ -611,7 +611,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add Attribute</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 				</div>
