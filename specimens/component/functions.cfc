@@ -32,6 +32,12 @@
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
+			
+			
+<!----------------------------------------------------------------------------------------------------------------->
+
+			
+			
 <!----------------------------------------------------------------------------------------------------------------->
 
 <cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
@@ -90,21 +96,42 @@
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
-
+<!------EXISTING----------------------------------------------------------------------------------------------------------->
+<cffunction name="loadLocality" returntype="query" access="remote">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select 1 as status, locality_id, geog_auth_rec_id, spec_locality
+             from locality
+             where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+	  	  <cfset theResult=queryNew("status, message")>
+		  <cfset t = queryaddrow(theResult,1)>
+		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No localities found.", 1)>
+		</cfif>
+	  <cfcatch>
+	   	<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
+	  </cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+			
+			
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
    <cfargument name="locality_id" type="string" required="yes">
    <cfset r=1>
    <cfthread name="getLocalityThread">
    <cftry>
     <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select  spec_locality, geog_auth_rec_id from locality
+		where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+	</cfquery>
 
-					select  spec_locality, geog_auth_rec_id from locality
-					where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-			
-
-	
-	
       <cfset resulthtml = "<div id='localityHTML'> ">
 
       <cfloop query="theResult">
