@@ -128,8 +128,8 @@
    <cfthread name="getLocalityThread">
    <cftry>
     <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select  spec_locality, geog_auth_rec_id from locality
-		where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+		select locality.spec_locality, locality.geog_auth_rec_id, collecting_event.collecting_event_id, collecting_event_id.verbatim_locality from locality, collecting_event.locality_id = locality.locality_id
+		where locality.locality.locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 
       <cfset resulthtml1 = "<div id='localityHTML'> ">
