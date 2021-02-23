@@ -754,6 +754,21 @@ a#showLeftPush.hiddenclass {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	width: 100%;
 }
+#regForm select.data-entry-select {
+	display: block;
+	height: calc(1.2em + .35rem + 2px);
+	padding: .5rem .75rem;
+	font-size: .875rem;
+	font-weight: 400;
+	line-height: 1.2rem;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	width: 100%;
+}
 /* Mark input boxes that gets an error on validation: */
 #regForm input.invalid, #regForm select.invalid {
 	background-color: #ffdddd;
