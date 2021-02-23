@@ -245,7 +245,12 @@
 						<cfset orSep = "">
 						AND (
 						<cfloop list="#keyword#" index="i" delimiters=",;: ">
-							#orSep# upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
+							<cfswitch expression="#orSep#">
+								<cfcase value="OR">OR</cfcase>
+								<cfcase value="AND">AND</cfcase>
+								<cfdefaultcase></cfdefaultcase>
+							</cfswitch>
+							upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
 							<cfif kwType is "any">
 								<cfset orSep = "OR">
 							<cfelse>
