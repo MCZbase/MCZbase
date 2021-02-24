@@ -11,8 +11,15 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
-
+ // let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
+  var tabFocus = document.querySelectorAll(".tabit"); //get all tabable elements
+    for(var i=0; i<tabFocus.length; i++) { //loop through each element
+        if(tabFocus[i].tabIndex == (curIndex+1)) { //check the tabindex to see if it's the element we want
+            tabFocus[i].focus(); //if it's the one we want, focus it and exit the loop
+            break;
+        }
+    }
+	
    tabList.addEventListener("keydown", e => {
     // Move right
     if (e.keyCode === 39 || e.keyCode === 37) {
