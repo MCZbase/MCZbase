@@ -3633,25 +3633,35 @@ limitations under the License.
 						where trans_agent_role_allowed.transaction_type = 'Loan'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<!--- TODO: Change implementation of this block to use lookup against trans_agent_role_allowed.required_to_print instead of hard coded roles  --->
-					<cfquery name="inhouse" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select trans_agent_role 
+						from trans_agent_role_allowed 
+						where transaction_type = 'Loan' and required_to_print = 1
+							and trans_agent_role not in (
+								select trans_agent_role_allowed.trans_agent_role 
+								from trans_agent_role_allowed left join trans_agent on trans_agent_role_allowed.trans_agent_role = trans_agent.trans_agent_role
+								where transaction_type = 'Loan' and required_to_print = 1
+									and trans_agent.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+								group by trans_agent_role_allowed.trans_agent_role
+								having count(trans_agent_id) >0
+							)
 					</cfquery>
-					<cfquery name="outside" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
-					</cfquery>
-					<cfquery name="authorized" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
-					</cfquery>
-					<cfquery name="recipientinstitution" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
-					</cfquery>
-					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+					<cfif requiredRoles.recordcount EQ 0  >
 						<cfset okToPrint = true>
 						<cfset okToPrintMessage = "">
 					<cfelse>
 						<cfset okToPrint = false>
-						<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+						<cfset missingRoles="">
+						<cfset sep="">
+						<cfloop query="requiredAgents">
+							<cfset missingRoles = "#missingRoles##sep#\"#requiredRoles.trans_agent_role#\"">
+							<cfset sep=" ">
+						</cfloop>
+						<cfif requiredRoles.recordcount EQ 1>
+							<cfset okToPrintMessage = 'An agent in the #missingRoles# role is required to print #transLabel# paperwork. '>
+						<cfelse>
+							<cfset okToPrintMessage = 'Agents in the #missingRoles# roles are required to print #transLabel# paperwork. '>
+						</cfif>
 					</cfif>
 				</cfcase>
 				<cfcase value="accn">
@@ -3664,6 +3674,36 @@ limitations under the License.
 						where trans_agent_role_allowed.transaction_type = 'Accn'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select trans_agent_role 
+						from trans_agent_role_allowed 
+						where transaction_type = 'Accn' and required_to_print = 1
+							and trans_agent_role not in (
+								select trans_agent_role_allowed.trans_agent_role 
+								from trans_agent_role_allowed left join trans_agent on trans_agent_role_allowed.trans_agent_role = trans_agent.trans_agent_role
+								where transaction_type = 'Accn' and required_to_print = 1
+									and trans_agent.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+								group by trans_agent_role_allowed.trans_agent_role
+								having count(trans_agent_id) >0
+							)
+					</cfquery>
+					<cfif requiredRoles.recordcount EQ 0  >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset missingRoles="">
+						<cfset sep="">
+						<cfloop query="requiredAgents">
+							<cfset missingRoles = "#missingRoles##sep#\"#requiredRoles.trans_agent_role#\"">
+							<cfset sep=" ">
+						</cfloop>
+						<cfif requiredRoles.recordcount EQ 1>
+							<cfset okToPrintMessage = 'An agent in the #missingRoles# role is required to print #transLabel# paperwork. '>
+						<cfelse>
+							<cfset okToPrintMessage = 'Agents in the #missingRoles# roles are required to print #transLabel# paperwork. '>
+						</cfif>
+					</cfif>
 					<!--- TODO: Change implementation of this block to use lookup against trans_agent_role_allowed.required_to_print instead of hard coded roles  --->
 					<cfquery name="receivedFrom" dbtype="query">
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received from'
@@ -3676,6 +3716,490 @@ limitations under the License.
 						<cfset okToPrintMessage = 'An agent in the "recieved from" role is required to print accession paperwork. '>
 					</cfif>
 				</cfcase>
+				<cfcase value="deaccession">
+					<cfset transLabel = 'Deaccession'>
+					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(cttrans_agent_role.trans_agent_role) 
+						from cttrans_agent_role  
+							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+						where trans_agent_role_allowed.transaction_type = 'Deaccn'
+						order by cttrans_agent_role.trans_agent_role
+					</cfquery>
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select trans_agent_role 
+						from trans_agent_role_allowed 
+						where transaction_type = 'Deaccn' and required_to_print = 1
+							and trans_agent_role not in (
+								select trans_agent_role_allowed.trans_agent_role 
+								from trans_agent_role_allowed left join trans_agent on trans_agent_role_allowed.trans_agent_role = trans_agent.trans_agent_role
+								where transaction_type = 'Deaccn' and required_to_print = 1
+									and trans_agent.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+								group by trans_agent_role_allowed.trans_agent_role
+								having count(trans_agent_id) >0
+							)
+					</cfquery>
+					<cfif requiredRoles.recordcount EQ 0  >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset missingRoles="">
+						<cfset sep="">
+						<cfloop query="requiredAgents">
+							<cfset missingRoles = "#missingRoles##sep#\"#requiredRoles.trans_agent_role#\"">
+							<cfset sep=" ">
+						</cfloop>
+						<cfif requiredRoles.recordcount EQ 1>
+							<cfset okToPrintMessage = 'An agent in the #missingRoles# role is required to print #transLabel# paperwork. '>
+						<cfelse>
+							<cfset okToPrintMessage = 'Agents in the #missingRoles# roles are required to print #transLabel# paperwork. '>
+						</cfif>
+					</cfif>
+				</cfcase>
+				<cfcase value="accn">
+					<cfset transLabel = 'Accession'>
+					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(cttrans_agent_role.trans_agent_role) 
+						from cttrans_agent_role  
+							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+						where trans_agent_role_allowed.transaction_type = 'Accn'
+						order by cttrans_agent_role.trans_agent_role
+					</cfquery>
+					<cfquery name="requiredRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select trans_agent_role 
+						from trans_agent_role_allowed 
+						where transaction_type = 'Borrow' and required_to_print = 1
+							and trans_agent_role not in (
+								select trans_agent_role_allowed.trans_agent_role 
+								from trans_agent_role_allowed left join trans_agent on trans_agent_role_allowed.trans_agent_role = trans_agent.trans_agent_role
+								where transaction_type = 'Borrow' and required_to_print = 1
+									and trans_agent.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+								group by trans_agent_role_allowed.trans_agent_role
+								having count(trans_agent_id) >0
+							)
+					</cfquery>
+					<cfif requiredRoles.recordcount EQ 0  >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset missingRoles="">
+						<cfset sep="">
+						<cfloop query="requiredAgents">
+							<cfset missingRoles = "#missingRoles##sep#\"#requiredRoles.trans_agent_role#\"">
+							<cfset sep=" ">
+						</cfloop>
+						<cfif requiredRoles.recordcount EQ 1>
+							<cfset okToPrintMessage = 'An agent in the #missingRoles# role is required to print #transLabel# paperwork. '>
+						<cfelse>
+							<cfset okToPrintMessage = 'Agents in the #missingRoles# roles are required to print #transLabel# paperwork. '>
+						</cfif>
+					</cfif>
+				</cfcase>
+				<cfdefaultcase>
+					<cfthrow message="unknown transaction type [#transaction#]">
+					<!--- former code  
+					<cfset transLabel = transaction>
+					<!--- Obtain list of transaction agent roles --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by'
+					</cfquery>
+					<cfset okToPrint = false>
+					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
+					--->
+				</cfdefaultcase>
+			</cfswitch>
+			<cfoutput>
+				<section id="transactionAgentsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+					<div class="row my-1 bg-grayish pb-1 border rounded">
+						<div class="w-100 text-center m-0 p-0" tabindex="0">
+							<cfif okToPrint >
+								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
+							<cfelse>
+								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
+							</cfif>
+						</div>
+						<div class="col-12 mt-0" id="transactionAgentsTable">
+							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#','#transaction#'); handleChange();" class="col-5"> Add Agent</button>		
+		
+							</h2>		  
+							<cfset i=1>
+							<cfloop query="transAgents">
+								<cfset rowstyle = "list-odd">
+								<cfif (i MOD 2) EQ 0> 
+									<cfset rowstyle = "list-even">
+								</cfif>
+								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
+									<div class="col-12 col-md-4">
+										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
+										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+											});
+										</script>
+									</div>							
+									<div class="col-12 col-md-1">
+										<label class="data-entry-label"> 						
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+												<cfif transAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif transAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</label>
+									</div>
+									<div class="col-12 col-md-4">
+										<select name="trans_agent_role_#i#" aria-label="role of this agent in this #transLabel#" id="trans_agent_role_#i#" class="data-entry-select">
+											<cfloop query="cttrans_agent_role">
+												<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+													<cfset sel = 'selected="selected"'>
+												<cfelse>
+													<cfset sel = ''>
+												</cfif>
+												<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<button type="button" 
+											class="btn btn-xs btn-warning float-left mr-2" 
+											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
+											>Remove</button>
+										<button type="button" 
+											class="btn btn-xs btn-secondary float-left" 
+											onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');"
+											>Clone</button>
+									</div>
+									<cfset i=i+1>	
+								</div>
+							</cfloop>
+							<cfset na=i-1>
+							<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+					</div>
+				</section>
+				<script>
+					function cloneAgentOnTrans(agent_id,agent_name,current_role) { 
+						// add trans_agent record
+						addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#','#transaction#');
+						// trigger save needed
+						handleChange();
+					}
+				</script>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getAgentHtmlThread.output>
+</cffunction>
+
+<!------------------------------------->
+<!--- 
+  * method addSubLoanToLoan given two transaction ids add one transaction as the subloan of another. 
+  * @param transaction_id the parent transaction
+  * @param subloan_transaction_id the child transaction
+--->
+<cffunction name="addSubLoanToLoan" access="remote">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into loan_relations 
+				(transaction_id, related_transaction_id, relation_type)
+			values (
+				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				'Subloan'
+			)
+		</cfquery>
+		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select l.loan_number, l.transaction_id 
+			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			order by l.loan_number
+		</cfquery>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn childLoans>
+</cffunction>
+
+<!--- 
+  * method removeTransAgent given a trans_agent_id remove a trans_agent record linking
+  *  a transaction to an agent in a role in that transaction.
+  * @param trans_agent_id the trans_agent row to remove.
+--->
+<cffunction name="removeTransAgent" access="remote">
+	<cfargument name="trans_agent_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from trans_agent 
+			where trans_agent_id = <cfqueryparam value = "#trans_agent_id#" CFSQLType="CF_SQL_DECIMAL"> 
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #trans_agent_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount GT 1>
+			<cfthrow message="More than one (#deleteResult.recordcount#) deleted.">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				<cfdefaultcase>
+					<cfset transLabel = transaction>
+					<!--- Obtain list of transaction agent roles --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by'
+					</cfquery>
+					<cfset okToPrint = false>
+					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
+				</cfdefaultcase>
+			</cfswitch>
+			<!--- TODO: Implement ok to print checks for other transaction types --->
+			<cfoutput>
+				<section id="transactionAgentsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+					<div class="row my-1 bg-grayish pb-1 border rounded">
+						<div class="w-100 text-center m-0 p-0" tabindex="0">
+							<cfif okToPrint >
+								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
+							<cfelse>
+								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
+							</cfif>
+						</div>
+						<div class="col-12 mt-0" id="transactionAgentsTable">
+							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#','#transaction#'); handleChange();" class="col-5"> Add Agent</button>		
+		
+							</h2>		  
+							<cfset i=1>
+							<cfloop query="transAgents">
+								<cfset rowstyle = "list-odd">
+								<cfif (i MOD 2) EQ 0> 
+									<cfset rowstyle = "list-even">
+								</cfif>
+								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
+									<div class="col-12 col-md-4">
+										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
+										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+											});
+										</script>
+									</div>							
+									<div class="col-12 col-md-1">
+										<label class="data-entry-label"> 						
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+												<cfif transAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif transAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</label>
+									</div>
+									<div class="col-12 col-md-4">
+										<select name="trans_agent_role_#i#" aria-label="role of this agent in this #transLabel#" id="trans_agent_role_#i#" class="data-entry-select">
+											<cfloop query="cttrans_agent_role">
+												<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+													<cfset sel = 'selected="selected"'>
+												<cfelse>
+													<cfset sel = ''>
+												</cfif>
+												<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<button type="button" 
+											class="btn btn-xs btn-warning float-left mr-2" 
+											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
+											>Remove</button>
+										<button type="button" 
+											class="btn btn-xs btn-secondary float-left" 
+											onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');"
+											>Clone</button>
+									</div>
+									<cfset i=i+1>	
+								</div>
+							</cfloop>
+							<cfset na=i-1>
+							<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+					</div>
+				</section>
+				<script>
+					function cloneAgentOnTrans(agent_id,agent_name,current_role) { 
+						// add trans_agent record
+						addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#','#transaction#');
+						// trigger save needed
+						handleChange();
+					}
+				</script>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getAgentHtmlThread.output>
+</cffunction>
+
+<!------------------------------------->
+<!--- 
+  * method addSubLoanToLoan given two transaction ids add one transaction as the subloan of another. 
+  * @param transaction_id the parent transaction
+  * @param subloan_transaction_id the child transaction
+--->
+<cffunction name="addSubLoanToLoan" access="remote">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into loan_relations 
+				(transaction_id, related_transaction_id, relation_type)
+			values (
+				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				'Subloan'
+			)
+		</cfquery>
+		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select l.loan_number, l.transaction_id 
+			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			order by l.loan_number
+		</cfquery>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn childLoans>
+</cffunction>
+
+<!--- 
+  * method removeTransAgent given a trans_agent_id remove a trans_agent record linking
+  *  a transaction to an agent in a role in that transaction.
+  * @param trans_agent_id the trans_agent row to remove.
+--->
+<cffunction name="removeTransAgent" access="remote">
+	<cfargument name="trans_agent_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from trans_agent 
+			where trans_agent_id = <cfqueryparam value = "#trans_agent_id#" CFSQLType="CF_SQL_DECIMAL"> 
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #trans_agent_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount GT 1>
+			<cfthrow message="More than one (#deleteResult.recordcount#) deleted.">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 				<cfdefaultcase>
 					<cfset transLabel = transaction>
 					<!--- Obtain list of transaction agent roles --->
