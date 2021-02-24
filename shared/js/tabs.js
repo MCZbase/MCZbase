@@ -12,7 +12,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Enable arrow navigation between tabs in the tab list
   let tabFocus = 0;
-  let tabLength = 5;
 
    tabList.addEventListener("keydown", e => {
     // Move right
@@ -21,21 +20,20 @@ window.addEventListener("DOMContentLoaded", () => {
       if (e.keyCode === 39) {
         tabFocus++;
         // If we're at the end, go to the start
-        if (tabFocus >= tabLength) {
-          tabFocus = 0; 
+        if (tabFocus >= tabs.length) {
+          tabFocus = 0;
         }
         // Move left
       } else if (e.keyCode === 37) {
         tabFocus--;
         // If we're at the start, move to the end
         if (tabFocus < 0) {
-          tabFocus = tabLength - 1;
+          tabFocus = tabs.length - 1;
         }
       }
 
       tabs[tabFocus].setAttribute("tabindex", 0);
       tabs[tabFocus].focus();
-
     }
   });
 });
