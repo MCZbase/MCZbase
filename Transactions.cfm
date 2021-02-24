@@ -2864,6 +2864,9 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
