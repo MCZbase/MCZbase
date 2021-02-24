@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = 3;
+  let tabFocus = 1;
 
    tabList.addEventListener("keydown", e => {
     // Move right
