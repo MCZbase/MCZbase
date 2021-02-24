@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = document.querySelector('[tabindex="0"]');
+  let tabFocus = 0; //Zero is a problem when any page other than "all transactions" is selected.
 
    tabList.addEventListener("keydown", e => {
     // Move right
