@@ -4,7 +4,6 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-  const tabActive = document.querySelector('[tabindex="0"]').focus;
 
   // Add a click event handler to each tab
   tabs.forEach(tab => {
@@ -12,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = tabActive;
+  let tabFocus = document.querySelector('[tabindex="0"]');
 
    tabList.addEventListener("keydown", e => {
     // Move right
