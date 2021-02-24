@@ -4,7 +4,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-  const tabActive = document.getElementsByTagName("button").getAttribute('[aria-selected="true"]').focus();
+  const tabActive = document.querySelector('[aria-selected="true"]');
 
   // Add a click event handler to each tab
   tabs.forEach(tab => {
