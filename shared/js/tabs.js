@@ -1,42 +1,61 @@
 // For accessibility of tabs //
 // from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role#example 
 //
-window.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll('[role="tab"]');
-  const tabList = document.querySelector('[role="tablist"]');
+$(function(){
+  var index = 0;
+  var $tabs = $('button[role="tab"]');
 
-  // Add a click event handler to each tab
-  tabs.forEach(tab => {
-    tab.addEventListener("click", changeTabs);
-  });
+  $tabs.bind(
+  {
+    // on keydown,
+    // determine which tab to select
+    keydown: function(ev){
+      var LEFT_ARROW = 37;
+      var UP_ARROW = 38;
+      var RIGHT_ARROW = 39;
+      var DOWN_ARROW = 40;
 
-  // Enable arrow navigation between tabs in the tab list
-  let tabFocus = 0; //Zero is a problem when any page other than "all transactions" is selected.
+      var k = ev.which || ev.keyCode;
 
-   tabList.addEventListener("keydown", e => {
-    // Move right
-    if (e.keyCode === 39 || e.keyCode === 37) {
-      tabs[tabFocus].setAttribute("tabindex", -1);
-      if (e.keyCode === 39) {
-        tabFocus++;
-        // If we're at the end, go to the start
-        if (tabFocus >= tabs.length) {
-          tabFocus = 0;
+      // if the key pressed was an arrow key
+      if (k >= LEFT_ARROW && k <= DOWN_ARROW){
+        // move left one tab for left and up arrows
+        if (k == LEFT_ARROW || k == UP_ARROW){
+          if (index > 0) {
+            index--;
+          }
+          // unless you are on the first tab,
+          // in which case select the last tab.
+          else {
+            index = $tabs.length - 1;
+          }
         }
-        // Move left
-      } else if (e.keyCode === 37) {
-        tabFocus--;
-        // If we're at the start, move to the end
-        if (tabFocus < 0) {
-          tabFocus = tabs.length - 1;
+
+        // move right one tab for right and down arrows
+        else if (k == RIGHT_ARROW || k == DOWN_ARROW){
+          if (index < ($tabs.length - 1)){
+            index++;
+          }
+          // unless you're at the last tab,
+          // in which case select the first one
+          else {
+            index = 0;
+          }
         }
+
+        // trigger a click event on the tab to move to
+        $($tabs.get(index)).click();
+        ev.preventDefault();
       }
+    },
 
-      tabs[tabFocus].setAttribute("tabindex", 0);
-      tabs[tabFocus].focus();
+    // just make the clicked tab the selected one
+    click: function(ev){
+      index = $.inArray(this, $tabs.get());
+      setFocus();
+      ev.preventDefault();
     }
   });
-});
 
 function changeTabs(e) {
   const target = e.target;
