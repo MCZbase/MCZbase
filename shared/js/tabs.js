@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = $(.tabs).querySelector('["aria-selected", true]');
+  let tabFocus = 0;
   let tabLength = 5;
 
    tabList.addEventListener("keydown", e => {
@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
         tabFocus++;
         // If we're at the end, go to the start
         if (tabFocus >= tabLength) {
-          tabFocus = 0; //if tabFocus is 0 (All tab), how do I change it to show where the current focus is.
+          tabFocus = 0; 
         }
         // Move left
       } else if (e.keyCode === 37) {
