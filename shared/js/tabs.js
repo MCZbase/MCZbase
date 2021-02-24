@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = $(button).attr("tabindex",0);
+  let tabFocus = $(.tabs).querySelector('["aria-selected", true]');
   let tabLength = 5;
 
    tabList.addEventListener("keydown", e => {
