@@ -2681,9 +2681,6 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-			ready: function () {
-				$("##searchResultsGrid").jqxGrid('selectrow', 0);
-			},
 			columns: [
 				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 120},
