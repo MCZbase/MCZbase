@@ -2864,6 +2864,9 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
 				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
@@ -3021,6 +3024,9 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: true },
 				{text: 'Accession', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
@@ -3181,6 +3187,9 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Deacc Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
 				{text: 'Deaccession', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
@@ -3369,6 +3378,9 @@ $(document).ready(function() {
 			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Borrow Number', datafield: 'borrow_number', width: 120, hideable: true, hidden: true },
 				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
