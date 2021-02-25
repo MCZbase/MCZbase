@@ -18,10 +18,10 @@
 							</figure>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 mx-4 float-left mt-5">
+					<div class="col-12 col-md-6 px-0 mx-5 float-left mt-5">
 						<h2 class="h1" style="border-top: 8px solid ##325293">Related Information</h2>
 						<hr>
-						<div class="float-left col-12 col-md-6">
+						<div class="float-left col-12 col-md-6 px-0">
 						<h3>Localities</h3>
 						<p>Higher Geographies Visited</p>
 						<figure>
@@ -36,7 +36,7 @@
 							<figcaption>Maps and location images</figcaption>
 						</figure>
 						</div>
-						<div class="float-left col-12 col-md-6">
+						<div class="float-left col-12 col-md-6 px-0">
 				
 						<h3>Collectors and other agents</h3>
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
