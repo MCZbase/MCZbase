@@ -1805,14 +1805,6 @@ limitations under the License.
 				<h2>Create New Permissions &amp; Rights Document</h2>
 				<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
 				material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
-				<form action="/transactions/Loan.cfm">
-
-  <label for="text">Text:</label>
-  <div class="grow-wrap">
-    <textarea name="text" id="text" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
-  </div>
-
-</form>
 				<form id='newPermitForm' onsubmit='addnewpermit'>
 					<input type='hidden' name='method' value='createNewPermitForTrans'>
 					<input type='hidden' name='returnformat' value='plain'>
@@ -1936,7 +1928,7 @@ limitations under the License.
 					
 							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
 							<div class="grow-wrap">
-							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value" style="height:auto!important;"></textarea>
 									</div>
 						</div>
 					</div>
