@@ -2,10 +2,12 @@
 <cfinclude template="/shared/_header.cfm">
 <cfset collection_object_id = "5243961">
 <cfif isdefined("collection_object_id")>
+<cfquery name="named_group">
 select collection_name 
 from underscore_collection, underscore_relation 
 where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
 and underscore_relation.collection_object_id = 5243961
+	</cfquery>
 </cfif>
 
  
