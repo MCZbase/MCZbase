@@ -3653,7 +3653,7 @@ limitations under the License.
 						<cfset okToPrint = false>
 						<cfset missingRoles="">
 						<cfset sep="">
-						<cfloop query="requiredAgents">
+						<cfloop query="requiredRoles">
 							<cfset missingRoles = "#missingRoles##sep#'<i>#requiredRoles.trans_agent_role#</i>'">
 							<cfset sep=" ">
 						</cfloop>
@@ -3694,7 +3694,7 @@ limitations under the License.
 						<cfset okToPrint = false>
 						<cfset missingRoles="">
 						<cfset sep="">
-						<cfloop query="requiredAgents">
+						<cfloop query="requiredRoles">
 							<cfset missingRoles = "#missingRoles##sep#'<i>#requiredRoles.trans_agent_role#</i>'">
 							<cfset sep=" ">
 						</cfloop>
@@ -3735,7 +3735,7 @@ limitations under the License.
 						<cfset okToPrint = false>
 						<cfset missingRoles="">
 						<cfset sep="">
-						<cfloop query="requiredAgents">
+						<cfloop query="requiredRoles">
 							<cfset missingRoles = "#missingRoles##sep#'<i>#requiredRoles.trans_agent_role#</i>'">
 							<cfset sep=" ">
 						</cfloop>
@@ -3776,7 +3776,7 @@ limitations under the License.
 						<cfset okToPrint = false>
 						<cfset missingRoles="">
 						<cfset sep="">
-						<cfloop query="requiredAgents">
+						<cfloop query="requiredRoles">
 							<cfset missingRoles = "#missingRoles##sep#'<i>#requiredRoles.trans_agent_role#</i>'">
 							<cfset sep=" ">
 						</cfloop>
