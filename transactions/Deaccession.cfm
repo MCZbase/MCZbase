@@ -600,7 +600,8 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label for="method" class="data-entry-label">Method of Transfer</label>
-								<input type="text" name="method" id="value" 
+								<!--- needs to submit as methodoftransfer to disambiguate from cfcomponent method in post --->
+								<input type="text" name="methodoftransfer" id="method" 
 									value="#encodeForHTML(deaccessionDetails.method)#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
