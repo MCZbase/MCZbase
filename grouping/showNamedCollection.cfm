@@ -14,7 +14,7 @@
 						<hr>
 						<div class="bg-white p-2 border border-dark">
 							<figure> <img src="../images/D_arenaria.jpg" class="p-2 w-100 border"/>
-								<figcaption>Featured Image for the Hassler Expedition</figcaption>
+								<figcaption class="pt-2">Featured Image for the Hassler Expedition</figcaption>
 							</figure>
 						</div>
 					</div>
