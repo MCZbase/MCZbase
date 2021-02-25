@@ -39,7 +39,7 @@
 							<h3>Links to Journals, Collector's Notes, Ledgers</h3>
 						<p>Library scans of written material</p>
 						<figure>
-							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
+							<img src="/images/library_screenshot.png" class="p-2 w-100 border"/>
 							<div class="col-12 row mx-0 px-0 border">
 								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 3.4rem;"></i>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
