@@ -349,6 +349,8 @@ and underscore_relation.collection_object_id = 5243961
 			<input type="hidden" name="Srch" value="Part">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 		</cfif>
+			
+			#one.collecting_event_id#
 		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
@@ -369,6 +371,7 @@ and underscore_relation.collection_object_id = 5243961
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
+			#media.media_id#
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
