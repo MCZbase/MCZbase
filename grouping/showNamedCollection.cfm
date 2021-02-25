@@ -28,9 +28,9 @@
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
 							<div class="col-12 row mx-0 px-0 border">
 								<i class="fas fa-angle-left float-left" style="width: 15px;"></i>
-								<img src="/images/Hassler_expedition_route.png" class="px-1 py-2 col-4 "/>
-								<img src="/images/dredging_stations.png" class="px-1 py-2 col-4"/>
-								<img src="/images/Hassler_expedition_route.png" class="px-1 py-2 col-4"/>
+								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3 "/>
+								<img src="/images/dredging_stations.png" class="px-2 py-2 col-3"/>
+								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3"/>
 							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 4rem;"></i>
 							</div>
 							<figcaption>Maps and location images</figcaption>
