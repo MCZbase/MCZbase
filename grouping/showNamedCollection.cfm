@@ -24,11 +24,11 @@
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
 								<figcaption>Hassler Expedition Route</figcaption>
 							<div class="col-12 row mx-0 px-0 border">
-								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 1rem;"></i>
+								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 40%;"></i>
 								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3 "/>
 								<img src="/images/dredging_stations.png" class="px-2 py-2 col-3"/>
 								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3"/>
-							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 1rem;"></i>
+							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 40%;"></i>
 							</div>
 						
 						</figure>
@@ -40,28 +40,28 @@
 							<img src="/images/library_screenshot.png" class="p-2 w-100 border"/>
 									<figcaption>Ledger Scan</figcaption>
 							<div class="col-12 row mx-0 border">
-								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 1rem;"></i>
+								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 40%;"></i>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
-							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 1rem;"></i>
+							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 40%;"></i>
 							</div>
 					
 						</figure>
 						
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 border">
 						<h3>Collectors and other agents</h3>
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 						<figure>
-							<img src="/images/student_images.png" class="p-2 w-100 border"/>
+							<img src="/images/student_images.png" class="p-2 w-100"/>
 								<figcaption>Students of the MCZ Expedition</figcaption>
-							<div class="col-12 row mx-0 border">
-								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 1rem;"></i>
+							<div class="col-12 row mx-0">
+								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 40%;"></i>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
-							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 1rem;"></i>
+							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 40%;"></i>
 							</div>
 						
 						</figure>
