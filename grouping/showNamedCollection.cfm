@@ -19,7 +19,7 @@
 						</div>
 					</div>
 					<div class="col-12 col-md-7 float-left">
-						<h2 class="h1">Related Information</h2>
+						<h2 class="h1" style="border-top: 8px solid #325293">Related Information</h2>
 						<hr>
 						<div class="float-left col-12 col-md-6">
 						<h3>Localities</h3>
@@ -32,7 +32,7 @@
 						<div class="float-left col-12 col-md-6">
 				
 						<h3>Collectors and other agents</h3>
-						<p>James Henry Blake, Louis Agassiz, Franz Steindachner</p>
+						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 						<figure>
 							<img src="/images/student_images.png" class="p-2 w-100 border"/>
 							<figcaption>Students of the MCZ Expedition</figcaption>
