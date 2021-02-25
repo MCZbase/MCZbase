@@ -537,11 +537,13 @@ limitations under the License.
 					specimen_part.collection_object_id as part_colobjid,
 					fl.guid,
 					mczbase.get_part_prep(specimen_part.collection_object_id) as part,
-					coll_object.coll_obj_disposition
+					coll_object.coll_obj_disposition,
+					deacc_item.transaction_id as in_trans_id
 				from
 					<cfif #session.flatTableName# EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> fl
 					left join specimen_part on fl.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+					left join deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 				where 
 					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
 					and specimen_part.collection_object_id is not null
@@ -554,6 +556,9 @@ limitations under the License.
 				<cfloop query=find>
 					<cfif coll_obj_disposition EQ 'on loan'>
 						<cfthrow message="Unable to add items.  #guid# #part# has a disposition of 'on loan' and cannot be deaccessioned until this disposition is changed.">
+					</cfif>
+					<cfif len(in_trans_id) GT 0 >
+						<cfthrow message="Unable to add items.  #guid# #part# is already in a deaccession and cannot be added to this deaccession.">
 					</cfif>
 					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 						insert into deacc_item
