@@ -571,7 +571,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_colobjid#">,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reconAgentId.agent_id#">,
 							sysdate,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid# #part#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid# #part#">
 							<cfif isDefined("deacc_items_remarks")>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_items_remarks#">
 							</cfif>		
