@@ -26,10 +26,10 @@
 						<p>Higher Geographies Visited</p>
 						<figure>
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
-							<div class="col-12 form-row mx-0">
-								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4 border"/>
-								<img src="/images/dredging_stations.png" class="p-2 col-4 border"/>
-								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4 border"/></div>
+							<div class="col-12 form-row mx-0 border">
+								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4 "/>
+								<img src="/images/dredging_stations.png" class="p-2 col-4"/>
+								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4"/></div>
 							<figcaption>Maps and location images</figcaption>
 						</figure>
 						</div>
