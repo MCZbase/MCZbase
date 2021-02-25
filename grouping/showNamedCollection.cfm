@@ -18,7 +18,7 @@
 							</figure>
 						</div>
 					</div>
-					<div class="col-12 col-md-7 float-left mt-5">
+					<div class="col-12 col-md-6 mx-4 float-left mt-5">
 						<h2 class="h1" style="border-top: 8px solid ##325293">Related Information</h2>
 						<hr>
 						<div class="float-left col-12 col-md-6">
