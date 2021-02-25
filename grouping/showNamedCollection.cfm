@@ -1,17 +1,7 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template="/shared/_header.cfm">
 <cfset collection_object_id = "5243961">
-	<cfoutput>
-
 <cfoutput>
-	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-		<div class="error"> Improper call. Aborting..... </div>
-		<cfabort>
-	</cfif>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-	</cfif>
-</cfoutput> 
 <main class="container py-3">
 <cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select underscore_collection.collection_name, underscore_relation.collection_object_id
@@ -215,7 +205,6 @@ and underscore_relation.collection_object_id = 5243961
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked. 
-	<!---- TODO: This should return the correct HTTP response (403), not a 400 ---->
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
@@ -522,8 +511,10 @@ and underscore_relation.collection_object_id = 5243961
 								</cfquery>
 								</div>
 							</cfif>
-							<cfif oneOfUs is 1>
-							</cfif>
+
+												
+												
+												
 						</div>
 					</div>
 				</div>
