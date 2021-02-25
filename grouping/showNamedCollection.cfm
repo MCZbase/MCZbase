@@ -1,3 +1,4 @@
+<cfset collection_object_id = "5243961">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
