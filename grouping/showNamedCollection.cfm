@@ -12,7 +12,7 @@ and underscore_relation.collection_object_id = 5243961
 
  
 <main class="container py-3">
-	<h1>#named_group.collection_object_id#</h1>
+	<h1>#named_group.collection_name#</h1>
 
 
 </main><!--- class="container" --->
