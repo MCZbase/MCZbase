@@ -194,8 +194,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="auth_agent" class="data-entry-label">In-house authorized by:</label>
-									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="auth_agent" class="data-entry-label">
+										In-house authorized by:
+										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -210,8 +212,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
-									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="rec_agent_name" class="data-entry-label">
+										Received By:
+										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -228,8 +232,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="inhouse_contact_agent_name" class="data-entry-label">In-House Contact:</label>
-									<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="inhouse_contact_agent_name" class="data-entry-label">
+										In-House Contact:
+										<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -244,8 +250,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="additional_outcontact_agent_name" class="data-entry-label">Additional Outside Contact:</label>
-									<span id="additional_outcontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="additional_outcontact_agent_name" class="data-entry-label">
+										Additional Outside Contact:
+										<span id="additional_outcontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -262,8 +270,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="recipient_institution_agent_name" class="data-entry-label">Recipent Institution</label>
-									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="recipient_institution_agent_name" class="data-entry-label">
+										Recipent Institution
+										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -278,8 +288,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
-									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="foruseby_agent_name" class="data-entry-label">
+										For Use By:
+										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -315,7 +327,7 @@ limitations under the License.
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									class="reqdClr data-entry-textarea autogrow" 
 									required ></textarea>
 							</div>
 						</div>
@@ -324,7 +336,7 @@ limitations under the License.
 								<label for="deacc_reason" class="data-entry-label">Reason for Deaccession (<span id="length_deacc_reason"></span>)</label>
 								<textarea name="deacc_reason" id="deacc_reason" rows="2" 
 									onkeyup="countCharsLeft('deacc_reason', 4000, 'length_deacc_reason');"
-									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									class="reqdClr data-entry-textarea autogrow" 
 									required ></textarea>
 							</div>
 						</div>
@@ -333,7 +345,8 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+									class="data-entry-textarea autogrow" 
+									rows="2"></textarea>
 							</div>
 						</div>
 						<script>
