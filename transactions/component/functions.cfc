@@ -1925,16 +1925,18 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12">
-						
+						<div class="grow-wrap">
 							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
 							<textarea cols='80' rows='2' name='benefits_summary' id="npf_benefits_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value"  style="height:auto!important;"></textarea>
-							
+							</div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12">
+							<div class="grow-wrap">
 							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
 							<textarea cols='80' rows='2' name='benefits_provided' id="npf_benefits_provided" onInput="this.parentNode.dataset.replicatedValue = this.value" class="form-control" style="height:auto!important;"></textarea>
+							</div>
 						</div>
 					</div>
 					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
