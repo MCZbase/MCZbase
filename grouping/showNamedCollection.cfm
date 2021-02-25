@@ -371,7 +371,7 @@ and underscore_relation.collection_object_id = 5243961
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
-			#media.media_id#
+			#mediaS2.media_id#
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
