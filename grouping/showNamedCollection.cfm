@@ -8,8 +8,7 @@
 	
 	<div class="row">
 	 	<div class="col-12">
-			Issue 32 Named Group public page design
-			<h1>#namedGroup.collection_name#</h1>
+
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -200,7 +199,6 @@
 		accn.transaction_id = trans.transaction_id(+) AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-				
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked. 
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
@@ -370,6 +368,13 @@
 				order by media.media_type
 			</cfquery>
 			<p>	Media ID = #mediaS2.media_id#</p>
+						<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select underscore_collection.collection_name, underscore_relation.collection_object_id
+from underscore_collection, underscore_relation 
+where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
+and underscore_relation.collection_object_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+</cfquery>
+			<h1>#namedGroup.collection_name#</h1>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
