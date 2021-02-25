@@ -1939,13 +1939,13 @@ limitations under the License.
 						</div>
 					</div>
 					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
-//					<script language='javascript' type='text/javascript'>
+				<script language='javascript' type='text/javascript'>
 //						$("textarea.autogrow").keyup(autogrow);
 //						function addnewpermit(event) { 
 //							event.preventDefault();
 //							return false; 
 //						};
-//					</script>
+			</script>
 				</form> 
 				<div id='permitAddResults'></div>
 			</cfoutput>
