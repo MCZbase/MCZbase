@@ -1,6 +1,6 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template = "/shared/_header.cfm">
-	<cfif isdefined("collection_id") and len(collection_id) gt 0>
+
 			<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					collection_name 
