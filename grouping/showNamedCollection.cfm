@@ -54,7 +54,7 @@
 
 </cfoutput> 
 <main class="container py-3">
-	<h1><cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>#collection_object_id#<cfelse>#pageTitle#</cfif></h1>
+	<h1>#collection_object_id#</h1>
 
 
 </main><!--- class="container" --->
