@@ -10,10 +10,9 @@ and underscore_relation.collection_object_id = 5243961
 	</cfquery>
 </cfif>
 
- 
+<cfoutput>
 <main class="container py-3">
 	<h1>#collection_name#</h1>
-
-
 </main><!--- class="container" --->
+</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
