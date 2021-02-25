@@ -6,15 +6,17 @@
 		<div class="row">
 			<article>
 				<div class="col-12">
-					<h1>Hassler Expedition</h1>
-					<hr>
-					<p>Description</p>
-					<hr>
-					<div class="bg-white border border-dark">
-						<caption>
-						<figure> <img src="../images/D_arenaria.jpg" class="p-2 border"/>
-							<figcaption>Featured Image for the Hassler Expedition</figcaption>
-						</figure>
+					<div class="col-7">
+						<h1>Hassler Expedition</h1>
+						<hr>
+						<p>Description</p>
+						<hr>
+						<div class="bg-white border border-dark">
+							<caption>
+							<figure> <img src="../images/D_arenaria.jpg" class="p-2 w-100 border"/>
+								<figcaption>Featured Image for the Hassler Expedition</figcaption>
+							</figure>
+						</div>
 					</div>
 				</div>
 			</article>
