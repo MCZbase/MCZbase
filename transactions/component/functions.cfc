@@ -1934,7 +1934,7 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
-							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" onInput="this.parentNode.dataset.replicatedValue = this.value"  class="form-control"></textarea>
+							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" onInput="this.parentNode.dataset.replicatedValue = this.value" class="form-control" style="height:auto!important;"></textarea>
 						</div>
 					</div>
 					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
