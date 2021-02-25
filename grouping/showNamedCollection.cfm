@@ -13,7 +13,7 @@
 						<p>Information used in researching the Hassler Expedition, December 4, 1871 - October 1872. Louis Agassiz, Franz Steindachner (ichthyologist), LF dePourtales and others - Left Boston 4 Dec 1871, traveled through the Straits of Magellan on to San Francisco California, arrived in San Francisco 31 August 1872. They then traveled back to Cambridge cross land arriving by October 1872. While in the Straits of Magellan, the dredging gear broke. Most specimens had a collection date of 1872 following the break. The journal of James Henry Blake, student of Louis Agassiz and an artist, provided much information for the collections.</p>
 						<hr>
 						<div class="bg-white p-2 border border-dark">
-							<figure> <img src="/images/media_feature_grouping.png" class="p-2 w-100 border"/>
+							<figure> <img src="/images/carousel_example.png" class="p-2 w-100 border"/>
 								<figcaption class="pt-2">Featured Image for the Hassler Expedition</figcaption>
 							</figure>
 						</div>
