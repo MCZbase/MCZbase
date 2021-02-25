@@ -13,7 +13,7 @@
 						<p>Description</p>
 						<hr>
 						<div class="bg-white p-2 border border-dark">
-							<figure> <img src="../images/D_arenaria.jpg" class="p-2 w-100 border"/>
+							<figure> <img src="/images/media_feature_grouping.png" class="p-2 w-100 border"/>
 								<figcaption class="pt-2">Featured Image for the Hassler Expedition</figcaption>
 							</figure>
 						</div>
@@ -24,14 +24,14 @@
 						<h3>Localities</h3>
 						<p>Higher Geographies Visited</p>
 						<figure>
-							<img src="https://iiif.lib.harvard.edu/manifests/view/drs:11882758$1i" class="p-2 w-100 border"/>
+							<img src="http://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00014536_Tachypeza_rostrata_hal.jpg" class="p-2 w-100 border"/>
 							<figcaption>Maps and location images</figcaption>
 						</figure>
 						<hr>
 						<h3>Collectors and other agents</h3>
 						<p>Blake, James Henry</p>
 						<figure>
-							<img src="https://iiif.lib.harvard.edu/manifests/view/drs:11869082$5b" class="p-2 w-100 border"/>
+							<img src="/images/student_images.png" class="p-2 w-100 border"/>
 							<figcaption>James Henry Blake</figcaption>
 						</figure>
 						<hr>
