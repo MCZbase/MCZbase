@@ -7,7 +7,7 @@
 			<article class="w-100">
 				<div class="col-12">
 					<div class="form-row">
-					<div class="col-12 col-md-6 mr-2">
+					<div class="col-12 col-md-5 mr-2 float-left">
 						<h1>Hassler Expedition</h1>
 						<hr>
 						<p>Description</p>
@@ -18,7 +18,7 @@
 							</figure>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 mr-2">
+					<div class="col-12 col-md-3 mr-2 float-left">
 						<h2 class="h1">Related Information</h2>
 						<hr>
 						<h3>Localities</h3>
