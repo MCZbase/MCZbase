@@ -492,6 +492,10 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 										<cfelse>
 											#occurs_page_number#,
 										</cfif>
+								<cfelse>
+									<cfif len(citation_page_uri) gt 0>
+										<a href ="#citation_page_uri#" target="_blank">[link]</a>,
+									</cfif>
 								</cfif>
 								#type_status# of
 								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
