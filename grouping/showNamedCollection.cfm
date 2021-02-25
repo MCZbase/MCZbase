@@ -17,7 +17,7 @@
 						<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 						<hr>
 						<div class="row">
-						<div class="col-12 col-md-4 px-0">
+						<div class="col-12 col-md-4">
 						<h3>Localities</h3>
 						<p>Maps and location images</p>
 						<figure>
