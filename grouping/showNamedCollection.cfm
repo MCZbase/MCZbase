@@ -4,7 +4,7 @@
 <cfoutput>
 	<main class="container py-3">
 		<div class="row">
-			<article>
+			<article class="w-100">
 				<div class="col-12">
 					<div class="col-7">
 						<h1>Hassler Expedition</h1>
