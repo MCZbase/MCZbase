@@ -2038,7 +2038,7 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,targetAddressCo
  * @param targetDiv the id div for which to replace the contents (without a leading #).
  */
 function updateDeaccItemCount(transactionId,targetDiv) {
-	jQuery.getJSON("/transaction/component/functions.cfc",
+	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getDeaccItemCounts",
 			transaction_id : transactionId,
