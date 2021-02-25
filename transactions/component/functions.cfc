@@ -3654,7 +3654,7 @@ limitations under the License.
 						<cfset missingRoles="">
 						<cfset sep="">
 						<cfloop query="requiredAgents">
-							<cfset missingRoles = "#missingRoles##sep#\"#requiredRoles.trans_agent_role#\"">
+							<cfset missingRoles = "#missingRoles##sep#'<i>#requiredRoles.trans_agent_role#</i>'">
 							<cfset sep=" ">
 						</cfloop>
 						<cfif requiredRoles.recordcount EQ 1>
