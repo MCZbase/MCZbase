@@ -535,7 +535,7 @@ limitations under the License.
 			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
 				select distinct
 					specimen_part.collection_object_id as part_colobjid,
-					flat.guid,
+					fl.guid,
 					mczbase.get_part_prep(specimen_part.collection_object_id) as part,
 					coll_object.coll_obj_disposition
 				from
