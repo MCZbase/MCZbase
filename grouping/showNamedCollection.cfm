@@ -2,7 +2,7 @@
 <cfinclude template="/shared/_header.cfm">
 
 <cfoutput>
-	<main class="container py-3">
+	<main class="container-fluid py-3">
 		<div class="row">
 			<article class="w-100">
 				<div class="col-12">
