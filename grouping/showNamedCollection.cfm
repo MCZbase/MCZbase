@@ -10,8 +10,6 @@
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
-		<cfelse>
-		<cfset oneOfUs = 0>
 	</cfif>
 </cfoutput> 
 <main class="container py-3">
@@ -352,7 +350,7 @@ and underscore_relation.collection_object_id = 5243961
 						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
-	<cfoutput query="one">
+
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
@@ -532,7 +530,7 @@ and underscore_relation.collection_object_id = 5243961
 			</div>
 			</div>
 		</cfif>
-	</cfoutput>
+
 			<div class="col-7 border float-left">Description</div>
 		</div>
 	</div>
