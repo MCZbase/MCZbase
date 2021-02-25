@@ -19,7 +19,7 @@
 						</div>
 					</div>
 					<div class="col-12 col-md-7 float-left">
-						<h2 class="h1" style="border-top: 8px solid #325293">Related Information</h2>
+						<h2 class="h1" style="border-top: 8px solid ##325293">Related Information</h2>
 						<hr>
 						<div class="float-left col-12 col-md-6">
 						<h3>Localities</h3>
