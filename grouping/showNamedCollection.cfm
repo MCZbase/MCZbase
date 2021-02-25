@@ -6,6 +6,7 @@
 		<div class="row">
 			<article class="w-100">
 				<div class="col-12">
+					<div class="form-row">
 					<div class="col-12 col-md-6">
 						<h1>Hassler Expedition</h1>
 						<hr>
@@ -28,6 +29,7 @@
 						</figure>
 						<hr>
 						</div>
+					</div>
 				</div>
 			</article>
 		</div>
