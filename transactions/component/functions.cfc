@@ -575,7 +575,7 @@ limitations under the License.
 							<cfif isDefined("deacc_items_remarks")>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_items_remarks#">
 							</cfif>		
-						}
+						)
 					</cfquery>
 					<cfset rows = rows + add_result.recordcount>
 				</cfloop>
