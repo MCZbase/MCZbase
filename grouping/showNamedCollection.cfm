@@ -8,7 +8,24 @@ from underscore_collection, underscore_relation
 where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
 and underscore_relation.collection_object_id = 5243961
 </cfquery>
-
+<cfoutput>
+	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+		<div class="error"> Improper call. Aborting..... </div>
+		<cfabort>
+	</cfif>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs = 1>
+		<cfset isClicky = "likeLink">
+		<cfelse>
+		<cfset oneOfUs = 0>
+		<cfset isClicky = "">
+	</cfif>
+	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
+		<!--- TODO: Fix this redirect, this is probably the header delivered block above.  ----> 
+		<!---<cfheader statuscode="301" statustext="Moved permanently">
+	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
+	</cfif>
+</cfoutput> 
 <main class="container py-3">
 
 	
