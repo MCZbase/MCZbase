@@ -2758,7 +2758,7 @@ limitations under the License.
 		</cfquery>
 		<cfif newPermitResult.recordcount eq 1>
 			<cfset result = result & "<span>Created new Permissons/Rights record. ">
-			<cfset result = result & "<a id='permitEditLink' href='/transactions/Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+			<cfset result = result & "<a id='permitEditLink' href='/transactions/Permit.cfm?permit_id=#nextPermit.nextPermit#&action=edit' target='_blank'>Edit</a></span>">
 			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
 			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
 		</cfif>

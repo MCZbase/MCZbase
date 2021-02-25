@@ -1,6 +1,9 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+<cfif action EQ 'editPermit'>
+	<cfset action = 'edit'><!--- support old API --->
+</cfif>
 <!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
 	<cfcase value="search">
