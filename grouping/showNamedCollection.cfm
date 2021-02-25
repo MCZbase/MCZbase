@@ -2,20 +2,24 @@
 <cfinclude template="/shared/_header.cfm">
 
 <cfoutput>
-<main class="container py-3">
-	<div class="row">
-	<article>
-	 	<div class="col-12">
-			<h1>Hassler Expedition</h1>
-			<hr>
-			<p>Description</p>
-			<hr>
-			<div class="bg-white border border-dark">
-				<img src="../images/D_arenaria.jpg" class="bg-light border"/>
-			</div>
+	<main class="container py-3">
+		<div class="row">
+			<article>
+				<div class="col-12">
+					<h1>Hassler Expedition</h1>
+					<hr>
+					<p>Description</p>
+					<hr>
+					<div class="bg-white border border-dark">
+						<caption>
+						<figure> <img src="../images/D_arenaria.jpg" class="p-2 border"/>
+							<figcaption>Featured Image for the Hassler Expedition</figcaption>
+						</figure>
+					</div>
+				</div>
+			</article>
 		</div>
-	</article>
-	</div>
-</main><!--- class="container" --->
+	</main>
+	<!--- class="container" ---> 
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
