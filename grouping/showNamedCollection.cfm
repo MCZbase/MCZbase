@@ -39,7 +39,7 @@ and underscore_relation.collection_object_id = 5243961
 				order by media.media_type
 			</cfquery>
 							<!---START Code from MEDIA SET code---> 
-								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
+							<!---	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>--->
 					
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
