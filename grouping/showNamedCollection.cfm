@@ -14,7 +14,7 @@
 						<hr>
 						<div class="bg-white p-2 border border-dark">
 							<figure> <img src="/images/carousel_example.png" class="p-2 w-100 border"/>
-								<figcaption class="pt-2">Images linked to the Hassler Expedition</figcaption>
+								<figcaption class="pt-2">Specimen Images linked to the Hassler Expedition</figcaption>
 							</figure>
 						</div>
 					</div>
@@ -23,7 +23,7 @@
 						<hr>
 						<div class="float-left col-12 col-md-5 px-3">
 						<h3>Localities</h3>
-						<p>Higher Geographies Visited</p>
+						<p>Maps and location images</p>
 						<figure>
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
 							<div class="col-12 row mx-0 px-0 border">
@@ -33,8 +33,23 @@
 								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3"/>
 							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 3.4rem;"></i>
 							</div>
-							<figcaption>Maps and location images</figcaption>
+							<figcaption>Hassler Expedition Route</figcaption>
 						</figure>
+							
+							<h3>Links to Journals, Collector's Notes, Ledgers</h3>
+						<p>Library scans of written material</p>
+						<figure>
+							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
+							<div class="col-12 row mx-0 px-0 border">
+								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 3.4rem;"></i>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
+							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 3.4rem;"></i>
+							</div>
+							<figcaption>Ledger Scan</figcaption>
+						</figure>
+						
 						</div>
 						<div class="float-left col-12 col-md-5 px-3">
 				
