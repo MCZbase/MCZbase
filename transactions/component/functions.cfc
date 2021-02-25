@@ -490,6 +490,127 @@ limitations under the License.
 	<cfreturn getAccnItemDispThread.output>
 </cffunction>
 
+<!---- function addCollObjectsDeaccession
+  Given a transaction_id for a deaccession and a string delimited list of guids, 
+  and a remark to apply to all items look up the collection object id 
+  values for the guids and add the parts for this cataloged item as deaccesion items  
+	@param transaction_id the pk of the deaccession to add the collection objects to.
+	@param guid_list a comma delimited list of guids in the form MCZ:Col:catnum
+	@param deacc_items_remarks a remark to apply to each deaccession item
+	@return a json structure containing added=nummber of updated relations.
+--->
+<cffunction name="addCollObjectsDeaccession" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="guid_list" type="string" required="yes">
+	<cfargument name="deacc_item_remarks" type="string" required="no">
+	<cfset guids = "">
+	<cfif Find(',', guid_list) GT 0>
+		<cfset guidArray = guid_list.Split(',')>
+		<cfset separator ="">
+		<cfloop array="#guidArray#" index=#idx#>
+			<!--- skip any empty elements --->
+			<cfif len(trim(idx)) GT 0>
+				<!--- trim to prevent guid, guid from failing --->
+				<cfset guids = guids & separator & trim(idx)>
+				<cfset separator = ",">
+			</cfif>
+		</cfloop>
+	<cfelse>
+		<cfset guids = trim(guid_list)>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cftransaction>
+			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccessionCheck_result">
+				SELECT count(*) as ct from trans
+				WHERE  
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+					and transaction_type = 'deaccession'
+			</cfquery>
+			<cfif updateDeaccessionCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of deaccession.">
+			</cfif>
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+				select distinct
+					specimen_part.collection_object_id as part_colobjid,
+					flat.guid,
+					mczbase.get_part_prep(specimen_part.collection_object_id) as part,
+					coll_object.coll_obj_disposition
+				from
+					<cfif #session.flatTableName# EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> fl
+					left join specimen_part on fl.collection_object_id = specimen_part.derived_from_cat_item
+					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+				where 
+					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+					and specimen_part.collection_object_id is not null
+			</cfquery>
+			<cfif find_result.recordcount GT 0>
+				<cfquery name="reconAgentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name 
+					where agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfloop query=find>
+					<cfif coll_obj_disposition EQ 'on loan'>
+						<cfthrow message="Unable to add items.  #guid# #part# has a disposition of 'on loan' and cannot be deaccessioned until this disposition is changed.">
+					</cfif>
+					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+						insert into deacc_item
+						(
+							transaction_id,
+							collection_object_id,
+							reconciled_by_person_id,
+							reconciled_date,
+							item_descr
+							<cfif isDefined("deacc_items_remarks">
+								,deacc_item_remarks
+							</cfif>		
+						) values (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_colobjid#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reconAgentId.agent_id#">,
+							sysdate,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid# #part#">,
+							<cfif isDefined("deacc_items_remarks">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
+							</cfif>		
+						}
+					</cfquery>
+					<cfset rows = rows + add_result.recordcount>
+				</cfloop>
+			</cfif>
+		</cftransaction>
+
+		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "success">
+		<cfset row["added"] = "#rows#">
+		<cfset row["matches"] = "#find_result.recordcount#">
+		<cfset row["findquery"] = "#rereplace(find_result.sql,'[\n\r\t]+',' ','ALL')#">
+		<cfset data[i] = row>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" class="float-left; mr-3" style="width: 50px;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+</cffunction>
 <!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in an accession --->
 <cffunction name="getAccnLimitations" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">

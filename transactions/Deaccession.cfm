@@ -756,10 +756,12 @@ limitations under the License.
 				</script>
 				<section name="deaccessionItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Deaccession">
 					<div class="col-12 pt-3 pb-1">
-						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm');">
+						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/SpecimenSearch.cfm?action=dispCollObjDeacc&transaction_id=#transaction_id#');">
+						<input type="button" value="Add Items by Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/deaccByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenResults.cfm?deaccession_trans_id=#transaction_id#');">
+							onClick="window.open('/a_deaccItemReview.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>
@@ -775,10 +777,14 @@ limitations under the License.
 							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
 							<input type="hidden" id="method" name="method" value="addCollObjectsDeaccession" >
 							<div class="form-row mx-0 my-2">
-								<div class="col-12 col-md-10">
-									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to move into to this deaccession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+								<div class="col-12 col-md-8">
+									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this deaccession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 											value="" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="deacc_items_remarks" id="deacc_items_remarks_label" class="data-entry-label">Remarks</label>
+									<input type="text" id="deacc_item_remarks" name="deacc_items_remarks" class="data-entry-input" value="" >
 								</div>
 								<script>
 									function addCollectionObjects(){ 
