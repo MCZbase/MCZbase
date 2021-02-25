@@ -212,25 +212,42 @@ function autogrow (event) {
 function autogrow (event) {
 	var tb = parseFloat($(this).css("borderTopWidth"));
 	var bb = parseFloat($(this).css("borderBottomWidth"));
+	//console.log(event);
+	//console.log("tb:" + tb);
+	//console.log("bb:" +bb);
+	//console.log("outerHeight:" + $(this).outerHeight());
+	//console.log("scrollHeight:" + $(this)[0].scrollHeight);
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
 	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
 	{
+console.log("outerHeight < scrollHeight+tb+bb need to grow");
 		// estimate how much height is needed for the textarea to contain all its text 
+		// calcluate the length of the string in em.
 		var em = $(this).val().length * parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0])['fontSize']);
 		var width = $(this).width();
 		var fontsize = Number.parseFloat($(this).css("font-size"));
-		var widthem = width/fontsize;
-		var lines = Math.floor(em/widthem)+1;
-		var newlines = $(this).val().split("\n").length;
-		lines=newlines+lines;
-		lines=lines+2;
+		// calculate how many lines the string needs from its length in em/sreen width, floor and add 1 to ensure a minimum of 1 line.
+		var lines = Math.floor(em/width)+1;  
+		var newlines = $(this).val().split("\n").length-1; // number of new line characters in the string.
+		lines=newlines+lines;  // add estimated lines for the characters plus the number of newlines 
+		lines=lines+2; // add two lines to ensure blank space at the end
+		// calculate how many pixels are needed to fit the text plus newlines.
+		// we won't increase the size of the text area over this needs estimate.
 		var needs = lines*fontsize;
+		//console.log("em:" +em);
+		//console.log("width:" +width);
+		//console.log("fontsize:" +fontsize);
+		//console.log("lines:" +lines);
+		//console.log("newlines:" +newlines);
+		//console.log("needs:" +needs);
 		// if our calculation failed or if the height is less that the estimaged needed height, increase the height.
 		// this if statement is needed as some browsers with some fonts appear to provide an overestimate of 
 		// scrollHeight plus top/bottom borders and end up growing with each keystroke.
 		if (Number.isNaN(needs) || $(this)[0].scrollHeight+tb+bb < needs) { 
 			// increase the height such that the text fits into the scroll bar height, taking borders into account.
+console.log("height:" + $(this).height());
 			$(this).height($(this)[0].scrollHeight+tb+bb);
+console.log("grew to:" + $(this).height());
 		}
 	}
 	$(this).css('overflow-y','auto');
