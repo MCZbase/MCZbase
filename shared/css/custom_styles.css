@@ -1771,10 +1771,10 @@ div[aria-hidden='false'] {
   grid-area: 1 / 1 / 2 / 2;
 }
 
-body {
+/*body {
   margin: 2rem;
   font: 1rem/1.4 system-ui, sans-serif;
-}
+}*/
 
 label {
   display: block;
