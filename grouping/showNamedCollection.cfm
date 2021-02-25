@@ -8,11 +8,12 @@
 				<div class="col-12">
 					
 					<div class="form-row">
-								<h1>Hassler Expedition</h1>
+		
+					<div class="col-12 col-md-6 px-0 mx-5 float-left mt-5">
+												<h1>Hassler Expedition</h1>
 						<hr>
 						<p>Information used in researching the Hassler Expedition, December 4, 1871 - October 1872. Louis Agassiz, Franz Steindachner (ichthyologist), LF dePourtales and others - Left Boston 4 Dec 1871, traveled through the Straits of Magellan on to San Francisco California, arrived in San Francisco 31 August 1872. They then traveled back to Cambridge cross land arriving by October 1872. While in the Straits of Magellan, the dredging gear broke. Most specimens had a collection date of 1872 following the break. The journal of James Henry Blake, student of Louis Agassiz and an artist, provided much information for the collections.</p>
 						<hr>
-					<div class="col-12 col-md-6 px-0 mx-5 float-left mt-5">
 						<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Related Information</h2>
 						<hr>
 						<div class="float-left col-12 col-md-5 px-3">
