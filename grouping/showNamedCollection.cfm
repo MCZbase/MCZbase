@@ -1,15 +1,10 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template="/shared/_header.cfm">
-<cfset collection_object_id = "5243961">
+
 <cfoutput>
 <main class="container py-3">
 <cfset oneofus = "1">
-<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select underscore_collection.collection_name, underscore_relation.collection_object_id
-from underscore_collection, underscore_relation 
-where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
-and underscore_relation.collection_object_id = 5243961
-</cfquery>
+
 	
 	<div class="row">
 	 	<div class="col-12">
@@ -203,6 +198,12 @@ and underscore_relation.collection_object_id = 5243961
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+</cfquery>
+				<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select underscore_collection.collection_name, underscore_relation.collection_object_id
+from underscore_collection, underscore_relation 
+where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
+and underscore_relation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked. 
