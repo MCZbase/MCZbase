@@ -350,7 +350,8 @@ and underscore_relation.collection_object_id = 5243961
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 		</cfif>
 			
-			<p> collecting event = #one.collecting_event_id#</p>
+			<p> collecting event ID = #one.collecting_event_id#</p>
+				<p> collecting Object ID = #one.collection_object_id#</p>
 		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
