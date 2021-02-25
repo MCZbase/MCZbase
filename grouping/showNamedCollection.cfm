@@ -18,23 +18,26 @@
 							</figure>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 mr-2 float-left">
+					<div class="col-12 col-md-7 mr-2 float-left">
 						<h2 class="h1">Related Information</h2>
 						<hr>
+						<div class="float-left col-12 col-md-6">
 						<h3>Localities</h3>
 						<p>Higher Geographies Visited</p>
 						<figure>
 							<img src="http://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00014536_Tachypeza_rostrata_hal.jpg" class="p-2 w-100 border"/>
 							<figcaption>Maps and location images</figcaption>
 						</figure>
-						<hr>
+						</div>
+						<div class="float-left col-12 col-md-6">
+				
 						<h3>Collectors and other agents</h3>
-						<p>Blake, James Henry</p>
+						<p>James Henry Blake, Louis Agassiz, Franz Steindachner</p>
 						<figure>
 							<img src="/images/student_images.png" class="p-2 w-100 border"/>
-							<figcaption>James Henry Blake</figcaption>
+							<figcaption>Students of the MCZ Expedition</figcaption>
 						</figure>
-						<hr>
+				
 						</div>
 					</div>
 				</div>
