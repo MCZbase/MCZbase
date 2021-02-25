@@ -26,7 +26,7 @@
 						<p>Higher Geographies Visited</p>
 						<figure>
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
-							<div class="col-12 form-row mx-0 border"><i class="far fa-arrow-left"></i><i class="far fa-arrow-right"></i>
+							<div class="col-12 form-row mx-0 border"><i class="fas fa-arrow-left"></i><i class="fas fa-arrow-right"></i>
 								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4 "/>
 								<img src="/images/dredging_stations.png" class="p-2 col-4"/>
 								<img src="/images/Hassler_expedition_route.png" class="p-2 col-4"/></div>
