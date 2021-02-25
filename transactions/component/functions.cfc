@@ -2733,7 +2733,7 @@ limitations under the License.
 					from
 						<cfif transaction EQ "loan"> 
 							loan_item li
-						<cfelseif transaction EQ "deacc">
+						<cfelseif transaction EQ "deaccession">
 							deacc_item li
 						<cfelseif transaction EQ "borrow">
 							borrow_item li
