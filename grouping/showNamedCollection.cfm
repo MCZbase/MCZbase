@@ -23,11 +23,11 @@
 						<figure>
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
 							<div class="col-12 row mx-0 px-0 border">
-								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 3.4rem;"></i>
+								<i class="fas fa-angle-left float-left" style="width: 15px;margin-top: 2rem;"></i>
 								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3 "/>
 								<img src="/images/dredging_stations.png" class="px-2 py-2 col-3"/>
 								<img src="/images/Hassler_expedition_route.png" class="px-2 py-2 col-3"/>
-							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 3.4rem;"></i>
+							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 2rem;"></i>
 							</div>
 							<figcaption>Hassler Expedition Route</figcaption>
 						</figure>
@@ -53,6 +53,13 @@
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 						<figure>
 							<img src="/images/student_images.png" class="p-2 w-100 border"/>
+							<div class="col-12 row mx-0 border">
+								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 2rem;"></i>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
+								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
+							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 2rem;"></i>
+							</div>
 							<figcaption>Students of the MCZ Expedition</figcaption>
 						</figure>
 				
