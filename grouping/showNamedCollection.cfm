@@ -384,6 +384,7 @@ and underscore_relation.collection_object_id = 5243961
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
+								<img src="#mediaS2.media_id#" class="w-50">
 								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
