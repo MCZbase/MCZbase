@@ -14,8 +14,8 @@ and underscore_relation.collection_object_id = 5243961
 	<h1>#namedGroup.collection_name#</h1>
 	<div class="row">
 	 	<div class="col-12">
-			<div class="col-6 border">Media</div>
-			<div class="col-6 border">Description</div>
+			<div class="col-5 border float-left">Media</div>
+			<div class="col-7 border float-left">Description</div>
 		</div>
 	</div>
 </main><!--- class="container" --->
