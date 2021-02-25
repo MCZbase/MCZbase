@@ -502,7 +502,7 @@ limitations under the License.
 <cffunction name="addCollObjectsDeaccession" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="guid_list" type="string" required="yes">
-	<cfargument name="deacc_item_remarks" type="string" required="no">
+	<cfargument name="deacc_items_remarks" type="string" required="no">
 	<cfset guids = "">
 	<cfif Find(',', guid_list) GT 0>
 		<cfset guidArray = guid_list.Split(',')>
@@ -573,7 +573,7 @@ limitations under the License.
 							sysdate,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid# #part#">,
 							<cfif isDefined("deacc_items_remarks")>
-								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_items_remarks#">
 							</cfif>		
 						}
 					</cfquery>
