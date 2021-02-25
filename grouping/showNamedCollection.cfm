@@ -15,15 +15,8 @@ and underscore_relation.collection_object_id = 5243961
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
-		<cfset isClicky = "likeLink">
 		<cfelse>
 		<cfset oneOfUs = 0>
-		<cfset isClicky = "">
-	</cfif>
-	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-		<!--- TODO: Fix this redirect, this is probably the header delivered block above.  ----> 
-		<!---<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
 	</cfif>
 </cfoutput> 
 <main class="container py-3">
