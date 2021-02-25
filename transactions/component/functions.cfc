@@ -1916,7 +1916,9 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
-							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control autogrow"></textarea>
+							<div class="grow-wrap">
+							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+							</div>
 						</div>
 					</div>
 					<div class="form-row">

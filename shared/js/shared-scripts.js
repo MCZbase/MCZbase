@@ -209,17 +209,17 @@ function autogrow (event) {
  *  to bind to all textareas currently defined on a page use:
  *  $("textarea").keyup(autogrow);
 */
-function autogrow (event) {
-	var tb = parseFloat($(this).css("borderTopWidth"));
-	var bb = parseFloat($(this).css("borderBottomWidth"));
-	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
-	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
-	{
-		// increase the height such that the text fits into the scroll bar height, taking borders into account.
-		$(this).height($(this)[0].scrollHeight+tb+bb);
-	}
-	$(this).css('overflow-y','auto');
-};
+//function autogrow (event) {
+//	var tb = parseFloat($(this).css("borderTopWidth"));
+//	var bb = parseFloat($(this).css("borderBottomWidth"));
+//	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
+//	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
+//	{
+//		// increase the height such that the text fits into the scroll bar height, taking borders into account.
+//		$(this).height($(this)[0].scrollHeight+tb+bb);
+//	}
+//	$(this).css('overflow-y','auto');
+//};
 
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
