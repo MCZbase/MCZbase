@@ -3,6 +3,7 @@
 <cfset collection_object_id = "5243961">
 <cfoutput>
 <main class="container py-3">
+<cfset oneofus = "1">
 <cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select underscore_collection.collection_name, underscore_relation.collection_object_id
 from underscore_collection, underscore_relation 
