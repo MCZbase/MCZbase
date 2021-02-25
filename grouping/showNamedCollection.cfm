@@ -19,7 +19,7 @@
 						</div>
 					</div>
 					<div class="col-12 col-md-3 mr-2">
-						<h2>Related Information</h2>
+						<h2 class="h1">Related Information</h2>
 						<hr>
 						<h3>Localities</h3>
 						<p>Higher Geographies Visited</p>
