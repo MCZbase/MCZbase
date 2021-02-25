@@ -2,12 +2,7 @@
 <cfinclude template="/shared/_header.cfm">
 <cfset collection_object_id = "5243961">
 	<cfoutput>
-<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select underscore_collection.collection_name, underscore_relation.collection_object_id
-from underscore_collection, underscore_relation 
-where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
-and underscore_relation.collection_object_id = 5243961
-</cfquery>
+
 <cfoutput>
 	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 		<div class="error"> Improper call. Aborting..... </div>
@@ -20,7 +15,12 @@ and underscore_relation.collection_object_id = 5243961
 	</cfif>
 </cfoutput> 
 <main class="container py-3">
-
+<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select underscore_collection.collection_name, underscore_relation.collection_object_id
+from underscore_collection, underscore_relation 
+where underscore_relation.UNDERSCORE_collection_ID = underscore_collection.UNDERSCORE_COLLECTION_ID
+and underscore_relation.collection_object_id = 5243961
+</cfquery>
 	
 	<div class="row">
 	 	<div class="col-12">
