@@ -1,5 +1,6 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template = "/shared/_header.cfm">
+	<cfif isdefined("collection_id") and len(collection_id) gt 0>
 			<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					collection_name 
@@ -11,7 +12,7 @@
 					underscore_relation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 <main class="container py-3">
-	<h1>#collection_name#</h1>
+	<h1><cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>#collection_name#<cfelse>#pageTitle#</cfif></h1>
 
 
 </main><!--- class="container" --->
