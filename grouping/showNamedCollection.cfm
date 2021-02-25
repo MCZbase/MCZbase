@@ -16,8 +16,8 @@
 						<hr>
 						<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 						<hr>
-						
-						<div class="float-left col-12 col-md-4 px-0">
+						<div class="row">
+						<div class="col-12 col-md-4 px-0">
 						<h3>Localities</h3>
 						<p>Maps and location images</p>
 						<figure>
@@ -31,6 +31,7 @@
 							</div>
 							<figcaption>Hassler Expedition Route</figcaption>
 						</figure>
+						</div>
 						<div class="col-12 col-md-4 px-0">
 							<h3>Links to Journals, Collector's Notes, Ledgers</h3>
 						<p>Library scans of written material</p>
@@ -56,8 +57,9 @@
 						</figure>
 				
 						</div>
+						</div>
 					</div>
-					<div class="col-12 col-md-5 px-3 float-left">
+					<div class="col-12 col-md-5 float-left">
 				
 						<div class="bg-white p-2 border border-dark">
 							<figure> <img src="/images/carousel_example.png" class="p-2 w-100 border"/>
@@ -66,6 +68,7 @@
 						</div>
 					</div>
 				
+				</div>
 				</div>
 			</article>
 		</div>
