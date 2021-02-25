@@ -563,7 +563,7 @@ limitations under the License.
 							reconciled_by_person_id,
 							reconciled_date,
 							item_descr
-							<cfif isDefined("deacc_items_remarks">
+							<cfif isDefined("deacc_items_remarks")>
 								,deacc_item_remarks
 							</cfif>		
 						) values (
@@ -572,7 +572,7 @@ limitations under the License.
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#reconAgentId.agent_id#">,
 							sysdate,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid# #part#">,
-							<cfif isDefined("deacc_items_remarks">
+							<cfif isDefined("deacc_items_remarks")>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
 							</cfif>		
 						}
