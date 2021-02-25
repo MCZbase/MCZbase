@@ -1,7 +1,3 @@
-<cfset pageTitle = "Named Group">
-<cfinclude template = "/shared/_header.cfm">
-
-
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -67,7 +63,7 @@
 </cfif>
 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset pageTitle = "MCZbase Specimen Details #guid#">
+<cfset pageTitle = "Named Group">
 <cfinclude template="/shared/_header.cfm">
 
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -95,9 +91,6 @@
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
 		#session.flatTableName#.dec_long
-<!---		<cfif len(#session.CustomOtherIdentifier#) gt 0>
-			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>--->
 	FROM
 		#session.flatTableName#,
 		collection
@@ -117,7 +110,7 @@
 	<cfset metaDesc="#detail.collection# #detail.cat_num# (#guid#); #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 </cfoutput> 
 <main class="container py-3">
-	<h1><cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>#collection_name#<cfelse>#pageTitle#</cfif></h1>
+	<h1><cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>#collection_object_id#<cfelse>#pageTitle#</cfif></h1>
 
 
 </main><!--- class="container" --->
