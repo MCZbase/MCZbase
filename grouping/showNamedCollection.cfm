@@ -18,7 +18,7 @@ and underscore_relation.collection_object_id = 5243961
 			<div class="col-5 border float-left">
 				<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
-			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -166,7 +166,8 @@ and underscore_relation.collection_object_id = 5243961
 											c.parent_container_id=p.container_id and
 											cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								</cfquery>
-								</div>
+							</cfif>
+					</div>
 			</div>
 			<div class="col-7 border float-left">Description</div>
 		</div>
