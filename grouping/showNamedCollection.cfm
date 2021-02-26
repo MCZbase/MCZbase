@@ -70,7 +70,7 @@
 										<div class="carousel-inner">
 											<cfloop query="getAgentMedia"  STARTROW="1" ENDROW="3">
 											<cfoutput>
-											<div class="carousel-item active"> <img class="d-block w-100" src="/media/#media_id#" alt="First slide"> </div>
+											<div class="carousel-item active"> <img class="d-block w-100" src="/media/#getAgentMedia.media_id#" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/media/#media_id#" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/media/#media_id#" alt="Third slide"> </div>
 											</cfoutput>	
