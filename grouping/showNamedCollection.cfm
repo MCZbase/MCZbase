@@ -16,8 +16,8 @@
 							<hr>
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 							<hr>
-							<div class="row mx-0">
-								<div class="col-12 col-md-4 px-0">
+							<div class="row">
+								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
@@ -29,7 +29,7 @@
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
 								</div>
-								<div class="col-12 col-md-4 border">
+								<div class="col-12 col-md-4 px-3">
 									<h3>Journals, Notes, Ledgers</h3>
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
@@ -41,7 +41,7 @@
 										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
 								</div>
-								<div class="col-12 col-md-4 px-0 border"> 
+								<div class="col-12 col-md-4 "> 
 									<h3>Collectors and other agents</h3>
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
@@ -58,8 +58,8 @@
 						<div class="col-12 col-md-6 px-5 mt-4 float-left">
 									<div class="col-12">	
 									<ul class="list-group py-2 border-top border-bottom border-light">
-						<li class="list-group-item float-left" style="width:100px">Aves</li>
-						<li class="list-group-item float-left" style="width:100px">Amphibia</li>
+										<li class="list-group-item float-left" style="width:100px"><a href="##">Aves</a></li>
+						<li class="list-group-item float-left" style="width:100px"><a href="##"Amphibia</li>
 						<li class="list-group-item float-left" style="width:100px">Reptilia</li>
 						<li class="list-group-item float-left" style="width:100px">Cephalopoda</li>
 					</ul></div>
