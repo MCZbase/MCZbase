@@ -173,7 +173,9 @@
 	<td nowrap>#getCited.type_status#&nbsp;</td>
 	<td>
 		<cfif len(#getCited.citation_page_uri#) gt 0>
-			<a href ="#getCited.citation_page_uri#" target="_blank">#getCited.occurs_page_number#</a>&nbsp;
+			<cfset citpage = trim(getCited.occurs_page_number)>
+			<cfif len(citpage) EQ 0><cfset citpage="[link]"></cfif>
+			<a href ="#getCited.citation_page_uri#" target="_blank">#citpage#</a>&nbsp;
 		<cfelse>
 			#getCited.occurs_page_number#&nbsp;
 		</cfif>
