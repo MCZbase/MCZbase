@@ -64,13 +64,34 @@
 										select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
 										where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
 									</cfquery>
+											<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select distinct
+													media.media_id,
+													media.media_uri,
+													media.mime_type,
+													media.media_type,
+													media.preview_uri,
+													media_relations.media_relationship,
+													mczbase.get_media_descriptor(media.media_id) as media_descriptor
+										from
+													media,
+													media_relations,
+													media_labels
+										where
+													media.media_id=media_relations.media_id and
+													media.media_id=media_labels.media_id (+) and
+													media_relations.media_relationship like '%cataloged_item' and
+													media_relations.media_id = <cfqueryparam value=#getAgentMedia.media_id# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										order by media.media_type
+							</cfquery>
 									<h3>Collectors and other agents</h3>
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<cfloop query="getAgentMedia"  STARTROW="1" ENDROW="3">
 											<cfoutput>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-test.rc.fas.harvard.edu/media/#media_id#" alt=""> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="#media.media_id#" alt=""> </div>
 											</cfoutput>	
 											</cfloop>
 										</div>
