@@ -7,7 +7,13 @@
 
 			<article class="w-100">
 				<div class="col-12">
-				
+					<ul class="unstyled py-2 border-top border-bottom border-light">
+						<li>Aves</li>
+						<li>Amphibia</li>
+						<li>Reptilia</li>
+						<li>Cephalopoda</li>
+			
+					</ul>
 					<div class="row">
 		
 					<div class="col-12 col-md-6 px-0 float-left mt-4">
