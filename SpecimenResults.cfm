@@ -535,42 +535,42 @@ If your item needs to be sorted in a special way, then do that here. --->
 				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
 					<option value="">choose</option>
-                    <option value="/addAccn.cfm">
+                    <option value="/addAccn.cfm"><!--- works with either, collection_object_id has priority, session search table looked up, not passed. --->
 						Accession
 					</option>
-                    <option value="/multiAgent.cfm">
+                    <option value="/multiAgent.cfm"><!--- works only with collection_object_id --->
 						Agents
 					</option>
-                    <option value="/bulkCollEvent.cfm">
+                    <option value="/bulkCollEvent.cfm"><!--- works only with collection_object_id --->
 						Collecting Events
 					</option>
-					<option value="/bulkLocality.cfm">
+					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
 						Localities
 					</option>
-					<option value="/Encumbrances.cfm">
+					<option value="/Encumbrances.cfm"><!--- works only with collection_object_id --->
 						Encumbrances
 					</option>
-					<option value="/multiIdentification.cfm">
+					<option value="/multiIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
 					</option>
-                     <option value="/bnhmMaps/SpecimensByLocality.cfm">
+                     <option value="/bnhmMaps/SpecimensByLocality.cfm"><!--- works only on session search table, passed as table_name --->
 						Map By Locality
 					</option>
-					<option value="/tools/downloadParts.cfm">
+					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
 						Parts (Download Report)
 					</option>
-					<option value="/findContainer.cfm?showControl=1">
+					<option value="/findContainer.cfm?showControl=1"><!--- looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name --->
 						Parts (Locations)
 					</option>
-					<option value="/tools/bulkPart.cfm">
+					<option value="/tools/bulkPart.cfm"><!--- works only on session search table, passed as table_name --->
 						Parts (Modify)
 					</option>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-						<option value="/grouping/addToNamedCollection.cfm">
+						<option value="/grouping/addToNamedCollection.cfm"><!--- works with either, collection_objecT_id has priority, session search table looked up, not passed --->
 							Add To Named Group
 						</option>
 					</cfif>
-               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
+               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"><!--- works only with collection_object_id --->
 						Print Any Report
 					</option>
 				</select>
