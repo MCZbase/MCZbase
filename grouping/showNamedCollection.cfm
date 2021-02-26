@@ -24,51 +24,51 @@
 								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 										<p>Maps and location images</p>
-									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/dredging_stations.png" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 									
 								</div>
 								<div class="col-12 col-md-4">
 									<h3>Journals, Notes, Ledgers</h3>
 									<p>Library scans of written material</p>
-									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 								<div class="col-12 col-md-4 border"> 
 									<h3>Collectors and other agents</h3>
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 					
 		
-									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/student_images.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/student_images.png" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 							</div>
 						</div>
 						<div class="col-12 col-md-6 px-5 mt-4 float-left">
 								<h3>Featured Specimen Images</h3>
 						<p>Specimen Images linked to the Hassler Expedition</p>
-							<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
+							<div id="carouselExampleControls1" class="carousel slide" data-keyboard="true">
 								<div class="carousel-inner">
 									<div class="carousel-item active"> <img class="d-block w-100" src="/images/carousel_example.png" alt="First slide"> </div>
 									<div class="carousel-item"> <img class="d-block w-100" src="/images/specimens_from_MA.png" alt="Second slide"> </div>
 									<div class="carousel-item"> <img class="d-block w-100" src="/images/carousel_example.png" alt="Third slide"> </div>
 								</div>
-								<a class="carousel-control-prev" href="##carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+								<a class="carousel-control-prev" href="##carouselExampleControls1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 					
 						</div>
 					</div>
