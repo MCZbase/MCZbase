@@ -59,9 +59,9 @@
 									<div class="col-12">	
 									<ul class="list-group py-2 border-top border-bottom border-light">
 										<li class="list-group-item float-left" style="width:100px"><a href="##">Aves</a></li>
-						<li class="list-group-item float-left" style="width:100px"><a href="##"Amphibia</li>
-						<li class="list-group-item float-left" style="width:100px">Reptilia</li>
-						<li class="list-group-item float-left" style="width:100px">Cephalopoda</li>
+										<li class="list-group-item float-left" style="width:100px"><a href="##">Amphibia</a></li>
+										<li class="list-group-item float-left" style="width:100px"><a href="##">Reptilia</a></li>
+										<li class="list-group-item float-left" style="width:100px"><a href="##">Cephalopoda</a></li>
 					</ul></div>
 								<h3>Featured Specimen Images</h3>
 						<p>Specimen Images linked to the Hassler Expedition</p>
