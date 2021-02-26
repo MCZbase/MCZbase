@@ -7,7 +7,7 @@
 			<img src="/images/classification.png" class="p-2 w-100"/>
 			<article class="w-100">
 				<div class="col-12">
-					<img src="/images/student_images.png" class="p-2 w-100"/>
+					
 					<div class="row">
 		
 					<div class="col-12 col-md-6 px-0 float-left mt-4">
