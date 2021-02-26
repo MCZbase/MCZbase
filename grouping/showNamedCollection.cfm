@@ -4,7 +4,7 @@
 	<cfset underscore_collection_id = "1">
 
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection_name, description, underscore_agent_id, html_description, mask_fg from underscore_collection where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		select collection_name, underscore_collection.description, underscore_agent_id, html_description, underscore_collection.mask_fg from underscore_collection where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container py-3">
 		<div class="row">
