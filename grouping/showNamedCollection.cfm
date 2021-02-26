@@ -1,7 +1,10 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template="/shared/_header.cfm">
-
+	<cfset underscore_collection_id = "308">
 <cfoutput>
+	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select collection_name, description, underscore_agent_id, html_description, mask_fg from underscore_collection where underscore_collection_id = #underscore_collection_id#;
+	</cfquery>
 	<main class="container py-3">
 		<div class="row">
 			<article class="w-100">
@@ -12,7 +15,8 @@
 						<div class="col-12 col-md-6 px-0 float-left mt-4">
 							<h1>Hassler Expedition</h1>
 							<hr>
-							<p>Information used in researching the Hassler Expedition, December 4, 1871 - October 1872. Louis Agassiz, Franz Steindachner (ichthyologist), LF dePourtales and others - Left Boston 4 Dec 1871, traveled through the Straits of Magellan on to San Francisco California, arrived in San Francisco 31 August 1872. They then traveled back to Cambridge cross land arriving by October 1872. While in the Straits of Magellan, the dredging gear broke. Most specimens had a collection date of 1872 following the break. The journal of James Henry Blake, student of Louis Agassiz and an artist, provided much information for the collections.</p>
+							<p>#description#</p>
+							<p>#html_description#</p>
 							<hr>
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 							<hr>
@@ -63,6 +67,13 @@
 										<li class="list-group-item float-left" style="width:100px"><a href="##">Reptilia</a></li>
 										<li class="list-group-item float-left" style="width:100px"><a href="##">Cephalopoda</a></li>
 					</ul></div>
+						<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct media_id
+							from underscore_relation
+							left outer join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+							where
+							media_relationship like 'shows cataloged_item' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+						</cfquery>
 								<h3>Featured Specimen Images</h3>
 						<p>Specimen Images linked to the Hassler Expedition</p>
 							<div id="carouselExampleControls1" class="carousel slide" data-keyboard="true">
