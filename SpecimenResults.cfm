@@ -500,7 +500,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		<td>
 			<span id="sPrefs" class="infoLink">Settings...</span>
 		</td>
-		<td><div style="width:100px;">&nbsp;</div></td>
+		<td><div style="width:10px;">&nbsp;</div></td>
 		<td>
 			<label for="">&nbsp;</label>
 			<input type="hidden" name="killRowList" id="killRowList">
