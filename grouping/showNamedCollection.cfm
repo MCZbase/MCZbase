@@ -4,9 +4,10 @@
 <cfoutput>
 	<main class="container py-3">
 		<div class="row">
+			<img src="/images/classification.png" class="p-2 w-100"/>
 			<article class="w-100">
 				<div class="col-12">
-					
+					<img src="/images/student_images.png" class="p-2 w-100"/>
 					<div class="row">
 		
 					<div class="col-12 col-md-6 px-0 float-left mt-4">
@@ -16,7 +17,7 @@
 						<hr>
 						<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 						<hr>
-						<div class="row">
+						<div class="row mx-0">
 						<div class="col-12 col-md-4">
 						<h3>Localities</h3>
 						<p>Maps and location images</p>
@@ -56,6 +57,7 @@
 						<figure>
 							<img src="/images/student_images.png" class="p-2 w-100"/>
 								<figcaption>Students of the MCZ Expedition</figcaption>
+							</figure>
 							<div class="col-12 row mx-0">
 								<i class="fas fa-angle-left float-left" style="width: 10px;margin-top: 40%;"></i>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3 "/>
@@ -64,7 +66,7 @@
 							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 40%;"></i>
 							</div>
 						
-						</figure>
+						
 				
 						</div>
 						</div>
