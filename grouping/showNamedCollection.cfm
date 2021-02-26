@@ -16,8 +16,8 @@
 						<div class="col-12 col-md-6 px-0 float-left mt-4">
 							<h1>Hassler Expedition</h1>
 							<hr>
-							<p>#description#</p>
-							<p>#html_description#</p>
+							<p>#getNamedGroup.description#</p>
+							<p>#getNamedGroup.html_description#</p>
 							<hr>
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 							<hr>
