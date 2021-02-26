@@ -5,12 +5,7 @@
 	<main class="container py-3">
 		<div class="row">
 			<article class="w-100">
-				<div class="col-12">	<ul class="list-group py-2 border-top border-bottom border-light">
-						<li class="list-group-item float-left" style="width:100px">Aves</li>
-						<li class="list-group-item float-left" style="width:100px">Amphibia</li>
-						<li class="list-group-item float-left" style="width:100px">Reptilia</li>
-						<li class="list-group-item float-left" style="width:100px">Cephalopoda</li>
-					</ul></div>
+		
 				<div class="col-12">
 				
 					<div class="row">
@@ -61,6 +56,13 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-6 px-5 mt-4 float-left">
+									<div class="col-12">	
+									<ul class="list-group py-2 border-top border-bottom border-light">
+						<li class="list-group-item float-left" style="width:100px">Aves</li>
+						<li class="list-group-item float-left" style="width:100px">Amphibia</li>
+						<li class="list-group-item float-left" style="width:100px">Reptilia</li>
+						<li class="list-group-item float-left" style="width:100px">Cephalopoda</li>
+					</ul></div>
 								<h3>Featured Specimen Images</h3>
 						<p>Specimen Images linked to the Hassler Expedition</p>
 							<div id="carouselExampleControls1" class="carousel slide" data-keyboard="true">
