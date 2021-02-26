@@ -24,7 +24,7 @@
 								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 										<p>Maps and location images</p>
-									<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/dredging_stations.png" alt="Second slide"> </div>
@@ -36,7 +36,7 @@
 								<div class="col-12 col-md-4">
 									<h3>Journals, Notes, Ledgers</h3>
 									<p>Library scans of written material</p>
-									<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/library_screenshot.png" alt="Second slide"> </div>
@@ -49,7 +49,7 @@
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 					
 		
-									<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+									<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/student_images.png" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/student_images.png" alt="Second slide"> </div>
@@ -62,7 +62,7 @@
 						<div class="col-12 col-md-6 px-5 mt-4 float-left">
 								<h3>Featured Specimen Images</h3>
 						<p>Specimen Images linked to the Hassler Expedition</p>
-							<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							<div id="carouselExampleControls" class="carousel slide" data-keyboard="true">
 								<div class="carousel-inner">
 									<div class="carousel-item active"> <img class="d-block w-100" src="/images/carousel_example.png" alt="First slide"> </div>
 									<div class="carousel-item"> <img class="d-block w-100" src="/images/specimens_from_MA.png" alt="Second slide"> </div>
