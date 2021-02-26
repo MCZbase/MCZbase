@@ -7,7 +7,7 @@
 
 			<article class="w-100">
 				<div class="col-12">
-					<ul class="unstyled py-2 border-top border-bottom border-light">
+					<ul class="list-group py-2 border-top border-bottom border-light">
 						<li>Aves</li>
 						<li>Amphibia</li>
 						<li>Reptilia</li>
@@ -25,7 +25,20 @@
 						<hr>
 						<div class="row mx-0">
 						<div class="col-12 col-md-4">
-						<h3>Localities</h3>
+														<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="..." alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Third slide">
+    </div>
+  </div>
+</div>
+<!---						<h3>Localities</h3>
 						<p>Maps and location images</p>
 						<figure>
 							<img src="/images/Hassler_expedition_route.png" class="p-2 w-100 border"/>
@@ -38,10 +51,27 @@
 							<i class="fas fa-angle-right float-right" style="width:15px;margin-top: 40%;"></i>
 							</div>
 						
-						</figure>
+						</figure>--->
+							
 						</div>
-						<div class="col-12 col-md-4">
-							<h3>Journals, Notes, Ledgers</h3>
+							
+							
+
+					<div class="col-12 col-md-4">
+													<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="..." alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Third slide">
+    </div>
+  </div>
+</div>
+					<!---			<h3>Journals, Notes, Ledgers</h3>
 						<p>Library scans of written material</p>
 						<figure>
 							<img src="/images/library_screenshot.png" class="p-2 w-100 border"/>
@@ -54,11 +84,11 @@
 							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 40%;"></i>
 							</div>
 					
-						</figure>
+						</figure>--->
 						
 						</div>
 						<div class="col-12 col-md-4 border">
-						<h3>Collectors and other agents</h3>
+						<!---<h3>Collectors and other agents</h3>
 						<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 						<figure>
 							<img src="/images/student_images.png" class="p-2 w-100"/>
@@ -70,20 +100,44 @@
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
 								<img src="/images/library_screenshot.png" class="px-2 py-2 col-3"/>
 							<i class="fas fa-angle-right float-right" style="width:10px;margin-top: 40%;"></i>
-							</div>
-						
+							</div>--->
+													<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="..." alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Third slide">
+    </div>
+  </div>
+</div>
 						
 				
 						</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-6 px-5 mt-4 float-left">
-				
-						<div class="bg-white p-2 border border-dark">
+											<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="..." alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Third slide">
+    </div>
+  </div>
+</div>
+						<!---<div class="bg-white p-2 border border-dark">
 							<figure> <img src="/images/carousel_example.png" class="p-2 w-100 border"/>
 								<figcaption class="pt-2">Specimen Images linked to the Hassler Expedition</figcaption>
 							</figure>
-						</div>
+						</div>--->
 					</div>
 				
 				</div>
