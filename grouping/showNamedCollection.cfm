@@ -70,7 +70,7 @@
 										<div class="carousel-inner">
 											<cfloop query="getAgentMedia"  STARTROW="1" ENDROW="3">
 											<cfoutput>
-											<div class="carousel-item"> <img class="d-block w-100" src="/media/94118" alt=""> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="#getAgentMedia.media_uri#" alt=""> </div>
 											</cfoutput>	
 											</cfloop>
 										</div>
