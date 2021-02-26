@@ -28,7 +28,7 @@
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/dredging_stations.png" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 									
 									<!---						<h3>Localities</h3>
 						<p>Maps and location images</p>
