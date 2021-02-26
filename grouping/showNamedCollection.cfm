@@ -1,7 +1,8 @@
 <cfset pageTitle = "Named Group">
 <cfinclude template="/shared/_header.cfm">
+	<cfoutput>
 	<cfset underscore_collection_id = "308">
-<cfoutput>
+
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select collection_name, description, underscore_agent_id, html_description, mask_fg from underscore_collection where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">;
 	</cfquery>
