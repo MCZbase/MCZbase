@@ -6,7 +6,7 @@
 		<div class="row">
 			<article class="w-100">
 				<div class="col-12">
-					<ul class="list-group py-2 border-top border-bottom border-light">
+					<ul class="list-group py-2 border-top border-bottom border-light float-left d-inline">
 						<li class="list-group-item">Aves</li>
 						<li class="list-group-item">Amphibia</li>
 						<li class="list-group-item">Reptilia</li>
