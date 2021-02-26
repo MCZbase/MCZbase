@@ -35,6 +35,15 @@
 									</div>
 								</div>
 								<div class="col-12 col-md-4 px-3">
+									<cfquery name="getCollEventMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct media_id
+									from underscore_relation
+									left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
+									left outer join media_relations on filtered_flat.collecting_event_id = media_relations.related_primary_key
+									where
+									media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									</cfquery>
+
 									<h3>Journals, Notes, Ledgers</h3>
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
@@ -47,6 +56,10 @@
 									</div>
 								</div>
 								<div class="col-12 col-md-4 "> 
+									<cfquery name="getAgentMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
+										where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
+									</cfquery>
 									<h3>Collectors and other agents</h3>
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
