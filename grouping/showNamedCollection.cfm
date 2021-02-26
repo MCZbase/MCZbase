@@ -76,7 +76,7 @@
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<cfloop query="getCollEventMedia"  STARTROW="0" ENDROW="3">
+											<cfloop query="getCollEventMedia"  STARTROW="1" ENDROW="3">
 											<div class="carousel-item active"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt="Third slide"> </div>	
@@ -112,11 +112,9 @@
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<cfloop query="getCollEventMedia" STARTROW="1" ENDROW="3">
-											<cfoutput>
 											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
-											</cfoutput>	
 											</cfloop>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
