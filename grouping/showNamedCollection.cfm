@@ -49,7 +49,7 @@
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<cfloop query="getCollEventMedia" index="0" from="1" to="3">
+											<cfloop query="getCollEventMedia"  STARTROW="1" ENDROW="3">>
 											<div class="carousel-item active"> <img class="d-block w-100" src="/media/#media_id#" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/media/#media_id#" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/media/#media_id#" alt="Third slide"> </div>
