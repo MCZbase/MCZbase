@@ -2260,6 +2260,9 @@ limitations under the License.
 									selectionmode: 'singlerow',
 									altrows: true,
 									showtoolbar: false,
+									ready: function () {
+										$("##permitPickResultsGrid").jqxGrid('selectrow', 0);
+									},
 									columns: [
 										{text: "Select", datafield: "permit_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
 										{text: "permit_num", datafield: "permit_num", width: 100, hideable: true, hidden: false }, 
@@ -4985,7 +4988,7 @@ limitations under the License.
 					$("##addressPickResultsGrid").jqxGrid({
 						width: "100%",
 						autoheight: "true",
-autorowheight: "true",
+						autorowheight: "true",
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
@@ -5002,6 +5005,9 @@ autorowheight: "true",
 						selectionmode: "singlerow",
 						altrows: true,
 						showtoolbar: false,
+						ready: function () {
+							$("##addressPickResultsGrid").jqxGrid('selectrow', 0);
+						},
 						columns: [
 							{text: "Select", datafield: "addr_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
 							{text: "Agent", datafield: "agent_name", width: 150, hideable: true, hidden: false }, 
