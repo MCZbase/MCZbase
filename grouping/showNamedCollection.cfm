@@ -14,7 +14,7 @@
 				
 					<div class="row">
 						<div class="col-12 col-md-6 px-0 float-left mt-4">
-							<h1>Hassler Expedition</h1>
+							<h1>#getNamedGroup.collection_name#</h1>
 							<hr>
 							<p>#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
