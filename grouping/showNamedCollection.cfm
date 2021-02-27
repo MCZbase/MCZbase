@@ -12,9 +12,9 @@
 	<main class="container py-3">
 	<div class="row">
 	<article class="w-100">
-	<div class="col-12">
-	<div class="row">
-		<div class="col-12 col-md-9 px-2 float-left mt-4">
+		<div class="col-12">
+		<div class="row">
+			<div class="col-12 col-md-9 px-2 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
@@ -110,8 +110,9 @@
 				</div>
 				<!--/.Carousel Wrapper--> 
 				</div>
-	
-		<div class="col-12 col-md-3 px-2 mt-5 float-left">
+		</div>
+		</div>
+			<div class="col-12 col-md-3 mt-5 float-left">
 			<div class="row">
 				<div class="col-12">
 					<h3>Taxa</h3>
@@ -124,14 +125,12 @@
 				</div>
 			</div>
 
+		</div>	
 		</div>
-				</div>
 		</div>
-		</div></div>
 	</article>
-
-</div>
-</main>
+	</div>
+	</main>
 		</cfoutput>
 <!--- class="container" --->
 
