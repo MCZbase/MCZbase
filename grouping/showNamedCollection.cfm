@@ -116,7 +116,7 @@
 			<div class="row">
 				<div class="col-12">
 					<h3>Taxa</h3>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 bg-light border-dark">
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">Aves</a></li>
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">Amphibia</a></li>
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">Reptilia</a></li>
@@ -126,14 +126,14 @@
 				
 				<div class="col-12">
 					<h3>Countries</h3>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 bg-light border-dark">
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">Uganda</a></li>
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">Democratic Republic of the Congo</a></li>
 					</ul>
 				</div>
 				<div class="col-12">
 					<h3>Specimen Records</h3>
-					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark bg-light" style="width:240px;">
+					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark" style="width:240px;">
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100540</a></li>
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100541</a></li>
 						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100542</a></li>
