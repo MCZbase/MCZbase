@@ -26,7 +26,7 @@
 								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
-									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true"  data-ride="false">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104291.JPG" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104341.JPG" alt="First slide"> </div>
@@ -37,7 +37,7 @@
 								<div class="col-12 col-md-4 px-3">
 									<h3>Journals, Notes, Ledgers</h3>
 									<p>Library scans of written material</p>
-									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true"  data-ride="false">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/agents/large/Samuel_Henshaw_2_Large.jpg" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg" alt="Second slide"> </div>
@@ -48,7 +48,7 @@
 								<div class="col-12 col-md-4 ">
 									<h3>Collectors and other agents</h3>
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
-									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
+									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true"  data-ride="false">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
