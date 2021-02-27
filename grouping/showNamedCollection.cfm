@@ -27,8 +27,8 @@
 									<cfquery name="localitymedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct media_id
 							from media
-							left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
-							left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
+							left outer join flat on underscore_relation.collection_object_id = flat.collection_object_id
+							left outer join media_relations on flat.locality_id = media_relations.related_primary_key
 							where
 							media_relationship like 'shows locality' and underscore_collection_id = 1
 										</cfquery>
