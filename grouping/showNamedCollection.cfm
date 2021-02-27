@@ -14,7 +14,63 @@
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
-			<div class="col-12 col-md-9 px-2 float-left mt-4">
+			<div class="col-12 col-md-1">
+								<div class=" ">
+				<h3>Featured Specimen Images</h3>
+				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
+				<!--Carousel Wrapper-->
+				<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel"> 
+					<!--Indicators-->
+					<ol class="carousel-indicators">
+						<li data-target="##carousel-example-2" data-slide-to="0" class="active"></li>
+						<li data-target="##carousel-example-2" data-slide-to="1"></li>
+						<li data-target="##carousel-example-2" data-slide-to="2"></li>
+					</ol>
+					<!--/.Indicators--> 
+					<!--Slides-->
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item active">
+							<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
+			  alt="First slide">
+								<div class="mask rgba-black-light"></div>
+							</div>
+							<div class="carousel-caption">
+								<h3 class="h3-responsive">Light mask</h3>
+								<p>First text</p>
+							</div>
+						</div>
+						<div class="carousel-item"> 
+							<!--Mask color-->
+							<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
+			  alt="Second slide">
+								<div class="mask rgba-black-strong"></div>
+							</div>
+							<div class="carousel-caption">
+								<h3 class="h3-responsive">MCZ Herpetology A-15810 - Ooeidozyga floresiana</h3>
+								<p>Indonesia, Rana Mese: Flores: Dutch East Indies</p>
+							</div>
+						</div>
+						<div class="carousel-item"> 
+							<!--Mask color-->
+							<div class="view"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104291.JPG"
+			  alt="Third slide">
+								<div class="mask rgba-black-slight"></div>
+							</div>
+							<div class="carousel-caption">
+								<h3 class="h3-responsive">Slight mask</h3>
+								<p>Third text</p>
+							</div>
+						</div>
+					</div>
+					<!--/.Slides--> 
+					<!--Controls--> 
+					<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+					<!--/.Controls--> 
+				</div>
+				<!--/.Carousel Wrapper--> 
+				</div>
+			</div>
+			<div class="col-12 col-md-8 px-2 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
