@@ -10,7 +10,7 @@
 	</cfquery>
 <cfquery name="getCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select collection_cde, cat_num
-		from underscore_relation, cataloged_item where underscore_relation.collection_object_id = cataloged_item.collection_object_id and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		from underscore_relation, flat_text where flat.collection_object_id = underscore_relation.collection_object_id and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container py-3">
 		<div class="row">
@@ -49,7 +49,7 @@
 													media.media_id=media_labels.media_id (+) and
 													underscore_relation.collection_object_id = media_relations.related_primary_key and
 													media_relations.media_relationship like '%cataloged_item' and
-													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+													underscored_relation.collection_object_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
 							</cfquery>
