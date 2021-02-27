@@ -14,7 +14,7 @@
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
-			<div class="col-12 px-5 col-md-3 bg-light border-dark mt-4">
+			<div class="col-12 px-5 col-md-3 border-dark mt-4">
 								<div class=" ">
 				<h3>Featured Specimen Images</h3>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
