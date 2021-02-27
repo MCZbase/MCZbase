@@ -87,6 +87,9 @@
 					</div>
 				</div>
 			</article>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
 				<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
 
   <!--Controls-->
@@ -213,7 +216,7 @@
     }
     next.children(':first-child').clone().appendTo($(this));
   }
-				});</script>
+				});</script></div></div></div>
 		</div>
 	</main>
 	<!--- class="container" ---> 
