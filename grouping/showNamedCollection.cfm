@@ -30,7 +30,7 @@
 							left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
 							left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
 							where
-							media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+							media_relationship like 'shows locality' and underscore_collection_id = 1
 										</cfquery>
 								#localitymedia.media_id#
 									<h3>Localities</h3>
