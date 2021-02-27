@@ -123,6 +123,14 @@
 						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Cephalopoda</a></li>
 					</ul>
 				</div>
+				
+				<div class="col-12">
+					<h3>Countries</h3>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Uganda</a></li>
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Democratic Republic of the Congo</a></li>
+					</ul>
+				</div>
 			</div>
 
 		</div>	
