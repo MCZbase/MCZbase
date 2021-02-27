@@ -60,7 +60,7 @@
 						</div>
 						<div class="col-12 col-md-6 px-5 mt-5 float-left">
 							<div class="col-12">
-								<ul class="list-group py-3 border-top border-bottom border-dark">
+								<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Aves</a></li>
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Amphibia</a></li>
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Reptilia</a></li>
