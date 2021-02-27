@@ -34,9 +34,9 @@
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104291.JPG" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-test.rc.fas.harvard.edu/media/94165" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-test.rc.fas.harvard.edu/media/94187" alt="First slide"> </div>
+											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104291.JPG" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/media/94165" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/media/94187" alt="First slide"> </div>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
@@ -46,12 +46,11 @@
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<cfloop query="mediaCollEvent"  STARTROW="1" ENDROW="3">
-											<div class="carousel-item active"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="Second slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="Third slide"> </div>	
-											</cfloop>
-										</div>
+										
+											<div class="carousel-item active"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A10442_B_uluguruensis_H_label.jpg" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A11968_P_alleni_P_v.jpg" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/R9631_S_guttatus_H_hv.jpg" alt="Third slide"> </div>	
+																				</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
 								</div>
@@ -60,11 +59,11 @@
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-										<cfloop query="mediaAgent" STARTROW="1" ENDROW="3">
-										<div class="carousel-item"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt=""> </div>
-										<div class="carousel-item"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt=""> </div>
-										<div class="carousel-item"> <img class="d-block w-100" src="#mediaAgent.media_uri#" alt=""> </div>
-										</cfloop>
+									
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134172.JPG" alt=""> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_08/IMG_134637.JPG" alt=""> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG" alt=""> </div>
+									
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
