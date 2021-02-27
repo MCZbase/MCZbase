@@ -90,118 +90,49 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-				<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
-
-  <!--Controls-->
-  <div class="controls-top">
-    <a class="btn-floating" href="##carousel-example-multi" data-slide="prev"><i
-        class="fas fa-chevron-left"></i></a>
-    <a class="btn-floating" href="##carousel-example-multi" data-slide="next"><i
-        class="fas fa-chevron-right"></i></a>
-  </div>
-  <!--/.Controls-->
-
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="##carousel-example-multi" data-slide-to="0" class="active"></li>
-    <li data-target="##carousel-example-multi" data-slide-to="1"></li>
-    <li data-target="##carousel-example-multi" data-slide-to="2"></li>
-    <li data-target="##carousel-example-multi" data-slide-to="3"></li>
-    <li data-target="##carousel-example-multi" data-slide-to="4"></li>
-    <li data-target="##carousel-example-multi" data-slide-to="5"></li>
-  </ol>
-  <!--/.Indicators-->
-
-  <div class="carousel-inner v-2" role="listbox">
-
+		<!--Carousel Wrapper-->
+<div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
     <div class="carousel-item active">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
+      <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg"
+        alt="First slide">
     </div>
     <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
+      <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(121).jpg"
+        alt="Second slide">
     </div>
     <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
+      <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg"
+        alt="Third slide">
     </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="col-12 col-md-4">
-        <div class="card mb-2">
-          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
-            alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title font-weight-bold">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-              card's content.</p>
-            <a class="btn btn-primary btn-md btn-rounded">Button</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
-
-</div><script>
+  <!--/.Slides-->
+  <!--Controls-->
+  <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  <!--/.Controls-->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-thumb" data-slide-to="0" class="active">
+      <img src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(88).jpg" width="100">
+    </li>
+    <li data-target="#carousel-thumb" data-slide-to="1">
+      <img src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(121).jpg" width="100">
+    </li>
+    <li data-target="#carousel-thumb" data-slide-to="2">
+      <img src="https://mdbootstrap.com/img/Photos/Others/Carousel-thumbs/img%20(31).jpg" width="100">
+    </li>
+  </ol>
+</div>
+<!--/.Carousel Wrapper-->
+							
+							<script>
 				$('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
   var next = $(this).next();
   if (!next.length) {
