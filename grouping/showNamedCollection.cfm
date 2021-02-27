@@ -90,7 +90,7 @@
 				</cfoutput>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12 mb-5">
 		<!--Carousel Wrapper-->
 <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
   <!--Slides-->
