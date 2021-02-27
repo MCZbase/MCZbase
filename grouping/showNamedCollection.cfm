@@ -61,11 +61,12 @@
 						<div class="col-12 col-md-6 px-5 mt-5 float-left">
 							<div class="row">
 							<div class="col-12">
+								<h3>Taxa</h3>
 								<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Aves</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Amphibia</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Reptilia</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Cephalopoda</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Aves</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Amphibia</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Reptilia</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Cephalopoda</a></li>
 								</ul>
 							</div>
 							</div>
