@@ -14,7 +14,7 @@
 	<article class="w-100">
 	<div class="col-12">
 	<div class="row">
-		<div class="col-12 col-md-6 px-0 float-left mt-4">
+		<div class="col-12 col-md-7 px-0 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-md-6 px-5 mt-5 float-left">
+		<div class="col-12 col-md-5 px-5 mt-5 float-left">
 			<div class="row">
 				<div class="col-12">
 					<h3>Taxa</h3>
