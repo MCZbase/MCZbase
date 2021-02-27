@@ -73,7 +73,7 @@
 								where
 								media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							</cfquery>
-								#media_id#
+								#getCollEventMedia.media_id#
 								<cfquery name="mediaCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct
 									media.media_id,
