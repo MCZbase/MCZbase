@@ -91,21 +91,21 @@
 
   <!--Controls-->
   <div class="controls-top">
-    <a class="btn-floating" href="#carousel-example-multi" data-slide="prev"><i
+    <a class="btn-floating" href="##carousel-example-multi" data-slide="prev"><i
         class="fas fa-chevron-left"></i></a>
-    <a class="btn-floating" href="#carousel-example-multi" data-slide="next"><i
+    <a class="btn-floating" href="##carousel-example-multi" data-slide="next"><i
         class="fas fa-chevron-right"></i></a>
   </div>
   <!--/.Controls-->
 
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#carousel-example-multi" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="1"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="2"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="3"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="4"></li>
-    <li data-target="#carousel-example-multi" data-slide-to="5"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="0" class="active"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="1"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="2"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="3"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="4"></li>
+    <li data-target="##carousel-example-multi" data-slide-to="5"></li>
   </ol>
   <!--/.Indicators-->
 
@@ -114,7 +114,7 @@
     <div class="carousel-item active">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (36).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
@@ -128,7 +128,7 @@
     <div class="carousel-item">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (34).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
@@ -142,7 +142,7 @@
     <div class="carousel-item">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (38).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
@@ -156,7 +156,7 @@
     <div class="carousel-item">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (29).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
@@ -170,7 +170,7 @@
     <div class="carousel-item">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (30).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
@@ -184,7 +184,7 @@
     <div class="carousel-item">
       <div class="col-12 col-md-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/img (27).jpg"
+          <img class="card-img-top" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG"
             alt="Card image cap">
           <div class="card-body">
             <h4 class="card-title font-weight-bold">Card title</h4>
