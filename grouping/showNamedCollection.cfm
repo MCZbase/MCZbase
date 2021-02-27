@@ -10,10 +10,10 @@
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container-fluid py-3">
-	<div class="row">
+	<div class="row mx-0">
 	<article class="w-100">
 		<div class="col-12">
-		<div class="row">
+		<div class="row mx-0">
 			<div class="col-12 col-md-9 px-2 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
@@ -113,7 +113,7 @@
 		</div>
 		</div>
 			<div class="col-12 col-md-3 mt-5 float-left">
-			<div class="row">
+			<div class="row mx-0">
 				<div class="col-12">
 					<h3>Taxa</h3>
 					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
