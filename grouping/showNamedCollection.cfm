@@ -14,7 +14,7 @@
 	<article class="w-100">
 	<div class="col-12">
 	<div class="row">
-		<div class="col-12 col-md-7 px-5 float-left mt-4">
+		<div class="col-12 col-md-8 px-5 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
@@ -23,7 +23,7 @@
 			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 			<hr>
 			<div class="row">
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-3">
 					<h3>Localities</h3>
 					<p>Maps and location images</p>
 					<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true"  data-ride="false">
@@ -34,7 +34,7 @@
 						</div>
 						<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 				</div>
-				<div class="col-12 col-md-4 px-3">
+				<div class="col-12 col-md-3">
 					<h3>Journals, Notes, Ledgers</h3>
 					<p>Library scans of written material</p>
 					<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true"  data-ride="false">
@@ -45,7 +45,7 @@
 						</div>
 						<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 				</div>
-				<div class="col-12 col-md-4 ">
+				<div class="col-12 col-md-3 ">
 					<h3>Collectors and other agents</h3>
 					<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 					<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true"  data-ride="false">
@@ -56,21 +56,8 @@
 						</div>
 						<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 				</div>
-			</div>
-		</div>
-		<div class="col-12 col-md-5 px-5 mt-5 float-left">
-			<div class="row">
-				<div class="col-12">
-					<h3>Taxa</h3>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Aves</a></li>
-						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Amphibia</a></li>
-						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Reptilia</a></li>
-						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Cephalopoda</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="my-3">
+				
+				<div class="col-12 col-md-3 ">
 				<h3>Featured Specimen Images</h3>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 			</div>
@@ -124,6 +111,21 @@
 				<!--/.Controls--> 
 			</div>
 			<!--/.Carousel Wrapper--> 
+			</div>
+		</div>
+		<div class="col-12 col-md-4 px-5 mt-5 float-left">
+			<div class="row">
+				<div class="col-12">
+					<h3>Taxa</h3>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Aves</a></li>
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Amphibia</a></li>
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Reptilia</a></li>
+						<li class="list-group-item float-left" style="width:100px"><a class="h4" href="##">Cephalopoda</a></li>
+					</ul>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	</article>
