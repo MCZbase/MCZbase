@@ -10,7 +10,7 @@
 	</cfquery>
 <cfquery name="getCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select collection, cat_num
-		from underscore_relation, cataloged_item where underscore_relation.collection_object_id = cataloged_item.collection_object_id and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		from underscore_relation, cataloged_item where underscore_relation.collection_object_id = cataloged_item.collection_object_id and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container py-3">
 		<div class="row">
