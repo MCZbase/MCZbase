@@ -14,7 +14,7 @@
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
-			<div class="col-12 col-md-2">
+			<div class="col-12 col-md-3">
 								<div class=" ">
 				<h3>Featured Specimen Images</h3>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
@@ -70,7 +70,7 @@
 				<!--/.Carousel Wrapper--> 
 				</div>
 			</div>
-			<div class="col-12 col-md-7 px-2 float-left mt-4">
+			<div class="col-12 col-md-6 px-2 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
