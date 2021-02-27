@@ -135,11 +135,11 @@
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<cfloop query="mediaCollEvent" STARTROW="1" ENDROW="3">
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="media.media_descriptor"> </div>
-											</cfloop>
+										<cfloop query="mediaCollEvent" STARTROW="1" ENDROW="3">
+										<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="mediaCollEvent.media_descriptor"> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="mediaCollEvent.media_descriptor"> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="#mediaCollEvent.media_uri#" alt="mediaCollEvent.media_descriptor"> </div>
+										</cfloop>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
