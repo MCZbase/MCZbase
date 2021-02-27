@@ -4,7 +4,8 @@
 	<cfset underscore_collection_id = "1">
 	<cfset underscore_agent_id = "117103">
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection_name, underscore_collection.description, underscore_agent_id, html_description, underscore_collection.mask_fg from underscore_collection where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		select underscore_collection.collection_name, underscore_collection.description, underscore_collection.underscore_agent_id, underscore_relation.collection_object_id, underscore_collection.html_description, underscore_collection.mask_fg 
+		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 
 	<main class="container py-3">
@@ -24,22 +25,38 @@
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
-						<cfquery name="getCollEventMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select distinct media_id
-from underscore_relation
-left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
-left outer join media_relations on filtered_flat.collecting_event_id = media_relations.related_primary_key
-where
-media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-</cfquery>
+						
+								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select distinct
+													media.media_id,
+													media.media_uri,
+													media.mime_type,
+													media.media_type,
+													media.preview_uri,
+													media_relations.media_relationship,
+													mczbase.get_media_descriptor(media.media_id) as media_descriptor
+										from
+													media,
+													media_relations,
+													media_labels,
+													underscore_relation
+										where
+													media.media_id=media_relations.media_id and
+													media.media_id=media_labels.media_id (+) and
+													underscore_relation.collection_object_id = media_relations.related_primary_key and
+													media_relations.media_relationship like '%cataloged_item' and
+													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										order by media.media_type
+							</cfquery>
+						
 
-								#getCollEventMedia.media_id#
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 										
-											<div class="carousel-item"> <img class="d-block w-100" src="#media_uri#" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="#media.media_uri#" alt="First slide"> </div>
 			
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
