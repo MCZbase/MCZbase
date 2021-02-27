@@ -3,11 +3,14 @@
 	<cfoutput>
 	<cfset underscore_collection_id = "1">
 	<cfset underscore_agent_id = "117103">
+		
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select underscore_collection.collection_name, underscore_collection.description, underscore_collection.underscore_agent_id, underscore_relation.collection_object_id, underscore_collection.html_description, underscore_collection.mask_fg 
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
-
+<cfquery name="getCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select collection, cat_num
+		from underscore_relation, cataloged_item where underscore_relation.collection_object_id = cataloged_item.collection_object_id and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	<main class="container py-3">
 		<div class="row">
 			<article class="w-100">
