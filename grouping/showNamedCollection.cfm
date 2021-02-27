@@ -60,7 +60,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = #getLocalityMedia.media_id#>
+									media_relations.media_id = 94118
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
