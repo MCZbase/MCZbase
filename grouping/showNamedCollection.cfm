@@ -62,15 +62,17 @@
 							<div class="row">
 							<div class="col-12">
 								<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-									<li class="list-group-item float-left" style="width:100px"><a href="##">Aves</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a href="##">Amphibia</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a href="##">Reptilia</a></li>
-									<li class="list-group-item float-left" style="width:100px"><a href="##">Cephalopoda</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Aves</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Amphibia</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Reptilia</a></li>
+									<li class="list-group-item float-left" style="width:100px"><a class="h3" href="##">Cephalopoda</a></li>
 								</ul>
 							</div>
 							</div>
+							<div class="my-3">
 												<h3>Featured Specimen Images</h3>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
+							</div>
 							<!--Carousel Wrapper-->
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
   <!--Indicators-->
