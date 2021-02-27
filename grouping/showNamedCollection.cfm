@@ -24,39 +24,22 @@
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
-									<cfset media_id ="">
-								<cfquery name="getLocalityMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct media_id from underscore_relation left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
-									left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
-									where
-									media_relationship like 'shows locality' and underscore_collection_id = 1
-								</cfquery>
-										#media_id#
-								<cfquery name="mediaLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct
-									media.media_id,
-									media.media_uri,
-									media.mime_type,
-									media.media_type,
-									media.preview_uri,
-									media_relations.media_relationship
-								from
-									media,
-									media_relations
-								where
-									media.media_id=media_relations.media_id and
-									media_relations.media_relationship like '%locality' and
-									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLocalityMedia.media_id#">
-									AND MCZBASE.is_media_encumbered(media.media_id) < 1
-								</cfquery>
+									<cfquery name="localitymedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct media_id
+							from media
+							left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
+							left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
+							where
+							media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										</cfquery>
+								#localitymedia.media_id#
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<cfloop query="mediaLocality" STARTROW="1" ENDROW="3">
-											<div class="carousel-item"> <img class="d-block w-100" src="#mediaLocality.media_uri#" alt="First slide"> </div>
+										
+											<div class="carousel-item"> <img class="d-block w-100" src="#media_uri#" alt="First slide"> </div>
 			
-											</cfloop>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
