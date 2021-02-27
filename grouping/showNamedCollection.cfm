@@ -56,9 +56,9 @@
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 											<cfloop query="mediaLocality" STARTROW="1" ENDROW="3">
-											<div class="carousel-item active"> <img class="d-block w-100" src="#media_uri#" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#media_uri#" alt="Second slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="#media_uri#" alt="Third slide"> </div>
+											<div class="carousel-item active"> <img class="d-block w-100" src="#mediaLocality.media_uri#" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="#mediaLocality.media_uri#" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="#mediaLocality.media_uri#" alt="Third slide"> </div>
 											</cfloop>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
@@ -73,6 +73,7 @@
 								where
 								media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 							</cfquery>
+								#media_id#
 								<cfquery name="mediaCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct
 									media.media_id,
