@@ -58,9 +58,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-6 px-5 mt-4 float-left">
+						<div class="col-12 col-md-6 px-5 mt-5 float-left">
 							<div class="col-12">
-								<ul class="list-group py-2 border-top border-bottom border-light">
+								<ul class="list-group py-3 border-top border-bottom border-dark">
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Aves</a></li>
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Amphibia</a></li>
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Reptilia</a></li>
