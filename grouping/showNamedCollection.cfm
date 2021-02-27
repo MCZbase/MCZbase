@@ -94,7 +94,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = <cfqueryparam value=#getCollEventMedia.media_id# CFSQLType="CF_SQL_DECIMAL" >
+									media_relations.media_id = 94118
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
