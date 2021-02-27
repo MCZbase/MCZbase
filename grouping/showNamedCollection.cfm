@@ -91,7 +91,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mb-5">
-		<!--Carousel Wrapper-->
+<!--Carousel Wrapper-->
 <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
   <!--Slides-->
   <div class="carousel-inner" role="listbox">
@@ -132,7 +132,6 @@
   </ol>
 </div>
 <!--/.Carousel Wrapper-->
-							
 	</div></div></div>
 		</div>
 	</main>
