@@ -71,7 +71,7 @@
 								left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
 								left outer join media_relations on filtered_flat.collecting_event_id = media_relations.related_primary_key
 								where
-								media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_collection_id#">
 							</cfquery>
 								#getCollEventMedia.media_id#
 								<cfquery name="mediaCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
