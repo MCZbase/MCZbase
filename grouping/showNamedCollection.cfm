@@ -24,15 +24,16 @@
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
-									<cfquery name="localitymedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct media_id
-							from media
-							left outer join flat on underscore_relation.collection_object_id = flat.collection_object_id
-							left outer join media_relations on flat.locality_id = media_relations.related_primary_key
-							where
-							media_relationship like 'shows locality' and underscore_collection_id = 1
-										</cfquery>
-								#localitymedia.media_id#
+						<cfquery name="getCollEventMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select distinct media_id
+from underscore_relation
+left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
+left outer join media_relations on filtered_flat.collecting_event_id = media_relations.related_primary_key
+where
+media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+</cfquery>
+
+								#getCollEventMedia.media_id#
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true">
