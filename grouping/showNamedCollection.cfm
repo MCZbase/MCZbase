@@ -134,13 +134,13 @@
 				<div class="col-12">
 					<h3>Specimen Records</h3>
 					<ul class="list-group d-inline py-3 border-top border-bottom rounded-0 border-dark" style="width:240px;">
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100540</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100541</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100542</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100543</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100544</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100545</a></li>
-						<li class="list-group-item float-left d-inline" style="width:100px"><a class="h4" href="##">MCZ:IP:100546</a></li>
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100540</a></li>
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100541</a></li>
+						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100542</a></li>
+						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100543</a></li>
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100544</a></li>
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100545</a></li>
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100546</a></li>
 					</ul>
 				</div>
 			</div>
