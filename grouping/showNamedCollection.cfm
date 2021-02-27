@@ -70,7 +70,7 @@
 							</div>
 							</div>
 												<h3>Featured Specimen Images</h3>
-							<p>Specimen Images linked to the Hassler Expedition</p>
+							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
   <!--Indicators-->
