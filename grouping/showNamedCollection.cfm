@@ -50,7 +50,7 @@
 									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134172.JPG" alt=""> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/test/LouisAgassiz.jpg" alt=""> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_08/IMG_134637.JPG" alt=""> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG" alt=""> </div>
 										</div>
