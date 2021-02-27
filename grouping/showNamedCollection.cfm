@@ -47,10 +47,9 @@
 								where
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
-									media_relations.media_relationship like '%cataloged_item' and
+									media_relations.media_relationship like '%locality' and
 									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLocalityMedia.media_id#">
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
-								order by media.media_type
 								</cfquery>
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
