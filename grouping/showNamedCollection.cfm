@@ -38,15 +38,12 @@
 									media.mime_type,
 									media.media_type,
 									media.preview_uri,
-									media_relations.media_relationship,
-									mczbase.get_media_descriptor(media.media_id) as media_descriptor
+									media_relations.media_relationship
 								from
 									media,
-									media_relations,
-									media_labels
+									media_relations
 								where
 									media.media_id=media_relations.media_id and
-									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%locality' and
 									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLocalityMedia.media_id#">
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
