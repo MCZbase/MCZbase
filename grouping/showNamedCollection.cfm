@@ -9,7 +9,7 @@
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 <cfquery name="getCatalogedItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection, cat_num
+			select collection_cde, cat_num
 		from underscore_relation, cataloged_item where underscore_relation.collection_object_id = cataloged_item.collection_object_id and underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container py-3">
