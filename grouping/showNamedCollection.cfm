@@ -32,7 +32,7 @@
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104341.JPG" alt="First slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104351.JPG" alt="First slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 								<div class="col-12 col-md-4 px-3">
 									<h3>Journals, Notes, Ledgers</h3>
@@ -43,7 +43,7 @@
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104341.JPG" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 								<div class="col-12 col-md-4 ">
 									<h3>Collectors and other agents</h3>
@@ -54,7 +54,7 @@
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_08/IMG_134637.JPG" alt=""> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG" alt=""> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 							</div>
 						</div>
@@ -82,7 +82,7 @@
 									<div class="carousel-item"> <img class="d-block w-100" src="/images/specimens_from_MA.png" alt="Second slide"> </div>
 									<div class="carousel-item"> <img class="d-block w-100" src="/images/carousel_example.png" alt="Third slide"> </div>
 								</div>
-								<a class="carousel-control-prev" href="##carouselExampleControls1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+								<a class="carousel-control-prev" href="##carouselExampleControls1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls1" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 						</div>
 					</div>
 				</div>
