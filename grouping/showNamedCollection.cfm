@@ -10,7 +10,7 @@
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container-fluid py-3">
-	<div class="row mx-4">
+	<div class="row mx-5">
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
@@ -133,7 +133,7 @@
 				</div>
 				<div class="col-12">
 					<h3>Specimen Records</h3>
-					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark" style="width:240px;">
+					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100540</a></li>
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100541</a></li>
 						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100542</a></li>
