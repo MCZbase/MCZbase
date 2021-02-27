@@ -12,17 +12,17 @@
 		left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
 		left outer join media_relations on filtered_flat.collecting_event_id = media_relations.related_primary_key
 		where
-		media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_collection_id#">
+		media_relationship like 'shows collecting_event' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<cfquery name="getAgentMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
-		where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#">)
+		where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
 	</cfquery>
 	<cfquery name="getLocalityMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media_id from underscore_relation left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
 		left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
 		where
-		media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_collection_id#">
+		media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>	
 
 	<main class="container py-3">
@@ -59,7 +59,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = <cfqueryparam value=#getLocalityMedia.media_id# CFSQLType="CF_SQL_DECIMAL" >
+									media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
@@ -93,7 +93,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = <cfqueryparam value=#getAgentMedia.media_id# CFSQLType="CF_SQL_DECIMAL" >
+									media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
@@ -128,7 +128,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = <cfqueryparam value=#getCollEventMedia.media_id# CFSQLType="CF_SQL_DECIMAL" >
+									media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
