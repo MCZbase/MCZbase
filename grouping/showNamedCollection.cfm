@@ -40,7 +40,7 @@
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true"  data-ride="false">
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/agents/large/Samuel_Henshaw_2_Large.jpg" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="" alt="Second slide"> </div>
 											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Third slide"> </div>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
@@ -84,7 +84,7 @@
   <div class="carousel-inner" role="listbox">
     <div class="carousel-item active">
       <div class="view">
-        <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104341.JPG"
+        <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
           alt="First slide">
         <div class="mask rgba-black-light"></div>
       </div>
