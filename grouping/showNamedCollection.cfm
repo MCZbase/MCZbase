@@ -33,10 +33,10 @@
 			  alt="First slide">
 								<div class="mask rgba-black-light"></div>
 							</div>
-							<div class="carousel-caption">
+					<!---		<div class="carousel-caption">
 								<h3 class="h3-responsive">Light mask</h3>
 								<p>First text</p>
-							</div>
+							</div>--->
 						</div>
 						<div class="carousel-item"> 
 							<!--Mask color-->
@@ -44,10 +44,10 @@
 			  alt="Second slide">
 								<div class="mask rgba-black-strong"></div>
 							</div>
-							<div class="carousel-caption">
+			<!---				<div class="carousel-caption">
 								<h3 class="h3-responsive">MCZ Herpetology A-15810 - Ooeidozyga floresiana</h3>
 								<p>Indonesia, Rana Mese: Flores: Dutch East Indies</p>
-							</div>
+							</div>--->
 						</div>
 						<div class="carousel-item"> 
 							<!--Mask color-->
@@ -55,10 +55,10 @@
 			  alt="Third slide">
 								<div class="mask rgba-black-slight"></div>
 							</div>
-							<div class="carousel-caption">
+				<!---			<div class="carousel-caption">
 								<h3 class="h3-responsive">Slight mask</h3>
 								<p>Third text</p>
-							</div>
+							</div>--->
 						</div>
 					</div>
 					<!--/.Slides--> 
