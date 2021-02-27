@@ -7,12 +7,6 @@
 		select collection_name, underscore_collection.description, underscore_agent_id, html_description, underscore_collection.mask_fg from underscore_collection where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 
-	<cfquery name="getAgentMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
-		where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
-	</cfquery>
-
-
 	<main class="container py-3">
 		<div class="row">
 			<article class="w-100">
@@ -112,6 +106,10 @@
 									</div>
 								</div>
 								<div class="col-12 col-md-4 "> 
+								<cfquery name="getAgentMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
+									where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
+								</cfquery>
 								<cfquery name="mediaCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct
 									media.media_id,
@@ -129,7 +127,7 @@
 									media.media_id=media_relations.media_id and
 									media.media_id=media_labels.media_id (+) and
 									media_relations.media_relationship like '%cataloged_item' and
-									media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+									media_relations.media_id = 94118
 									AND MCZBASE.is_media_encumbered(media.media_id) < 1
 								order by media.media_type
 								</cfquery>
