@@ -116,13 +116,13 @@
     <div class="carousel-item">
       <!--Mask color-->
       <div class="view">
-        <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(6).jpg"
+        <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
           alt="Second slide">
         <div class="mask rgba-black-strong"></div>
       </div>
       <div class="carousel-caption">
-        <h3 class="h3-responsive">Strong mask</h3>
-        <p>Secondary text</p>
+        <h3 class="h3-responsive">MCZ Herpetology A-15810 - Ooeidozyga floresiana</h3>
+        <p>Indonesia, Rana Mese: Flores: Dutch East Indies</p>
       </div>
     </div>
     <div class="carousel-item">
