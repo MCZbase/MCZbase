@@ -47,9 +47,9 @@
 									<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 										
-											<div class="carousel-item active"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A10442_B_uluguruensis_H_label.jpg" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A11968_P_alleni_P_v.jpg" alt="Second slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/R9631_S_guttatus_H_hv.jpg" alt="Third slide"> </div>	
+											<div class="carousel-item active"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A10442_B_uluguruensis_H_label.jpg" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A11968_P_alleni_P_v.jpg" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/R9631_S_guttatus_H_hv.jpg" alt="Third slide"> </div>	
 																				</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 									</div>
@@ -60,9 +60,9 @@
 									<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true">
 										<div class="carousel-inner">
 									
-										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134172.JPG" alt=""> </div>
-										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_08/IMG_134637.JPG" alt=""> </div>
-										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG" alt=""> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134172.JPG" alt=""> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_08/IMG_134637.JPG" alt=""> </div>
+										<div class="carousel-item"> <img class="d-block w-100" src="http://mczbase-dev.rc.fas.harvard.edu/specimen_images/ent-lepidoptera/images/2012_11_03/IMG_134169.JPG" alt=""> </div>
 									
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
