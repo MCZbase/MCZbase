@@ -67,31 +67,9 @@
 									<li class="list-group-item float-left" style="width:100px"><a href="##">Cephalopoda</a></li>
 								</ul>
 							</div>
-							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct media_id
-							from underscore_relation
-							left outer join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
-							where
-							media_relationship like 'shows cataloged_item' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-						</cfquery>
-							<h3>Featured Specimen Images</h3>
+												<h3>Featured Specimen Images</h3>
 							<p>Specimen Images linked to the Hassler Expedition</p>
-							<div id="carouselExampleControls1" class="carousel slide" data-keyboard="true">
-								<div class="carousel-inner">
-									<div class="carousel-item active"> <img class="d-block w-100" src="/images/carousel_example.png" alt="First slide"> </div>
-									<div class="carousel-item"> <img class="d-block w-100" src="/images/specimens_from_MA.png" alt="Second slide"> </div>
-									<div class="carousel-item"> <img class="d-block w-100" src="/images/carousel_example.png" alt="Third slide"> </div>
-								</div>
-								<a class="carousel-control-prev" href="##carouselExampleControls1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls1" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
-						</div>
-					</div>
-				</div>
-			</article>
-				</cfoutput>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-6 mb-5">
-<!--Carousel Wrapper-->
+							<!--Carousel Wrapper-->
 <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
   <!--Indicators-->
   <ol class="carousel-indicators">
@@ -151,7 +129,11 @@
   <!--/.Controls-->
 </div>
 <!--/.Carousel Wrapper-->
-	</div></div></div>
+					</div>
+				</div>
+			</article>
+				</cfoutput>
+
 		</div>
 	</main>
 	<!--- class="container" ---> 
