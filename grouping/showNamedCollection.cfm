@@ -110,7 +110,7 @@
 				</div>
 				<!--/.Carousel Wrapper--> 
 				</div>
-		</div>
+	
 		<div class="col-12 col-md-3 px-2 mt-5 float-left">
 			<div class="row">
 				<div class="col-12">
@@ -125,6 +125,7 @@
 			</div>
 
 		</div>
+				</div>
 		</div>
 		</div></div>
 	</article>
