@@ -18,12 +18,7 @@
 		select distinct media_id from (select media_id from media_relations	where media_relationship like 'shows agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_agent_id#"> union select media_id from group_member left join media_relations on group_member.member_agent_id = media_relations.related_primary_key
 		where media_relationship like 'shows agent' and group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">)
 	</cfquery>
-	<cfquery name="getLocalityMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct media_id from underscore_relation left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
-		left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
-		where
-		media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-	</cfquery>	
+
 
 	<main class="container py-3">
 		<div class="row">
@@ -42,6 +37,12 @@
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
+								<cfquery name="getLocalityMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct media_id from underscore_relation left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
+									left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
+									where
+									media_relationship like 'shows locality' and underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								</cfquery>	
 								<cfquery name="mediaLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct
 									media.media_id,
