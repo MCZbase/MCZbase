@@ -18,7 +18,7 @@
 				<h3>Featured Specimen Images</h3>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 				<!--Carousel Wrapper-->
-				<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel"> 
+				<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="false"> 
 					<!--Indicators-->
 					<ol class="carousel-indicators">
 						<li data-target="##carousel-example-2" data-slide-to="0" class="active"></li>
