@@ -14,7 +14,7 @@
 	<article class="w-100">
 	<div class="col-12">
 	<div class="row">
-		<div class="col-12 col-md-9 px-3 float-left mt-4">
+		<div class="col-12 col-md-9 px-2 float-left mt-4">
 			<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
@@ -111,7 +111,7 @@
 				<!--/.Carousel Wrapper--> 
 				</div>
 		</div>
-		<div class="col-12 col-md-3 px-5 mt-5 float-left">
+		<div class="col-12 col-md-3 px-2 mt-5 float-left">
 			<div class="row">
 				<div class="col-12">
 					<h3>Taxa</h3>
@@ -125,11 +125,13 @@
 			</div>
 
 		</div>
-	</div>
+		</div>
+		</div></div>
 	</article>
-</cfoutput>
+
 </div>
 </main>
+		</cfoutput>
 <!--- class="container" --->
 
 <cfinclude template = "/shared/_footer.cfm">
