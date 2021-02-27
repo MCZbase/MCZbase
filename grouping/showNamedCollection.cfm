@@ -24,6 +24,7 @@
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
+									<cfset media_id ="">
 								<cfquery name="getLocalityMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media_id from underscore_relation left outer join filtered_flat on underscore_relation.collection_object_id = filtered_flat.collection_object_id
 									left outer join media_relations on filtered_flat.locality_id = media_relations.related_primary_key
