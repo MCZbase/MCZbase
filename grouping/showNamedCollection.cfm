@@ -118,7 +118,7 @@
 				<div class="col-12">
 					<h3>Taxa</h3>
 					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					    select distinct flat.phylclass from flat, underscore_collection, underscore_relation 
+					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
 						where underscore_relation.collection_object_id = flat.collection_object_id
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
