@@ -170,18 +170,19 @@
 								</div>
 								<div class="col-12">
 									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct flat.GUID as guid, flat.specimendetailurl as GUIDLINK from flat, underscore_collection, underscore_relation 
+									select distinct flat.GUID as guid, flat.specimendetailurl as specimendetailurl 
+									from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 									and underscore_collection.underscore_collection_id = 1
 									and flat.GUID is not null
-									order by flat.GUID asc
+									order by flat.GUID,flat.specimendetailurl asc
 									</cfquery>
 				
 									<h3>Specimen Records</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="specimens">
-											<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="#specimens.guidlink#">#specimens.guid#</a></li>
+											<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="#specimens.specimendetailurl#">#specimens.guid#</a></li>
 										</cfloop>
 									</ul>
 								</div>
