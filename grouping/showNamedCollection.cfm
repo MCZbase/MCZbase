@@ -157,7 +157,7 @@
 					</cfquery>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 						<cfloop query="specimens">
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
+						<li class="list-group-item float-left d-inline mr-4" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
 						</cfloop>
 				
 					</ul>
