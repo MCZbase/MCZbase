@@ -60,6 +60,58 @@
 				
 		</div>
 		</div>
+			<div class="col-12 col-md-3 mt-5 float-left">
+			<div class="row mx-0">
+				<div class="col-12">
+					<h3>Taxa</h3>
+					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.PHYLCLASS is not null
+					</cfquery>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="taxa_class">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
+						</cfloop>
+					</ul>
+				</div>
+				
+				<div class="col-12">
+					<h3>Countries</h3>
+					<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.country is not null
+					</cfquery>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="country">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
+						</cfloop>
+					</ul>
+				</div>
+				<div class="col-12">
+					<h3>Specimen Records</h3>
+					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.GUID is not null
+					</cfquery>
+					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="specimens">
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
+						</cfloop>
+				
+					</ul>
+				</div>
+			</div>
+
+		</div>	
 			<div class="col-12 px-5 col-md-3 border-dark mt-5">
 				<h2>Featured Specimen Images</h2>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
@@ -114,58 +166,6 @@
 				</div>
 				<!--/.Carousel Wrapper--> 
 			</div>
-			<div class="col-12 col-md-3 mt-5 float-left">
-			<div class="row mx-0">
-				<div class="col-12">
-					<h3>Taxa</h3>
-					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.PHYLCLASS is not null
-					</cfquery>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="taxa_class">
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
-						</cfloop>
-					</ul>
-				</div>
-				
-				<div class="col-12">
-					<h3>Countries</h3>
-					<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.country is not null
-					</cfquery>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="country">
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
-						</cfloop>
-					</ul>
-				</div>
-				<div class="col-12">
-					<h3>Specimen Records</h3>
-					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.GUID is not null
-					</cfquery>
-					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="specimens">
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
-						</cfloop>
-				
-					</ul>
-				</div>
-			</div>
-
-		</div>	
 		</div>
 		</div>
 	</article>
