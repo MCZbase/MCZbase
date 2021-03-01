@@ -49,7 +49,7 @@
 						#specimensImages.media_ID#
 							</cfloop>--->
 							<!--Carousel Wrapper-->
-							<cfif len(imageurlfiltered) gt 0>
+							<cfif specimensImages.recordcount gt 0>
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
 								<ol class="carousel-indicators">
@@ -78,7 +78,7 @@
 								<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 								<!--/.Controls--> 
 							</div>
-							</cfloop>
+					
 							</cfif>
 							<!--/.Carousel Wrapper-->
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
