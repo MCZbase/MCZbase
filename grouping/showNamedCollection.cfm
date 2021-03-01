@@ -187,7 +187,7 @@
 									<h3>Agents</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 										<cfloop query="agents">
-											<li class="list-group-item float-left d-inline mr-2 pr-1" style="width:105px"><a class="h4" href="##">#agents.collectors#</a></li>
+											<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#agents.collectors#</a></li>
 										</cfloop>
 									</ul>
 								</div>
