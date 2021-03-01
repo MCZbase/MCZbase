@@ -77,7 +77,7 @@
 			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 			<hr>
 		<div class="row">
-				<div class="col-12 col-md-5">
+				<div class="col-12 col-md-4">
 					<h3>Localities</h3>
 					<p>Maps and location images</p>
 					<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -113,7 +113,7 @@
 				
 		</div>
 		</div>
-			<div class="col-12 col-md-3 mt-5 float-left">
+			<div class="col-12 col-md-5 mt-5 float-left">
 			<div class="row mx-0">
 				<div class="col-12">
 					<h3>Taxa</h3>
