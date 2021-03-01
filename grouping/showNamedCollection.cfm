@@ -175,14 +175,13 @@
 						where underscore_relation.collection_object_id = flat.collection_object_id
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
-						and flat.collectors is not null;
+						and flat.collectors is not null
 					</cfquery>
 					<h3>Agents</h3>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 						<cfloop query="agents">
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#agents.collectors#</a></li>
 						</cfloop>
-				
 					</ul>
 					<h3>Specimen Records</h3>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
