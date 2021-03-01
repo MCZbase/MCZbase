@@ -126,18 +126,20 @@
 								</div>
 								<div class="col-12 col-md-4 ">
 									<h3>Collectors and other agents</h3>
-									<p></p>
+									<p>Collector, vessel, institution, and related group images. </p>
 									<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
-											<div class="carousel-item active"> <img class="d-block w-100" src="/images/student_images.png" alt=""> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images//Louis_Agassiz256px.jpg" alt=""><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-													<h3 class="h3-responsive">Collector Images</h3>
-													<p>MCZ historical images
-												(placeholder)</p>
-												</div> </div>
+											<div class="carousel-item active"> 
+												<img class="d-block w-100" src="/images/student_images.png" alt="">
+											<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+											<h3 class="h3-responsive">Collector Images</h3>
+											<p>MCZ historical images (placeholder)</p>
+											</div>
+										</div> 
+									</div>
 										
-										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+								</div>
+										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-49%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-49%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 							</div>
 						</div>
