@@ -42,7 +42,7 @@
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
 										<div class="view"> <img class="d-block w-100" src="/shared/images/1024px-Berlin_Naturkundemuseum_Muscheln.jpg" alt="First slide"/>
-											<div class="mask rgba-black-light"></div>
+											   <div class="mask rgba-black-strong"></div>
 										</div>
 										<div class="carousel-caption">
 											<h3 class="h3-responsive">Diversity and variability of shells of molluscs on display</h3>
@@ -51,7 +51,7 @@
 									</div>
 									<div class="carousel-item">
 										<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Fossilized_Ammonite_Mollusk_displayed_at_Philippine_National_Museum.jpg" alt="Second slide"/>
-											<div class="mask rgba-black-light"></div>
+											   <div class="mask rgba-black-strong"></div>
 										</div>
 										<div class="carousel-caption">
 											<h3 class="h3-responsive">Fossilized ammonite displayed</h3>
@@ -60,7 +60,7 @@
 									</div>
 									<div class="carousel-item">
 										<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Snail-wiki-120-Zachi-Evenor.jpg" alt="Second slide"/>
-											<div class="mask rgba-black-light"></div>
+											   <div class="mask rgba-black-strong"></div>
 										</div>
 										<div class="carousel-caption">
 											<h3 class="h3-responsive">Cornu aspersum (formerly Helix aspersa) – a common land snail</h3>
@@ -83,18 +83,20 @@
 									<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
+												   <div class="mask rgba-black-strong"></div>
 												<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
 											<div class="carousel-item"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/La_rivière_Lulilaka,_parc_national_de_Salonga,_2005.jpg" alt="second slide">
+												   <div class="mask rgba-black-strong"></div>
 												<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Salonga National Park</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
-											<div class="carousel-item"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Okapi2.jpg" alt="third slide">
+											<div class="carousel-item"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Okapi2.jpg" alt="third slide">   <div class="mask rgba-black-strong"></div>
 												<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">An Okapi</h3>
 													<p>Photo by Raul654</p>
