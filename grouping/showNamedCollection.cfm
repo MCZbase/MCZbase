@@ -28,16 +28,16 @@
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 
 									<cfquery name="specimensimages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+									select distinct flat.imageurlfiltered as images from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 									and underscore_collection.underscore_collection_id = 1
-									and flat.GUID is not null
-									order by flat.GUID asc
+									and flat.imageurlfiltered is not null
+									order by flat.imageurlfiltered asc
 									</cfquery>
 									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select 
-										distinct underscore_relation.media_id as media_id
+										distinct media_id
 									from 
 										underscore_relation
 									left outer join 
