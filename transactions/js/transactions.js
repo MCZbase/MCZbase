@@ -2048,8 +2048,8 @@ function updateDeaccItemCount(transactionId,targetDiv) {
 		function (result) {
 			if (result.DATA.STATUS[0]==1) {
 				var message = "There are " + result.DATA.CATITEMCOUNT[0];
-				message += " items from " + result.DATA.PARTCOUNT[0];
-				message += " specimens in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " items with " + result.DATA.PARTCOUNT[0];
+				message += " preparations in " + result.DATA.COLLECTIONCOUNT[0];
 				message += " collections with " + result.DATA.PRESERVECOUNT[0] + " preservation types in this deaccession."
 				$('#' + targetDiv).html(message);
 			}
