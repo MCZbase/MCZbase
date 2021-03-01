@@ -141,7 +141,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-12 col-lg-4 col-xl-5  px-0 mt-1 float-left">
+						<div class="col-12 col-md-12 col-lg-4 col-xl-5  px-0 mt-1 px-md-4 float-left">
 							<div class="row">
 								<div class="col-12">
 									<h3>Taxa</h3>
