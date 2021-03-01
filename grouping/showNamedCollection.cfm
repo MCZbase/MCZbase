@@ -27,7 +27,7 @@
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 
-									<cfquery name="specimensimages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct flat.imageurlfiltered as imageurlfiltered, flat.collection_object_id as COLLECTION_OBJECT_ID
 									from flat, underscore_collection, underscore_relation
 									where underscore_relation.collection_object_id = flat.collection_object_id 
@@ -35,6 +35,7 @@
 									and underscore_collection.underscore_collection_id = 1
 									and imageurlfiltered is not null
 									</cfquery>
+							  <cfoutput query="specimensImages">
 									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select 
 										distinct media_id
@@ -44,8 +45,9 @@
 										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
 									where 
 										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
-									and underscore_relations.collection_object_id = #specimenimages.collection_object_id#
+									and underscore_relations.collection_object_id = #specimenImages.collection_object_id#
 									</cfquery>
+							</cfoutput>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
