@@ -22,11 +22,11 @@
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-2 px-0 px-md-4 float-left mt-2">
+						<div class="col-12 col-md-4 col-lg-2 px-0 px-md-4 float-left mt-2">
 							<p class="">#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
-						<div class="col-12 col-md-5 px-0 px-md-2 float-left mt-0">
+						<div class="col-12 col-md-8 col-lg-5 px-0 px-md-4 float-left mt-0">
 							<h2 class="pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
@@ -141,7 +141,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-5 mt-1 float-left">
+						<div class="col-12 col-md-12 col-lg-5  px-0 mt-1 float-left">
 							<div class="row mx-0">
 								<div class="col-12">
 									<h3>Taxa</h3>
