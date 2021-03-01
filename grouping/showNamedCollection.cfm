@@ -148,14 +148,18 @@
 				</div>
 				<div class="col-12">
 					<h3>Specimen Records</h3>
+					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    		select distinct flat.guid as guid from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.guid is not null
+					</cfquery>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100540</a></li>
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100541</a></li>
-						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100542</a></li>
-						<li class="list-group-item float-left d-inline mr-2 " style="width:105px"><a class="h4" href="##">MCZ:IP:100543</a></li>
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100544</a></li>
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100545</a></li>
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">MCZ:IP:100546</a></li>
+						<cfloop query="country">
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
+						</cfloop>
+				
 					</ul>
 				</div>
 			</div>
