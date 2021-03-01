@@ -18,7 +18,7 @@
 				<h3>Featured Specimen Images</h3>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 				<!--Carousel Wrapper-->
-				<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="false"> 
+					<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 					<!--Indicators-->
 					<ol class="carousel-indicators">
 						<li data-target="##carousel-example-2" data-slide-to="0" class="active"></li>
@@ -80,7 +80,7 @@
 				<div class="col-12 col-md-4">
 					<h3>Localities</h3>
 					<p>Maps and location images</p>
-					<div id="carouselExampleControls4" class="carousel slide" data-keyboard="true"  data-ride="false">
+					<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 						<div class="carousel-inner">
 							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Mount_Greylock_top.jpg" alt="First slide"> </div>
 							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="First slide"> </div>
@@ -91,7 +91,7 @@
 				<div class="col-12 col-md-4">
 					<h3>Journals, Notes, Ledgers</h3>
 					<p>Library scans of written material</p>
-					<div id="carouselExampleControls3" class="carousel slide" data-keyboard="true"  data-ride="false">
+					<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 						<div class="carousel-inner">
 							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/agents/large/Samuel_Henshaw_2_Large.jpg" alt="First slide"> </div>
 							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Second slide"> </div>
@@ -102,7 +102,7 @@
 				<div class="col-12 col-md-4 ">
 					<h3>Collectors and other agents</h3>
 					<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
-					<div id="carouselExampleControls2" class="carousel slide" data-keyboard="true"  data-ride="false">
+					<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 						<div class="carousel-inner">
 							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
 							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
