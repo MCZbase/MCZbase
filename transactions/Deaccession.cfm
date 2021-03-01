@@ -1042,13 +1042,15 @@ limitations under the License.
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		</cftransaction>
-		<section class="container">
-			<h1 class="h2">Deaccession #deleteTarget# deleted.....</h1>
-			<ul>
-				<li><a href="/Transactions.cfm?action=findDeaccessions">Search for Deaccessions</a>.</li>
-				<li><a href="/transactions/Deaccession.cfm?action=new">Create a New Deaccession</a>.</li>
-			</ul>
-		</section>
+		<cfoutput>
+			<section class="container">
+				<h1 class="h2">Deaccession #deleteTarget# deleted.....</h1>
+				<ul>
+					<li><a href="/Transactions.cfm?action=findDeaccessions">Search for Deaccessions</a>.</li>
+					<li><a href="/transactions/Deaccession.cfm?action=new">Create a New Deaccession</a>.</li>
+				</ul>
+			</section>
+		</cfoutput>
 	<cfcatch>
 		<section class="container">
 			<div class="row">
