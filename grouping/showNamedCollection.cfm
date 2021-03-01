@@ -14,14 +14,14 @@
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
-			<div class="col-12 px-5 col-md-3 border-dark mt-5">
+			<div class="col-12 px-5 col-md-2 border-dark mt-5">
 				<h1>#getNamedGroup.collection_name#</h1>
 			<hr>
 			<p>#getNamedGroup.description#</p>
 			<p>#getNamedGroup.html_description#</p>
 				
 			</div>
-			<div class="col-12 col-md-6 px-2 float-left mt-4">
+			<div class="col-12 col-md-5 px-2 float-left mt-4">
 			<h2>Featured Specimen Images</h2>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 				<!--Carousel Wrapper-->
@@ -77,7 +77,7 @@
 			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 			<hr>
 		<div class="row">
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-5">
 					<h3>Localities</h3>
 					<p>Maps and location images</p>
 					<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
