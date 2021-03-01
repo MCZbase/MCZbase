@@ -76,7 +76,7 @@
 							<!--/.Carousel Wrapper-->
 							<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
 							<hr>
-							<div class="row">
+							<div class="row mx-0">
 								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
