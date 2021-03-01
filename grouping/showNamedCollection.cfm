@@ -25,7 +25,7 @@
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
-							<p>Specimen Images not linked to the #getNamedGroup.collection_name#</p>
+							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
@@ -80,31 +80,29 @@
 									<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
-												<div class="carousel-caption">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
 													<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/La_rivière_Lulilaka,_parc_national_de_Salonga,_2005.jpg" alt="second slide">
-												<div class="carousel-caption">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
 													<h3 class="h3-responsive">Salonga National Park</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/800px-Okapi2.jpg" alt="third slide">
-												<div class="carousel-caption">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
 													<h3 class="h3-responsive">An Okapi</h3>
 													<p>Photo by Raul654</p>
 												</div>
 											</div>
-												<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="third slide">
-												<div class="carousel-caption">
+											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="fourth slide">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
 													<h3 class="h3-responsive">Map of Locality</h3>
 													<p>MCZ</p>
 												</div>
 											</div>
-											
-											
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
