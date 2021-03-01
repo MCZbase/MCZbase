@@ -153,6 +153,7 @@
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
 						and flat.collectors is not null
+										order by flat.collectors asc
 					</cfquery>
 									<h3>Agents</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
