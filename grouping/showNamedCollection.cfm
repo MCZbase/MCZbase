@@ -28,7 +28,7 @@
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 
 									<cfquery name="specimensimages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct flat.imageurlfiltered as imageurlfiltered
+									select distinct flat.imageurlfiltered as imageurlfiltered, flat.collection_object_id as collection_object_id
 									from flat, underscore_collection, underscore_relation
 									where underscore_relation.collection_object_id = flat.collection_object_id 
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id 
