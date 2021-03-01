@@ -14,103 +14,6 @@
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
-	
-			<div class="col-12 col-md-6 px-2 float-left mt-4">
-			<h1>#getNamedGroup.collection_name#</h1>
-			<hr>
-			<p>#getNamedGroup.description#</p>
-			<p>#getNamedGroup.html_description#</p>
-			<hr>
-			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
-			<hr>
-		<div class="row">
-				<div class="col-12 col-md-4">
-					<h3>Localities</h3>
-					<p>Maps and location images</p>
-					<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-						<div class="carousel-inner">
-							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Mount_Greylock_top.jpg" alt="First slide"> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="First slide"> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/beatty_001.jpg" alt="First slide"> </div>
-						</div>
-						<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
-				</div>
-				<div class="col-12 col-md-4">
-					<h3>Journals, Notes, Ledgers</h3>
-					<p>Library scans of written material</p>
-					<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-						<div class="carousel-inner">
-							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/agents/large/Samuel_Henshaw_2_Large.jpg" alt="First slide"> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Second slide"> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Third slide"> </div>
-						</div>
-						<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
-				</div>
-				<div class="col-12 col-md-4 ">
-					<h3>Collectors and other agents</h3>
-					<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
-					<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-						<div class="carousel-inner">
-							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
-							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
-						</div>
-						<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
-				</div>		
-				
-		</div>
-
-			<div class="row mx-0">
-				<div class="col-12">
-					<h3>Taxa</h3>
-					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.PHYLCLASS is not null
-					</cfquery>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="taxa_class">
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
-						</cfloop>
-					</ul>
-				</div>
-				
-				<div class="col-12">
-					<h3>Countries</h3>
-					<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.country is not null
-					</cfquery>
-					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="country">
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
-						</cfloop>
-					</ul>
-				</div>
-				<div class="col-12">
-					<h3>Specimen Records</h3>
-					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.GUID is not null
-					</cfquery>
-					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="specimens">
-						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
-						</cfloop>
-				
-					</ul>
-				</div>
-			</div>
-
-		</div>	
 			<div class="col-12 px-5 col-md-3 border-dark mt-5">
 				<h2>Featured Specimen Images</h2>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
@@ -165,6 +68,103 @@
 				</div>
 				<!--/.Carousel Wrapper--> 
 			</div>
+			<div class="col-12 col-md-6 px-2 float-left mt-4">
+			<h1>#getNamedGroup.collection_name#</h1>
+			<hr>
+			<p>#getNamedGroup.description#</p>
+			<p>#getNamedGroup.html_description#</p>
+			<hr>
+			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
+			<hr>
+		<div class="row">
+				<div class="col-12 col-md-4">
+					<h3>Localities</h3>
+					<p>Maps and location images</p>
+					<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+						<div class="carousel-inner">
+							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Mount_Greylock_top.jpg" alt="First slide"> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="First slide"> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/beatty_001.jpg" alt="First slide"> </div>
+						</div>
+						<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+				</div>
+				<div class="col-12 col-md-4">
+					<h3>Journals, Notes, Ledgers</h3>
+					<p>Library scans of written material</p>
+					<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+						<div class="carousel-inner">
+							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/agents/large/Samuel_Henshaw_2_Large.jpg" alt="First slide"> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Second slide"> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Third slide"> </div>
+						</div>
+						<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+				</div>
+				<div class="col-12 col-md-4 ">
+					<h3>Collectors and other agents</h3>
+					<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
+					<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+						<div class="carousel-inner">
+							<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
+							<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
+						</div>
+						<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+				</div>		
+				
+		</div>
+		</div>
+			<div class="col-12 col-md-3 mt-5 float-left">
+			<div class="row mx-0">
+				<div class="col-12">
+					<h3>Taxa</h3>
+					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.PHYLCLASS is not null
+					</cfquery>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="taxa_class">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
+						</cfloop>
+					</ul>
+				</div>
+				
+				<div class="col-12">
+					<h3>Countries</h3>
+					<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.country is not null
+					</cfquery>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="country">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
+						</cfloop>
+					</ul>
+				</div>
+				<div class="col-12">
+					<h3>Specimen Records</h3>
+					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.GUID is not null
+					</cfquery>
+					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="specimens">
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
+						</cfloop>
+				
+					</ul>
+				</div>
+			</div>
+
+		</div>	
 		</div>
 		</div>
 	</article>
