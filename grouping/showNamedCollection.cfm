@@ -59,8 +59,7 @@
 				</div>		
 				
 		</div>
-		</div>
-			<div class="col-12 col-md-3 mt-5 float-left">
+
 			<div class="row mx-0">
 				<div class="col-12">
 					<h3>Taxa</h3>
