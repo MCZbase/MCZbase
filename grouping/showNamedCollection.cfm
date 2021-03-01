@@ -76,7 +76,7 @@
 							<!--/.Carousel Wrapper-->
 							<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
 							<hr>
-							<div class="row mx-0">
+							<div class="row">
 								<div class="col-12 col-md-4">
 									<h3>Localities</h3>
 									<p>Maps and location images</p>
@@ -142,7 +142,7 @@
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-49%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-49%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 							</div>
-						</div>
+					
 						<div class="col-12 col-md-12 col-lg-4 col-xl-5  px-0 mt-1 px-md-4 float-left">
 							<div class="row">
 								<div class="col-12">
