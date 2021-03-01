@@ -26,17 +26,25 @@
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
-							<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select 
-								distinct underscore_relation.media_id as media_id
-							from 
-								underscore_relation
-							left outer join 
-								media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
-							where 
-								media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
-							</cfquery>
 
+									<cfquery name="specimensimages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+									where underscore_relation.collection_object_id = flat.collection_object_id
+									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									and underscore_collection.underscore_collection_id = 1
+									and flat.GUID is not null
+									order by flat.GUID asc
+									</cfquery>
+									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select 
+										distinct underscore_relation.media_id as media_id
+									from 
+										underscore_relation
+									left outer join 
+										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
+									where 
+										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
+									</cfquery>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
@@ -157,17 +165,18 @@
 								</div>
 								<div class="col-12">
 									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+									select distinct flat.GUID as guid, flat.specimendetailurl as GUIDLINK from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 									and underscore_collection.underscore_collection_id = 1
 									and flat.GUID is not null
 									order by flat.GUID asc
 									</cfquery>
+				
 									<h3>Specimen Records</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="specimens">
-											<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
+											<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="#specimens.guidlink#">#specimens.guid#</a></li>
 										</cfloop>
 									</ul>
 								</div>
