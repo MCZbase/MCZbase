@@ -142,7 +142,7 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-12 col-lg-4 col-xl-5  px-0 mt-1 float-left">
-							<div class="row mx-0">
+							<div class="row">
 								<div class="col-12">
 									<h3>Taxa</h3>
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
