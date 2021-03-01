@@ -24,15 +24,15 @@
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
-							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct flat.imageurlfiltered as imageurlfiltered
 							from flat, underscore_collection, underscore_relation
 							where underscore_relation.collection_object_id = flat.collection_object_id 
 							and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id 
 							and underscore_collection.underscore_collection_id = 1
 							and imageurlfiltered is not null
-							</cfquery>
-							<cfif specimensImages.recordcount gt 0>
+							</cfquery>--->
+							<cfif specimensImages.recordcount eq 0>
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
@@ -48,9 +48,9 @@
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
 										<div class="view">
-											<cfloop query="specimensImages">
-											<img class="d-block w-100" src="#imageurlfiltered#" alt="First slide"/>
-											</cfloop>
+											
+											<img class="d-block w-100" src="http://mussel-project.uwsp.edu/600dpi_images/04_05_15/mcz_161877_t.jpg" alt="First slide"/>
+										
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
