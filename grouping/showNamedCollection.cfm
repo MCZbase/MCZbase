@@ -43,7 +43,7 @@
 										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
 									where 
 										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
-									and underscore_relations.collection_object_id = specimenimages.collection_object_id
+									and underscore_relations.collection_object_id = #specimenimages.collection_object_id#
 									</cfquery>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
