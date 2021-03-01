@@ -60,7 +60,7 @@
 								</ol>
 								<!--/.Indicators---> 
 								<!--Slides-->
-								<cfloop query="getSpecMedia">
+							
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
 										<div class="view"> <img class="d-block w-100" src="##" alt="First slide"/>
@@ -72,7 +72,7 @@
 										</div>
 								
 									</div>
-								</cfloop>
+							
 								</div>
 								<!--/.Slides--> 
 								<!--Controls--> 
