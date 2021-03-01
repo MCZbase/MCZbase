@@ -32,7 +32,7 @@
 							and underscore_collection.underscore_collection_id = 1
 							and imageurlfiltered is not null
 							</cfquery>--->
-							<cfif specimensImages.recordcount eq 0>
+					
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
@@ -64,8 +64,6 @@
 								<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 								<!--/.Controls--> 
 							</div>
-					
-							</cfif>
 							<!--/.Carousel Wrapper-->
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
 							<hr>
