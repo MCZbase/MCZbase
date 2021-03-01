@@ -119,13 +119,13 @@
 								<div class="col-12">
 									<h3>Taxa</h3>
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					    select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.PHYLCLASS is not null
-										order by flat.phylclass asc
-					</cfquery>
+									select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
+									where underscore_relation.collection_object_id = flat.collection_object_id
+									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									and underscore_collection.underscore_collection_id = 1
+									and flat.PHYLCLASS is not null
+									order by flat.phylclass asc
+									</cfquery>
 									<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="taxa_class">
 											<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
@@ -135,13 +135,13 @@
 								<div class="col-12">
 									<h3>Countries</h3>
 									<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.country is not null
-										order by flat.country asc
-					</cfquery>
+									select distinct flat.country as country from flat, underscore_collection, underscore_relation 
+									where underscore_relation.collection_object_id = flat.collection_object_id
+									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									and underscore_collection.underscore_collection_id = 1
+									and flat.country is not null
+									order by flat.country asc
+									</cfquery>
 									<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="country">
 											<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
@@ -150,13 +150,13 @@
 								</div>
 								<div class="col-12">
 									<cfquery name="agents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct flat.collectors as collectors from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.collectors is not null
-										order by flat.collectors asc
-					</cfquery>
+									select distinct flat.collectors as collectors from flat, underscore_collection, underscore_relation 
+									where underscore_relation.collection_object_id = flat.collection_object_id
+									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									and underscore_collection.underscore_collection_id = 1
+									and flat.collectors is not null
+									order by flat.collectors asc
+									</cfquery>
 									<h3>Agents</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 										<cfloop query="agents">
@@ -166,12 +166,13 @@
 								</div>
 								<div class="col-12">
 									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
-						where underscore_relation.collection_object_id = flat.collection_object_id
-						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-						and underscore_collection.underscore_collection_id = 1
-						and flat.GUID is not null
-					</cfquery>
+									select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
+									where underscore_relation.collection_object_id = flat.collection_object_id
+									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									and underscore_collection.underscore_collection_id = 1
+									and flat.GUID is not null
+									order by flat.GUID asc
+									</cfquery>
 									<h3>Specimen Records</h3>
 									<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="specimens">
