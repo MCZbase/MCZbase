@@ -124,6 +124,7 @@
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
 						and flat.PHYLCLASS is not null
+										order by flat.phylclass asc
 					</cfquery>
 									<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="taxa_class">
@@ -139,6 +140,7 @@
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
 						and flat.country is not null
+										order by flat.country asc
 					</cfquery>
 									<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 										<cfloop query="country">
