@@ -83,7 +83,7 @@
 									<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-75 mx-auto" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
-												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
