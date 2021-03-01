@@ -149,11 +149,11 @@
 				<div class="col-12">
 					<h3>Specimen Records</h3>
 					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    		select distinct flat.guid as guid from flat, underscore_collection, underscore_relation 
+		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
 						where underscore_relation.collection_object_id = flat.collection_object_id
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						and underscore_collection.underscore_collection_id = 1
-						and flat.guid is not null
+						and flat.GUID is not null
 					</cfquery>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 						<cfloop query="country">
