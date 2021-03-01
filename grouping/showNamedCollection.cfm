@@ -143,6 +143,7 @@
 					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
 						<cfloop query="country">
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
+						</cfloop>
 					</ul>
 				</div>
 				<div class="col-12">
