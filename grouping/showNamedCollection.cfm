@@ -19,11 +19,11 @@
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-2 px-4 float-left mt-4">
+						<div class="col-12 col-md-2 px-4 float-left mt-2">
 							<p class="">#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
-						<div class="col-12 col-md-5 px-2 float-left mt-3">
+						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
@@ -114,7 +114,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-5 mt-4 float-left">
+						<div class="col-12 col-md-5 mt-1 float-left">
 							<div class="row mx-0">
 								<div class="col-12">
 									<h3>Taxa</h3>
