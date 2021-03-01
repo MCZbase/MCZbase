@@ -23,9 +23,7 @@
 							<p class="">#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
-						<div class="col-12 col-md-5 px-2 float-left mt-0"> 
-	
-							
+						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
@@ -81,9 +79,24 @@
 									<p>Maps and location images</p>
 									<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
-											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Mount_Greylock_top.jpg" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/beatty_001.jpg" alt="First slide"> </div>
+											<div class="carousel-item active"> <img class="d-block w-100" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
+												<div class="carousel-caption">
+													<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
+													<p>Photo by Radio Okapi</p>
+												</div>
+											</div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/La_rivière_Lulilaka,_parc_national_de_Salonga,_2005.jpg" alt="second slide">
+												<div class="carousel-caption">
+													<h3 class="h3-responsive">Salonga National Park</h3>
+													<p>Photo by Radio Okapi</p>
+												</div>
+											</div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/800px-Okapi2.jpg" alt="third slide">
+												<div class="carousel-caption">
+													<h3 class="h3-responsive">An Okapi</h3>
+													<p>Photo by Raul654</p>
+												</div>
+											</div>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
