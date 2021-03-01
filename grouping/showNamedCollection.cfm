@@ -117,11 +117,17 @@
 			<div class="row mx-0">
 				<div class="col-12">
 					<h3>Taxa</h3>
+					<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					    select distinct flat.phylclass from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.PHYLCLASS is not null
+					</cfquery>
 					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">Aves</a></li>
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">Amphibia</a></li>
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">Reptilia</a></li>
-						<li class="list-group-item float-left" style=""><a class="h4" href="##">Cephalopoda</a></li>
+								<cfloop query="taxa_class">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
+	
 					</ul>
 				</div>
 				
