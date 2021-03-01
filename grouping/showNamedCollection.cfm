@@ -63,7 +63,7 @@
 							
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="##" alt="First slide"/>
+										<div class="view"> <img class="d-block w-100" src="	#specimensImages.imageurlfiltered#" alt="First slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
