@@ -87,7 +87,8 @@ limitations under the License.
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select collection_cde, 
-						count(cataloged_item.collection_object_id) as pcount, 
+						count(distinct cataloged_item.collection_object_id) as cocount, 
+						count(distinct specimen_part.collection_object_id) as pcount, 
 						coll_obj_disposition, deacc_number, deacc_type, deacc_status
 					from deaccession
 						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
@@ -106,6 +107,7 @@ limitations under the License.
 							<tr>
 								<th>Collection</th>
 								<th>Cataloged Items</th>
+								<th>Parts</th>
 								<th>Disposition</th>
 								<th>Deaccession</th>
 							</tr>
@@ -115,12 +117,14 @@ limitations under the License.
 								<tr>
 									<cfif len(trim(getDispositions.deacc_number)) GT 0>
 										<td>#collection_cde#</td>
+										<td>#cocount#</td>
 										<td>#pcount#</td>
 										<td>#coll_obj_disposition#</td>
 										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
 									<cfelse>
 										<!--- we should never end up in this block, as all items in this deaccession should be in this deaccession... --->
 										<td>#collection_cde#</td>
+										<td>#cocount#</td>
 										<td>#pcount#</td>
 										<td>#coll_obj_disposition#</td>
 										<td>Error: Not in a Deaccession</td>
@@ -155,7 +159,7 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="deaccLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(deacc_item.collection_object_id) as ct,
+					select count(distinct deacc_item.collection_object_id) as ct,
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						accn.transaction_id as accn_id, accn.accn_number
 					from  
@@ -436,11 +440,13 @@ limitations under the License.
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
 				<!--- TODO: Generalize to other transaction types --->
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					select collection_cde, count(distinct specimen_part.collection_object_id) as pcount, coll_obj_disposition, 
+							count(distinct cataloged_item.collection_object_id) as cocount,
+							deacc_number, deacc_type, deacc_status
 					from accn
 						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-						left join deacc_item on cataloged_item.collection_object_id = deacc_item.collection_object_id
+						left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 						left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 					where accn.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 						and coll_obj_disposition is not null
@@ -454,6 +460,7 @@ limitations under the License.
 							<tr>
 								<th>Collection</th>
 								<th>Cataloged Items</th>
+								<th>Parts</th>
 								<th>Disposition</th>
 								<th>Deaccession</th>
 							</tr>
@@ -463,6 +470,7 @@ limitations under the License.
 								<tr>
 									<cfif len(trim(getDispositions.deacc_number)) GT 0>
 										<td>#collection_cde#</td>
+										<td>#cocount#</td>
 										<td>#pcount#</td>
 										<td>#coll_obj_disposition#</td>
 										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
