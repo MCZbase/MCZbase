@@ -24,9 +24,7 @@
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
-							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
-							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
-							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct flat.imageurlfiltered as imageurlfiltered
 							from flat, underscore_collection, underscore_relation
 							where underscore_relation.collection_object_id = flat.collection_object_id 
@@ -34,6 +32,10 @@
 							and underscore_collection.underscore_collection_id = 1
 							and imageurlfiltered is not null
 							</cfquery>
+									<cfif specimensImages.recordcount gt 0>
+							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
+							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
+					
 <!---					<cfloop query="specimensImages">
 									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select 
@@ -49,7 +51,7 @@
 						#specimensImages.media_ID#
 							</cfloop>--->
 							<!--Carousel Wrapper-->
-							<cfif specimensImages.recordcount gt 0>
+					
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
 								<ol class="carousel-indicators">
