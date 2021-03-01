@@ -120,7 +120,7 @@ limitations under the License.
 										<td>#cocount#</td>
 										<td>#pcount#</td>
 										<td>#coll_obj_disposition#</td>
-										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+										<td><a href="/Transactions.cfm?action=findDeaccessions&execute=true&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
 									<cfelse>
 										<!--- we should never end up in this block, as all items in this deaccession should be in this deaccession... --->
 										<td>#collection_cde#</td>
@@ -5595,7 +5595,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						(case when flat.began_date > '1700-01-01' then 
@@ -5614,7 +5614,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						(case when flat.began_date > '1700-01-01' then 

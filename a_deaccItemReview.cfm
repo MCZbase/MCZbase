@@ -324,7 +324,7 @@
 </cfif>
 
 Review items in deaccession<b>
-	<a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
+	<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
 	<br>There are #partCount# items from #catCount# specimens in this deaccession.
 	<br>
 	<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
@@ -434,7 +434,7 @@ Review items in deaccession<b>
 </cfoutput>
 </table>
 <cfoutput>
-	<br><a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Edit Deaccession</a>
+	<br><a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Edit Deaccession</a>
 </cfoutput>
 </cfif>
                             </div>

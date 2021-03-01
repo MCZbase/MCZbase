@@ -552,7 +552,6 @@ limitations under the License.
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
 										<a class="dropdown-item" href="/editAccn.cfm">Accessions (old)</a>
 										<a class="dropdown-item" href="/Borrow.cfm">Borrow (old)</a>
-										<a class="dropdown-item" href="/Deaccession.cfm">Deaccession (old)</a>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
@@ -564,11 +563,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Borrow</a> 
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Deaccession.cfm?action=new">Deaccession</a> 
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 									</div>
 									</cfif>

@@ -1638,11 +1638,11 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel">Deaccessions:</span>
-									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+									<a href="/Transactions.cfm?action=findDeaccessions&execute=true&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 										target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="deaccessionList">
-								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp;
+								<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp;
 							</cfloop>
 							</cfif>
 							</span>
