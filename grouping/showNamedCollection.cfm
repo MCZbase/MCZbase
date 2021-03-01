@@ -147,7 +147,7 @@
 					</ul>
 				</div>
 				<div class="col-12">
-					<cfquery name="agents">
+					<cfquery name="agents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct flat.collectors as collectors from flat, underscore_collection, underscore_relation 
 						where underscore_relation.collection_object_id = flat.collection_object_id
 						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
