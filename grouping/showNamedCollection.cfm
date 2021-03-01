@@ -147,7 +147,22 @@
 					</ul>
 				</div>
 				<div class="col-12">
-					<h3>Specimen Records</h3>
+					<h3>Agents</h3>
+					<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    		select distinct flat.country as country from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.country is not null
+					</cfquery>
+					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="country">
+						<li class="list-group-item float-left" style=""><a class="h4" href="##">#country.country#</a></li>
+						</cfloop>
+					</ul>
+				</div>
+				<div class="col-12">
+			
 					<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    			select distinct flat.GUID as GUID from flat, underscore_collection, underscore_relation 
 						where underscore_relation.collection_object_id = flat.collection_object_id
@@ -155,6 +170,21 @@
 						and underscore_collection.underscore_collection_id = 1
 						and flat.GUID is not null
 					</cfquery>
+					<cfquery name="agents">
+						select distinct flat.collectors as collectors from flat, underscore_collection, underscore_relation 
+						where underscore_relation.collection_object_id = flat.collection_object_id
+						and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						and underscore_collection.underscore_collection_id = 1
+						and flat.collectors is not null;
+					</cfquery>
+					<h3>Agents</h3>
+					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
+						<cfloop query="specimens">
+						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#agents.collectors#</a></li>
+						</cfloop>
+				
+					</ul>
+					<h3>Specimen Records</h3>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
 						<cfloop query="specimens">
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#specimens.guid#</a></li>
