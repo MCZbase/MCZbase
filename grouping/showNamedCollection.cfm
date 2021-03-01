@@ -14,7 +14,7 @@
 			<article class="w-100">
 				<div class="col-12">
 					<div class="row mx-0">
-						<div class="col-12 px-5 col-md-2 border-dark mt-5">
+						<div class="col-12 px-5 border-dark mt-5">
 							<h1  style="border-bottom: 1px solid ##000">#getNamedGroup.collection_name#</h1>
 						</div>
 					</div>
