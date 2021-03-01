@@ -711,7 +711,7 @@ limitations under the License.
 									onClick=" openTransactionPrintDialog(#transaction_id#, 'Deaccession', 'deaccessionPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Deaccession" class="btn btn-xs btn-danger float-right"
-									onClick=" $('##action').val('edit'); confirmDialog('Delete this Deaccession?','Confirm Delete Deaccession', function() { $('##action').val('deleDeaccession'); $('##editDeaccessionForm').submit(); } );">
+									onClick=" $('##action').val('edit'); confirmDialog('Delete this Deaccession?','Confirm Delete Deaccession', function() { $('##action').val('deleDeaccession'); $('##editDeaccessionForm').removeAttr('onsubmit'); $('##editDeaccessionForm').submit(); } );">
 							</div>
 						</div>
 						<div id="deaccessionPrintDialog"></div>
