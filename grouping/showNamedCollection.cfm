@@ -24,7 +24,7 @@
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
-									<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct flat.imageurlfiltered as imageurlfiltered
 							from flat, underscore_collection, underscore_relation
 							where underscore_relation.collection_object_id = flat.collection_object_id 
@@ -32,26 +32,10 @@
 							and underscore_collection.underscore_collection_id = 1
 							and imageurlfiltered is not null
 							</cfquery>
-									<cfif specimensImages.recordcount gt 0>
+							<cfif specimensImages.recordcount gt 0>
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
-					
-<!---					<cfloop query="specimensImages">
-									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select 
-										distinct media_id
-									from 
-										underscore_relation
-									left outer join 
-										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
-									where 
-										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
-									and underscore_relation.collection_object_id = 2566165
-									</cfquery>
-						#specimensImages.media_ID#
-							</cfloop>--->
 							<!--Carousel Wrapper-->
-					
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
 								<ol class="carousel-indicators">
@@ -65,7 +49,7 @@
 									<div class="carousel-item active">
 										<div class="view">
 											<cfloop query="specimensImages">
-											<img class="d-block w-100" src="#specimensImages.imageurlfiltered#" alt="First slide"/>
+											<img class="d-block w-100" src="#imageurlfiltered#" alt="First slide"/>
 											</cfloop>
 											<div class="mask rgba-black-light"></div>
 										</div>
@@ -110,7 +94,7 @@
 								</div>
 								<div class="col-12 col-md-4 ">
 									<h3>Collectors and other agents</h3>
-									<p>James Henry Blake, Louis Agassiz, Franz Steindachner, LF dePourtales</p>
+									<p></p>
 									<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt=""> </div>
