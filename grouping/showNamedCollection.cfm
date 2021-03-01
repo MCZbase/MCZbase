@@ -27,7 +27,7 @@
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
-							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
+							<h2 class="pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
@@ -74,7 +74,7 @@
 								<!--/.Controls--> 
 							</div>
 							<!--/.Carousel Wrapper-->
-							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
+							<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
 							<hr>
 							<div class="row">
 								<div class="col-12 col-md-4">
