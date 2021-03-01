@@ -35,7 +35,8 @@
 									and underscore_collection.underscore_collection_id = 1
 									and imageurlfiltered is not null
 									</cfquery>
-					<cfloop query="specimensImages">
+							#imageurlfiltered#
+<!---					<cfloop query="specimensImages">
 									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select 
 										distinct media_id
@@ -48,7 +49,7 @@
 									and underscore_relation.collection_object_id = 2566165
 									</cfquery>
 						#specimensImages.media_ID#
-							</cfloop>
+							</cfloop>--->
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
