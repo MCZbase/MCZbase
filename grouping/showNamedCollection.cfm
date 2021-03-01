@@ -2,6 +2,9 @@
 <cfinclude template="/shared/_header.cfm">
 
 <cfoutput>
+	<style>
+		a:focus {box-shadow: none;}
+	</style>
 	<cfset underscore_collection_id = "1">
 	<cfset underscore_agent_id = "117103">
 	<cfset collection_object_id = "">
