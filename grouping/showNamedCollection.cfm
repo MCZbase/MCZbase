@@ -26,16 +26,14 @@
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
-
-									<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct flat.imageurlfiltered as imageurlfiltered
-									from flat, underscore_collection, underscore_relation
-									where underscore_relation.collection_object_id = flat.collection_object_id 
-									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id 
-									and underscore_collection.underscore_collection_id = 1
-									and imageurlfiltered is not null
-									</cfquery>
-							#specimensImages.imageurlfiltered#
+							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct flat.imageurlfiltered as imageurlfiltered
+							from flat, underscore_collection, underscore_relation
+							where underscore_relation.collection_object_id = flat.collection_object_id 
+							and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id 
+							and underscore_collection.underscore_collection_id = 1
+							and imageurlfiltered is not null
+							</cfquery>
 <!---					<cfloop query="specimensImages">
 									<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select 
@@ -51,6 +49,7 @@
 						#specimensImages.media_ID#
 							</cfloop>--->
 							<!--Carousel Wrapper-->
+							<cfif len(imageurlfiltered) gt 0>
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
 								<ol class="carousel-indicators">
@@ -60,25 +59,27 @@
 								</ol>
 								<!--/.Indicators---> 
 								<!--Slides-->
-							
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="	#specimensImages.imageurlfiltered#" alt="First slide"/>
+										<div class="view">
+											<cfloop query="specimensImages">
+											<img class="d-block w-100" src="#specimensImages.imageurlfiltered#" alt="First slide"/>
+											</cfloop>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
 											<h3 class="h3-responsive">scientific name</h3>
 												<p>location</p>
 										</div>
-								
 									</div>
-							
 								</div>
 								<!--/.Slides--> 
 								<!--Controls--> 
 								<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 								<!--/.Controls--> 
 							</div>
+							</cfloop>
+							</cfif>
 							<!--/.Carousel Wrapper-->
 							<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Record Data</h2>
 							<hr>
