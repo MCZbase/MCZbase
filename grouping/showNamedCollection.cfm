@@ -80,19 +80,19 @@
 									<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
-												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
 													<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/La_rivière_Lulilaka,_parc_national_de_Salonga,_2005.jpg" alt="second slide">
-												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
 													<h3 class="h3-responsive">Salonga National Park</h3>
 													<p>Photo by Radio Okapi</p>
 												</div>
 											</div>
 											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/800px-Okapi2.jpg" alt="third slide">
-												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
+												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
 													<h3 class="h3-responsive">An Okapi</h3>
 													<p>Photo by Raul654</p>
 												</div>
