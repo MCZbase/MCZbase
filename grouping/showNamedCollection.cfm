@@ -17,12 +17,12 @@
 			<article class="w-100">
 				<div class="col-12">
 					<div class="row mx-0">
-						<div class="col-12 px-4 border-dark mt-4">
+						<div class="col-12 px-0 px-md-4 border-dark mt-4">
 							<h1 class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name#</h1>
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-2 px-4 float-left mt-2">
+						<div class="col-12 col-md-2 px-0 px-md-4 float-left mt-2">
 							<p class="">#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
