@@ -766,6 +766,8 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 				upper(scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				OR
 				upper(author_text) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			ORDER BY
+				taxonomy.scientific_name
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
