@@ -26,7 +26,7 @@
 							<p class="">#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
-						<div class="col-12 col-md-5 px-2 float-left mt-0">
+						<div class="col-12 col-md-5 px-0 px-md-2 float-left mt-0">
 							<h2 class="pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
