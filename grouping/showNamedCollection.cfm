@@ -27,7 +27,7 @@
 	
 							
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
-							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
+							<p>Specimen Images not linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
@@ -44,8 +44,8 @@
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
-											<h3 class="h3-responsive">Pecten martinezensis</h3>
-											<p>North America: United States: California: Contra Costa</p>
+											<h3 class="h3-responsive">Diversity and variability of shells of molluscs on display</h3>
+											<p>Photo from Museum für Naturkunde Berlin</p>
 										</div>
 									</div>
 									<div class="carousel-item">
@@ -53,8 +53,8 @@
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
-											<h3 class="h3-responsive">Pelecyora aequilateralis</h3>
-											<p>North America: United States: California: San Diego</p>
+											<h3 class="h3-responsive">Fossilized ammonite displayed</h3>
+											<p>National Museum of the Philippines</p>
 										</div>
 									</div>
 									<div class="carousel-item">
@@ -62,8 +62,8 @@
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
-											<h3 class="h3-responsive">Tellina longa</h3>
-											<p>North America: United States: California: Contra Costa</p>
+											<h3 class="h3-responsive">Cornu aspersum (formerly Helix aspersa) – a common land snail</h3>
+											<p>Photo by Zachi Evenor</p>
 										</div>
 									</div>
 								</div>
