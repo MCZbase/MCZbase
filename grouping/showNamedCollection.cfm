@@ -125,9 +125,9 @@
 						and flat.PHYLCLASS is not null
 					</cfquery>
 					<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
-								<cfloop query="taxa_class">
+						<cfloop query="taxa_class">
 						<li class="list-group-item float-left" style=""><a class="h4" href="##">#taxa_class.phylclass#</a></li>
-	
+						</cfloop>
 					</ul>
 				</div>
 				
