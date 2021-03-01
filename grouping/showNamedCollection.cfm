@@ -15,7 +15,14 @@
 		<div class="col-12">
 		<div class="row mx-0">
 			<div class="col-12 px-5 col-md-3 border-dark mt-5">
-				<h2>Featured Specimen Images</h2>
+				<h1>#getNamedGroup.collection_name#</h1>
+			<hr>
+			<p>#getNamedGroup.description#</p>
+			<p>#getNamedGroup.html_description#</p>
+				
+			</div>
+			<div class="col-12 col-md-6 px-2 float-left mt-4">
+			<h2>Featured Specimen Images</h2>
 				<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 				<!--Carousel Wrapper-->
 					<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -67,13 +74,6 @@
 					<!--/.Controls--> 
 				</div>
 				<!--/.Carousel Wrapper--> 
-			</div>
-			<div class="col-12 col-md-6 px-2 float-left mt-4">
-			<h1>#getNamedGroup.collection_name#</h1>
-			<hr>
-			<p>#getNamedGroup.description#</p>
-			<p>#getNamedGroup.html_description#</p>
-			<hr>
 			<h2 class="h1 mt-5 pt-3" style="border-top: 8px solid ##000">Featured Information</h2>
 			<hr>
 		<div class="row">
