@@ -24,14 +24,7 @@
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-0"> 
-							<!---							<cfquery name="specimensImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct flat.imageurlfiltered as imageurlfiltered
-							from flat, underscore_collection, underscore_relation
-							where underscore_relation.collection_object_id = flat.collection_object_id 
-							and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id 
-							and underscore_collection.underscore_collection_id = 1
-							and imageurlfiltered is not null
-							</cfquery>--->
+	
 							
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
@@ -47,7 +40,7 @@
 								<!--Slides-->
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/large/MCZ_108502_Pecten_martinezensis_01.jpg" alt="First slide"/>
+										<div class="view"> <img class="d-block w-100" src="/shared/images/1024px-Berlin_Naturkundemuseum_Muscheln.jpg" alt="First slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
@@ -55,8 +48,8 @@
 											<p>North America: United States: California: Contra Costa</p>
 										</div>
 									</div>
-									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/large/MCZ_108510_Pelecyora_aequilateralis_01.jpg" alt="Second slide"/>
+									<div class="carousel-item">
+										<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Fossilized_Ammonite_Mollusk_displayed_at_Philippine_National_Museum.jpg" alt="Second slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
@@ -64,8 +57,8 @@
 											<p>North America: United States: California: San Diego</p>
 										</div>
 									</div>
-									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/invertpaleo/large/MCZ_108544_Tellina_longa_01.jpg" alt="Second slide"/>
+									<div class="carousel-item">
+										<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Snail-wiki-120-Zachi-Evenor.jpg" alt="Second slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
