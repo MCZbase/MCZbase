@@ -109,15 +109,15 @@
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
-											<div class="carousel-item active"> <img class="d-block w-100" src="/images/ledger.PNG" alt="First slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
+											<div class="carousel-item active"> <img class="d-block w-100" src="/images/ledger.PNG" alt="First slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Ledger Scan</h3>
 													<p>MCZ/Ernst Mayr Library</p>
 												</div> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
+											<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Annotation of Map/ Collecting route</h3>
 													<p>MCZ note example</p>
 												</div> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
+											<div class="carousel-item"> <img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Semliki Notes</h3>
 													<p>MCZ IP dept.</p>
 												</div> </div>
@@ -130,7 +130,7 @@
 									<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/images/student_images.png" alt=""> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images//Louis_Agassiz256px.jpg" alt=""><div class="carousel-caption" style="position: relative;color: black;padding-top:10px;left:0;">
+											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images//Louis_Agassiz256px.jpg" alt=""><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 													<h3 class="h3-responsive">Collector Images</h3>
 													<p>MCZ historical images
 												(placeholder)</p>
