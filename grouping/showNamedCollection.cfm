@@ -44,6 +44,7 @@
 										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
 									where 
 										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
+									and underscore_relations.collection_object_id = specimenimages.collection_object_id
 									</cfquery>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
@@ -58,7 +59,7 @@
 								<cfloop query="getSpecMedia">
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="#getSpecMedia.media_id#" alt="First slide"/>
+										<div class="view"> <img class="d-block w-100" src="#specimensimages.images#" alt="First slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
 										<div class="carousel-caption">
