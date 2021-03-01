@@ -97,12 +97,7 @@
 													<p>Photo by Raul654</p>
 												</div>
 											</div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="fourth slide">
-												<div class="carousel-caption" style="position: relative;color: black;padding-top:10px;">
-													<h3 class="h3-responsive">Map of Locality</h3>
-													<p>MCZ</p>
-												</div>
-											</div>
+											
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls4" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls4" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
