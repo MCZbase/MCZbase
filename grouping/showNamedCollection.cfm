@@ -45,7 +45,7 @@
 										media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
 									where 
 										media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
-									and underscore_relations.collection_object_id = 2566165
+									and underscore_relation.collection_object_id = 2566165
 									</cfquery>
 						#specimensImages.media_ID#
 							</cfloop>
