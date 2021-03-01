@@ -14,17 +14,17 @@
 			<article class="w-100">
 				<div class="col-12">
 					<div class="row mx-0">
-						<div class="col-12 px-5 border-dark mt-4">
+						<div class="col-12 px-4 border-dark mt-4">
 							<h1 class="pb-2" style="border-bottom: 1px solid ##000">#getNamedGroup.collection_name#</h1>
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-2 px-2 float-left mt-4">
+						<div class="col-12 col-md-2 px-4 float-left mt-4">
 							<p>#getNamedGroup.description#</p>
 							<p>#getNamedGroup.html_description#</p>
 						</div>
 						<div class="col-12 col-md-5 px-2 float-left mt-4">
-							<h2 class="h1">Featured Specimen Images</h2>
+							<h2 class="h1 pb-2">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
