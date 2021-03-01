@@ -106,9 +106,9 @@
 									<p>Library scans of written material</p>
 									<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
-											<div class="carousel-item active"> <img class="d-block w-100" src="/shared/images/noFeatureText.png" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/ledger.PNG" alt="Second slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/IP_semliki_notes.PNG" alt="Third slide"> </div>
+											<div class="carousel-item active"> <img class="d-block w-100" src="/images/ledger.PNG" alt="First slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide"> </div>
 										</div>
 										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-49%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-49%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
