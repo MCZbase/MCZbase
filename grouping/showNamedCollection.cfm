@@ -107,10 +107,10 @@
 									<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 										<div class="carousel-inner">
 											<div class="carousel-item active"> <img class="d-block w-100" src="/shared/images/noFeatureText.png" alt="First slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Second slide"> </div>
-											<div class="carousel-item"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/agents/large/bfg_007.jpg" alt="Third slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/ledger.PNG" alt="Second slide"> </div>
+											<div class="carousel-item"> <img class="d-block w-100" src="/shared/images/IP_semliki_notes.PNG" alt="Third slide"> </div>
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+										<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-49%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-49%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 								<div class="col-12 col-md-4 ">
 									<h3>Collectors and other agents</h3>
