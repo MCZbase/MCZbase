@@ -10,7 +10,7 @@
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container-fluid py-3">
-	<div class="row mx-5">
+	<div class="row mx-4">
 	<article class="w-100">
 		<div class="col-12">
 		<div class="row mx-0">
