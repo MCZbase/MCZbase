@@ -26,6 +26,17 @@
 						<div class="col-12 col-md-5 px-2 float-left mt-0">
 							<h2 class="h1 pb-2 mb-0">Featured Specimen Images</h2>
 							<p>Specimen Images linked to the #getNamedGroup.collection_name#</p>
+							<cfquery name="getSpecMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select 
+								distinct underscore_relation.media_id as media_id
+							from 
+								underscore_relation
+							left outer join 
+								media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key 
+							where 
+								media_relations.media_relationship like 'shows cataloged_item' and underscore_relation.underscore_collection_id = 1
+							</cfquery>
+
 							<!--Carousel Wrapper-->
 							<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 								<!--Indicators-->
@@ -36,39 +47,19 @@
 								</ol>
 								<!--/.Indicators---> 
 								<!--Slides-->
+								<cfloop query="getSpecMedia">
 								<div class="carousel-inner" role="listbox">
 									<div class="carousel-item active">
-										<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
-			  alt="First slide">
+										<div class="view"> <img class="d-block w-100" src="#getSpecMedia.media_id#" alt="First slide"/>
 											<div class="mask rgba-black-light"></div>
 										</div>
-										<!---		<div class="carousel-caption">
-								<h3 class="h3-responsive">Light mask</h3>
-								<p>First text</p>
-							</div>---> 
-									</div>
-									<div class="carousel-item"> 
-										<!--Mask color-->
-										<div class="view"> <img class="d-block w-100" src="https://mczbase-dev.rc.fas.harvard.edu/specimen_images/herpetology/large/A17734_P_snethlageae_P_v.jpg"
-			  alt="Second slide">
-											<div class="mask rgba-black-strong"></div>
+										<div class="carousel-caption">
+											<h3 class="h3-responsive">scientific name</h3>
+												<p>location</p>
 										</div>
-										<!---				<div class="carousel-caption">
-								<h3 class="h3-responsive">MCZ Herpetology A-15810 - Ooeidozyga floresiana</h3>
-								<p>Indonesia, Rana Mese: Flores: Dutch East Indies</p>
-							</div>---> 
+								
 									</div>
-									<div class="carousel-item"> 
-										<!--Mask color-->
-										<div class="view"> <img class="d-block w-100" src="https://mczbase.mcz.harvard.edu/specimen_images/ent-lepidoptera/images/2011_10_17/IMG_104291.JPG"
-			  alt="Third slide">
-											<div class="mask rgba-black-slight"></div>
-										</div>
-										<!---			<div class="carousel-caption">
-								<h3 class="h3-responsive">Slight mask</h3>
-								<p>Third text</p>
-							</div>---> 
-									</div>
+								</cfloop>
 								</div>
 								<!--/.Slides--> 
 								<!--Controls--> 
