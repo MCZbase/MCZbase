@@ -179,7 +179,7 @@
 					</cfquery>
 					<h3>Agents</h3>
 					<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-						<cfloop query="specimens">
+						<cfloop query="agents">
 						<li class="list-group-item float-left d-inline mr-2" style="width:105px"><a class="h4" href="##">#agents.collectors#</a></li>
 						</cfloop>
 				
