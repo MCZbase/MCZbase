@@ -478,7 +478,7 @@
 			<a name="trans"></a>
 			<p>
 				<strong>Project Accessions</strong>
-				[ <a href="editAccn.cfm?project_id=#getDetails.project_id#">Add Accession</a> ]
+				[ <a href="editAccn.cfm?project_id=#getDetails.project_id#">Add Accession</a> ] <!--- TODO: Replicate this API call another way --->
 				<cfset i=1>
 				<cfloop query="getAccns">
 	 				<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>	
