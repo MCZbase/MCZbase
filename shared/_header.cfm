@@ -443,6 +443,11 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">SQL Taxonomy</a>
 										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">Bulk Taxonomy</a>
+										</cfif>
 										</cfif>
 									</div>
 									</cfif>
@@ -529,7 +534,11 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
-										
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
+											</cfif>
 										</div>
 									</cfif>
 									</cfif>
