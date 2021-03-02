@@ -22,13 +22,17 @@
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-4 col-lg-3 col-xl-2 px-0 px-md-4 float-left mt-2">
+<!---						<div class="col-12 col-md-4 col-lg-3 col-xl-2 px-0 px-md-4 float-left mt-2">
 							<h2>Description</h2>
 							<p class="">#getNamedGroup.description#</p>
 							<h2>Featured Data</h2>
 							<p>#getNamedGroup.html_description#</p>
-						</div>
-						<div class="col-12 col-md-8 col-lg-5 col-xl-5 px-0 px-md-4 float-left mt-0">
+						</div>--->
+						<div class="col-12 col-md-8 col-lg-8 col-xl-8 px-0 px-md-4 float-left mt-0">
+							<h2>Description</h2>
+							<p class="">#getNamedGroup.description#</p>
+							<h2>Featured Data</h2>
+							<p>#getNamedGroup.html_description#</p>
 							<h2 class="pb-2 mb-0">Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
