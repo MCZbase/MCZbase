@@ -134,7 +134,7 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="addItems">
 		<cfif NOT isdefined("underscore_collection_id")>
-			<cfthrow message="No named grouping selected, unable to add cataloged items">
+			<cfthrow message="No named group selected, unable to add cataloged items">
 		</cfif>
 		<cfif NOT isdefined("recordcount") OR recordcount EQ 0>
 			<cfthrow message="No cataloged items to add to named group.">
@@ -157,7 +157,7 @@ limitations under the License.
 				</cfquery>
 				<cfset idToAdd = unColl.id>
 				<cfif unColl.recordcount NEQ 1>
-					<cfthrow message="No such named grouping found, unable to add cataloged items">
+					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
 				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
@@ -191,7 +191,7 @@ limitations under the License.
 				</cfquery>
 				<cfset idToAdd = unColl.id>
 				<cfif unColl.recordcount NEQ 1>
-					<cfthrow message="No such named grouping found, unable to add cataloged items">
+					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
 				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
