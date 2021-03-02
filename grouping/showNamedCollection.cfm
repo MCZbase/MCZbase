@@ -28,7 +28,7 @@
 							<h2>Featured Data</h2>
 							<p>#getNamedGroup.html_description#</p>
 						</div>--->
-						<div class="col-12 col-md-8 col-lg-8 col-xl-8 px-0 px-md-4 float-left mt-0">
+						<div class="col-12 col-md-7 col-lg-7 col-xl-7 px-0 px-md-4 float-left mt-0">
 							<h2>Description</h2>
 							<p class="">#getNamedGroup.description#</p>
 							<h2>Featured Data</h2>
