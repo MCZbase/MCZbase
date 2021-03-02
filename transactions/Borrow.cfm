@@ -763,7 +763,55 @@ limitations under the License.
 				</script>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: Copy and refactor from /Borrow.cfm --->
+						<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
+						<form id="addBorrowItemform">
+	      	         <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
+	         	      <input type="hidden" name="method" value="addBorrowItem">
+	            	   <input type="hidden" name="returnformat" value="json">
+	               	<input type="hidden" name="queryformat" value="column">
+	               	<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+	               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td>
+	                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
+	                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
+	                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
+	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
+	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
+	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
+	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field lnkBtn" type="button" onclick=" addBorrowItem2();" value="Add Row"></label></td>
+	           		</form>
+					</div>
+					<div class="col-12 pt-3 pb-1">
+						<!--- TODO: editable borrow item table --->
+                  <div id="borrowItems"></div>
+					</div>
+					<div class="col-12 pt-3 pb-1">
+						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
+						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
+        				<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
+	           			<input type="hidden" name="action" value="getFile">
+	           			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+	           			<input type="file"
+		   					name="FiletoUpload"
+			   				size="45">
+				  		<input type="submit" value="Upload this file" >
+			  			</cfform>
+					</div>
+					<div class="col-12 pt-3 pb-1">
+			  			<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
+						<div id="template" style="display:none;">
+							<label for="t">Copy the following code and save as a .csv file</label>
+							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+						</div>
+						<script>
+							function toggleTemplate() {
+								$('##template').toggle();
+								if ($('##template').is(':visible')) {
+									$('##toggleLink').html('Hide csv file temlate');
+								} else {
+									$('##toggleLink').html('View csv file temlate');
+								}
+							}
+						</script>
 					</div>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
