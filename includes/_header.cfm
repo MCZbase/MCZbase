@@ -168,7 +168,7 @@
 												<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
 												<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
 												<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
-												<a class="dropdown-item" target="_top" href="/tools/BulkTaxonomy.cfm">Bulk Taxonomy</a>
+												<a class="dropdown-item" target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
 											</cfif>
 										</div>
 								</cfif>
