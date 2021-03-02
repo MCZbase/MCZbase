@@ -850,7 +850,7 @@ function opendialog(page,id,title) {
      </script>
      <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+    concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
 from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
   left join accn on trans.transaction_id = accn.transaction_id
@@ -900,7 +900,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+    concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
 from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
   left join trans on shipment.transaction_id = trans.transaction_id
   left join collection on trans.collection_id = collection.collection_id
@@ -995,7 +995,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 
 select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+    concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
     TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
     decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
@@ -1009,7 +1009,7 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
         and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 union
 select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+    concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
     flat.country, flat.state_prov, flat.scientific_name, flat.guid,
     shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
     decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
