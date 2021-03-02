@@ -459,7 +459,7 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
@@ -476,7 +476,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>		
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
