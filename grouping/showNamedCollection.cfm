@@ -8,7 +8,7 @@
 	<cfset underscore_collection_id = "1">
 	<cfset underscore_agent_id = "117103">
 	<cfset collection_object_id = "">
-	<cfquery name="getNamedGroup" dbtype="query">
+	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select underscore_collection.collection_name, underscore_collection.description, underscore_collection.underscore_agent_id, underscore_relation.collection_object_id, underscore_collection.html_description, underscore_collection.mask_fg 
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
@@ -149,7 +149,7 @@
 							<div class="row">
 								<div class="col-12">
 									<h3>Taxa</h3>
-									<cfquery name="taxa_class" dbtype="query">
+									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -165,7 +165,7 @@
 								</div>
 								<div class="col-12">
 									<h3>Countries</h3>
-									<cfquery name="country" dbtype="query">
+									<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct flat.country as country from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -180,7 +180,7 @@
 									</ul>
 								</div>
 								<div class="col-12">
-									<cfquery name="agents" dbtype="query">
+									<cfquery name="agents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct flat.collectors as collectors from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -196,7 +196,7 @@
 									</ul>
 								</div>
 								<div class="col-12">
-									<cfquery name="specimens"  dbtype="query">
+									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct flat.GUID as guid, flat.specimendetailurl as specimendetailurl 
 									from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
