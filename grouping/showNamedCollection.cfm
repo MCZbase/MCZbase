@@ -157,10 +157,11 @@
 									<h3>Taxa</h3>
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct taxonomy.phylclass from taxonomy
-									left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
-									left join identification on identification.identification_id = identification_taxonomy.identification_id
-									left join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
-									where taxonomy.phylclass is not null
+									left outer join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+									left outer join identification on identification.identification_id = identification_taxonomy.identification_id
+									left outer join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
+									left outer join underscore_relation on underscore_relation.collection_object_id = cataloged_item.collection_object_id
+									where taxonomy.phylclass is not null and underscore_relation.underscore_relation_id = 1
 									order by taxonomy.phylclass asc
 									</cfquery>
 									<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
