@@ -40,46 +40,112 @@
    <cfset r=1>
    <cfthread name="getIdentificationThread">
    <cftry>
-       <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-         select 1 as status, identification.identification_id, identification.collection_object_id, identification.scientific_name, identification.made_date, identification.nature_of_id, identification.stored_as_fg,identification.identification_remarks, identification.accepted_id_fg, identification.taxa_formula, identification.sort_order, taxonomy.full_taxon_name, taxonomy.author_text, identification_agent.agent_id, concatidagent(identification.identification_id) agent_name
-             	FROM 
-						identification, identification_taxonomy,
-						taxonomy, identification_agent
-          		WHERE 	
-		   				identification.identification_id=identification_taxonomy.identification_id and
-		   				identification_agent.identification_id = identification.identification_id and
-		   				identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and 
-						identification.identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-           		ORDER BY 
-		   				made_date
-      </cfquery>
-	
 	
       <cfset resulthtml = "<div id='identificationHTML'> ">
 
       <cfloop query="theResult">
-         <cfset resulthtml = resulthtml & "<div class='identifcationExistingForm'>">
-            <cfset resulthtml = resulthtml & "<form><div class='container pl-1'>">
-			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
-			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='scientific_name'>Scientific Name:</label><input type='text' name='taxona' id='taxona' class='reqdClr form-control form-control-sm' value='#scientific_name#' size='1' onChange='taxaPick(''taxona_id'',''taxona'',''newID'',this.value); return false;'	onKeyPress=return noenter(event);'><input type='hidden' name='taxona_id' id=taxona_id' class='reqdClr'></div>">
-			<cfset resulthtml = resulthtml & "<div class='form-group w-25 mb-3 float-left'><label for='taxa_formula'>Formula:</label><select class='border custom-select form-control input-sm id='select'><option value='' disabled='' selected=''>#taxa_formula#</option><option value='A'>A</option><option value='B'>B</option><option value='sp.'>sp.</option></select></div>">
-			<cfset resulthtml = resulthtml & "<div class='form-group w-50 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
-			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
-    		<cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' value='#agent_name#'></div>">
-            <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><select name='nature_of_id' id='nature_of_id' size='1' class='reqdClr custom-select form-control'><cfloop query='theResult'><option value='theResult.nature_of_id'>#nature_of_id#</option></cfloop></select></cfloop></div>">
-			<cfset resulthtml = resulthtml & "</div>">
-			<cfset resulthtml = resulthtml & "<div class='col-md-12 col-sm-12 float-left'>">
-         	<cfset resulthtml = resulthtml & "<div class='form-group'><label for='full_taxon_name'>Full Taxon Name:</label><input type='text' class='form-control-sm' id='full_taxon_name' value='#full_taxon_name#'></div> ">
-			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='identification_remarks'>Identification Remarks:</label><textarea type='text' class='form-control' id='identification_remarks' value='#identification_remarks#'></textarea></div>">
-				
-			<cfset resulthtml = resulthtml & "<div class='form-check'><input type='checkbox' class='form-check-input' id='materialUnchecked'><label class='mt-2 form-check-label' for='materialUnchecked'>Stored as #scientific_name#</label></div>">
-			<cfset resulthtml = resulthtml & "<div class='form-group float-right'><button type='button' value='Create New Identification' class='btn btn-primary ml-2' onClick=""$('.dialog').dialog('open'); loadNewIdentificationForm(identification_id,'newIdentificationForm');"">Create New Identification</button></div> ">
-		
-			<cfset resulthtml = resulthtml & "</div></div></form>">
-       
-            <cfset resulthtml = resulthtml & "</div>"> 
-      </cfloop> <!--- theResult --->
-
+		<cfset resulthtml = resulthtml & "<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">">
+		<cfset resulthtml = resulthtml & "SELECT distinct taxonomy.taxon_name_id,display_name,scientific_name,author_text,full_taxon_name FROM identification_taxonomy,taxonomy WHERE identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id AND identification_id = <cfqueryparam value='#identification_id#' cfsqltype='CF_SQL_DECIMAL'></cfquery>">
+		<cfset resulthtml = resulthtml & "<cfif accepted_id_fg is 1>">
+		<cfset resulthtml = resulthtml & "<ul class='list-group border-green rounded p-2 h4 font-weight-normal'>">
+		<cfset resulthtml = resulthtml & "<div class='d-inline-block mb-2 h4 text-success'>Current Identification</div>">
+		<cfset resulthtml = resulthtml & "<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>">
+		<cfset resulthtml = resulthtml & "<div class='font-italic h4 mb-1 font-weight-lessbold d-inline-block'> <a href='/name/#getTaxa.scientific_name#' target='_blank'>#getTaxa.display_name# </a>">
+		<cfset resulthtml = resulthtml & "<cfif len(getTaxa.author_text) gt 0>">
+		<cfset resulthtml = resulthtml & "<span class='sm-caps font-weight-lessbold'>#getTaxa.author_text#</span>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "</div>">
+		<cfset resulthtml = resulthtml & "<cfelse>">
+		<cfset resulthtml = resulthtml & "<cfset link=''>">
+		<cfset resulthtml = resulthtml & "<cfset i=1>">
+		<cfset resulthtml = resulthtml & "<cfset thisSciName='#scientific_name#'>">
+		<cfset resulthtml = resulthtml & "<cfloop query='getTaxa'>">
+		<cfset resulthtml = resulthtml & "<span class='font-italic h4 font-weight-lessbold d-inline-block'>">
+		<cfset resulthtml = resulthtml & "<cfset thisLink='<a href=""/name/#scientific_name#"" class=""d-inline"" target=""_blank"">#display_name#</a>'>">
+		<cfset resulthtml = resulthtml & "<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>">
+		<cfset resulthtml = resulthtml & "<cfset i=#i#+1>">
+		<cfset resulthtml = resulthtml & "<a href='##'>#thisSciName#</a> <span class='sm-caps font-weight-lessbold'>#getTaxa.author_text#</span></span>">
+		<cfset resulthtml = resulthtml & "</cfloop>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfif oneOfUs is 1 and stored_as_fg is 1>">
+		<cfset resulthtml = resulthtml & "<span class='bg-gray float-right rounded p-1'>STORED AS</span>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfif not isdefined('metaDesc')>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=''>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfloop query='getTaxa'>">
+		<cfset resulthtml = resulthtml & "<div class='h5 mb-1 text-dark font-italic'> #full_taxon_name# </div>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & full_taxon_name>">
+		<cfset resulthtml = resulthtml & "<cfquery name='cName' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>
+		SELECT common_name FROM common_name	WHERE taxon_name_id= <cfqueryparam value='#taxon_name_id#' cfsqltype='CF_SQL_DECIMAL'> and common_name is not null
+		GROUP BY common_name order by common_name</cfquery>">
+		<cfset resulthtml = resulthtml & "<cfif len(cName.common_name) gt 0>">
+		<cfset resulthtml = resulthtml & "<div class='h5 mb-1 text-muted font-weight-normal pl-3'>Common Name(s): '#valuelist(cName.common_name,'; ')#">
+		<cfset resulthtml = resulthtml & "</div>">	
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>">
+		</cfloop>
+		<cfset resulthtml = resulthtml & "<div class='form-row mx-0'>">
+		<cfset resulthtml = resulthtml & "<div class='small mr-2'><span class='h5'>Determiner:</span> #agent_name#'">
+		<cfset resulthtml = resulthtml & "<cfif len(made_date) gt 0>">
+		<cfset resulthtml = resulthtml & "<span class='h5'>on Date:</span> #dateformat(made_date,'yyyy-mm-dd')#">
+		<cfset resulthtml = resulthtml & "</cfif></div>	</div>">
+		<cfset resulthtml = resulthtml & "<div class='small mr-2'><span class='h5'>Nature of ID:</span> #nature_of_id# </div>">
+		<cfset resulthtml = resulthtml & "<cfif len(identification_remarks) gt 0>">
+		<cfset resulthtml = resulthtml & "<div class='small'><span class='h5'>Remarks:</span> #identification_remarks#</div>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "</ul>	">
+		<cfelse>
+		<cfset resulthtml = resulthtml & "<cfif getTaxa.recordcount gt 0>">		
+		<cfset resulthtml = resulthtml & "<div class='h4 pl-4 mt-1 mb-0 text-success'>Former Identifications</div>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<ul class='list-group py-1 px-3 ml-2 text-dark bg-light'>">
+		<cfset resulthtml = resulthtml & "	<li class="px-0">">
+		<cfset resulthtml = resulthtml & "<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>">
+		<cfset resulthtml = resulthtml & "<span class='font-italic h4 font-weight-normal'>">
+		<cfset resulthtml = resulthtml & "<a href='/name/#getTaxa.scientific_name#' target='_blank'>#getTaxa.display_name#</a></span>">
+		<cfset resulthtml = resulthtml & "<cfif len(getTaxa.author_text) gt 0>">
+		<cfset resulthtml = resulthtml & "<span class="color-black sm-caps">#getTaxa.author_text#</span>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfelse>">
+		<cfset resulthtml = resulthtml & "<cfset link=''>">
+		<cfset resulthtml = resulthtml & "<cfset i=1>">
+		<cfset resulthtml = resulthtml & "<cfset thisSciName='#scientific_name#'>">
+		<cfset resulthtml = resulthtml & "<cfloop query='getTaxa'>">
+		<cfset resulthtml = resulthtml & "<cfset thisLink='<a href=''/name/#scientific_name#'' target=''_blank''>#display_name#</a>'>">
+		<cfset resulthtml = resulthtml & "<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>">
+		<cfset resulthtml = resulthtml & "<cfset i=#i#+1>">
+		<cfset resulthtml = resulthtml & "</cfloop>">
+		<cfset resulthtml = resulthtml & "#thisSciName# ">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfif oneOfUs is 1 and stored_as_fg is 1>">
+		<cfset resulthtml = resulthtml & "<span style='float-right rounded p-1 bg-light'>STORED AS</span>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfif not isdefined('metaDesc')>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=''>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<cfloop query='getTaxa'>">
+		<cfset resulthtml = resulthtml & "<p class='small text-muted mb-0'> #full_taxon_name#</p>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & full_taxon_name>">
+		<cfset resulthtml = resulthtml & "<cfquery name='cName' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>">
+		<cfset resulthtml = resulthtml & "SELECT common_name FROM common_name WHERE taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> and common_name is not null GROUP BY common_name order by common_name</cfquery>">
+		<cfset resulthtml = resulthtml & "<cfif len(cName.common_name) gt 0><div class='small text-muted pl-3'>">
+		<cfset resulthtml = resulthtml & "Common Name(s): #valuelist(cName.common_name,'; ')#">
+		<cfset resulthtml = resulthtml & "</div>">
+		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,'; ')></cfif>">
+		<cfset resulthtml = resulthtml & "</cfloop>">
+		<cfset resulthtml = resulthtml & "<cfif len(formatted_publication) gt 0>">
+		<cfset resulthtml = resulthtml & "sensu <a href='/publication/#publication_id#' target='_mainFrame'> #formatted_publication# </a>">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<span class='small'>Determination: #agent_name#">
+		<cfset resulthtml = resulthtml & "<cfif len(made_date) gt 0>">
+		<cfset resulthtml = resulthtml & "on #dateformat(made_date,'yyyy-mm-dd')#">
+		<cfset resulthtml = resulthtml & "</cfif>">
+		<cfset resulthtml = resulthtml & "<span class="d-block">Nature of ID: #nature_of_id#</span> ">
+		<cfset resulthtml = resulthtml & "<cfif len(identification_remarks) gt 0>">
+		<cfset resulthtml = resulthtml & "<span class="d-block">Remarks: #identification_remarks#</span>">
+		<cfset resulthtml = resulthtml & "</cfif></cfif></li></ul>">
+	</cfloop>
    <cfcatch>
        <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
    </cfcatch>
