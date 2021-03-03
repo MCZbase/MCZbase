@@ -1,32 +1,67 @@
 <cfcomponent>
-<cfinclude template = "../../shared/functionLib.cfm">
+<cf_rolecheck>
+<cfinclude template = "/shared/functionLib.cfm">
 
 <cffunction name="getExternalStatus" access="remote">
 	<cfargument name="uri" type="string" required="yes">
 	<cfhttp url="#uri#" method="head"></cfhttp>
 	<cfreturn left(cfhttp.statuscode,3)>
 </cffunction>
+
+<!--- updateCondition update the condition on a part identified by the part's collection object id 
+ @param part_id the collection_object_id for the part to update
+ @param condition the new condition to update the part to 
+ @return a json structure containing the part_id and a message, with "success" as the value of the message on a successful update.
+--->
+<cffunction name="updateCondition" access="remote" returntype="query">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update coll_object 
+				set
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
+				where
+					COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+			</cfquery>
+		</cftransaction>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+	<cfcatch>
+		<cfset result = querynew("PART_ID,MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
 <!------EXISTING----------------------------------------------------------------------------------------------------------->
 <cffunction name="getIdentifications" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		   select 1 as status, identification_id, collection_object_id, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
-             from identification
-             where identification_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+			select 1 as status, identification_id, collection_object_id, nature_of_id, accepted_id_fg,
+				identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
+			from identification
+			where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 		</cfquery>
 		<cfif theResult.recordcount eq 0>
-	  	  <cfset theResult=queryNew("status, message")>
-		  <cfset t = queryaddrow(theResult,1)>
-		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
 		</cfif>
-	  <cfcatch>
-	   	<cfset theResult=queryNew("status, message")>
+	<cfcatch>
+		<cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
 		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-	  </cfcatch>
+	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
