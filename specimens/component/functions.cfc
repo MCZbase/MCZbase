@@ -45,25 +45,29 @@
 
       <cfloop query="theResult">
 		<cfquery name='getTaxa' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>
-		SELECT distinct taxonomy.taxon_name_id,display_name,scientific_name,author_text,full_taxon_name FROM identification_taxonomy,taxonomy WHERE identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id AND identification_id = <cfqueryparam value='#identification_id#' cfsqltype='CF_SQL_DECIMAL'></cfquery>
+			SELECT distinct taxonomy.taxon_name_id,display_name,scientific_name,author_text,full_taxon_name 
+			FROM identification_taxonomy,taxonomy 
+			WHERE identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
+			AND identification_id = <cfqueryparam value='#identification_id#' cfsqltype='CF_SQL_DECIMAL'>
+		</cfquery>
 		<cfif accepted_id_fg is 1>
-		<cfset resulthtml = resulthtml & "<ul class='list-group border-green rounded p-2 h4 font-weight-normal'>">
-		<cfset resulthtml = resulthtml & "<div class='d-inline-block mb-2 h4 text-success'>Current Identification</div>">
+			<cfset resulthtml = resulthtml & "<ul class='list-group border-green rounded p-2 h4 font-weight-normal'>">
+			<cfset resulthtml = resulthtml & "<div class='d-inline-block mb-2 h4 text-success'>Current Identification</div>">
 		<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-		<cfset resulthtml = resulthtml & "<div class='font-italic h4 mb-1 font-weight-lessbold d-inline-block'> <a href='/name/#getTaxa.scientific_name#' target='_blank'>#getTaxa.display_name# </a>">
-		<cfset resulthtml = resulthtml & "<cfif len(getTaxa.author_text) gt 0>">
-		<cfset resulthtml = resulthtml & "<span class='sm-caps font-weight-lessbold'>#getTaxa.author_text#</span>">
+			<cfset resulthtml = resulthtml & "<div class='font-italic h4 mb-1 font-weight-lessbold d-inline-block'> <a href='/name/#getTaxa.scientific_name#' target='_blank'>#getTaxa.display_name# </a>">
+		<cfif len(getTaxa.author_text) gt 0>
+			<cfset resulthtml = resulthtml & "<span class='sm-caps font-weight-lessbold'>#getTaxa.author_text#</span>">
 		</cfif>
 		<cfset resulthtml = resulthtml & "</div>">
 		<cfelse>
-		<cfset resulthtml = resulthtml & "<cfset link=''>">
-		<cfset resulthtml = resulthtml & "<cfset i=1>">
-		<cfset resulthtml = resulthtml & "<cfset thisSciName='#scientific_name#'>">
+		<cfset link=''>
+		<cfset i=1>
+		<cfset thisSciName='#scientific_name#'>
 		<cfloop query='getTaxa'>
 		<cfset resulthtml = resulthtml & "<span class='font-italic h4 font-weight-lessbold d-inline-block'>">
-		<cfset resulthtml = resulthtml & "<cfset thisLink='<a href=""/name/#scientific_name#"" class=""d-inline"" target=""_blank"">#display_name#</a>'>">
-		<cfset resulthtml = resulthtml & "<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>">
-		<cfset resulthtml = resulthtml & "<cfset i=#i#+1>">
+		<cfset thisLink='<a href=""/name/#scientific_name#"" class=""d-inline"" target=""_blank"">#display_name#</a>'>
+		<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
+		<cfset i=#i#+1>
 		<cfset resulthtml = resulthtml & "<a href='##'>#thisSciName#</a> <span class='sm-caps font-weight-lessbold'>#getTaxa.author_text#</span></span>">
 		</cfloop>
 		</cfif>
@@ -74,8 +78,8 @@
 		<cfset metaDesc=''>
 		</cfif>
 		<cfloop query='getTaxa'>">
-		<cfset resulthtml = resulthtml & "<div class='h5 mb-1 text-dark font-italic'> #full_taxon_name# </div>">
-		<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+			<cfset resulthtml = resulthtml & "<div class='h5 mb-1 text-dark font-italic'> #full_taxon_name# </div>">
+			<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 		<cfquery name='cName' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>
 		SELECT common_name FROM common_name	WHERE taxon_name_id= <cfqueryparam value='#taxon_name_id#' cfsqltype='CF_SQL_DECIMAL'> and common_name is not null
 		GROUP BY common_name order by common_name</cfquery>
@@ -83,11 +87,11 @@
 		<cfset resulthtml = resulthtml & "<div class='h5 mb-1 text-muted font-weight-normal pl-3'>Common Name(s): '#valuelist(cName.common_name,'; ')#">
 		<cfset resulthtml = resulthtml & "</div>">	
 		</cfif>
-		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>">
+		<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 		</cfloop>
 		<cfset resulthtml = resulthtml & "<div class='form-row mx-0'>">
 		<cfset resulthtml = resulthtml & "<div class='small mr-2'><span class='h5'>Determiner:</span> #agent_name#'">
-		<cfset resulthtml = resulthtml & "<cfif len(made_date) gt 0>">
+		<cfif len(made_date) gt 0>
 		<cfset resulthtml = resulthtml & "<span class='h5'>on Date:</span> #dateformat(made_date,'yyyy-mm-dd')#">
 		</cfif>
 		<cfset resulthtml = resulthtml & "</div></div>">
@@ -127,7 +131,7 @@
 		</cfif>
 		<cfloop query='getTaxa'>
 		<cfset resulthtml = resulthtml & "<p class='small text-muted mb-0'> #full_taxon_name#</p>">
-		<cfset resulthtml = resulthtml & "<cfset metaDesc=metaDesc & '; ' & full_taxon_name>">
+		<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 		<cfquery name='cName' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>
 		SELECT common_name FROM common_name WHERE taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> and common_name is not null GROUP BY common_name order by common_name</cfquery>
 			<cfif len(cName.common_name) gt 0>
@@ -135,7 +139,7 @@
 		<cfset resulthtml = resulthtml & "Common Name(s): #valuelist(cName.common_name,'; ')#">
 		<cfset resulthtml = resulthtml & "</div>">
 		<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,'; ')></cfif>
-			</cfloop>
+		</cfloop>
 		<cfif len(formatted_publication) gt 0>
 		<cfset resulthtml = resulthtml & "sensu <a href='/publication/#publication_id#' target='_mainFrame'> #formatted_publication# </a>">
 		</cfif>
