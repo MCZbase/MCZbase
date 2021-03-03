@@ -159,7 +159,7 @@
 									select distinct flat.phylclass as phylclass from flat, underscore_collection, underscore_relation 
 									where underscore_relation.collection_object_id = flat.collection_object_id
 									and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-									and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxa_class.underscore_collection_id#">
 									and flat.PHYLCLASS is not null
 									order by flat.phylclass asc
 									</cfquery>
