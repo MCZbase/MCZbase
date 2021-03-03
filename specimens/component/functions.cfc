@@ -44,7 +44,7 @@
       <cfset resulthtml = "<div id='identificationHTML'> ">
 
       <cfloop query="theResult">
-		<cfset resulthtml = resulthtml & "<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">">
+		<cfset resulthtml = resulthtml & "<cfquery name='getTaxa' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>">
 		<cfset resulthtml = resulthtml & "SELECT distinct taxonomy.taxon_name_id,display_name,scientific_name,author_text,full_taxon_name FROM identification_taxonomy,taxonomy WHERE identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id AND identification_id = <cfqueryparam value='#identification_id#' cfsqltype='CF_SQL_DECIMAL'></cfquery>">
 		<cfset resulthtml = resulthtml & "<cfif accepted_id_fg is 1>">
 		<cfset resulthtml = resulthtml & "<ul class='list-group border-green rounded p-2 h4 font-weight-normal'>">
@@ -100,12 +100,12 @@
 		<cfset resulthtml = resulthtml & "<div class='h4 pl-4 mt-1 mb-0 text-success'>Former Identifications</div>">
 		<cfset resulthtml = resulthtml & "</cfif>">
 		<cfset resulthtml = resulthtml & "<ul class='list-group py-1 px-3 ml-2 text-dark bg-light'>">
-		<cfset resulthtml = resulthtml & "	<li class="px-0">">
+		<cfset resulthtml = resulthtml & "	<li class='px-0'>">
 		<cfset resulthtml = resulthtml & "<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>">
 		<cfset resulthtml = resulthtml & "<span class='font-italic h4 font-weight-normal'>">
 		<cfset resulthtml = resulthtml & "<a href='/name/#getTaxa.scientific_name#' target='_blank'>#getTaxa.display_name#</a></span>">
 		<cfset resulthtml = resulthtml & "<cfif len(getTaxa.author_text) gt 0>">
-		<cfset resulthtml = resulthtml & "<span class="color-black sm-caps">#getTaxa.author_text#</span>">
+		<cfset resulthtml = resulthtml & "<span class='color-black sm-caps'>#getTaxa.author_text#</span>">
 		<cfset resulthtml = resulthtml & "</cfif>">
 		<cfset resulthtml = resulthtml & "<cfelse>">
 		<cfset resulthtml = resulthtml & "<cfset link=''>">
@@ -141,9 +141,9 @@
 		<cfset resulthtml = resulthtml & "<cfif len(made_date) gt 0>">
 		<cfset resulthtml = resulthtml & "on #dateformat(made_date,'yyyy-mm-dd')#">
 		<cfset resulthtml = resulthtml & "</cfif>">
-		<cfset resulthtml = resulthtml & "<span class="d-block">Nature of ID: #nature_of_id#</span> ">
+		<cfset resulthtml = resulthtml & "<span class='d-block'>Nature of ID: #nature_of_id#</span> ">
 		<cfset resulthtml = resulthtml & "<cfif len(identification_remarks) gt 0>">
-		<cfset resulthtml = resulthtml & "<span class="d-block">Remarks: #identification_remarks#</span>">
+		<cfset resulthtml = resulthtml & "<span class='d-block'>Remarks: #identification_remarks#</span>">
 		<cfset resulthtml = resulthtml & "</cfif></cfif></li></ul>">
 	</cfloop>
    <cfcatch>
