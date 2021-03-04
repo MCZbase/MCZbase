@@ -446,6 +446,7 @@ limitations under the License.
 					from accn
 						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 						left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 						left join deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 						left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 					where accn.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
