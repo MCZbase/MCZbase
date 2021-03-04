@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
-#mydiv {
+#mydiv, #mydiv1, #mydiv2 {
   position: absolute;
   z-index: 9;
 }
@@ -58,7 +58,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 2</h3>--->
 							<div class="row">
@@ -70,7 +70,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
-						<div class="border-fill px-3 py-2 m-1" id="mydivheader">
+						<div class="border-fill px-3 py-2 m-1" id="mydivheader2">
 							<h2 class="data-entry-title">Encumbrance</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
