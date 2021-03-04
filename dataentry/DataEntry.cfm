@@ -60,7 +60,7 @@ limitations under the License.
 	left: 25%;
 }
 #mydiv6 {
-	left: 66.5%;
+	left: 66.75%;
 }
 #mydiv2,#mydiv8,#mydiv10,#mydiv12 {
 	left: 50%;
