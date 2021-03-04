@@ -29,7 +29,7 @@ limitations under the License.
 	z-index: 9;
 	top:140px;
 }
-	#mydiv8, #mydiv9, #mydiv10, #mydiv11 {
+#mydiv8, #mydiv9, #mydiv10, #mydiv11 {
 	position: absolute;
 	z-index: 9;
 	top:250px;
@@ -37,11 +37,17 @@ limitations under the License.
 #mydiv, #mydiv4, #mydiv8 {
 	left: 0;
 }	
-#mydiv1, #mydiv5, #mydiv9 {
+#mydiv9 {
+	left: 33%;
+}
+#mydiv1, #mydiv5 {
 /*	left: 330px;*/
 	left: 25%;
 }
-#mydiv2, #mydiv6, #mydiv10 {
+#mydiv10 {
+	left: 66%;
+}
+#mydiv2, #mydiv6 {
 /*	left: 660px;*/
 	left: 50%;
 }
