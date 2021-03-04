@@ -102,7 +102,19 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
-						<div class="border-fill px-3 py-2 m-1" id="mydivheader2">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
+							<h2 class="data-entry-title">Accession Number</h2>
+							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
+							<div class="form-row">
+								<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
+								<div class="col-xl-8 pl-0">
+									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
+									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
+						<div class="border-fill px-3 py-2 m-1" id="mydivheader3">
 							<h2 class="data-entry-title">Encumbrance</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
@@ -118,22 +130,32 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader3">
-							<h2 class="data-entry-title">Accession Number</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
-							<div class="form-row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
-								<div class="col-xl-8 pl-0">
-									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
-									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
-							</div>
-						</div>
-					</div>
+
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
+						<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader4">
+							<h2 class="data-entry-title">Collector/Preparator</h2>
+							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
+							<div id="customAgent">
+								<div class="row">
+									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
+									<div class="col-12 col-xl-4">
+										<select class="data-entry-select">
+											<option value="">Collector</option>
+											<option value="1">Preparator</option>
+										</select>
+									</div>
+									<div class="col-12 col-xl-5 pl-xl-0">
+										<input type="text" class="data-entry-input" name="other_id" placeholder="&nbsp; Value">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader5">
 							<h2 class="data-entry-title">Other IDs</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customOtherID">
@@ -155,8 +177,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader5">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv6">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader6">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
@@ -179,8 +201,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv6">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader6">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv7">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
@@ -203,27 +225,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv7">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader7">
-							<h2 class="data-entry-title">Collector/Preparator</h2>
-							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
-							<div id="customAgent">
-								<div class="row">
-									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
-									<div class="col-12 col-xl-4">
-										<select class="data-entry-select">
-											<option value="">Collector</option>
-											<option value="1">Preparator</option>
-										</select>
-									</div>
-									<div class="col-12 col-xl-5 pl-xl-0">
-										<input type="text" class="data-entry-input" name="other_id" placeholder="&nbsp; Value">
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
-						</div>
-					</div>
+
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv8">
