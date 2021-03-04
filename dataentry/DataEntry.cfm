@@ -39,7 +39,7 @@ limitations under the License.
 	left: 660px;
 }
 #mydiv3, #mydiv7 {
-	left: 950px;
+	left: 970px;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
 	cursor: move;
