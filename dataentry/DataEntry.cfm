@@ -53,14 +53,14 @@ limitations under the License.
 	left: 0;
 }	
 #mydiv5 {
-	left: 33%;
-	margin:0 3px;
+	left: 33.5%;
+
 }
 #mydiv1 {
 	left: 25%;
 }
 #mydiv6 {
-	left: 66%;
+	left: 66.5%;
 }
 #mydiv2,#mydiv8,#mydiv10,#mydiv12 {
 	left: 50%;
