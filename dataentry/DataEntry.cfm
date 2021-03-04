@@ -70,12 +70,12 @@ limitations under the License.
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-				
+							<div class="accordion" id="accordionC">
 				<div class="row">
-					<div class="accordion" id="accordionC">
+		
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="heading2">
-								<h3 class="h4 my-0 float-left collapsed btn-link">
+								<h3 class="h4 my-0 collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Collection/Catalog Number/Accession Number/Encumbrance</a>
 								</h3>
 							</div>
