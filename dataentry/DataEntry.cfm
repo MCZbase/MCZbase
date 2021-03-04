@@ -71,7 +71,7 @@ limitations under the License.
 <cfoutput>
 
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-		<div class="container pt-0 mt-0" id="swapper-first"  style="display: block;">
+		<div class="container pt-0 mt-0" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -313,7 +313,7 @@ limitations under the License.
 		</div>
 	</div>
 	
-	<div class="container-fluid pt-1"  id="swapper-other" style="display: none;height: 1300px;">
+	<div class="container-fluid pt-1"  id="swapper-first" style="height: 1300px;">
 		<div class="row mx-0" style="background-color:  ##fdfdfd">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
