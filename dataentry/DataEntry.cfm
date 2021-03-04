@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
-#mydiv, #mydiv1, #mydiv2 {
+#mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	position: absolute;
 	z-index: 9;
 }
@@ -32,7 +32,7 @@ limitations under the License.
 #mydiv3 {
 	left: 1320px;
 }
-#mydivheader {
+#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3 {
 	cursor: move;
 	z-index: 10;
 }
