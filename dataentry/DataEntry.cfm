@@ -38,9 +38,9 @@ limitations under the License.
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-				<div id="mydiv">
+				
 				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
@@ -625,7 +625,6 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-	</div>
 			</form>
 		</div>
 	</div>
