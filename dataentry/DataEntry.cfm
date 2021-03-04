@@ -23,6 +23,9 @@ limitations under the License.
   position: absolute;
   z-index: 9;
 }
+	#mydiv1 {
+		left: 300px;
+	}
 #mydivheader {
   padding: 10px;
   cursor: move;
