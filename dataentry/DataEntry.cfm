@@ -29,7 +29,7 @@ limitations under the License.
 #mydiv2 {
 	left: 660px;
 }
-#mydiv2 {
+#mydiv3 {
 	left: 1320px;
 }
 #mydivheader {
@@ -640,9 +640,9 @@ limitations under the License.
 </div>
 <script>
 	dragElement(document.getElementById("mydiv"));
-		dragElement(document.getElementById("mydiv1"));
-			dragElement(document.getElementById("mydiv2"));
-
+	dragElement(document.getElementById("mydiv1"));
+	dragElement(document.getElementById("mydiv2"));
+	dragElement(document.getElementById("mydiv3"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
