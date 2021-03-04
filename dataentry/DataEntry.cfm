@@ -24,16 +24,24 @@ limitations under the License.
 	z-index: 9;
 	height:200px;
 }
-#mydiv1 {
+#mydiv4, #mydiv5, #mydiv6, #mydiv7 {
+	position: absolute;
+	z-index: 9;
+	height:200px;
+}
+#mydiv, #mydiv4 {
+	left: 0;
+}	
+#mydiv1, #mydiv5 {
 	left: 330px;
 }
-#mydiv2 {
+#mydiv2, #mydiv6 {
 	left: 660px;
 }
-#mydiv3 {
+#mydiv3, #mydiv7 {
 	left: 1220px;
 }
-#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3 {
+#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
 	cursor: move;
 	z-index: 10;
 }
