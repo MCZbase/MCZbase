@@ -33,13 +33,16 @@ limitations under the License.
 	left: 0;
 }	
 #mydiv1, #mydiv5 {
-	left: 330px;
+/*	left: 330px;*/
+	left: 20%;
 }
 #mydiv2, #mydiv6 {
-	left: 660px;
+/*	left: 660px;*/
+	left: 40%;
 }
 #mydiv3, #mydiv7 {
-	left: 990px;
+/*	left: 990px;*/
+	left: 60%;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
 	cursor: move;
