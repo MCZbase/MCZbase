@@ -164,8 +164,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border-fill px-3 py-1 m-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv6">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader6">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
