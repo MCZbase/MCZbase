@@ -138,7 +138,7 @@ limitations under the License.
 
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv4">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader4">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
@@ -159,7 +159,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv5">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader5">
 							<h2 class="data-entry-title">Other IDs</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
@@ -182,7 +182,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv6">
+					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv6">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader6">
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
