@@ -24,7 +24,10 @@ limitations under the License.
   z-index: 9;
 }
 	#mydiv1 {
-		left: 300px;
+		left: 330px;
+	}
+		#mydiv2 {
+		left: 660px;
 	}
 #mydivheader {
   padding: 10px;
