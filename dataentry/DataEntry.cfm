@@ -57,8 +57,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border-fill px-3 py-1 m-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Catalog Number</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 2</h3>--->
 							<div class="row">
@@ -69,8 +69,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border-fill px-3 py-2 m-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
+						<div class="border-fill px-3 py-2 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Encumbrance</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
@@ -632,6 +632,8 @@ limitations under the License.
 </div>
 <script>
 	dragElement(document.getElementById("mydiv"));
+		dragElement(document.getElementById("mydiv1"));
+			dragElement(document.getElementById("mydiv2"));
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
