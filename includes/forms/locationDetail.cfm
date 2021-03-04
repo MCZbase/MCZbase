@@ -261,7 +261,8 @@ content: ": ";
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+					mask_loc_coord
 			</cfquery>
 			<div class="grouped">
 				<cfloop query="locality">
@@ -382,7 +383,8 @@ content: ": ";
 					GEOREFMETHOD,
 					VERIFICATIONSTATUS,
 					coordinateDeterminer,
-					DETERMINED_DATE
+					DETERMINED_DATE,
+					mask_loc_coord
 				order by
 					ACCEPTED_LAT_LONG_FG desc
 			</cfquery>
