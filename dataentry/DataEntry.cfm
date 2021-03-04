@@ -18,27 +18,61 @@ limitations under the License.
 
 -->
 <cfinclude template = "/shared/_header.cfm">
-			<style>
-			#mydiv {
+<style>
+#mydiv {
   position: absolute;
   z-index: 9;
   background-color: #f1f1f1;
   border: 1px solid #d3d3d3;
   text-align: center;
 }
-
-#mydivheader {
+.mydivheader {
   padding: 10px;
   cursor: move;
   z-index: 10;
   background-color: #2196F3;
   color: #fff;
 }
-		</style>
+</style>
 
 <cfoutput>
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 	<div id="mydiv">
+		<div class="pb-1 px-1 mydivheader mydivheader1">
+						<div class="border-fill px-3 py-1 m-1">
+							<h2 class="data-entry-title">Collection</h2>
+					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+								<div class="col-12 col-lg-9">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
+							</div>
+						</div>
+					</div>
+		<div class="pb-1 px-1 mydivheader  mydivheader2">
+						<div class="border-fill px-3 py-1 m-1">
+							<h2 class="data-entry-title">Collection</h2>
+					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+								<div class="col-12 col-lg-9">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
+							</div>
+						</div>
+					</div>
+	</div>
 	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 
 		<div class="row mx-0" style="background-color:  ##fdfdfd">
@@ -47,7 +81,7 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydivheader">
+					<div class="col-12 col-md-3 pb-1 px-1">
 						<div class="border-fill px-3 py-1 m-1">
 							<h2 class="data-entry-title">Collection</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
@@ -642,9 +676,9 @@ limitations under the License.
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
+  if (document.getElementsByClassName(elmnt.id + "header")) {
     // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    document.getElementsByClassName(elmnt.class + "header").onmousedown = dragMouseDown;
   } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
