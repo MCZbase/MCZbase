@@ -134,7 +134,7 @@ content: ": ";
 			<cfelseif isdefined("locality_id") and len(locality_id) gt 0>
 				locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_ID#">
 			<cfelseif isdefined("collecting_event_id") and len(collecting_event_id) gt 0>
-				collecting_event.collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#collecting_event_id#">
+				collecting_event.collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			</cfif>
 	</cfquery>
 	<cfquery name="geog" dbtype="query">

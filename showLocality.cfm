@@ -155,12 +155,12 @@
 							<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
 							<cfif len(#LatitudeString#) gt 0>
 								<cfquery name="isMaskCoord" datasource="uam_god">
-									select MCZBASE.IS_MASK_LOC_COORD(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityResults.locality_id#">) from dual
+									select MCZBASE.IS_MASK_LOC_COORD(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityResults.locality_id#">) as mask_loc_coord from dual
 								</cfquery>
-								<cfif mask_loc_coord EQ 0>
+								<cfif isMaskCoord.mask_loc_coord EQ 0>
 									<br>#LatitudeString#/#LongitudeString#
 								<cfelse>
-									<br>[redacted]
+									<br>[coordinates redacted]
 								</cfif>
 							<cfelse>
 								<br>#nogeorefbecause#
