@@ -49,7 +49,7 @@ limitations under the License.
 	z-index: 9;
 	top:1000px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11 {
 	left: 0;
 }	
 #mydiv5 {
@@ -231,7 +231,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
-				
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
@@ -329,8 +328,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
-				
+					</div>				
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv8">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
@@ -428,7 +426,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="row"
+				<div class="row">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
