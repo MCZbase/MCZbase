@@ -42,7 +42,12 @@ limitations under the License.
 #mydiv11, #mydiv12 {
 	position: absolute;
 	z-index: 9;
-	top:700px;
+	top:800px;
+}
+#mydiv13 {
+	position: absolute;
+	z-index: 9;
+	top:1000px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9 {
 	left: 0;
@@ -63,7 +68,7 @@ limitations under the License.
 	left: 75%;
 }
 
-#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13, #mydivheader14 {
+#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13 {
 	cursor: move;
 	z-index: 10;
 }
