@@ -312,7 +312,7 @@ content: ": ";
 							<div class="value">#NOGEOREFBECAUSE#</div>
 						</div>
 					</cfif>
-					<cfif len(mask_loc_coord) gt 0>
+					<cfif len(mask_loc_coord) gt 0 and mask_loc_coord GT 0>
 						<div class="pair">
 							<div class="data">Coordinates</div>
 							<div class="value">[redacted]</div>
