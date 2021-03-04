@@ -22,6 +22,7 @@ limitations under the License.
 #mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	position: absolute;
 	z-index: 9;
+	height:200px;
 }
 #mydiv1 {
 	left: 330px;
