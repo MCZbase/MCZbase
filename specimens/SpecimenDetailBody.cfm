@@ -38,44 +38,7 @@ limitations under the License.
 	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
 	</cfif>
 </cfoutput> 
-<script>
-//	$(function() {
-//     $(".dialog").dialog({
-//		open: function(event,ui){},
-//        Title: {style:"font-size: 1.3em;"},
-//		bgiframe: true,
-//        autoOpen: false,
-//    	width: '900px',
-//    	minWidth: 900,
-//    	minHeight: 450,
-//		buttons: [
-//			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background-color:transparent; border: none;" },
-//        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
-//        
-//    	],
-//        close: function() {
-//            $(this).dialog( "close" );
-//        },
-//        modal: true
-//       }
-//      );
-//     $('body')
-//      .bind(
-//       'click',
-//       function(e){
-//        if(
-//         $('.dialog-ID').dialog('isOpen')
-//         && !$(e.target).is('.ui-dialog, button')
-//         && !$(e.target).closest('.ui-dialog').length
-//        ){
-//         $('.dialog').dialog('close');
-//        }
-//       }
-//      );
-//    }
-//   );
-</script> 
-<!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
+
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
@@ -267,7 +230,7 @@ limitations under the License.
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked. 
-	<!---- TODO: This should return the correct HTTP response (403), not a 400 ---->
+	<!---- the correct the correct HTTP response is 403, forbiden ---->
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
@@ -472,8 +435,8 @@ limitations under the License.
 								<div>
 									<div class="mt-2">
 										<cfquery name="wrlCount" dbtype="query">
-                                    		select * from media where mime_type = 'model/vrml'
-                        				</cfquery>
+											select * from media where mime_type = 'model/vrml'
+										</cfquery>
 										<cfif wrlCount.recordcount gt 0>
 											<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
 										</cfif>
@@ -487,16 +450,17 @@ limitations under the License.
 											<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(*) c
 													FROM
-													  ctattribute_type
-													where attribute_type='image confirmed' and
-													collection_cde='#one.collection_cde#'
+														ctattribute_type
+													where 
+														attribute_type='image confirmed' and
+														collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.collection_cde#">
 											</cfquery>
 											<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
 											<cfquery name="isConf"  dbtype="query">
-													  SELECT count(*) c
-													  FROM
-													  attribute
-													  where attribute_type='image confirmed'
+												SELECT count(*) c
+												FROM
+													attribute
+												where attribute_type='image confirmed'
 											 </cfquery>
 											<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
 												<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
@@ -611,11 +575,12 @@ limitations under the License.
 				</cfquery>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
+						<div id="identificationsDialog"></div>
 						<div class="card-header" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');loadIdentification(#identification_id#)">Edit</button>
+							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Edit</button>
 						</div>
 						<form id="identificationForm">
 							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -1263,9 +1228,9 @@ limitations under the License.
 					</div>
 				</cfif>
 			</div>
-			<!--- start of column three --->
+			<!---  start of column three  --->
 			<div class="col-12 col-md-6 px-1 float-left"> 
-				<!------------------------------------ locality and collecting event------------------------------------------->
+				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
 				
 				<div class="accordion" id="accordionG">
 					<div class="card mb-2 bg-light">
@@ -1431,7 +1396,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<!------------------------------------- tranactions  ---------------------------------------->
+				<!--- ---------------------------------- tranactions  ------------------------------------ --->
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
@@ -1590,7 +1555,7 @@ limitations under the License.
 					</div>
 				</div>
 				</cfif>
-				<!------------------------------------ metadata ------------------------------------------->
+				<!--- --------------------------------- metadata -------------------------------------- ---->
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif oneOfUs is 1>
 						<div class="card mb-2">
