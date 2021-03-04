@@ -19,40 +19,33 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 <style>
-#mydiv, #mydiv1, #mydiv2, #mydiv3 {
+#mydiv, #mydiv1, #mydiv2, #mydiv3,#mydiv4, #mydiv5, #mydiv6,#mydiv7,#mydiv8,#mydiv9,#mydiv10,#mydiv11,#mydiv12,#mydiv13 {
 	position: absolute;
 	z-index: 9;
+}
+#mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	top: 50px;
 }
 #mydiv4, #mydiv5, #mydiv6 {
-	position: absolute;
-	z-index: 9;
 	top:142px;
 }
 #mydiv8 {
-	position: absolute;
-	z-index: 9;
 	top:319px;
 }
 #mydiv7 {
-	position:absolute;
-	z-index: 9;
 	top:244px;
 }
-#mydiv9, #mydiv10 {
-	position: absolute;
-	z-index: 9;
+#mydiv9,  {
 	top:660px;
 }
+#mydiv10 {
+	top:660px;	
+	}
 #mydiv11, #mydiv12 {
-	position: absolute;
-	z-index: 9;
 	top:800px;
 }
 #mydiv13 {
-	position: absolute;
-	z-index: 9;
-	top:1000px;
+	top:1200px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
 	left: 0;
