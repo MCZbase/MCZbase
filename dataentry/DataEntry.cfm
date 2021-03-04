@@ -40,9 +40,9 @@ limitations under the License.
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
 
-		<div class="row mx-0" id="mydiv" style="background-color:  ##fdfdfd">
+		<div class="row mx-0" style="background-color:  ##fdfdfd">
 			<div class="col-12 mt-0">
-			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
+			<form id="regFormAll" id="mydiv" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
