@@ -29,20 +29,20 @@ limitations under the License.
 #mydiv4, #mydiv5, #mydiv6 {
 	top:142px;
 }
-#mydiv8 {
-	top:319px;
-}
 #mydiv7 {
 	top:244px;
 }
+#mydiv8 {
+	top:319px;
+}
 #mydiv9,  {
-	top:660px;
+	top:617px;
 }
 #mydiv10 {
-	top:660px;	
+	top:644px;	
 	}
 #mydiv11, #mydiv12 {
-	top:800px;
+	top:980px;
 }
 #mydiv13 {
 	top:1200px;
