@@ -49,7 +49,7 @@ limitations under the License.
 	z-index: 9;
 	top:1000px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
