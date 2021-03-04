@@ -41,8 +41,11 @@ limitations under the License.
 #mydiv10 {
 	top:644px;	
 	}
-#mydiv11, #mydiv12 {
-	top:980px;
+#mydiv11  {
+	top:935px;
+}
+#mydiv12 {
+	top: 847px;
 }
 #mydiv13 {
 	top:1200px;
