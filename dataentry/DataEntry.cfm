@@ -37,7 +37,7 @@ limitations under the License.
 #mydiv9, #mydiv10 {
 	position: absolute;
 	z-index: 9;
-	top:500px;
+	top:660px;
 }
 #mydiv11, #mydiv12 {
 	position: absolute;
