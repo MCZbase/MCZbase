@@ -54,6 +54,7 @@ limitations under the License.
 }	
 #mydiv5 {
 	left: 33%;
+	margin:0 3px;
 }
 #mydiv1 {
 	left: 25%;
