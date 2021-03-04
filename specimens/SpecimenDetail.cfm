@@ -1,7 +1,7 @@
 <!---
 SpecimenDetail.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2010 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,14 +16,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+<!--- this page checks that a provided guid or collection_object_id matches a visible record, then displays the 
+ top portion of the specimen details page, header, summary information/type bar, an include of the bulk of the body of the
+ specimen details page, then the footer 
+ @see /specimens/SpecimenDetailBody.cfm 
+--->
 
-<!---  Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found  --->
+<!--- (1) Check the provided guid or collection object id --->
+<!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select GUID 
-			from #session.flatTableName# 
+			from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 			where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
@@ -46,8 +52,8 @@ limitations under the License.
 	<!---  GUID is expected to be in the form MCZ:collectioncode:catalognumber --->
 	<cfif guid contains ":">
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cresult">
-			select collection_object_id from
-				#session.flatTableName#
+			select collection_object_id 
+			from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 			WHERE
 				upper(guid) = <cfqueryparam value='#ucase(guid)#' cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
@@ -60,19 +66,18 @@ limitations under the License.
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cfesult">
 			select collection_object_id 
 			from
-				cataloged_item,
-				collection
+				cataloged_item 
+				left join collection on cataloged_item.collection_id = collection.collection_id 
 			WHERE
-				cataloged_item.collection_id = collection.collection_id 
-				AND cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cn#"> 
+				cat_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cn#"> 
 				AND lower(collection.collection) = <cfqueryparam value='#lcase(cc)#' cfsqltype="CF_SQL_VARCHAR" >
 		</cfquery>
 	</cfif>
 	<cfif cresult.recordcount EQ 0>
 		<!--- Record for this GUID was not found ---> 
-    	<cfinclude template="/errors/404.cfm">
-	    <cfabort>
-   <cfelse>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
+	<cfelse>
 		<!--- Record for this GUID was found, make the collection_object_id available to obtain specimen record details. ---> 
 		<cfoutput query="c">
 			<cfset collection_object_id=c.collection_object_id>
@@ -83,44 +88,45 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
+<!--- (2) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
 <cfinclude template="/shared/_header.cfm">
 
+<!--- (3) Look up summary and type information on the specimen and display the summary/type bar for the record --->
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
-		#session.flatTableName#.collection,
-		#session.flatTableName#.collection_id,
+		flattable.collection,
+		flattable.collection_id,
 		web_link,
 		web_link_text,
-		#session.flatTableName#.cat_num,
-		#session.flatTableName#.collection_object_id as collection_object_id,
-		#session.flatTableName#.scientific_name,
-		#session.flatTableName#.collecting_event_id,
-		#session.flatTableName#.higher_geog,
-		#session.flatTableName#.collectors,
-		#session.flatTableName#.spec_locality,
-		#session.flatTableName#.author_text,
-		#session.flatTableName#.verbatim_date,
-		#session.flatTableName#.BEGAN_DATE,
-		#session.flatTableName#.ended_date,
-		#session.flatTableName#.cited_as,
-		#session.flatTableName#.typestatuswords,
-		MCZBASE.concattypestatus_plain_s(#session.flatTableName#.collection_object_id,1,1,0) as typestatusplain,
-		#session.flatTableName#.toptypestatuskind,
-		concatparts_ct(#session.flatTableName#.collection_object_id) as partString,
-		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
-		#session.flatTableName#.dec_lat,
-		#session.flatTableName#.dec_long
+		flattable.cat_num,
+		flattable.collection_object_id as collection_object_id,
+		flattable.scientific_name,
+		flattable.collecting_event_id,
+		flattable.higher_geog,
+		flattable.collectors,
+		flattable.spec_locality,
+		flattable.author_text,
+		flattable.verbatim_date,
+		flattable.BEGAN_DATE,
+		flattable.ended_date,
+		flattable.cited_as,
+		flattable.typestatuswords,
+		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
+		flattable.toptypestatuskind,
+		concatparts_ct(flattable.collection_object_id) as partString,
+		concatEncumbrances(flattable.collection_object_id) as encumbrance_action,
+		flattable.dec_lat,
+		flattable.dec_long
 <!---		<cfif len(#session.CustomOtherIdentifier#) gt 0>
 			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
 		</cfif>--->
 	FROM
-		#session.flatTableName#,
-		collection
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
+		left join collection on flattable.collection_id = collection.collection_id AND
 	WHERE
-		#session.flatTableName#.collection_id = collection.collection_id AND
-		#session.flatTableName#.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY
 		cat_num
 </cfquery>
@@ -133,72 +139,75 @@ limitations under the License.
 	<cfset title="#detail.collection# #detail.cat_num#: #detail.scientific_name#">
 	<cfset metaDesc="#detail.collection# #detail.cat_num# (#guid#); #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 </cfoutput> 
-<cfoutput query="detail" group="cat_num">  
+<cfoutput query="detail" group="cat_num">
 	<cfset typeName = typestatuswords>
+	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
-		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1">#twotypes#  </span>'>
+		<cfset twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1">#twotypes# </span>'>
 	<cfelse>
-		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
+		<cfset twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 pb-1 px-2 text-center ml-xl-1"> </span>'>
 	</cfif>
 
-	<!--- TODO: Cleanup indendation from here on ---> 
-<div class="container-fluid mb-2">
-	<cfif isDefined("cited_as") and len(cited_as) gt 0>
-		<cfif toptypestatuskind eq 'Primary' >
-			<section class="row mb-2 primaryType" >
-		</cfif>
-		<cfif toptypestatuskind eq 'Secondary' >
-			<section class="row mb-2 secondaryType">
-		</cfif>
-	<cfelse>
-		<section class="row mb-2 defaultType">
-	</cfif>
-	<div class="col-12">
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-					<div class="card box-shadow border-0 bg-transparent">
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary' >
-					<div class="card box-shadow no-card bg-transparent">
-				 </cfif>
-			<cfelse>
-					<div class="card box-shadow no-card bg-transparent">
+	<div class="container-fluid mb-2">
+		<cfif isDefined("cited_as") and len(cited_as) gt 0>
+			<cfif toptypestatuskind eq 'Primary' >
+				<cfset sectionclass="primaryType">
+			<cfelseif toptypestatuskind eq 'Secondary' >
+				<cfset sectionclass="secondaryType">
 			</cfif>
-		<div class="row">
-			<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
-			<div class="float-right col-12 px-4 ml-auto col-md-6 my-2 w-auto">GUID: <a class="h4" href="guid: https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-		</div>
-		</div>
-		<div class="row">
-				<div class="col-12 col-md-6">
-				<h2 class="mt-0 px-0"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span></h2>
-			</div>
-			<div class="col-12 col-md-6 mt-0 mb-2">
+		<cfelse>
+			<cfset sectionclass="defaultType">
+		</cfif>
+		<section class="row mb-2 #sectionclass#">
+			<div class="col-12">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-					<h2 class="h4 mt-0">#typeName#</h2>
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary'>
-					<h2 class="h4 mt-0">#typeName#</h2>
-				</cfif>
+					<cfif toptypestatuskind eq 'Primary' >
+						<cfset divclass="border-0">
+					<cfelse toptypestatuskind eq 'Secondary' >
+						<cfset divclass="no-card">
+					 </cfif>
 				<cfelse>
-				<!--- No special color background for non-type specimens -- default background is gray --->
-				</cfif>	
+					<cfset divclass="no-card">
+				</cfif>
+				<div class="card box-shadow #divclass# bg-transparent">
+					<div class="row">
+						<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
+						<div class="float-right col-12 px-4 ml-auto col-md-6 my-2 w-auto">
+							occurrenceID: <a class="h4" href="guid: https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 col-md-6">
+							<h2 class="mt-0 px-0">
+								<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
+							</h2>
+						</div>
+						<div class="col-12 col-md-6 mt-0 mb-2">
+							<cfif isDefined("cited_as") and len(cited_as) gt 0>
+								<cfif toptypestatuskind eq 'Primary' >
+									<h2 class="h4 mt-0">#typeName#</h2>
+								</cfif>
+								<cfif toptypestatuskind eq 'Secondary'>
+									<h2 class="h4 mt-0">#typeName#</h2>
+								</cfif>
+							<cfelse>
+								<!--- No type name to display for non-type specimens --->
+							</cfif>	
+						</div>
+					</div>
+				</div>
 			</div>
-			</div>
-		</div>
+		</section>
 	</div>
 
-			
-</section>
-			</div>
-
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<!--- TODO: Cleanup indendation from here on ---> 
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
         <form name="incPg" method="post" action="/specimens/SpecimenDetail.cfm">
             <input type="hidden" name="collection_object_id" value="#collection_object_id#">
             <input type="hidden" name="suppressHeader" value="true">
@@ -236,9 +245,14 @@ limitations under the License.
                 <cfset isNext="">
                 <cfset isPrev="">
             </cfif>
-
         </form>
-    </cfif>
+ 	</cfif>
+
 </cfoutput>
+
+<!--- (4) Bulk of the specimen details page is provided on SpecimenDetailBody.cfm --->
+
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
+
+<!--- (5) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">
