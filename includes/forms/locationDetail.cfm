@@ -112,7 +112,8 @@ content: ": ";
 			COLL_EVENT_REMARKS,
 			COLLECTING_SOURCE,
 			COLLECTING_METHOD,
-			HABITAT_DESC	
+			HABITAT_DESC,
+			MCZBASE.IS_MASK_LOC_COORD(locality.locality_id) as mask_loc_coord
 		from
 			geog_auth_rec,
 			locality,
@@ -129,11 +130,11 @@ content: ": ";
 			geology_attributes.GEO_ATT_DETERMINER_ID=gdet.agent_id(+) and
 			locality.locality_id=collecting_event.locality_id(+) and
 			<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-				geog_auth_rec.geog_auth_rec_id=#geog_auth_rec_id#
+				geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 			<cfelseif isdefined("locality_id") and len(locality_id) gt 0>
-				locality.locality_id=#locality_ID#
+				locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_ID#">
 			<cfelseif isdefined("collecting_event_id") and len(collecting_event_id) gt 0>
-				collecting_event.collecting_event_id=#collecting_event_id#
+				collecting_event.collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#collecting_event_id#">
 			</cfif>
 	</cfquery>
 	<cfquery name="geog" dbtype="query">
@@ -248,7 +249,8 @@ content: ": ";
 					DEPTH_UNITS,
 					MIN_DEPTH,
 					MAX_DEPTH,
-					NOGEOREFBECAUSE
+					NOGEOREFBECAUSE,
+					mask_loc_coord
 				from r group by
                                         LOCALITY_ID,
 					MAXIMUM_ELEVATION,
@@ -309,6 +311,12 @@ content: ": ";
 							<div class="value">#NOGEOREFBECAUSE#</div>
 						</div>
 					</cfif>
+					<cfif len(mask_loc_coord) gt 0>
+						<div class="pair">
+							<div class="data">Coordinates</div>
+							<div class="value">[redacted]</div>
+						</div>
+					</cfif>
 				</cfloop>
 			</div>
 			<cfquery name="coords" dbtype="query">
@@ -340,10 +348,12 @@ content: ": ";
 					GEOREFMETHOD,
 					VERIFICATIONSTATUS,
 					coordinateDeterminer,
-					DETERMINED_DATE
+					DETERMINED_DATE,
+					mask_loc_coord
 				from r 
 				where
 					ACCEPTED_LAT_LONG_FG is not null
+					and mask_loc_coord < 1
 				group by
 					LAT_DEG,
 					DEC_LAT_MIN,
