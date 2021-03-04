@@ -53,7 +53,7 @@ limitations under the License.
 	left: 0;
 }	
 #mydiv5 {
-	left: 33.5%;
+	left: 33.35%;
 
 }
 #mydiv1 {
