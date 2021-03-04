@@ -23,14 +23,30 @@ limitations under the License.
 <cfoutput>
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
 	<div class="container-fluid pt-1" id="swapper-first" style="display: none;">
-		
-		<div class="row mx-0" style="background-color:  ##fdfdfd">
+		<style>
+			#mydiv {
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+		</style>
+		<div class="row mx-0" id="mydiv" style="background-color:  ##fdfdfd">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydivheader">
 						<div class="border-fill px-3 py-1 m-1">
 							<h2 class="data-entry-title">Collection</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
@@ -619,8 +635,51 @@ limitations under the License.
 		</div>
 	</div>
 	</div>
-	
-	<!---Step by step form for each section of the Data Entry form--->
+<script>
+	dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+</script>
+	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
 	<div class="container pt-0 mt-0" id="swapper-other" style="display: block;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
