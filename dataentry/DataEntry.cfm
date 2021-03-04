@@ -20,19 +20,21 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <style>
 #mydiv, #mydiv1, #mydiv2 {
-  position: absolute;
-  z-index: 9;
+	position: absolute;
+	z-index: 9;
 }
-	#mydiv1 {
-		left: 330px;
-	}
-		#mydiv2 {
-		left: 660px;
-	}
+#mydiv1 {
+	left: 330px;
+}
+#mydiv2 {
+	left: 660px;
+}
+#mydiv2 {
+	left: 1320px;
+}
 #mydivheader {
-  padding: 10px;
-  cursor: move;
-  z-index: 10;
+	cursor: move;
+	z-index: 10;
 }
 </style>
 
@@ -92,8 +94,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1">
-						<div class="border-fill px-3 py-1 m-1">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader3">
 							<h2 class="data-entry-title">Accession Number</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div class="form-row">
