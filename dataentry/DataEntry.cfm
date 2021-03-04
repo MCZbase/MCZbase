@@ -29,22 +29,23 @@ limitations under the License.
 	z-index: 9;
 	top:140px;
 }
-#mydiv, #mydiv4 {
+#mydiv, #mydiv4, #mydiv8 {
 	left: 0;
 }	
-#mydiv1, #mydiv5 {
+#mydiv1, #mydiv5, #mydiv9 {
 /*	left: 330px;*/
 	left: 25%;
 }
-#mydiv2, #mydiv6 {
+#mydiv2, #mydiv6, #mydiv10 {
 /*	left: 660px;*/
 	left: 50%;
 }
-#mydiv3, #mydiv7 {
+#mydiv3, #mydiv7, #mydiv11 {
 /*	left: 990px;*/
 	left: 75%;
 }
-#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
+
+#mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11 {
 	cursor: move;
 	z-index: 10;
 }
@@ -598,8 +599,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-4 pb-1 px-1">
-						<div class="border-fill px-3 py-1 m-1">
+					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv10">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader10">
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
@@ -655,6 +656,14 @@ limitations under the License.
 	dragElement(document.getElementById("mydiv1"));
 	dragElement(document.getElementById("mydiv2"));
 	dragElement(document.getElementById("mydiv3"));
+	dragElement(document.getElementById("mydiv4"));
+	dragElement(document.getElementById("mydiv5"));
+	dragElement(document.getElementById("mydiv6"));
+	dragElement(document.getElementById("mydiv7"));
+	dragElement(document.getElementById("mydiv8"));
+	dragElement(document.getElementById("mydiv9"));
+	dragElement(document.getElementById("mydiv10"));
+	dragElement(document.getElementById("mydiv11"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
