@@ -689,6 +689,8 @@ limitations under the License.
 	dragElement(document.getElementById("mydiv9"));
 	dragElement(document.getElementById("mydiv10"));
 	dragElement(document.getElementById("mydiv11"));
+		dragElement(document.getElementById("mydiv12"));
+	dragElement(document.getElementById("mydiv13"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   if (document.getElementById(elmnt.id + "header")) {
