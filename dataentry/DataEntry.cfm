@@ -27,7 +27,7 @@ limitations under the License.
 #mydiv4, #mydiv5, #mydiv6, #mydiv7 {
 	position: absolute;
 	z-index: 9;
-	top:130px;
+	top:140px;
 }
 #mydiv, #mydiv4 {
 	left: 0;
@@ -39,7 +39,7 @@ limitations under the License.
 	left: 660px;
 }
 #mydiv3, #mydiv7 {
-	left: 1220px;
+	left: 950px;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
 	cursor: move;
