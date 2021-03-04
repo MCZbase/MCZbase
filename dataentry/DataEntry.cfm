@@ -70,77 +70,67 @@ limitations under the License.
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-							<div class="accordion" id="accordionC">
+				
 				<div class="row">
-		
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="heading2">
-								<h3 class="h4 my-0 collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Collection/Catalog Number/Accession Number/Encumbrance</a>
-								</h3>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
+							<h2 class="data-entry-title">Collection</h2>
+					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+								<div class="col-12 col-lg-9">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
 							</div>
-							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
-								<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
-									<div class="border-fill px-3 py-1 m-1" id="mydivheader">
-										<h2 class="data-entry-title">Collection</h2>
-								<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
-										<div class="row">
-											<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
-											<div class="col-12 col-lg-9">
-												<select class="data-entry-select px-0" required>
-													<option value="">Select Collection</option>
-													<option value="1">Herpetology</option>
-													<option value="2">Mammalogy</option>
-													<option value="3">Malacology</option>
-												</select>
-												<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
-									<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
-										<h2 class="data-entry-title">Catalog Number</h2>
-								<!---		<h3 class="data-entry-subtitle">This is step 2</h3>--->
-										<div class="row">
-											<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
-											<div class="col-12 col-xl-9">
-												<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-												<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
-									<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
-										<h2 class="data-entry-title">Accession Number</h2>
-										<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
-										<div class="form-row">
-											<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
-											<div class="col-xl-8 pl-0">
-												<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
-												<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
-									<div class="border-fill px-3 py-2 m-1" id="mydivheader3">
-										<h2 class="data-entry-title">Encumbrance</h2>
-									<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
-										<div id="encumbrance">
-											<div class="row mb-3">
-												<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
-												<div class="col-xl-9">
-													<div class="form-check form-check-inline">
-														<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
-														<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
-														<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> </div>
-												</div>
-											</div>
-										</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
+							<h2 class="data-entry-title">Catalog Number</h2>
+					<!---		<h3 class="data-entry-subtitle">This is step 2</h3>--->
+							<div class="row">
+								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
+								<div class="col-12 col-xl-9">
+									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
+							<h2 class="data-entry-title">Accession Number</h2>
+							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
+							<div class="form-row">
+								<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
+								<div class="col-xl-8 pl-0">
+									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
+									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv3">
+						<div class="border-fill px-3 py-2 m-1" id="mydivheader3">
+							<h2 class="data-entry-title">Encumbrance</h2>
+						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
+							<div id="encumbrance">
+								<div class="row mb-3">
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
+									<div class="col-xl-9">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
+											<!--<label class="form-check-label w-auto form-control-sm border-0 mt-0" for="gridCheck1"> Mask Record in Generic Encumbrance</label>--> 
+											<small id="accnHelp" class="form-text float-left text-muted">Puts it in a generic encumbrance.</small> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv4">
