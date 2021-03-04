@@ -24,40 +24,42 @@ limitations under the License.
 	z-index: 9;
 	top: 50px;
 }
-#mydiv4, #mydiv5, #mydiv6, #mydiv7 {
+#mydiv4, #mydiv5, #mydiv6 {
 	position: absolute;
 	z-index: 9;
-	top:200px;
+	top:142px;
 }
-#mydiv8, #mydiv9, #mydiv10, #mydiv11 {
+#mydiv7, #mydiv8 {
 	position: absolute;
 	z-index: 9;
-	top:400px;
+	top:300px;
 }
-#mydiv12, #mydiv13, #mydiv14 {
+#mydiv9, #mydiv10 {
 	position: absolute;
 	z-index: 9;
-	top:600px;
+	top:500px;
 }
-#mydiv, #mydiv4, #mydiv8,#mydiv13 {
+#mydiv11, #mydiv12 {
+	position: absolute;
+	z-index: 9;
+	top:700px;
+}
+#mydiv, #mydiv4, #mydiv7,#mydiv9 {
 	left: 0;
 }	
-#mydiv5, #mydiv9, #mydiv14 {
+#mydiv5 {
 	left: 33%;
 }
 #mydiv1 {
-/*	left: 330px;*/
 	left: 25%;
 }
-#mydiv7, #mydiv10 {
+#mydiv6 {
 	left: 66%;
 }
-#mydiv2 {
-/*	left: 660px;*/
+#mydiv2,#mydiv8,#mydiv10,#mydiv12 {
 	left: 50%;
 }
 #mydiv3 {
-/*	left: 990px;*/
 	left: 75%;
 }
 
@@ -224,6 +226,9 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
+				
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv7">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
@@ -320,8 +325,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
+				
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv8">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
@@ -418,6 +422,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="row"
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv9">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
@@ -553,6 +559,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
+				</div>	
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
@@ -577,8 +584,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader12">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
@@ -603,6 +608,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>		
+				</div>
+				<div class="row">
 					<div class="col-12 col-md-4 pb-1 px-1" id="mydiv13">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
