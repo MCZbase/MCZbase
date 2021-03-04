@@ -29,10 +29,15 @@ limitations under the License.
 	z-index: 9;
 	top:142px;
 }
-#mydiv7, #mydiv8 {
+#mydiv8 {
 	position: absolute;
 	z-index: 9;
 	top:300px;
+}
+#mydiv7 {
+	position:absolute;
+	z-index: 9;
+	top:280px;
 }
 #mydiv9, #mydiv10 {
 	position: absolute;
