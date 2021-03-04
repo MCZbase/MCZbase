@@ -34,15 +34,15 @@ limitations under the License.
 }	
 #mydiv1, #mydiv5 {
 /*	left: 330px;*/
-	left: 20%;
+	left: 25%;
 }
 #mydiv2, #mydiv6 {
 /*	left: 660px;*/
-	left: 40%;
+	left: 50%;
 }
 #mydiv3, #mydiv7 {
 /*	left: 990px;*/
-	left: 60%;
+	left: 75%;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7 {
 	cursor: move;
