@@ -512,7 +512,7 @@ limitations under the License.
 												<option></option>
 												<cfloop query="CTTAXONOMIC_AUTHORITY">
 													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#source_authority#">#source_authority#</option>
+													<option value="#source_authority#" #selected#>#source_authority#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -522,7 +522,7 @@ limitations under the License.
 												<option></option>
 												<cfloop query="cttaxon_status">
 													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#taxon_status#">#taxon_status#</option>
+													<option value="#taxon_status#" #selected#>#taxon_status#</option>
 												</cfloop>
 											</select>
 										</div>
