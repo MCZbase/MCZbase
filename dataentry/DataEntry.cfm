@@ -321,13 +321,13 @@ limitations under the License.
 				<h1 class="text-center mt-3 mb-2">Enter a New Record</h1>
 				
 				<div class="row">
-					<div class="col-12 col-md-3 border-fill m-2 px-3" id="mydiv">
+					<div class="col-12 col-md-3 border-fill m-2 px-3 pb-1" id="mydiv">
 						<div id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
 						</div>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
-							<div class="row">
-								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
+							<div class="row mx-0">
+								<label for="collection" class="data-entry-label col-12 col-lg-3 text-center text-md-right small px-0">Collection</label>
 								<div class="col-12 col-lg-9">
 									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
