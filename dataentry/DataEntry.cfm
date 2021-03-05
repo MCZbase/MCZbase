@@ -318,7 +318,7 @@ limitations under the License.
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
+				<h1 class="text-center mt-3 mb-2">Enter a New Record</h1>
 				
 				<div class="row">
 					<div class="col-12 col-md-3 border-fill m-2 p-2" id="mydiv">
