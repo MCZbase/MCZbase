@@ -326,8 +326,8 @@ limitations under the License.
 							<h2 class="data-entry-title">Collection</h2>
 						</div>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
-							<div class="row mx-0">
-								<label for="collection" class="data-entry-label col-12 col-lg-3 text-center text-md-right small px-0">Collection</label>
+							<div class="row">
+								<label for="collection" class="data-entry-label col-12 col-lg-3 text-center text-md-right small">Collection</label>
 								<div class="col-12 col-lg-9">
 									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
