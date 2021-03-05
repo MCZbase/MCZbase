@@ -324,6 +324,7 @@ limitations under the License.
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
+						</div>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
 							<div class="row">
 								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
@@ -336,7 +337,7 @@ limitations under the License.
 									</select>
 									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
 							</div>
-						</div>
+					
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
