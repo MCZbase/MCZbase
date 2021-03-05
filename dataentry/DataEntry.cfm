@@ -666,7 +666,7 @@ limitations under the License.
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
-						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
+						</div>
 							<div id="customCoord">
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
@@ -750,7 +750,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-xs btn-primary addCoord loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
-						</div>
+						
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv10">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader10">
@@ -848,10 +848,11 @@ limitations under the License.
 						</div>
 					</div>		
 				</div>
-				<div class="row">
+				<div class="row mx-0">
 					<div class="col-12 col-md-12 pb-1 px-4" id="mydiv13">
 						<div class="border-fill px-3 py-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
+						</div>
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
 							<div id="customPart">
 								<div class="row">
@@ -907,7 +908,7 @@ limitations under the License.
 								</div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a></div>
 							</div>
-						</div>
+					
 					</div>
 				</div>
 			</form>
@@ -928,7 +929,7 @@ limitations under the License.
 	dragElement(document.getElementById("mydiv9"));
 	dragElement(document.getElementById("mydiv10"));
 	dragElement(document.getElementById("mydiv11"));
-		dragElement(document.getElementById("mydiv12"));
+	dragElement(document.getElementById("mydiv12"));
 	dragElement(document.getElementById("mydiv13"));
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
