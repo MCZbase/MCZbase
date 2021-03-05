@@ -324,7 +324,7 @@ limitations under the License.
 					<form class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
-							<div class="row" style="z-index: 11;">
+							<div class="row">
 								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
 								<div class="col-12 col-lg-9">
 									<select class="data-entry-select px-0" required>
