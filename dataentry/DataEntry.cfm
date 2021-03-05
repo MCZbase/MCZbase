@@ -338,7 +338,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
+					<form class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 					<!---		<h3 class="data-entry-subtitle">This is step 2</h3>--->
@@ -349,7 +349,7 @@ limitations under the License.
 									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
 							</div>
 						</div>
-					</div>
+					</form>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv2">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader2">
 							<h2 class="data-entry-title">Accession Number</h2>
