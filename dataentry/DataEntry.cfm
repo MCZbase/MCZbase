@@ -321,10 +321,10 @@ limitations under the License.
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				
 				<div class="row">
-					<form class="col-12 col-md-3 pb-1 px-1" id="mydiv">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
-							<div class="row">
+							<form name="collection" class="row">
 								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
 								<div class="col-12 col-lg-9">
 									<select class="data-entry-select px-0" required>
@@ -333,10 +333,11 @@ limitations under the License.
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> </div>
-							</div>
+									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> 
+								</div>
+							</form>
 						</div>
-					</form>
+					</div>
 					<form class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
