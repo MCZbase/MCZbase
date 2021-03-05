@@ -970,6 +970,9 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+ function ListDragTarget_DragLeave(object sender, System.EventArgs e) {
+	 DropLocationLabel.Text = "None";
+	}
 }
 </script>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
