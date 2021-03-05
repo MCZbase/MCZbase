@@ -321,8 +321,8 @@ limitations under the License.
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
 				
 				<div class="row">
-					<div class="col-12 border-fill col-md-3 pb-1 px-1" id="mydiv">
-						<div class="px-3 py-1 m-1" id="mydivheader">
+					<div class="col-12 col-md-3 border-fill pb-1 px-1 m-1" id="mydiv">
+						<div class="px-3 py-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
 						</div>
 					<!---		<h3 class="data-entry-subtitle">This is step 1</h3>--->
