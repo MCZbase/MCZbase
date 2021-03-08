@@ -504,7 +504,6 @@ li.pid {
 }
 /*.no-card {
 	border: none;
-
 }*/
 .no-card {
 	background-color: transparent;
@@ -1001,32 +1000,13 @@ table.inputTable tr {
 	background-color: #f5f5f5;
 	border-radius: 4px 4px 0 0;
 }
-/*.tab-card-header {
+.tab-card-header {
 	background-color: #3E6F7D;
 	padding-top: 11px;
-	border-radius: 4px 4px 0 0;
-}*/
+	border-radius: 6px 6px 0 0;
+}
 .card-title:first-child {
 	padding-left: .5em;
-}
-.tab-card-header > .nav-tabs {
-	border: none;
-	margin: 0;
-	background-color: #3E6F7D;
-}
-.tab-card-header > .nav-tabs > button {
-	margin-right: 2px;
-	background-color: #3E6F7D;
-}
-.tab-card-header > .nav-tabs > button {
-	border: 0;
-	margin-right: 0;
-	color: #3e6f7d !important;
-	background-color: #deebec;
-	font-size: .95rem;
-	font-weight: 555;
-	outline: 0;
-	border-bottom: 1px solid #3e657D;
 }
 .list-even {
 	background-color: #f8f9fa;
@@ -1036,34 +1016,10 @@ table.inputTable tr {
 	background-color: #ffffff;
 	padding: .5rem 0;
 }
-.header > .nav-tabs > li > a.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	background-color: #f5f5f5;
-	border-bottom: 2px solid #f5f5f5;
-	outline: 0;
-	margin-bottom: -1px;
-}
-.nav-tabs .nav-item.show .nav-links, .nav-tabs .nav-links.active {
-	background-color: #f5f5f5;
-	border-bottom: 2px solid #f5f5f5;
-	outline: 0;
-	margin-bottom: -1px;
-}
-.tab-card-header > .nav-tabs > button {
-	color: #3E657D;
-	outline: 0;
-}
-.tab-card-header > .nav-tabs > button {
-	color: #3E657D;
-	background-color: #f5f5f5;
-	outline: 0;
-	box-shadow: none;
-}
-.tab-content {
-	padding-bottom: 0;
-	border: 0px solid #3e657d;
-	border-top: none;
-	border-radius: 0 0 .5rem .5rem;
-	background-color: #f5f5f5;
+.tab-card-header > .nav-tabs {
+	border: none;
+	margin: 0;
+	background-color: #3E6F7D;
 }
 .bg-blue-gray {
 	background-color: #deebec;
@@ -1089,6 +1045,7 @@ table.inputTable tr {
 .search-box-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
+	margin-top:-1px;
 }
 ::-ms-clear {
 	display: none;
@@ -1192,6 +1149,14 @@ tr.pairs td {
 }
 form.keyword {
 	margin: 20px 0;
+}
+table#pairs {
+	width: 100%;
+	margin-bottom: 20px;
+	border-collapse: collapse;
+}
+table#pairs, th, td {
+	border: 1px solid #cdcdcd;
 }
 .table td, .table th {
 	padding: .25rem .75rem;
@@ -1676,13 +1641,13 @@ input#readMore_check_id {
 }
 .tabs {
 	background-color: #3e657d;
-	padding: .75rem .5rem .5rem .5rem;
 }
 .tab-content {
 	border-top: none;
 	border-radius: 0;
 	background-color: #f5f5f5;
-	margin-bottom: 0.2rem;
+	margin-bottom: 0;
+	padding: 1rem;
 }
 .tab-card-header {
 	background-color: #3E6F7D;
@@ -1713,8 +1678,15 @@ input#readMore_check_id {
 	border-top: 3px solid white;
 	border-bottom: 1px solid #f5f5f5;
 	cursor: pointer;
-	border-right: 1px solid white;
-    border-left: 1px solid white;
+	box-shadow: none;
+	border-right: 1px solid #96ECED;
+	border-left: 1px solid #96EcED;
+    outline: 0;
+}
+.tab-headers button[aria-selected='true']:focus {
+	border-right: 1px solid rgb(38 143 255 / 50%);
+	border-left: 1px solid rgb(38 143 255 / 50%);
+	border-top: 3px solid rgb(38 143 255 / 50%);
 }
 .tab-headers button[aria-selected='false'] {
 	color: black;
@@ -1722,14 +1694,26 @@ input#readMore_check_id {
 	border-bottom: 1px solid #3e657D;
 	border-top: 3px solid #deebec;
 	cursor: pointer;
-		border-right: 1px solid #deebec;
+	border-right: 1px solid #deebec;
     border-left: 1px solid #deebec;
 }
+button[tabindex="-1"]:focus {
+    outline: 0!important;
+    box-shadow: none;
+}
 .card-header {
+	padding: .9rem 0rem 0rem 0rem;
 	padding: .5rem .25rem 0rem .25rem;
 }
 .accordion .card-header {
 	padding: .25rem .5rem;
+}
+.tab-content div[aria-hidden='true'] {
+	display: none;
+	outline:0;
+}
+.tab-content div[aria-hidden='false'] {
+	display: block;
 }
 div[aria-hidden='true'] {
 	display: none;
@@ -1740,49 +1724,9 @@ div[aria-hidden='false'] {
 .hidden {
 	display: none;
 }
-
-
-.grow-wrap {
-  /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
-  display: grid;
+.show {
+	display:block;
 }
-.grow-wrap::after {
-  /* Note the weird space! Needed to preventy jumpy behavior */
-  content: attr(data-replicated-value) " ";
-
-  /* This is how textarea text behaves */
-  white-space: pre-wrap;
-
-  /* Hidden from view, clicks, and screen readers */
-  visibility: hidden;
-}
-.grow-wrap > textarea {
-  /* You could leave this, but after a user resizes, then it ruins the auto sizing */
-  resize: none;
-
-  /* Firefox shows scrollbar on growth, you can hide like this. */
-  overflow: hidden;
-}
-.grow-wrap > textarea,
-.grow-wrap::after {
-  /* Identical styling required!! */
-  border: 1px solid black;
-  padding: 0.5rem;
-  font: inherit;
-
-  /* Place on top of each other */
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-/*body {
-  margin: 2rem;
-  font: 1rem/1.4 system-ui, sans-serif;
-}*/
-
-label {
-  display: block;
-}
-
 
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
@@ -1998,6 +1942,18 @@ and also iPads specifically.
 @media (min-width: 1800px) {
 	.container {
 		max-width: 1600px;
+	}
+}
+@media(max-width:1024px) {
+	.card-columns {
+		column-count: 2;
+	}
+	.card-body h5 {
+		margin-top: -0.5rem;
+	}
+	.font-dot-8 {
+		font-size: 0.8rem;
+		text-align: right;
 	}
 }
 @media screen and (min-width:576px) {
