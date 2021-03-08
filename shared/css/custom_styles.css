@@ -1972,7 +1972,7 @@ and also iPads specifically.
 }
 @media(max-width:1023px) {
 	.card-columns {
-		column-count: 2;
+		column-count: 1;
 	}
 	.card-body h5 {
 		margin-top: -0.5rem;
