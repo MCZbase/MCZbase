@@ -54,7 +54,7 @@
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
 		</cfif>
 	<cfcatch>
 		<cfset theResult=queryNew("status, message")>
