@@ -1354,7 +1354,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	padding: .18rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
