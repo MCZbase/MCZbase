@@ -743,11 +743,11 @@ a#showLeftPush.hiddenclass {
 }
 #regForm input {
 	display: block;
-	height: calc(1.5em + .75rem + 2px);
 	padding: .375rem .75rem;
-	font-size: 1rem;
+	height: calc(1.5em + .75rem + 2px);
+	font-size: .875rem;
 	font-weight: 400;
-	line-height: 1.5rem;
+	line-height: 1.2rem;
 	color: #495057;
 	background-color: #fff;
 	background-clip: padding-box;
