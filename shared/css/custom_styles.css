@@ -1780,76 +1780,98 @@ and also iPads specifically.
 	}
 }
 @media (min-width:1200px) and (max-width: 1700px) {
-#searchHelpTextBlock{
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  list-style-type: none;
-font-size: .875rem;
-margin-bottom: 1rem;
+	#searchHelpTextBlock{
+	  	width: 100%;
+	  	margin-left: auto;
+	  	margin-right: auto;
+	  	list-style-type: none;
+		font-size: .875rem;
+		margin-bottom: 1rem;
+	}
+	div span.ilt  {
+  		display: block;
+  		height: 100%;
+  		text-decoration: none;
+  		color: black;
+  		padding-left: 0px;
+  		position: relative;
+  		-webkit-transition: background .3s;
+        transition: background .3s;
+	}
+	div span.ilt:hover {
+	  	background: #cdcbc4; 
+	}
+	.readMore { 
+	  	position: relative; 
+	  	height: auto;
+	  	border-top: 0;
+	}
+	#searchHelpTextBlock[type="checkbox"] {
+  		position: absolute;
+  		left:  -9999px;            
+	}
+	label.read{
+  		background: aliceblue;
+  		display: block;
+  		width: 70px;
+  		cursor: pointer;
+  		position: relative;
+		float: right;
+	}
+	label.read:before,label.read:after {
+		position: absolute;
+	}
+	label.read:before {
+	  	content: 'More';
+	  	left: 10px;
+	}
+	label.read:after {
+	  content: '⇣';
+	  right: 10px;
+	  -webkit-animation: sudo .85s linear infinite alternate;
+			  animation: sudo .85s linear infinite alternate;
+	}
+	.readMore [type="checkbox"] ~ span.ilt {
+	  width: 100%;
+	display: none;
+	}
+	.readMore [type="checkbox"]:checked ~ span.ilt {
+	  display: block;
+	} 
+	.readMore [type="checkbox"]:checked + label.read {
+	  	position: absolute; 
+	  	top: 100%;
+		right: 0;
+	}
+	.readMore [type="checkbox"]:checked + label.read:before {
+	  content: 'Less';
+	}
+	.readMore [type="checkbox"]:checked + label.read:after {
+	content: '⇡'; 
+	}
 }
-div span.ilt  {
-  display: block;
-  height: 100%;
-  text-decoration: none;
-  color: black;
-  padding-left: 0px;
-  position: relative;
-  -webkit-transition: background .3s;
-          transition: background .3s;
-}
-div span.ilt:hover {
-  background: #cdcbc4; 
-}
-.readMore { 
-  position: relative; 
-  height: auto;
-  border-top: 0;
-}
-#searchHelpTextBlock[type="checkbox"] {
-  position: absolute;
-  left:  -9999px;            
-}
-label.read{
-  background: aliceblue;
-  display: block;
-  width: 70px;
-  cursor: pointer;
-  position: relative;
-float: right;
-}
-label.read:before,
-label.read:after {
-position: absolute;
-}
-label.read:before {
-  content: 'More';
-  left: 10px;
-}
-label.read:after {
-  content: '⇣';
-  right: 10px;
-  -webkit-animation: sudo .85s linear infinite alternate;
-          animation: sudo .85s linear infinite alternate;
-}
-.readMore [type="checkbox"] ~ span.ilt {
-  width: 100%;
-display: none;
-}
-.readMore [type="checkbox"]:checked ~ span.ilt {
-  display: block;
-} 
-.readMore [type="checkbox"]:checked + label.read {
-  position: absolute; 
-  top: 100%;
-right: 0;
-}
-.readMore [type="checkbox"]:checked + label.read:before {
-  content: 'Less';
-}
-.readMore [type="checkbox"]:checked + label.read:after {
-content: '⇡'; 
-}
+@media screen and (min-width: 68.5333333em) { /*  sizes greater than old iPad  78=  */
+	.card-columns {
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		column-count: 2;
+		-webkit-column-gap: .35rem;
+		-moz-column-gap: .35rem;
+		column-gap: .35rem;
+		orphans: 1;
+		widows: 1;
+		column-span: all;
+		margin-right: 0px;
+		margin-left: 4px;
+	}
+	.one-column {
+		column-count: 1;
+		column-gap: 0;
+		widows: 1;
+		orphans: 1;
+		column-span: all;
+		margin-left: 4px;
+	}
 }
 @media screen and (max-width: 55.1875em) {
 	.cbp-spmenu-horizontal {
@@ -1933,6 +1955,41 @@ content: '⇡';
 	.font-dot-8 {
 		font-size: 0.8rem;
 		text-align: right;
+	}
+}
+@media screen and (min-width:576px) {
+	.card-columns {
+		-webkit-column-count: 2;
+		-moz-column-count: 2;
+		column-count: 2;
+		-webkit-column-gap: .35rem;
+		-moz-column-gap: .35rem;
+		column-gap: .35rem;
+		orphans: 1;
+		widows: 1;
+		column-span: all;
+		margin-right: 0px;
+		margin-left: 4px;
+	}
+}
+@media(max-width:1023px) {
+	.card-columns {
+		column-count: 2;
+	}
+	.card-body h5 {
+		margin-top: -0.5rem;
+	}
+	.font-dot-8 {
+		font-size: 0.8rem;
+		text-align: right;
+	}
+}
+@media(max-width:767px) {
+	.MediaAccordionHide {
+		display: none;
+	}
+	.MediaAccordionShow {
+		display: block;
 	}
 }
 @media(max-width:576px) {
