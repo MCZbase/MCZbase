@@ -98,6 +98,10 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	text-decoration: none;
 	border-bottom: 1px dotted white;
 }
+.branding a span {
+	padding-top: 4px;
+	display: inline-block;
+}
 img.shield {
 	width: 19px;
 	height: 19px;
@@ -145,6 +149,7 @@ nav button {
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .form-login {
 	position:absolute;
@@ -248,21 +253,22 @@ body {
 .helplinks a {
 	font-weight: 600;
 	color: #046aa2 !important;
-	line-height: 2.2em;
-	padding: .15em .4em;
+	line-height: 2.2rem;
+	padding: .15rem .4rem;
 }
 .helplinks a:hover {
-	padding: .15em .4em;
+	padding: .15rem .4rem;
 	border-color: transparent;
 }
 .helplinks a:focus {
-	padding: .15em .4em;
+	padding: .15rem .4rem;
 	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .color-green {
 	color: #006100;
@@ -291,7 +297,17 @@ input#Password {
     border-radius: .25rem;
     margin: .12rem 0;
 }
-
+@media (min-width: 992px)and (max-width: 1200px){
+	.logout {
+		padding: 0 .45rem;
+		font-size: .85rem;
+		position: absolute;
+		right: 1rem;
+		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+		letter-spacing: .02em;
+		top: 4px;
+	}
+}
 @media (max-width:991px) {
 	ul {
 		display: block;
@@ -313,6 +329,7 @@ input#Password {
 		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
+		top: 4px;
 	}
 	.loginfld1 {
 		width:100px;
@@ -325,20 +342,7 @@ input#Password {
 /*	padding: .5em 1em;*/
 	}	
 }
-@media(min-width:991px) {
-	.mcz-center {
-		justify-content: flex-start;
-		margin-left: -1em;
-	}
-	.footer-col-4-md {
-		width: 392px;
-		align-content: center;
-		margin: 0 auto;
-	}
-	.footer-col-4-md img {
-		width: 400px;
-	}
-}
+
 @media (min-width:1060px) and (max-width: 1459px) {
 	.mcz-center {
 		justify-content: center;
@@ -353,14 +357,14 @@ input#Password {
 		display: none;
 	}
 	.mcz {
-		font-size: 1.5em;
+		font-size: 1.5rem;
 	}
 	.mcz-center {
 		justify-content: center;
-		padding-top: 1em;
+		padding-top: 1rem;
 	}
 	img.mcz_logo_krono {
-		margin-left: 1.75em;
+		margin-left: 1.75rem;
 	}
 	.mcz2 {
 		width: 100%;
@@ -369,10 +373,10 @@ input#Password {
 	.mcz2 a {
 		color: white;
 		text-decoration: none;
-		font-size: .94em;
+		font-size: .94rem;
 	}
 	.mczbase {
-		letter-spacing: .02em;
+		letter-spacing: .02rem;
 		padding: 0;
 		margin: 0;
 		width: 100%;
@@ -380,23 +384,23 @@ input#Password {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
-		font-size: 1em;
+		font-size: 1rem;
 		display: block;
 	}
 	img.mcz_logo_krono {
 		display: block;
-		margin-right: .75em;
+		margin-right: .75rem;
 	}
 }
 @media(min-width:576px) {
 	.mcz {
-		font-size: 1.5em;
+		font-size: 1.5rem;
 		opacity: .9;
 		font-weight: bold;
 	}
 	.mcz-center {
 		justify-content: flex-start;
-		padding-top: 1em;
+		padding-top: 1rem;
 		text-align: left;
 	}
 	.mcz_logo_krono 
@@ -485,8 +489,8 @@ input#Password {
 }
 @media(max-width:375px) {
 	nav.navbar{
-		padding: 0 .75em;
-    	font-size: .9em;
+		padding: 0 .75rem;
+    	font-size: .9rem;
 	}
 	.navbar-toggler {
   		padding: .25rem .5rem;
@@ -507,8 +511,8 @@ input#Password {
 }
 @media(max-width:280px) {
 	nav.navbar{
-		padding: 0 .5em;
-    	font-size: .9em;
+		padding: 0 .5rem;
+    	font-size: .9rem;
 	}
 /*	.navbar-toggler {
     	padding: .1rem .5rem;

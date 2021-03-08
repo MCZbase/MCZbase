@@ -1,7 +1,25 @@
-<cfset jquery11=true>
-<cfset title="Review Deaccession Items">
-<cfinclude template="includes/_header.cfm">
-<script type='text/javascript' src='/includes/transAjax.js'></script>
+<!--
+transactions/reviewDeaccItems.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2021 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+<cfset pageTitle="Review Deaccession Items">
+<cfinclude template="/shared/_header.cfm">
+
 <div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<script type='text/javascript' src='/includes/_deaccReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
@@ -15,94 +33,6 @@
 	No transaction specified.<cfabort>
 </cfif>
 <!-------------------------------------------------------------------------------->
-<cfif #Action# is "delete">
-	<cfoutput>
-	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is not "in collection">
-		<!--- see if it's a subsample --->
-		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select SAMPLED_FROM_OBJ_ID from 
-			specimen_part 
-			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
-		</cfquery>
-		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
-					You cannot remove this item from a loan while it's disposition is "on loan." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the deaccession, or to delete the item from the database completely.
-			
-			<form name="cC" method="post" action="a_deaccItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
-				<input type="hidden" name="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctdeacc_type">
-						<option value="#deacc_type#">#ctdeacc_type.deacc_type#</option>
-					</cfloop>				
-				</select>
-				<p />
-				<input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Deaccession" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				
-				<p /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Delete Subsample From Database" 
-					onclick="cC.action.value='killSS'; submit();"/>
-					<p /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
-			<cfabort>
-			<cfabort>
-		<cfelse>
-			You cannot remove this item from a loan while it's disposition is "deaccessioned." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the loan.
-			
-			<form name="cC" method="post" action="a_deaccItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="deacc_item_remarks" value="#deacc_item_remarks#" />
-				<input type="hidden" name="partID" id="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				<br />Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
-				</select>
-				<br /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Deaccession" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				<br /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
-			<cfabort>
-		</cfif>
-	</cfif>
-	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM deacc_item 
-		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
-		and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-	</cfquery>
-		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
-	</cfoutput>
-</cfif>
 <!-------------------------------------------------------------------------------->
 
 <cfif #Action# is "killSS">

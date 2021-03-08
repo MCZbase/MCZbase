@@ -70,6 +70,7 @@
 			spec_locality,
 			sovereign_nation,
 			locality_remarks,
+			locality.curated_fg,
 			began_date,
 			ended_date,
 			verbatim_date,
@@ -117,6 +118,9 @@
 			geog_auth_rec.geog_auth_rec_id > -1
 			<cfif isdefined("locality_id") and len(#locality_id#) gt 0>
 				AND locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfif>
+			<cfif isdefined("curated_fg") and len(#curated_fg#) gt 0>
+				AND locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
 			</cfif>
 			<cfif isdefined("geog_auth_rec_id") and len(#geog_auth_rec_id#) gt 0>
 				AND geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
@@ -189,7 +193,11 @@
 				</cfif>
 			</cfif>
 			<cfif isdefined("verbatim_locality") and len(#verbatim_locality#) gt 0>
-				AND upper(verbatim_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(verbatim_locality)#%">
+				<cfif #verbatim_locality# eq 'NULL'>
+					AND verbatim_locality is NULL
+				<cfelse>
+					AND upper(verbatim_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(verbatim_locality)#%">
+				</cfif>
 			</cfif>
 			<cfif isdefined("coll_event_remarks") and len(#coll_event_remarks#) gt 0>
 				AND upper(coll_event_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(coll_event_remarks)#%">
@@ -204,7 +212,11 @@
 				AND upper(habitat_desc) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(habitat_desc)#%">
 			</cfif>
 			<cfif isdefined("spec_locality") and len(#spec_locality#) gt 0>
-				AND upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
+				<cfif #spec_locality# eq 'NULL'>
+					AND spec_locality is NULL
+				<cfelse>
+					AND upper(spec_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
+				</cfif>
 			</cfif>
 			<cfif isdefined("locality_remarks") and len(#locality_remarks#) gt 0>
 				AND upper(locality_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(locality_remarks)#%">

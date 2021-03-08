@@ -329,7 +329,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
 							<li class="mb-1">#relations.taxon_relationship#
 							<!--- Create a link out of scientific name --->
-								<em><a href='/taxonomy/Taxonomy.cfm?taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
+								<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
 								<span class='sm-caps'>#relations.author_text#</span>
 								<cfif len(relations.relation_authority) GT 0>
 									 fide #relations.relation_authority# 

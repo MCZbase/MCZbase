@@ -40,7 +40,8 @@
 			coordinateDeterminer,
 			determined_date,
 			lat_long_ref_source,
-			geolAtts
+			geolAtts,
+			curated_fg
 		from localityResults
 	</cfquery>
 	<table border>
@@ -56,6 +57,7 @@
 						onClick="javascript: opener.document.#formName#.#localityIdFld#.value='#locality_id#';
 						opener.document.#formName#.#speclocFld#.value='#URLEncodedFormat(spec_locality)#';
 						self.close();">
+					<cfif curated_fg EQ 1>*</cfif>
 				</td>
 				<td>
 					<span style="font-size:.7em">#higher_geog#</span>

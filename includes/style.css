@@ -74,13 +74,14 @@ td#SDCellLeft {
 	font-size: 1em;
 }
 .headerCollectionText {
-        font-family: Arial, Helvetica, sans-serif;
-	font-size: 24px;
-        color: #a51c30;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.266rem;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .headerCollectionTextSmall {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 19px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1rem;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .specResultPartCell {
 	font-size: small;
@@ -1667,7 +1668,7 @@ ul.sf-menu li li li.sfHover ul {
 }
 .sf-menu a {
 /*	border-top:		1px solid #CFDEFF;*/
-	padding: 		.45em 1.25em;
+	padding: 		.45rem 1.2rem;
 	text-decoration:none;
 }
 .sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
@@ -1693,7 +1694,7 @@ ul.sf-menu li li li.sfHover ul {
 	color:red;
 }
 .sf-menu a.sf-with-ul {
-	padding-right: 	1.75em;
+	padding-right: 	1.18em;
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
@@ -1853,7 +1854,7 @@ div.submenu h2:hover {
 	display:none;
 	min-width: 25rem;
 	padding: .5rem 0;
-	margin: .125rem 0 0;
+	margin: -.125rem 0 0 0;
 	background-clip: padding-box;
 	font-size: 1rem;
 	color: #212529;
@@ -3982,12 +3983,13 @@ ul.pubLinks {
 	max-height: 56px;
 }
 .headerText h1 {
-	font-size: 150%;
+	font-size: 100%;
 	color: #A51C30;
+	color: #ff0000;
 	margin-bottom: 0;
 }
-.headerText h1 a {color: #a51c30;}
-.headerText h1 a:hover {color: #a51c30;}
+.headerText h1 a {color: #a51c30;color: #ff0000;}
+.headerText h1 a:hover {color: #a51c30; color: #ff0000;}
 .headerText h2 {
 	color: #F4EFEF;
 	margin-top: 0;
@@ -4770,7 +4772,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin: 0 auto;
 }
 .headerText h1 {
-	font-size: 100%;
+	font-size: 1.266rem;
 }
 .headerText h2 {
 	font-size: 90%;
@@ -4807,15 +4809,17 @@ div.ipad {display:none;}
 }
 @media only screen and (max-width: 940px) {
 .sf-menu li {
-	width: 9.6em;
+	width: auto;
     font-size: 12px;
 	z-index: 1;
-    padding: 3px 3px 2px 3px;
-
+    padding: 3px 4px 2px 3px;
 }
 .sf-menu a.sf-with-ul {padding-right: 2px;}
-}
 
+.sf-sub-indicator {
+	display:none;
+}
+}
 @media only screen and (max-width: 800px) {
 #listloans dt {
 	width: 200px;

@@ -424,7 +424,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
 	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
     <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
-    <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
+    <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
 <table border="0">
 	<tr>
@@ -500,7 +500,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		<td>
 			<span id="sPrefs" class="infoLink">Settings...</span>
 		</td>
-		<td><div style="width:100px;">&nbsp;</div></td>
+		<td><div style="width:10px;">&nbsp;</div></td>
 		<td>
 			<label for="">&nbsp;</label>
 			<input type="hidden" name="killRowList" id="killRowList">
@@ -535,42 +535,42 @@ If your item needs to be sorted in a special way, then do that here. --->
 				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
 					<option value="">choose</option>
-                    <option value="/addAccn.cfm">
-						Accession
+                    <option value="/addAccn.cfm"><!--- works with either, collection_object_id has priority, session search table looked up, not passed. --->
+						Accession [Warning: No Tabs]
 					</option>
-                    <option value="/multiAgent.cfm">
+                    <option value="/multiAgent.cfm"><!--- works only with collection_object_id --->
 						Agents
 					</option>
-                    <option value="/bulkCollEvent.cfm">
+                    <option value="/bulkCollEvent.cfm"><!--- works only with collection_object_id --->
 						Collecting Events
 					</option>
-					<option value="/bulkLocality.cfm">
-						Localities
+					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
+						Localities [Warning: No Tabs]
 					</option>
-					<option value="/Encumbrances.cfm">
+					<option value="/Encumbrances.cfm"><!--- works only with collection_object_id --->
 						Encumbrances
 					</option>
-					<option value="/multiIdentification.cfm">
+					<option value="/multiIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
 					</option>
-                     <option value="/bnhmMaps/SpecimensByLocality.cfm">
-						Map By Locality
+                     <option value="/bnhmMaps/SpecimensByLocality.cfm"><!--- works only on session search table, passed as table_name --->
+						Map By Locality [Warning: No Tabs]
 					</option>
-					<option value="/tools/downloadParts.cfm">
-						Parts (Download Report)
+					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
+						Parts (Report) [Warning: No Tabs]
 					</option>
-					<option value="/findContainer.cfm?showControl=1">
+					<option value="/findContainer.cfm?showControl=1"><!--- looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name --->
 						Parts (Locations)
 					</option>
-					<option value="/tools/bulkPart.cfm">
-						Parts (Modify)
+					<option value="/tools/bulkPart.cfm"><!--- works only on session search table, passed as table_name --->
+						Parts (Modify) [Warning: No Tabs]
 					</option>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-						<option value="/grouping/addToNamedCollection.cfm">
-							Add To Named Group
+						<option value="/grouping/addToNamedCollection.cfm"><!--- works with either, collection_objecT_id has priority, session search table looked up, not passed --->
+							Add To Named Group [Warning: No Tabs]
 						</option>
 					</cfif>
-               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
+               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"><!--- works only with collection_object_id --->
 						Print Any Report
 					</option>
 				</select>

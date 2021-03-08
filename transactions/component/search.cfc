@@ -182,14 +182,15 @@ limitations under the License.
 				<cfswitch expression="#search.transaction_type#">
 					<!--- NOTE: Leading / is included below in id_link assembly --->
 					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
-					<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
 					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
-					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
+					<cfcase value="deaccession"><cfset targetform = "transactions/Deaccession.cfm?action=edit&"></cfcase>
 				</cfswitch>
 			<cfelse>
 				<!--- Links for redesign --->
 				<cfswitch expression="#search.transaction_type#">
 					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
 					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -239,6 +240,8 @@ limitations under the License.
 	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="nature_of_material" type="string" required="no">
 	<cfargument name="collection_id" type="numeric" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="permit_num" type="string" required="no">
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="return_due_date" type="string" required="no">
@@ -259,6 +262,8 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="specimen_guid" type="string" required="no">
 	<cfargument name="parent_loan_number" type="string" required="no">
+	<cfargument name="insurance_value" type="string" required="no">
+	<cfargument name="insurance_maintained_by" type="string" required="no">
 	<!--- in original API, no longer supported --->
 	<!--- notClosed=1 use loan_status = 'not closed' --->
 	<!--- in original API, not yet supported --->
@@ -402,9 +407,10 @@ limitations under the License.
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
-				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
 					left join shipment on loan.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
@@ -423,6 +429,20 @@ limitations under the License.
 						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 						OR
 						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR
+						permit_from_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 					)
 				</cfif>
 				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
@@ -510,6 +530,24 @@ limitations under the License.
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					AND loan_relations.relation_type = 'Subloan'
 					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
+				</cfif>
+				<cfif isdefined("insurance_value") AND len(#insurance_value#) gt 0>
+					<cfif insurance_value EQ 'NULL'>
+						AND loan.insurance_value is NULL
+					<cfelseif insurance_value EQ 'NOT NULL'>
+						AND loan.insurance_value is NOT NULL
+					<cfelse>
+						AND upper(loan.insurance_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_value)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("insurance_maintained_by") AND len(#insurance_maintained_by#) gt 0>
+					<cfif insurance_maintained_by EQ 'NULL'>
+						AND loan.insurance_maintained_by is NULL
+					<cfelseif insurance_maintained_by EQ 'NOT NULL'>
+						AND loan.insurance_maintained_by is NOT NULL
+					<cfelse>
+						AND upper(loan.insurance_maintained_by) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_maintained_by)#%">
+					</cfif>
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
@@ -1074,9 +1112,10 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
 					left join shipment on accn.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
@@ -1174,11 +1213,27 @@ limitations under the License.
 						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					)
 				</cfif>
-				<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
-					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					<cfif left(permit_type,1) is "!">
+						AND has_permitoftype(trans.transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(permit_type,len(permit_type)-1)#">) = 0
+					<cfelse>
+						AND ( 
+							permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+							OR
+							permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						)
+					</cfif>
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
-					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					<cfif left(permit_specific_type,1) is "!">
+						AND has_permitofspectype(trans.transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(permit_specific_type,len(permit_specific_type)-1)#">) = 0
+					<cfelse>
+						AND ( 
+							permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+							OR
+							permit_from_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						)
+					</cfif>
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
 					<cfif isdefined("part_name") AND len(part_name) gt 0>
@@ -1307,10 +1362,409 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
+			<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---   Function getDeccessions  --->
+<cffunction name="getDeaccessions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="deacc_number" type="string" required="no">
+	<cfargument name="deacc_type" type="string" required="no">
+	<cfargument name="deacc_status" type="string" required="no">
+	<cfargument name="deacc_reason" type="string" required="no">
+	<cfargument name="deacc_description" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="deacc_remarks" type="string" required="no">
+	<cfargument name="nature_of_material" type="string" required="no">
+	<cfargument name="collection_id" type="numeric" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="permit_specific_type" type="string" required="no">
+	<cfargument name="closed_date" type="string" required="no">
+	<cfargument name="to_closed_date" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="trans_agent_role_1" type="string" required="no">
+	<cfargument name="agent_1" type="string" required="no">
+	<cfargument name="agent_1_id" type="string" required="no">
+	<cfargument name="trans_agent_role_2" type="string" required="no">
+	<cfargument name="agent_2" type="string" required="no">
+	<cfargument name="agent_2_id" type="string" required="no">
+	<cfargument name="trans_agent_role_3" type="string" required="no">
+	<cfargument name="agent_3" type="string" required="no">
+	<cfargument name="agent_3_id" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="specimen_guid" type="string" required="no">
+	<cfargument name="part_name" type="string" required="no">
+	<cfargument name="coll_obj_disposition" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
+	<cfargument name="issued_by_id" type="string" required="no">
+	<cfargument name="issued_to_id" type="string" required="no">
+	<cfargument name="permit_contact_id" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="value" type="string" required="no">
+	<cfargument name="deacc_method" type="string" required="no">
+
+	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
+	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("closed_date") and len(#closed_date#) gt 0>
+		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
+			<cfset to_closed_date=closed_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#closed_date#) EQ 4>
+			<cfset closed_date = "#closed_date#-01-01">
+		</cfif>
+		<cfif len(#to_closed_date#) EQ 4>
+			<cfset to_closed_date = "#to_closed_date#-12-31">
+		</cfif>
+	</cfif>
+
+	<!--- do the search --->
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				trans.transaction_id,
+				deacc_number,
+				deacc_type,
+				nature_of_material,
+				closed_by,
+				to_char(closed_date,'YYYY-MM-DD') as closed_date,
+				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				deacc_status,
+				deacc_reason,
+				deacc_description,
+				value,
+				method,
+				trans_remarks,
+				deacc_remarks,
+				collection,
+				collection.collection_cde,
+				project_name,
+				project.project_id pid,
+				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
+				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				MCZBASE.count_catitems_for_deacc(trans.transaction_id) item_count,
+				concattransagent(trans.transaction_id,'entered by') ent_agent,
+				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
+				concattransagent(trans.transaction_id,'recipient institution') recipient_institution_agent,
+				concattransagent(trans.transaction_id,'received by') rec_agent,
+				concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
+				concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
+				concattransagent(trans.transaction_id,'outside contact') outside_agent,
+				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent
+			FROM
+			 	deaccession left join trans on deaccession.transaction_id = trans.transaction_id
+				left join permit_trans on trans.transaction_id = permit_trans.transaction_id
+				left join permit on permit_trans.permit_id = permit.permit_id
+				left join collection on trans.collection_id=collection.collection_id
+				left join project_trans on trans.transaction_id = project_trans.transaction_id
+				left join project on project_trans.project_id = project.project_id
+				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
+					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
+					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
+						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
+					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
+					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
+						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
+					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
+					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
+						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
+					left join shipment on deaccession.transaction_id = shipment.transaction_id
+					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
+				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+					left join coll_object on deacc_item.collection_object_id = coll_object.collection_object_id
+					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id
+				</cfif>
+				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
+						left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+					</cfif>
+				</cfif>
+				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+					<cfif not isdefined("issued_to_id") or len(#issued_to_id#) EQ 0>
+						left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+					</cfif>
+				</cfif>
+			WHERE 
+				deaccession.transaction_id is not null
+				<cfif isDefined("deacc_number") and len(deacc_number) gt 0>
+					<cfif left(deacc_number,1) is "=">
+						AND deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(deacc_number,len(deacc_number)-1)#">
+					<cfelse>
+						<cfif find(',',deacc_number) GT 0>
+							AND deacc_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#" list="yes"> )
+						<cfelse>
+							AND deacc_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#deacc_number#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("deacc_status") and len(deacc_status) gt 0>
+					<cfif left(deacc_status,1) is "!">
+						AND deacc_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
+					<cfelse>
+						AND deacc_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("collection_id") and collection_id gt 0>
+					AND collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+				</cfif>
+				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
+					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
+					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+				</cfif>
+				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
+					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
+					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
+					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+				</cfif>
+				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
+					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
+					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("closed_date") and len(closed_date) gt 0>
+					AND deaccession.closed_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
+					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
+				</cfif>
+
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
+				<cfif  isdefined("deacc_type") and len(#deacc_type#) gt 0>
+					<cfif left(deacc_type,1) is "!">
+						AND deacc_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
+					<cfelse>
+						AND deacc_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("deacc_method") and len(#deacc_method#) gt 0>
+					<cfif deacc_method EQ 'NULL'>
+						AND upper(deaccession.method) is NULL
+					<cfelseif deacc_method EQ 'NOT NULL'>
+						AND upper(deaccession.method) is NOT NULL
+					<cfelse>
+						AND upper(deaccession.method) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(deacc_method)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("value") and len(#value#) gt 0>
+					<cfif value EQ 'NULL'>
+						AND upper(deaccession.value) is NULL
+					<cfelseif value EQ 'NOT NULL'>
+						AND upper(deaccession.value) is NOT NULL
+					<cfelse>
+						AND upper(deaccession.value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(value)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND ( 
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+						OR
+						permit_from_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR
+						permit_from_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					)
+				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					<cfif isdefined("part_name") AND len(part_name) gt 0>
+						<cfif not isdefined("part_name_oper")><cfset part_name_oper='is'></cfif>
+						<cfif part_name_oper is "is">
+							AND specimen_part.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">
+						<cfelse>
+							AND upper(specimen_part.part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(part_name)#%">
+						</cfif>
+					</cfif>
+					<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
+						<cfif not isdefined("part_disp_oper")><cfset part_disp_oper='is'></cfif>
+						<cfif part_disp_oper is "is">
+							AND coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						<cfelse>
+							AND coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_id") AND collection_id gt 0>
+					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("issued_by_id") and len(#issued_by_id#) gt 0>
+					AND upper(permit.issued_by_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_id#">
+				<cfelse>
+					<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+						AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("issued_to_id") and len(#issued_to_id#) gt 0>
+					AND upper(permit.issued_to_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_id#">
+				<cfelse>
+					<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+						AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("permit_contact_id") and len(#permit_contact_id#) gt 0>
+					AND upper(permit.contact_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_contact_id#">
+				</cfif>
+				<cfif isdefined("restriction_summary") and len(#restriction_summary#) gt 0>
+					<cfif restriction_summary EQ 'NULL'>
+						AND upper(permit.restriction_summary) is NULL
+					<cfelseif restriction_summary EQ 'NOT NULL'>
+						AND upper(permit.restriction_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.restriction_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(restriction_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_summary") and len(#benefits_summary#) gt 0>
+					<cfif benefits_summary EQ 'NULL'>
+						AND upper(permit.benefits_summary) is NULL
+					<cfelseif benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>
+					<cfif benefits_provided EQ 'NULL'>
+						AND upper(permit.benefits_provided) is NULL
+					<cfelseif benefits_provided EQ 'NOT NULL'>
+						AND upper(permit.benefits_provided) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_provided) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_provided)#%">
+					</cfif>
+				</cfif>
+				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif isDefined("estimated_count") and len(estimated_count) gt 0>
+					<cfif left(estimated_count,1) is "<">
+						AND estimated_count < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif left(estimated_count,1) is ">">
+						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+						AND estimated_count IS NOT NULL
+					<cfelseif left(estimated_count,1) is "!">
+						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+							OR estimated_count IS NULL)
+					<cfelseif left(estimated_count,1) is "=">
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif estimated_count is "NULL">
+						AND estimated_count IS NULL
+					<cfelseif estimated_count is "NOT NULL">
+						AND estimated_count IS NOT NULL
+					<cfelse>
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
+					</cfif>
+				</cfif>
+			ORDER BY deacc_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-				<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+				<cfset row["id_link"] = "<a href='/transactions/Deaccession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.deacc_number#</a>">
 			<cfelse>
-				<cfset row["id_link"] = "<a href='/editAccn.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+				<cfset row["id_link"] = "<a href='/transactions/Deaccession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.deacc_number#</a>">
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -1326,5 +1780,394 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getBorrows" access="remote" returntype="any" returnformat="json">
+	<cfargument name="borrow_number" type="string" required="no">
+	<cfargument name="lenders_trans_num_cde" type="string" required="no">
+	<cfargument name="lender_loan_type" type="string" required="no">
+	<cfargument name="borrow_status" type="string" required="no">
+	<cfargument name="borrow_sci_name" type="string" required="no">
+	<cfargument name="borrow_catalog_number" type="string" required="no">
+	<cfargument name="borrow_spec_prep" type="string" required="no">
+	<cfargument name="borrow_type_status" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="received_date" type="string" required="no">
+	<cfargument name="to_received_date" type="string" required="no">
+	<cfargument name="due_date" type="string" required="no">
+	<cfargument name="to_due_date" type="string" required="no">
+	<cfargument name="lenders_loan_date" type="string" required="no">
+	<cfargument name="to_lenders_loan_date" type="string" required="no">
+	<cfargument name="return_acknowledged_date" type="string" required="no">
+	<cfargument name="to_return_acknowledged_date" type="string" required="no">
+	<cfargument name="lenders_invoice_returned" type="string" required="no">
+
+
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("received_date") and len(#received_date#) gt 0>
+		<cfif not isdefined("to_received_date") or len(to_received_date) is 0>
+			<cfset to_received_date=received_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#received_date#) EQ 4>
+			<cfset received_date = "#received_date#-01-01">
+		</cfif>
+		<cfif len(#to_received_date#) EQ 4>
+			<cfset to_received_date = "#to_received_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("due_date") and len(#due_date#) gt 0>
+		<cfif not isdefined("to_due_date") or len(to_due_date) is 0>
+			<cfset to_due_date=due_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#due_date#) EQ 4>
+			<cfset due_date = "#due_date#-01-01">
+		</cfif>
+		<cfif len(#to_due_date#) EQ 4>
+			<cfset to_due_date = "#to_due_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("return_acknowledged_date") and len(#return_acknowledged_date#) gt 0>
+		<cfif not isdefined("to_return_acknowledged_date") or len(to_return_acknowledged_date) is 0>
+			<cfset to_return_acknowledged_date=return_acknowledged_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#return_acknowledged_date#) EQ 4>
+			<cfset return_acknowledged_date = "#return_acknowledged_date#-01-01">
+		</cfif>
+		<cfif len(#to_return_acknowledged_date#) EQ 4>
+			<cfset to_return_acknowledged_date = "#to_return_acknowledged_date#-12-31">
+		</cfif>
+	</cfif>
+
+	<!--- do the search --->
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				trans.transaction_id,
+				borrow_number,
+				lender_loan_type,
+				lenders_trans_num_cde,
+				lenders_invoice_returned_fg,
+				decode(lenders_invoice_returned_fg,1,'Yes','No') as lenders_invoice_returned,
+				lenders_instructions,
+				nature_of_material,
+				no_of_specimens,
+				ret_acknowledged_by,
+				to_char(due_date,'YYYY-MM-DD') as due_date,
+				to_char(received_date,'YYYY-MM-DD') as received_date,
+				to_char(return_acknowledged_date,'YYYY-MM-DD') as return_acknowledged_date,
+				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				to_char(lenders_loan_date,'YYYY-MM-DD') as lenders_loan_datedate,
+				borrow_status,
+				description_of_borrow,
+				trans_remarks,
+				collection,
+				collection.collection_cde,
+				project_name,
+				project.project_id pid,
+				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
+				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				(select count(*) from borrow_item where borrow_item.transaction_id = trans.transaction_id) as item_count, 
+				concattransagent(trans.transaction_id,'entered by') ent_agent,
+				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
+				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
+				concattransagent(trans.transaction_id,'lending institution') lending_institution_agent,
+				concattransagent(trans.transaction_id,'received by') rec_agent,
+				concattransagent(trans.transaction_id,'borrow overseen by') borrowoverseenby_agent,
+				concattransagent(trans.transaction_id,'for use by') foruseby_agent,
+				concattransagent(trans.transaction_id,'received from') recfrom_agent,
+				concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
+				concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
+				concattransagent(trans.transaction_id,'outside contact') outside_agent,
+				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent
+			FROM
+			 	borrow left join trans on borrow.transaction_id = trans.transaction_id
+				left join permit_trans on trans.transaction_id = permit_trans.transaction_id
+				left join permit on permit_trans.permit_id = permit.permit_id
+				left join collection on trans.collection_id=collection.collection_id
+				left join project_trans on trans.transaction_id = project_trans.transaction_id
+				left join project on project_trans.project_id = project.project_id
+				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
+					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
+					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
+						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
+					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
+					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
+						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
+					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
+					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
+						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
+					left join shipment on borrow.transaction_id = shipment.transaction_id
+					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
+				</cfif>
+				<cfif (isdefined("borrow_catalog_number") AND len(borrow_catalog_number) gt 0) 
+						or (isdefined("borrow_sci_name") AND len(borrow_sci_name) gt 0) 
+						or (isdefined("borrow_spec_prep") AND len(borrow_spec_prep) gt 0) 
+						or (isdefined("borrow_type_status") AND len(borrow_type_status) gt 0) 
+				>
+					left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+				</cfif>
+				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
+						left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+					</cfif>
+				</cfif>
+				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+					<cfif not isdefined("issued_to_id") or len(#issued_to_id#) EQ 0>
+						left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+					</cfif>
+				</cfif>
+			WHERE 
+				borrow.transaction_id is not null
+				<cfif isDefined("borrow_number") and len(borrow_number) gt 0>
+					<cfif left(borrow_number,1) is "=">
+						AND borrow_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(borrow_number,len(borrow_number)-1)#">
+					<cfelse>
+						<cfif find(',',borrow_number) GT 0>
+							AND borrow_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_number#" list="yes"> )
+						<cfelse>
+							AND borrow_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#borrow_number#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("lenders_trans_num_cde") and len(lenders_trans_num_cde) gt 0>
+					<cfif left(lenders_trans_num_cde,1) is "=">
+						AND lenders_trans_num_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(lenders_trans_num_cde,len(lenders_trans_num_cde)-1)#">
+					<cfelse>
+						<cfif find(',',lenders_trans_num_cde) GT 0>
+							AND lenders_trans_num_cde in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_trans_num_cde#" list="yes"> )
+						<cfelse>
+							AND lenders_trans_num_cde LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lenders_trans_num_cde#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("borrow_status") and len(borrow_status) gt 0>
+					<cfif left(borrow_status,1) is "!">
+						AND upper(borrow_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(borrow_status,len(borrow_status)-1))#"> 
+					<cfelse>
+						AND borrow_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_status#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("collection_id") and collection_id gt 0>
+					AND collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+				</cfif>
+				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
+					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
+					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+				</cfif>
+				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
+					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
+					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
+					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+				</cfif>
+				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
+					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
+					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("received_date") and len(received_date) gt 0>
+					AND borrow.received_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(received_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_received_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("due_date") and len(due_date) gt 0>
+					AND due_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(due_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_due_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("lenders_loan_date") and len(lenders_loan_date) gt 0>
+					AND lenders_loan_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(lenders_loan_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("return_acknowledged_date") and len(return_acknowledged_date) gt 0>
+					AND return_acknowledged_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_acknowledged_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
+					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
+				</cfif>
+				<cfif isdefined("lenders_invoice_returned") AND len(#lenders_invoice_returned#) gt 0 >
+					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" >
+				</cfif>
+				<cfif isdefined("borrow_catalog_number") AND len(#borrow_catalog_number#) gt 0 >
+					AND borrow_item.catalog_number like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_catalog_number#%" >
+				</cfif>
+				<cfif isdefined("borrow_sci_name") AND len(#borrow_sci_name#) gt 0 >
+					AND borrow_item.sci_name like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_sci_name#%" >
+				</cfif>
+				<cfif isdefined("no_of_spec") AND len(#no_of_spec#) gt 0 >
+					AND borrow_item.no_of_spec = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#no_of_spec#" >
+				</cfif>
+				<cfif isdefined("borrow_spec_prep") AND len(#borrow_spec_prep#) gt 0 >
+					AND borrow_item.spec_prep like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_spec_prep#%" >
+				</cfif>
+				<cfif isdefined("borrow_type_status") AND len(#borrow_type_status#) gt 0 >
+					<cfif borrow_type_status EQ 'NULL'>
+						AND borrow_item.type_status is NULL
+					<cfelseif borrow_type_status EQ 'NOT NULL'>
+						AND borrow_item.type_status is NOT NULL
+					<cfelse>
+						AND borrow_item.type_status like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_type_status#%" > 
+					</cfif>
+				</cfif>
+				<cfif isdefined("country_of_origin") AND len(#country_of_origin#) gt 0 >
+					AND borrow_item.country_of_origin = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#country_of_origin#" > 
+				</cfif>
+				<cfif  isdefined("lenders_loan_type") and len(#lenders_loan_type#) gt 0>
+					<cfif left(lenders_loan_type,1) is "!">
+						AND lenders_loan_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(lenders_loan_type,len(lenders_loan_type)-1))#"> 
+					<cfelse>
+						AND lenders_loan_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_type#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND ( 
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+						OR
+						permit_from_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR
+						permit_from_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					)
+				</cfif>
+				<cfif isdefined("collection_id") AND collection_id gt 0>
+					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("issued_by_id") and len(#issued_by_id#) gt 0>
+					AND upper(permit.issued_by_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_id#">
+				<cfelse>
+					<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+						AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("issued_to_id") and len(#issued_to_id#) gt 0>
+					AND upper(permit.issued_to_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_id#">
+				<cfelse>
+					<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+						AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("permit_contact_id") and len(#permit_contact_id#) gt 0>
+					AND upper(permit.contact_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_contact_id#">
+				</cfif>
+				<cfif isdefined("restriction_summary") and len(#restriction_summary#) gt 0>
+					<cfif restriction_summary EQ 'NULL'>
+						AND upper(permit.restriction_summary) is NULL
+					<cfelseif restriction_summary EQ 'NOT NULL'>
+						AND upper(permit.restriction_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.restriction_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(restriction_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_summary") and len(#benefits_summary#) gt 0>
+					<cfif benefits_summary EQ 'NULL'>
+						AND upper(permit.benefits_summary) is NULL
+					<cfelseif benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>
+					<cfif benefits_provided EQ 'NULL'>
+						AND upper(permit.benefits_provided) is NULL
+					<cfelseif benefits_provided EQ 'NOT NULL'>
+						AND upper(permit.benefits_provided) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_provided) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_provided)#%">
+					</cfif>
+				</cfif>
+				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+			ORDER BY borrow_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+				<cfset row["id_link"] = "<a href='/Borrow.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
+			<cfelse>
+				<cfset row["id_link"] = "<a href='/Borrow.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>

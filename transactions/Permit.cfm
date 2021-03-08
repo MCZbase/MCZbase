@@ -1,6 +1,9 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+<cfif action EQ 'editPermit'>
+	<cfset action = 'edit'><!--- support old API --->
+</cfif>
 <!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
 	<cfcase value="search">
@@ -342,7 +345,7 @@ limitations under the License.
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['50','100'],
+								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
 								columnsresize: true,
 								autoshowfiltericon: true,
@@ -418,9 +421,9 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
 						} else if (rowcount > 50) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
 						} else { 
 						   $('##' + gridId).jqxGrid({ pageable: false });
 						}
@@ -1032,7 +1035,7 @@ limitations under the License.
 					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
 						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join accn on trans.transaction_id = accn.transaction_id
@@ -1048,7 +1051,7 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
@@ -1082,7 +1085,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1091,7 +1094,7 @@ limitations under the License.
 								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1233,7 +1236,7 @@ limitations under the License.
 			<cfif isdefined("headless") and headless EQ 'true'>
 				<cflocation url="Permit.cfm?Action=edit&headless=true&permit_id=#nextPermit.nextPermit#">
 			<cfelse>
-				<cflocation url="Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="/transactions/Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
 			</cfif>
 		</cfoutput>
 	</cfcase>
@@ -1293,7 +1296,7 @@ limitations under the License.
 					</cfloop>
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
@@ -1309,7 +1312,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1365,7 +1368,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
@@ -1381,7 +1384,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Deaccession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1533,7 +1536,7 @@ limitations under the License.
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['50','100'],
+								pagesizeoptions: ['5','50','100'],
 								showaggregates: true,
 								columnsresize: true,
 								autoshowfiltericon: true,
@@ -1541,7 +1544,7 @@ limitations under the License.
 								autoshowloadelement: false,  // overlay acts as load element for form+results
 								columnsreorder: true,
 								groupable: true,
-								selectionmode: 'none',
+								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
 								columns: [
@@ -1613,9 +1616,9 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
 						} else if (rowcount > 50) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
 						} else { 
 						   $('##' + gridId).jqxGrid({ pageable: false });
 						}

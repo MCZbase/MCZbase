@@ -114,6 +114,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm">
+	<script type="text/javascript" src="/shared/js/tabs.js"></script>
+</cfif>
 <cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
 </cfif>
@@ -160,9 +163,11 @@ limitations under the License.
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
+		<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc, with modifications above --->
 		<ul class="navbar col-11 col-sm-7 col-md-7 col-lg-8 p-0 m-0" style="background-color: #header_color#; ">
 			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
-			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> </li>
+			<!---  WARNING: Application and Session.collection_link_text contain a </span> tag and must currently be preceeded by a <span> tag, see Application.cfc --->
+			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" ><span style='font-size: 1.1rem;'>#session.collection_link_text#</a> </li> <!--- close span is in collection_collection_link_text --->
 		</ul>
 		<ul class="navbar col-12 col-sm-5 col-md-5 col-lg-4 p-0 m-0 d-flex justify-content-end">
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
@@ -440,6 +445,11 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">SQL Taxonomy</a>
 										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">Bulk Taxonomy</a>
+										</cfif>
 										</cfif>
 									</div>
 									</cfif>
@@ -456,7 +466,7 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
@@ -473,7 +483,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>		
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
@@ -526,7 +536,11 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
-										
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
+											</cfif>
 										</div>
 									</cfif>
 									</cfif>
@@ -542,43 +556,25 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/editAccn.cfm">Accessions</a>
-										<cfelse>
-											<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
-										</cfif>			
+										<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Borrow.cfm">Borrow</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Borrow</a>
-										</cfif>	
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Deaccession.cfm">Deaccession</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Deaccession</a>
-										</cfif>	
+										<a class="dropdown-item" href="/Transactions.cfm?action=findBorrows">Borrows</a> 
+										<a class="dropdown-item" href="/Transactions.cfm?action=findDeaccessions">Deacessions</a> 
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										<a class="dropdown-item" href="/editAccn.cfm">Accessions (old)</a>
+										<a class="dropdown-item" href="/Borrow.cfm">Borrow (old)</a>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/newAccn.cfm">Accession</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Accession</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Accession.cfm?action=new">Accession</a> 
 										<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Borrow.cfm?action=new">Borrow</a> 
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Borrow</a> 
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Deaccession.cfm?action=new">Deaccession</a> 
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 									</div>
 									</cfif>

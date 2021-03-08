@@ -492,6 +492,10 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 										<cfelse>
 											#occurs_page_number#,
 										</cfif>
+								<cfelse>
+									<cfif len(citation_page_uri) gt 0>
+										<a href ="#citation_page_uri#" target="_blank">[link]</a>,
+									</cfif>
 								</cfif>
 								#type_status# of
 								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
@@ -949,33 +953,39 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</div>
 			</cfif>
 <!------------------------------------ collections ---------------------------------------------->
-			<cfif oneofus is 1>
-				<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
-					select distinct collection_name 
-					from underscore_relation
-						left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-					where
-						underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
-				</cfquery>
-				<cfif collectionsQuery.recordcount GT 0>
-					<div class="detailCell">
-						<div class="detailLabel">Included in these Collections
-							<!---  TODO: Implement edit 
-							<cfif oneOfUs is 1>
-								<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
-							</cfif>
-							--->
-						</div>
-						<div class="detailBlock">
-							<ul>
-								<cfloop query="collectionsQuery">
-									<!--- TODO: Link to search --->
-									<li>#collection_name#</li>
-								</cfloop>
-							</ul>
-						</div>
+			<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
+				select distinct collection_name, underscore_collection.underscore_collection_id 
+				from underscore_relation
+					left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+				where
+					underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+					<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
+						-- all groups
+					<cfelse>
+						and mask_fg = 0
+					</cfif>
+			</cfquery>
+			<cfif collectionsQuery.recordcount GT 0>
+				<div class="detailCell">
+					<div class="detailLabel">Included in these Collections
+						<!---  TODO: Implement edit 
+						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
+							<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
+						</cfif>
+						--->
 					</div>
-				</cfif>
+					<div class="detailBlock">
+						<ul>
+							<cfloop query="collectionsQuery">
+								<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
+									<li><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">#collection_name#</a></li>
+								<cfelse>
+									<li>#collection_name#</li>
+								</cfif>
+							</cfloop>
+						</ul>
+					</div>
+				</div>
 			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
@@ -1518,6 +1528,14 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			</div>
 <!------------------------------------ accession ---------------------------------------------->
 			<cfif oneOfUs is 1 and vpdaccn is 1>
+				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select specific_type, restriction_summary 
+					from  permit_trans 
+						left join permit on permit_trans.permit_id = permit.permit_id
+					where 
+						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+						and permit.restriction_summary IS NOT NULL
+				</cfquery>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
@@ -1546,7 +1564,13 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<div class="detailBlock">
 						<span class="detailData">
 							<cfif oneOfUs is 1>
-								<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+								<cfif accnLimitations.recordcount GT 0>
+									<h3 class="detailLabel">Restrictions on use</h3>
+									<cfloop query=accnLimitations>
+										<p>#accnLimitations.specific_type#: #accnLimitations.restriction_summary#</p>
+									</cfloop>
+								</cfif>
 							<cfelse>
 								#accession#
 							</cfif>
@@ -1614,11 +1638,11 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel">Deaccessions:</span>
-									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+									<a href="/Transactions.cfm?action=findDeaccessions&execute=true&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 										target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="deaccessionList">
-								<a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp;
+								<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a>&nbsp;
 							</cfloop>
 							</cfif>
 							</span>

@@ -99,17 +99,15 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 		<div class="row">
 			<div class="col-12 col-lg-11 mb-3">
 				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
-				<div class="tab-card-main mt-1 tab-card">
-					<div class="card-header tab-card-header pb-0">
-						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
-							<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-selected="true" >Keyword Search</a> </li>
-							<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link" id="two-tab" data-toggle="tab" href="##two" role="tab" aria-selected="false">Search Builder</a> </li>
-							<li class="nav-item col-sm-12 col-md-4 px-1"> <a class="nav-link" id="three-tab" data-toggle="tab" href="##three" role="tab" aria-selected="false">Custom Fixed Search</a> </li>
-						</ul>
+				<div class="tabs card-header tab-card-header pb-0">
+					<div class="tab-headers" role="tablist" aria-label="search panel tabs">
+						<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" aria-selected="true" >Keyword Search</button>
+						<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-selected="panel-2" aria-selected="false">Search Builder</button>
+						<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-selected="panel-3" aria-select="false">Custom Fixed Search</button>
 					</div>
-					<div class="tab-content pb-0" id="myTabContent"> 
+					<div class="tab-content"> 
 					<!---Keyword Search--->
-					<div class="tab-pane fade show active px-2 py-4" id="one" role="tabpanel" aria-label="tab 1">
+					<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="py-3 mx-0">
 						<form id="searchForm">
 							<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
 								<div class="row">
@@ -146,7 +144,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						});	
 					</script> 
 					<!---Search Builder--->
-					<div class="tab-pane fade show px-2 py-4" id="two" role="tabpanel" aria-label="tab 2">
+					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="py-3 mx-0" tabindex="0" hidden>
 					<form id="searchForm2">
 					<div class="bg-0 col-sm-12 col-md-12 p-0">
 						<div class="input-group">
@@ -358,9 +356,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							</span> </div>
 					</div>
 					</div>
-
 					<!---custom fixed search--->
-					<div class="tab-pane fade px-2 py-4" id="three" aria-label="tab 3">
+					<div id="panel-3" aria-labelledby="tab-3" role="tabpanel" class="py-3 mx-0" tabindex="0" hidden>
 					<form id="searchForm3">
 						<div class="container">
 							<div class="form-row col-12 px-0 mx-0 mb-2">

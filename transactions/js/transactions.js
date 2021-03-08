@@ -225,7 +225,7 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 		$('#'+idControl).val(agentId);
 		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
-		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View <span class='sr-only'>agent record link</span></a>");
 		$('#'+viewControl).attr('aria-label', 'View details for this agent');
 		if ($('#'+nameControl).prop('required')) { 
 			$('#'+nameControl).toggleClass('reqdClr',false);
@@ -308,6 +308,138 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 		// override to display meta "matched name * (preferred name)" instead of value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+
+function forcedAgentPick(idControl,agent_id,viewControl,iconControl,nameControl){
+	$('#'+idControl).val(agent_id);
+	$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
+	$('#'+viewControl).attr('aria-label', 'View details for this agent');
+	$('#'+iconControl).addClass('bg-lightgreen');
+	$('#'+iconControl).removeClass('bg-light');
+	if ($('#'+nameControl).prop('required')) { 
+		$('#'+nameControl).toggleClass('reqdClr',false);
+		$('#'+nameControl).toggleClass('goodPick',true);
+	}
+	// Check for a flag on this agent and update the view control accordingly
+	updateAgentLink($('#'+idControl).val(),viewControl);
+}
+
+/* Update the content of a div containing a count of the items in an an accession which have been cataloged.
+ * @param transactionId the transaction_id of the Accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateAccnItemCount(transactionId,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getAccnItemCounts",
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "<p>There are " + result.DATA.PARTCOUNT[0];
+				message += " parts from " + result.DATA.CATITEMCOUNT[0];
+				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types cataloged in this accession.</p>"
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
+
+/* Update the content of a div containing dispositions of the items in an accession.
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateAccnItemDispositions(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getAccnItemDispositions",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing contries of origin of the items in an acession.
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateTransItemCountries(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getTransItemCountries",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining countries of origin of items in transaction");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing restrictions and benefits summaries for permissons
+ * and rights documents on an accession.
+ *
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateAccnLimitations(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getAccnLimitations",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for an accession");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing a list of loans of material in an accession
+ *
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateAccnLoans(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getAccnLoans",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for an accession");
+		},
+		dataType: "html"
+	});
 };
 
 /* Update the content of a div containing a count of the items in a Loan.
@@ -606,6 +738,74 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	});
 }
 
+function deletePermitFromTransaction(permitId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removePermitFromTransaction",
+			transaction_id : transactionId,
+			permit_id : permitId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadTransactionFormPermits(transactionId);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"deleting permit");
+	});
+}
+
+// Create and open a dialog to find and link existing permit records to a provided transaction
+function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcallback) { 
+	var title = "Link Permit record(s) to " + transaction_label;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "transPermitPickerHtml",
+			returnformat: "plain",
+			transaction_id: transaction_id,
+			transaction_label: transaction_label
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading link permit dialog");
+		}
+	});
+}
 
 // Create and open a dialog to create a new permit record adding a provided relationship to the permit record
 function opencreatepermitdialog(dialogid, related_label, related_id, relation_type, okcallback) { 
@@ -691,7 +891,7 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
  * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
  * Assumes the presence of an html table with an id transactionAgentsTable, to which the new agent line is added as the last row.
  */
-function addTransAgentToForm (id,name,role,formid) {
+function addTransAgentToForm (id,name,role,formid,transaction_type) {
 	if (typeof id == "undefined") {
 		id = "";
 	 }
@@ -704,6 +904,7 @@ function addTransAgentToForm (id,name,role,formid) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getTrans_agent_role",
+			transaction_type : transaction_type,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -1068,6 +1269,9 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	var method = "";
 	if (transaction_type == "Loan") { 
 		method = "getLoanPrintListDialogContent";
+	}
+	if (transaction_type == "Accession") { 
+		method = "getAccnPrintListDialogContent";
 	}
 	if (method=="") { 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
@@ -1778,3 +1982,171 @@ function openAddSpecificTypeDialog() {
 	dialog.dialog('open');
 	console.log('dialog open');
 };
+
+/** given a div with an id tempAddressDialog, and a transaction_id, create dialog to create a new
+ * temporary address, using and populating agentid and agent name controls. */
+function addTemporaryAddressForAgent(agentIdControl,agentControl,targetAddressControl,transaction_id,callback) { 
+	var agent_id = $("#"+agentIdControl).val();
+
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "addAddressHtml",
+			agent_id : agent_id,
+			transaction_id : transaction_id
+		},
+		success: function (result) {
+			$("#tempAddressDialog").html(result);
+			$("#tempAddressDialog").dialog(
+				{ autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#tempAddressDialog").dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						var addr = $('#new_address').val();
+						if ($.trim(addr) != '') { 
+							// $("#"+targetAddressIdControl).val($('#new_address_id').val());
+							$("#"+targetAddressControl).val(addr);
+						}
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#tempAddressDialog").dialog('destroy'); 
+						$("#tempAddressDialog").html(""); 
+					}
+				});
+				$("#tempAddressDialog").dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+			},
+			dataType: "html"
+		}
+	)
+};
+
+
+/* Update the content of a div containing a count of the items in a Deaccession.
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccItemCount(transactionId,targetDiv) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "getDeaccItemCounts",
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message = "There are " + result.DATA.PARTCOUNT[0];
+				message += " parts from " + result.DATA.CATITEMCOUNT[0];
+				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] + " preservation types in this deaccession."
+				$('#' + targetDiv).html(message);
+			}
+		}
+	)
+};
+
+
+/* Update the content of a div containing dispositions of the items in a deaccession.
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccItemDispositions(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccItemDispositions",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in a deaccession.");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing restrictions and benefits summaries for permissons
+ * and rights documents on an accession.
+ *
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccLimitations(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccLimitations",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for a deaccession");
+		},
+		dataType: "html"
+	});
+};
+
+/* Update the content of a div containing a list of loans of material in a deaccession
+ *
+ * @param transactionId the transaction_id of the deaccession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateDeaccLoans(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getDeaccLoans",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining loans of items in a deaccession");
+		},
+		dataType: "html"
+	});
+};
+
+function updateCondition (partID) {
+	var condition = $('#condition' + partID).val();
+	if (!condition || 0 === condition.length) {
+		messageDialog('You must supply a value for condition.','Error');
+	} else {
+		var transaction_id = $('transaction_id').val();
+		jQuery.ajax({
+			url: "/specimens/component/functions.cfc",
+			data: {
+				method : "updateCondition",
+				part_id : partID,
+				condition : condition,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			success: function (result) {
+				$("#"+targetDiv).html(result);
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"obtaining loans of items in a deaccession");
+			},
+			dataType: "html"
+		});
+ 	}
+};
+

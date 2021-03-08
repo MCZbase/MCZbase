@@ -512,7 +512,7 @@ limitations under the License.
 												<option></option>
 												<cfloop query="CTTAXONOMIC_AUTHORITY">
 													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#source_authority#">#source_authority#</option>
+													<option value="#source_authority#" #selected#>#source_authority#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -522,7 +522,7 @@ limitations under the License.
 												<option></option>
 												<cfloop query="cttaxon_status">
 													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#taxon_status#">#taxon_status#</option>
+													<option value="#taxon_status#" #selected#>#taxon_status#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -733,7 +733,7 @@ limitations under the License.
 						pageable: true,
 						editable: false,
 						pagesize: '50',
-						pagesizeoptions: ['50','100'], // reset in gridLoaded
+						pagesizeoptions: ['5','50','100'], // reset in gridLoaded
 						showaggregates: true,
 						columnsresize: true,
 						autoshowfiltericon: true,
@@ -744,6 +744,9 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
+						ready: function () {
+							$("##searchResultsGrid").jqxGrid('selectrow', 0);
+						},
 						columns: [
 							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
@@ -837,10 +840,10 @@ limitations under the License.
 				}
 				// set maximum page size
 				if (rowcount > 100) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 					$('##' + gridId).jqxGrid({ pagesize: 50});
 				} else if (rowcount > 50) { 
-					$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
 					$('##' + gridId).jqxGrid({ pagesize: 50});
 				} else { 
 					$('##' + gridId).jqxGrid({ pageable: false });

@@ -1199,10 +1199,12 @@
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="onOff" type="numeric" required="yes">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+	   <cfthread name="saveLocSrchThread" >
 		<cftry>
 			<cfquery name="ins" datasource="cf_dbuser">
-				select LOCSRCHPREFS from cf_users
-				where username='#session.username#'
+				select LOCSRCHPREFS 
+				from cf_users
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset cv=valuelist(ins.LOCSRCHPREFS)>
 			<cfif onOff is 1>
@@ -1215,12 +1217,15 @@
 				</cfif>
 			</cfif>
 			<cfquery name="ins" datasource="cf_dbuser">
-				update cf_users set LOCSRCHPREFS='#nv#'
-				where username='#session.username#'
+				update cf_users 
+				set LOCSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
+				where 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset session.locSrchPrefs=nv>
 			<cfcatch><!-- nada --></cfcatch>
 		</cftry>
+	   </cfthread>
 	</cfif>
 	<cfreturn 1>
 </cffunction>
@@ -3070,7 +3075,7 @@
 		</cfquery>
         <cfif newPermitResult.recordcount eq 1>
             <cfset result = result & "<span>Created new Permissons/Rights record. ">
-            <cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+            <cfset result = result & "<a id='permitEditLink' href='/transactions/Permit.cfm?permit_id=#nextPermit.nextPermit#&action=edit' target='_blank'>Edit</a></span>">
             <cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
             <cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
         </cfif>
@@ -3881,7 +3886,7 @@
        <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
        <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
        <cfset resulthtml = resulthtml & "</ul>">
    </cfloop>
@@ -4475,7 +4480,7 @@
 		    	</cfloop>
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-                       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+                       <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""/transactions/Permit.cfm?action=edit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
                        <cfset resulthtml = resulthtml & "<li>">
                        <cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'>">

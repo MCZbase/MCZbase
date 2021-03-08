@@ -51,13 +51,15 @@
 		</div>
 	</noscript>
 	
+	<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
 	<div id="headerContent" style="background-color: #Application.header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
 				<a href="http://mcz.harvard.edu/" target="_blank">
 					<img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
 				</a>
-				<h1 style="color:#Application.collectionlinkcolor#;"><span>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
+				<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
+				<h1 style="color:#Application.collectionlinkcolor#;"><span style='font-size: 1.2rem;'>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
 				<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
@@ -166,6 +168,7 @@
 												<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
 												<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
 												<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+												<a class="dropdown-item" target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
 											</cfif>
 										</div>
 								</cfif>
@@ -182,7 +185,7 @@
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 33.2%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
+									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Group</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 										<a class="dropdown-item" href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
 										<a class="dropdown-item" href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
@@ -191,10 +194,11 @@
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>			
-										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Grouping</a>
+										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
 											<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
+											
 										</cfif>
 									</div>
 								</cfif>
@@ -207,6 +211,7 @@
 										<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
 										<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 										<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
+										<a class="dropdown-item"  href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>
 									</div>
 								</cfif>
 							</li>
@@ -223,18 +228,20 @@
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
-									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findAccessions">Accession</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findLoans">Loans</a>
-									<a class="dropdown-item" target="_top" href="/Borrow.cfm">Borrow</a>
-									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findBorrows.cfm">Borrow</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findDeaccessions">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
+									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession (old)</a>
+									<a class="dropdown-item" target="_top" href="/Borrow.cfm">Borrow (old)</a>
 								</div>
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-									<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
+									<a class="dropdown-item" target="_top" href="/transactions/Accession.cfm?action=new">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
 									<a class="dropdown-item" target="_top" href="/Borrow.cfm?action=new">Borrow</a>
-									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=newDeacc">Deaccession</a>
+									<a class="dropdown-item" target="_top" href="/transactions/Deaccession.cfm?Action=new">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a>
 								</div>
 							</li>

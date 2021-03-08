@@ -44,10 +44,24 @@
 	<cfargument name="mt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
-		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
-		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-			<cfset r=1>
+		<cfif not isdefined("session.mczmediafail")><cfset session.mczmediafail=0></cfif>
+		<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/' and session.mczmediafail GT 3>
+			<!--- decrement the fail counter --->
+			<cfset session.mczmediafail = session.mczmediafail-1 >
+		<cfelse>
+			<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
+			<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="2">
+			<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+				<cfset r=1>
+			<cfelse>
+				<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/'>
+					<cfset session.mczmediafail = session.mczmediafail + 1 >
+					<cfif session.mczmediafail GT 3>
+						<!--- we'll return a noThumb image for the next 100 requests without doing a lookup --->
+						<cfset session.mczmediafail = 100 >
+					</cfif>
+				</cfif>
+			</cfif>
 		</cfif>
 	</cfif>
 	<cfif r is 0>
@@ -260,6 +274,7 @@
 	<cfset session.MediaSrchTab="MediaSrch" & temp> <!-- Doris' edit -->
 	<cfset session.TaxSrchTab="TaxSrch" & temp>
 	<cfset session.exclusive_collection_id="">
+	<cfset session.mczmediafail=0>
 
 	<!---------------------------- login ------------------------------------------------>
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
@@ -455,7 +470,7 @@
 					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/editAccn.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
+            <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -470,7 +485,7 @@
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-    		        <cfset temp = QuerySetCell(result, "link", "/Deaccession.cfm?action=editDeacc&transaction_id=#related_primary_key#", i)>
+    		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -646,7 +661,7 @@
 					accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-			<cfset temp = QuerySetCell(result, "link", "/editAccn.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 			<cfset temp = QuerySetCell(result, "rel_type", "accn", i)>
 		<cfelseif table_name is "cataloged_item">
 		<!--- upping this to uam_god for now - see Issue 135

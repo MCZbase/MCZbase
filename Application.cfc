@@ -296,7 +296,8 @@ limitations under the License.
 			    <cfset Application.header_color = "##000000" />
 			    <cfset Application.login_color = "##000000" />
 			    <cfset Application.institutionlinkcolor = "##ffffff" />
-			    <cfset Application.collectionlinkcolor = "##A51C30" />
+			    <!--- cfset Application.collectionlinkcolor = "##A51C30" / --->
+			    <cfset Application.collectionlinkcolor = "##FF0000" />
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"" >BASE</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/krono.gif" />
 			</cfif>

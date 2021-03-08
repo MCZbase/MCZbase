@@ -22,9 +22,12 @@ limitations under the License.
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_name" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
+	<cfargument name="underscore_agent_name" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
+	<cfargument name="mask_fg" type="string" required="no">
+	<cfargument name="collection_id" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -35,6 +38,7 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
+				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -42,7 +46,7 @@ limitations under the License.
 				as agentname
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				<cfif isDefined("guid") and len(guid) gt 0>
+				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
 					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
 				</cfif>
 			WHERE
@@ -53,8 +57,19 @@ limitations under the License.
 				<cfif isDefined("description") and len(description) gt 0>
 					and description like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
 				</cfif>
-				<cfif isDefined("underscore_agent_id") and len(pattern) gt 0>
-					and underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
+					and 
+					( underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+					<cfif isDefined("underscore_agent_name") and underscore_agent_name EQ "[no agent data]">
+					   or underscore_agent_id IS NULL	
+					</cfif>
+					)
+				</cfif>
+				<cfif isDefined("mask_fg") and len(mask_fg) gt 0>
+					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+				</cfif>
+				<cfif isDefined("collection_id") and len(collection_id) gt 0>
+					and #session.flatTableName#.collection_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">)
 				</cfif>
 				<cfif isDefined("guid") and len(guid) gt 0>
 					<cfif find(',',guid) GT 0> 
@@ -70,6 +85,7 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
+				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -121,7 +137,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					else
 						description
 					end
-					as description_trim
+					as description_trim,
+				mask_fg
 			FROM 
 				underscore_collection
 			WHERE

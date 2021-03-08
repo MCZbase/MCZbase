@@ -1218,6 +1218,14 @@ table#pairs, th, td {
 #collapseParts .table th {
 	font-weight: 500;
 }
+#collapseParts .table td, #collapseParts.table th {
+	padding: .35rem 1rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+}
+#collapseParts .table th {
+	font-weight: 500;
+}
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
