@@ -1408,7 +1408,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-.data-height {    
+.data-height {
 	height: calc(1.15rem + .5rem + 2px) !important;
 }
 textarea {
