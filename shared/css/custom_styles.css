@@ -1684,7 +1684,7 @@ input#readMore_check_id {
     outline: 0;
 }
 .tab-headers button[aria-selected='true']:focus {
-		border-right: 1px solid rgb(38 143 255 / 50%);
+	border-right: 1px solid rgb(38 143 255 / 50%);
 	border-left: 1px solid rgb(38 143 255 / 50%);
 	border-top: 3px solid rgb(38 143 255 / 50%);
 }
