@@ -209,18 +209,61 @@ function autogrow (event) {
  *  to bind to all textareas currently defined on a page use:
  *  $("textarea").keyup(autogrow);
 */
-//function autogrow (event) {
-//	var tb = parseFloat($(this).css("borderTopWidth"));
-//	var bb = parseFloat($(this).css("borderBottomWidth"));
-//	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
-//	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
-//	{
-//		// increase the height such that the text fits into the scroll bar height, taking borders into account.
-//		$(this).height($(this)[0].scrollHeight+tb+bb);
-//	}
-//	$(this).css('overflow-y','auto');
-//};
+function autogrow (event) {
+	var tb = parseFloat($(this).css("borderTopWidth"));
+	var bb = parseFloat($(this).css("borderBottomWidth"));
+	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
+	if ( Math.ceil($(this).outerHeight()) < $(this)[0].scrollHeight + tb + bb )       
+	{
+		// estimate how much height is needed for the textarea to contain all its text 
+		// calcluate the length of the string in em.
+		var em = $(this).val().length * parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0])['fontSize']);
+		var width = $(this).width();
+		var fontsize = Number.parseFloat($(this).css("font-size"));
+		// calculate how many lines the string needs from its length in em/sreen width, floor and add 1 to ensure a minimum of 1 line.
+		var lines = Math.floor(em/width)+1;  
+		var newlines = $(this).val().split("\n").length-1; // number of new line characters in the string.
+		lines=newlines+lines;  // add estimated lines for the characters plus the number of newlines 
+		lines=lines+2; // add two lines to ensure blank space at the end
+		// calculate how many pixels are needed to fit the text plus newlines.
+		// we won't increase the size of the text area over this needs estimate.
+		var needs = lines*fontsize;
+		// if our calculation failed or if the height is less that the estimaged needed height, increase the height.
+		// this if statement is needed as some browsers with some fonts appear to provide an overestimate of 
+		// scrollHeight plus top/bottom borders and end up growing with each keystroke.
+		if (Number.isNaN(needs) || $(this)[0].scrollHeight+tb+bb < needs) { 
+			// increase the height such that the text fits into the scroll bar height, taking borders into account.
+			$(this).height($(this)[0].scrollHeight+tb+bb);
+		}
+	}
+	$(this).css('overflow-y','auto');
+};
 
+// function noenter prevents form submission when a user presses enter from a specific field.
+// example:
+//<input type="text" name="idBy" class="reqdClr" size="50" 
+//	  onchange="getAgent('newIdById','idBy','newID',this.value); return false;"
+//	  onKeyPress="return noenter(event);"> 
+// note the '(event)' bit - that's required for FireFox to process this correctly
+function noenter (e) 
+	{
+	var key;
+	var keychar;
+	var reg;
+	
+	if(window.event) {
+		// for IE, e.keyCode or window.event.keyCode can be used
+		key = e.keyCode; 
+	}
+	else if(e.which) {
+		// netscape
+		key = e.which; 
+	}
+	if (key == 13) {
+			// enter
+			return false;
+	}
+}
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
