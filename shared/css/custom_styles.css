@@ -928,7 +928,6 @@ div#users-contain table td, div#users-contain table th {
 ul.list-unstyled li.list-group-item {
 	margin-bottom: 0;
 	border-bottom: 1px solid #ccc;
-	font-weight:500;
 }
 ul.list-unstyled li.list-group-item:last-child {
 	margin-bottom: 0;
@@ -1341,7 +1340,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-clip: padding-box;
 	background-color: white;
 	border-radius: .2rem 0 0 .2rem;
-	padding: .1rem .5rem;
+	padding: .15rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
