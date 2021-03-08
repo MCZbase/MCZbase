@@ -29,28 +29,28 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	font-weight: 500;
 }
 a {
-	cursor: pointer
+	cursor: pointer;
 }
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
-	content: "\a0"url(/shared/images/linkOut.gif);
+	content: "\a0" url(/shared/images/linkOut.gif);
 }
 a.external:link:after {
 	text-decoration: none !important;
-	content: "\a0"url(/shared/images/linkOut.gif);
+	content: "\a0" url(/shared/images/linkOut.gif);
 }
 a.external:hover:after {
 	text-decoration: none !important;
-	content: "\a0"url(/shared/images/linkOutHover.gif);
+	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
 a.external:visited:after {
 	text-decoration: none !important;
-	content: "\a0"url(/shared/images/linkOutVisited.gif);
+	content: "\a0" url(/shared/images/linkOutVisited.gif);
 }
 a.external:hover:visited:after {
 	text-decoration: none !important;
-	content: "\a0"url(/shared/images/linkOutHover.gif);
+	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
 .imgsize:nth-child(3n+1) {
 	width: 31.5%;
@@ -179,6 +179,7 @@ p:focus {
 div:focus, div > span:focus {
 	box-shadow: 0 0 0 0;
 }
+div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .info {
 	position: absolute;
 	left: -9000px;
@@ -260,12 +261,11 @@ BELOW: Small Form button (bootstrap override)
 	-ms-user-select: none;
 	user-select: none;
 	background-color: transparent;
-	border: 1px solid #bac5c6;
 	border: 1px solid #aaa;
-	padding: .2rem .5rem .3rem .5rem;
-	font-size: .875rem;
-	line-height: 1;
-	border-radius: .2rem;
+	padding: .22rem .5rem .26rem .5rem;
+	font-size: .85rem;
+    line-height: 1rem;
+    border-radius: .2rem;
 }
 .btn-outline-primary {
 	background-color: white;
@@ -472,7 +472,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	font-weight: bold;
 	background-color: #fff;
 	color: black;
-	border: 1px solid #ccc;
 	border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1rem;
@@ -484,10 +483,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	background-color: transparent;
 	font-size: .90rem;
 }*/
-.no-card {
-	border: none;
-	border-radius: 0;
-}
 .card-columns .card {
 	margin-bottom: 0;
 }
@@ -504,9 +499,17 @@ BELOW: SPECIMEN DETAIL STYLES
 li.pid {
 	padding-left: 0;
 }
+.card-header {
+	padding: .25rem .75rem;
+}
+/*.no-card {
+	border: none;
+
+}*/
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
+	border-radius: 0;
 }
 .list-group-item {
 	padding: 0.25rem .5rem 0 .5rem;
