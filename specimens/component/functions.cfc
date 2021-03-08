@@ -1,8 +1,10 @@
 <cfcomponent>
+<cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
 
 <cffunction name="getExternalStatus" access="remote">
 	<cfargument name="uri" type="string" required="yes">
+
 	<cfhttp url="#uri#" method="head"></cfhttp>
 	<cfreturn left(cfhttp.statuscode,3)>
 </cffunction>
@@ -55,7 +57,7 @@
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
 		</cfif>
-	 <cfcatch>
+	<cfcatch>
 		<cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
