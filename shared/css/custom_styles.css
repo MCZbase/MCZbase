@@ -64,6 +64,12 @@ a.external:hover:visited:after {
 	width: 31.5%;
 	margin: 0 2%;
 }
+table {
+	font-size: 0.875rem;
+}
+table td .small {
+	font-size: 90%
+}
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
 /*********************************************/
@@ -170,6 +176,9 @@ p {
 p:focus {
 	box-shadow: 0 0 0 0;
 }
+div:focus, div > span:focus {
+	box-shadow: 0 0 0 0;
+}
 div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .info {
 	position: absolute;
@@ -252,11 +261,9 @@ BELOW: Small Form button (bootstrap override)
 	-ms-user-select: none;
 	user-select: none;
 	background-color: transparent;
-	border: 1px solid #bac5c6;
 	border: 1px solid #aaa;
-    padding: .18rem .5rem;
-    font-size: .875rem;
-	font-size: .8rem;
+	padding: .22rem .5rem .26rem .5rem;
+	font-size: .85rem;
     line-height: 1rem;
     border-radius: .2rem;
 }
@@ -1333,7 +1340,7 @@ select.data-entry-select {
 	display: block;
 	width: 100%;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-	padding: .05rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
