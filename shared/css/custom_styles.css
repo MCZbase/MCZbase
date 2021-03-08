@@ -1652,7 +1652,7 @@ input#readMore_check_id {
 .tab-card-header {
 	background-color: #3E6F7D;
 	padding-top: .5rem;
-	border-radius: 4px 4px 0 0;
+	border-radius: 6px 6px 0 0;
 }
 .tab-headers {
 	padding: 0 1rem;
