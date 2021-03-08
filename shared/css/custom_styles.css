@@ -511,7 +511,7 @@ li.pid {
 	border-radius: 0;
 }
 .list-group-item {
-	padding: 0.25rem .5rem;
+	padding: 0.25rem .5rem 0 .5rem;
 }
 li.pid {
 	color: #666;
