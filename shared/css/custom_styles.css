@@ -1410,7 +1410,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-height {    
-	height: calc(1.15rem + .5rem + 2px)!important;
+	height: calc(1.15rem + .5rem + 2px) !important;
 }
 textarea {
 	padding-left: .5rem;
