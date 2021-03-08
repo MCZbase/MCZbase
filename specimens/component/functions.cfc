@@ -41,7 +41,6 @@
 	<cfreturn result>
 </cffunction>
 
-<!------EXISTING----------------------------------------------------------------------------------------------------------->
 <cffunction name="getIdentifications" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
@@ -177,7 +176,6 @@
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
-<!------EXISTING----------------------------------------------------------------------------------------------------------->
 <cffunction name="loadLocality" returntype="query" access="remote">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cftry>
