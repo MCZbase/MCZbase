@@ -29,7 +29,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	font-weight: 500;
 }
 a {
-	cursor: pointer
+	cursor: pointer;
 }
 /** Styling of external links out, shared with production **/
 .external:after {
@@ -270,11 +270,6 @@ BELOW: Small Form button (bootstrap override)
 .btn-outline-primary {
 	background-color: white;
 }
-.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled):hover,.show>.btn-outline-primary.dropdown-toggle {
-    color: #343a40;
-    background-color: rgba(0, 123, 255, .25);
-    border-color: hsl(0, 2%, 47%);
-}
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
@@ -448,7 +443,6 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
 	border: 1px solid #aaa;
-
 }
 .secondaryType {
 	background-color: white;
@@ -478,22 +472,18 @@ BELOW: SPECIMEN DETAIL STYLES
 	font-weight: bold;
 	background-color: #fff;
 	color: black;
-	border: 1px solid #ccc;
-		border: 1px solid #aaa;
+	border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1rem;
 	width: auto;
 	position: absolute;
 	margin-left: -500px;
 }
-.card {
+/*.card {
 	background-color: transparent;
 	font-size: .90rem;
-}
-.no-card {
-	border: none;
-	border-radius: 0;
-}
+}*/
+
 .card-columns .card {
 	margin-bottom: 0;
 }
@@ -507,15 +497,20 @@ BELOW: SPECIMEN DETAIL STYLES
 	padding-left: .5rem;
 	list-style: none;
 }
-li.pid { padding-left:0;}
+li.pid { 
+	padding-left:0;
+}
 .card-header {
 	padding: .25rem .75rem;
 }
+/*.no-card {
+	border: none;
+}*/
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;
+	border-radius: 0;
 }
-
 .list-group-item {
 	padding: 0.25rem .5rem;
 }
@@ -762,6 +757,9 @@ a#showLeftPush.hiddenclass {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	width: 100%;
 }
+#regForm select {
+	font-size: .875rem;
+}
 /* Mark input boxes that gets an error on validation: */
 #regForm input.invalid, #regForm select.invalid {
 	background-color: #ffdddd;
@@ -1006,72 +1004,27 @@ table.inputTable tr {
 .tab-card-header {
 	background-color: #3E6F7D;
 	padding-top: 11px;
-	border-radius: 4px 4px 0 0;
+	border-radius: 6px 6px 0 0;
 }
 .card-title:first-child {
 	padding-left: .5em;
+}
+.list-even {
+	background-color: #f8f9fa;
+	padding: .5rem 0;
+}
+.list-odd {
+	background-color: #ffffff;
+	padding: .5rem 0;
 }
 .tab-card-header > .nav-tabs {
 	border: none;
 	margin: 0;
 	background-color: #3E6F7D;
 }
-.tab-card-header > .nav-tabs > li {
-	margin-right: 2px;
-	background-color: #3E6F7D;
-}
-.tab-card-header > .nav-tabs > li > a {
-	border: 0;
-	margin-right: 0;
-	color: #3e6f7d!important;
+.bg-blue-gray {
 	background-color: #deebec;
-	font-size: .95rem;
-	font-weight: 555;
-	outline: 0;
-	border-bottom: 1px solid #3e657D;
 }
-.list-even {
-	background-color: #f8f9fa; 
-	padding: .5rem 0;
-}
-.list-odd {
-	background-color: #ffffff; 
-	padding: .5rem 0;
-}
-.header > .nav-tabs > li > a.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	background-color: #f5f5f5;
-	border-bottom: 2px solid #f5f5f5;
-	outline:0;
-	margin-bottom: -1px;
-}
-
-.tab-card-header > .nav-tabs > li > button:hover {
-	color: #3E657D;
-	outline:0;
-}
-.tab-card-header > .nav-tabs > li > button:focus {
-	color: #3E657D;
-	background-color: #f5f5f5;
-	outline: 0;
-	box-shadow:none;
-}
-.tab-card-header > .nav-tabs > li > button { 
-	border-top: 2px solid #deebec;
-}
-.tab-card-header > .nav-tabs > li > button.active:focus,
-.tab-card-header > .nav-tabs > li > button.active {
-    border-top: 3px solid #ffffff;
-}
-.tab-card-header > .nav-tabs > li > button:focus, .tab-card-header > .nav-tabs > li > button:hover {
-    border-top: 3px solid #007bff;
-}
- .tab-content {
-	padding-bottom: 0;
-	border: 4px solid #3e657d;
-	 border-top: none;
-	border-radius: 0 0 4px 4px;
-}
-.bg-blue-gray {background-color: #deebec;}
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f8f9fa;
@@ -1093,6 +1046,7 @@ table.inputTable tr {
 .search-box-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
+	margin-top:-1px;
 }
 ::-ms-clear {
 	display: none;
@@ -1246,7 +1200,6 @@ table#pairs, th, td {
 }
 /* Style the arrow inside the select element: */
 /*.custom-select:after, */
-
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1258,6 +1211,14 @@ table#pairs, th, td {
 	width: 100%;
 	border: 1px solid #ccc;
     height: calc(1.15em + .5rem + 2px);
+}
+#collapseParts .table td, #collapseParts.table th {
+	padding: .35rem 1rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+}
+#collapseParts .table th {
+	font-weight: 500;
 }
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
@@ -1457,7 +1418,6 @@ textarea {
 	padding-right: .5rem;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-
 .data-entry-textarea { /* Caution: used on autogrow textareas, if changed check that autogrow behavior doesn't break */
 	width: 100%;
 	height: calc(.875rem + .8rem + 1px);
@@ -1497,6 +1457,12 @@ textarea {
 .border-fill { /* This is for each square on the data entry full form */
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
+}
+tr.line-top {
+	border-top: 2px solid #ccc;
+}
+tr.line-top:first-child {
+	border-top: 2px solid transparent;
 }
 .loginButtons {
 	padding: .2rem .5rem;
@@ -1601,13 +1567,15 @@ textarea {
 	font-size: .7em!important;
 }
 .card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button.collapsed:before {
-	font-family: "Font Awesome 5 Free"; font-weight: 900;
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
     float:left !important;
     content:"\f067";
 	cursor: pointer;
 }
 .card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
-    font-family: "Font Awesome 5 Free"; font-weight: 900;
+    font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
     content:"\f068";
     padding-right: 5px;
 	float:left!important;
@@ -1622,9 +1590,12 @@ textarea {
 .nav-link.dropdown-toggle:hover:after {
 	transform:rotate(-90deg);
 }
-.card-body li.list-group-item span:last-child {display:none;}
-input#readMore_check_id {display:none;}
-
+.card-body li.list-group-item span:last-child {
+	display:none;
+}
+input#readMore_check_id {
+	display:none;
+}
 .jqx-grid-load { 
     background-image: url("../../images/spinner_712_sm.gif");
     background-position: 50% 50%;
@@ -1643,7 +1614,12 @@ input#readMore_check_id {display:none;}
 	opacity: 0.99;
 	display:none;
 }
-
+.MediaAccordionHide {
+	display: block;
+}
+.MediaAccordionShow {
+	display: none;
+}
 /************tabs -- redone for accessibility  ***************/
 .tabpanel {
 	margin: 20px;
@@ -1703,8 +1679,6 @@ input#readMore_check_id {display:none;}
 	border-top: 3px solid white;
 	border-bottom: 1px solid #f5f5f5;
 	cursor: pointer;
-	border-right: 1px solid white;
-    border-left: 1px solid white;
 	box-shadow: none;
 	border-right: 1px solid #96ECED;
 	border-left: 1px solid #96EcED;
@@ -1730,6 +1704,10 @@ button[tabindex="-1"]:focus {
 }
 .card-header {
 	padding: .9rem 0rem 0rem 0rem;
+	padding: .5rem .25rem 0rem .25rem;
+}
+.accordion .card-header {
+	padding: .25rem .5rem;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
@@ -1738,15 +1716,20 @@ button[tabindex="-1"]:focus {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
+div[aria-hidden='true'] {
+	display: none;
+}
+div[aria-hidden='false'] {
+	display: block;
+}
 .hidden {
 	display: none;
 }
-.show {display:block;}
+.show {
+	display:block;
+}
 
 /************end tabs -- redone for accessibility  ***************/
-
-
-
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
