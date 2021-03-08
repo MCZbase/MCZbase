@@ -53,13 +53,13 @@
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No Identifications found.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
 		</cfif>
 	 <cfcatch>
 		<cfset theResult=queryNew("status, message")>
 		<cfset t = queryaddrow(theResult,1)>
 		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
 	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
