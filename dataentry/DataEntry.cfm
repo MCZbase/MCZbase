@@ -30,7 +30,7 @@ limitations under the License.
 	top:142px;
 }
 #mydiv6 {
-	top: #241px;
+	top: 241px;
 }
 #mydiv7 {
 	top:244px;
@@ -53,13 +53,13 @@ limitations under the License.
 #mydiv13 {
 	top:771px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13,#mydiv6 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
 	left: 25%;
 }
-#mydiv2,#mydiv6, #mydiv8,#mydiv11, #mydiv10 {
+#mydiv2, #mydiv8,#mydiv11, #mydiv10, #mydiv9 {
 	left: 50%;
 }
 #mydiv3,#mydiv12{
