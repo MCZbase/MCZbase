@@ -1,7 +1,7 @@
 <!---
 SpecimenDetail.cfm
 
-Copyright 2019-2010 President and Fellows of Harvard College
+Copyright 2019-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -168,7 +168,7 @@ limitations under the License.
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 					<cfif toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
-					<cfelse toptypestatuskind eq 'Secondary' >
+					<cfelseif toptypestatuskind eq 'Secondary' >
 						<cfset divclass="no-card">
 					 </cfif>
 				<cfelse>
