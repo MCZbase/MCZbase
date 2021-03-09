@@ -571,7 +571,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
 								<div class="col-12">
-									<p class="text-center"><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
+									<p class="text-center"><small>The use of the Collecting Event ID in Collecting Event eliminates the need to complete this step.</small></p>
 								</div>
 							</div>
 							<div class="row">
@@ -804,7 +804,7 @@ limitations under the License.
 							<div id="customBiolRelations">
 								<div class="row">
 									<label for="relations" class="sr-only">Relationship</label>
-									<div class="col-xl-5 px-xl-0">
+									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Same lot as</option>
@@ -813,7 +813,7 @@ limitations under the License.
 											<option value="4">In Nest</option>
 										</select>
 									</div>
-									<div class="col-xl-5">
+									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
 								</div>
@@ -827,8 +827,8 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
 								<div class="row">
-									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-									<div class="col-xl-4 px-xl-0 pr-0">
+									<label for="relations" class="sr-only">Relationship</label>
+									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Re-Cataloged as</option>
@@ -837,17 +837,15 @@ limitations under the License.
 											<option value="4">Duplicate Recataloged as</option>
 										</select>
 									</div>
-									<div class="col-xl-5 pl-0">
+									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
-					</div>		
-				</div>
-				<div class="row mx-0">
-					<div class="col-12 col-md-12 pb-1 px-4" id="mydiv13">
+					</div>	
+					<div class="col-12 col-md-6 pb-1 px-4" id="mydiv13">
 						<div class="border-fill px-3 py-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
