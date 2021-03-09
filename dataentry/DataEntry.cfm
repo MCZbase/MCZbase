@@ -571,7 +571,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
 								<div class="col-12">
-									<p><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
+									<p class="text-center"><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
 								</div>
 							</div>
 							<div class="row">
