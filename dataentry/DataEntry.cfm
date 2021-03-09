@@ -317,7 +317,7 @@ limitations under the License.
 	</div>
 	
 	<div class="container-fluid pt-1"  id="swapper-first" style="height: 1300px;">
-		<div class="row mx-0" style="background-color:  ##fdfdfd">
+		<div class="row mx-0 bg-blue-gray">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
