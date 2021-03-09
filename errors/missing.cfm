@@ -42,7 +42,6 @@
 	        <cfif redesignPos AND NOT Application.serverName IS 'mczbase.mcz.harvard.edu'>
 	            <cftry>
 				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
-                    <!--- Warning: Redesign pages need to be brought into the expected filenaming convention --->
 				    <cfinclude template="/specimens/SpecimenDetail.cfm">
 	                <cfcatch>
 					    <cfinclude template="/errors/404.cfm">
@@ -57,7 +56,8 @@
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
-					<cfinclude template="/specimens/SpecimenDetail.cfm">
+					<!---- WARNING: Production URI, do not change to redesign yet, that is the block above --->
+					<cfinclude template="/SpecimenDetail.cfm">
 					<cfcatch>
 						<cfinclude template="/errors/404.cfm">
 					</cfcatch>
