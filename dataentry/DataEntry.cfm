@@ -72,7 +72,7 @@ limitations under the License.
 <cfoutput>
 
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-		<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
+	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -132,7 +132,7 @@ limitations under the License.
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0 validate">
+								<select class="form-control border mt-0 validate">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -144,7 +144,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-0">
 							<label for="collector2" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0">
+								<select class="form-control border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -156,7 +156,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector3" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0" required>
+								<select class="form-control border mt-0" required>
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -168,7 +168,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector4" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0" required >
+								<select class="form-control border mt-0" required >
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -180,7 +180,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector5" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select  border mt-0">
+								<select class="form-control  border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
