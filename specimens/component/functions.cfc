@@ -67,7 +67,7 @@
 </cffunction>
 
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="identification_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getIdentificationsThread">
 		<cfoutput>
 			Not implemented yet.
