@@ -325,15 +325,15 @@ limitations under the License.
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
 								<div class="row">
-								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
-								<div class="col-12 col-lg-9">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
 									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
 										<option value="1">Herpetology</option>
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> 
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
 								</div>
 							</div>
 						</div>
@@ -342,10 +342,10 @@ limitations under the License.
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
 							<div class="row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
-								<div class="col-12 col-xl-9">
+								<label for="cat_num" class="sr-only">Catalog Number</label>
+								<div class="col-12">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
+									<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -354,10 +354,10 @@ limitations under the License.
 							<h2 class="data-entry-title">Accession Number</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div class="form-row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
-								<div class="col-xl-8 pl-0">
+								<label for="cat_num" class="sr-only">Accession</label>
+								<div class="col-12">
 									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
-									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
+									<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -367,7 +367,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
 								<div class="row mb-3">
-									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center pr-0" style="margin-top: -5px;">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
@@ -571,7 +571,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
 								<div class="col-12">
-									<p><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
+									<p class="text-center"><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
 								</div>
 							</div>
 							<div class="row">
@@ -713,13 +713,11 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-sm-9">
+									<div class="col-sm-4">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
-								</div>
-								<div class="row">
-									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-sm-9">
+									<label for="date" class="sr-only">Date</label>
+									<div class="col-sm-5">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
@@ -805,8 +803,8 @@ limitations under the License.
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
 								<div class="row">
-									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-									<div class="col-xl-4 px-xl-0">
+									<label for="relations" class="sr-only">Relationship</label>
+									<div class="col-xl-5 px-xl-0">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Same lot as</option>
