@@ -71,7 +71,7 @@ limitations under the License.
 <cfoutput>
 
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-		<div class="container pt-0 mt-0" id="swapper-other" style="display:none;">
+		<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -395,7 +395,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-xl-6 px-1">
-										<input type="text" class="data-entry-input" name="other_id" placeholder="&nbsp; Value">
+										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
 								</div>
 							</div>
@@ -408,8 +408,8 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customOtherID">
 								<div class="row">
-									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label>
-									<div class="col-xl-4 px-xl-0 pr-0">
+									<label for="other_id" class="sr-only">Other ID</label>
+									<div class="col-xl-5 pr-1">
 										<select class="data-entry-select" required>
 											<option value="">Other ID Type</option>
 											<option value="1">Field Number</option>
@@ -417,7 +417,7 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
-									<div class="col-xl-5 pl-0">
+									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
 								</div>
@@ -983,7 +983,7 @@ function dragElement(elmnt) {
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="row mt-1"><label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Other ID</label><div class="col-xl-4 px-xl-0"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-xl-4"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-right data-entry-button remOtherID"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="row mt-1"><label for="other_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-right data-entry-button remOtherID"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){
 			$(this).parent().remove();});
