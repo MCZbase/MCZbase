@@ -569,15 +569,20 @@ limitations under the License.
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
 						<div id="identificationsDialog"></div>
+						<script>
+							function loadIdentifications() { 
+								loadIdentifications(#collection_object_id#,'identificationsCardBody');
+							}
+						</script>
 						<div class="card-header" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
-							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#')">Edit</button>
+							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',loadIdentifications)">Edit</button>
 						</div>
-						<form id="identificationForm">
-							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
-							<div class="card-body mb-2 float-left">
+						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+							<div class="card-body mb-2 float-left" id="identificationsCardBody">
+								<!--- TODO: move this block off to an ajax method --->
 							<cfloop query="identification">
 								<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -711,9 +716,7 @@ limitations under the License.
 								</ul>
 							</cfloop>
 						</div>
-							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
-						</form>	
 					</div>
 				</div>
 
