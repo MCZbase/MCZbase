@@ -340,12 +340,12 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
-							<h2 class="sr-only">Catalog Number</h2>
+							<h2 class="data-entry-title">Catalog Number</h2>
 							<div class="row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
+								<label for="cat_num" class="sr-only">Catalog Number</label>
 								<div class="col-12">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
+									<small id="catNumHelp" class="form-text text-center text-muted">Must be unique for the collection.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -357,7 +357,7 @@ limitations under the License.
 								<label for="cat_num" class="sr-only">Accession</label>
 								<div class="col-12">
 									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
-									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
+									<small id="accnHelp" class="form-text text-center text-muted">Should already exist in database.</small> </div>
 							</div>
 						</div>
 					</div>
@@ -367,7 +367,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
 								<div class="row mb-3">
-									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Mask Record</label>
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 px-1 text-center">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
