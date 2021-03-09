@@ -150,7 +150,20 @@ function checkFormValidity(form) {
  *  history.
  */
 function loadIdentifications(collection_object_id,targetDivId) { 
-   alert("not implemented yet");
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getIdentificationsHtml",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading identifications");
+		},
+		dataType: "html"
+	});
 }
 
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
@@ -167,7 +180,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationsHtml",
+			method : "getEditIdentificationsHtml",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
