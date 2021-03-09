@@ -388,13 +388,13 @@ limitations under the License.
 							<div id="customAgent">
 								<div class="row">
 									<label for="other_id" class="sr-only">Agent</label>
-									<div class="col-12 col-xl-4">
+									<div class="col-12 col-xl-6">
 										<select class="data-entry-select">
 											<option value="">Collector</option>
 											<option value="1">Preparator</option>
 										</select>
 									</div>
-									<div class="col-12 col-xl-5 pl-xl-0">
+									<div class="col-12 col-xl-6 pl-xl-0">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="&nbsp; Value">
 									</div>
 								</div>
