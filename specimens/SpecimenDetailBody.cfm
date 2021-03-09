@@ -570,7 +570,7 @@ limitations under the License.
 					<div class="card mb-2 bg-light">
 						<div id="identificationsDialog"></div>
 						<script>
-							function loadIdentifications() { 
+							function reloadIdentifications() { 
 								loadIdentifications(#collection_object_id#,'identificationsCardBody');
 							}
 						</script>
