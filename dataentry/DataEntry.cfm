@@ -53,13 +53,13 @@ limitations under the License.
 #mydiv13 {
 	top:771px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv13,#mydiv6, #mydiv8 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
 	left: 25%;
 }
-#mydiv2, #mydiv11, #mydiv10, #mydiv9 {
+#mydiv2, #mydiv11, #mydiv10, #mydiv13,#mydiv9 {
 	left: 50%;
 }
 #mydiv3,#mydiv12{
@@ -468,8 +468,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
-			
-	
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
 						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
@@ -844,7 +842,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
-						<div class="border-fill px-3 py-1" id="mydivheader13">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
