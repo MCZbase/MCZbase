@@ -36,7 +36,7 @@ limitations under the License.
 	top:414px;
 }
 #mydiv8 {
-	top:780px;
+	top:782px;
 }
 
 #mydiv10 {
