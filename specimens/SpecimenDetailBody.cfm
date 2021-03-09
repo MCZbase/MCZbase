@@ -366,6 +366,7 @@ limitations under the License.
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
 	<cfoutput query="one">
+		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
@@ -572,7 +573,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Edit</button>
+							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#')">Edit</button>
 						</div>
 						<form id="identificationForm">
 							<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">

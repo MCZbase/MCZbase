@@ -141,7 +141,9 @@ function checkFormValidity(form) {
 	return result;
 };
 
-function openEditIdentificationsDialog(collection_object_id,dialogId) {
+function openEditIdentificationsDialog(collection_object_id,dialogId,guid) {
+	var title = "Edit Identifications for " + guid;
+	createSpecimenEditDialog(dialogId,title);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
@@ -149,7 +151,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId) {
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
-			$("#" + dialogId).html(result);
+			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"opening edit identifications dialog");
@@ -157,3 +159,57 @@ function openEditIdentificationsDialog(collection_object_id,dialogId) {
 		dataType: "html"
 	});
 };
+
+/** createSpecimenEditDialog turn a div on the specimen detail page
+ * into a dialog, with a close dialog button and where the 
+ * dialog content can be placed in a div within the dialog with
+ * the id dialogId + '_div'
+ * @param dialogId the id in the dom without a leading # selector
+ *  for the div that is to contain the dialog, used to construct
+ *  a div with an id dialogId + '_div' into which dialog content 
+ *  should be placed.
+ * @param title the title to display on the dialog.
+ */
+function createSpecimenEditDialog(dialogId,title) {
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	if (h>775) { h=775; } // cap height at 775
+	var w = $(window).width();
+	// full width at less than medium screens
+	if (w>414 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at 1200 pixel
+		w = 1200;
+	} 
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogid).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+}
