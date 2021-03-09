@@ -322,7 +322,6 @@ limitations under the License.
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-				
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
@@ -381,7 +380,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
@@ -470,8 +468,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
+			
+	
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
 						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
@@ -664,8 +662,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
@@ -799,8 +795,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-				</div>	
-		<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
@@ -848,8 +843,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
-				</div>
-	</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
 						<div class="border-fill px-3 py-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
@@ -913,10 +906,9 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</div>
-	</div>
-</div>
 <script>
 	dragElement(document.getElementById("mydiv"));
 	dragElement(document.getElementById("mydiv1"));
