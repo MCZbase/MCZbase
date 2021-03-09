@@ -5,49 +5,49 @@
 	</cfif>
 	<cfset gPos=listfindnocase(rdurl,"guid","/")>
 	<cfif gPos >
-        <cftry>
-            <cfset accept = GetHttpRequestData().Headers['accept'] >
-            <cfcatch>
-                <cfset accept = "">
-            </cfcatch>
-        </cftry>
-  
-        <!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
-        <!--- default to human readable web page --->
-        <cfset deliver = "text/html">
-        <cfset done = false>
-        <cfloop list='#accept#' delimiters=',' index='a'>
-           <cfif NOT done>
-              <cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-                 <cfset deliver = a>
-                 <cfset done = true>
-              <cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-                 <!--- use text/html for human readable delivery, actual is xhtml --->
-                 <cfset deliver = 'text/html'>
-                 <cfset done = true>
-              </cfif>
-          </cfif>
-        </cfloop>
+		<!---  Request for GUID --->
+		<cftry>
+			<cfset accept = GetHttpRequestData().Headers['accept'] >
+		<cfcatch>
+			<cfset accept = "">
+		</cfcatch>
+		</cftry>
 
-        <cfif deliver NEQ "text/html">
-            <cftry>
-			    <cfset guid = listgetat(rdurl,gPos+1,"/")>
-			    <cfinclude template="/rdf/Occurrence.cfm">
-                <cfcatch>
-				    <cfinclude template="/errors/404.cfm">
-                </cfcatch>
-            </cftry>
-        <cfelse> 
-		    <cfset redesignPos=listfindnocase(rdurl,"redesign","/")>
-	        <cfif redesignPos AND NOT Application.serverName IS 'mczbase.mcz.harvard.edu'>
-	            <cftry>
-				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
-				    <cfinclude template="/specimens/SpecimenDetail.cfm">
-	                <cfcatch>
-					    <cfinclude template="/errors/404.cfm">
-	                </cfcatch>
-	            </cftry>
-	        <cfelse>
+		<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
+		<!--- default to human readable web page --->
+		<cfset deliver = "text/html">
+		<cfset done = false>
+		<cfloop list='#accept#' delimiters=',' index='a'>
+			<cfif NOT done>
+				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+					<cfset deliver = a>
+					<cfset done = true>
+				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
+					<!--- use text/html for human readable delivery, actual is xhtml --->
+					<cfset deliver = 'text/html'>
+					<cfset done = true>
+				</cfif>
+			</cfif>
+		</cfloop>
+
+		<cfif deliver NEQ "text/html">
+			<cftry>
+				<cfset guid = listgetat(rdurl,gPos+1,"/")>
+				<cfinclude template="/rdf/Occurrence.cfm">
+			<cfcatch>
+				<cfinclude template="/errors/404.cfm">
+			</cfcatch>
+			</cftry>
+		<cfelse> 
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
+				<cftry>
+					<cfset guid = listgetat(rdurl,gPos+1,"/")>
+					<cfinclude template="/specimens/SpecimenDetail.cfm">
+				<cfcatch>
+					<cfinclude template="/errors/404.cfm">
+				</cfcatch>
+				</cftry>
+			<cfelse>
 				<cftry>
 					<cfset guid = listgetat(rdurl,gPos+1,"/")>
 					<cfif listfindnocase(guid,"fish",":") or listfindnocase(guid,"bird",":")>
@@ -58,13 +58,14 @@
 					</cfif>
 					<!---- WARNING: Production URI, do not change to redesign yet, that is the block above --->
 					<cfinclude template="/SpecimenDetail.cfm">
-					<cfcatch>
+				<cfcatch>
 						<cfinclude template="/errors/404.cfm">
-					</cfcatch>
+				</cfcatch>
 				</cftry>
-	        </cfif>
-        </cfif>
+			</cfif>
+		</cfif>
 	<cfelseif listfindnocase(rdurl,'specimen',"/")>
+		<!--- Request by (old) specimen API --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"specimen","/")>
 			<cfset	i = listgetat(rdurl,gPos+1,"/")>
@@ -106,6 +107,7 @@
 		</cftry>
 		</cfoutput>
 	<cfelseif listfindnocase(rdurl,'name',"/")>
+		<!--- Request by name API (for taxon record) --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"name","/")>
 			<cfset scientific_name = listgetat(rdurl,gPos+1,"/")>
@@ -139,6 +141,7 @@
 			</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'media',"/")>
+		<!--- Request by media API (for media record) --->
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"media","/")>
 			<cfif listlen(rdurl,"/") gt 1>
