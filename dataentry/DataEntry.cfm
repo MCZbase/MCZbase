@@ -91,7 +91,7 @@ limitations under the License.
 						<div class="form-group mb-0 row">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
-								<select class="data-entry-select border" oninput="this.className = ''" mt-0 required>
+								<select class="form-control border" oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
 									<option value="2">Collector Number</option>
@@ -114,7 +114,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
-								<select class="data-entry-select border mt-0" required>
+								<select class="form-control border mt-0" required>
 									<option value="">Relationship Type</option>
 									<option value="1">Re-Cataloged as</option>
 									<option value="2">Bad Duplicate of</option>
