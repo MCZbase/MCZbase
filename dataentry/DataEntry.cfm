@@ -33,10 +33,10 @@ limitations under the License.
 	top: 241px;
 }
 #mydiv7 {
-	top:244px;
+	top:414px;
 }
 #mydiv8 {
-	top:319px;
+	top:780px;
 }
 #mydiv9  {
 	top:143px;
