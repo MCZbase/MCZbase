@@ -48,12 +48,12 @@ limitations under the License.
 	top:604px;
 }
 #mydiv12 {
-	top: 609px;
+	top: 604px;
 }
 #mydiv13 {
 	top:771px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13,#mydiv6 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv13,#mydiv6 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
