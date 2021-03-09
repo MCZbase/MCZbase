@@ -124,7 +124,7 @@ limitations under the License.
 		</cfif>--->
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
-		left join collection on flattable.collection_id = collection.collection_id AND
+		left join collection on flattable.collection_id = collection.collection_id
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY
