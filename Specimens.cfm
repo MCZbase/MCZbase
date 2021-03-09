@@ -2,7 +2,7 @@
 <!--
 Specimens.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -674,7 +674,7 @@ $(document).ready(function() {
 					{text: 'Link', datafield: 'collection_object_id', width: 100,
 						createwidget: function  (row, column, value, htmlElement) {
 							var datarecord = value;
-							var linkurl = '/specimens/SpecimenDetail.cfm?collection_object_id=' + value;
+							var linkurl = '/specimens/Specimen.cfm?collection_object_id=' + value;
 							var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a aria-label="specimen detail" href="' + linkurl + '">';
 							var button = $(link + "<span>View Record</span></a></div>");
 						$(htmlElement).append(button);

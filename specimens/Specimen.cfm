@@ -1,5 +1,5 @@
 <!---
-SpecimenDetail.cfm
+Specimen.cfm
 
 Copyright 2019-2021 President and Fellows of Harvard College
 
@@ -42,8 +42,8 @@ limitations under the License.
 	<cfset pageTitle = "MCZbase Specimen not found: #guid#">
 	<!---  Lookup the GUID, handling several possible variations --->
 
-	<!---  Redirect from explicit SpecimenDetail page to  to /guid/ --->
-	<cfif cgi.script_name contains "/specimens/SpecimenDetail.cfm">
+	<!---  Redirect from explicit Specimen Detail page to  to /guid/ --->
+	<cfif cgi.script_name contains "/specimens/Specimen.cfm">
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#guid#">
 		<cfabort>
@@ -208,7 +208,7 @@ limitations under the License.
 	<!--- TODO: Cleanup indendation from here on ---> 
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
-        <form name="incPg" method="post" action="/specimens/SpecimenDetail.cfm">
+        <form name="incPg" method="post" action="/specimens/Specimen.cfm">
             <input type="hidden" name="collection_object_id" value="#collection_object_id#">
             <input type="hidden" name="suppressHeader" value="true">
             <input type="hidden" name="action" value="nothing">
@@ -250,7 +250,7 @@ limitations under the License.
 
 </cfoutput>
 
-<!--- (4) Bulk of the specimen details page is provided on SpecimenDetailBody.cfm --->
+<!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
 
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
 
