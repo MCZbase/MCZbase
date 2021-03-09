@@ -26,8 +26,11 @@ limitations under the License.
 #mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	top: 50px;
 }
-#mydiv4, #mydiv5, #mydiv6 {
+#mydiv4, #mydiv5 {
 	top:142px;
+}
+#mydiv6 {
+	top: #241px;
 }
 #mydiv7 {
 	top:244px;
@@ -36,19 +39,19 @@ limitations under the License.
 	top:319px;
 }
 #mydiv9  {
-	top:617px;
+	top:143px;
 }
 #mydiv10 {
-	top:644px;	
+	top:635px;	
 	}
 #mydiv11  {
-	top:909px;
+	top:604px;
 }
 #mydiv12 {
-	top: 877px;
+	top: 609px;
 }
 #mydiv13 {
-	top:1142px;
+	top:771px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
 	left: 0;
@@ -56,10 +59,10 @@ limitations under the License.
 #mydiv1,#mydiv5 {
 	left: 25%;
 }
-#mydiv2,#mydiv6, #mydiv8,#mydiv10,#mydiv12 {
+#mydiv2,#mydiv6, #mydiv8,#mydiv11, #mydiv10 {
 	left: 50%;
 }
-#mydiv3 {
+#mydiv3,#mydiv12{
 	left: 75%;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13 {
