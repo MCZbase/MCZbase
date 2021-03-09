@@ -387,7 +387,7 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
 							<div id="customAgent">
 								<div class="row">
-									<label for="other_id" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Agent</label>
+									<label for="other_id" class="sr-only">Agent</label>
 									<div class="col-12 col-xl-4">
 										<select class="data-entry-select">
 											<option value="">Collector</option>
