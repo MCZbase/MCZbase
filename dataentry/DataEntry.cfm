@@ -325,8 +325,8 @@ limitations under the License.
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
 							<h2 class="data-entry-title">Collection</h2>
 								<div class="row">
-								<label for="collection" class="data-entry-label col-12 col-xl-3 text-center text-md-right px-0">Collection</label>
-								<div class="col-12 col-lg-9">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
 									<select class="data-entry-select px-0" required>
 										<option value="">Select Collection</option>
 										<option value="1">Herpetology</option>
@@ -340,10 +340,10 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
-							<h2 class="data-entry-title">Catalog Number</h2>
+							<h2 class="sr-only">Catalog Number</h2>
 							<div class="row">
 								<label for="cat_num" class="data-entry-label col-12 col-xl-3 text-center text-xl-right px-0">Catalog Number</label>
-								<div class="col-12 col-xl-9">
+								<div class="col-12">
 									<input type="text" class="data-entry-input" id="cat_num" aria-describedby="catNumHelp" placeholder="Enter Catalog Number" name="cat_num">
 									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Must be unique for the collection.</small> </div>
 							</div>
@@ -354,8 +354,8 @@ limitations under the License.
 							<h2 class="data-entry-title">Accession Number</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div class="form-row">
-								<label for="cat_num" class="data-entry-label col-12 col-xl-4 text-center text-xl-right">Accession</label>
-								<div class="col-xl-8 pl-0">
+								<label for="cat_num" class="sr-only">Accession</label>
+								<div class="col-12">
 									<input type="text" class="data-entry-input" id="accn" aria-describedby="accnHelp" placeholder="Accession Number" name="accn">
 									<small id="accnHelp" class="form-text text-center text-xl-left text-muted">Should already exist in database.</small> </div>
 							</div>
