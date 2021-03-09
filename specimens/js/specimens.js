@@ -171,7 +171,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid) {
  * @param title the title to display on the dialog.
  */
 function createSpecimenEditDialog(dialogId,title) {
-	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
@@ -183,7 +183,7 @@ function createSpecimenEditDialog(dialogId,title) {
 		// cap width at 1200 pixel
 		w = 1200;
 	} 
-	var thedialog = $("#"+dialogid).html(content)
+	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -197,7 +197,7 @@ function createSpecimenEditDialog(dialogId,title) {
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogid).dialog('close');
+				$("#"+dialogId).dialog('close');
 			}
 		},
 		open: function (event, ui) {
@@ -207,8 +207,8 @@ function createSpecimenEditDialog(dialogId,title) {
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		},
 		close: function(event,ui) {
-			$("#"+dialogid+"_div").html("");
-			$("#"+dialogid).dialog('destroy');
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
 		}
 	});
 	thedialog.dialog('open');
