@@ -713,13 +713,11 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-sm-9">
+									<div class="col-sm-4">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
-								</div>
-								<div class="row">
-									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-sm-9">
+									<label for="date" class="sr-only">Date</label>
+									<div class="col-sm-5">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
@@ -805,8 +803,8 @@ limitations under the License.
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
 								<div class="row">
-									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-									<div class="col-xl-4 px-xl-0">
+									<label for="relations" class="sr-only">Relationship</label>
+									<div class="col-xl-5 px-xl-0">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Same lot as</option>
