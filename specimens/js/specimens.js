@@ -145,7 +145,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationHtml",
+			method : "getIdentificationsHtml",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
