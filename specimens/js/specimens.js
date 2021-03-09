@@ -146,7 +146,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getIdentificationHtml",
-			identification_id: identification_id,
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + dialogId).html(result);
