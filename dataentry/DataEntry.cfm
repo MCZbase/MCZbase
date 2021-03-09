@@ -800,7 +800,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>	
-	<div class="col-12 col-md-6">
+	<div class="col-12 col-md-6 px-0">
 				<div class="row mx-0">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv11">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
@@ -852,7 +852,7 @@ limitations under the License.
 					</div>
 				</div>
 	</div>
-					<div class="col-12 col-md-6" id="mydiv13">
+					<div class="col-12 col-md-6 px-1" id="mydiv13">
 						<div class="border-fill px-3 py-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
