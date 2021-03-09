@@ -140,3 +140,20 @@ function checkFormValidity(form) {
 		}
 	return result;
 };
+
+function openEditIdentificationsDialog(collection_object_id,dialogId) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getIdentificationHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#" + dialogId).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit identifications dialog");
+		},
+		dataType: "html"
+	});
+};

@@ -66,6 +66,18 @@
 	<cfreturn theResult>
 </cffunction>
 
+<cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="identification_id" type="string" required="yes">
+	<cfthread name="getIdentificationsThread">
+		<cfoutput>
+			Not implemented yet.
+		</cfoutput>
+	</cfthread>
+
+	<cfthread action="join" name="getIdentificationsThread" />
+	<cfreturn getIdentificationThreads.output>
+</cffunction>
+
 <!----------------------------------------------------------------------------------------------------------------->
 <!--- function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
@@ -74,7 +86,6 @@
 <cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
 
-	<cfset r=1>
 	<cfthread name="getIdentificationThread">
 		<cftry>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
