@@ -333,7 +333,7 @@ limitations under the License.
 										<option value="2">Mammalogy</option>
 										<option value="3">Malacology</option>
 									</select>
-									<small id="catNumHelp" class="form-text text-center text-xl-left text-muted">Sets Data Entry template</small> 
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
 								</div>
 							</div>
 						</div>
@@ -367,7 +367,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 3</h3>--->
 							<div id="encumbrance">
 								<div class="row mb-3">
-									<label for="mask_record" class="data-entry-label col-12 col-xl-3 px-1 text-center">Mask Record</label>
+									<label for="mask_record" class="data-entry-label col-12 col-xl-3 text-center pr-0" style="margin-top: -5px;">Mask Record</label>
 									<div class="col-xl-9">
 										<div class="form-check form-check-inline">
 											<input class="form-check-input w-auto mt-1" value="mask" type="checkbox" id="gridCheck1">
