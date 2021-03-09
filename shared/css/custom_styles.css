@@ -1021,7 +1021,7 @@ table.inputTable tr {
 	background-color: #3E6F7D;
 }
 .bg-blue-gray {
-	background-color: #deebec;
+	background-color: #deebec!important;
 }
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
