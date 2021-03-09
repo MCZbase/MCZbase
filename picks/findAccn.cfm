@@ -39,9 +39,9 @@
 				accn.transaction_id=trans.transaction_id and
 				trans.collection_id=collection.collection_id and
 				<cfif len(collection_id) gt 0>
-					collection.collection_id=#collection_id# and
+					collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and
 				</cfif>
-				upper(accn_number) like '%#ucase(accn_number)#%'
+				upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(accn_number)#%">
 			ORDER BY
 				collection,
 				accn_number
