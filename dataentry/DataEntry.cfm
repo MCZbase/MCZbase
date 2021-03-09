@@ -26,40 +26,43 @@ limitations under the License.
 #mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	top: 50px;
 }
-#mydiv4, #mydiv5, #mydiv6 {
+#mydiv4, #mydiv5 {
 	top:142px;
 }
+#mydiv6 {
+	top: 241px;
+}
 #mydiv7 {
-	top:244px;
+	top:414px;
 }
 #mydiv8 {
-	top:319px;
+	top:780px;
 }
 #mydiv9  {
-	top:617px;
+	top:143px;
 }
 #mydiv10 {
-	top:644px;	
+	top:435px;	
 	}
 #mydiv11  {
-	top:909px;
+	top:604px;
 }
 #mydiv12 {
-	top: 877px;
+	top: 604px;
 }
 #mydiv13 {
-	top:1142px;
+	top:771px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv13,#mydiv6, #mydiv8 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
 	left: 25%;
 }
-#mydiv2,#mydiv6, #mydiv8,#mydiv10,#mydiv12 {
+#mydiv2, #mydiv11, #mydiv10, #mydiv9 {
 	left: 50%;
 }
-#mydiv3 {
+#mydiv3,#mydiv12{
 	left: 75%;
 }
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13 {
@@ -571,7 +574,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
 								<div class="col-12">
-									<p class="text-center"><small>The use of the Collecting Event ID in step 8 eliminates the need to complete this step.</small></p>
+									<p class="text-center"><small>The use of the Collecting Event ID in Collecting Event eliminates the need to complete this step.</small></p>
 								</div>
 							</div>
 							<div class="row">
@@ -797,6 +800,8 @@ limitations under the License.
 						</div>
 					</div>
 				</div>	
+	<div class="col-12 col-md-6">
+				<div class="row mx-0">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv11">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
@@ -804,7 +809,7 @@ limitations under the License.
 							<div id="customBiolRelations">
 								<div class="row">
 									<label for="relations" class="sr-only">Relationship</label>
-									<div class="col-xl-5 px-xl-0">
+									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Same lot as</option>
@@ -813,7 +818,7 @@ limitations under the License.
 											<option value="4">In Nest</option>
 										</select>
 									</div>
-									<div class="col-xl-5">
+									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
 								</div>
@@ -827,8 +832,8 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
 								<div class="row">
-									<label for="relations" class="data-entry-label col-12 col-xl-3 text-center text-xl-right">Relationship</label>
-									<div class="col-xl-4 px-xl-0 pr-0">
+									<label for="relations" class="sr-only">Relationship</label>
+									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
 											<option value="">Relationship Type</option>
 											<option value="1">Re-Cataloged as</option>
@@ -837,17 +842,17 @@ limitations under the License.
 											<option value="4">Duplicate Recataloged as</option>
 										</select>
 									</div>
-									<div class="col-xl-5 pl-0">
+									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
-					</div>		
+					</div>
 				</div>
-				<div class="row mx-0">
-					<div class="col-12 col-md-12 pb-1 px-4" id="mydiv13">
+	</div>
+					<div class="col-12 col-md-6" id="mydiv13">
 						<div class="border-fill px-3 py-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
