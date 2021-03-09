@@ -42,13 +42,13 @@ limitations under the License.
 	top:644px;	
 	}
 #mydiv11  {
-	top:934px;
+	top:909px;
 }
 #mydiv12 {
 	top: 877px;
 }
 #mydiv13 {
-	top:1164px;
+	top:1142px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv11,#mydiv13 {
 	left: 0;
@@ -717,7 +717,7 @@ limitations under the License.
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
 									<label for="date" class="sr-only">Date</label>
-									<div class="col-sm-5">
+									<div class="col-sm-4">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
