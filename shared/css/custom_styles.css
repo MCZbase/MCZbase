@@ -781,6 +781,7 @@ a#showLeftPush.hiddenclass {
 	display: inline-block;
 	opacity: 0.85;
 	color: #333;
+	padding: 3px;
 }
 #regForm .step.active {
 	opacity: 1;

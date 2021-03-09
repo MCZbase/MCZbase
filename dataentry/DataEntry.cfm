@@ -26,7 +26,7 @@ limitations under the License.
 #mydiv, #mydiv1, #mydiv2, #mydiv3 {
 	top: 50px;
 }
-#mydiv4, #mydiv5 {
+#mydiv4, #mydiv5,#mydiv9 {
 	top:142px;
 }
 #mydiv6 {
@@ -36,30 +36,28 @@ limitations under the License.
 	top:414px;
 }
 #mydiv8 {
-	top:780px;
+	top:782px;
 }
-#mydiv9  {
-	top:143px;
-}
+
 #mydiv10 {
 	top:435px;	
 	}
 #mydiv11  {
-	top:604px;
+	top:664px;
 }
 #mydiv12 {
-	top: 604px;
+	top: 664px;
 }
 #mydiv13 {
-	top:771px;
+	top:764px;
 }
-#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv13,#mydiv6, #mydiv8 {
+#mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
 }	
 #mydiv1,#mydiv5 {
 	left: 25%;
 }
-#mydiv2, #mydiv11, #mydiv10, #mydiv9 {
+#mydiv2, #mydiv11, #mydiv10, #mydiv13,#mydiv9 {
 	left: 50%;
 }
 #mydiv3,#mydiv12{
@@ -74,7 +72,7 @@ limitations under the License.
 <cfoutput>
 
 	<p class="font-italic font-weight-bold text-center mt-3 mb-0"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
-		<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
+	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
 				<form id="regForm" action="/DataEntry.cfm">
@@ -93,7 +91,7 @@ limitations under the License.
 						<div class="form-group mb-0 row">
 							<label for="other_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other ID</label>
 							<div class="col-sm-4 col-md-4">
-								<select class="data-entry-select border" oninput="this.className = ''" mt-0 required>
+								<select class="form-control border" oninput="this.className = ''" mt-0 required>
 									<option value="">Other ID Type</option>
 									<option value="1">Field Number</option>
 									<option value="2">Collector Number</option>
@@ -116,7 +114,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="relations" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Other Records</label>
 							<div class="col-sm-4 col-md-4 text-left">
-								<select class="data-entry-select border mt-0" required>
+								<select class="form-control border mt-0" required>
 									<option value="">Relationship Type</option>
 									<option value="1">Re-Cataloged as</option>
 									<option value="2">Bad Duplicate of</option>
@@ -134,7 +132,7 @@ limitations under the License.
 						<h3 class="fs-subtitle text-center">This is step 2</h3>
 						<div class="form-group row my-0">
 							<label for="collector1" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0 validate">
+								<select class="form-control border mt-0 validate">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -146,7 +144,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-0">
 							<label for="collector2" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0">
+								<select class="form-control border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -158,7 +156,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector3" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0" required>
+								<select class="form-control border mt-0" required>
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -170,7 +168,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector4" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select border mt-0" required >
+								<select class="form-control border mt-0" required >
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -182,7 +180,7 @@ limitations under the License.
 						</div>
 						<div class="form-group row my-1">
 							<label for="collector5" class="col-sm-3 col-form-label mt-0">
-								<select class="data-entry-select  border mt-0">
+								<select class="form-control  border mt-0">
 									<option value="">Role...</option>
 									<option value="1">Collector</option>
 									<option value="2">Preparator</option>
@@ -211,7 +209,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
-								<select class="data-entry-select border" required>
+								<select class="form-control border" required>
 									<option value="">Expert ID</option>
 									<option value="1">Field ID</option>
 									<option value="2">Non-Expert ID</option>
@@ -254,7 +252,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
 							</div>
 							<div class="col-sm-2">
-								<select class="data-entry-select border" required>
+								<select class="form-control border" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
@@ -273,7 +271,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
 							</div>
 							<div class="col-sm-2">
-								<select class="border data-entry-select" required>
+								<select class="border form-control" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
@@ -316,13 +314,12 @@ limitations under the License.
 		</div>
 	</div>
 	
-	<div class="container-fluid pt-1"  id="swapper-first" style="height: 1300px;">
-		<div class="row mx-0" style="background-color:  ##fdfdfd">
+	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1300px;">
+		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-3 mb-3">Enter a New Record</h1>
-				
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
@@ -381,7 +378,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
@@ -470,8 +466,6 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
 						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
@@ -664,8 +658,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
@@ -799,10 +791,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-				</div>	
-	<div class="col-12 col-md-6 px-0">
-				<div class="row mx-0">
-					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv11">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
@@ -826,7 +815,7 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv12">
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader12">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
@@ -850,10 +839,8 @@ limitations under the License.
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
-				</div>
-	</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
-						<div class="border-fill px-3 py-1" id="mydivheader13">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
@@ -915,10 +902,9 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</div>
-	</div>
-</div>
 <script>
 	dragElement(document.getElementById("mydiv"));
 	dragElement(document.getElementById("mydiv1"));
