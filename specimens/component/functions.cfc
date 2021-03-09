@@ -66,6 +66,11 @@
 	<cfreturn theResult>
 </cffunction>
 
+<!--- getIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+	editor dialog.
+ @return html for editing identifications for the specified cataloged item. 
+--->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getIdentificationsThread">
@@ -75,7 +80,7 @@
 	</cfthread>
 
 	<cfthread action="join" name="getIdentificationsThread" />
-	<cfreturn getIdentificationThreads.output>
+	<cfreturn getIdentificationsThread.output>
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
