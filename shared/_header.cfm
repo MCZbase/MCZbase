@@ -1,7 +1,7 @@
 <!---
 _header.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-
+<cfset headerPath = "shared"><!--- Identify which header has been included --->
 <!DOCTYPE html>
 <html lang="en">
 <head>

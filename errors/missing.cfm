@@ -40,13 +40,8 @@
 			</cftry>
 		<cfelse> 
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
-				<cftry>
-					<cfset guid = listgetat(rdurl,gPos+1,"/")>
-					<cfinclude template="/specimens/SpecimenDetail.cfm">
-				<cfcatch>
-					<cfinclude template="/errors/404.cfm">
-				</cfcatch>
-				</cftry>
+				<cfset guid = listgetat(rdurl,gPos+1,"/")>
+				<cfinclude template="/specimens/SpecimenDetail.cfm">
 			<cfelse>
 				<cftry>
 					<cfset guid = listgetat(rdurl,gPos+1,"/")>
