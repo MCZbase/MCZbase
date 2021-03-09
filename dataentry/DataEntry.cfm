@@ -209,7 +209,7 @@ limitations under the License.
 						<div class="form-group row">
 							<label for="nature_of_id" class="col-sm-3 col-form-label pt-0 text-center text-md-right">Nature of ID</label>
 							<div class="col-sm-4">
-								<select class="data-entry-select border" required>
+								<select class="form-control border" required>
 									<option value="">Expert ID</option>
 									<option value="1">Field ID</option>
 									<option value="2">Non-Expert ID</option>
@@ -252,7 +252,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxElev" placeholder="Max Elevation">
 							</div>
 							<div class="col-sm-2">
-								<select class="data-entry-select border" required>
+								<select class="form-control border" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
@@ -271,7 +271,7 @@ limitations under the License.
 								<input type="text" class="form-control" id="inputMaxDepth" placeholder="Max Depth">
 							</div>
 							<div class="col-sm-2">
-								<select class="border data-entry-select" required>
+								<select class="border form-control" required>
 									<option value="">Feet</option>
 									<option value="1">Fathoms</option>
 									<option value="2">Yards</option>
