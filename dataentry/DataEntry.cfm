@@ -24,7 +24,7 @@ limitations under the License.
 	z-index: 9;
 }
 #mydiv, #mydiv1, #mydiv2, #mydiv3 {
-	top: 50px;
+	top: 42px;
 }
 #mydiv4, #mydiv5,#mydiv9 {
 	top:142px;
