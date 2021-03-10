@@ -411,7 +411,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Other IDs</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customOtherID">
-								<div class="row">
+								<div class="form-row">
 									<label for="other_id" class="sr-only">Other ID</label>
 									<div class="col-xl-5 pr-1">
 										<select class="data-entry-select" required>
