@@ -367,23 +367,7 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
 				<div class="row">
-					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
-							<h2 class="data-entry-title">Collection</h2>
-								<div class="row">
-								<label for="collection" class="sr-only">Collection</label>
-								<div class="col-12">
-									<select class="data-entry-select px-0" required>
-										<option value="">Select Collection</option>
-										<option value="1">Herpetology</option>
-										<option value="2">Mammalogy</option>
-										<option value="3">Malacology</option>
-									</select>
-									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
-								</div>
-							</div>
-						</div>
-					</div>
+
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
