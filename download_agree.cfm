@@ -147,7 +147,10 @@ do not agree</font>.</a>
 	</cfquery>
 	
 	<cfquery name="isUser" datasource="cf_dbuser">
-		select * from cf_user_data where user_id=#user_id#
+		select * 
+		from cf_user_data 
+		where 
+			user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 	</cfquery>
 		<!---- already have a user_data entry --->
 		<cfif #isUser.recordcount# is 1>
