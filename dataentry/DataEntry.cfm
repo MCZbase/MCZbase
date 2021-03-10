@@ -322,33 +322,10 @@ limitations under the License.
 	<div style="margin-top: 100px;">	
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">collecton</a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
+
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
 </p>
-<div class="row">
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
-      <div class="card card-body">
-     					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
-							<h2 class="data-entry-title">Collection</h2>
-								<div class="row">
-								<label for="collection" class="sr-only">Collection</label>
-								<div class="col-12">
-									<select class="data-entry-select px-0" required>
-										<option value="">Select Collection</option>
-										<option value="1">Herpetology</option>
-										<option value="2">Mammalogy</option>
-										<option value="3">Malacology</option>
-									</select>
-									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
-								</div>
-							</div>
-						</div>
-					</div>
-      </div>
-    </div>
-  </div>
+
   <div class="col">
     <div class="collapse multi-collapse" id="multiCollapseExample2">
       <div class="card card-body">
@@ -367,7 +344,23 @@ limitations under the License.
 				<!-- One "tab" for each step in the form: -->
 				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
 				<div class="row">
-
+					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
+							<h2 class="data-entry-title">Collection</h2>
+								<div class="row">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv1">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader1">
 							<h2 class="data-entry-title">Catalog Number</h2>
@@ -428,7 +421,18 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> 
+								<div class="row">
+  <div class="col">
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+      <div class="card card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+      </div>
+    </div>
+  </div>
+					<!---			<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> --->
+							
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
@@ -926,7 +930,9 @@ limitations under the License.
 										</textarea>
 									</div>
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a></div>
+								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a>
+							  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
+							</div>
 							</div>
 							</div>
 					</div>
