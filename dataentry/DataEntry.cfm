@@ -66,7 +66,10 @@ limitations under the License.
 #mydivheader, #mydivheader1, #mydivheader2, #mydivheader3, #mydivheader4, #mydivheader5, #mydivheader6, #mydivheader7, #mydivheader8, #mydivheader9, #mydivheader10, #mydivheader11, #mydivheader12, #mydivheader13 {
 	cursor: move;
 	z-index: 10;
+	font-size: 
 }
+#regFormAll .data-entry-title{font-size: .9rem;}
+
 </style>
 
 <cfoutput>
