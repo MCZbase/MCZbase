@@ -386,7 +386,7 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader4">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader4">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
 							<div id="customAgent">
