@@ -68,7 +68,7 @@ limitations under the License.
 	z-index: 10;
 	font-size: 
 }
-#regFormAll .data-entry-title{font-size: .9rem;}
+#regFormAll .data-entry-title{font-size: .76rem;}
 
 </style>
 
