@@ -323,15 +323,11 @@ limitations under the License.
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">collecton</a>
 
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
+
 </p>
 
   <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample2">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-      </div>
-    </div>
+   
   </div>
 </div>
 		
@@ -422,16 +418,12 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> 
-								<div class="row">
-  <div class="col">
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
-      <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-      </div>
-    </div>
-  </div>
-					<!---			<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> --->
-							
+							<!---	<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> --->
+							<div class="collapse multi-collapse" id="multiCollapseExample2">
+						    	<div class="card card-body">
+       								 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+ 		 						</div>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -931,8 +923,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a>
-							  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
-							</div>
+								</div>
 							</div>
 							</div>
 					</div>
