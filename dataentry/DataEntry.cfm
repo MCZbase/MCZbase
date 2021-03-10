@@ -390,7 +390,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Collector/Preparator</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 6</h3>--->
 							<div id="customAgent">
-								<div class="row">
+								<div class="form-row">
 									<label for="other_id" class="sr-only">Agent</label>
 									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
@@ -404,7 +404,6 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">  </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
@@ -1000,7 +999,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addAgent").click(function(){$("##customAgent").append('<div class="row mt-2"><label for="other_id" class="sr-only float-left">Agent X</label><div class="col-lg-5 pr-1 float-left"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent float-left data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mt-2"><label for="other_id" class="sr-only float-left">Agent X</label><div class="col-lg-5 pr-1 float-left"><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent float-left data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
 });
