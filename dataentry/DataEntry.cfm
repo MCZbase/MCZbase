@@ -382,7 +382,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="position:relative">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv4">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader4">
 							<h2 class="data-entry-title">Collector/Preparator</h2>
@@ -400,9 +400,9 @@ limitations under the License.
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
 								</div>
-							</div>
+							</div>			 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"><i class="fa fa-plus"></i></button>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end" style="position:relative;"> 
-								 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"><i class="fa fa-plus"></i></button>
+					
 							<!---	<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> --->
 							<div class="collapse multi-collapse" id="multiCollapseExample2">
 						    	<div class="card card-body">
