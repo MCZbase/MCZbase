@@ -320,10 +320,8 @@ limitations under the License.
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		
 	<div style="margin-top: 100px;">	
-		
-		<p>
-		
-  <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">collecton</a>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
 </p>
@@ -331,7 +329,23 @@ limitations under the License.
   <div class="col">
     <div class="collapse multi-collapse" id="multiCollapseExample1">
       <div class="card card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+     					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
+						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
+							<h2 class="data-entry-title">Collection</h2>
+								<div class="row">
+								<label for="collection" class="sr-only">Collection</label>
+								<div class="col-12">
+									<select class="data-entry-select px-0" required>
+										<option value="">Select Collection</option>
+										<option value="1">Herpetology</option>
+										<option value="2">Mammalogy</option>
+										<option value="3">Malacology</option>
+									</select>
+									<small id="catNumHelp" class="form-text text-center text-muted">Sets Data Entry template</small> 
+								</div>
+							</div>
+						</div>
+					</div>
       </div>
     </div>
   </div>
