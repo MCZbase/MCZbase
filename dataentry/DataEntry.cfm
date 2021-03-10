@@ -401,9 +401,10 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
+							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end">  </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
