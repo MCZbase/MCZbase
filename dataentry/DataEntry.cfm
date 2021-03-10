@@ -74,7 +74,7 @@ limitations under the License.
 
 <cfoutput>
 
-	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Between Full<br> Screen and Step Form</a> </div>
+	<div style="position:absolute; top: 99px; right:25px;z-index:3000;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Between Full<br> Screen and Step Form</a> </div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
@@ -319,9 +319,10 @@ limitations under the License.
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
 		
-		
+	<div style="margin-top: 100px;">	
 		
 		<p>
+		
   <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
@@ -344,7 +345,7 @@ limitations under the License.
 </div>
 		
 		
-		
+		</div>	
 		
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
