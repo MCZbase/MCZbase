@@ -27,7 +27,7 @@ limitations under the License.
 	top: 42px;
 }
 #mydiv4, #mydiv5,#mydiv9 {
-	top:138px;
+	top:135px;
 }
 #mydiv6 {
 	top: 241px;
