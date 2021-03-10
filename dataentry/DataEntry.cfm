@@ -402,6 +402,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> 
+								 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="##multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
 							<!---	<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> --->
 							<div class="collapse multi-collapse" id="multiCollapseExample2">
 						    	<div class="card card-body">
