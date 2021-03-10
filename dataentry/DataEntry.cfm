@@ -466,7 +466,7 @@ limitations under the License.
 										<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
 									</div>
-								<a aria-label="Add another set of search criteria"  style="max-width: 30px;" class="btn btn-xs btn-primary addSciName col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria"  style="max-width: 18px;" class="btn btn-xs btn-primary addSciName col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
