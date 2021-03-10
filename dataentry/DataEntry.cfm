@@ -318,22 +318,6 @@ limitations under the License.
 	</div>
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
-		
-	<div style="margin-top: 100px;">	
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="##multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">collecton</a>
-
-
-</p>
-
-  <div class="col">
-   
-  </div>
-</div>
-		
-		
-		</div>	
-		
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
