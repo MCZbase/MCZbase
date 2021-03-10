@@ -45,7 +45,7 @@ Search for species by year. Matches began_date; may not find some specimens wher
 			cataloged_item.collecting_event_id=collecting_event.collecting_event_id AND
 			cataloged_item.collection_object_id=identification.collection_object_id AND
 			accepted_id_fg=1 AND
-			upper(scientific_name) LIKE '%#UCASE(scientific_name)#%'
+			upper(scientific_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#UCASE(scientific_name)#%">
 			<cfif #skull# is 1>
 				AND cataloged_item.collection_object_id IN
 					( select 

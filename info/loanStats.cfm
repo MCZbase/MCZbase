@@ -57,7 +57,7 @@
 					specimen_part.derived_from_cat_item = cataloged_item.collection_object_id and
 					cataloged_item.collection_id=collection.collection_id and
 					cataloged_item.collection_object_id=citation.collection_object_id (+) and
-					transaction_id=#transaction_id#
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				group by
 					collection
 			</cfquery>
