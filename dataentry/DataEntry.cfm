@@ -74,7 +74,7 @@ limitations under the License.
 
 <cfoutput>
 
-	<p class="btn" style="position:absolute; top: 95px; left:15px;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </p>
+	<div style="position:absolute; top: 95px; left:15px;z-index:3000;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
