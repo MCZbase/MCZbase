@@ -48,7 +48,8 @@
 		  });
 
 	});
-
+</script>
+<script>
    /** getLowestGeography
     * find the lowest ranking geographic entity name on a geography form,
 	 * note, does not include quad as one of the ranks
