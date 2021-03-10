@@ -74,7 +74,7 @@ limitations under the License.
 
 <cfoutput>
 
-	<button class="btn" style="position:absolute; top: 90px; left:15px;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </button>
+	<button class="btn" style="position:absolute; top: 95px; left:15px;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">(Switch Between Full Screen and Step Form)</a> </button>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
@@ -322,7 +322,7 @@ limitations under the License.
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
 				<!-- One "tab" for each step in the form: -->
-				<h1 class="text-center mt-2 mb-1">Enter a New Record</h1>
+				<h1 class="text-center mt-2 mb-0">Enter a New Record</h1>
 				<div class="row">
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv">
 						<div class="border-fill px-3 py-1 m-1" id="mydivheader">
