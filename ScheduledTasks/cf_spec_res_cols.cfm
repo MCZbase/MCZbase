@@ -23,7 +23,7 @@
 						DISP_ORDER
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cname#">,
-						'ConcatAttributeValue(flatTableName.collection_object_id,''#attribute_type#'')',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ConcatAttributeValue(flatTableName.collection_object_id,''#attribute_type#'')">,
 						'attribute',
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n#">
 					)
