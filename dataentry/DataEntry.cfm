@@ -30,7 +30,7 @@ limitations under the License.
 	top:131px;
 }
 #mydiv6 {
-	top: 230px;
+	top: 202px;
 }
 #mydiv7 {
 	top:414px;
@@ -407,7 +407,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv5">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader5">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader5">
 							<h2 class="data-entry-title">Other IDs</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customOtherID">
@@ -435,19 +435,19 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
 							<div id="customSciName">
 								<div class="row">
-									<label for="scientific_name" class="data-entry-label col-12 col-sm-3 text-center text-md-right px-0">Scientific Name</label>
+									<label for="scientific_name" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">Scientific Name</label>
 									<div class="col-12 col-lg-9">
 										<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="made_by" class="data-entry-label col-lg-3 text-center text-md-right px-0">ID Made By</label>
+									<label for="made_by" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">ID Made By</label>
 									<div class="col-12 col-lg-9">
 										<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-md-right px-0">Nature of ID</label>
+									<label for="nature_of_id" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">Nature of ID</label>
 									<div class="col-12 col-lg-4 pr-xl-0">
 										<select class="data-entry-select" required>
 											<option value="">Expert ID</option>
@@ -461,14 +461,14 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<label for="id_remark" class="data-entry-label col-12 col-lg-3 text-center text-md-right px-0">ID Remark</label>
+									<label for="id_remark" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">ID Remark</label>
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
 									</div>
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addSciName col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add identification" class="btn btn-xs btn-primary addSciName  loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
