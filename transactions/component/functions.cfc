@@ -4432,7 +4432,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
@@ -4453,7 +4453,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
@@ -4467,7 +4467,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="data-entry-input">
@@ -4477,32 +4477,32 @@ limitations under the License.
 							<input type="text" name="end_date" id="end_date" class="data-entry-input">
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<label for="project_name" class="data-entry-label">Project Title</label>
 							<textarea name="project_name" id="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
 							<textarea name="project_remarks" id="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 							<label for="project_trans_remarks" class="data-entry-label">Project-Transaction Remarks</label>
 							<textarea name="project_trans_remarks" id="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 px-0">
 						<div class="form-group mt-2">
 							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
