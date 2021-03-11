@@ -210,10 +210,11 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	line-height: 1.15;
 }
 .non-field-text {
-	border-radius: .2rem;
-	font-size: .875rem;
-	font-weight: 500;
-	margin-top: 1px;
+    padding: .15rem .5rem;
+    border-radius: .2rem;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.15rem;
 }
 .text-other {
 	font-size: .875em;
@@ -260,6 +261,9 @@ BELOW: Small Form button (bootstrap override)
 	user-select: none;
 	background-color: transparent;
 	border: 1px solid #aaa;
+	padding: .15rem .5rem .22rem .5rem;
+	font-size: .875rem;
+    line-height: 1.15rem;
     border-radius: .2rem;
 }
 .btn-outline-primary {
