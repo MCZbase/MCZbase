@@ -108,7 +108,7 @@ limitations under the License.
 											</div>
 											<div class="col-md-2">
 												<label for="mask_fg" class="data-entry-label">Record Visibility</label>
-												<select name="mask_fg" value="mask_fg" class="data-entry-select">
+												<select name="mask_fg" id="mask_fg" class="data-entry-select">
 													<cfset masknullselect = 'selected="selected"'>
 													<cfset mask0select = "">
 													<cfset mask1select = "">
@@ -432,7 +432,7 @@ limitations under the License.
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
-										<select name="mask_fg" value="mask_fg" required class="data-entry-select reqdClr"> 
+										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr"> 
 											<option value="" selected="selected"></option>
 											<option value="0">Public</option>
 											<option value="1">Hidden</option>
@@ -568,7 +568,7 @@ limitations under the License.
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data_entry_label">Record Visibility</label>
-										<select name="mask_fg" value="mask_fg" required class="data-entry-select reqdClr">
+										<select name="mask_fg" id="mask_fg" required class="data-entry-select reqdClr">
 											<cfif #undColl.mask_fg# eq 1 >
 												<option value="0">Public</option>
 												<option value="1" selected="selected">Hidden</option>
