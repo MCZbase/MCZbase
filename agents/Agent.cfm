@@ -100,6 +100,24 @@ limitations under the License.
 					<cfif oneOfUs EQ 1>
 						<div>#agent_remarks#</div>
 					</cfif>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select address_type, address 
+							from electronic_address 
+							WHERE
+								electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							order by address_type
+						</cfquery>
+						<cfif getAgentElecAddr.recordcount GT 0>
+							<div>
+								<ul>
+									<cfloop query="getAgentElecAddr">
+										<li>#address_type#: #address#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+					</cfif>
 				</cfloop>
 			</div>
 		</cfoutput>
