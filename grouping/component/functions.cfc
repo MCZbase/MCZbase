@@ -32,14 +32,10 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
-	<cfargument name="underscore_agent_name" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfif isdefined("underscore_agent_name") and underscore_agent_name IS '[No Agent]'>
-			<cfset underscore_agent_id = "">
-		</cfif>
 		<cfif len(trim(#collection_name#)) EQ 0>
 			<cfthrow type="Application" message="Number Series must contain a value.">
 		</cfif>
