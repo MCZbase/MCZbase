@@ -263,8 +263,8 @@ BELOW: Small Form button (bootstrap override)
 	background-color: transparent;
 	border: 1px solid #aaa;
 	padding: .22rem .5rem .26rem .5rem;
-	font-size: .85rem;
-    line-height: 1rem;
+	font-size: .875rem;
+    line-height: 1.15rem;
     border-radius: .2rem;
 }
 .btn-outline-primary {
