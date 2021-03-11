@@ -4426,7 +4426,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-						<h1 class="h4" for="create_project">Create a New Project linked to <strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong></h1>
+						<h1 class="h4" for="create_project">Create a New Project linked to <br><strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong></h1>
 						<form id="create_project">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
