@@ -447,7 +447,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<label for="nature_of_id" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">Nature of ID</label>
+									<label for="nature_of_id" class="data-entry-label col-12 col text-center text-md-right px-0">Nature of ID</label>
 									<div class="col-12 col-lg-4 pr-xl-0">
 										<select class="data-entry-select" required>
 											<option value="">Expert ID</option>
@@ -461,7 +461,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<label for="id_remark" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">ID Remark</label>
+									<label for="id_remark" class="data-entry-label col-12 col text-center text-md-right px-0">ID Remark</label>
 									<div class="col-12 col-lg-9">
 										<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
