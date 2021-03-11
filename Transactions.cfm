@@ -1556,7 +1556,7 @@ limitations under the License.
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 												<div class="form-row px-1 px-3">
-													<div class="coll-12 col-md-6">
+													<div class="coll-12 col-md-6 mt-1">
 														<cfset ppermit_type = permit_type>
 														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
@@ -1579,7 +1579,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-6">
+													<div class="col-12 col-md-6 mt-1">
 														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
 															<option value=""></option>
