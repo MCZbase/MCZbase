@@ -135,6 +135,8 @@ limitations under the License.
 	<cfcase value="addItems">
 		<cfif NOT isdefined("underscore_collection_id")>
 			<cfthrow message="No named group selected, unable to add cataloged items">
+		<cfelseif len(underscore_collection_id) EQ 0 >
+			<cfthrow message="No named group selected (blank id value provided), unable to add cataloged items">
 		</cfif>
 		<cfif NOT isdefined("recordcount") OR recordcount EQ 0>
 			<cfthrow message="No cataloged items to add to named group.">
