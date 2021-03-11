@@ -1001,7 +1001,7 @@ limitations under the License.
 															<div id="loanpermitpickerdialog"></div>
 														</div>
 													</div>
-													<div class="coll-12 col-md-6 mt-1">
+													<div class="col-12 col-md-6 mt-1">
 														<cfset ppermit_type = permit_type>
 														<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="loan_permit_type">
@@ -1016,7 +1016,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="coll-12 col-md-6 mt-0">
+													<div class="col-12 col-md-6 mt-1">
 														<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
 															<option value=""></option>
@@ -1088,7 +1088,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px' });
+																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '200px' });
 																setDispositionValues();
 															});
 														</script> 
@@ -1163,7 +1163,7 @@ limitations under the License.
 											</div>
 											</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
