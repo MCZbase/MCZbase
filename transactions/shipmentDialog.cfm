@@ -80,7 +80,7 @@
 							<input type="hidden" name="shipment_id" value="" id="shipment_id">
 							<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
-									<div class="row mt-1">
+									<div class="row mt-2">
 										<div class="col-12 col-md-4">
 											<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 											<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr data-entry-select" required >
@@ -95,7 +95,7 @@
 											<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="data-entry-input" >
 										</div>
 									</div>
-									<div class="row mt-1">
+									<div class="row mt-2">
 										<div class="col-12 col-md-4">
 											<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
 											<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="data-entry-input">
@@ -112,13 +112,13 @@
 											</select>
 										</div>
 									</div>
-									<div class="row mt-1">
+									<div class="row mt-2">
 										<div class="col-12 col-md-5">
 											<label for="package_weight" class="data-entry-label">Package Weight <small>(TEXT, include units)</small></label>
 											<input type="text" value="" name="package_weight" id="package_weight" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-5">
-											<label for="insured_for_insured_value" class="data-entry-label w-50">Insured Value <small>(NUMBER, US$)</small></label>
+											<label for="insured_for_insured_value" class="data-entry-label w-100">Insured Value <small>(NUMBER, US$)</small></label>
 											<input type="text" validate="float" label="Numeric value required."
 												value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$" class="data-entry-input">
 										</div>
@@ -130,7 +130,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12">
 											<span class="data-entry-label">
 												<label for="packed_by_agent">Packed By Agent</label>
@@ -151,7 +151,7 @@
 											</script>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12 my-1">
 											<span class="data-entry-label">
 												<label for="shipped_to_addr">Shipped To Address</label>
@@ -165,7 +165,7 @@
 											<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12 my-1">
 											<span class="data-entry-label">
 												<label for="shipped_from_addr">Shipped From Address</label>
@@ -179,13 +179,13 @@
 											<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12">
 											<label for="shipment_remarks" class="data-entry-label">Remarks</label>
 											<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="data-entry-input">
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12">
 											<label for="contents" class="data-entry-label">Contents</label>
 											<input type="text" value="" name="contents" id="contents" size="60" class="data-entry-input">
