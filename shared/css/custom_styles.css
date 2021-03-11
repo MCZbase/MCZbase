@@ -1245,25 +1245,29 @@ table#pairs, th, td {
 	text-align: center;
 }
 .data-entry-label {
-	width: 100%;
-	font-size: .875rem;
-	border: none;
-	padding: 0 .25rem;
-	margin-top: .25rem;
-	font-weight: 450;
+    width: 100%;
+    font-size: .875rem;
+    border: none;
+    padding: 0 .25rem .11rem .25rem;
+    font-weight: 450;
+    display: block;
+}
+span.data-entry-label {
+	margin-top: 2px;
 }
 .data-entry-input {
 	display: block;
 	width: 100%;
-	padding: .15rem .5rem;
+	padding: .2rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .2rem;
 	vertical-align: middle;
-	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 1.15rem;
 }
 select.data-entry-select option {
 	background-color: white !important;
@@ -1305,8 +1309,8 @@ input::placeholder {
 select.data-entry-select {
 	display: block;
 	width: 100%;
-	font: 500 .8rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	padding: .12rem .5rem;
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1314,6 +1318,7 @@ select.data-entry-select {
 	vertical-align: middle;
 	border-radius: .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	line-height: 1.15rem;
 }
 data-entry-select:after {
 	position: absolute;
@@ -1349,7 +1354,8 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: .2rem 0 0 .2rem;
 	padding: .15rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	line-height: 1.15rem;
 }
 .data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
 	color: #495057;
@@ -1361,14 +1367,15 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	padding: .15rem .5rem;
+	padding: .2rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	line-height: 1.15rem;
 }
 .data-entry-select-input:active {
 	color: #495057;
@@ -1394,14 +1401,15 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-addon-input {
 	display: block;
 	width: 82%;
-	padding: .15rem .5rem;
+	padding: .2rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .2rem 0 0 .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	line-height: 1.15rem;
 }
 .data-entry-addon {
 	display: block;
@@ -1411,9 +1419,10 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-clip: padding-box;
 	background-color: #f8f9fa;
 	border-radius: 0 .2rem .2rem 0;
-	padding: .15rem .5rem;
+	padding: .2rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	line-height: 1.15rem;
 }
 .data-height {
 	height: calc(1.15rem + .5rem + 2px) !important;
