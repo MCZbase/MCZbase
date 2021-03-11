@@ -80,7 +80,7 @@
 							<input type="hidden" name="shipment_id" value="" id="shipment_id">
 							<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
-									<div class="row">
+									<div class="row mt-1">
 										<div class="col-12 col-md-4">
 											<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 											<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr data-entry-select" required >
@@ -95,7 +95,7 @@
 											<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="data-entry-input" >
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-1">
 										<div class="col-12 col-md-4">
 											<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
 											<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="data-entry-input">
@@ -112,13 +112,13 @@
 											</select>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-1">
 										<div class="col-12 col-md-5">
-											<label for="package_weight" class="data-entry-label">Package Weight (TEXT, include units)</label>
+											<label for="package_weight" class="data-entry-label">Package Weight <small>(TEXT, include units)</small></label>
 											<input type="text" value="" name="package_weight" id="package_weight" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-5">
-											<label for="insured_for_insured_value" class="data-entry-label w-50">Insured Value (NUMBER, US$)</label>
+											<label for="insured_for_insured_value" class="data-entry-label w-50">Insured Value <small>(NUMBER, US$)</small></label>
 											<input type="text" validate="float" label="Numeric value required."
 												value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$" class="data-entry-input">
 										</div>
