@@ -229,9 +229,11 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cftransaction>
 			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
 				select distinct 
-					collection_object_id from #session.flatTableName# 
+					collection_object_id 
+				from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 				where 
 					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+					and collection_object_id is not null
 			</cfquery>
 			<cfif find_result.recordcount GT 0>
 				<cfloop query=find>
