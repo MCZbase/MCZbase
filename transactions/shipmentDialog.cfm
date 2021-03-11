@@ -165,7 +165,7 @@
 											<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 										</div>
 									</div>
-									<div class="row mt-2">
+									<div class="row">
 										<div class="col-12 my-1">
 											<span class="data-entry-label">
 												<label for="shipped_from_addr">Shipped From Address</label>
@@ -179,7 +179,7 @@
 											<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 										</div>
 									</div>
-									<div class="row">
+									<div class="row mt-2">
 										<div class="col-12">
 											<label for="shipment_remarks" class="data-entry-label">Remarks</label>
 											<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="data-entry-input">
