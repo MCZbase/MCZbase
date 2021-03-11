@@ -1136,27 +1136,27 @@ limitations under the License.
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
 												</div>
-												<div class="col-md-5">
+												<div class="col-md-5 mt-1">
 													<label for="loan_insurance_value" class="data-entry-label mb-0 pb-0">Insurance Value <span class="small">(NULL,NOT NULL)</span> </label>
 													<input type="text" name="insurance_value" class="data-entry-input" value="#insurance_value#" id="loan_insurance_value">
 												</div>
-												<div class="col-md-7">
+												<div class="col-md-7 mt-1">
 													<label for="loan_insurance_maintained_by" class="data-entry-label mb-0 pb-0">Insurance Maintained By <span class="small">(NULL, NOT NULL)</span></label>
 													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
