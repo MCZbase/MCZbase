@@ -1896,7 +1896,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '21px', width: '200px'  });
+																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '200px'  });
 																setDeaccDispositionValues();
 															});
 														</script> 
@@ -1927,7 +1927,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-0">
+													<div class="col-md-12 px-0 pb-1 mt-1">
 														<label for="deacc_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Deaccession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="deacc_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -2038,7 +2038,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="deaccnSearchButton" type="submit" aria-label="Search Deaccessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
