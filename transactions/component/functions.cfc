@@ -4342,7 +4342,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 				<form id="project_picker_form">
-					<label for="pick_project_name">Pick a Project to associate with <strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong> (%% lists all projects)</label>
+					<label for="pick_project_name">Pick a Project to associate with <br><strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong> (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
 					<input type="text" name="pick_project_name" id="pick_project_name" class="data-entry-input mb-2 reqdClr" >
 					<label for="project_trans_remarks">Project-Transaction Remarks</label>
