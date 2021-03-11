@@ -755,7 +755,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0">Document/Permit Number:</label>
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
