@@ -210,12 +210,11 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	line-height: 1.15;
 }
 .non-field-text {
-	padding: .12rem .5rem;
-	border-radius: .2rem;
-	font-size: .875rem;
-	font-weight: 500;
-	line-height: 1.2rem;
-	margin-top:1px;
+    padding: .15rem .5rem;
+    border-radius: .2rem;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.15rem;
 }
 .text-other {
 	font-size: .875em;
