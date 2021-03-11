@@ -74,7 +74,7 @@ limitations under the License.
 							<script>
 								function addItemsSubmitHandler() { 
 									if ($('##underscore_collection_id').val() == ''){ 
-										messageDialog('Error: You must select a named group from the autocomplete picklist before you can add items.' ,'Error: Select a named group.');
+										messageDialog('Error: You must select a named group from the Select a Named Group picklist before you can add items.' ,'Error: Select a named group.');
 									} else { 
 										$('##addItemsForm').submit();
 									}
