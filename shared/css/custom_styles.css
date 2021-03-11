@@ -780,7 +780,6 @@ a#showLeftPush.hiddenclass {
 	display: inline-block;
 	opacity: 0.85;
 	color: #333;
-	padding: 3px;
 }
 #regForm .step.active {
 	opacity: 1;
@@ -1021,7 +1020,7 @@ table.inputTable tr {
 	background-color: #3E6F7D;
 }
 .bg-blue-gray {
-	background-color: #deebec!important;
+	background-color: #deebec;
 }
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
