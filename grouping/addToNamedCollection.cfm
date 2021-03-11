@@ -71,7 +71,17 @@ limitations under the License.
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
 							<h1 class="h2" id="formheading">Add all the items (#getItems.recordcount#) listed below to the selected named group of cataloged items.</h1>
-							<form name="addItems" method="post" action="addToNamedCollection.cfm">
+							<script>
+								function addItemsSubmitHandler() { 
+									if ($('##underscore_collection_id').val() == ''){ 
+										messageDialog('Error: You must select a named group from the Select a Named Group picklist before you can add items.' ,'Error: Select a named group.');
+									} else { 
+										$('##addItemsForm').removeAttr('onsubmit'); 
+										$('##addItemsForm').submit();
+									}
+								}
+							</script>
+							<form id="addItemsForm" name="addItems" method="post" action="addToNamedCollection.cfm" onsubmit="return noenter();">
 								<input type="hidden" name="Action" value="addItems">
 								<input type="hidden" name="recordcount" value="#getItems.recordcount#">
 								<input type="hidden" name="pass" value="#pass#">
@@ -90,7 +100,7 @@ limitations under the License.
 										</script>
 									</div>					
 									<div class="col-6 col-sm-2 mt-1 mt-sm-4">
-										<input type="submit" id="add_button" value="Add Items" class="btn-sm btn-primary">
+										<input type="button" id="add_button" value="Add Items" class="btn-sm btn-primary" onclick=" addItemsSubmitHandler(); ">
 									</div>
 									<div class="col-6 col-sm-2 mt-2 mt-sm-4">
 									<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
@@ -135,6 +145,8 @@ limitations under the License.
 	<cfcase value="addItems">
 		<cfif NOT isdefined("underscore_collection_id")>
 			<cfthrow message="No named group selected, unable to add cataloged items">
+		<cfelseif len(underscore_collection_id) EQ 0 >
+			<cfthrow message="No named group selected (blank id value provided), unable to add cataloged items">
 		</cfif>
 		<cfif NOT isdefined("recordcount") OR recordcount EQ 0>
 			<cfthrow message="No cataloged items to add to named group.">

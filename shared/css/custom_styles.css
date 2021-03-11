@@ -1225,6 +1225,14 @@ table#pairs, th, td {
 #collapseParts .table th {
 	font-weight: 500;
 }
+#collapseParts .table td, #collapseParts.table th {
+	padding: .35rem 1rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+}
+#collapseParts .table th {
+	font-weight: 500;
+}
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
@@ -1352,7 +1360,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-clip: padding-box;
 	background-color: white;
 	border-radius: .2rem 0 0 .2rem;
-	padding: .15rem .5rem;
+	padding: .14rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	line-height: 1.15rem;

@@ -755,7 +755,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0">Document/Permit Number:</label>
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
@@ -1001,7 +1001,7 @@ limitations under the License.
 															<div id="loanpermitpickerdialog"></div>
 														</div>
 													</div>
-													<div class="coll-12 col-md-6">
+													<div class="col-12 col-md-6 mt-1">
 														<cfset ppermit_type = permit_type>
 														<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="loan_permit_type">
@@ -1016,7 +1016,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="coll-12 col-md-6">
+													<div class="col-12 col-md-6 mt-1">
 														<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
 															<option value=""></option>
@@ -1136,34 +1136,34 @@ limitations under the License.
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
 												</div>
-												<div class="col-md-5">
+												<div class="col-md-5 mt-1">
 													<label for="loan_insurance_value" class="data-entry-label mb-0 pb-0">Insurance Value <span class="small">(NULL,NOT NULL)</span> </label>
 													<input type="text" name="insurance_value" class="data-entry-input" value="#insurance_value#" id="loan_insurance_value">
 												</div>
-												<div class="col-md-7">
+												<div class="col-md-7 mt-1">
 													<label for="loan_insurance_maintained_by" class="data-entry-label mb-0 pb-0">Insurance Maintained By <span class="small">(NULL, NOT NULL)</span></label>
 													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
 											</div>
 											</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1383,11 +1383,11 @@ limitations under the License.
 										<div class="col-md-6">
 		
 											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
@@ -1518,7 +1518,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row px-1 mx-0">
+												<div class="form-row px-0 mx-0 mt-1">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pr-md-1 pl-md-3 pl-xl-3 pr-xl-2">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -1543,20 +1543,20 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 												<div class="form-row px-1 px-3">
-													<div class="coll-12 col-md-6">
+													<div class="coll-12 col-md-6 mt-1">
 														<cfset ppermit_type = permit_type>
 														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
@@ -1579,7 +1579,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-6">
+													<div class="col-12 col-md-6 mt-1">
 														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
 															<option value=""></option>
@@ -1816,26 +1816,26 @@ limitations under the License.
 										</div>
 										--->
 										<div class="col-md-4">
-											<label class="data-entry-label mb-0 pb-0" for="deacc_method">Method of Transfer</label>
+											<label class="data-entry-label mb-0" for="deacc_method">Method of Transfer</label>
 											<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="value">Value</label>
+											<label class="data-entry-label mb-0" for="value">Value</label>
 											<input type="text" name="value" class="data-entry-input" value="#value#" id="value">
 										</div>
 									</div>
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="d_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="d_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="deacc_reason" class="data-entry-label mb-0 pb-0">Reason for Deaccession</label>
 													<input type="text" name="deacc_reason" class="data-entry-input" value="#deacc_reason#" id="deacc_reason">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="deacc_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="deacc_trans_remarks">
 												</div>
@@ -1862,7 +1862,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0 px-2 px-sm-3">
-													<div class="col-3 px-0">
+													<div class="col-3 px-0 mt-1">
 														<label for="deacc_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
 															<cfset isselect = "selected">
@@ -1876,7 +1876,7 @@ limitations under the License.
 															<option value="isnot" #notselect#>is not</option>
 														</select>
 													</div>
-													<div class="col-9 px-0">
+													<div class="col-9 px-0 mt-1">
 														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 														<label for="deacc_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 														<div name="coll_obj_disposition" id="deacc_coll_obj_disposition" class="w-100"></div>
@@ -1927,7 +1927,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-0">
+													<div class="col-md-12 px-0 pb-1 mt-1">
 														<label for="deacc_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Deaccession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="deacc_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -1967,7 +1967,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row px-1 mx-0">
+												<div class="form-row px-1 mx-0 mt-1">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -1992,19 +1992,19 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('de_permit_contact_agent','de_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="deacc_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="deacc_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="deacc_benefits_provided">
 												</div>
-												<div class="form-row px-3">
+												<div class="form-row px-3 mt-1">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="deacc_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
@@ -2038,7 +2038,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="deaccnSearchButton" type="submit" aria-label="Search Deaccessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -2259,7 +2259,7 @@ limitations under the License.
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="bo_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="bo_nature_of_material">
 												</div>
@@ -2322,7 +2322,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row mx-0 mt-1">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="bo_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="bo_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -2347,19 +2347,19 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('bo_permit_contact_agent','bo_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="borrow_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="borrow_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="borrow_benefits_provided">
 												</div>
-												<div class="form-row px-3">
+												<div class="form-row px-3 mt-1">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="borrow_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
