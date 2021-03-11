@@ -143,9 +143,9 @@ override Bootstrap styles
 	background: #d7d7d7;
 	border: 1px solid hsl(0, 0%, 62%);
 	color: #212529;
-	padding: .2em .5em;
-	font-size: .875em;
-	line-height: 1.15em;
+	padding: .2rem .5rem;
+	font-size: .875rem;
+	line-height: 1.15rem;
 	border-radius: .2rem;
 }
 .ui-dialog .btn-primary {
