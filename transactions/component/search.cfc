@@ -365,7 +365,9 @@ limitations under the License.
 				project_name,
 				project.project_id pid,
 				collection.collection,
-				collection.collection_cde
+				collection.collection_cde,
+				MCZBASE.count_catitems_for_loan(trans.transaction_id) as item_count,
+				MCZBASE.count_citations_for_loan(trans.transaction_id) as citation_count
 			from
 				loan
 				left join trans on loan.transaction_id = trans.transaction_id

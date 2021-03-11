@@ -2761,6 +2761,28 @@ $(document).ready(function() {
 		}
 		return result;
 	};
+	var itemCountCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var transaction_id = rowData['transaction_id'];
+		if (value != "0") {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/SpecimenResults.cfm?loan_trans_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
+	var ciationCountCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var transaction_id = rowData['transaction_id'];
+		if (value != "0") {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/SpecimenResults.cfm?type_status=any&loan_trans_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -2822,6 +2844,8 @@ $(document).ready(function() {
 				{ name: 'recip_inst', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
+				{ name: 'item_count', type: 'string' },
+				{ name: 'citation_count', type: 'string' },
 				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
@@ -2876,6 +2900,8 @@ $(document).ready(function() {
 				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Loan Items', datafield: 'item_count', width: 100, hideable: true, hidden: true, cellsrenderer: itemCountCellRenderer },
+				{text: 'Citation Count', datafield: 'citation_count', width: 110, hideable: true, hidden: true, cellsrenderer: ciationCountCellRenderer },
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
