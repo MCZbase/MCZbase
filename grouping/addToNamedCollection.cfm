@@ -71,7 +71,16 @@ limitations under the License.
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
 							<h1 class="h2" id="formheading">Add all the items (#getItems.recordcount#) listed below to the selected named group of cataloged items.</h1>
-							<form name="addItems" method="post" action="addToNamedCollection.cfm">
+							<script>
+								function addItemsSubmitHandler() { 
+									if ($('##underscore_collection_id').val() == ''){ 
+										messageDialog('Error: You must select a named group from the autocomplete picklist before you can add items.' ,'Error: Select a named group.');
+									} else { 
+										$('##addItemsForm').submit();
+									}
+								}
+							</script>
+							<form id="addItemsForm" name="addItems" method="post" action="addToNamedCollection.cfm" onsubmit="return noenter();">
 								<input type="hidden" name="Action" value="addItems">
 								<input type="hidden" name="recordcount" value="#getItems.recordcount#">
 								<input type="hidden" name="pass" value="#pass#">
@@ -90,7 +99,7 @@ limitations under the License.
 										</script>
 									</div>					
 									<div class="col-6 col-sm-2 mt-1 mt-sm-4">
-										<input type="submit" id="add_button" value="Add Items" class="btn-sm btn-primary">
+										<input type="button" id="add_button" value="Add Items" class="btn-sm btn-primary" onclick=" addItemsSubmitHandler(); ">
 									</div>
 									<div class="col-6 col-sm-2 mt-2 mt-sm-4">
 									<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
