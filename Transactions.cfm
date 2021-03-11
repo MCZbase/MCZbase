@@ -1816,26 +1816,26 @@ limitations under the License.
 										</div>
 										--->
 										<div class="col-md-4">
-											<label class="data-entry-label mb-0 pb-0" for="deacc_method">Method of Transfer</label>
+											<label class="data-entry-label mb-0" for="deacc_method">Method of Transfer</label>
 											<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="value">Value</label>
+											<label class="data-entry-label mb-0" for="value">Value</label>
 											<input type="text" name="value" class="data-entry-input" value="#value#" id="value">
 										</div>
 									</div>
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="d_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="d_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="deacc_reason" class="data-entry-label mb-0 pb-0">Reason for Deaccession</label>
 													<input type="text" name="deacc_reason" class="data-entry-input" value="#deacc_reason#" id="deacc_reason">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="deacc_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="deacc_trans_remarks">
 												</div>
@@ -1862,7 +1862,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0 px-2 px-sm-3">
-													<div class="col-3 px-0">
+													<div class="col-3 px-0 mt-1">
 														<label for="deacc_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
 															<cfset isselect = "selected">
@@ -1876,7 +1876,7 @@ limitations under the License.
 															<option value="isnot" #notselect#>is not</option>
 														</select>
 													</div>
-													<div class="col-9 px-0">
+													<div class="col-9 px-0 mt-1">
 														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
 														<label for="deacc_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 														<div name="coll_obj_disposition" id="deacc_coll_obj_disposition" class="w-100"></div>
@@ -1896,7 +1896,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px'  });
+																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '21px', width: '200px'  });
 																setDeaccDispositionValues();
 															});
 														</script> 
@@ -1967,7 +1967,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row px-1 mx-0">
+												<div class="form-row px-1 mx-0 mt-1">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -1992,19 +1992,19 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('de_permit_contact_agent','de_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="deacc_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="deacc_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="deacc_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="deacc_benefits_provided">
 												</div>
-												<div class="form-row px-3">
+												<div class="form-row px-3 mt-1">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="deacc_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
