@@ -129,7 +129,7 @@ limitations under the License.
 						<cfif getAgentAddr.recordcount GT 0>
 							<div>
 								<cfloop query="getAgentAddr">
-									<h3 class="h3">#addr_type#</h3>
+									<h3 class="h3">#addr_type# address</h3>
 									<div>#formatted_addr#<div>
 								</cfloop>
 							</div>
