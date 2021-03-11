@@ -1448,7 +1448,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px'  });
+																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '200px'  });
 																setAccnDispositionValues();
 															});
 														</script> 
