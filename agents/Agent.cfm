@@ -118,6 +118,23 @@ limitations under the License.
 							</div>
 						</cfif>
 					</cfif>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select addr_type, REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR
+							from addr
+							WHERE
+								addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							order by addr_type
+						</cfquery>
+						<cfif getAgentAddr.recordcount GT 0>
+							<div>
+								<cfloop query="getAgentAddr">
+									<h3 class="h3">#addr_type#</h3>
+									<div>#formatted_addr#<div>
+								</cfloop>
+							</div>
+						</cfif>
+					</cfif>
 				</cfloop>
 			</div>
 		</cfoutput>
