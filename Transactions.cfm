@@ -2900,8 +2900,8 @@ $(document).ready(function() {
 				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Items', datafield: 'item_count', hideable: true, hidden: true, cellsrenderer: itemCountCellRenderer },
-				{text: 'Citations', datafield: 'citation_count', hideable: true, hidden: true, cellsrenderer: ciationCountCellRenderer },
+				{text: 'Loan Items', datafield: 'item_count', hideable: true, hidden: true, cellsrenderer: itemCountCellRenderer },
+				{text: 'Citation Count', datafield: 'citation_count', hideable: true, hidden: true, cellsrenderer: ciationCountCellRenderer },
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
