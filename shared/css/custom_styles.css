@@ -1237,12 +1237,15 @@ table#pairs, th, td {
 	text-align: center;
 }
 .data-entry-label {
-	width: 100%;
-	font-size: .875rem;
-	border: none;
-	padding: 0 .25rem;
-	margin-top: .25rem;
-	font-weight: 450;
+    width: 100%;
+    font-size: .875rem;
+    border: none;
+    padding: 0 .25rem .11rem .25rem;
+    font-weight: 450;
+    display: block;
+}
+span.data-entry-label {
+	margin-top: 2px;
 }
 .data-entry-input {
 	display: block;
