@@ -1001,7 +1001,7 @@ limitations under the License.
 															<div id="loanpermitpickerdialog"></div>
 														</div>
 													</div>
-													<div class="coll-12 col-md-6">
+													<div class="coll-12 col-md-6 mt-1">
 														<cfset ppermit_type = permit_type>
 														<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="loan_permit_type">
@@ -1016,7 +1016,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="coll-12 col-md-6">
+													<div class="coll-12 col-md-6 mt-0">
 														<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
 															<option value=""></option>
@@ -1383,11 +1383,11 @@ limitations under the License.
 										<div class="col-md-6">
 		
 											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
@@ -1518,7 +1518,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row px-1 mx-0">
+												<div class="form-row px-0 mx-0 mt-1">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pr-md-1 pl-md-3 pl-xl-3 pr-xl-2">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -1543,15 +1543,15 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
@@ -2259,7 +2259,7 @@ limitations under the License.
 									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
+												<div class="col-md-12 px-0 mt-1">
 													<label for="bo_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="bo_nature_of_material">
 												</div>
@@ -2322,7 +2322,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row mx-0 mt-1">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="bo_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="bo_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -2347,19 +2347,19 @@ limitations under the License.
 														$(makeConstrainedAgentPicker('bo_permit_contact_agent','bo_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="borrow_restriction_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="borrow_benefits_summary">
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-1">
 													<label for="borrow_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="borrow_benefits_provided">
 												</div>
-												<div class="form-row px-3">
+												<div class="form-row px-3 mt-1">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="borrow_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
