@@ -623,7 +623,7 @@ limitations under the License.
 												function saveChanges(){ 
 													var agenttext = $('##underscore_agent_name').val();
 													var agentid = $('##underscore_agent_id').val();
-													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext != '[No Agent]') ) { 
+													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
 														$('##saveResultDiv').html('Saving....');
 														$('##saveResultDiv').addClass('text-warning');
 														$('##saveResultDiv').removeClass('text-success');
