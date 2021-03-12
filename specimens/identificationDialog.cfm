@@ -51,6 +51,7 @@
 					if (result.DATA.STATUS[0]==0) { 
 						$("##identificationFormStatus").empty().append(result.DATA.MESSAGE[0]);
 					} else { 
+						/* TODO: Fix reference to what is being reloaded */
 						loadIdentifications(identificationId);
 						valid = true;
 						$("##dialog-identification").dialog( "close" );

@@ -38,7 +38,10 @@ limitations under the License.
 	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
 	</cfif>
 </cfoutput> 
+<!--- Include the template that contains functions used to load portions of this page --->
+<cfinclude template="/specimens/component/public.cfc">
 
+<!--- Lookup the specimen details --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
@@ -544,35 +547,14 @@ limitations under the License.
 		<!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
-				<!----------------------------- identifications ----------------------------------> 
 
-				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						identification.scientific_name,
-						identification.collection_object_id,
-						concatidagent(identification.identification_id) agent_name,
-						made_date,
-						nature_of_id,
-						identification_remarks,
-						identification.identification_id,
-						accepted_id_fg,
-						taxa_formula,
-						formatted_publication,
-						identification.publication_id,
-						stored_as_fg
-					FROM
-						identification,
-						(select * from formatted_publication where format_style='short') formatted_publication
-					WHERE
-						identification.publication_id=formatted_publication.publication_id (+) and
-						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
-				</cfquery>
+				<!----------------------------- identifications ----------------------------------> 
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
 						<div id="identificationsDialog"></div>
 						<script>
 							function reloadIdentifications() { 
+								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 								loadIdentifications(#collection_object_id#,'identificationsCardBody');
 							}
 						</script>
@@ -586,7 +568,6 @@ limitations under the License.
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left" id="identificationsCardBody">
-								<cfinclude template="/specimens/component/public.cfc">
 								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
@@ -595,7 +576,6 @@ limitations under the License.
 				</div>
 
 				<!------------------------------------ citations ------------------------------------------>
-	
 				<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
 						<div class="card mb-2 bg-light">
