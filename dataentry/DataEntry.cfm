@@ -33,14 +33,14 @@ limitations under the License.
 	top: 202px;
 }
 #mydiv7 {
-	top:414px;
+	top:348px;
 }
 #mydiv8 {
-	top:782px;
+	top:725px;
 }
 
 #mydiv10 {
-	top:435px;	
+	top:431px;	
 	}
 #mydiv11  {
 	top:664px;
@@ -49,7 +49,7 @@ limitations under the License.
 	top: 664px;
 }
 #mydiv13 {
-	top:764px;
+	top:760px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
@@ -477,17 +477,17 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 								</div>
 							</div>
@@ -505,7 +505,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
@@ -529,19 +529,19 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="microhabitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Microhabitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 									</textarea>
 								</div>
@@ -578,36 +578,36 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="locality_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3 pr-1">
 									<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3 px-1">
 									<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
-									<select class="data-entry-select pr-0" required>
+								<div class="col-12 col-sm-2 pl-1">
+									<select class="data-entry-select" required>
 										<option value="">Feet</option>
 										<option value="1">Fathoms</option>
 										<option value="2">Yards</option>
@@ -618,15 +618,15 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Depth</label>
+								<div class="col-12 col-sm-3 pr-1">
+									<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
-									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								<div class="col-12 col-sm-3 px-1">
+									<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
-									<select class="data-entry-select pr-0" required>
+								<div class="col-12 col-sm-2 pl-1">
+									<select class="data-entry-select" required>
 										<option value="">Feet</option>
 										<option value="1">Fathoms</option>
 										<option value="2">Yards</option>
@@ -638,25 +638,25 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-								<div class="col-sm-9 my-0">
+								<div class="col-sm-8">
 									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 									</textarea>
 								</div>
@@ -977,7 +977,7 @@ function dragElement(elmnt) {
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="form-row mt-1"><label for="other_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="form-row mt-1"><label for="other_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID p-0 m-0 float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customOtherID").on('click','.remOtherID',function(){$(this).parent().remove();});
 	});
