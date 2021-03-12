@@ -396,7 +396,9 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a>
 							</h3>
 							<h3 class="h4 my-0 float-left MediaAccordionHide">Media</h3>
-							<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
+							</cfif>
 						</div>
 						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
 							<div class="card-body">
@@ -578,7 +580,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
-							<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',loadIdentifications)">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',loadIdentifications)">Edit</button>
+							</cfif>
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left" id="identificationsCardBody">
@@ -729,7 +733,9 @@ limitations under the License.
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
-								<button type="button" class="btn btn-xs float-right small">Edit</button>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<button type="button" class="btn btn-xs float-right small">Edit</button>
+								</cfif>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
@@ -846,7 +852,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
 							</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
 						<div class="card-body mb-2 float-left">
@@ -969,7 +977,9 @@ limitations under the License.
 							<div class="card mb-2">
 								<div class="card-header float-left w-100" id="headingPart">
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
-									<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+									</cfif>
 								</div>
 								<div class="card-body p-0">
 									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
@@ -1086,7 +1096,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Attributes</a>
 							</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
 						<div class="card-body float-left mb-2">
@@ -1205,7 +1217,9 @@ limitations under the License.
 					<div class="card mb-2">
 						<div class="card-header float-left w-100">
 							<h3 class="h4 my-0 float-left">Relationship</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 						<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush float-left">
@@ -1234,7 +1248,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog-locality').dialog('open'); loadLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog-locality').dialog('open'); loadLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 							<div class="card-body px-0 pb-0"> 
@@ -1361,14 +1377,16 @@ limitations under the License.
 					</div>
 				</div>
 				
-				<!------------------------------------ Collectors and Preparators ----------------------------------->
+				<!--- --------------------------------- Collectors and Preparators ----------------------------- --->
 				<div class="accordion" id="accordionH">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading7">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
 							</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 						<div id="collapseCol" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
 							<div class="card-body mb-1 float-left">
@@ -1392,7 +1410,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<!--- ---------------------------------- tranactions  ------------------------------------ --->
+				<!--- ---------------------------------- tranactions  ----------------------------------- --->
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
@@ -1418,7 +1436,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
 							</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
 						</div>
 						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
 							<div class="card-body mb-2 float-left">
