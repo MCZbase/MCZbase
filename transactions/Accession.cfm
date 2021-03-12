@@ -534,7 +534,7 @@ limitations under the License.
 									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'accnPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Accession" class="btn btn-xs btn-danger float-right"
-									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
+									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##editAccnForm').removeAttr('onsubmit'); $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
 							</div>
 						</div>
 						<div id="accnPrintDialog"></div>
