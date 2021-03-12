@@ -153,7 +153,7 @@ function loadIdentifications(collection_object_id,targetDivId) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationsHtml",
+			method : "getIdentificationsHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -180,7 +180,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getEditIdentificationsHtml",
+			method : "getEditIdentificationsHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
