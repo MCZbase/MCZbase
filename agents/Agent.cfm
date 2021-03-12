@@ -100,6 +100,81 @@ limitations under the License.
 					<cfif oneOfUs EQ 1>
 						<div>#agent_remarks#</div>
 					</cfif>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select address_type, address 
+							from electronic_address 
+							WHERE
+								electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							order by address_type
+						</cfquery>
+						<cfif getAgentElecAddr.recordcount GT 0>
+							<div>
+								<h2 class="h3">Phone/Email</h2>
+								<ul>
+									<cfloop query="getAgentElecAddr">
+										<li>#address_type#: #address#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+					</cfif>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select addr_type, REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR
+							from addr
+							WHERE
+								addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							order by addr_type
+						</cfquery>
+						<cfif getAgentAddr.recordcount GT 0>
+							<div>
+								<h2 class="h3">Postal Addresses</h2>
+								<cfloop query="getAgentAddr">
+									<h3 class="h4">#addr_type# address</h3>
+									<div>#formatted_addr#<div>
+								</cfloop>
+							</div>
+						</cfif>
+					</cfif>
+					<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name
+						from agent_relations 
+						WHERE
+							agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							and agent_relationship not like '% duplicate of'
+						order by agent_relationship
+					</cfquery>
+					<cfif getAgentRel.recordcount GT 0>
+						<div>
+							<h2 class="h3">Relationships to other agents</h2>
+							<ul>
+							<cfloop query="getAgentRel">
+								<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a></li>
+							</cfloop>
+							</ul>
+						</div>
+					</cfif>
+					<cfif oneOfUs EQ 1>
+						<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name
+							from agent_relations 
+							WHERE
+								related_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+								and agent_relationship not like '% duplicate of'
+							order by agent_relationship
+						</cfquery>
+						<cfif getRevAgentRel.recordcount GT 0>
+							<div>
+								<h2 class="h3">Relationships from other agents</h2>
+								<ul>
+								<cfloop query="getRevAgentRel">
+									<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name# </li>
+								</cfloop>
+								</ul>
+							</div>
+						</cfif>
+					</cfif>
 				</cfloop>
 			</div>
 		</cfoutput>
