@@ -27,7 +27,6 @@ limitations under the License.
  @return html for viewing identifications for the specified cataloged item. 
 --->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
-	<!--- TODO: Move to a file with public access --->
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getIdentificationsThread">
 		<cfoutput>
@@ -147,8 +146,10 @@ limitations under the License.
 							</cfloop>
 							#thisSciName# <!---identification for former names when there is an author--it put the sci name with the author--->
 						</cfif>
-						<cfif oneOfUs is 1 and stored_as_fg is 1>
-							<span style="float-right rounded p-1 bg-light">STORED AS</span>
+						<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<cfif stored_as_fg is 1>
+								<span style="float-right rounded p-1 bg-light">STORED AS</span>
+							</cfif>
 						</cfif>
 						<cfif not isdefined("metaDesc")>
 							<cfset metaDesc="">
