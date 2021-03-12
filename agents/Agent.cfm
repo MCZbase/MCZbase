@@ -169,7 +169,7 @@ limitations under the License.
 								<h2 class="h3">Relationships from other agents</h2>
 								<ul>
 								<cfloop query="getRevAgentRel">
-									<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent relationship# #getAgent.preferred_agent_name# </li>
+									<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name# </li>
 								</cfloop>
 								</ul>
 							</div>
