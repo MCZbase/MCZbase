@@ -127,10 +127,10 @@ limitations under the License.
 
 				<!--- TODO: Refactor from here for redesign ---> 
 
-<div class="basic_box">
-<form name="newID" id="newID" method="post" action="editIdentification.cfm">
+				<div class="basic_box">
+					<form name="newID" id="newID" method="post" action="editIdentification.cfm">
 
-	<table class="newRec">
+					<table class="newRec">
  <tr>
  	<td colspan="2">
         <h3 class="wikilink">Add new Determination
@@ -448,7 +448,7 @@ limitations under the License.
           	<td><div align="right">Remarks:</div></td>
          	 <td>
 				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
-					value="#stripQuotes(identification_remarks)#" size="50">
+					value="#encodeForHtml(identification_remarks)#" size="50">
 			</td>
         </tr>
 		<cfif #accepted_id_fg# is 0>
