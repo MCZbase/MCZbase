@@ -110,6 +110,7 @@ limitations under the License.
 						</cfquery>
 						<cfif getAgentElecAddr.recordcount GT 0>
 							<div>
+								<h2 class="h3">Phone/Email</h2>
 								<ul>
 									<cfloop query="getAgentElecAddr">
 										<li>#address_type#: #address#</li>
@@ -128,8 +129,9 @@ limitations under the License.
 						</cfquery>
 						<cfif getAgentAddr.recordcount GT 0>
 							<div>
+								<h2 class="h3">Postal Addresses</h2>
 								<cfloop query="getAgentAddr">
-									<h3 class="h3">#addr_type# address</h3>
+									<h3 class="h4">#addr_type# address</h3>
 									<div>#formatted_addr#<div>
 								</cfloop>
 							</div>
@@ -145,6 +147,7 @@ limitations under the License.
 					</cfquery>
 					<cfif getAgentRel.recordcount GT 0>
 						<div>
+							<h2 class="h3">Relationships to other agents</h2>
 							<ul>
 							<cfloop query="getAgentRel">
 								<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a></li>
