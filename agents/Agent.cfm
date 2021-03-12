@@ -135,6 +135,23 @@ limitations under the License.
 							</div>
 						</cfif>
 					</cfif>
+					<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name
+						from agent_relations 
+						WHERE
+							agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+							and agent_relationship not like '% duplicate of'
+						order by agent_relationship
+					</cfquery>
+					<cfif getAgentRel.recordcount GT 0>
+						<div>
+							<ul>
+							<cfloop query="getAgentRel">
+								<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a></li>
+							</cfloop>
+							</ul>
+						</div>
+					</cfif>
 				</cfloop>
 			</div>
 		</cfoutput>
