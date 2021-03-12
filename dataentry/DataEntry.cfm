@@ -430,7 +430,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv6">
-						<div class="border-fill px-3 pt-1 pb-1 m-1" id="mydivheader6">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader6">
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
 							<div id="customSciName">
