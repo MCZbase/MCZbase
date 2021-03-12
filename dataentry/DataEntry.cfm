@@ -619,13 +619,13 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3">
 									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3">
 									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
+								<div class="col-12 col-sm-2">
 									<select class="data-entry-select pr-0" required>
 										<option value="">Feet</option>
 										<option value="1">Fathoms</option>
