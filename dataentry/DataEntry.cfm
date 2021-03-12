@@ -435,19 +435,19 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
 							<div id="customSciName">
 								<div class="row">
-									<label for="scientific_name" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">Scientific Name</label>
-									<div class="col-12 col-lg-9">
+									<label for="scientific_name" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Scientific Name</label>
+									<div class="col-12 col-lg-8">
 										<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="made_by" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">ID Made By</label>
-									<div class="col-12 col-lg-9">
+									<label for="made_by" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Made By</label>
+									<div class="col-12 col-lg-8">
 										<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="nature_of_id" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">Nature of ID</label>
+									<label for="nature_of_id" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Nature of ID</label>
 									<div class="col-12 col-lg-4 pr-xl-0">
 										<select class="data-entry-select" required>
 											<option value="">Expert ID</option>
@@ -456,13 +456,13 @@ limitations under the License.
 											<option value="3">Curatorial ID</option>
 										</select>
 									</div>
-									<div class="col-12 col-lg-5">
+									<div class="col-12 col-lg-4">
 										<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="id_remark" class="data-entry-label col-12 col-md-2 text-center text-md-right px-0">ID Remark</label>
-									<div class="col-12 col-lg-9">
+									<label for="id_remark" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Remark</label>
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="id_remark" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
 									</div>
