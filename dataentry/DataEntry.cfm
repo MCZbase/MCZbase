@@ -977,10 +977,9 @@ function dragElement(elmnt) {
 		
 $(document).ready(function(){
 	$(".addOtherID").click(function(){
-		$("##customOtherID").append('<div class="form-row mt-1"><label for="other_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-right data-entry-button remOtherID"><i class="fas fa-times"></i></button></div>');
+		$("##customOtherID").append('<div class="form-row mt-1"><label for="other_id" class="sr-only"></label><div class="col-12 col-xl-5 pr-1 float-left"><select class="data-entry-select" required><option value="">Other ID Type</option><option value="1">Field Number</option><option value="2">Collector Number</option><option value="3">Previous Number</option></select></div><div class="col-12 col-xl-6 px-1 float-left"><input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addOtherID float-left data-entry-button remOtherID" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
-		$("##customOtherID").on('click','.remOtherID',function(){
-			$(this).parent().remove();});
+		$("##customOtherID").on('click','.remOtherID',function(){$(this).parent().remove();});
 	});
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
