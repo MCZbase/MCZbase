@@ -534,7 +534,7 @@ limitations under the License.
 									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'accnPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Accession" class="btn btn-xs btn-danger float-right"
-									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
+									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##editAccnForm').removeAttr('onsubmit'); $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
 							</div>
 						</div>
 						<div id="accnPrintDialog"></div>
@@ -859,13 +859,15 @@ limitations under the License.
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		</cftransaction>
-		<section class="container">
-			<h1 class="h2">Accession #deleteTarget# deleted.....</h1>
-			<ul>
-				<li><a href="/Transactions.cfm?action=findAccessions">Search for Accessions</a>.</li>
-				<li><a href="/transactions/Accession.cfm?action=new">Create a New Accession</a>.</li>
-			</ul>
-		</section>
+		<cfoutput>
+			<section class="container">
+				<h1 class="h2">Accession #deleteTarget# deleted.....</h1>
+				<ul>
+					<li><a href="/Transactions.cfm?action=findAccessions">Search for Accessions</a>.</li>
+					<li><a href="/transactions/Accession.cfm?action=new">Create a New Accession</a>.</li>
+				</ul>
+			</section>
+		<cfoutput>
 	<cfcatch>
 		<section class="container">
 			<div class="row">
