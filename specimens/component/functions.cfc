@@ -87,165 +87,406 @@ limitations under the License.
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
-				<!--- TODO: Manage rights at the file level --->
-				<cfif NOT listcontainsnocase(session.roles,"manage_specimens")>
-					<cfthrow message="Insufficient rights to edit identifications.">
-				</cfif>
-				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select nature_of_id from ctnature_of_id
+				</cfquery>
+				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select taxa_formula from cttaxa_formula order by taxa_formula
+				</cfquery>
+				<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
+						identification.identification_id,
+						institution_acronym,
 						identification.scientific_name,
-						identification.collection_object_id,
-						concatidagent(identification.identification_id) agent_name,
+						cat_num,
+						cataloged_item.collection_cde,
+						agent_name,
+						identifier_order,
+						identification_agent.agent_id,
 						made_date,
 						nature_of_id,
-						identification_remarks,
-						identification.identification_id,
 						accepted_id_fg,
-						taxa_formula,
-						formatted_publication,
+						identification_remarks,
+						identification_agent_id,
+						MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
 						identification.publication_id,
-						stored_as_fg
+						identification.sort_order,
+						identification.stored_as_fg
 					FROM
-						identification,
-						(select * from formatted_publication where format_style='short') formatted_publication
+						cataloged_item
+						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+						left join collection on cataloged_item.collection_id=collection.collection_id
+						left join identification_agent on identification.identification_id = identification_agent.identification_id
+						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
 					WHERE
-						identification.publication_id=formatted_publication.publication_id (+) and
-						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY 
+						accepted_id_fg, sort_order DESC
 				</cfquery>
-				<cfloop query="identification">
-					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct
-							taxonomy.taxon_name_id,
-							display_name,
-							scientific_name,
-							author_text,
-							full_taxon_name 
-						FROM 
-							identification_taxonomy,
-							taxonomy
-						WHERE 
-							identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
-							AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<!--- TODO: editable form ---> 
-					<cfif accepted_id_fg is 1>
-						<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-							<div class="d-inline-block mb-2 h4 text-success">Current Identification</div>
-							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
-								<cfif len(getTaxa.author_text) gt 0>
-									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
-								</cfif>
-								</div>
-								<cfelse>
-								<cfset link="">
-								<cfset i=1>
-								<cfset thisSciName="#scientific_name#">
-								<cfloop query="getTaxa">
-									<span class="font-italic h4 font-weight-lessbold d-inline-block">
-									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-									<cfset i=#i#+1>
-									<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
-								</cfloop>
-							</cfif>
-							<cfif stored_as_fg is 1>
-								<span class="bg-gray float-right rounded p-1">STORED AS</span>
-							</cfif>
-							<cfif not isdefined("metaDesc")>
-								<cfset metaDesc="">
-							</cfif>
-							<cfloop query="getTaxa">
-								<div class="h5 mb-1 text-dark font-italic"> #full_taxon_name# </div>
-								<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-								<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-								</cfquery>
-								<cfif len(cName.common_name) gt 0><div class="h5 mb-1 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
-								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")><!---  common name for current id--->
-							</cfloop>
-							<div class="form-row mx-0">
-								<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
-									<cfif len(made_date) gt 0>
-										<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
-									</cfif>
-								</div>
-							</div>
-							<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
-							<cfif len(identification_remarks) gt 0>
-								<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
-							</cfif>
-						</ul>	
-						<cfelse><!---Start of former Identifications--->
-							<cfif getTaxa.recordcount gt 0>		
-								<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
-							</cfif><!---Add Title for former identifications--->
-						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
-						<li class="px-0">
-						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span><!---identification  for former names when there is no author--->
-							<cfif len(getTaxa.author_text) gt 0>
-								<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
-							</cfif>
-							<cfelse>
-							<cfset link="">
-							<cfset i=1>
-							<cfset thisSciName="#scientific_name#">
-							<cfloop query="getTaxa">
-								<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
-								<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-								<cfset i=#i#+1>
-							</cfloop>
-							#thisSciName# <!---identification for former names when there is an author--it put the sci name with the author--->
+
+				<!--- TODO: Refactor from here for redesign ---> 
+
+<div class="basic_box">
+<form name="newID" id="newID" method="post" action="editIdentification.cfm">
+
+	<table class="newRec">
+ <tr>
+ 	<td colspan="2">
+        <h3 class="wikilink">Add new Determination
+<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a></h3>
+	</td>
+ </tr>
+    <input type="hidden" name="Action" value="createNew">
+    <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+    <tr>
+		<td>
+			<div class="helpLink" id="taxa_formula">ID Formula:</div>
+		</td>
+		<td>
+			<cfif not isdefined("taxa_formula")>
+				<cfset taxa_formula='A'>
+			</cfif>
+			<cfset thisForm = "#taxa_formula#">
+			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr"
+				onchange="newIdFormula(this.value);">
+					<cfloop query="ctFormula">
+						<option
+							<cfif #thisForm# is "#ctFormula.taxa_formula#"> selected </cfif>value="#ctFormula.taxa_formula#">#taxa_formula#</option>
+					</cfloop>
+			</select>
+		</td>
+	</tr>
+	<tr>
+    	<td>
+			<div class="helpLink" id="scientific_name">Taxon A:</div>
+		</td>
+         <td>
+		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50"
+				onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
+				onKeyPress="return noenter(event);">
+			<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
+		</td>
+  	</tr>
+	<tr id="userID" style="display:none;">
+    	<td>
+			<div class="helpLink" id="user_identification">Identification:</div>
+		</td>
+         <td>
+		  	<input type="text" name="user_id" id="user_id" size="50">
+		</td>
+  	</tr>
+	<tr id="taxon_b_row" style="display:none;">
+    	<td>
+			<div align="right">Taxon B:</div>
+		</td>
+        <td>
+			<input type="text" name="taxonb" id="taxonb"  size="50"
+				onChange="taxaPick('taxonb_id','taxonb','newID',this.value); return false;"
+				onKeyPress="return noenter(event);">
+			<input type="hidden" name="taxonb_id" id="taxonb_id">
+		</td>
+  	</tr>
+    <tr>
+    	<td>
+			<div class="helpLink" id="id_by">ID By:</div>
+		</td>
+        <td>
+			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="40"
+				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
+            <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
+			<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
+		</td>
+	</tr>
+	<tr id="addNewIdBy_two" style="display:none;">
+    	<td>
+			<div align="right">
+				ID By:<span class="infoLink" onclick="clearNewIdBy('two');"> remove</span>
+			</div>
+		</td>
+        <td>
+			<input type="text" name="newIdBy_two" id="newIdBy_two" size="40"
+				onchange="getAgent('newIdBy_two_id',this.id,'newID',this.value);">
+            <input type="hidden" name="newIdBy_two_id" id="newIdBy_two_id">
+			<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
+		 </td>
+	</tr>
+    <tr id="addNewIdBy_three" style="display:none;">
+    	<td>
+			<div align="right">
+				ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> remove</span>
+			</div>
+		</td>
+        <td>
+			<input type="text" name="newIdBy_three" id="newIdBy_three" size="50"
+				onchange="getAgent('newIdBy_three_id',this.id,'newID',this.value);">
+            <input type="hidden" name="newIdBy_three_id" id="newIdBy_three_id">
+		 </td>
+    </tr>
+    <tr>
+    	<td>
+			<div class="helpLink" id="identification.made_date">ID Date:</div>
+		</td>
+        <td>
+			<input type="text" name="made_date" id="made_date">
+		</td>
+	</tr>
+    <tr>
+    	<td>
+			<div class="helpLink" id="nature_of_id">Nature of ID</div>
+		</td>
+		<td>
+			<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr">
+            	<cfloop query="ctnature">
+                	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+                </cfloop>
+            </select>
+			<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+		</td>
+	</tr>
+    <tr>
+    	<td>
+			<div class="helpLink" id="identification_publication">Sensu:</div>
+		</td>
+		<td>
+			<input type="hidden" name="new_publication_id" id="new_publication_id">
+			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newID')" size="50">
+		</td>
+	</tr>
+    <tr>
+    	<td>
+			<div class="helpLink" id="identification_remarks">Remarks:</div>
+		</td>
+        <td>
+			<input type="text" name="identification_remarks" id="identification_remarks" size="50">
+		</td>
+    </tr>
+    <tr>
+		<td colspan="2">
+			<div align="center">
+            	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">
+             </div>
+		</td>
+    </tr>
+	</table>
+</form>
+<br><br>
+<h3 class="wikilink">Edit an Existing Determination
+<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
+<cfset i = 1>
+<cfquery name="distIds" dbtype="query">
+	SELECT
+		identification_id,
+		institution_acronym,
+		scientific_name,
+		cat_num,
+		collection_cde,
+		made_date,
+		nature_of_id,
+		accepted_id_fg,
+		identification_remarks,
+		formatted_publication,
+		publication_id,
+		sort_order,
+		stored_as_fg
+	FROM
+		getID
+	GROUP BY
+		identification_id,
+		institution_acronym,
+		scientific_name,
+		cat_num,
+		collection_cde,
+		made_date,
+		nature_of_id,
+		accepted_id_fg,
+		identification_remarks,
+		formatted_publication,
+		publication_id,
+		sort_order,
+		stored_as_fg
+	ORDER BY
+		accepted_id_fg DESC,
+		sort_order,
+		made_date DESC
+
+</cfquery>
+<cfset sortCount=distIds.recordcount - 1>
+<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+    <input type="hidden" name="Action" value="saveEdits">
+    <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+	<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
+<table border style="border:collapse;" style="width: 80%;">
+<cfloop query="distIds">
+	<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#><td>
+	<cfquery name="identifiers" dbtype="query">
+		select
+			agent_name,
+			identifier_order,
+			agent_id,
+			identification_agent_id
+		FROM
+			getID
+		WHERE
+			identification_id=#identification_id#
+		group by
+			agent_name,
+			identifier_order,
+			agent_id,
+			identification_agent_id
+		ORDER BY
+			identifier_order
+	</cfquery>
+	<cfset thisIdentification_id = #identification_id#>
+	<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
+	<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#"
+			value="#identifiers.recordcount#">
+	<table id="mainTable_#i#">
+    	<tr>
+        	<td><div align="right">Scientific Name:</div></td>
+            <td><b><i>#scientific_name#</i></b>
+			</td>
+        </tr>
+        <tr>
+        	<td><div align="right">Accepted?</div></td>
+			<td>
+				<cfif #accepted_id_fg# is 0>
+					<select name="accepted_id_fg_#i#"
+						id="accepted_id_fg_#i#" size="1"
+						class="reqdClr" onchange="flippedAccepted('#i#')">
+						<option value="1"
+							<cfif #ACCEPTED_ID_FG# is 1> selected </cfif>>yes</option>
+                    	<option
+							<cfif #accepted_id_fg# is 0> selected </cfif>value="0">no</option>
+						<cfif #ACCEPTED_ID_FG# is 0>
+							<option value="DELETE">DELETE</option>
 						</cfif>
-						<cfif oneOfUs is 1 and stored_as_fg is 1>
-							<span style="float-right rounded p-1 bg-light">STORED AS</span>
-						</cfif>
-						<cfif not isdefined("metaDesc")>
-							<cfset metaDesc="">
-						</cfif>
-						<cfloop query="getTaxa">
-							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-							<p class="small text-muted mb-0"> #full_taxon_name#</p><!--- full taxon name for former id--->
-							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-							</cfquery>
-							<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
-							<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif><!---  common name for former id--->
-						</cfloop>
-						<cfif len(formatted_publication) gt 0>
-							sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
-						</cfif>
-						<span class="small">Determination: #agent_name#
-							<cfif len(made_date) gt 0>
-								on #dateformat(made_date,"yyyy-mm-dd")#
-							</cfif>
-							<span class="d-block">Nature of ID: #nature_of_id#</span> 
-						<cfif len(identification_remarks) gt 0>
-							<span class="d-block">Remarks: #identification_remarks#</span>
-						</cfif>
+                  	</select>
+					<cfif #ACCEPTED_ID_FG# is 0>
+						<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 					</cfif>
-					</li>
-					</ul>
-				</cfloop>
+				<cfelse>
+					<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
+					<b>Yes</b>
+				</cfif>
+			</td>
+       	</tr>
+        <tr>
+			<td colspan="2" align="right">
+				<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
+					<tbody id="identifierTableBody_#i#">
+						<cfset idnum=1>
+						<cfloop query="identifiers">
+							<tr id="IdTr_#i#_#idnum#">
+								<td align="right">Identified By:</td>
+								<td align="right">
+									<input type="text"
+										name="IdBy_#i#_#idnum#"
+										id="IdBy_#i#_#idnum#"
+										value="#agent_name#"
+										class="reqdClr"
+										size="50"
+										onchange="getAgent('IdBy_#i#_#idnum#_id',this.id,'editIdentification',this.value);">
+									<input type="hidden"
+										name="IdBy_#i#_#idnum#_id"
+										id="IdBy_#i#_#idnum#_id" value="#agent_id#"
+										class="reqdClr">
+									<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
+										value="#identification_agent_id#">
+									<cfif #idnum# gt 1>
+										<img src="/images/del.gif" class="likeLink"
+											onclick="removeIdentifier('#i#','#idnum#')" />
+									</cfif>
+				 				</td>
+				 			</tr>
+							<cfset idnum=idnum+1>
+						</cfloop>
+					</tbody>
+				</table>
+                        <span class="infoLink" id="addIdentifier_#i#"
+					onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+			</td>
+
+		</tr>
+		<tr>
+        	<td align="right">
+				<div id="identification.made_date">ID Date:</div>
+			</td>
+            <td>
+				<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#">
+           </td>
+		</tr>
+        <tr>
+	        <td align="right">
+				<div id="nature_of_id">Nature of ID:</div>
+			</td>
+	        <td>
+				<cfset thisID = #nature_of_id#>
+				<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr">
+	            	<cfloop query="ctnature">
+	                	<option <cfif #ctnature.nature_of_id# is #thisID#> selected </cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+	                </cfloop>
+	           	</select>
+				<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+			</td>
+        </tr>
+        <tr>
+	        <td align="right">
+				<div id="identification_publication">Sensu:</div>
+			</td>
+	        <td>
+				<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+				<input type="text"
+					id="publication_#i#"
+					value='#formatted_publication#'
+					onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
+				<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
+
+			</td>
+        </tr>
+        <tr>
+          	<td><div align="right">Remarks:</div></td>
+         	 <td>
+				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
+					value="#stripQuotes(identification_remarks)#" size="50">
+			</td>
+        </tr>
+		<cfif #accepted_id_fg# is 0>
+		<tr>
+			<td>
+				<div align="right">Sort Order:</div>
+			</td>
+			<td>
+				<select name="sort_order_#i#" id="sort_order_#i#" size="1">
+	                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
+	                <cfloop index="X" from="1" to="#sortCount#">
+	                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
+	                </cfloop>
+	           	</select>
+	        </td>
+	        <td>
+	           	Stored As: <input type="checkbox" class="check" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
+			</td>
+        </tr>
+		<cfelse>
+			<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
+			<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
+		</cfif>
+	</table>
+  <cfset i = #i#+1>
+</td></tr>
+</cfloop>
+<tr>
+	<td align="right">
+		<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
+	</td>
+</tr>
+</table>
+
+</form>
+</div>
+
+
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
