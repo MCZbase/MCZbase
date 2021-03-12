@@ -867,7 +867,7 @@ limitations under the License.
 					<li><a href="/transactions/Accession.cfm?action=new">Create a New Accession</a>.</li>
 				</ul>
 			</section>
-		<cfoutput>
+		</cfoutput>
 	<cfcatch>
 		<section class="container">
 			<div class="row">
