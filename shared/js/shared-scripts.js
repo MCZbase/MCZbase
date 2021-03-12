@@ -245,25 +245,25 @@ function autogrow (event) {
 //	  onchange="getAgent('newIdById','idBy','newID',this.value); return false;"
 //	  onKeyPress="return noenter(event);"> 
 // note the '(event)' bit - that's required for FireFox to process this correctly
-//function noenter (e) 
-//	{
-//	var key;
-//	var keychar;
-//	var reg;
-//	
-//	if(window.event) {
-//		// for IE, e.keyCode or window.event.keyCode can be used
-//		key = e.keyCode; 
-//	}
-//	else if(e.which) {
-//		// netscape
-//		key = e.which; 
-//	}
-//	if (key == 13) {
-//			// enter
-//			return false;
-//	}
-//}
+function noenter (e) 
+	{
+	var key;
+	var keychar;
+	var reg;
+	
+	if(window.event) {
+		// for IE, e.keyCode or window.event.keyCode can be used
+		key = e.keyCode; 
+	}
+	else if(e.which) {
+		// netscape
+		key = e.which; 
+	}
+	if (key == 13) {
+			// enter
+			return false;
+	}
+}
 
 /** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
