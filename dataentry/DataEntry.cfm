@@ -33,14 +33,14 @@ limitations under the License.
 	top: 202px;
 }
 #mydiv7 {
-	top:414px;
+	top:348px;
 }
 #mydiv8 {
-	top:782px;
+	top:725px;
 }
 
 #mydiv10 {
-	top:435px;	
+	top:431px;	
 	}
 #mydiv11  {
 	top:664px;
@@ -49,7 +49,7 @@ limitations under the License.
 	top: 664px;
 }
 #mydiv13 {
-	top:764px;
+	top:760px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
