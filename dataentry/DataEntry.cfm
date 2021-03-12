@@ -477,17 +477,17 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="verbatim_locality" class="data-entry-input" placeholder="Verbatim Locality" />
 								</div>
 							</div>
@@ -505,7 +505,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
 								</div>
 							</div>
@@ -529,19 +529,19 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="Habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat_desc" class="data-entry-input" placeholder="Habitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="microhabitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Microhabitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Microhabitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Collecting Remark</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 									</textarea>
 								</div>
@@ -578,23 +578,23 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="locality_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-9"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span>OR</span> </div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="higher_geog" class="data-entry-input" placeholder="Higher Geography" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Specific Locality</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="spec_locality" class="data-entry-input" placeholder="Specific Locality" />
 								</div>
 							</div>
@@ -638,25 +638,25 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="sovereign_nation" class="data-entry-label col-sm-3 text-center text-md-right px-0">Sovereign Nation</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="sovereign_nation" class="data-entry-input" placeholder="Sovereign Nation" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-								<div class="col-sm-9 my-0">
+								<div class="col-sm-8 my-0">
 									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="habitat" class="data-entry-label col-sm-3 text-center text-md-right px-0">Habitat</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<input type="text" name="habitat" class="data-entry-input" placeholder="Habitat" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-								<div class="col-sm-9">
+								<div class="col-sm-8">
 									<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 									</textarea>
 								</div>
