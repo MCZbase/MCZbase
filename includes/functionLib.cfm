@@ -275,6 +275,15 @@
 	<cfset session.TaxSrchTab="TaxSrch" & temp>
 	<cfset session.exclusive_collection_id="">
 	<cfset session.mczmediafail=0>
+	<!--- determine which git branch is currently checked out --->
+	<cftry>
+		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfcatch>
+		<cfset gitBranch = "unknown">
+	</cfcatch>
+	</cftry>
+	<cfset Session.gitBranch = gitBranch>
 
 	<!---------------------------- login ------------------------------------------------>
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
