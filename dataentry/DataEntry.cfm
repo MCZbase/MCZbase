@@ -600,14 +600,14 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Elevation</label>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3 pr-1">
 									<input type="text" class="data-entry-input pr-0" id="inputMinElev" placeholder="Min Elevation">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-3 px-1">
 									<input type="text" class="data-entry-input pr-0" id="inputMaxElev" placeholder="Max Elevation">
 								</div>
-								<div class="col-12 col-sm-2 pr-0">
-									<select class="data-entry-select pr-0" required>
+								<div class="col-12 col-sm-2 pl-1">
+									<select class="data-entry-select" required>
 										<option value="">Feet</option>
 										<option value="1">Fathoms</option>
 										<option value="2">Yards</option>
@@ -618,15 +618,15 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Depth</label>
-								<div class="col-12 col-sm-3">
-									<input type="text" class="data-entry-input pr-0" id="inputMinDepth" placeholder="Min Depth">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-0">Depth</label>
+								<div class="col-12 col-sm-3 pr-1">
+									<input type="text" class="data-entry-input" id="inputMinDepth" placeholder="Min Depth">
 								</div>
-								<div class="col-12 col-sm-3">
-									<input type="text" class="data-entry-input pr-0" id="inputMaxDepth" placeholder="Max Depth">
+								<div class="col-12 col-sm-3 px-1">
+									<input type="text" class="data-entry-input" id="inputMaxDepth" placeholder="Max Depth">
 								</div>
-								<div class="col-12 col-sm-2">
-									<select class="data-entry-select pr-0" required>
+								<div class="col-12 col-sm-2 pl-1">
+									<select class="data-entry-select" required>
 										<option value="">Feet</option>
 										<option value="1">Fathoms</option>
 										<option value="2">Yards</option>
@@ -644,7 +644,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Geology Attribute</label>
-								<div class="col-sm-8 my-0">
+								<div class="col-sm-8">
 									<input type="text" name="geology_attribute" class="data-entry-input" placeholder="Geology Attribute" />
 								</div>
 							</div>
