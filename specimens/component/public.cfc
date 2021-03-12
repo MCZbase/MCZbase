@@ -89,8 +89,10 @@ limitations under the License.
 									<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
 								</cfloop>
 							</cfif>
-							<cfif oneOfUs is 1 and stored_as_fg is 1>
-								<span class="bg-gray float-right rounded p-1">STORED AS</span>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<cfif stored_as_fg is 1>
+									<span class="bg-gray float-right rounded p-1">STORED AS</span>
+								</cfif>
 							</cfif>
 							<cfif not isdefined("metaDesc")>
 								<cfset metaDesc="">
