@@ -310,7 +310,7 @@ function opendialogrank(page,id,title,agentId) {
         <div style="padding: 1em;">
 		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Standards')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
 
-		<strong>#nameStr#</strong> (#agent_type#) {ID: <a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_id#</a>}
+		<strong>#nameStr#</strong> (#agent_type#) {ID: <a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_id#</a>}
 		<cfif len(#person.agent_remarks#) gt 0>
 			#person.agent_remarks#
 		</cfif>
