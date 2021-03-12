@@ -157,7 +157,7 @@ limitations under the License.
 					</cfif>
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent_relationship, agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name
+							select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name
 							from agent_relations 
 							WHERE
 								related_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
