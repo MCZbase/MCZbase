@@ -563,7 +563,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',loadIdentifications)">Edit</button>
+								<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
 							</cfif>
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
