@@ -73,7 +73,7 @@
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getIdentificationsThread">
+	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cfloop query="identification">
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -211,8 +211,8 @@
 		</cfoutput>
 	</cfthread>
 
-	<cfthread action="join" name="getIdentificationsThread" />
-	<cfreturn getIdentificationsThread.output>
+	<cfthread action="join" name="getEditIdentsThread" />
+	<cfreturn getEditIdentsThread.output>
 </cffunction>
 
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
