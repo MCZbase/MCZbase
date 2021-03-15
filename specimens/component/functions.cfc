@@ -293,8 +293,10 @@ limitations under the License.
 															<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 														</cfif>
 													</div>
-													<div class="col-12 col-md-4">
-				<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
+												</div>
+												<div class="row mt-2">
+													<div class="col-12 col-md-12">
+			<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
 					<tbody id="identifierTableBody_#i#">
 						<cfset idnum=1>
 						<cfloop query="identifiers">
@@ -324,90 +326,79 @@ limitations under the License.
 						</cfloop>
 					</tbody>
 				</table>
-                        <span class="infoLink" id="addIdentifier_#i#"
-					onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
-			</td>
-
-		</tr>
-		<tr>
-        	<td align="right">
-				<div id="identification.made_date">ID Date:</div>
-			</td>
-            <td>
-				<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#">
-           </td>
-		</tr>
-        <tr>
-	        <td align="right">
-				<div id="nature_of_id">Nature of ID:</div>
-			</td>
-	        <td>
-				<cfset thisID = #nature_of_id#>
-				<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr">
-	            	<cfloop query="ctnature">
-	                	<option <cfif #ctnature.nature_of_id# is #thisID#> selected </cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-	                </cfloop>
-	           	</select>
-				<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
-			</td>
-        </tr>
-        <tr>
-	        <td align="right">
-				<div id="identification_publication">Sensu:</div>
-			</td>
-	        <td>
-				<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-				<input type="text"
-					id="publication_#i#"
-					value='#formatted_publication#'
-					onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
-				<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
-
-			</td>
-        </tr>
-        <tr>
-          	<td><div align="right">Remarks:</div></td>
-         	 <td>
-				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
-					value="#encodeForHtml(identification_remarks)#" size="50">
-			</td>
-        </tr>
-		<cfif #accepted_id_fg# is 0>
-		<tr>
-			<td>
-				<div align="right">Sort Order:</div>
-			</td>
-			<td>
-				<select name="sort_order_#i#" id="sort_order_#i#" size="1">
-	                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
-	                <cfloop index="X" from="1" to="#sortCount#">
-	                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
-	                </cfloop>
-	           	</select>
-	        </td>
-	        <td>
-	           	Stored As: <input type="checkbox" class="check" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-			</td>
-        </tr>
-		<cfelse>
-			<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
-			<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
-		</cfif>
-	</table>
-  <cfset i = #i#+1>
-</td></tr>
-</cfloop>
-<tr>
-	<td align="right">
-		<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
-	</td>
-</tr>
-</table>
-
-</form>
-</div>
-
-
+ 						                       <span class="infoLink" id="addIdentifier_#i#"
+															onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+													</div>
+												</div>
+												<div class="row mt-2">
+													<div class="col-12 col-md-3">
+														<label for="made_date_#i#" class="data-entry-label">ID Date:</label>
+														<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
+													</div>
+													<div class="col-12 col-md-3">
+														<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID:</label>
+														<cfset thisID = #nature_of_id#>
+														<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr data-entry-select">
+										            	<cfloop query="ctnature">
+									                		<cfif #ctnature.nature_of_id# is #thisID#>
+																	<cfset selected="selected='selected'">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+										                	<option #selected# value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+	      									          </cfloop>
+	   									        	</select>
+														<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+													</div>
+													<div class="col-12 col-md-6">
+														<label for="publication_#i#" class="data-entry-label">Sensu</label>
+														<!--- TODO: Publication picker --->
+														<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+														<input type="text" id="publication_#i#" value='#formatted_publication#'
+															onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
+														<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
+													</div>
+												</div>
+												<div class="row mt-2">
+													<div class="col-12 col-md-6">
+          											<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
+														<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
+															class="data-entry-input"
+															value="#encodeForHtml(identification_remarks)#" >
+													</div>
+													<div class="col-12 col-md-4">
+														<cfif #accepted_id_fg# is 0>
+															<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
+															<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="data-entry-select">
+											                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
+											                <cfloop index="X" from="1" to="#sortCount#">
+												                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
+											                </cfloop>
+											           	</select>
+														<cfelse>
+															<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
+														</cfif>
+													</div>
+													<div class="col-12 col-md-4">
+														<cfif #accepted_id_fg# is 0>
+	           											<label for="" class="data-entry-label">Stored As</label>
+															<input type="checkbox" class="data-entry-checkbox" 
+																name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
+														<cfelse>
+															<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
+														</cfif>
+													</div>
+												</div>
+  												<cfset i = #i#+1>
+											</div>
+										</cfloop>
+										<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
