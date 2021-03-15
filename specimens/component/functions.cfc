@@ -94,48 +94,25 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<cfquery name="getID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						identification.identification_id,
-						institution_acronym,
-						identification.scientific_name,
-						cat_num,
-						cataloged_item.collection_cde,
-						agent_name,
-						identifier_order,
-						identification_agent.agent_id,
-						made_date,
-						nature_of_id,
-						accepted_id_fg,
-						identification_remarks,
-						identification_agent_id,
-						MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
-						identification.publication_id,
-						identification.sort_order,
-						identification.stored_as_fg
-					FROM
-						cataloged_item
-						left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-						left join collection on cataloged_item.collection_id=collection.collection_id
-						left join identification_agent on identification.identification_id = identification_agent.identification_id
-						left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-					WHERE
-						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-					ORDER BY 
-						accepted_id_fg, sort_order DESC
-				</cfquery>
 
 				<!--- TODO: Refactor from here for redesign ---> 
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 px-0">
-							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->>
+							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
         					<h3 class="wikilink">
 								Add new Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
 							</h3>
 							<script>
 								function idFormulaChanged(newFormula,baseId) { 
+									if(newFormula.includes("B") {
+										$('##' + baseId).show();
+									} else { 
+										$('##' + baseId).hide();
+										$('##' + baseId).val("");
+										$('##'+baseID+'_id').val("");
+									}
 								}
 							</script>
 							<form name="newIDForm" id="newIDForm">
@@ -144,14 +121,14 @@ limitations under the License.
 								<fieldset>
 									<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
 										<div class="row mt-2">
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-2">
 												<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 												<cfif not isdefined("taxa_formula")>
 													<cfset taxa_formula='A'>
 												</cfif>
 												<select name="taxa_formula" id="taxa_formula" size="1" 
 														class="reqdClr data-entry-select" required 
-														onchange="idFormulaChanged(this.value,newIDTaxon);">
+														onchange="idFormulaChanged(this.value,'taxonb');">
 													<cfset selected_value = "#taxa_formula#">
 													<cfloop query="ctFormula">
 														<cfif selected_value EQ ctFormula.taxa_formula>
@@ -163,15 +140,10 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-										</div>
-										<div class="row mt-2">
 											<div class="col-12 col-md-5">
 												<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 		  										<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
 												<input type="hidden" name="taxona_id" id="taxona_id">
-											</div>
-											<div class="col-12 col-md-5">
-												<label id="chosenformula" class="data-entry-label"></label>
 											</div>
 											<div class="col-12 col-md-5">
 												<label for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
@@ -236,107 +208,88 @@ limitations under the License.
 												makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
 											});
 										</script>
-									</form>
-
-<br><br>
-<h3 class="wikilink">Edit an Existing Determination
-<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
-<cfset i = 1>
-<cfquery name="distIds" dbtype="query">
-	SELECT
-		identification_id,
-		institution_acronym,
-		scientific_name,
-		cat_num,
-		collection_cde,
-		made_date,
-		nature_of_id,
-		accepted_id_fg,
-		identification_remarks,
-		formatted_publication,
-		publication_id,
-		sort_order,
-		stored_as_fg
-	FROM
-		getID
-	GROUP BY
-		identification_id,
-		institution_acronym,
-		scientific_name,
-		cat_num,
-		collection_cde,
-		made_date,
-		nature_of_id,
-		accepted_id_fg,
-		identification_remarks,
-		formatted_publication,
-		publication_id,
-		sort_order,
-		stored_as_fg
-	ORDER BY
-		accepted_id_fg DESC,
-		sort_order,
-		made_date DESC
-
-</cfquery>
-<cfset sortCount=distIds.recordcount - 1>
-<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
-    <input type="hidden" name="Action" value="saveEdits">
-    <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-	<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
-<table border style="border:collapse;" style="width: 80%;">
-<cfloop query="distIds">
-	<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#><td>
-	<cfquery name="identifiers" dbtype="query">
-		select
-			agent_name,
-			identifier_order,
-			agent_id,
-			identification_agent_id
-		FROM
-			getID
-		WHERE
-			identification_id=#identification_id#
-		group by
-			agent_name,
-			identifier_order,
-			agent_id,
-			identification_agent_id
-		ORDER BY
-			identifier_order
-	</cfquery>
-	<cfset thisIdentification_id = #identification_id#>
-	<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
-	<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#"
-			value="#identifiers.recordcount#">
-	<table id="mainTable_#i#">
-    	<tr>
-        	<td><div align="right">Scientific Name:</div></td>
-            <td><b><i>#scientific_name#</i></b>
-			</td>
-        </tr>
-        <tr>
-        	<td><div align="right">Accepted?</div></td>
-			<td>
-				<cfif #accepted_id_fg# is 0>
-					<select name="accepted_id_fg_#i#"
-						id="accepted_id_fg_#i#" size="1"
-						class="reqdClr" onchange="flippedAccepted('#i#')">
-						<option value="1"
-							<cfif #ACCEPTED_ID_FG# is 1> selected </cfif>>yes</option>
-                    	<option
-							<cfif #accepted_id_fg# is 0> selected </cfif>value="0">no</option>
-						<cfif #ACCEPTED_ID_FG# is 0>
-							<option value="DELETE">DELETE</option>
-						</cfif>
-                  	</select>
-					<cfif #ACCEPTED_ID_FG# is 0>
-						<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
-					</cfif>
-				<cfelse>
-					<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
-					<b>Yes</b>
-				</cfif>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 px-0">
+							<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
+							<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct
+									identification.identification_id,
+									institution_acronym,
+									identification.scientific_name,
+									cat_num,
+									cataloged_item.collection_cde,
+									made_date,
+									nature_of_id,
+									accepted_id_fg,
+									identification_remarks,
+									MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
+									identification.publication_id,
+									identification.sort_order,
+									identification.stored_as_fg
+								FROM
+									cataloged_item
+									left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+									left join collection on cataloged_item.collection_id=collection.collection_id
+								WHERE
+									cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								ORDER BY 
+									accepted_id_fg, sort_order DESC
+							</cfquery>
+							<cfset i = 1>
+							<cfset sortCount=getIds.recordcount - 1>
+							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+								<input type="hidden" name="Action" value="saveEdits">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
+								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
+									<div class="row mt-2">
+										<cfloop query="getIds">
+											<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT distinct
+													agent_name, identifier_order,
+													agent_id, identification_agent_id
+												FROM
+													identification_agent
+													left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+												WHERE
+													identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+												ORDER BY
+													identifier_order
+											</cfquery>
+											<cfset thisIdentification_id = #identification_id#>
+											<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
+											<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
+											<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
+												<div class="row mt-2">
+													<div class="col-12 col-md-8">
+														<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
+				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" >
+													</div>
+													<div class="col-12 col-md-4">
+														<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
+														<cfif #accepted_id_fg# is 0>
+															<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1"
+																	class="reqdClr" onchange="flippedAccepted('#i#')">
+																<option value="1"
+																	<cfif #ACCEPTED_ID_FG# is 1> selected </cfif>>yes</option>
+									                    	<option value="0"
+																	<cfif #accepted_id_fg# is 0> selected </cfif>>no</option>
+																<cfif #ACCEPTED_ID_FG# is 0>
+																	<option value="DELETE">DELETE</option>
+																</cfif>
+								                  	</select>
+															<cfif #ACCEPTED_ID_FG# is 0>
+																<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+															</cfif>
+														<cfelse>
+															<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
+															<b>Yes</b>
+														</cfif>
 			</td>
        	</tr>
         <tr>
