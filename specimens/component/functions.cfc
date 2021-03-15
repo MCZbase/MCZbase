@@ -95,7 +95,6 @@ limitations under the License.
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
 
-				<!--- TODO: Refactor from here for redesign ---> 
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 px-0">
@@ -169,6 +168,7 @@ limitations under the License.
 													<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
             									<input type="hidden" name="newIdBy_id" id="newIdBy_id">
 												</div>
+												<!--- TODO: Add determiners --->
 											</div>
 											<div class="col-12 col-md-3">
 												<label for="made_date" class="data-entry-label" >Date Identified</label>
@@ -186,7 +186,6 @@ limitations under the License.
 										</div>
 										<div class="row mt-2">
 											<div class="col-12 col-md-6">
-												<!--- TODO: Publication picker autocomplete. --->
 												<label for="identification_publication" class="data-entry-label" >Sensu</label>
 												<input type="hidden" name="new_publication_id" id="new_publication_id">
 												<input type="text" id="newPub" class="data-entry-input">
@@ -206,6 +205,7 @@ limitations under the License.
 												makeScientificNameAutocompleteMeta("taxona", "taxona_id");
 												makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
 												makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
+												makePublicationAutocompleteMeta("newPub", "new_publication_id");
 											});
 										</script>
 									</div>
@@ -267,8 +267,10 @@ limitations under the License.
 											<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
 												<div class="row mt-2">
 													<div class="col-12 col-md-8">
+														<!--- TODO: A/B pickers --->
 														<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
-				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" readonly="true">
+				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
+															class="data-entry-input" readonly="true" value="#scientific_name#">
 													</div>
 													<div class="col-12 col-md-4">
 														<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
@@ -296,37 +298,36 @@ limitations under the License.
 												</div>
 												<div class="row mt-2">
 													<div class="col-12 col-md-12">
-			<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
-					<tbody id="identifierTableBody_#i#">
-						<cfset idnum=1>
-						<cfloop query="identifiers">
-							<tr id="IdTr_#i#_#idnum#">
-								<td align="right">Identified By:</td>
-								<td align="right">
-									<input type="text"
-										name="IdBy_#i#_#idnum#"
-										id="IdBy_#i#_#idnum#"
-										value="#agent_name#"
-										class="reqdClr"
-										size="50"
-										onchange="getAgent('IdBy_#i#_#idnum#_id',this.id,'editIdentification',this.value);">
-									<input type="hidden"
-										name="IdBy_#i#_#idnum#_id"
-										id="IdBy_#i#_#idnum#_id" value="#agent_id#"
-										class="reqdClr">
-									<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
-										value="#identification_agent_id#">
-									<cfif #idnum# gt 1>
-										<img src="/images/del.gif" class="likeLink"
-											onclick="removeIdentifier('#i#','#idnum#')" />
-									</cfif>
-				 				</td>
-				 			</tr>
-							<cfset idnum=idnum+1>
-						</cfloop>
-					</tbody>
-				</table>
- 						                       <span class="infoLink" id="addIdentifier_#i#"
+														<cfset idnum=1>
+														<cfloop query="identifiers">
+															<div class="row" id="IdTr_#i#_#idnum#">
+																<div class="col-12 col-md-8">
+																	<label for="IdBy_#i#_#idnum#">Identified By:
+																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+																	</label>
+																	<div class="input-group">
+																		<div class="input-group-prepend">
+																			<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+																		</div>
+																		<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
+																			value="#agent_name#" class="reqdClr data-entry-input" >
+																	</div>
+																	<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
+																	<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
+																		value="#identification_agent_id#">
+																</div>
+																<div class="col-12 col-md-8">
+																	<cfif #idnum# gt 1>
+																		<img src="/images/del.gif" class="likeLink" onclick="removeIdentifier('#i#','#idnum#')" />
+																	</cfif>
+																</div>
+																<script>
+																	makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
+																</script>
+															</div>
+															<cfset idnum=idnum+1>
+														</cfloop>
+														<span class="infoLink" id="addIdentifier_#i#"
 															onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 													</div>
 												</div>
@@ -352,11 +353,9 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6">
 														<label for="publication_#i#" class="data-entry-label">Sensu</label>
-														<!--- TODO: Publication picker --->
+														<!--- TODO: Check that clearing publication picker clears id --->
 														<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-														<input type="text" id="publication_#i#" value='#formatted_publication#'
-															onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
-														<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
+														<input type="text" id="publication_#i#" value='#formatted_publication#' class="data-entry-input">
 													</div>
 												</div>
 												<div class="row mt-2">
@@ -389,8 +388,15 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>
-  												<cfset i = #i#+1>
 											</div>
+											<script>
+												$(document).ready(function() {
+													//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+													//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+													makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+												});
+											</script>
+  											<cfset i = #i#+1>
 										</cfloop>
 									</div>
 								</div>
