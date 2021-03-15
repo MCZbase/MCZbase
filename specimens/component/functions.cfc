@@ -246,159 +246,157 @@ limitations under the License.
 								<input type="hidden" name="Action" value="saveEdits">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
-								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
-									<div class="row mt-2">
-										<cfloop query="getIds">
-											<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT distinct
-													agent_name, identifier_order,
-													identification_agent.agent_id, identification_agent_id
-												FROM
-													identification_agent
-													left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-												WHERE
-													identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-												ORDER BY
-													identifier_order
-											</cfquery>
-											<cfset thisIdentification_id = #identification_id#>
-											<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
-											<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-											<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
-												<div class="row mt-2">
-													<div class="col-12 col-md-8">
-														<!--- TODO: A/B pickers --->
-														<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
-				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
-															class="data-entry-input" readonly="true" value="#scientific_name#">
-													</div>
-													<div class="col-12 col-md-4">
-														<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
-														<cfif #accepted_id_fg# is 0>
-															<cfset read = "">
-															<cfset selected0 = "selected">
-															<cfset selected1 = "">
-														<cfelse>
-															<cfset read = "readonly='true'">
-															<cfset selected0 = "">
-															<cfset selected1 = "selected">
-														</cfif>
-														<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read#
-																class="reqdClr" onchange="flippedAccepted('#i#')">
-															<option value="1" #selected1#>yes</option>
-								                    	<option value="0" #selected0#>no</option>
-															<cfif #ACCEPTED_ID_FG# is 0>
-																<option value="DELETE">DELETE</option>
-															</cfif>
-							                  	</select>
+								<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">
+									<cfloop query="getIds">
+										<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT distinct
+												agent_name, identifier_order,
+												identification_agent.agent_id, identification_agent_id
+											FROM
+												identification_agent
+												left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+											WHERE
+												identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+											ORDER BY
+												identifier_order
+										</cfquery>
+										<cfset thisIdentification_id = #identification_id#>
+										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
+										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
+										<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
+											<div class="row mt-2">
+												<div class="col-12 col-md-8">
+													<!--- TODO: A/B pickers --->
+													<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
+			  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
+														class="data-entry-input" readonly="true" value="#scientific_name#">
+												</div>
+												<div class="col-12 col-md-4">
+													<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
+													<cfif #accepted_id_fg# is 0>
+														<cfset read = "">
+														<cfset selected0 = "selected">
+														<cfset selected1 = "">
+													<cfelse>
+														<cfset read = "readonly='true'">
+														<cfset selected0 = "">
+														<cfset selected1 = "selected">
+													</cfif>
+													<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read#
+															class="reqdClr" onchange="flippedAccepted('#i#')">
+														<option value="1" #selected1#>yes</option>
+							                    	<option value="0" #selected0#>no</option>
 														<cfif #ACCEPTED_ID_FG# is 0>
-															<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+															<option value="DELETE">DELETE</option>
 														</cfif>
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-12">
-														<cfset idnum=1>
-														<cfloop query="identifiers">
-															<div class="row" id="IdTr_#i#_#idnum#">
-																<div class="col-12 col-md-8">
-																	<label for="IdBy_#i#_#idnum#">Identified By:
-																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-																	</label>
-																	<div class="input-group">
-																		<div class="input-group-prepend">
-																			<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-																		</div>
-																		<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
-																			value="#agent_name#" class="reqdClr data-entry-input" >
-																	</div>
-																	<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
-																	<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
-																		value="#identification_agent_id#">
-																</div>
-																<div class="col-12 col-md-8">
-																	<cfif #idnum# gt 1>
-																		<img src="/images/del.gif" class="likeLink" onclick="removeIdentifier('#i#','#idnum#')" />
-																	</cfif>
-																</div>
-																<script>
-																	makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-																</script>
-															</div>
-															<cfset idnum=idnum+1>
-														</cfloop>
-														<span class="infoLink" id="addIdentifier_#i#"
-															onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-3">
-														<label for="made_date_#i#" class="data-entry-label">ID Date:</label>
-														<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
-													</div>
-													<div class="col-12 col-md-3">
-														<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID:</label>
-														<cfset thisID = #nature_of_id#>
-														<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr data-entry-select">
-										            	<cfloop query="ctnature">
-									                		<cfif #ctnature.nature_of_id# is #thisID#>
-																	<cfset selected="selected='selected'">
-																<cfelse>
-																	<cfset selected="">
-																</cfif>
-										                	<option #selected# value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-	      									          </cfloop>
-	   									        	</select>
-														<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
-													</div>
-													<div class="col-12 col-md-6">
-														<label for="publication_#i#" class="data-entry-label">Sensu</label>
-														<!--- TODO: Cause clearing publication picker to clear id --->
-														<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-														<input type="text" id="publication_#i#" value='#formatted_publication#' class="data-entry-input">
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-6">
-          											<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
-														<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
-															class="data-entry-input"
-															value="#encodeForHtml(identification_remarks)#" >
-													</div>
-													<div class="col-12 col-md-4">
-														<cfif #accepted_id_fg# is 0>
-															<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
-															<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="data-entry-select">
-											                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
-											                <cfloop index="X" from="1" to="#sortCount#">
-												                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
-											                </cfloop>
-											           	</select>
-														<cfelse>
-															<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
-														</cfif>
-													</div>
-													<div class="col-12 col-md-4">
-														<cfif #accepted_id_fg# is 0>
-	           											<label for="" class="data-entry-label">Stored As</label>
-															<input type="checkbox" class="data-entry-checkbox" 
-																name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-														<cfelse>
-															<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
-														</cfif>
-													</div>
+						                  	</select>
+													<cfif #ACCEPTED_ID_FG# is 0>
+														<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+													</cfif>
 												</div>
 											</div>
-											<script>
-												$(document).ready(function() {
-													//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-													//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-													makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-												});
-											</script>
+											<div class="row mt-2">
+												<div class="col-12 col-md-12">
+													<cfset idnum=1>
+													<cfloop query="identifiers">
+														<div class="row" id="IdTr_#i#_#idnum#">
+															<div class="col-12 col-md-8">
+																<label for="IdBy_#i#_#idnum#">Identified By:
+																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+																</label>
+																<div class="input-group">
+																	<div class="input-group-prepend">
+																		<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+																	</div>
+																	<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
+																		value="#agent_name#" class="reqdClr data-entry-input" >
+																</div>
+																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
+																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
+																	value="#identification_agent_id#">
+															</div>
+															<div class="col-12 col-md-8">
+																<cfif #idnum# gt 1>
+																	<img src="/images/del.gif" class="likeLink" onclick="removeIdentifier('#i#','#idnum#')" />
+																</cfif>
+															</div>
+															<script>
+																makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
+															</script>
+														</div>
+														<cfset idnum=idnum+1>
+													</cfloop>
+													<span class="infoLink" id="addIdentifier_#i#"
+														onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-12 col-md-3">
+													<label for="made_date_#i#" class="data-entry-label">ID Date:</label>
+													<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
+												</div>
+												<div class="col-12 col-md-3">
+													<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID:</label>
+													<cfset thisID = #nature_of_id#>
+													<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr data-entry-select">
+									            	<cfloop query="ctnature">
+								                		<cfif #ctnature.nature_of_id# is #thisID#>
+																<cfset selected="selected='selected'">
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+									                	<option #selected# value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+      									          </cfloop>
+   									        	</select>
+													<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+												</div>
+												<div class="col-12 col-md-6">
+													<label for="publication_#i#" class="data-entry-label">Sensu</label>
+													<!--- TODO: Cause clearing publication picker to clear id --->
+													<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
+													<input type="text" id="publication_#i#" value='#formatted_publication#' class="data-entry-input">
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-12 col-md-6">
+          											<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
+													<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
+														class="data-entry-input"
+														value="#encodeForHtml(identification_remarks)#" >
+												</div>
+												<div class="col-12 col-md-4">
+													<cfif #accepted_id_fg# is 0>
+														<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
+														<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="data-entry-select">
+										                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
+										                <cfloop index="X" from="1" to="#sortCount#">
+											                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
+										                </cfloop>
+										           	</select>
+													<cfelse>
+														<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
+													</cfif>
+												</div>
+												<div class="col-12 col-md-4">
+													<cfif #accepted_id_fg# is 0>
+           											<label for="" class="data-entry-label">Stored As</label>
+														<input type="checkbox" class="data-entry-checkbox" 
+															name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
+													<cfelse>
+														<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
+													</cfif>
+												</div>
+											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+												//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+												makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+											});
+										</script>
   											<cfset i = #i#+1>
-										</cfloop>
-									</div>
+									</cfloop>
 								</div>
 							</div>
 							<div class="col-12 px-0">
