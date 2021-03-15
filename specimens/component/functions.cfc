@@ -106,7 +106,7 @@ limitations under the License.
 							</h3>
 							<script>
 								function idFormulaChanged(newFormula,baseId) { 
-									if(newFormula.includes("B") {
+									if(newFormula.includes("B")) {
 										$('##' + baseId).show();
 									} else { 
 										$('##' + baseId).hide();
