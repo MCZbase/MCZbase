@@ -154,11 +154,11 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="row mt-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-4">
 												<label for="user_id" class="data-entry-label" >Identification</label>
 		  										<input type="text" name="user_id" id="user_id" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-3">
 												<label for="newIdBy" id="newIdBy_label" class="data-entry-label">Id By:
 													<h5 id="newIdBy_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
@@ -170,13 +170,11 @@ limitations under the License.
             									<input type="hidden" name="newIdBy_id" id="newIdBy_id">
 												</div>
 											</div>
-										</div>
-										<div class="row mt-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-3">
 												<label for="made_date" class="data-entry-label" >Date Identified</label>
 												<input type="text" name="made_date" id="made_date" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-2">
 												<label for="nature_of_id" class="data-entry-label" >Nature Of ID</label>
 												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr data-entry-select">
 								            	<cfloop query="ctnature">
@@ -195,12 +193,12 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6">
 												<label for="identification_remarks" class="data-entry-label" >Remarks</label>
-												<input type="text" name="identification_remarks" id="identification_remarks">
+												<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 											</div>
 										</div>
 										<div class="row mt-2">
 											<div class="col-12 col-md-12">
-            								<button id="newID_submit" value="Create" class="btn btn-sm" title="Create Identification">Create Identification</button>
+            								<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 											</div>
 										</div>
 										<script>
