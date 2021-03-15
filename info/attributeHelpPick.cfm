@@ -182,7 +182,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 			
 			<!---- see if we should have a code table here --->
 		<cfquery name="isValCt" dbtype="query">
-			select value_code_table from ctCodes where attribute_type='#attribute#'
+			select value_code_table from ctCodes where attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 		</cfquery>
 		<cfif isdefined("isValCt.value_code_table") and len(#isValCt.value_code_table#) gt 0>
 			<!--- there's a code table --->
@@ -192,7 +192,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 			<!----------------------->
 			<!---- get column names --->
 			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isValCt.value_code_table)#'
+				select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isValCt.value_code_table)#">
 				and column_name <> 'DESCRIPTION'
 			</cfquery>
 				<cfset collCode = "">
@@ -239,7 +239,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 		
 			<!---- see if we should have a code table here --->
 		<cfquery name="isUnitCt" dbtype="query">
-			select units_code_table from ctCodes where attribute_type='#attribute#'
+			select units_code_table from ctCodes where attribute_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 		</cfquery>
 		<cfif isdefined("isUnitCt.units_code_table") and len(#isUnitCt.units_code_table#) gt 0>
 		
@@ -250,7 +250,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 			</cfquery>
 			<!---- get column names --->
 			<cfquery name="getCols" datasource="uam_god">
-				select column_name from sys.user_tab_columns where table_name='#ucase(isUnitCt.units_code_table)#'
+				select column_name from sys.user_tab_columns where table_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isUnitCt.units_code_table)#">
 				and column_name <> 'DESCRIPTION'
 			</cfquery>
 				<cfset collCode = "">
