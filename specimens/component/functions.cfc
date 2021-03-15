@@ -214,35 +214,35 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-12 px-0">
-							<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
-							<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct
-									identification.identification_id,
-									institution_acronym,
-									identification.scientific_name,
-									cat_num,
-									cataloged_item.collection_cde,
-									made_date,
-									nature_of_id,
-									accepted_id_fg,
-									identification_remarks,
-									MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
-									identification.publication_id,
-									identification.sort_order,
-									identification.stored_as_fg
-								FROM
-									cataloged_item
-									left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-									left join collection on cataloged_item.collection_id=collection.collection_id
-								WHERE
-									cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								ORDER BY 
-									accepted_id_fg, sort_order DESC
-							</cfquery>
-							<cfset i = 1>
-							<cfset sortCount=getIds.recordcount - 1>
-							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+						<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+							<div class="col-12 px-0">
+								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
+								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT distinct
+										identification.identification_id,
+										institution_acronym,
+										identification.scientific_name,
+										cat_num,
+										cataloged_item.collection_cde,
+										made_date,
+										nature_of_id,
+										accepted_id_fg,
+										identification_remarks,
+										MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
+										identification.publication_id,
+										identification.sort_order,
+										identification.stored_as_fg
+									FROM
+										cataloged_item
+										left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+										left join collection on cataloged_item.collection_id=collection.collection_id
+									WHERE
+										cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									ORDER BY 
+										accepted_id_fg, sort_order DESC
+								</cfquery>
+								<cfset i = 1>
+								<cfset sortCount=getIds.recordcount - 1>
 								<input type="hidden" name="Action" value="saveEdits">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
@@ -392,11 +392,13 @@ limitations under the License.
   												<cfset i = #i#+1>
 											</div>
 										</cfloop>
-										<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 									</div>
 								</div>
-							</form>
-						</div>
+							</div>
+							<div class="col-12 px-0">
+								<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
+							</div>
+						</form>
 					</div>
 				</div>
 			<cfcatch>
