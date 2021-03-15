@@ -213,8 +213,8 @@ limitations under the License.
 							</form>
 						</div>
 					</div>
-					<div class="row">
-						<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+						<div class="row">
 							<div class="col-12 px-0">
 								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -353,7 +353,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-6">
 														<label for="publication_#i#" class="data-entry-label">Sensu</label>
-														<!--- TODO: Check that clearing publication picker clears id --->
+														<!--- TODO: Cause clearing publication picker to clear id --->
 														<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
 														<input type="text" id="publication_#i#" value='#formatted_publication#' class="data-entry-input">
 													</div>
@@ -404,8 +404,8 @@ limitations under the License.
 							<div class="col-12 px-0">
 								<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</div>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
