@@ -252,7 +252,7 @@ limitations under the License.
 											<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													agent_name, identifier_order,
-													agent_id, identification_agent_id
+													identification_agent.agent_id, identification_agent_id
 												FROM
 													identification_agent
 													left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
