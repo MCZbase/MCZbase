@@ -108,8 +108,10 @@ limitations under the License.
 								function idFormulaChanged(newFormula,baseId) { 
 									if(newFormula.includes("B")) {
 										$('##' + baseId).show();
+										$('##'+baseId+'_label').show();
 									} else { 
 										$('##' + baseId).hide();
+										$('##'+baseId+'_label').hide();
 										$('##' + baseId).val("");
 										$('##'+baseID+'_id').val("");
 									}
@@ -146,7 +148,7 @@ limitations under the License.
 												<input type="hidden" name="taxona_id" id="taxona_id">
 											</div>
 											<div class="col-12 col-md-5">
-												<label for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+												<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 		  										<input type="text" name="taxonb" id="taxonb" class="reqdClr data-entry-input" size="50" style="display:none">
 												<input type="hidden" name="taxonb_id" id="taxonb_id">
 											</div>
