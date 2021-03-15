@@ -215,7 +215,7 @@ limitations under the License.
 					</div>
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
-							<div class="col-12 px-0">
+							<div class="col-12">
 								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -246,8 +246,8 @@ limitations under the License.
 								<input type="hidden" name="Action" value="saveEdits">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
-								<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">
-									<cfloop query="getIds">
+								<cfloop query="getIds">
+									<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">
 										<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT distinct
 												agent_name, identifier_order,
@@ -263,7 +263,7 @@ limitations under the License.
 										<cfset thisIdentification_id = #identification_id#>
 										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-										<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
+										<div class="col-12">
 											<div class="row mt-2">
 												<div class="col-12 col-md-8">
 													<!--- TODO: A/B pickers --->
@@ -395,9 +395,9 @@ limitations under the License.
 												makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 											});
 										</script>
-  											<cfset i = #i#+1>
-									</cfloop>
-								</div>
+									</div>
+									<cfset i = #i#+1>
+								</cfloop>
 							</div>
 							<div class="col-12 px-0">
 								<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
