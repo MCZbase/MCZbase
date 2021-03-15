@@ -245,7 +245,7 @@ limitations under the License.
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 								<input type="hidden" name="Action" value="saveEdits">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
+								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
 								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
 									<div class="row mt-2">
 										<cfloop query="getIds">
@@ -268,32 +268,32 @@ limitations under the License.
 												<div class="row mt-2">
 													<div class="col-12 col-md-8">
 														<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
-				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" >
+				  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" readonly="true">
 													</div>
 													<div class="col-12 col-md-4">
 														<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
 														<cfif #accepted_id_fg# is 0>
-															<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1"
-																	class="reqdClr" onchange="flippedAccepted('#i#')">
-																<option value="1"
-																	<cfif #ACCEPTED_ID_FG# is 1> selected </cfif>>yes</option>
-									                    	<option value="0"
-																	<cfif #accepted_id_fg# is 0> selected </cfif>>no</option>
-																<cfif #ACCEPTED_ID_FG# is 0>
-																	<option value="DELETE">DELETE</option>
-																</cfif>
-								                  	</select>
-															<cfif #ACCEPTED_ID_FG# is 0>
-																<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
-															</cfif>
+															<cfset read = "">
+															<cfset selected0 = "selected">
+															<cfset selected1 = "">
 														<cfelse>
-															<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
-															<b>Yes</b>
+															<cfset read = "readonly='true'">
+															<cfset selected0 = "">
+															<cfset selected1 = "selected">
 														</cfif>
-			</td>
-       	</tr>
-        <tr>
-			<td colspan="2" align="right">
+														<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read#
+																class="reqdClr" onchange="flippedAccepted('#i#')">
+															<option value="1" #selected1#>yes</option>
+								                    	<option value="0" #selected0#>no</option>
+															<cfif #ACCEPTED_ID_FG# is 0>
+																<option value="DELETE">DELETE</option>
+															</cfif>
+							                  	</select>
+														<cfif #ACCEPTED_ID_FG# is 0>
+															<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+														</cfif>
+													</div>
+													<div class="col-12 col-md-4">
 				<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
 					<tbody id="identifierTableBody_#i#">
 						<cfset idnum=1>
