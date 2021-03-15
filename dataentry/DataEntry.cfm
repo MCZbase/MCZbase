@@ -74,7 +74,7 @@ limitations under the License.
 
 <cfoutput>
 
-	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Between Full<br> Screen and Step Form</a> </div>
+	<div style="position:absolute; top: 99px; left:25px;z-index:3000;"> <a class="btn btn-xs btn-secondary" href="javascript:SwapDivsWithClick('swapper-first','swapper-other')">Switch Form</a> </div>
 	<div class="container pt-0 mt-0 bg-blue-gray" id="swapper-other" style="display:none;">
 		<div class="row">
 			<div class="col-12 col-xl-10 justify-content-center mt-2 mx-auto">
@@ -492,21 +492,22 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates and Time</label>
-								<div class="col-12 col-sm-3 pr-0">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">ISO Dates</label>
+								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="began_date" placeholder="Began Date">
 								</div>
-								<div class="col-12 col-sm-3 pr-0">
+								<div class="col-12 col-sm-4">
 									<input type="text" class="data-entry-input pr-xl-0" id="ended_date" placeholder="Date Ended">
 								</div>
-								<div class="col-12 col-sm-3">
-									<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
-								</div>
+						
 							</div>
 							<div class="row">
-								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date</label>
-								<div class="col-sm-8">
+								<label for="inputPassword3" class="data-entry-label col-sm-3 text-center text-md-right">Verbatim Date and Time</label>
+								<div class="col-12 col-sm-4 pr-xl-0">
 									<input type="text" class="data-entry-input" id="verbatim_date" placeholder="Verbatim Date">
+								</div>
+								<div class="col-12 col-sm-4">
+									<input type="text" class="data-entry-input pr-xl-0" id="collecting_time" placeholder="Collecting Time">
 								</div>
 							</div>
 							<div class="row">
@@ -514,7 +515,7 @@ limitations under the License.
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="start_day_of_year" placeholder="Start Day of Year">
 								</div>
-								<div class="col-12 col-sm-4 pr-0">
+								<div class="col-12 col-sm-4">
 									<input type="text" class="data-entry-input pr-xl-0" id="end_day_of_year" placeholder="End Day of Year">
 								</div>
 							</div>
@@ -523,7 +524,7 @@ limitations under the License.
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="collecting_source" placeholder="Collecting Source">
 								</div>
-								<div class="col-12 col-sm-4 pr-0">
+								<div class="col-12 col-sm-4">
 									<input type="text" class="data-entry-input pr-xl-0" id="collecting_method" placeholder="Collecting Method">
 								</div>
 							</div>
