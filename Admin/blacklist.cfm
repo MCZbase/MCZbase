@@ -7,13 +7,16 @@
 		<cfswitch expression="#action#">
 			<cfcase value="all">
 				<!--- list all ip addresses on the block list and reload the application variable --->
-				<div>
+				<div class="row">
 					<form name="i" method="post" action="/Admin/blacklist.cfm">
-						<input type="hidden" name="action" value="ins">
-						<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
-						<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
-						<br>
-						<input type="submit" value="blacklist" class="btn btn-xs btn-primary">
+						<div class="col-12 col-md-6">
+							<input type="hidden" name="action" value="ins">
+							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
+						</div>
+						<div class="col-12 col-md-6">
+							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
+						</div>
 					</form>
 				</div>
 				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -77,13 +80,16 @@
 			</cfcase>
 			<cfdefaultcase>
 				<!--- show recent and local additions to the block list --->
-				<div>
+				<div class="row">
 					<form name="i" method="post" action="/Admin/blacklist.cfm">
-						<input type="hidden" name="action" value="ins">
-						<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
-						<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
-						<br>
-						<input type="submit" value="blacklist" class="btn btn-xs btn-primary">
+						<div class="col-12 col-md-6">
+							<input type="hidden" name="action" value="ins">
+							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
+						</div>
+						<div class="col-12 col-md-6">
+							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
+						</div>
 					</form>
 				</div>
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
