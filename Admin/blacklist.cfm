@@ -114,7 +114,7 @@
 					</cfif>
 				</ul>
 				<cfquery name="localaddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, UTL_INADDR.get_host_name(ip) as hostname from blacklist 
+					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
 					where ip like '140.247.%' or ip like '10.255.%'
 					order by ip
 				</cfquery>
