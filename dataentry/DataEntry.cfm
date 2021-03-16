@@ -849,7 +849,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addCurRelations loginButtons rounded mr-auto m-1" target="_self" href="javascript:void(0);">Add </a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addCurRelations loginButtons rounded mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
