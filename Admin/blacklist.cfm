@@ -11,11 +11,12 @@
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
-							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+							<label for="ip" class="data-entry-label">IP address to block</label>
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
 						<div class="col-12 col-md-6">
-							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
+							<label for="addbutton" class="data-entry-label" aria-hidden="true"></label>
+							<input type="submit" id="addbutton" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
 					</div>
 				</form>
@@ -84,11 +85,12 @@
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
-							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+							<label for="ip" class="data-entry-label">IP address to block</label>
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
 						<div class="col-12 col-md-6">
-							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
+							<label for="addbutton" class="data-entry-label" aria-hidden="true"></label>
+							<input type="submit" id="addbutton" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
 					</div>
 				</form>
