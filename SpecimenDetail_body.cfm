@@ -1023,7 +1023,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				project, project_trans
 				WHERE
 				project_trans.project_id = project.project_id AND
-				project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#one.accn_id#">
+				project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 				GROUP BY project_name, project.project_id
 		  </cfquery>
 		  <cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
