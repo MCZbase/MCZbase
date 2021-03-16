@@ -99,10 +99,10 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-        					<h3 class="wikilink mb-0 px-1">
+        					<h1 class="h3 wikilink mb-0 px-1">
 								Add new Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
-							</h3>
+							</h1>
 							<script>
 								function idFormulaChanged(newFormula,baseId) { 
 									if(newFormula.includes("B")) {
@@ -159,7 +159,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3">
 												<label for="newIdBy" id="newIdBy_label" class="data-entry-label">Id By
-													<h5 id="newIdBy_view" class="d-inline pb-0 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+													<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -216,7 +216,7 @@ limitations under the License.
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
 							<div class="col-12">
-								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
+								<h1 class="h3">Edit Existing Determinations <img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h1>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										identification.identification_id,
