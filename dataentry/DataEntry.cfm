@@ -682,7 +682,7 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label>
-									<div class="col-12 col-sm-4 px-1">
+									<div class="col-12 col-sm-4 pl-1 pr-0">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 									</div>
 									<div class="col-12 col-sm-4 px-1">
@@ -718,7 +718,7 @@ limitations under the License.
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
 									<label for="date" class="sr-only">Date</label>
-									<div class="col-sm-4 plr-1 pl-0">
+									<div class="col-sm-4 px-1">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
