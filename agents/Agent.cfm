@@ -22,10 +22,10 @@ limitations under the License.
 
 <!--- if we were given an action, use that, and let errors arise if requirements for action weren't met. --->
 <cfif NOT isdefined("action")>
-	<!-- if no action was given, but an agent_id was given, then assume we want agent details, otherwise newAgent form. --->
+	<!--- if no action was given, but an agent_id was given, then assume we want agent details, otherwise newAgent form. --->
 	<cfif isdefined("agent_id")>
 		<cfset action = "agentDetails">
-		<cfif len(agent_id) GT 0 and not REMatch("^[0-9]*$",agent_id)>
+		<cfif len(agent_id) GT 0 and REFind("^[0-9]*$",agent_id) EQ 0>
 			<cfinclude template="/errors/autoblacklist.cfm">
 			<cfabort>
 		</cfif>
