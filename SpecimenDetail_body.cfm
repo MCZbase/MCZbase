@@ -1541,7 +1541,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					from accn 
 						left join collection on accn.collection_id = collection.collection_id
 					WHERE
-						accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#one.accn_id#">
+						accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 			  	</cfquery>
 				<cfset accnDept = "">
 				<cfif one.collection_cde IS accnCollection.collection_cde>
