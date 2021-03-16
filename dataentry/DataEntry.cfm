@@ -854,13 +854,13 @@ limitations under the License.
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
 							<div id="customPart">
-								<div class="row">
+								<div class="form-row">
 									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 									</div>
 									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
 											<option value="">Ethanol</option>
 											<option value="1">RNALater</option>
@@ -869,11 +869,11 @@ limitations under the License.
 										</select>
 									</div>
 									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 									</div>
 									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
 											<option value="">Being Processed</option>
 											<option value="1">Deaccessioned</option>
@@ -883,7 +883,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pr-xl-0">
+										<div class="col-12 col-lg-4 pl-xl-1 pr-xl-0">
 											<select class="data-entry-select pr-xl-0" required="">
 												<option value="">Modifier</option>
 												<option value="1">ca.</option>
@@ -891,21 +891,22 @@ limitations under the License.
 												<option value="3">&lt;</option>
 											</select>
 										</div>
-										<div class="col-12 col-lg-5">
+										<div class="col-12 col-lg-4 px-1">
 											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 										</div>
 									</div>
 									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
 									</div>
 									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
+								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart col loginButtons rounded mr-auto" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a></div>
+								
 							</div>
 							</div>
 					</div>
@@ -972,11 +973,7 @@ function dragElement(elmnt) {
 }
 </script>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
-
-
-
-
-	<script>
+<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row 
 		
 $(document).ready(function(){
