@@ -756,17 +756,18 @@ limitations under the License.
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
-								<div class="form-row mt-3">
+								<div class="form-row">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Type</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 									</div>
-									<div class="col-12 row mx-0 px-0">
+								</div>
+								<div class="form-row">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-4 pr-lg-0">
+										<div class="col-12 col-lg-4 pl-1 pr-0">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										</div>
-										<div class="col-12 col-lg-4 pl-lg-0">
+										<div class="col-12 col-lg-4 px-1">
 											<select class="data-entry-select" required="">
 												<option value="">Units</option>
 												<option value="1">Life Cycle Stage</option>
@@ -775,26 +776,33 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
+								<div class="form-row">
 									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
+								</div>
+								<div class="form-row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
+								</div>
+								<div class="form-row">
 									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Method</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
+								</div>
+								<div class="form-row">
 									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Remark</label>
 									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
 								</div>
+							<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
