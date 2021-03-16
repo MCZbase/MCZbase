@@ -679,12 +679,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
 											</cfif>--->
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/blacklist.cfm">Blacklist</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Blacklist</a>
-											</cfif>
-												
+											<a class="dropdown-item" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 											<cfelse>

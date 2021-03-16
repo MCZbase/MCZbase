@@ -74,7 +74,7 @@ limitations under the License.
 						<a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a>
 					</p>
 					(
-					<a href="https://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">blacklist</a>
+					<a href="https://mczbase.mcz.harvard.edu/Admin/blacklist.cfm?action=ins&ip=#ipaddress#">add to blocklist</a>
 					)
 					<cfif isdefined("session.username")>
 						<br>
