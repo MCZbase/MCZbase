@@ -318,8 +318,6 @@ limitations under the License.
 	</div>
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
-
-		
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
@@ -483,7 +481,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-8"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span class="small">- OR - </span> </div>
 							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
@@ -548,7 +546,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<div class="text-left w-100 py-2 px-5">Verbatim Georeference</div>
+								<div class="text-left w-100 py-2 px-5"><span class="small font-weight-bold">Verbatim Georeference</span></div>
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
@@ -585,7 +583,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-8"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span class="small">- OR -</span> </div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
