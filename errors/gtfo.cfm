@@ -11,9 +11,9 @@
     </cfscript>
 </cffunction>
 <cfif not isdefined("action") or action is not "p">
-	It looks like your IP address is in our blacklist. This is the result of a request originating from your current IP address
+	It looks like your IP address is in our blocklist. This is the result of a request originating from your current IP address
 	that appeared to be an attempt to hack this site. Occasionally this happens entirely by accident due to a malformed URL. Our apologies if this is in error.
-	<p>Use the form below to request removal from the blacklist.</p>
+	<p>Use the form below to request removal from the blocklist.</p>
 	<p>Please reload if you cannot read the text.</p>
 	<cfset captcha = makeRandomString()>
 	<cfset captchaHash = hash(captcha)>

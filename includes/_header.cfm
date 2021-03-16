@@ -300,7 +300,7 @@
 											<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
 											TODO:  These doesn't seem to work on production, fix or remove. 
 										--->
-										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a>
+										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
