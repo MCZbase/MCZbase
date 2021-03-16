@@ -94,6 +94,7 @@
 						</div>
 					</div>
 				</form>
+				<cfobject type="Java" class="java.net.InetAddress" name="inetAddr">
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
 					where listdate > sysdate - 30
@@ -105,8 +106,17 @@
 						<li>None</li>
 					<cfelse>
 						<cfloop query="last30">
+							<cfset host_name = hostname>
+							<cfif hostname IS "[ORA-24247 network access denied]">
+								<cftry>
+									<cfset host_name = inetAddr.getByName(#ip#).getCanonicalHostName() >
+								<cfcatch>
+									<cfset host_name = "">
+								</cfcatch>
+								</cftry>
+							</cfif>
 							<li>
-								#ip# added on #listdate# #hostname# 
+								#ip# added on #listdate# #host_name# 
 								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
@@ -124,8 +134,17 @@
 						<li>None</li>
 					<cfelse>
 						<cfloop query="localaddr">
+							<cfset host_name = hostname>
+							<cfif hostname IS "[ORA-24247 network access denied]">
+								<cftry>
+									<cfset host_name = inetAddr.getByName(#ip#).getCanonicalHostName() >
+								<cfcatch>
+									<cfset host_name = "">
+								</cfcatch>
+								</cftry>
+							</cfif>
 							<li>
-								#ip# added on #listdate# #hostname# 
+								#ip# added on #listdate# #host_name# 
 								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
