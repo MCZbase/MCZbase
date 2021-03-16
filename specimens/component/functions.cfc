@@ -216,7 +216,7 @@ limitations under the License.
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
 							<div class="col-12">
-								<h1 class="h3">Edit Existing Determinations <img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h1>
+								<h1 class="h3 mb-0 px-1">Edit Existing Determinations <img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h1>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										identification.identification_id,
