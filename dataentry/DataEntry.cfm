@@ -752,7 +752,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv10">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader10">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader10">
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
@@ -825,9 +825,9 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons px-1 rounded mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
