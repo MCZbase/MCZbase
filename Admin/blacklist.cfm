@@ -7,12 +7,15 @@
 		<cfswitch expression="#action#">
 			<cfcase value="all">
 				<!--- list all ip addresses on the block list and reload the application variable --->
-				<form name="i" method="post" action="blacklist.cfm">
-					<input type="hidden" name="action" value="ins">
-					<label for="ip">Add IP</label>
-					<input type="text" name="ip" id="ip">
-					<br><input type="submit" value="blacklist">
-				</form>
+				<div>
+					<form name="i" method="post" action="/Admin/blacklist.cfm">
+						<input type="hidden" name="action" value="ins">
+						<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+						<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
+						<br>
+						<input type="submit" value="blacklist" class="btn btn-xs btn-primary">
+					</form>
+				</div>
 				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
@@ -32,7 +35,7 @@
 						<cfloop query="all">
 							<li>
 								#ip# added on #listdate#
-								<a href="blacklist.cfm?action=del&ip=#ip#">Remove from blocklist</a> 
+								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist. 
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
 						</cfloop>
@@ -74,12 +77,13 @@
 			</cfcase>
 			<cfdefaultcase>
 				<!--- show recent and local additions to the block list --->
-				<div> 
-				<form name="i" method="post" action="blacklist.cfm">
-					<input type="hidden" name="action" value="ins">
-					<label for="ip">Add IP</label>
-					<input type="text" name="ip" id="ip">
-					<input type="submit" value="blacklist">
+				<div>
+					<form name="i" method="post" action="/Admin/blacklist.cfm">
+						<input type="hidden" name="action" value="ins">
+						<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
+						<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
+						<br>
+						<input type="submit" value="blacklist" class="btn btn-xs btn-primary">
 					</form>
 				</div>
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -95,7 +99,7 @@
 						<cfloop query="last30">
 							<li>
 								#ip# added on #listdate# #hostname# 
-								<a href="blacklist.cfm?action=del&ip=#ip#">Remove from blocklist</a> 
+								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
 						</cfloop>
@@ -114,14 +118,14 @@
 						<cfloop query="localaddr">
 							<li>
 								#ip# added on #listdate# #hostname# 
-								<a href="blacklist.cfm?action=del&ip=#ip#">Remove from blocklist</a> 
+								<a href="/Admin/blacklist.cfm?action=del&ip=#ip#">Remove</a> from blocklist.
 								<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 							</li>
 						</cfloop>
 					</cfif>
 				</ul>
 				<div>
-					<a href="Admin/blacklist.cfm?action=all">List All</a> (Reloads application.blacklist)
+					<a href="/Admin/blacklist.cfm?action=all">List All</a> (Reloads application.blacklist)
 				</div>
 			</cfdefaultcase>
 		</cfswitch>
