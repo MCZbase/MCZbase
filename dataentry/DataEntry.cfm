@@ -42,11 +42,8 @@ limitations under the License.
 #mydiv10 {
 	top:398px;	
 	}
-#mydiv11  {
-	top:607px;
-}
-#mydiv12 {
-	top: 607px;
+#mydiv11, #mydiv12 {
+	top:592px;
 }
 #mydiv13 {
 	top:678px;
@@ -470,7 +467,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
-						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader7">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
