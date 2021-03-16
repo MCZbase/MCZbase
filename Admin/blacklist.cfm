@@ -3,6 +3,7 @@
 <cfoutput>
 	<main class="container py-3" id="content">
 		<h2 class="h3">Manage Blocklist</h2>
+		<cfif not isdefined("action")><cfset action=""></cfif>
 		<cfswitch expression="#action#">
 			<cfcase value="all">
 				<!--- list all ip addresses on the block list and reload the application variable --->
@@ -12,23 +13,23 @@
 					<input type="text" name="ip" id="ip">
 					<br><input type="submit" value="blacklist">
 				</form>
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
 					order by to_number(replace(ip,'.'))
 				</cfquery>
-				<cfset application.blacklist=valuelist(d.ip)>
+				<cfset application.blacklist=valuelist(all.ip)>
 				<h3 class="h4">The application.blacklist has been reloaded</h3>
 				<h3 class="h4">All Blocked IP Addresses (#d.recordcount#)</h3>
-				<cfloop query="d">
+				<cfloop query="all">
 					<br>#ip# <a href="blacklist.cfm?action=del&ip=#ip#">Remove</a>
 					<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
 				</cfloop>
 				<ul>
-					<cfif d.recordcount EQ 0>
+					<cfif all.recordcount EQ 0>
 						<li>None</li>
 					<cfelse>
-						<cfloop query="d">
+						<cfloop query="all">
 							<li>
 								#ip# added on #listdate#
 								<a href="blacklist.cfm?action=del&ip=#ip#">Remove from blocklist</a> 
