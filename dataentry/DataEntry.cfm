@@ -682,10 +682,10 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-4 pr-xl-0">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 									</div>
-									<div class="col-12 col-sm-4 pr-0">
+									<div class="col-12 col-sm-4">
 										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 									</div>
 								</div>
@@ -697,7 +697,7 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
 									</div>
 								</div>
@@ -744,11 +744,11 @@ limitations under the License.
 									<div class="col-12 col-lg-8">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
-
 									</div>
+								<a aria-label="Add Coordinates" class="btn btn-xs btn-primary addCoord loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-xs btn-primary addCoord loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
+						
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv10">
