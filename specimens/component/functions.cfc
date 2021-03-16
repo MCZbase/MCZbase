@@ -309,7 +309,7 @@ limitations under the License.
 																		<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 																	</div>
 																	<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
-																		value="#agent_name#" class="reqdClr data-entry-input" >
+																		value="#agent_name#" class="reqdClr data-entry-input form-control" >
 																</div>
 																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
@@ -332,11 +332,11 @@ limitations under the License.
 											</div>
 											<div class="row mt-2">
 												<div class="col-12 col-md-3">
-													<label for="made_date_#i#" class="data-entry-label">ID Date:</label>
+													<label for="made_date_#i#" class="data-entry-label">ID Date</label>
 													<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
 												</div>
 												<div class="col-12 col-md-3">
-													<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID:</label>
+													<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID 	<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 													<cfset thisID = #nature_of_id#>
 													<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr data-entry-select">
 									            	<cfloop query="ctnature">
@@ -348,7 +348,7 @@ limitations under the License.
 									                	<option #selected# value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
       									          </cfloop>
    									        	</select>
-													<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+												
 												</div>
 												<div class="col-12 col-md-6">
 													<label for="publication_#i#" class="data-entry-label">Sensu</label>
@@ -398,10 +398,11 @@ limitations under the License.
 									</div>
 									<cfset i = #i#+1>
 								</cfloop>
-							</div>
 							<div class="col-12 px-0">
-								<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
+								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
+							</div>
+					
 						</div>
 					</form>
 				</div>
