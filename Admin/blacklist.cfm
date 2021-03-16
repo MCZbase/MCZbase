@@ -95,7 +95,7 @@
 					</div>
 				</form>
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, UTL_INADDR.get_host_name(ip) as hostname from blacklist 
+					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, LOOKUP_HOSTNAME(ip) as hostname from blacklist 
 					where listdate > sysdate - 30
 					order by ip
 				</cfquery>
