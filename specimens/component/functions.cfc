@@ -215,7 +215,7 @@ limitations under the License.
 					</div>
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
-							<div class="col-12 px-0">
+							<div class="col-12">
 								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -289,7 +289,7 @@ limitations under the License.
 														<cfif #ACCEPTED_ID_FG# is 0>
 															<option value="DELETE">DELETE</option>
 														</cfif>
-						                  	</select>
+						                  			</select>
 													<cfif #ACCEPTED_ID_FG# is 0>
 														<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 													</cfif>
@@ -401,7 +401,9 @@ limitations under the License.
 							<div class="col-12 px-0 mt-2">
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
-							</div>		</div>
+							</div>		
+														
+						</div>
 					
 						</div>
 					</form>
