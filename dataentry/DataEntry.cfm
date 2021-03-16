@@ -36,9 +36,8 @@ limitations under the License.
 	top:340px;
 }
 #mydiv8 {
-	top:725px;
+	top:702px;
 }
-
 #mydiv10 {
 	top:398px;	
 	}
@@ -46,7 +45,7 @@ limitations under the License.
 	top:592px;
 }
 #mydiv13 {
-	top:678px;
+	top:661px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
@@ -543,7 +542,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<div class="text-left w-100 py-2 px-5"><span class="small font-weight-bold">Verbatim Georeference</span></div>
+								<div class="text-left w-100 py-1 px-5"><span class="small font-weight-bold">Verbatim Georeference</span></div>
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
