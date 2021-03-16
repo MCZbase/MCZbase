@@ -27,29 +27,25 @@ limitations under the License.
 	top: 42px;
 }
 #mydiv4, #mydiv5,#mydiv9 {
-	top:131px;
+	top:126px;
 }
 #mydiv6 {
-	top: 202px;
+	top: 193px;
 }
 #mydiv7 {
-	top:348px;
+	top:340px;
 }
 #mydiv8 {
-	top:725px;
+	top:702px;
 }
-
 #mydiv10 {
-	top:431px;	
+	top:398px;	
 	}
-#mydiv11  {
-	top:664px;
-}
-#mydiv12 {
-	top: 664px;
+#mydiv11, #mydiv12 {
+	top:592px;
 }
 #mydiv13 {
-	top:760px;
+	top:661px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
@@ -318,8 +314,6 @@ limitations under the License.
 	</div>
 	
 	<div class="container-fluid pt-1 bg-blue-gray"  id="swapper-first" style="height: 1111px;">
-
-		
 		<div class="row mx-0 bg-blue-gray" style="background-color:##deebec!important;">
 			<div class="col-12 mt-0">
 			<form id="regFormAll" class="w-100" action="/DataEntry.cfm">
@@ -401,7 +395,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent px-1 col rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -424,7 +418,7 @@ limitations under the License.
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addOtherID loginButtons rounded mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"> <i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -466,24 +460,24 @@ limitations under the License.
 										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
 									</div>
-								<a aria-label="Add another set of search criteria"  style="max-width: 26px;" class="btn btn-xs btn-primary addSciName col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria"  style="max-width: 26px;" class="btn btn-xs btn-primary addSciName col loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv7">
-						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader7">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader7">
 							<h2 class="data-entry-title">Collecting Event</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-8"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span class="small">- OR - </span> </div>
 							</div>
 							<div class="row">
 								<label for="verbatim_locality" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Verbatim Locality</label>
@@ -548,7 +542,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row">
-								<div class="text-left w-100 py-2 px-5">Verbatim Georeference</div>
+								<div class="text-left w-100 py-1 px-5"><span class="small font-weight-bold">Verbatim Georeference</span></div>
 								<label for="Coord. System" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Coordinate System</label>
 								<div class="col-12 col-sm-4 pr-0">
 									<input type="text" class="data-entry-input pr-xl-0" id="coord_system" placeholder="e.g., decimal degrees">
@@ -569,7 +563,7 @@ limitations under the License.
 						</div>
 					</div>				
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv8">
-						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader8">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
@@ -579,13 +573,13 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="locality_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
 								</div>
 							</div>
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0"></label>
-								<div class="col-sm-8"> <span>OR</span> </div>
+								<div class="col-sm-8"> <span class="small">- OR -</span> </div>
 							</div>
 							<div class="row">
 								<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Higher Geography</label>
@@ -665,13 +659,13 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
 							<div id="customCoord">
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Coordinates Units</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">Decimal Degrees</option>
 											<option value="1">Dec. Min. Secs.</option>
@@ -680,30 +674,30 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
-									<div class="col-12 col-sm-4">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label>
+									<div class="col-12 col-sm-4 pl-1 pr-0">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 									</div>
-									<div class="col-12 col-sm-4 pr-0">
+									<div class="col-12 col-sm-4 px-1">
 										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 									</div>
 								</div>
-								<div class="row">
-									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Extent</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
-								<div class="row">
-									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right pr-0">GPS Accuracy</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
 									</div>
 								</div>
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Datum</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">NAD27</option>
 											<option value="1">POS</option>
@@ -712,19 +706,19 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
-									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-sm-4">
+								<div class="form-row">
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
+									<div class="col-sm-4 pl-1 pr-0">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
 									<label for="date" class="sr-only">Date</label>
-									<div class="col-sm-4">
+									<div class="col-sm-4 px-1">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">GeoLocate</option>
 											<option value="1">GPS</option>
@@ -733,40 +727,41 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
-									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
-								<div class="row">
-									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-									<div class="col-sm-9">
+								<div class="form-row">
+									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label>
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
-
 									</div>
+								<a aria-label="Add Coordinates" style="max-width: 26px;" class="btn btn-xs btn-primary addCoord loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add Coordinates" class="btn btn-xs btn-primary addCoord loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a></div>
+						
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv10">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader10">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader10">
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
-								<div class="row mt-3">
-									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
-									<div class="col-12 col-lg-9">
+								<div class="form-row">
+									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Type</label>
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 									</div>
-									<div class="col-12 row mx-0 px-0">
+								</div>
+								<div class="form-row">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-5">
+										<div class="col-12 col-lg-4 pl-1 pr-0">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										</div>
-										<div class="col-12 col-lg-4">
+										<div class="col-12 col-lg-4 px-1">
 											<select class="data-entry-select" required="">
 												<option value="">Units</option>
 												<option value="1">Life Cycle Stage</option>
@@ -775,34 +770,42 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-12 col-lg-9">
+								<div class="form-row">
+									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
-									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-12 col-lg-9">
+								</div>
+								<div class="form-row">
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
-									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
-									<div class="col-12 col-lg-9">
+								</div>
+								<div class="form-row">
+									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Method</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
-									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-9">
+								</div>
+								<div class="form-row">
+									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Remark</label>
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
+						
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
-								<div class="row">
+								<div class="form-row">
 									<label for="relations" class="sr-only">Relationship</label>
 									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
@@ -816,17 +819,17 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons px-1 rounded mr-auto mx-1 mt-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add</a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader12">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader12">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
-								<div class="row">
+								<div class="form-row">
 									<label for="relations" class="sr-only">Relationship</label>
 									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
@@ -840,24 +843,24 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addCurRelations loginButtons rounded mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader13">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
 							<div id="customPart">
-								<div class="row">
+								<div class="form-row">
 									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 									</div>
 									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
 											<option value="">Ethanol</option>
 											<option value="1">RNALater</option>
@@ -866,11 +869,11 @@ limitations under the License.
 										</select>
 									</div>
 									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 									</div>
 									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
 											<option value="">Being Processed</option>
 											<option value="1">Deaccessioned</option>
@@ -880,7 +883,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pr-xl-0">
+										<div class="col-12 col-lg-4 pl-xl-1 pr-xl-0">
 											<select class="data-entry-select pr-xl-0" required="">
 												<option value="">Modifier</option>
 												<option value="1">ca.</option>
@@ -888,21 +891,22 @@ limitations under the License.
 												<option value="3">&lt;</option>
 											</select>
 										</div>
-										<div class="col-12 col-lg-5">
+										<div class="col-12 col-lg-4 px-1">
 											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 										</div>
 									</div>
 									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
 									</div>
 									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
+								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
-								<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a></div>
+								
 							</div>
 							</div>
 					</div>
@@ -969,11 +973,7 @@ function dragElement(elmnt) {
 }
 </script>
 	<!---Step by step form for each section of the Data Entry form -- Form wizard--->
-
-
-
-
-	<script>
+<script>
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row 
 		
 $(document).ready(function(){
@@ -1006,8 +1006,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addCoord").click(function(){$("##customCoord").append('<div class="row mt-1"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label><div class="col-sm-9"><select class="data-entry-select pr-0" required><option value="">Decimal Degrees</option><option value="1">Dec. Min. Secs.</option><option value="2">Degrees Dec. Minutes</option><option value="3">Unknown</option></select></div></div><div class="row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label><div class="col-12 col-sm-4"><input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" /></div><div class="col-12 col-sm-4 pr-0"><input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units"></div></div><div class="row"><label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label><div class="col-sm-9"><input type="text" name="extent" class="data-entry-input" placeholder="Extent" /></div></div><div class="row"><label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label><div class="col-sm-9"><input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" /></div></div><div class="row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label><div class="col-sm-9"><select class="data-entry-select pr-0" required><option value="">NAD27</option><option value="1">POS</option><option value="2">GRA</option><option value="3">WGS84</option></select></div></div><div class="row"><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-sm-9"><input type="text" name="determiner" class="data-entry-input" placeholder="Determiner"/></div></div><div class="row"><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-sm-9"><input type="text" name="date" class="data-entry-input" placeholder="Date" /></div></div><div class="row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label><div class="col-sm-9"><select class="data-entry-select pr-0" required><option value="">GeoLocate</option><option value="1">GPS</option><option value="2">Google Earth</option><option value="3">Gazetteer</option></select></div></div><div class="row"><label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label><div class="col-sm-9"><input type="text" name="reference" class="data-entry-input" placeholder="Reference" /></div></div><div class="row"><label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label><div class="col-12 col-xl-8 pl-xl-0"><textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn addCoord float-right data-entry-button remCoord"><i class="fas fa-times"></i></button></div>');
-	});
+	$(".addCoord").click(function(){$("##customCoord").append('<div class="form-row mt-2"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Coordinates Units</label><div class="col-sm-8 px-1"><select class="data-entry-select pr-0" required><option value="">Decimal Degrees</option><option value="1">Dec. Min. Secs.</option><option value="2">Degrees Dec. Minutes</option><option value="3">Unknown</option></select></div></div><div class="form-row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label><div class="col-12 col-sm-4 pl-1 pr-0"><input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" /></div><div class="col-12 col-sm-4 px-1"><input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units"></div></div><div class="form-row"><label for="extent" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Extent</label><div class="col-sm-8 px-1"><input type="text" name="extent" class="data-entry-input" placeholder="Extent" /></div></div><div class="form-row"><label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right pr-0">GPS Accuracy</label><div class="col-sm-8 px-1"><input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" /></div></div><div class="form-row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Datum</label><div class="col-sm-8 px-1"><select class="data-entry-select pr-0" required><option value="">NAD27</option><option value="1">POS</option><option value="2">GRA</option><option value="3">WGS84</option></select></div></div><div class="form-row"><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label><div class="col-sm-8 px-1"><input type="text" name="determiner" class="data-entry-input" placeholder="Determiner"/></div></div><div class="form-row"><label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label><div class="col-sm-8 px-1"><input type="text" name="date" class="data-entry-input" placeholder="Date" /></div></div><div class="form-row"><label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label><div class="col-sm-8 px-1"><select class="data-entry-select pr-0" required><option value="">GeoLocate</option><option value="1">GPS</option><option value="2">Google Earth</option><option value="3">Gazetteer</option></select></div></div><div class="form-row"><label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label><div class="col-sm-8 px-1"><input type="text" name="reference" class="data-entry-input" placeholder="Reference" /></div></div><div class="form-row"><label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label><div class="col-12 col-xl-8 px-1"><textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn addCoord float-right data-entry-button remCoord" style="width:20px;"><i class="fas fa-times"></i></button></div>');});						 
 	$("##customCoord").on('click','.remCoord',function(){$(this).parent().remove();});
 });
 
@@ -1027,7 +1026,7 @@ $(document).ready(function(){
 
 	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
 $(document).ready(function(){
-	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt">Remove</button></div>');
+	$(".addAtt").click(function(){$("##customAtt").append('<div class="row mt-3"><label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type"></div><div class="col-12 row mx-0 px-0"><label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label><div class="col-12 col-lg-5"><input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value"></div><div class="col-12 col-lg-4"><select class="data-entry-select" required=""><option value="">Units</option><option value="1">Life Cycle Stage</option><option value="2">Citation</option><option value="3">Host</option></select></div></div><label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="date" placeholder="Date"></div><label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="determiner" placeholder="Determiner"></div><label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label><div class="col-12 col-lg-9"><input type="text" class="data-entry-input" name="method" placeholder="Method"></div><label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Remark</label><div class="col-12 col-lg-9"><textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn btn-primary addAtt btn-sm loginButtons rounded ml-3 mr-auto remAtt"><i class="fas fa-times"></i></button></div>');
 	});
 	$("##customAtt").on('click','.remAtt',function(){$(this).parent().remove();});
 	});
