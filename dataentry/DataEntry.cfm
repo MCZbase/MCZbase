@@ -904,7 +904,7 @@ limitations under the License.
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
-								<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addPart col loginButtons rounded mr-auto" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria"  style="width: 20px;" class="btn btn-xs btn-primary addPart col loginButtons rounded mr-auto" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 								
 							</div>
