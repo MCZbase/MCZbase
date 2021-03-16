@@ -420,7 +420,7 @@ limitations under the License.
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
