@@ -25,6 +25,10 @@ limitations under the License.
 	<!-- if no action was given, but an agent_id was given, then assume we want agent details, otherwise newAgent form. --->
 	<cfif isdefined("agent_id")>
 		<cfset action = "agentDetails">
+		<cfif len(agent_id) GT 0 and not REMatch("^[0-9]*$",agent_id)>
+			<cfinclude template="/errors/autoblacklist.cfm">
+			<cfabort>
+		</cfif>
 	<cfelse>
 		<cfset action = "newAgent">
 	</cfif>
