@@ -415,6 +415,8 @@ limitations under the License.
 											<option value="3">Previous Number</option>
 										</select>
 									</div>
+								</div>
+								<div class="form-row">
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
