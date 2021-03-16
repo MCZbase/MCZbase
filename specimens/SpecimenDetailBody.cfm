@@ -400,7 +400,7 @@ limitations under the License.
 							</h3>
 							<h3 class="h4 my-0 float-left MediaAccordionHide">Media</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
+								<button type="button" class="btn btn-xs py-0 small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
 							</cfif>
 						</div>
 						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
@@ -563,7 +563,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
 							</cfif>
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -584,7 +584,7 @@ limitations under the License.
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<button type="button" class="btn btn-xs float-right small">Edit</button>
+									<button type="button" class="btn btn-xs py-0 float-right small">Edit</button>
 								</cfif>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
@@ -703,7 +703,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
@@ -828,7 +828,7 @@ limitations under the License.
 								<div class="card-header float-left w-100" id="headingPart">
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+										<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 									</cfif>
 								</div>
 								<div class="card-body p-0">
@@ -947,7 +947,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Attributes</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
@@ -1068,7 +1068,7 @@ limitations under the License.
 						<div class="card-header float-left w-100">
 							<h3 class="h4 my-0 float-left">Relationship</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 						<div class="card-body mb-2 float-left">
@@ -1099,7 +1099,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog-locality').dialog('open'); loadLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="$('.dialog-locality').dialog('open'); loadLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
@@ -1235,7 +1235,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 						<div id="collapseCol" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
@@ -1287,7 +1287,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</cfif>
 						</div>
 						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
