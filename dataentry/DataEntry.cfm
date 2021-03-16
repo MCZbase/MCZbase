@@ -739,7 +739,7 @@ limitations under the License.
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 									</div>
-								<a aria-label="Add Coordinates" style="max-width: 22px;" class="btn btn-xs btn-primary addCoord loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add Coordinates" style="max-width: 22px;" class="btn btn-xs btn-primary col addCoord loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						
