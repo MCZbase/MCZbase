@@ -49,7 +49,7 @@ limitations under the License.
 	top: 607px;
 }
 #mydiv13 {
-	top:760px;
+	top:678px;
 }
 #mydiv, #mydiv4, #mydiv7,#mydiv9,#mydiv6, #mydiv8 {
 	left: 0;
@@ -831,7 +831,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv12">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader12">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader12">
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
