@@ -99,7 +99,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-        					<h3 class="wikilink">
+        					<h3 class="wikilink mb-0">
 								Add new Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
 							</h3>
@@ -120,7 +120,7 @@ limitations under the License.
     							<input type="hidden" name="Action" value="createNew">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 								<fieldset>
-									<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
+									<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
 										<div class="row mt-2">
 											<div class="col-12 col-md-2">
 												<label for="taxa_formula" class="data-entry-label">ID Formula</label>
