@@ -579,7 +579,7 @@ limitations under the License.
 							</div>
 							<div class="row">
 								<label for="locality_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" name="locality_id" class="data-entry-input" placeholder="Locality ID" />
 								</div>
 							</div>
@@ -671,7 +671,7 @@ limitations under the License.
 							<div id="customCoord">
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">Decimal Degrees</option>
 											<option value="1">Dec. Min. Secs.</option>
@@ -691,7 +691,7 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
@@ -703,7 +703,7 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">NAD27</option>
 											<option value="1">POS</option>
@@ -724,7 +724,7 @@ limitations under the License.
 								</div>						
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">GeoLocate</option>
 											<option value="1">GPS</option>
@@ -735,13 +735,13 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
-									<div class="col-sm-9">
+									<div class="col-sm-8">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
 								<div class="row">
 									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-									<div class="col-sm-9">
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 
@@ -758,12 +758,12 @@ limitations under the License.
 							<div id="customAtt">
 								<div class="row mt-3">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 									</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-5">
+										<div class="col-12 col-lg-4">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										</div>
 										<div class="col-12 col-lg-4">
@@ -776,19 +776,19 @@ limitations under the License.
 										</div>
 									</div>
 									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
 									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
 									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-9">
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
