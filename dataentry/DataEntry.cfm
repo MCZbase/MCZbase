@@ -401,7 +401,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent px-1 col mt-0 mx-1 mb-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent px-1 col rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -424,7 +424,7 @@ limitations under the License.
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col mt-1 mx-1 mb-1 px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -807,11 +807,11 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-3 pb-1 px-1" id="mydiv11">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader11">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader11">
 							<h2 class="data-entry-title">Biological Relationships</h2>
 				<!---			<h3 class="data-entry-subtitle">This is step 5</h3>--->
 							<div id="customBiolRelations">
-								<div class="row">
+								<div class="form-row">
 									<label for="relations" class="sr-only">Relationship</label>
 									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
@@ -835,7 +835,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Curatorial Relationships</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 4</h3>--->
 							<div id="customCurRelations">
-								<div class="row">
+								<div class="form-row">
 									<label for="relations" class="sr-only">Relationship</label>
 									<div class="col-12 col-xl-5 pr-1">
 										<select class="data-entry-select">
@@ -849,9 +849,9 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="record_number" placeholder="Record Number">
 									</div>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary col addCurRelations loginButtons rounded mr-auto m-1" target="_self" href="javascript:void(0);">Add </a>
 								</div>
 							</div>
-							<div class="col-md-12 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addCurRelations loginButtons rounded ml-auto m-1" target="_self" href="javascript:void(0);">Add </a> </div>
 						</div>
 					</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
