@@ -563,7 +563,7 @@ limitations under the License.
 						</div>
 					</div>				
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv8">
-						<div class="border-fill px-3 pt-1 pb-3 m-1" id="mydivheader8">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader8">
 							<h2 class="data-entry-title">Locality</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 9</h3>--->
 							<div class="row">
@@ -849,7 +849,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 px-1" id="mydiv13">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader13">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader13">
 							<h2 class="data-entry-title">Parts</h2>
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
