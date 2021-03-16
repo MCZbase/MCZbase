@@ -670,7 +670,7 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
 							<div id="customCoord">
 								<div class="form-row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Original Coordinates Units</label>
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Coordinates Units</label>
 									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">Decimal Degrees</option>
@@ -695,15 +695,15 @@ limitations under the License.
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
-								<div class="row">
-									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right px-0">GPS Accuracy</label>
-									<div class="col-sm-8">
+								<div class="form-row">
+									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right pr-0">GPS Accuracy</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
 									</div>
 								</div>
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Datum</label>
-									<div class="col-sm-8">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Datum</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">NAD27</option>
 											<option value="1">POS</option>
@@ -723,8 +723,8 @@ limitations under the License.
 									</div>
 								</div>						
 								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Georeference Meth.</label>
-									<div class="col-sm-8">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">GeoLocate</option>
 											<option value="1">GPS</option>
@@ -734,14 +734,14 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="row">
-									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right px-0">Reference</label>
-									<div class="col-sm-8">
+									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
 								<div class="row">
-									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Locality Remark</label>
-									<div class="col-12 col-lg-8">
+									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label>
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 									</div>
@@ -757,16 +757,16 @@ limitations under the License.
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
 								<div class="row mt-3">
-									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Type</label>
-									<div class="col-12 col-lg-8">
+									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Type</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 									</div>
 									<div class="col-12 row mx-0 px-0">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-4">
+										<div class="col-12 col-lg-4 pr-lg-0">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										</div>
-										<div class="col-12 col-lg-4">
+										<div class="col-12 col-lg-4 pl-lg-0">
 											<select class="data-entry-select" required="">
 												<option value="">Units</option>
 												<option value="1">Life Cycle Stage</option>
@@ -775,20 +775,20 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right px-0">Date</label>
-									<div class="col-12 col-lg-8">
+									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
-									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-12 col-lg-8">
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
-									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Method</label>
-									<div class="col-12 col-lg-8">
+									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Method</label>
+									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
-									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Attribute Remark</label>
-									<div class="col-12 col-lg-8">
+									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Remark</label>
+									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
