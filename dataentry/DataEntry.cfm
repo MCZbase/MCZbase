@@ -665,7 +665,7 @@ limitations under the License.
 							<div id="customCoord">
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Coordinates Units</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">Decimal Degrees</option>
 											<option value="1">Dec. Min. Secs.</option>
