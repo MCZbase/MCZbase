@@ -712,17 +712,17 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
-									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right px-0">Determiner</label>
-									<div class="col-sm-4">
+								<div class="form-row">
+									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
+									<div class="col-sm-4 pl-1 pr-0">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
 									<label for="date" class="sr-only">Date</label>
-									<div class="col-sm-4">
+									<div class="col-sm-4 plr-1 pl-0">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
-								<div class="row">
+								<div class="form-row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label>
 									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
@@ -733,13 +733,13 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="form-row">
 									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label>
 									<div class="col-sm-8 px-1">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
-								<div class="row">
+								<div class="form-row">
 									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label>
 									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
@@ -756,7 +756,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
-								<div class="row mt-3">
+								<div class="form-row mt-3">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Type</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
