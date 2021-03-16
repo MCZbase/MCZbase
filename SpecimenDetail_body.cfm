@@ -1545,7 +1545,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			  	</cfquery>
 				<cfset accnDept = "">
 				<cfif one.collection_cde IS accnCollection.collection_cde>
-					<cfset accnDept = "#accnCollection.collection_cde#">
+					<cfset accnDept = "(#accnCollection.collection_cde#)">
 				</cfif>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
