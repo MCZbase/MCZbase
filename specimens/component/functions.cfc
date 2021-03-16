@@ -158,8 +158,8 @@ limitations under the License.
 		  										<input type="text" name="user_id" id="user_id" class="data-entry-input">
 											</div>
 											<div class="col-12 col-md-3">
-												<label for="newIdBy" id="newIdBy_label" class="data-entry-label">Id By:
-													<h5 id="newIdBy_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+												<label for="newIdBy" id="newIdBy_label" class="data-entry-label">Id By
+													<h5 id="newIdBy_view" class="d-inline pb-0 mb-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
 													<div class="input-group-prepend">
@@ -301,7 +301,7 @@ limitations under the License.
 													<cfloop query="identifiers">
 														<div class="row" id="IdTr_#i#_#idnum#">
 															<div class="col-12 col-md-8">
-																<label for="IdBy_#i#_#idnum#">Identified By:
+																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
 																<div class="input-group">
@@ -387,7 +387,7 @@ limitations under the License.
 													</cfif>
 												</div>
 											</div>
-										</div>
+								
 										<script>
 											$(document).ready(function() {
 												//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
@@ -401,7 +401,7 @@ limitations under the License.
 							<div class="col-12 px-0">
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
-							</div>
+							</div>		</div>
 					
 						</div>
 					</form>
