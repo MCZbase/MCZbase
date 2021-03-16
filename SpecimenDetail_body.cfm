@@ -1538,10 +1538,10 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				</cfquery>
 				<cfquery name="accnCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT collection_cde
-					from accn 
-						left join collection on accn.collection_id = collection.collection_id
+					from trans 
+						left join collection on trans.collection_id = collection.collection_id
 					WHERE
-						accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+						trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 			  	</cfquery>
 				<cfset accnDept = "">
 				<cfif one.collection_cde IS accnCollection.collection_cde>
