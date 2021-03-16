@@ -99,7 +99,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-        					<h3 class="wikilink mb-0">
+        					<h3 class="wikilink mb-0 px-1">
 								Add new Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
 							</h3>
@@ -175,13 +175,13 @@ limitations under the License.
 												<input type="text" name="made_date" id="made_date" class="data-entry-input">
 											</div>
 											<div class="col-12 col-md-2">
-												<label for="nature_of_id" class="data-entry-label" >Nature Of ID</label>
+												<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr data-entry-select">
 								            	<cfloop query="ctnature">
 								                	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
 								                </cfloop>
       								      </select>
-												<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
+											
 											</div>
 										</div>
 										<div class="row mt-2">
