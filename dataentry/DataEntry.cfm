@@ -477,7 +477,7 @@ limitations under the License.
 							<!---<h3 class="data-entry-subtitle">This is step 8</h3>--->
 							<div class="row">
 								<label for="collecting_event_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Use ID only</label>
-								<div class="col-sm-8">
+								<div class="col-sm-4">
 									<input type="text" name="collecting_event_id" class="data-entry-input" placeholder="Collecting Event ID" />
 								</div>
 							</div>
