@@ -891,7 +891,7 @@ limitations under the License.
 									<div class="row">
 								
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
-										<div class="col-12 col-lg-4 pl-xl-1 pr-xl-0">
+										<div class="col-12 col-lg-4 pr-xl-0">
 											<select class="data-entry-select pr-xl-0" required="">
 												<option value="">Modifier</option>
 												<option value="1">ca.</option>
@@ -899,19 +899,19 @@ limitations under the License.
 												<option value="3">&lt;</option>
 											</select>
 										</div>
-										<div class="col-12 col-lg-4 px-1">
+										<div class="col-12 col-lg-4">
 											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 										</div>
 									</div>
 									<div class="row">
 									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
 									</div>
 								</div>
 									<div class="row">
 									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
 										</textarea>
 									</div>
