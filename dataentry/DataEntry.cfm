@@ -758,10 +758,10 @@ limitations under the License.
 								</div>
 								<div class="row">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
-										<div class="col-12 col-lg-4 pl-1 pr-0">
+										<div class="col-12 col-lg-4 pr-0">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
 										</div>
-										<div class="col-12 col-lg-4 px-1">
+										<div class="col-12 col-lg-4">
 											<select class="data-entry-select" required="">
 												<option value="">Units</option>
 												<option value="1">Life Cycle Stage</option>
@@ -772,25 +772,25 @@ limitations under the License.
 									</div>
 								<div class="row">
 									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
 								</div>
 								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
 								</div>
 								<div class="row">
 									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Method</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
 								</div>
 								<div class="row">
 									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Remark</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
