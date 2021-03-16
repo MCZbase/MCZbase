@@ -676,28 +676,28 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label>
-									<div class="col-12 col-sm-4 pl-1 pr-0">
+									<div class="col-12 col-sm-4 pr-0">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 									</div>
-									<div class="col-12 col-sm-4 px-1">
+									<div class="col-12 col-sm-4">
 										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 									</div>
 								</div>
 								<div class="row">
 									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Extent</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
 								<div class="row">
 									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right pr-0">GPS Accuracy</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
 									</div>
 								</div>
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Datum</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">NAD27</option>
 											<option value="1">POS</option>
@@ -708,17 +708,17 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
-									<div class="col-sm-4 pl-1 pr-0">
+									<div class="col-sm-4 pr-0">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
 									</div>
 									<label for="date" class="sr-only">Date</label>
-									<div class="col-sm-4 px-1">
+									<div class="col-sm-4">
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
 								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<select class="data-entry-select pr-0" required>
 											<option value="">GeoLocate</option>
 											<option value="1">GPS</option>
@@ -729,13 +729,13 @@ limitations under the License.
 								</div>
 								<div class="row">
 									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label>
-									<div class="col-sm-8 px-1">
+									<div class="col-sm-8">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
 								<div class="row">
 									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label>
-									<div class="col-12 col-lg-8 px-1">
+									<div class="col-12 col-lg-8">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
 										</textarea>
 									</div>
