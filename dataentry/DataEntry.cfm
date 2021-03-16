@@ -665,7 +665,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 col-md-6 pb-1 px-1" id="mydiv9">
-						<div class="border-fill px-3 py-1 m-1" id="mydivheader9">
+						<div class="border-fill px-3 pt-1 pb-2 m-1" id="mydivheader9">
 							<h2 class="data-entry-title">Coordinates</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
 							<div id="customCoord">
