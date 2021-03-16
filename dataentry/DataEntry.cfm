@@ -800,7 +800,7 @@ limitations under the License.
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 						
 							</div>
@@ -825,7 +825,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" id="relationship" placeholder="Record Number">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons px-1 rounded mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addBiolRelations loginButtons px-1 rounded mr-auto mx-1 mt-0 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
