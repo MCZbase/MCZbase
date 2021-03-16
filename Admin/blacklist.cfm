@@ -15,7 +15,7 @@
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="addbutton" class="data-entry-label" aria-hidden="true"></label>
+							<label for="addbutton" class="data-entry-label" aria-hidden="true">&nbsp;</label>
 							<input type="submit" id="addbutton" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
 					</div>
@@ -89,7 +89,7 @@
 							<input type="text" name="ip" id="ip" class="data-entry-input" placeholder="0.0.0.0">
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="addbutton" class="data-entry-label" aria-hidden="true"></label>
+							<label for="addbutton" class="data-entry-label" aria-hidden="true">&nbsp;</label>
 							<input type="submit" id="addbutton" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
 					</div>
