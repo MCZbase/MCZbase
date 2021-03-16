@@ -27,7 +27,7 @@
 				</cfquery>
 				<cfset application.blacklist=valuelist(all.ip)>
 				<h3 class="h4">The application.blacklist has been reloaded</h3>
-				<h3 class="h4">All Blocked IP Addresses (#d.recordcount#)</h3>
+				<h3 class="h4">All Blocked IP Addresses (#all.recordcount#)</h3>
 				<cfloop query="all">
 					<br>#ip# <a href="blacklist.cfm?action=del&ip=#ip#">Remove</a>
 					<a href="http://whois.domaintools.com/#ip#" target="_blank">whois: #ip#</a>
