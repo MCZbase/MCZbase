@@ -428,19 +428,19 @@ limitations under the License.
 							<h2 class="data-entry-title">Scientific Name</h2>
 							<!---<h3 class="data-entry-subtitle">This is step 7</h3>--->
 							<div id="customSciName">
-								<div class="form-row">
+								<div class="row">
 									<label for="scientific_name" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Scientific Name</label>
 									<div class="col-12 col-lg-8">
 										<input type="text" name="scientific_name" class="data-entry-input" placeholder="Scientific Name" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="made_by" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Made By</label>
 									<div class="col-12 col-lg-8">
 										<input type="text" name="made_by" class="data-entry-input" placeholder="Identifier's Name" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="nature_of_id" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">Nature of ID</label>
 									<div class="col-12 col-lg-4 pr-xl-0">
 										<select class="data-entry-select" required>
@@ -454,7 +454,7 @@ limitations under the License.
 										<input type="text" name="made_by_date" class="data-entry-input" placeholder="Date of ID" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="id_remark" class="data-entry-label col-12 col-md-3 text-center text-md-right px-0">ID Remark</label>
 									<div class="col-12 col-lg-8">
 										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/>
@@ -663,7 +663,7 @@ limitations under the License.
 							<h2 class="data-entry-title">Coordinates</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
 							<div id="customCoord">
-								<div class="form-row">
+								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Coordinates Units</label>
 									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
@@ -674,7 +674,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label>
 									<div class="col-12 col-sm-4 pl-1 pr-0">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
@@ -683,19 +683,19 @@ limitations under the License.
 										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Extent</label>
 									<div class="col-sm-8 px-1">
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="GPS_accuracy" class="data-entry-label col-sm-3 text-center text-md-right pr-0">GPS Accuracy</label>
 									<div class="col-sm-8 px-1">
 										<input type="text" name="gps_accuracy" class="data-entry-input" placeholder="GPS Accuracy" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Datum</label>
 									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
@@ -706,7 +706,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
 									<div class="col-sm-4 pl-1 pr-0">
 										<input type="text" name="determiner" class="data-entry-input" placeholder="Determiner" />
@@ -716,7 +716,7 @@ limitations under the License.
 										<input type="text" name="date" class="data-entry-input" placeholder="Date" />
 									</div>
 								</div>						
-								<div class="form-row">
+								<div class="row">
 									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Georeference Meth.</label>
 									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
@@ -727,13 +727,13 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="reference" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Reference</label>
 									<div class="col-sm-8 px-1">
 										<input type="text" name="reference" class="data-entry-input" placeholder="Reference" />
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="locality_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Locality Remark</label>
 									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="locality_remark" class="data-entry-textarea" placeholder="Locality Remark"/>
@@ -750,13 +750,13 @@ limitations under the License.
 							<h2 class="data-entry-title">Attributes</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 12</h3>--->
 							<div id="customAtt">
-								<div class="form-row">
+								<div class="row">
 									<label for="attribute_name" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Type</label>
 									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="attribute" placeholder="Attribute Type">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Attribute Value</label>
 										<div class="col-12 col-lg-4 pl-1 pr-0">
 											<input type="text" name="attribute value" class="data-entry-input" placeholder="Attribute Value">
@@ -770,25 +770,25 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="date" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Date</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="date" placeholder="Date">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="determiner" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Determiner</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="determiner" placeholder="Determiner">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="method" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Method</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="method" placeholder="Method">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="row">
 									<label for="attribute_remark" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Attribute Remark</label>
 									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
@@ -854,11 +854,13 @@ limitations under the License.
 				
 							<!---<h3 class="data-entry-subtitle">This is step 11</h3>--->
 							<div id="customPart">
-								<div class="form-row">
+								<div class="row">
 									<label for="part_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Name</label>
 									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="part_name" placeholder="Part Name">
 									</div>
+								</div>
+									<div class="row">
 									<label for="preserv_method" class="data-entry-label col-sm-3 text-center text-md-right px-0">Preserve Method</label>
 									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
@@ -868,10 +870,14 @@ limitations under the License.
 											<option value="3">Alcohol</option>
 										</select>
 									</div>
+								</div>
+									<div class="row">
 									<label for="condition" class="data-entry-label col-sm-3 text-center text-md-right px-0">Condition</label>
 									<div class="col-12 col-lg-8">
 										<input type="text" class="data-entry-input" name="condition" placeholder="Condition">
 									</div>
+								</div>
+									<div class="row">
 									<label for="disposition" class="data-entry-label col-sm-3 text-center text-md-right px-xl-0">Disposition</label>
 									<div class="col-12 col-lg-8">
 										<select class="data-entry-select" required>
@@ -881,7 +887,9 @@ limitations under the License.
 											<option value="3">Missing</option>
 										</select>
 									</div>
-									<div class="col-12 row mx-0 px-0">
+								</div>
+									<div class="row">
+								
 										<label for="part_number" class="data-entry-label col-lg-3 text-center text-xl-right px-0">## of Parts</label>
 										<div class="col-12 col-lg-4 pl-xl-1 pr-xl-0">
 											<select class="data-entry-select pr-xl-0" required="">
@@ -895,10 +903,13 @@ limitations under the License.
 											<input type="text" name="part_number" class="data-entry-input" placeholder="Number of Parts">
 										</div>
 									</div>
+									<div class="row">
 									<label for="container_unique_id" class="data-entry-label col-sm-3 text-center text-md-right px-0">Container</label>
 									<div class="col-12 col-lg-8 px-1">
 										<input type="text" class="data-entry-input" name="container_unique_id" placeholder="Container Unique ID">
 									</div>
+								</div>
+									<div class="row">
 									<label for="part_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">Part Remark</label>
 									<div class="col-12 col-lg-8 px-1">
 										<textarea type="text" name="part_remark" class="data-entry-textarea" placeholder="Part Remark"/>
