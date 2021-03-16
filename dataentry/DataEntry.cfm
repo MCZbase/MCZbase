@@ -43,10 +43,10 @@ limitations under the License.
 	top:407px;	
 	}
 #mydiv11  {
-	top:664px;
+	top:607px;
 }
 #mydiv12 {
-	top: 664px;
+	top: 607px;
 }
 #mydiv13 {
 	top:760px;
@@ -401,7 +401,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent px-1 mt-0 mx-1 mb-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -424,7 +424,7 @@ limitations under the License.
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID mt-1 mx-1 mb-1 px-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
