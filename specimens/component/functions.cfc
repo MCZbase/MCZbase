@@ -215,7 +215,7 @@ limitations under the License.
 					</div>
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
-							<div class="col-12">
+							<div class="col-12 px-0">
 								<h3 class="h2">Edit Existing Determinations<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -398,7 +398,7 @@ limitations under the License.
 									</div>
 									<cfset i = #i#+1>
 								</cfloop>
-							<div class="col-12 px-0">
+							<div class="col-12 px-0 mt-2">
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
 							</div>		</div>
