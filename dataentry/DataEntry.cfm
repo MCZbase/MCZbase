@@ -401,7 +401,7 @@ limitations under the License.
 									<div class="col-12 col-xl-6 px-1">
 										<input type="text" class="data-entry-input" name="other_id" placeholder="Value">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAgent col px-1 m-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -424,7 +424,7 @@ limitations under the License.
 									<div class="col-xl-6 px-1">
 										<input type="text" class="data-entry-input"  name="other_id" placeholder="Other ID">
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addOtherID col px-1 m-1 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
@@ -466,7 +466,7 @@ limitations under the License.
 										<textarea type="text" name="id_remark" rows="1" class="data-entry-textarea" placeholder="ID Remark"/>
 										</textarea>
 									</div>
-								<a aria-label="Add another set of search criteria"  style="max-width: 26px;" class="btn btn-xs btn-primary addSciName col px-0 rounded text-center" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+								<a aria-label="Add another set of search criteria"  style="max-width: 26px;" class="btn btn-xs btn-primary addSciName col loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 							</div>
 						</div>
