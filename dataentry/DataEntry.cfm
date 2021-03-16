@@ -794,7 +794,7 @@ limitations under the License.
 										<textarea type="text" name="attribute_remark" class="data-entry-textarea" placeholder="Attribute Remark"/>
 										</textarea>
 									</div>
-									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-primary addAtt loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+									<a aria-label="Add another set of search criteria" style="max-width: 22px;" class="btn btn-xs btn-primary col addAtt loginButtons rounded px-1 mr-auto mt-0 mx-1 mb-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 								</div>
 						
 							</div>
