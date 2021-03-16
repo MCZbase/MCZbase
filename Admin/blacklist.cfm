@@ -7,8 +7,8 @@
 		<cfswitch expression="#action#">
 			<cfcase value="all">
 				<!--- list all ip addresses on the block list and reload the application variable --->
-				<div class="row">
-					<form name="i" method="post" action="/Admin/blacklist.cfm">
+				<form name="i" method="post" action="/Admin/blacklist.cfm">
+					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
 							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
@@ -17,8 +17,8 @@
 						<div class="col-12 col-md-6">
 							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 				<cfquery name="all" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate
 					from blacklist 
@@ -80,8 +80,8 @@
 			</cfcase>
 			<cfdefaultcase>
 				<!--- show recent and local additions to the block list --->
-				<div class="row">
-					<form name="i" method="post" action="/Admin/blacklist.cfm">
+				<form name="i" method="post" action="/Admin/blacklist.cfm">
+					<div class="row">
 						<div class="col-12 col-md-6">
 							<input type="hidden" name="action" value="ins">
 							<label for="ip" class="data-entry-label">Add IP address To blocklist</label>
@@ -90,8 +90,8 @@
 						<div class="col-12 col-md-6">
 							<input type="submit" value="Add to blocklist" class="btn btn-xs btn-primary">
 						</div>
-					</form>
-				</div>
+					</div>
+				</form>
 				<cfquery name="last30" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select ip, to_char(listdate,'YYYY-MM-DD') as listdate, UTL_INADDR.get_host_name(ip) as hostname from blacklist 
 					where listdate > sysdate - 30
