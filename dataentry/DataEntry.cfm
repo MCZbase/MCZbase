@@ -669,9 +669,9 @@ limitations under the License.
 							<h2 class="data-entry-title">Coordinates</h2>
 						<!---	<h3 class="data-entry-subtitle">This is step 10</h3>--->
 							<div id="customCoord">
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Original Coordinates Units</label>
-									<div class="col-sm-8">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Original Coordinates Units</label>
+									<div class="col-sm-8 px-1">
 										<select class="data-entry-select pr-0" required>
 											<option value="">Decimal Degrees</option>
 											<option value="1">Dec. Min. Secs.</option>
@@ -680,18 +680,18 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="row">
-									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right px-0">Maximumm Error</label>
-									<div class="col-12 col-sm-4 pr-xl-0">
+								<div class="form-row">
+									<label for="higher_geog" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Maximumm Error</label>
+									<div class="col-12 col-sm-4 px-1">
 										<input type="text" name="maximum_error" class="data-entry-input" placeholder="Maximum Error" />
 									</div>
-									<div class="col-12 col-sm-4">
+									<div class="col-12 col-sm-4 px-1">
 										<input type="text" class="data-entry-input pr-xl-0" placeholder="Error Units">
 									</div>
 								</div>
-								<div class="row">
-									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right px-0">Extent</label>
-									<div class="col-sm-8">
+								<div class="form-row">
+									<label for="extent" class="data-entry-label col-sm-3 text-center text-md-right pr-0">Extent</label>
+									<div class="col-sm-8 px-1">
 										<input type="text" name="extent" class="data-entry-input" placeholder="Extent" />
 									</div>
 								</div>
