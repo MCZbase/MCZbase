@@ -214,7 +214,7 @@ limitations under the License.
 								Edit Existing Determinations
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 								</h1>
-						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
+						<div class="">
 						<div class="row">
 							<div class="col-12 px-0">
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -263,7 +263,7 @@ limitations under the License.
 										<cfset thisIdentification_id = #identification_id#>
 										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-										<div class="col-12">
+										<div class="col-12 border bg-light px-3 rounded mt-0 pt-2 pb-3">
 											<div class="row mt-2">
 												<div class="col-12 col-md-5">
 													<!--- TODO: A/B pickers --->
@@ -332,8 +332,6 @@ limitations under the License.
 												<span  id="addIdentifier_#i#"
 														onclick="addIdentifier('#i#','#idnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 											</div>
-										
-					
 											<div class="row mt-2">
 												<div class="col-12 col-md-3">
 													<label for="made_date_#i#" class="data-entry-label">ID Date</label>
