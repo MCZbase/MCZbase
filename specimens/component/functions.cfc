@@ -302,11 +302,11 @@ limitations under the License.
 													<div class="row mt-2">
 													<cfloop query="identifiers">
 														<div id="IdTr_#i#_#idnum#">
-															<div class="col-6">
+															<div class="col-12">
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
-																<div class="col-12">
+																<div class="col-10 px-0">
 																<div class="input-group">
 																	<div class="input-group-prepend">
 																		<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -318,9 +318,9 @@ limitations under the License.
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
 																	value="#identification_agent_id#">
 																</div></div>
-															<div class="col-12 col-md-6">
+															<div class="col-12 col-md-2 px-0">
 																<cfif #idnum# gt 1>
-																	<button class="btn btn-xs btn-danger" onclick="removeIdentifier('#i#','#idnum#')" /><i class="fa fa-times"></i></div>
+																	<button class="btn btn-xs btn-danger" onclick="removeIdentifier('#i#','#idnum#')" /><i class="fa fa-times"></i></button>
 																</cfif>
 															</div>
 															<script>
