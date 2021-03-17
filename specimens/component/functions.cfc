@@ -300,8 +300,9 @@ limitations under the License.
 											<div class="row mt-2">
 												<div class="col-12">
 													<cfset idnum=1>
+													<div class="row">
 													<cfloop query="identifiers">
-														<div class="row" id="IdTr_#i#_#idnum#">
+														<div id="IdTr_#i#_#idnum#">
 															<div class="col-12 col-md-6">
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -330,6 +331,8 @@ limitations under the License.
 													</cfloop>
 													<span class="infoLink" id="addIdentifier_#i#"
 														onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+													</div>
+										
 												</div>
 											</div>
 											<div class="row mt-2">
