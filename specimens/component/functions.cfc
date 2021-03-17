@@ -379,7 +379,7 @@ limitations under the License.
 														<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
 													</cfif>
 												</div>
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-4 mt-3">
 													<cfif #accepted_id_fg# is 0>
            											<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
 														<input type="checkbox" class="data-entry-checkbox" 
