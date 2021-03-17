@@ -214,8 +214,7 @@ limitations under the License.
 								Edit Existing Determinations
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 								</h1>
-						<div class="">
-						<div class="row">
+						<div class="row mx-0">
 							<div class="col-12 px-0">
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -406,7 +405,6 @@ limitations under the License.
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
 							</div>										
-						</div>
 						</div>
 					</form>
 						</div>
