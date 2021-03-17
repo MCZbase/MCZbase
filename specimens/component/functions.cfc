@@ -401,7 +401,7 @@ limitations under the License.
 										</script>
 										</div>
 									<cfset i = #i#+1>
-										<cfif #i# gt 1><hr class="border border-dark"></cfif>
+									
 
 								</cfloop>
 								<div class="col-12 mt-2">
