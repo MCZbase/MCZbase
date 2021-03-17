@@ -215,7 +215,7 @@ limitations under the License.
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 								</h1>
 						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
-						<div class="row mt-2">
+						<div class="row">
 							<div class="col-12 px-0">
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
@@ -265,7 +265,7 @@ limitations under the License.
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
 										<div class="col-12">
 											<div class="row mt-2">
-												<div class="col-12 col-md-8">
+												<div class="col-12 col-md-5">
 													<!--- TODO: A/B pickers --->
 													<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
 			  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
@@ -296,11 +296,11 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mt-2">
-												<div class="col-12">
+												<div class="col-12 col-md-3">
 													<cfset idnum=1>
 													<cfloop query="identifiers">
-														<div class="row" id="IdTr_#i#_#idnum#">
-															<div class="col-12 col-md-8">
+														<div class="row mt-2" id="IdTr_#i#_#idnum#">
+															<div class="col-12 col-md-5">
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
@@ -367,7 +367,7 @@ limitations under the License.
 												<div class="col-12 col-md-4">
 													<cfif #accepted_id_fg# is 0>
 														<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
-														<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="data-entry-select">
+														<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="w-100">
 										                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
 										                <cfloop index="X" from="1" to="#sortCount#">
 											                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
@@ -397,7 +397,7 @@ limitations under the License.
 										</script>
 										</div>
 									<cfset i = #i#+1>
-										<cfif #i# gt 1><hr></cfif>
+										<cfif #i# gt 1><hr class="border border-dark"></cfif>
 
 								</cfloop>
 								<div class="col-12 mt-2">
@@ -467,7 +467,7 @@ limitations under the License.
 						<div class="identifcationExistingForm">
 							<form>
 								<div class="container pl-1">
-									<div class="col-md-6 col-sm-12 float-left">
+									<div class="col-6 float-left">
 										<div class="form-group">
 											<label for="scientific_name">Scientific Name:</label>
 											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#scientific_name#" size="1" 
