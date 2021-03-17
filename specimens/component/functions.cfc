@@ -97,8 +97,9 @@ limitations under the License.
 
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 px-0">
+						<div class="col-12 px-0 float-left">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
+							<div class="">
         					<h1 class="h3 mb-0 px-1">
 								Add New Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
@@ -116,7 +117,7 @@ limitations under the License.
 									}
 								}
 							</script>
-					<form name="newIDForm" id="newIDForm">
+							<form name="newIDForm" id="newIDForm">
     							<input type="hidden" name="Action" value="createNew">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 									<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
@@ -209,7 +210,9 @@ limitations under the License.
 										</script>
 									</div>
 					</form>
-					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+										</div>
+						<div class="col-12 col-lg-6 float-left">
+							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<h1 class="h3 mb-0 px-1">
 								Edit Existing Determinations
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
