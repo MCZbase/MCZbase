@@ -214,8 +214,11 @@ limitations under the License.
 					</div>
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
-							<div class="col-12">
-								<h1 class="h3 mb-0 px-1">Edit Existing Determinations <img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h1>
+							<div class="col-12 px-0">
+							<h1 class="h3 mb-0 px-1">
+								Edit Existing Determinations
+								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info"></i></a>
+								</h1>
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										identification.identification_id,
@@ -262,7 +265,7 @@ limitations under the License.
 										<cfset thisIdentification_id = #identification_id#>
 										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-										<div class="col-12 px-0">
+										<div class="col-12">
 											<div class="row mt-2">
 												<div class="col-12 col-md-8">
 													<!--- TODO: A/B pickers --->
@@ -295,7 +298,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mt-2">
-												<div class="col-12 col-md-12">
+												<div class="col-12">
 													<cfset idnum=1>
 													<cfloop query="identifiers">
 														<div class="row" id="IdTr_#i#_#idnum#">
