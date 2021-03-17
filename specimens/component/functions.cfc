@@ -100,7 +100,7 @@ limitations under the License.
 						<div class="col-12 px-0">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
         					<h1 class="h3 wikilink mb-0 px-1">
-								Add new Determination
+								Add New Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
 							</h1>
 							<script>
@@ -122,7 +122,7 @@ limitations under the License.
 								<fieldset>
 									<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
 										<div class="row mt-2">
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-3">
 												<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 												<cfif not isdefined("taxa_formula")>
 													<cfset taxa_formula='A'>
@@ -141,24 +141,24 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-5">
+											<div class="col-12 col-md-3">
 												<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 		  										<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
 												<input type="hidden" name="taxona_id" id="taxona_id">
 											</div>
-											<div class="col-12 col-md-5">
+											<div class="col-12 col-md-3 d-none">
 												<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 		  										<input type="text" name="taxonb" id="taxonb" class="reqdClr data-entry-input" size="50" style="display:none">
 												<input type="hidden" name="taxonb_id" id="taxonb_id">
 											</div>
-										</div>
-										<div class="row mt-2">
 											<div class="col-12 col-md-4">
 												<label for="user_id" class="data-entry-label" >Identification</label>
 		  										<input type="text" name="user_id" id="user_id" class="data-entry-input">
 											</div>
+										</div>
+										<div class="row mt-2">
 											<div class="col-12 col-md-3">
-												<label for="newIdBy" id="newIdBy_label" class="data-entry-label">Id By
+												<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">Id By
 													<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
@@ -174,23 +174,22 @@ limitations under the License.
 												<label for="made_date" class="data-entry-label" >Date Identified</label>
 												<input type="text" name="made_date" id="made_date" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 col-md-3">
 												<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr data-entry-select">
 								            	<cfloop query="ctnature">
 								                	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
 								                </cfloop>
-      								      </select>
-											
+      								      		</select>
 											</div>
-										</div>
-										<div class="row mt-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-3">
 												<label for="identification_publication" class="data-entry-label" >Sensu</label>
 												<input type="hidden" name="new_publication_id" id="new_publication_id">
 												<input type="text" id="newPub" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-6">
+										</div>
+										<div class="row mt-2">
+											<div class="col-12 col-md-8">
 												<label for="identification_remarks" class="data-entry-label" >Remarks</label>
 												<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 											</div>
