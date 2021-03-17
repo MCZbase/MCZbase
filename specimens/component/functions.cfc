@@ -298,8 +298,10 @@ limitations under the License.
 												</div>
 											</div>
 	
-													<cfset idnum=1>
-													<div class="row mt-2">
+													
+											<div class="row mt-2">
+												<div class="col-9">
+												<cfset idnum=1>
 													<cfloop query="identifiers">
 														<div id="IdTr_#i#_#idnum#">
 															<div class="col-12">
@@ -331,7 +333,8 @@ limitations under the License.
 													</cfloop>
 													<span class="infoLink" id="addIdentifier_#i#"
 														onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
-													</div>
+												</div>
+											</div>
 										
 					
 											<div class="row mt-2">
