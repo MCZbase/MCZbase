@@ -297,13 +297,12 @@ limitations under the License.
 													</cfif>
 												</div>
 											</div>
-											<div class="row mt-2">
-												<div class="col-12">
+	
 													<cfset idnum=1>
-													<div class="row">
+													<div class="row mt-2">
 													<cfloop query="identifiers">
 														<div id="IdTr_#i#_#idnum#">
-															<div class="col-12 col-md-6">
+															<div class="col-6">
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
@@ -333,8 +332,7 @@ limitations under the License.
 														onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 													</div>
 										
-												</div>
-											</div>
+					
 											<div class="row mt-2">
 												<div class="col-12 col-md-3">
 													<label for="made_date_#i#" class="data-entry-label">ID Date</label>
