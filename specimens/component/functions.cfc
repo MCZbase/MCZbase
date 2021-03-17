@@ -397,7 +397,7 @@ limitations under the License.
 										</script>
 										</div>
 									<cfset i = #i#+1>
-										<cfif sortCount gt 1><hr></cfif>
+										<cfif #i# gt 1><hr></cfif>
 
 								</cfloop>
 								<div class="col-12 mt-2">
