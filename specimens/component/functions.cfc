@@ -320,11 +320,11 @@ limitations under the License.
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
 																	value="#identification_agent_id#">
 																</div></div>
-															<div class="col-12 col-md-2 px-0">
+<!---															<div class="col-12 col-md-2 px-0">
 																<cfif #idnum# gt 1>
 																	<button class="btn btn-xs btn-danger" onclick="removeIdentifier('#i#','#idnum#')" /><i class="fa fa-times"></i></button>
 																</cfif>
-															</div>
+															</div>--->
 															<script>
 																makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 															</script>
@@ -332,7 +332,7 @@ limitations under the License.
 														<cfset idnum=idnum+1>
 													</cfloop>
 														<span class="infoLink" id="addIdentifier_#i#"
-														onclick="addIdentifier('#i#','#idnum#')" class="col-2 px-0" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+														onclick="addIdentifier('#i#','#idnum#')" class="col-2 px-0 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 												</div>
 											
 											</div>
