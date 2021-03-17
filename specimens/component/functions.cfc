@@ -210,9 +210,7 @@ limitations under the License.
 									</div>
 								</fieldset>
 							</form>
-						</div>
-					</div>
-					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<div class="row">
 							<div class="col-12 px-0">
 							<h1 class="h3 mb-0 px-1">
@@ -409,6 +407,8 @@ limitations under the License.
 					
 						</div>
 					</form>
+						</div>
+					</div>
 				</div>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
