@@ -184,14 +184,12 @@ limitations under the License.
 									
 										</div>
 										<div class="row mt-2">
-											<div class="col-12 col-md-8">
+											<div class="col-12 col-md-6">
 												<label for="identification_publication" class="data-entry-label" >Sensu</label>
 												<input type="hidden" name="new_publication_id" id="new_publication_id">
 												<input type="text" id="newPub" class="data-entry-input">
 											</div>
-										</div>
-										<div class="row mt-2">
-											<div class="col-12 col-md-8">
+											<div class="col-12 col-md-6">
 												<label for="identification_remarks" class="data-entry-label" >Remarks</label>
 												<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 											</div>
@@ -306,7 +304,7 @@ limitations under the License.
 														<div id="IdTr_#i#_#idnum#">
 															<div class="col-12">
 																<label for="IdBy_#i#_#idnum#">Identified By
-																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
 																<div class="col-12 px-0">
 																<div class="input-group">
