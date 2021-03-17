@@ -273,7 +273,7 @@ limitations under the License.
 			  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
 														class="data-entry-input" readonly="true" value="#scientific_name#">
 												</div>
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-3">
 													<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
 													<cfif #accepted_id_fg# is 0>
 														<cfset read = "">
@@ -285,7 +285,7 @@ limitations under the License.
 														<cfset selected1 = "selected">
 													</cfif>
 													<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read#
-															class="reqdClr" onchange="flippedAccepted('#i#')">
+															class="reqdClr w-50" onchange="flippedAccepted('#i#')">
 														<option value="1" #selected1#>yes</option>
 							                    	<option value="0" #selected0#>no</option>
 														<cfif #ACCEPTED_ID_FG# is 0>
@@ -293,7 +293,7 @@ limitations under the License.
 														</cfif>
 						                  			</select>
 													<cfif #ACCEPTED_ID_FG# is 0>
-														<span class="infoLink red" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+														<span class="infoLink text-dander" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 													</cfif>
 												</div>
 											</div>
@@ -366,7 +366,7 @@ limitations under the License.
 														class="data-entry-input"
 														value="#encodeForHtml(identification_remarks)#" >
 												</div>
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-2">
 													<cfif #accepted_id_fg# is 0>
 														<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
 														<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="w-100">
@@ -381,7 +381,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-4">
 													<cfif #accepted_id_fg# is 0>
-           											<label for="" class="mt-1">Stored As</label>
+           											<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
 														<input type="checkbox" class="data-entry-checkbox" 
 															name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
 													<cfelse>
