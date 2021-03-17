@@ -210,13 +210,14 @@ limitations under the License.
 									</div>
 					</form>
 					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
-						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
-						<div class="row mt-2">
-							<div class="col-12 px-0">
-							<h1 class="h3 mb-0 px-1">
+						<h1 class="h3 mb-0 px-1">
 								Edit Existing Determinations
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 								</h1>
+						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
+						<div class="row mt-2">
+							<div class="col-12 px-0">
+							
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										identification.identification_id,
