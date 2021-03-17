@@ -265,7 +265,7 @@ limitations under the License.
 										<cfset thisIdentification_id = #identification_id#>
 										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-										<div class="col-12 border bg-light px-3 rounded mt-0 pt-2 pb-3">
+										<div class="col-12 border bg-light px-3 rounded mt-0 mb-3 pt-2 pb-3">
 											<div class="row mt-2">
 												<div class="col-12 col-md-5">
 													<!--- TODO: A/B pickers --->
