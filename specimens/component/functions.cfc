@@ -151,7 +151,7 @@ limitations under the License.
 		  										<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 												<input type="hidden" name="taxonb_id" id="taxonb_id">
 											</div>
-											<div class="col-12 col-md-5">
+											<div class="col-12 col-md-6">
 												<label for="user_id" class="data-entry-label" >Identification</label>
 		  										<input type="text" name="user_id" id="user_id" class="data-entry-input">
 											</div>
