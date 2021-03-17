@@ -296,11 +296,11 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mt-2">
-												<div class="col-12 col-md-3">
+												<div class="col-12">
 													<cfset idnum=1>
 													<cfloop query="identifiers">
-														<div class="row mt-2" id="IdTr_#i#_#idnum#">
-															<div class="col-12 col-md-5">
+														<div class="row" id="IdTr_#i#_#idnum#">
+															<div class="col-12 col-md-6">
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
@@ -315,7 +315,7 @@ limitations under the License.
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
 																	value="#identification_agent_id#">
 															</div>
-															<div class="col-12 col-md-8">
+															<div class="col-12 col-md-6">
 																<cfif #idnum# gt 1>
 																	<img src="/images/del.gif" class="likeLink" onclick="removeIdentifier('#i#','#idnum#')" />
 																</cfif>
@@ -467,7 +467,7 @@ limitations under the License.
 						<div class="identifcationExistingForm">
 							<form>
 								<div class="container pl-1">
-									<div class="col-6 float-left">
+									<div class="col-md-6 col-sm-12 float-left">
 										<div class="form-group">
 											<label for="scientific_name">Scientific Name:</label>
 											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#scientific_name#" size="1" 
