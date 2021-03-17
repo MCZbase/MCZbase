@@ -306,6 +306,7 @@ limitations under the License.
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
+																<div class="col-12">
 																<div class="input-group">
 																	<div class="input-group-prepend">
 																		<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -316,10 +317,10 @@ limitations under the License.
 																<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
 																	value="#identification_agent_id#">
-															</div>
+																</div></div>
 															<div class="col-12 col-md-6">
 																<cfif #idnum# gt 1>
-																	<img src="/images/del.gif" class="likeLink" onclick="removeIdentifier('#i#','#idnum#')" />
+																	<button class="btn btn-xs btn-danger" onclick="removeIdentifier('#i#','#idnum#')" /><i class="fa fa-times"></i></div>
 																</cfif>
 															</div>
 															<script>
