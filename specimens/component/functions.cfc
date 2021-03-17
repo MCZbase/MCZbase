@@ -339,7 +339,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID 	<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 													<cfset thisID = #nature_of_id#>
-													<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr data-entry-select">
+													<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr w-100">
 									            	<cfloop query="ctnature">
 								                		<cfif #ctnature.nature_of_id# is #thisID#>
 																<cfset selected="selected='selected'">
