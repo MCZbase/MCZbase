@@ -99,7 +99,6 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0 float-left">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-							<div class="">
         					<h1 class="h3 mb-0 px-1">
 								Add New Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
@@ -210,7 +209,7 @@ limitations under the License.
 										</script>
 									</div>
 					</form>
-										</div>
+						</div>
 						<div class="col-12 col-lg-6 float-left">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 						<h1 class="h3 mb-0 px-1">
