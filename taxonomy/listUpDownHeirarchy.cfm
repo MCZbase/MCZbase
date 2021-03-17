@@ -85,9 +85,9 @@
 					<cfset collapseshow = "collapse">
 				</cfif>
 				<div class="card mb-2">
-					<div class="card-header w-100" id="headingPart">
-						<h2 class="h4 my-0 float-left">  
-							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
+					<div class="card-header py-0 w-100" id="headingPart">
+						<h2 class="h4 my-1 float-left">  
+							<a class="btn btn-link #collapsed#" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
 								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species): 
 							</a>
 						</h2>
