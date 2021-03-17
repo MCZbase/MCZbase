@@ -217,7 +217,6 @@ limitations under the License.
 						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
 						<div class="row mt-2">
 							<div class="col-12 px-0">
-							
 								<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										identification.identification_id,
@@ -398,8 +397,10 @@ limitations under the License.
 										</script>
 										</div>
 									<cfset i = #i#+1>
+										<cfif sortCount gt 1><hr></cfif>
+
 								</cfloop>
-								<div class="col-12 px-0 mt-2">
+								<div class="col-12 mt-2">
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
 							</div>										
