@@ -294,9 +294,7 @@ limitations under the License.
 														<span class="infoLink text-dander" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 													</cfif>
 												</div>
-											</div>
-	
-													
+											</div>		
 											<div class="row mt-2">
 												<div class="col-6 px-0">
 												<cfset idnum=1>
