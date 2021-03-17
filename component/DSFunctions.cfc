@@ -1,3 +1,4 @@
+<!--- DSFunctions.cfc   data service functions --->
 <cfcomponent>
 <cffunction name="getSpecimenByPartBarcode" access="remote">
 	<cfargument name="barcode" type="any" required="yes">
@@ -74,7 +75,7 @@
 			specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
 			coll_obj_cont_hist.container_id=p.container_id and
 			p.parent_container_id=c.container_id and
-			c.barcode in (#ListQualify(barcode, "'")#)
+			c.barcode in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#" list="yes">)
 	</cfquery>
 	<cfreturn d>
 </cffunction>
@@ -96,7 +97,7 @@
 			specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
 			coll_obj_cont_hist.container_id=p.container_id and
 			p.parent_container_id=c.container_id and
-			c.barcode in (#ListQualify(barcode, "'")#)
+			c.barcode in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#" list="yes">)
 	</cfquery>
 	<cfreturn d>
 </cffunction>
@@ -104,7 +105,9 @@
 <cffunction name="getMediaByFilename" access="remote">
 	<cfargument name="filename" type="any" required="yes">
 	<cfquery name="d" datasource="uam_god">
-		select count(*) c from media where media_uri like '%/#filename#%'
+		select count(*) c 
+		from media 
+		where media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%/#filename#%">
 	</cfquery>
 	<cfreturn d.c>
 </cffunction>
@@ -112,7 +115,10 @@
 	<cfargument name="agent_id" type="any" required="yes">
 	<cfif isnumeric(agent_id) and len(agent_id) gt 0>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select agent_name from agent_name where agent_id=#agent_id# order by agent_name
+			select agent_name 
+			from agent_name 
+			where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			order by agent_name
 		</cfquery>
 		<cfreturn valuelist(d.agent_name,';')>
 	<cfelse>
@@ -128,7 +134,9 @@
 	<cfset msg="">
 	<!--- Validate GUID --->
 	<cfquery name="guids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agentguid, agentguid_guid_type from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+		select agentguid, agentguid_guid_type 
+		from ds_temp_agent 
+		where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 	</cfquery>
 
 	<cftry>
@@ -170,7 +178,9 @@
 		<cftry>
 			<cfset msg="">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+				select * 
+				from ds_temp_agent 
+				where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 			<cftransaction>
 				<cfset thisName=trim(d.preferred_name)>
