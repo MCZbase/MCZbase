@@ -1023,7 +1023,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 				project, project_trans
 				WHERE
 				project_trans.project_id = project.project_id AND
-				project_trans.transaction_id=#one.accn_id#
+				project_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 				GROUP BY project_name, project.project_id
 		  </cfquery>
 		  <cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1536,6 +1536,17 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
 						and permit.restriction_summary IS NOT NULL
 				</cfquery>
+				<cfquery name="accnCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collection_cde
+					from trans 
+						left join collection on trans.collection_id = collection.collection_id
+					WHERE
+						trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+			  	</cfquery>
+				<cfset accnDept = "">
+				<cfif NOT one.collection_cde IS accnCollection.collection_cde>
+					<cfset accnDept = "(#accnCollection.collection_cde#)">
+				</cfif>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
@@ -1564,7 +1575,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<div class="detailBlock">
 						<span class="detailData">
 							<cfif oneOfUs is 1>
-								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a> #accnDept#
 								<cfif accnLimitations.recordcount GT 0>
 									<h3 class="detailLabel">Restrictions on use</h3>
 									<cfloop query=accnLimitations>
@@ -1572,7 +1583,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 									</cfloop>
 								</cfif>
 							<cfelse>
-								#accession#
+								#accession# #accnDept#
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<div class="thumbs">

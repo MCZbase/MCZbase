@@ -14,6 +14,24 @@
 				accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfset pageTitle = "Edit Accession #accessionNumber.accn_number#">
+		<cfquery name="accessControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select trans.transaction_id, vpd_collection_cde.collection_cde 
+			from 
+				trans
+				left outer join vpd_collection_cde on trans.collection_id = vpd_collection_cde.collection_id
+			where trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfif accessControl.recordcount EQ 0>
+			<cfthrow  message="No such accession record or you don't have access rights for this accession record.">
+		<cfelse>
+			<cfset cde = "">
+			<cfloop query="accessControl">
+				<cfset cde = "#cde##accessControl.collection_cde#">
+			</cfloop>
+			<cfif len(cde) EQ 0>
+				<cfthrow  message="You don't have access rights for this accession record.">
+			</cfif>
+		</cfif>
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
