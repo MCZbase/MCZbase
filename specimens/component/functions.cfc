@@ -157,7 +157,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="row mt-2">
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 pr-0">
 												<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">Identified By
 													<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
@@ -170,7 +170,7 @@ limitations under the License.
 												</div>
 												<!--- TODO: Add determiners --->
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 col-md-4 pr-0">
 												<label for="made_date" class="data-entry-label" >Date Identified</label>
 												<input type="text" name="made_date" id="made_date" class="data-entry-input">
 											</div>
@@ -185,7 +185,7 @@ limitations under the License.
 									
 										</div>
 										<div class="row mt-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 col-md-6 pr-0">
 												<label for="identification_publication" class="data-entry-label" >Sensu</label>
 												<input type="hidden" name="new_publication_id" id="new_publication_id">
 												<input type="text" id="newPub" class="data-entry-input">
