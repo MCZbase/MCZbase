@@ -362,7 +362,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mt-2">
-												<div class="col-12 col-md-6">
+												<div class="col-12 col-md-6 pr-0">
           											<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
 													<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
 														class="data-entry-input"
