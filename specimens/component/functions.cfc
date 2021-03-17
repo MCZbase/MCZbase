@@ -300,7 +300,7 @@ limitations under the License.
 	
 													
 											<div class="row mt-2">
-												<div class="col-8 px-0">
+												<div class="col-6 px-0">
 												<cfset idnum=1>
 													<cfloop query="identifiers">
 														<div id="IdTr_#i#_#idnum#">
@@ -308,7 +308,7 @@ limitations under the License.
 																<label for="IdBy_#i#_#idnum#">Identified By
 																	<h5 id="IdBy_#i#_#idnum#_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 																</label>
-																<div class="col-10 px-0">
+																<div class="col-12 px-0">
 																<div class="input-group">
 																	<div class="input-group-prepend">
 																		<span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -334,7 +334,7 @@ limitations under the License.
 													
 												</div>
 												<span  id="addIdentifier_#i#"
-														onclick="addIdentifier('#i#','#idnum#')" class="info-link col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
+														onclick="addIdentifier('#i#','#idnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 											</div>
 										
 					
