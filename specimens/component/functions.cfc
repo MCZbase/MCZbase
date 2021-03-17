@@ -265,9 +265,9 @@ limitations under the License.
 										<cfset thisIdentification_id = #identification_id#>
 										<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 										<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#" value="#identifiers.recordcount#">
-										<div class="col-12 border bg-light px-3 rounded mt-0 mb-3 pt-2 pb-3">
+										<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">
 											<div class="row mt-2">
-												<div class="col-12 col-md-5">
+												<div class="col-12 col-md-6 pr-0">
 													<!--- TODO: A/B pickers --->
 													<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
 			  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
@@ -339,7 +339,7 @@ limitations under the License.
 													<label for="made_date_#i#" class="data-entry-label">ID Date</label>
 													<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#" class="data-entry-input">
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-3 px-0">
 													<label for="nature_of_id_#i#" class="data-entry-label">Nature of ID 	<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 													<cfset thisID = #nature_of_id#>
 													<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr w-100">
