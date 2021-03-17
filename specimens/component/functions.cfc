@@ -273,7 +273,7 @@ limitations under the License.
 			  										<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
 														class="data-entry-input" readonly="true" value="#scientific_name#">
 												</div>
-												<div class="col-12 col-md-3">
+												<div class="col-12 col-md-4">
 													<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
 													<cfif #accepted_id_fg# is 0>
 														<cfset read = "">
