@@ -128,7 +128,7 @@ limitations under the License.
 													<cfset taxa_formula='A'>
 												</cfif>
 												<select name="taxa_formula" id="taxa_formula" size="1" 
-														class="reqdClr data-entry-select" required 
+														class="reqdClr w-100" required 
 														onchange="idFormulaChanged(this.value,'taxonb');">
 													<cfset selected_value = "#taxa_formula#">
 													<cfloop query="ctFormula">
@@ -148,7 +148,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3 d-none">
 												<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-		  										<input type="text" name="taxonb" id="taxonb" class="reqdClr data-entry-input" size="50" style="display:none">
+		  										<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 												<input type="hidden" name="taxonb_id" id="taxonb_id">
 											</div>
 											<div class="col-12 col-md-4">
@@ -176,7 +176,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-3">
 												<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr data-entry-select">
+												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 								            	<cfloop query="ctnature">
 								                	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
 								                </cfloop>
