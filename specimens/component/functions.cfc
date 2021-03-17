@@ -99,9 +99,9 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 px-0">
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-        					<h1 class="h3 wikilink mb-0 px-1">
+        					<h1 class="h3 mb-0 px-1">
 								Add New Determination
-								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><img src="/images/info.gif" border="0"></a>
+								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 							</h1>
 							<script>
 								function idFormulaChanged(newFormula,baseId) { 
