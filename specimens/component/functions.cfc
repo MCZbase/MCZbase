@@ -333,7 +333,7 @@ limitations under the License.
 													</cfloop>
 													
 												</div>
-												<span class="infoLink" id="addIdentifier_#i#"
+												<span  id="addIdentifier_#i#"
 														onclick="addIdentifier('#i#','#idnum#')" class="col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
 											</div>
 										
