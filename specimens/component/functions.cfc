@@ -300,7 +300,7 @@ limitations under the License.
 	
 													
 											<div class="row mt-2">
-												<div class="col-9">
+												<div class="col-8 px-0">
 												<cfset idnum=1>
 													<cfloop query="identifiers">
 														<div id="IdTr_#i#_#idnum#">
