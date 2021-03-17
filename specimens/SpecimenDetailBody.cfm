@@ -584,7 +584,7 @@ limitations under the License.
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<button type="button" class="btn btn-xs py-0 float-right small">Edit</button>
+									<button type="button" class="btn btn-xs py-0 float-right small" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
 								</cfif>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
