@@ -368,7 +368,7 @@ limitations under the License.
 														class="data-entry-input"
 														value="#encodeForHtml(identification_remarks)#" >
 												</div>
-												<div class="col-12 col-md-2">
+												<div class="col-12 col-md-3">
 													<cfif #accepted_id_fg# is 0>
 														<label for="sort_order_#i#" class="data-entry-label">Sort Order:</label>
 														<select name="sort_order_#i#" id="sort_order_#i#" size="1" class="w-100">
@@ -381,7 +381,7 @@ limitations under the License.
 														<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
 													</cfif>
 												</div>
-												<div class="col-12 col-md-4 mt-3">
+												<div class="col-12 col-md-3 mt-3">
 													<cfif #accepted_id_fg# is 0>
            											<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
 														<input type="checkbox" class="data-entry-checkbox" 
