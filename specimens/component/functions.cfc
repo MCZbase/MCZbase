@@ -116,10 +116,10 @@ limitations under the License.
 									}
 								}
 							</script>
-							<form name="newIDForm" id="newIDForm">
+					<form name="newIDForm" id="newIDForm">
     							<input type="hidden" name="Action" value="createNew">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-								<fieldset>
+							
 									<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
 										<div class="row mt-2">
 											<div class="col-12 col-md-3">
@@ -208,10 +208,10 @@ limitations under the License.
 											});
 										</script>
 									</div>
-								</fieldset>
-							</form>
-							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
-						<div class="row">
+					</form>
+					<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
+						<div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
+						<div class="row mt-2">
 							<div class="col-12 px-0">
 							<h1 class="h3 mb-0 px-1">
 								Edit Existing Determinations
@@ -247,7 +247,7 @@ limitations under the License.
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
 								<cfloop query="getIds">
-									<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">
+									<!---<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">--->
 										<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT distinct
 												agent_name, identifier_order,
@@ -395,16 +395,14 @@ limitations under the License.
 												makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 											});
 										</script>
-									</div>
+										</div>
 									<cfset i = #i#+1>
 								</cfloop>
-							<div class="col-12 px-0 mt-2">
+								<div class="col-12 px-0 mt-2">
 								<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
 							</div>
-							</div>		
-														
+							</div>										
 						</div>
-					
 						</div>
 					</form>
 						</div>
