@@ -1,14 +1,35 @@
-<cfset title="Review Loan Items">
- <cfinclude template="includes/_header.cfm">
-     <div style="width: 80em; margin: 0 auto; padding: 2em 0 3em 0;">
-	<script type='text/javascript' src='/includes/_loanReview.js'></script>
-	<script src="/includes/sorttable.js"></script>
+<!--
+transactions/reviewLoanItems.cfm
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2021 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+<cfset pageTitle="Review Loan Items">
+<cfinclude template="/shared/_header.cfm">
+
+<script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
+
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
+
 <cfif not isdefined("transaction_id")>
-	No transaction specified.<cfabort>
+	<cfthrow message="No transaction specified.">
 </cfif>
+
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "delete">
 	<cfoutput>
@@ -470,4 +491,4 @@ Review items in loan<b>
 </cfoutput>
 </cfif>
                             </div>
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
