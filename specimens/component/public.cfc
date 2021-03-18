@@ -226,7 +226,6 @@ limitations under the License.
 				
 					FROM
 						coll_obj_other_id_num 
-						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
 					where
 						coll_obj_other_id_num.collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY
