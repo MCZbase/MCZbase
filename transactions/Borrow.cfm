@@ -107,7 +107,7 @@ limitations under the License.
 								<!---- Borrow numbers follow Dyyyy-n-CCDE format, obtain highest n for current year for each collection. --->
 								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
-									'D#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(borrow_number,instr(borrow_number,'-')+1,instr(borrow_number,'-',1,2)-instr(borrow_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									'B#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(borrow_number,instr(borrow_number,'-')+1,instr(borrow_number,'-',1,2)-instr(borrow_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
 									from
 										borrow,
 										trans,
@@ -151,7 +151,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_number" class="data-entry-label">Borrow Number (Dyyyy-n-Coll)</label>
+								<label for="borrow_number" class="data-entry-label">Borrow Number (Byyyy-n-Coll)</label>
 								<input type="text" name="borrow_number" class="reqdClr data-entry-input" id="borrow_number" required pattern="#BORROWNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3">
