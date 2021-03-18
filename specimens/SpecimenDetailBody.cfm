@@ -672,8 +672,6 @@ limitations under the License.
 				</cfif>
 			<!------------------------------------ other identifiers ---------------------------------->
  
-
-	<!----------------------------- OTHER ID 2 ----------------------------------> 
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
 						<div id="otherIDsDialog"></div>
