@@ -476,7 +476,7 @@ limitations under the License.
 											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#scientific_name#" size="1" 
 												onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
 												onKeyPress="return noenter(event);">
-											<input type="hidden" name="taxona_id" id=taxona_id" class="reqdClr">
+											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 										</div>
 										<div class="form-group w-25 mb-3 float-left">
 											<label for="taxa_formula">Formula:</label>
@@ -546,107 +546,7 @@ limitations under the License.
 	<cfreturn getIdentificationThread.output>
 </cffunction>
 
-<!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getIdentificationTable" returntype="query" access="remote">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfset r=1>
-	<cftry>
-	    <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
-            from identification
-            where identification_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-		</cfquery>
-		<cfif theResult.recordcount eq 0>
-	  	  <cfset theResult=queryNew("status, message")>
-		  <cfset t = queryaddrow(theResult,1)>
-		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
-		</cfif>
-	<cfcatch>
-	  <cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-	  </cfcatch>
-	</cftry>
-    <cfif isDefined("asTable") AND asTable eq "true">
-	    <cfreturn resulthtml>
-    <cfelse>
-   	    <cfreturn theResult>
-    </cfif>
-</cffunction>
 
-<cffunction name="loadLocality" returntype="query" access="remote">
-	<cfargument name="locality_id" type="string" required="yes">
-	<cftry>
-		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		   select 1 as status, locality_id, geog_auth_rec_id, spec_locality
-             from locality
-             where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-		</cfquery>
-		<cfif theResults.recordcount eq 0>
-	  	  <cfset theResults=queryNew("status, message")>
-		  <cfset t = queryaddrow(theResults,1)>
-		  <cfset t = QuerySetCell(theResults, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResults, "message", "No localities found.", 1)>
-		</cfif>
-	  <cfcatch>
-	   	<cfset theResults=queryNew("status, message")>
-		<cfset t = queryaddrow(theResults,1)>
-		<cfset t = QuerySetCell(theResults, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResults, "message", "#cfcatch.type# hi #cfcatch.message# #cfcatch.detail#", 1)>
-	  </cfcatch>
-	</cftry>
-	<cfreturn theResults>
-</cffunction>
-			
-<cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="locality_id" type="string" required="yes">
-   <cfset r=1>
-   <cfthread name="getLocalityThread">
-   <cftry>
-    <cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 1 as status, locality.spec_locality, locality.geog_auth_rec_id, collecting_event.collecting_event_id, collecting_event.verbatim_locality, collecting_event.began_date, collecting_event.ended_date, collecting_event.collecting_source 
-		from locality, collecting_event, geog_auth_rec 
-		where locality.geog_auth_rec_id= geog_auth_rec.geog_auth_rec_id
-		and collecting_event.locality_id = locality.locality_id
-		and locality.locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-	</cfquery>
-
-      <cfset resulthtml1 = "<div id='localityHTML'> ">
-
-      <cfloop query="theResults">
-         <cfset resulthtml1 = resulthtml1 & "<div class='localityExistingForm'>">
-            <cfset resulthtml1 = resulthtml1 & "<form><div class='container pl-1'>">
-			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
-			<cfset resulthtml1 = resulthtml1 & "<div class='form-group'><label for='spec_locality' class='data-entry-label mb-0'>Specific Locality</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#spec_locality#'></div>">
-			<cfset resulthtml1 = resulthtml1 & "<div class='form-row form-group'><label for='verbatim_locality' class='data-entry-label mb-0'>Verbatim Locality</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='verbatim_locality' class='data-entry-input' value='#verbatim_locality#'></div></div>">
-			<cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'><label for='collecting_source' class='data-entry-label mb-0'>Collecting Source</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='collecting_source' class='data-entry-input' value='#collecting_source#'>">
-			<cfset resulthtml1 = resulthtml1 & "<label for='began_date' class='data-entry-label mb-0'>Began Date</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='began_date' class='data-entry-input' value='#began_date#'>">
-			<cfset resulthtml1 = resulthtml1 & "<label for='ended_date' class='data-entry-label mb-0'>End Date</label>">
-			<cfset resulthtml1 = resulthtml1 & "<input name='ended_date' class='data-entry-input' value='#ended_date#'></div>">
-		
-			<cfset resulthtml1 = resulthtml1 & "</div></div></form>">
-       
-				<cfset resulthtml1 = resulthtml1 & "</div></div>"> 
-      </cfloop> <!--- theResult --->
-
-   <cfcatch>
-       <cfset resulthtml1 = resulthtml1 & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
-   </cfcatch>
-   </cftry>
-     <cfoutput>#resulthtml1#</cfoutput>
-   </cfthread>
-    <cfthread action="join" name="getLocalityThread" />
-    <cfreturn getLocalityThread.output>
-</cffunction>
-<!----------------------------------------------------------------------------------------------------------------->
-				
-				
 				
 
 <cffunction name="getOtherIDs" returntype="query" access="remote">
