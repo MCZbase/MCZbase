@@ -53,9 +53,6 @@ limitations under the License.
 <cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select borrow_status from ctborrow_status order by borrow_status
 </cfquery>
-<cfquery name="ctBorrowType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select borrow_type from ctborrow_type order by borrow_type
-</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
 		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
@@ -63,10 +60,6 @@ limitations under the License.
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to borrows --->
-<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct agent_id from agent_name where agent_name = 'not applicable' and rownum < 2
-</cfquery>
-<cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role
@@ -82,7 +75,6 @@ limitations under the License.
 		jQuery(document).ready(function() {
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
@@ -115,7 +107,7 @@ limitations under the License.
 								<!---- Borrow numbers follow Dyyyy-n-CCDE format, obtain highest n for current year for each collection. --->
 								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
-									'D#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(borrow_number,instr(borrow_number,'-')+1,instr(borrow_number,'-',1,2)-instr(borrow_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									'B#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(borrow_number,instr(borrow_number,'-')+1,instr(borrow_number,'-',1,2)-instr(borrow_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
 									from
 										borrow,
 										trans,
@@ -124,7 +116,7 @@ limitations under the License.
 										borrow.transaction_id=trans.transaction_id 
 										AND trans.collection_id=collection.collection_id
 										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-										AND substr(borrow_number, 1,4) ='#dateformat(now(),"yyyy")#'
+										AND substr(borrow_number, 2,4) ='#dateformat(now(),"yyyy")#'
 								</cfquery>
 							<cfcatch>
 								<hr>
@@ -159,7 +151,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_number" class="data-entry-label">Borrow Number (Dyyyy-n-Coll)</label>
+								<label for="borrow_number" class="data-entry-label">Borrow Number (Byyyy-n-Coll)</label>
 								<input type="text" name="borrow_number" class="reqdClr data-entry-input" id="borrow_number" required pattern="#BORROWNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3">
@@ -176,12 +168,28 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_type" class="data-entry-label">Borrow Type</label>
-								<select name="borrow_type" id="borrow_type" class="reqdClr data-entry-select" required >
-									<option value=""></option>
-									<cfloop query="ctBorrowType">
-											<option value="#ctBorrowType.borrow_type#">#ctBorrowType.borrow_type#</option>
-									</cfloop>
+								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" >
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-3">
+								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+									<option value="0" selected="selected">no</option>
+									<option value="1">yes</option>
 								</select>
 							</div>
 						</div>
@@ -359,27 +367,6 @@ limitations under the License.
 					</form>
 					<!--- Set initial state for new borrow --->
 					<script>
-						$('##borrow_type').val('discarded').prop('selected', true);
-						$("##rec_agent_name").val('not applicable');
-						$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
-						$("##rec_agent_id").trigger('change');
-						$("##recipient_institution_agent_name").val('not applicable');
-						$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
-						$("##recipient_institution_agent_id").trigger('change');
-						forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-						forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
-
-						// Handle special cases of borrow types transfer and other 
-						// transfer is not allowed as a type for a new accesison by default (but see below on selection of MCZ collection).
-						$("##borrow_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
-						<cfif isdefined("session.roles") and not listfindnocase(session.roles,"admin_transactions")>
-							// only admin_transaction role can create new accessions of type internal transfer.
-							$("##borrow_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
-						</cfif>
-						<cfif NOT (isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin"))>
-							// other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new borrowesison (must be set by sysadmin).
-							$("##borrow_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
-						</cfif>
 					</script>
 					<!--- handlers for various change events --->
 					<script>
@@ -604,6 +591,36 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-3">
+								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrwDetails.lender_loan_type)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_loan_date)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<cfif borrowDetails.lenders_invoice_returned_fg EQ 1 >
+									<cfset selected0 = "">
+									<cfset selected1 = "selected='selected'">
+								<cfelse>
+									<cfset selected0 = "selected='selected'">
+									<cfset selected1 = "">
+								</cfif>
+								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+									<option value="0" #selected0#>no</option>
+									<option value="1" #selected1#>yes</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label for="method" class="data-entry-label">Method of Transfer</label>
@@ -850,23 +867,6 @@ limitations under the License.
 <!--- TODO: Rework text --->
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
 								</h2>
-								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-										media.media_id,
-										preview_uri,
-										media_uri,
-										media_type,
-										label_value
-									from
-										media,
-										media_relations,
-										(select * from media_labels where media_label='description') media_labels
-									where
-										media.media_id=media_labels.media_id (+) and
-										media.media_id=media_relations.media_id and
-										media_relationship like '% borrow' and
-										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
 								<span>
 									<cfset relation="documents borrow">
 									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Borrow: #borrowDetails.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
@@ -878,7 +878,8 @@ limitations under the License.
 								</span>
 								<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 								<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-								<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+ 								<cfset mediaBlock = getMediaForTransHtml(transaction_id="#transaction_id#", transaction_type="borrow") >
+								<div id="transactionFormMedia" class="my-2">#mediaBlock#</div>
 								<script>
 									// callback for ajax methods to reload from dialog
 									function reloadTransMedia() { 
@@ -887,7 +888,6 @@ limitations under the License.
 											$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
 										}
 									};
-									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"borrow"));
 								</script>
 							</div> 
 						</section>
