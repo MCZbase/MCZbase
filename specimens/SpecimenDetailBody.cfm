@@ -671,30 +671,7 @@ limitations under the License.
 					</div>
 				</cfif>
 			<!------------------------------------ other identifiers ---------------------------------->
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
-							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
-							coll_obj_other_id_num.display_value
-						end display_value,
-						coll_obj_other_id_num.other_id_type,
-						case when base_url is not null then
-							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-						else
-							null
-						end link
-					FROM
-						coll_obj_other_id_num 
-						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-					where
-						collection_object_id= <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY
-						other_id_type,
-						display_value
-				</cfquery>
+ 
 				<cfif len(oid.other_id_type) gt 0>
 				<div class="accordion" id="accordionD">
 					<div class="card mb-2 bg-light">
@@ -724,6 +701,32 @@ limitations under the License.
 					</div>
 					</div>
 				</cfif>
+	<!----------------------------- OTHER ID 2 ----------------------------------> 
+				<div class="accordion" id="accordionOtherID">
+					<div class="card mb-2 bg-light">
+						<div id="otherIDsDialog"></div>
+						<script>
+							function reloadOtherIDs() { 
+								// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other ID block.
+								loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingOtherID">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">OtherIDs</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
+							</cfif>
+						</div>
+						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
+							<div class="card-body mb-2 float-left" id="otherIDsCardBody">
+								<cfset block = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
 				<!------------------------------------ parts ----------------------------------------------> 
 				<cfoutput>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
