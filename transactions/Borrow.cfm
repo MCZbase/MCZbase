@@ -867,23 +867,6 @@ limitations under the License.
 <!--- TODO: Rework text --->
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
 								</h2>
-								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-										media.media_id,
-										preview_uri,
-										media_uri,
-										media_type,
-										label_value
-									from
-										media,
-										media_relations,
-										(select * from media_labels where media_label='description') media_labels
-									where
-										media.media_id=media_labels.media_id (+) and
-										media.media_id=media_relations.media_id and
-										media_relationship like '% borrow' and
-										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
 								<span>
 									<cfset relation="documents borrow">
 									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Borrow: #borrowDetails.borrow_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
@@ -895,7 +878,8 @@ limitations under the License.
 								</span>
 								<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 								<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-								<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+ 								<cfset mediaBlock = getMediaForTransHtml(transaction_id="#transaction_id#", transaction_type="borrow") >
+								<div id="transactionFormMedia" class="my-2">#mediaBlock#</div>
 								<script>
 									// callback for ajax methods to reload from dialog
 									function reloadTransMedia() { 
@@ -904,7 +888,6 @@ limitations under the License.
 											$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
 										}
 									};
-									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"borrow"));
 								</script>
 							</div> 
 						</section>
