@@ -651,8 +651,8 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 
-	<cfthread action="join" name="getEditIdentsThread" />
-	<cfreturn getEditIdentsThread.output>
+	<cfthread action="join" name="getEditOtherIDsThread" />
+	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 
 
