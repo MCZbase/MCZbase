@@ -650,18 +650,19 @@ limitations under the License.
 				
 
 <cffunction name="getOtherIDs" returntype="query" access="remote">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, other_id_type, collection_object_id, coll_obj_other_id_num_id, display_value, other_id_prefix
-			from coll_obj_other_id_num
-			where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			select 1 as status, identification_id, collection_object_id, nature_of_id, accepted_id_fg,
+				identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
+			from identification
+			where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 		</cfquery>
 		<cfif theResult.recordcount eq 0>
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No other IDs found.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
 		</cfif>
 	<cfcatch>
 		<cfset theResult=queryNew("status, message")>
@@ -673,7 +674,7 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!--- getEditOtherIDsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
+<!--- getEditIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
@@ -683,6 +684,7 @@ limitations under the License.
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
+
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
@@ -714,7 +716,7 @@ limitations under the License.
 							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
 							<div class="col-12 col-lg-6 float-left pl-0">
         					<h1 class="h3 mb-0 px-1">
-								Add New Other ID
+								Add New Determination
 								<a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
 							</h1>
 							<script>
