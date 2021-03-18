@@ -173,6 +173,27 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
+							<div class="col-12 col-md-3">
+								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+									<option value="0" selected="selected">no</option>
+									<option value="1">yes</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
 									<label for="auth_agent" class="data-entry-label">
@@ -570,6 +591,36 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-3">
+								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrwDetails.lender_loan_type)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_loan_date)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<cfif borrowDetails.lenders_invoice_returned_fg EQ 1 >
+									<cfset selected0 = "">
+									<cfset selected1 = "selected='selected'">
+								<cfelse>
+									<cfset selected0 = "selected='selected'">
+									<cfset selected1 = "">
+								</cfif>
+								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+									<option value="0" #selected0#>no</option>
+									<option value="1" #selected1#>yes</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label for="method" class="data-entry-label">Method of Transfer</label>
