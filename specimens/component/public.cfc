@@ -256,10 +256,7 @@ limitations under the License.
 									</li>
 								</cfloop>
 							</ul>
-						</div>
-						</div>
-					</div>
-					</div>
+				
 				</cfif>
 							<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
