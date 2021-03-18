@@ -16,7 +16,7 @@ customstyles_jquery-ui.css  */
     border-radius: .2rem;
 }
 .ui-multiselect {
-	padding: .2rem .5rem;
+	padding: .5rem .5rem .2rem .5rem;
 	margin: 0;
 	font-size: .875rem;
 	border-radius: .2rem;
