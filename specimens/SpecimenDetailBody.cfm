@@ -672,7 +672,7 @@ limitations under the License.
 				</cfif>
 			<!------------------------------------ other identifiers ---------------------------------->
  
-				<cfif len(oid.other_id_type) gt 0>
+<!---				<cfif len(oid.other_id_type) gt 0>
 				<div class="accordion" id="accordionD">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading3">
@@ -700,7 +700,7 @@ limitations under the License.
 						</div>
 					</div>
 					</div>
-				</cfif>
+				</cfif>--->
 	<!----------------------------- OTHER ID 2 ----------------------------------> 
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
