@@ -116,7 +116,7 @@ limitations under the License.
 										borrow.transaction_id=trans.transaction_id 
 										AND trans.collection_id=collection.collection_id
 										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-										AND substr(borrow_number, 1,4) ='#dateformat(now(),"yyyy")#'
+										AND substr(borrow_number, 2,4) ='#dateformat(now(),"yyyy")#'
 								</cfquery>
 							<cfcatch>
 								<hr>
