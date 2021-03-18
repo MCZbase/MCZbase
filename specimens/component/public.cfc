@@ -246,14 +246,6 @@ limitations under the License.
 		<cfif len(oid.other_id_type) gt 0>
 				<div class="accordion" id="accordionD">
 					<div class="card mb-2 bg-light">
-						<div class="card-header" id="heading3">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-							</cfif>
-						</div>
 						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
 						<div class="card-body mb-2 float-left">
 							<ul class="list-group">
