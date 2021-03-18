@@ -702,7 +702,7 @@ limitations under the License.
 					</div>
 				</cfif>
 	<!----------------------------- OTHER ID 2 ----------------------------------> 
-				<div class="accordion" id="accordionOtherID">
+		<!---		<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
 						<div id="otherIDsDialog"></div>
 						<script>
@@ -726,7 +726,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>--->
 				<!------------------------------------ parts ----------------------------------------------> 
 				<cfoutput>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
