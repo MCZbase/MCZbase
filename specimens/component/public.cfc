@@ -214,4 +214,85 @@ limitations under the License.
 </cffunction>
 
 
+	<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getOtherIDsThread">
+		<cfoutput>
+			<cftry>
+			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
+							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+							coll_obj_other_id_num.other_id_type = 'original identifier'
+							then 'Masked'
+						else
+							coll_obj_other_id_num.display_value
+						end display_value,
+						coll_obj_other_id_num.other_id_type,
+						case when base_url is not null then
+							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+						else
+							null
+						end link
+					FROM
+						coll_obj_other_id_num 
+						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+					where
+						collection_object_id= <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY
+						other_id_type,
+						display_value
+				</cfquery>
+		<cfif len(oid.other_id_type) gt 0>
+				<div class="accordion" id="accordionD">
+					<div class="card mb-2 bg-light">
+						<div class="card-header" id="heading3">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
+						</div>
+						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
+						<div class="card-body mb-2 float-left">
+							<ul class="list-group">
+								<cfloop query="oid">
+									<li class="list-group-item">#other_id_type#:
+										<cfif len(link) gt 0>
+											<a class="external" href="#link#" target="_blank">#display_value#</a>
+											<cfelse>
+											#display_value#
+										</cfif>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+						</div>
+					</div>
+					</div>
+				</cfif>
+							<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+
+	<cfthread action="join" name="getOtherIDsThread" />
+	<cfreturn getOtherIDsThread.output>
+	</cffunction>		
 </cfcomponent>

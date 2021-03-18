@@ -991,7 +991,7 @@ limitations under the License.
 											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#scientific_name#" size="1" 
 												onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
 												onKeyPress="return noenter(event);">
-											<input type="hidden" name="taxona_id" id=taxona_id" class="reqdClr">
+											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 										</div>
 										<div class="form-group w-25 mb-3 float-left">
 											<label for="taxa_formula">Formula:</label>
@@ -1161,7 +1161,7 @@ limitations under the License.
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 				
-				
+<!---				
 <cffunction name="getPartName" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
@@ -1209,9 +1209,9 @@ limitations under the License.
    </cfcatch>
    </cftry>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>
+</cffunction>--->
 <!----------------------------------------------------------------------------------------------------------------->
-<cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getMediaForCitPub">
 		<cfquery name="query"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1266,6 +1266,6 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getMediaForCitPub" />
 	<cfreturn getMediaForCitPub.output>
-</cffunction>
+</cffunction>--->
 
 </cfcomponent>
