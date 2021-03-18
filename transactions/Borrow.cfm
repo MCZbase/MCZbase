@@ -60,7 +60,6 @@ limitations under the License.
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to borrows --->
-<cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role
@@ -76,7 +75,6 @@ limitations under the License.
 		jQuery(document).ready(function() {
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
