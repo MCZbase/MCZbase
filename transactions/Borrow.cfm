@@ -53,9 +53,6 @@ limitations under the License.
 <cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select borrow_status from ctborrow_status order by borrow_status
 </cfquery>
-<cfquery name="ctBorrowType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select borrow_type from ctborrow_type order by borrow_type
-</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
 		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
@@ -63,9 +60,6 @@ limitations under the License.
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to borrows --->
-<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct agent_id from agent_name where agent_name = 'not applicable' and rownum < 2
-</cfquery>
 <cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
@@ -359,27 +353,6 @@ limitations under the License.
 					</form>
 					<!--- Set initial state for new borrow --->
 					<script>
-						$('##borrow_type').val('discarded').prop('selected', true);
-						$("##rec_agent_name").val('not applicable');
-						$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
-						$("##rec_agent_id").trigger('change');
-						$("##recipient_institution_agent_name").val('not applicable');
-						$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
-						$("##recipient_institution_agent_id").trigger('change');
-						forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-						forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
-
-						// Handle special cases of borrow types transfer and other 
-						// transfer is not allowed as a type for a new accesison by default (but see below on selection of MCZ collection).
-						$("##borrow_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
-						<cfif isdefined("session.roles") and not listfindnocase(session.roles,"admin_transactions")>
-							// only admin_transaction role can create new accessions of type internal transfer.
-							$("##borrow_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
-						</cfif>
-						<cfif NOT (isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin"))>
-							// other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new borrowesison (must be set by sysadmin).
-							$("##borrow_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
-						</cfif>
 					</script>
 					<!--- handlers for various change events --->
 					<script>
