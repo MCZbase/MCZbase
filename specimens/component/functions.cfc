@@ -557,7 +557,7 @@ limitations under the License.
 
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
+						case when status != 1 and
 							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
 							coll_obj_other_id_num.other_id_type = 'original identifier'
 							then 'Masked'
@@ -590,30 +590,7 @@ limitations under the License.
 								<a href="javascript:void(0);" onClick="getMCZDocs('other id')"><i class="fa fa-info-circle"></i></a>
 							</h1>
 				
-										<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
-							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
-							coll_obj_other_id_num.display_value
-						end display_value,
-						coll_obj_other_id_num.other_id_type,
-						case when base_url is not null then
-							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-						else
-							null
-						end link
-					FROM
-						coll_obj_other_id_num 
-						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-					where
-						collection_object_id= <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY
-						other_id_type,
-						display_value
-				</cfquery>
+										
 				<cfif len(oid.other_id_type) gt 0>
 					<ul class="list-group">
 						<cfloop query="oid">
