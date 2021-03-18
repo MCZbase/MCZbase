@@ -52,7 +52,7 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<cffunction name="getIdentifications" returntype="query" access="remote">
+<!---<cffunction name="getIdentifications" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -75,8 +75,7 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
-</cffunction>
-
+</cffunction>--->
 <!--- getEditIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -436,8 +435,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
-
-
 <!----------------------------------------------------------------------------------------------------------------->
 <!--- function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
