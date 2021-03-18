@@ -228,10 +228,10 @@ limitations under the License.
 						coll_obj_other_id_num 
 						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
 					where
-						coll_object_other_id_num.collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						coll_obj_other_id_num.collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY
-						coll_object_other_id_num.other_id_type,
-						coll_object_other_id_num.display_value
+						coll_obj_other_id_num.other_id_type,
+						coll_obj_other_id_num.display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
 					<ul class="list-group">
