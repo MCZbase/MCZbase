@@ -244,10 +244,7 @@ limitations under the License.
 						display_value
 				</cfquery>
 		<cfif len(oid.other_id_type) gt 0>
-				<div class="accordion" id="accordionD">
-					<div class="card mb-2 bg-light">
-						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
-						<div class="card-body mb-2 float-left">
+
 							<ul class="list-group">
 								<cfloop query="oid">
 									<li class="list-group-item">#other_id_type#:
@@ -259,10 +256,7 @@ limitations under the License.
 									</li>
 								</cfloop>
 							</ul>
-						</div>
-						</div>
-					</div>
-					</div>
+			
 				</cfif>
 							<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
