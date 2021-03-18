@@ -22,8 +22,7 @@ limitations under the License.
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
-	editor dialog.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
 --->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
@@ -213,8 +212,11 @@ limitations under the License.
 	<cfreturn getIdentificationsThread.output>
 </cffunction>
 
-
-	<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+<!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other id numbers
+ @return html for viewing identifications for the specified cataloged item. 
+--->
+<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cfoutput>
@@ -267,5 +269,6 @@ limitations under the License.
 
 	<cfthread action="join" name="getOtherIDsThread" />
 	<cfreturn getOtherIDsThread.output>
-	</cffunction>		
+</cffunction>
+
 </cfcomponent>
