@@ -122,7 +122,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										</div>
 										<div class="col-12 col-sm-5 col-md-6 px-md-0">
 											<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="form-control-sm py-1" name="searchText" placeholder="Search term" aria-label="search text">
+											<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text">
 										</div>
 										<div class="col-12 col-sm-3 col-md-3 input-group-btn">
 											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
