@@ -243,22 +243,20 @@ limitations under the License.
 						other_id_type,
 						display_value
 				</cfquery>
-		<cfif len(oid.other_id_type) gt 0>
-
-							<ul class="list-group">
-								<cfloop query="oid">
-									<li class="list-group-item">#other_id_type#:
-										<cfif len(link) gt 0>
-											<a class="external" href="#link#" target="_blank">#display_value#</a>
-											<cfelse>
-											#display_value#
-										</cfif>
-									</li>
-								</cfloop>
-							</ul>
-			
+				<cfif len(oid.other_id_type) gt 0>
+					<ul class="list-group">
+						<cfloop query="oid">
+							<li class="list-group-item">#other_id_type#:
+								<cfif len(link) gt 0>
+									<a class="external" href="#link#" target="_blank">#display_value#</a>
+									<cfelse>
+									#display_value#
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
 				</cfif>
-							<cfcatch>
+				<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 				<cfcontent reset="yes">
