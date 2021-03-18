@@ -168,13 +168,8 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_type" class="data-entry-label">Borrow Type</label>
-								<select name="borrow_type" id="borrow_type" class="reqdClr data-entry-select" required >
-									<option value=""></option>
-									<cfloop query="ctBorrowType">
-											<option value="#ctBorrowType.borrow_type#">#ctBorrowType.borrow_type#</option>
-									</cfloop>
-								</select>
+								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" >
 							</div>
 						</div>
 						<div class="form-row mb-2">
