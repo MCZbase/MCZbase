@@ -194,10 +194,27 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="received_date" class="data-entry-label">Received Date</label>
+								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="trans_date" class="data-entry-label">Transaction Date</label>
+								<input type="text" name="trans_date" id="trans_date" 
+									required
+									value="#dateformat(now(),"yyyy-mm-dd")#" 
+									class="reqdClr w-100 data-entry-input">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
 								<span>
 									<label for="auth_agent" class="data-entry-label">
-										In-house authorized by:
+										Outside authorized by:
 										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
@@ -212,30 +229,84 @@ limitations under the License.
 									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
 								<span>
-									<label for="rec_agent_name" class="data-entry-label">
-										Received By:
-										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="overseenby_agent_name" class="data-entry-label">
+										Borrow Overseen By (MCZ):
+										<span id="overseenby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller bg-lightgreen" id="overseenby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="rec_agent_name" id="rec_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+									<input name="overseenby_agent_name" id="overseenby_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
 								</div>
-								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
+								<input type="hidden" name="over_agent_id" id="over_agent_id" >
 								<script>
-									$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
+									$(makeRichTransAgentPicker('overseenby_agent_name','over_agent_id','overseenby_agent_icon','overseenby_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="received_agent_name" class="data-entry-label">
+										Received By:
+										<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="received_agent_name" id="received_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+								</div>
+								<input type="hidden" name="received_agent_id" id="received_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('received_agent_name','received_agent_id','received_agent_icon','received_agent_view',null));
 								</script> 
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="received_from_agent_name" class="data-entry-label">
+										Received From:
+										<span id="received_from_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="received_from_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="received_from_agent_name" id="received_from_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+								</div>
+								<input type="hidden" name="received_from_agent_id" id="received_from_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('received_from_agent_name','received_from_agent_id','received_from_agent_icon','received_from_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="lending_institution_agent_name" class="data-entry-label">
+										Lending Institution:
+										<span id="lending_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="lending_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="lending_institution_agent_name" id="lending_institution_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
+								</div>
+								<input type="hidden" name="lending_institution_agent_id" id="lending_institution_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('lending_institution_agent_name','lending_institution_agent_id','lending_institution_agent_icon','lending_institution_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
 								<span>
 									<label for="inhouse_contact_agent_name" class="data-entry-label">
-										In-House Contact:
+										In-house Contact:
 										<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
@@ -250,78 +321,14 @@ limitations under the License.
 									$(makeRichTransAgentPicker('inhouse_contact_agent_name','inhouse_contact_agent_id','inhouse_contact_agent_icon','inhouse_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="additional_outcontact_agent_name" class="data-entry-label">
-										Additional Outside Contact:
-										<span id="additional_outcontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="additional_outcontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="additional_outcontact_agent_name" id="additional_outcontact_agent_name" class="form-control form-control-sm data-entry-input" >
-								</div>
-								<input type="hidden" name="additional_outcontact_agent_id" id="additional_outcontact_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('additional_outcontact_agent_name','additional_outcontact_agent_id','additional_outcontact_agent_icon','additional_outcontact_agent_view',null));
-								</script> 
-							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="recipient_institution_agent_name" class="data-entry-label">
-										Recipent Institution
-										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name" required class="form-control form-control-sm data-entry-input reqdClr">
-								</div>
-								<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
-								</script> 
-							</div>
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="foruseby_agent_name" class="data-entry-label">
-										For Use By:
-										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control form-control-sm data-entry-input" >
-								</div>
-								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
-								</script> 
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="trans_date" id="trans_date" 
-									required
-									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 data-entry-input">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="method" class="data-entry-label">Method of Transfer</label>
-								<input type="text" name="method" id="method" class="w-100 data-entry-input">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
-								<input type="text" name="value" id="value" class="w-100 data-entry-input">
+							<div class="col-12 col-md-12">
+								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
+								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
+									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
+									class="data-entry-textarea autogrow" 
+									></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -335,9 +342,9 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
-								<label for="borrow_reason" class="data-entry-label">Reason for Borrow (<span id="length_borrow_reason"></span>)</label>
-								<textarea name="borrow_reason" id="borrow_reason" rows="2" 
-									onkeyup="countCharsLeft('borrow_reason', 4000, 'length_borrow_reason');"
+								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
+								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
+									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
 									class="reqdClr data-entry-textarea autogrow" 
 									required ></textarea>
 							</div>
