@@ -3782,8 +3782,6 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select agent_id, trans_agent_role
-			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select agent_id, trans_agent_role
 				from trans_agent
 				where
 					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
