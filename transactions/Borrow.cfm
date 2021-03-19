@@ -589,7 +589,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
-								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" value="#encodeForHTML(borrwDetails.lenders_trans_num_cde)#">
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_trans_num_cde)#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="borrow_status" class="data-entry-label">Borrow Status</label>
