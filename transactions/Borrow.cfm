@@ -74,8 +74,8 @@ limitations under the License.
 		// setup date pickers
 		jQuery(document).ready(function() {
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -186,7 +186,7 @@ limitations under the License.
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input">
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged as returned?</label>
 								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
 									<option value="0" selected="selected">no</option>
 									<option value="1">yes</option>
@@ -296,7 +296,7 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="lending_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="lending_institution_agent_name" id="lending_institution_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
+									<input type="text" name="lending_institution_agent_name" id="lending_institution_agent_name" class="form-control form-control-sm data-entry-input">
 								</div>
 								<input type="hidden" name="lending_institution_agent_id" id="lending_institution_agent_id" >
 								<script>
@@ -314,7 +314,7 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="inhouse_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="inhouse_contact_agent_name" id="inhouse_contact_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
+									<input type="text" name="inhouse_contact_agent_name" id="inhouse_contact_agent_name" class="form-control form-control-sm data-entry-input">
 								</div>
 								<input type="hidden" name="inhouse_contact_agent_id" id="inhouse_contact_agent_id" >
 								<script>
