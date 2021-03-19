@@ -99,11 +99,6 @@ limitations under the License.
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-				distinct preferred_agent_name.agent_id,
-				preferred_agent_name.agent_name,
-				agent_type,
-				agent.edited,
-				MCZBASE.get_worstagentrank(agent.agent_id) worstagentrank
 			<cfset row = StructNew()>
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["agent_id"] = "#search.agent_id#">
@@ -114,11 +109,7 @@ limitations under the License.
 			<cfset row["worstagentrank"] = "#search.worstagentrank#">
 			<cfset row["birth_date"] = "#search.birth_date#">
 			<cfset row["death_date"] = "#search.death_date#">
-			<cfif search.preferred_agent_name EQ search.agent_name >
-				<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
-			<cfelse>
-				<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# (#search.preferred_agent_name#)#edited_marker#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
