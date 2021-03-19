@@ -1191,7 +1191,7 @@ limitations under the License.
 					<cfif len(#lenders_instructions#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_instructions#">
 					</cfif>
-					<cfif len(#lender_loan_typoe#) gt 0>
+					<cfif len(#lender_loan_type#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lender_loan_type#">
 					</cfif>
 				)
