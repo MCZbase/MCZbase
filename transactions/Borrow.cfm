@@ -1106,7 +1106,7 @@ limitations under the License.
 				len(received_agent_id) is 0 OR
 				len(received_from_agent_id) is 0 OR
 				len(over_agent_id) is 0 OR
-				len(lending_insitution_agent_id) is 0
+				len(lending_institution_agent_id) is 0
 			)
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
