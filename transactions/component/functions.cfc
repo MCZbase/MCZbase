@@ -3750,7 +3750,7 @@ limitations under the License.
 	<cfthread name="getAccnPrintHtmlThread">
 		<cftry>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Accession Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header" target="_blank">Header Copy for MCZ Files</a></li>
@@ -3793,7 +3793,7 @@ limitations under the License.
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 			</cfquery>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Deaccession Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<cfif inhouse.c is 1 and authorized.c GT 0 >
@@ -3831,7 +3831,7 @@ limitations under the License.
 	<cfthread name="getAccnPrintHtmlThread">
 		<cftry>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Borrow Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</a></li>
