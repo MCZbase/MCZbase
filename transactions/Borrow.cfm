@@ -1152,7 +1152,7 @@ limitations under the License.
 					,description_of_borrow
 					,BORROW_STATUS
 					,no_of_specimens
-					<cfif len(#lenders_tran_num_cde#) gt 0>
+					<cfif len(#lenders_trans_num_cde#) gt 0>
 						,lenders_trans_num_cde
 					</cfif>
 					<cfif len(#lenders_invoice_returned_fg#) gt 0>
@@ -1176,7 +1176,7 @@ limitations under the License.
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description_of_borrow#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_status#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#no_of_specimens#'>
-					<cfif len(#lenders_tran_num_cde#) gt 0>
+					<cfif len(#lenders_trans_num_cde#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_trans_num_cde#">
 					</cfif>
 					<cfif len(#lenders_invoice_returned_fg#) gt 0>
