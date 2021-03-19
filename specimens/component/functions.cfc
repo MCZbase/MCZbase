@@ -527,35 +527,31 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="other_id_type" type="string" required="yes">
+		
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
 		
 							<div class="col-12 px-0">
-								<cfquery name="getOtherIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct
 										coll_obj_other_id_type,
 										coll_obj_other_id_num.display_value,
-										coll_obj_other_id_num.coll_obj_other_id_num_id,
-										cat_num,
-										cataloged_item.collection_cde
+										coll_obj_other_id_num.coll_obj_other_id_num_id
 									FROM
-										cataloged_item,
-										coll_obj_other_id_num 
-										left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-										left join collection on cataloged_item.collection_id=collection.collection_id
+										coll_obj_other_id_num 									
 									WHERE
 										cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									and coll_obj_other_id_type = 'muse location number'
 									ORDER BY 
 										display_value, sort_order DESC
 								</cfquery>
 								<cfset i = 1>
-								<cfset sortCount=getOtherIds.recordcount - 1>
+								<cfset sortCount=getotherids.recordcount - 1>
 								<input type="hidden" name="Action" value="saveEdits">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOtherIds.recordcount#">
-								<cfloop query="getOtherIds">
+								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
+								<cfloop query="getotherids">
 										<cfset thisColl_obj_other_id_num_id = #coll_obj_other_id_num_id#>
 										<input type="hidden" name="coll_obj_other_id_num_id_#i#" id="coll_obj_other_id_num_id_#i#" value="#coll_obj_other_id_num_id#">
 										<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
@@ -567,7 +563,7 @@ limitations under the License.
 															<div class="col-12">
 															<cfif len(oid.other_id_type) gt 0>
 																<ul class="list-group">
-																	<cfloop query="getOtherIDs">
+																	<cfloop query="getotherids">
 																		<li class="list-group-item">#other_id_type#:
 																			<cfif len(link) gt 0>
 																				<a class="external" href="#link#" target="_blank">#display_value#</a>
