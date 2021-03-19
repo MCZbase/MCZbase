@@ -550,7 +550,7 @@ limitations under the License.
 					<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
 								<div class="row mt-2">
 									<div class="col-6 px-0">
-											<div id="OtherIdTr_#i#_#OtherIdnum#">
+											<div id="">
 												<div class="col-12">
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group">
@@ -567,10 +567,10 @@ limitations under the License.
 												</cfif>
 												</div>
 											</div>
-											<cfset OtherIdnum=OtherIdnum+1>
+											<!---<cfset OtherIdnum=OtherIdnum+1>--->
 									</div>
-									<span id="addOtherID_#i#"
-											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>
+									<!---<span id="addOtherID_#i#"
+											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>--->
 								</div>
 							</div>			
 				</div>	
