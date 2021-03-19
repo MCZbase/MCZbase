@@ -557,13 +557,8 @@ limitations under the License.
 					<cfquery name="getOtherIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						distinct
-							coll_obj_other_id_num.display_value
-						coll_obj_other_id_num.other_id_type,
-						case when base_url is not null then
-							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-						else
-							null
-						end link
+						coll_obj_other_id_num.display_value,
+						coll_obj_other_id_num.other_id_type
 					FROM
 						coll_obj_other_id_num 
 						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
