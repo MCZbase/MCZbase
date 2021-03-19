@@ -491,6 +491,7 @@ limitations under the License.
 					nature_of_material,
 					description_of_borrow,
 					lenders_trans_num_cde,
+					lender_loan_type,
 					lenders_invoice_returned_fg,
 					trans_remarks,
 					trans.collection_id,
@@ -582,9 +583,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_number" class="data-entry-label">Borrow Number (nnnnnn)</label>
+								<label for="borrow_number" class="data-entry-label">MCZ Borrow Number (Byyyy-n-Dept)</label>
 								<input type="text" name="borrow_number" id="borrow_number" value="#encodeForHTML(borrowDetails.borrow_number)#" class="reqdClr data-entry-input" 
 									required pattern="#BORROWNUMBERPATTERN#" >
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" value="#encodeForHTML(borrwDetails.lenders_trans_num_cde)#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="borrow_status" class="data-entry-label">Borrow Status</label>
@@ -596,8 +601,6 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</span>
-							</div>
-							<div class="col-12 col-md-3">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -632,14 +635,14 @@ limitations under the License.
 							<div class="col-12 col-md-6">
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
-								<input type="text" name="value" id="value" 
-									value="#encodeForHTML(borrowDetails.value)#" class="data-entry-input" >
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
+									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-2">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="trans_date" id="trans_date" required
-									value="#dateformat(borrowDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date"
+									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-2">
 								<span class="data-entry-label">Date Entered</span>
