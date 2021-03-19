@@ -553,7 +553,7 @@ limitations under the License.
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group-horizontal">
 														<cfloop query="getotherids">
-															<li class="list-group-item">
+															<li class="list-inline">
 																<input class="data-enty_input" value="#other_id_type#">:
 																<input class="data-entry-input" value="#display_value#">
 															</li>
