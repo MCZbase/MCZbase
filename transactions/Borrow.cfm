@@ -613,12 +613,32 @@ limitations under the License.
 								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrowDetails.lender_loan_type)#">
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
-								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_loan_date)#">
-							</div>
-							<div class="col-12 col-md-3">
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
+							</div>
+							<div class="col-12 col-md-2">
+								<span class="data-entry-label">Date Entered</span>
+								<div class="col-12 bg-light border non-field-text">
+									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
+								</div>
+							</div>
+							<div class="col-12 col-md-2">
+								<span class="data-entry-label">Entered By</span>
+								<div class="col-12 bg-light: border non-field-text">
+									<span id="entered_by">#encodeForHTML(borrowDetails.enteredby)#</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
+									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date"
+									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
@@ -634,31 +654,9 @@ limitations under the License.
 									<option value="1" #selected1#>yes</option>
 								</select>
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
-								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
-									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="due_date" class="data-entry-label">Due Date</label>
-								<input type="text" name="due_date" id="due_date"
-									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
-							</div>
-							<div class="col-12 col-md-2">
-								<span class="data-entry-label">Date Entered</span>
-								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
-								</div>
-							</div>
-							<div class="col-12 col-md-2">
-								<span class="data-entry-label">Entered By</span>
-								<div class="col-12 bg-light: border non-field-text">
-									<span id="entered_by">#encodeForHTML(borrowDetails.enteredby)#</span>
-								</div>
+								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.return_acknowledged_date)#">
 							</div>
 						</div>
 						<!--- Begin transaction agents table: Load via ajax. --->
@@ -694,7 +692,7 @@ limitations under the License.
 								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea type="text" name="lenders_instructions" id="lenders_instructions" 
 									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
-									class="data-entry-input autogrow" >#encodeForHTML(borrowDetails.lenders_intructions)#</textarea>
+									class="data-entry-input autogrow" >#encodeForHTML(borrowDetails.lenders_instructions)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
