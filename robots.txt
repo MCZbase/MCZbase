@@ -128,3 +128,5 @@ Disallow: /viewAccn.cfm
 Disallow: /wideLabels.cfm
 Disallow: /digir/
 Sitemap: https://mczbase-test.rc.fas.harvard.edu/sitemapindex.xml.gz
+User-agent: dotbot
+Crawl-delay: 10
