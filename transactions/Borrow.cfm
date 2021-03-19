@@ -443,6 +443,9 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 	<cfset title="Edit Borrow">
+	<!--- Include the template that contains functions used to load portions of this page --->
+	<cfinclude template="/transactions/component/functions.cfc" runOnce="true">
+
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to be edited">
@@ -616,13 +619,13 @@ limitations under the License.
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Date Entered</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Entered By</span>
 								<div class="col-12 bg-light: border non-field-text">
 									<span id="entered_by">#encodeForHTML(borrowDetails.enteredby)#</span>
@@ -635,7 +638,7 @@ limitations under the License.
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
 									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date"
 									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
