@@ -52,30 +52,6 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<!---<cffunction name="getIdentifications" returntype="query" access="remote">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, identification_id, collection_object_id, nature_of_id, accepted_id_fg,
-				identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
-			from identification
-			where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-		</cfquery>
-		<cfif theResult.recordcount eq 0>
-			<cfset theResult=queryNew("status, message")>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
-		</cfif>
-	<cfcatch>
-		<cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-	</cfcatch>
-	</cftry>
-	<cfreturn theResult>
-</cffunction>--->
 <!--- getEditIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -551,14 +527,25 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfargument name="other_id_type" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
-					<cfquery name="getOtherIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						distinct
-						coll_obj_other_id_num.display_value,
-						coll_obj_other_id_num.other_id_type
+<!---					<cfquery name="getOtherIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
+							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+							coll_obj_other_id_num.other_id_type = 'original identifier'
+							then 'Masked'
+						else
+							coll_obj_other_id_num.display_value
+						end display_value,
+						coll_obj_other_id_num.other_id_type,
+						case when base_url is not null then
+							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+						else
+							null
+						end link
 					FROM
 						coll_obj_other_id_num 
 						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
@@ -572,7 +559,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 px-0">
-							<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
+		
 							<div class="col-12 col-lg-6 float-left pl-0">
         					<h1 class="h3 mb-0 px-1">
 							Add New Other ID
@@ -596,7 +583,72 @@ limitations under the License.
 						</div>
 			
 					</div>
-				</div>
+				</div>--->
+				
+				
+							<div class="col-12 px-0">
+								<cfquery name="getOtherIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT distinct
+										coll_obj_other_id_type,
+										coll_obj_other_id_num.display_value,
+										coll_obj_other_id_num.coll_obj_other_id_num_id,
+										cat_num,
+										cataloged_item.collection_cde
+									FROM
+										cataloged_item,
+										coll_obj_other_id_num 
+										left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+										left join collection on cataloged_item.collection_id=collection.collection_id
+									WHERE
+										cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									ORDER BY 
+										display_value, sort_order DESC
+								</cfquery>
+								<cfset i = 1>
+								<cfset sortCount=getOtherIds.recordcount - 1>
+								<input type="hidden" name="Action" value="saveEdits">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOtherIds.recordcount#">
+								<cfloop query="getOtherIds">
+										<cfset thisColl_obj_other_id_num_id = #coll_obj_other_id_num_id#>
+										<input type="hidden" name="coll_obj_other_id_num_id_#i#" id="coll_obj_other_id_num_id_#i#" value="#coll_obj_other_id_num_id#">
+										<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
+											<div class="row mt-2">
+												<div class="col-6 px-0">
+												<cfset idnum=1>
+													<cfloop query="identifiers">
+														<div id="OtherIdTr_#i#_#OtherIdnum#">
+															<div class="col-12">
+															<cfif len(oid.other_id_type) gt 0>
+																<ul class="list-group">
+																	<cfloop query="getOtherIDs">
+																		<li class="list-group-item">#other_id_type#:
+																			<cfif len(link) gt 0>
+																				<a class="external" href="#link#" target="_blank">#display_value#</a>
+																				<cfelse>
+																				#display_value#
+																			</cfif>
+																		</li>
+																	</cfloop>
+																</ul>
+															</cfif>
+															</div>
+														</div>
+														<cfset OtherIdnum=OtherIdnum+1>
+													</cfloop>
+												</div>
+												<span id="addOtherID_#i#"
+														onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>
+											</div>
+											
+											</div>
+								
+				
+										</div>
+									<cfset i = #i#+1>
+									
+
+								</cfloop>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
