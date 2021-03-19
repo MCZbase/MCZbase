@@ -527,64 +527,56 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		
+		<cfargument name="other_id_type" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
-		
-							<div class="col-12 px-0">
-								<cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT distinct
-										coll_obj_other_id_type,
-										coll_obj_other_id_num.display_value,
-										coll_obj_other_id_num.coll_obj_other_id_num_id
-									FROM
-										coll_obj_other_id_num 									
-									WHERE
-										cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-									and coll_obj_other_id_num.other_id_type = 'muse location number'
-								</cfquery>
-								<cfset i = 1>
-								<cfset sortCount=getotherids.recordcount - 1>
-								<input type="hidden" name="Action" value="saveEdits">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-								<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
-								<cfloop query="getotherids">
-										<cfset thisColl_obj_other_id_num_id = #coll_obj_other_id_num_id#>
-										<input type="hidden" name="coll_obj_other_id_num_id_#i#" id="coll_obj_other_id_num_id_#i#" value="#coll_obj_other_id_num_id#">
-										<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
-											<div class="row mt-2">
-												<div class="col-6 px-0">
-												<cfset idnum=1>
-													<cfloop query="identifiers">
-														<div id="OtherIdTr_#i#_#OtherIdnum#">
-															<div class="col-12">
-															<cfif len(oid.other_id_type) gt 0>
-																<ul class="list-group">
-																	<cfloop query="getotherids">
-																		<li class="list-group-item">#other_id_type#:
-																			<cfif len(link) gt 0>
-																				<a class="external" href="#link#" target="_blank">#display_value#</a>
-																				<cfelse>
-																				#display_value#
-																			</cfif>
-																		</li>
-																	</cfloop>
-																</ul>
-															</cfif>
-															</div>
-														</div>
-														<cfset OtherIdnum=OtherIdnum+1>
-													</cfloop>
+				<div class="col-12 px-0">
+					<cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct
+							coll_obj_other_id_num.other_id_type,
+							coll_obj_other_id_num.display_value,
+							coll_obj_other_id_num.coll_obj_other_id_num_id
+						FROM
+							coll_obj_other_id_num 									
+						WHERE
+							coll_obj_other_id_num.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						and coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#other_id_type#">
+					</cfquery>
+					<cfset i = 1>
+					<cfset sortCount=getotherids.recordcount - 1>
+					<input type="hidden" name="Action" value="saveEdits">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+					<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
+					<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
+								<div class="row mt-2">
+									<div class="col-6 px-0">
+										<cfloop query="otheridtype">
+											<div id="OtherIdTr_#i#_#OtherIdnum#">
+												<div class="col-12">
+												<cfif len(getotherids.other_id_type) gt 0>
+													<ul class="list-group">
+														<cfloop query="getotherids">
+															<li class="list-group-item">#other_id_type#:
+																<cfif len(link) gt 0>
+																	<a class="external" href="#link#" target="_blank">#display_value#</a>
+																	<cfelse>
+																	#display_value#
+																</cfif>
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
 												</div>
-												<span id="addOtherID_#i#"
-														onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>
 											</div>
-											</div>			
-										</div>
-									<cfset i = #i#+1>
-								</cfloop>
-						</div>
+											<cfset OtherIdnum=OtherIdnum+1>
+										</cfloop>
+									</div>
+									<span id="addOtherID_#i#"
+											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>
+								</div>
+							</div>			
+				</div>	
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
