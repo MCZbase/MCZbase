@@ -71,7 +71,7 @@
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
 			</cfif>
 			<cfif isdefined("anyName") AND len(#anyName#) gt 0>
-				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%"
+				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
 			</cfif>
 			<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 				AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -83,7 +83,7 @@
 			</cfif>
 		GROUP BY preferred_agent_name.agent_id,
 					preferred_agent_name.agent_name,
-					agent_type,agent.edited, MCZBASE.get_worstagentrank(agent.agent_id)">
+					agent_type,agent.edited, MCZBASE.get_worstagentrank(agent.agent_id)
 		ORDER BY preferred_agent_name.agent_name
 	</cfquery>
 
