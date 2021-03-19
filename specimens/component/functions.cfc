@@ -554,7 +554,8 @@ limitations under the License.
 													<ul class="list-group-horizontal">
 														<cfloop query="getotherids">
 															<li class="list-inline">
-																<input class="data-enty_input" value="#other_id_type#">:
+																<input class="data-enty_input" value="#other_id_type#"></li>
+															<li class="list-inline">
 																<input class="data-entry-input" value="#display_value#">
 															</li>
 														</cfloop>
