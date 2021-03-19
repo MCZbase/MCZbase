@@ -492,11 +492,15 @@ limitations under the License.
 					description_of_borrow,
 					lenders_trans_num_cde,
 					lender_loan_type,
+					lenders_instructions,
 					lenders_invoice_returned_fg,
+					no_of_specimens,
 					trans_remarks,
 					trans.collection_id,
 					collection.collection,
-					concattransagent(trans.transaction_id,'entered by') enteredby
+					concattransagent(trans.transaction_id,'entered by') enteredby,
+					return_acknowledged_date,
+					ret_acknowledged_by
 				 from
 					trans
 					left join borrow on trans.transaction_id = borrow.transaction_id 
