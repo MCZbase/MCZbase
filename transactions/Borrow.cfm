@@ -445,7 +445,7 @@ limitations under the License.
 	<cfset title="Edit Borrow">
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
-		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to edit">
+		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to be edited">
 	</cfif>
 	<cfoutput>
 		<script>
@@ -483,13 +483,15 @@ limitations under the License.
 					trans.transaction_type,
 					trans_date dateEntered,
 					borrow_number,
-					borrow_type,
 					borrow_status,
 					trans_date,
+					received_date,
+					due_date,
+					lenders_loan_date,
 					nature_of_material,
-					borrow_reason,
-					value,
-					method,
+					description_of_borrow,
+					lenders_trans_num_cde,
+					lenders_invoice_returned_fg,
 					trans_remarks,
 					trans.collection_id,
 					collection.collection,
@@ -596,30 +598,6 @@ limitations under the License.
 								</span>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_type" class="data-entry-label">Borrow Type</label>
-								<!--- special case handling of other and transfer borrow types --->
-								<cfif borrowDetails.borrow_type EQ "#MAGIC_TTYPE_OTHER#">
-									<!--- borrow_type other (MAGIC_TTYPE_OTHER) is read only --->
-									<input type="hidden" name="borrow_type" id="borrow_type" value="#MAGIC_TTYPE_OTHER#">
-									<select name="borrow_type_readonly" id="borrow_type" class="reqdClr data-entry-select" disabled="true">
-										<option selected="selected" value="#MAGIC_TTYPE_OTHER#">#MAGIC_TTYPE_OTHER#</option>
-									</select>
-								<cfelse>
-									<select name="borrow_type" id="borrow_type" class="reqdClr data-entry-select" required>
-										<cfloop query="ctBorrowType">
-											<!--- Other is not an allowed option (unless it is already set) --->
-											<cfif ctBorrowType.borrow_type NEQ MAGIC_TTYPE_OTHER >
-												<!--- Only the MCZ Collection is allowed to make transfers --->
-												<cfif ctBorrowType.borrow_type NEQ MAGIC_DTYPE_TRANSFER OR borrowDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctBorrowType.borrow_type is borrowDetails.borrow_type> selected="selected" </cfif>
-														value="#ctBorrowType.borrow_type#">#ctBorrowType.borrow_type#</option>
-												<cfelseif borrowDetails.borrow_type EQ "#MAGIC_DTYPE_TRANSFER#" AND borrowDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctBorrowType.borrow_type is borrowDetails.borrow_type> selected="selected" </cfif> value=""></option>
-												</cfif>
-											</cfif>
-										</cfloop>
-									</select>
-								</cfif>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -644,7 +622,7 @@ limitations under the License.
 									<cfset selected0 = "selected='selected'">
 									<cfset selected1 = "">
 								</cfif>
-								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+								<select name="lenders_invoice_returned_fg" id="return_acknowledged" size="1" class="data-entry-select reqdClr" required>
 									<option value="0" #selected0#>no</option>
 									<option value="1" #selected1#>yes</option>
 								</select>
@@ -653,12 +631,6 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 						<div class="form-row mb-1">
-							<div class="col-12 col-md-3">
-								<label for="method" class="data-entry-label">Method of Transfer</label>
-								<!--- needs to submit as methodoftransfer to disambiguate from cfcomponent method in post --->
-								<input type="text" name="methodoftransfer" id="method" 
-									value="#encodeForHTML(borrowDetails.method)#" class="data-entry-input" >
-							</div>
 							<div class="col-12 col-md-3">
 								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
 								<input type="text" name="value" id="value" 
@@ -712,6 +684,14 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12">
+								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
+								<textarea type="text" name="lenders_instructions" id="lenders_instructions" 
+									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
+									class="data-entry-input autogrow" >#encodeForHTML(borrowDetails.lenders_intructions)#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
@@ -720,10 +700,10 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12">
-								<label for="borrow_reason" class="data-entry-label">Reason For Borrow (<span id="length_borrow_reason"></span>)</label>
-								<textarea name="borrow_reason" id="borrow_reason" rows="1" 
-									onkeyup="countCharsLeft('borrow_reason', 4000, 'length_borrow_reason');"
-									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(borrowDetails.borrow_reason)#</textarea>
+								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
+								<textarea name="description_of_borrow" id="description_of_borrow" rows="1" 
+									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
+									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(borrowDetails.description_of_borrow)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
