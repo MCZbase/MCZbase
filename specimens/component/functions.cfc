@@ -544,12 +544,30 @@ limitations under the License.
 					</cfquery>
 					<cfset i = 1>
 					<cfset sortCount=getotherids.recordcount - 1>
-					<input type="hidden" name="Action" value="saveEdits">
-					<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-					<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
-					<div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
+						<h1 class="h3 mb-0 px-1">
+								Edit Existing Other Identifiers
+								<a href="javascript:void(0);" onClick="getMCZDocs('Other ID')"><i class="fa fa-info-circle"></i></a>
+							</h1>
+							<script>
+								function idFormulaChanged(newFormula,baseId) { 
+									if(newFormula.includes("B")) {
+										$('##' + baseId).show();
+										$('##'+baseId+'_label').show();
+									} else { 
+										$('##' + baseId).hide();
+										$('##'+baseId+'_label').hide();
+										$('##' + baseId).val("");
+										$('##'+baseID+'_id').val("");
+									}
+								}
+							</script>
+							<form name="editOtherIDForm" id="editOtherIDForm">
+    
+							<input type="hidden" name="Action" value="saveEdits">
+							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+							<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
+							<div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
 								<div class="col-12 mt-2">
-								
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group list-group-horizontal">
 														<cfloop query="getotherids">
@@ -567,7 +585,8 @@ limitations under the License.
 									<!---<span id="addOtherID_#i#"
 											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>--->
 							
-							</div>			
+							</div>	
+						</form>
 				</div>	
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
