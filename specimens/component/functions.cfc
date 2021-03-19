@@ -540,7 +540,7 @@ limitations under the License.
 							coll_obj_other_id_num 									
 						WHERE
 							coll_obj_other_id_num.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						and coll_obj_other_id_num.other_id_type = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#other_id_type#">
+						and coll_obj_other_id_num.other_id_type = 'muse location number'
 					</cfquery>
 					<cfset i = 1>
 					<cfset sortCount=getotherids.recordcount - 1>
