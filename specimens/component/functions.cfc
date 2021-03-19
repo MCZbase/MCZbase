@@ -527,7 +527,6 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="other_id_type" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
@@ -551,10 +550,10 @@ limitations under the License.
 					<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
 								<div class="row mt-2">
 									<div class="col-6 px-0">
-										<cfloop query="otheridtype">
+										<cfloop query="getotherids">
 											<div id="OtherIdTr_#i#_#OtherIdnum#">
 												<div class="col-12">
-												<cfif len(getotherids.other_id_type) gt 0>
+												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group">
 														<cfloop query="getotherids">
 															<li class="list-group-item">#other_id_type#:
