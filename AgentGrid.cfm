@@ -26,8 +26,8 @@
 <cfoutput>
 <div style="padding: 3px;">
 
-	<cfif not isDefined(birthOper)><cfset birthOper="=">
-	<cfif not isDefined(deathOper)><cfset deathOper="=">
+	<cfif not isDefined(birthOper)><cfset birthOper="="></cfif>
+	<cfif not isDefined(deathOper)><cfset deathOper="="></cfif>
 	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
 			distinct preferred_agent_name.agent_id,
