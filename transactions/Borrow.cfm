@@ -370,39 +370,6 @@ limitations under the License.
 					</script>
 					<!--- handlers for various change events --->
 					<script>
-						// on page load, bind a function to collection_id to change the list of borrow
-						// based on the selected collection
-						$("##collection_id").change( function () {
-							if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-								// only MCZ collections (the non-specimen collection) is allowed to make transfers.
-								$("##borrow_type").append($("<option></option>").attr("value",'#MAGIC_DTYPE_TRANSFER#').text('#MAGIC_DTYPE_TRANSFER#'));
-							} else {
-								$("##borrow_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
-							}
-						});
-						$("##borrow_type").change( function () {
-							if ( $("##borrow_type option:selected").text() == "discarded" ) {
-								$("##rec_agent_name").val('not applicable');
-								$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
-								$("##rec_agent_id").trigger('change');
-								$("##recipient_institution_agent_name").val('not applicable');
-								$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
-								$("##recipient_institution_agent_id").trigger('change');
-								forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-								forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
-							} else {
-								if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
-									$("##rec_agent_name").val('');
-									$("##rec_agent_id").val('');
-									$("##rec_agent_id").trigger('change');
-								}
-								if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
-									$("##recipient_institution_agent_name").val('');
-									$("##recipient_institution_agent_id").val('');
-									$("##recipient_institution_agent_id").trigger('change');
-								}
-							}
-						});
 					</script>
 				</section>
 			</div>
