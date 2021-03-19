@@ -109,11 +109,7 @@ limitations under the License.
 			<cfset row["worstagentrank"] = "#search.worstagentrank#">
 			<cfset row["birth_date"] = "#search.birth_date#">
 			<cfset row["death_date"] = "#search.death_date#">
-			<cfif search.preferred_agent_name EQ search.agent_name >
-				<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
-			<cfelse>
-				<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# (#search.preferred_agent_name#)#edited_marker#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
