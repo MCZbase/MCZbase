@@ -223,8 +223,7 @@ limitations under the License.
 			<cftry>
 			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
-							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+						case when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
 							coll_obj_other_id_num.other_id_type = 'original identifier'
 							then 'Masked'
 						else
