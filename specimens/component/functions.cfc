@@ -543,8 +543,6 @@ limitations under the License.
 									WHERE
 										cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 									and coll_obj_other_id_type = 'muse location number'
-									ORDER BY 
-										display_value, sort_order DESC
 								</cfquery>
 								<cfset i = 1>
 								<cfset sortCount=getotherids.recordcount - 1>
