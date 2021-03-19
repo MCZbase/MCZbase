@@ -18,6 +18,9 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
+<cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
+<cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
+<cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
 
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
@@ -3751,6 +3754,95 @@ limitations under the License.
 				<p>Links to available reports:</p>
 				<ul>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header" target="_blank">Header Copy for MCZ Files</a></li>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnPrintHtmlThread" />
+	<cfreturn getAccnPrintHtmlThread.output>
+</cffunction>
+
+<!--- obtain an html block to populate a print list dialog for an accession --->
+<cffunction name="getDeaccnPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnPrintHtmlThread">
+		<cftry>
+			<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select deacc_type
+				from deaccession
+				where
+					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select agent_id, trans_agent_role
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select agent_id, trans_agent_role
+				from trans_agent
+				where
+					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="inhouse" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+			</cfquery>
+			<cfquery name="authorized" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
+			</cfquery>
+			<cfoutput>
+				<h2 class="h2">Print Loan Paperwork</h2> 
+				<p>Links to available reports:</p>
+				<ul>
+					<cfif inhouse.c is 1 and authorized.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Gift/Exchange Deaccession Header</a></li>
+					</cfif>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_deaccession_header">Header Copy for MCZ Files</a></li>
+					<cfif inhouse.c is 1 and authorized.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_discarded_header">MCZ Discarded Deaccession Header</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_items">MCZ Deaccession Items</a></li>
+						<!--- only show Object header if deaccession is of type other or transfer or internal transfer--->
+						<cfif deaccDetails.deacc_type EQ "#MAGIC_TTYPE_OTHER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_TRANSFER#" OR deaccDetails.deacc_type EQ "#MAGIC_DTYPE_INTERNALTRANSFER#" >
+							<!--- report is actually the same as the gift/exchange header, it is a general purpose deaccession report (except for discards).  --->
+							<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_deaccession_header">MCZ Object Deaccession Header</a></li>
+						</cfif>
+					</cfif>
+					<li><a href="/edecView.cfm?transaction_id=#transaction_id#">USFWS eDec</a></li>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnPrintHtmlThread" />
+	<cfreturn getAccnPrintHtmlThread.output>
+</cffunction>
+
+<!--- obtain an html block to populate a print list dialog for an accession --->
+<cffunction name="getBorrowPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnPrintHtmlThread">
+		<cftry>
+			<cfoutput>
+				<h2 class="h2">Print Loan Paperwork</h2> 
+				<p>Links to available reports:</p>
+				<ul>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</a></li>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header">Header for MCZ Files</a></li>
+            	<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</a></li>
+				</ul>
+   			<div style="margin-top: 1em;border: 1px solid orange;padding: 10px;">
+					<strong>The return shipment must be entered and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong>
+				</div>
 				</ul>
 			</cfoutput>
 		<cfcatch>
