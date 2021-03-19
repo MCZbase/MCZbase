@@ -1168,7 +1168,7 @@ limitations under the License.
 						,lenders_instructions
 					</cfif>
 					<cfif len(#lender_loan_type#) gt 0>
-						,lenders_loan_type
+						,lender_loan_type
 					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
