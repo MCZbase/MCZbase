@@ -76,6 +76,7 @@ limitations under the License.
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -1089,7 +1090,7 @@ limitations under the License.
 				not isDefined("nature_of_material")  OR
 				not isDefined("description_of_borrow")  OR
 				not isDefined("inhouse_contact_agent_id") OR
-				not isDefined("rec_agent_id") OR
+				not isDefined("received_agent_id") OR
 				not isDefined("received_from_agent_id") OR
 				not isDefined("over_agent_id") OR
 				not isDefined("lending_institution_agent_id")
@@ -1102,7 +1103,7 @@ limitations under the License.
 				len(nature_of_material) is 0 OR
 				len(description_of_borrow) is 0 OR
 				len(inhouse_contact_agent_id) is 0 OR
-				len(rec_agent_id) is 0 OR
+				len(received_agent_id) is 0 OR
 				len(received_from_agent_id) is 0 OR
 				len(over_agent_id) is 0 OR
 				len(lending_insitution_id) is 0
