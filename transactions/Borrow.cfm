@@ -606,7 +606,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-3">
 								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
-								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrwDetails.lender_loan_type)#">
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrowDetails.lender_loan_type)#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
