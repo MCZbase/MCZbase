@@ -532,15 +532,27 @@ limitations under the License.
 			<cftry>
 				<div class="container-fluid">
 					<cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct
-							coll_obj_other_id_num.other_id_type,
-							coll_obj_other_id_num.display_value,
-							coll_obj_other_id_num.coll_obj_other_id_num_id
-						FROM
-							coll_obj_other_id_num 									
-						WHERE
-							coll_obj_other_id_num.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						and coll_obj_other_id_num.other_id_type = 'muse location number'
+						SELECT
+						case when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+							coll_obj_other_id_num.other_id_type = 'original identifier'
+							then 'Masked'
+						else
+							coll_obj_other_id_num.display_value
+						end display_value,
+						coll_obj_other_id_num.other_id_type,
+						case when base_url is not null then
+							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+						else
+							null
+						end link
+					FROM
+						coll_obj_other_id_num 
+						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+					where
+						collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY
+						other_id_type,
+						display_value
 					</cfquery>
 					<cfset i = 1>
 					<cfset sortCount=getotherids.recordcount - 1>
@@ -561,8 +573,7 @@ limitations under the License.
 									}
 								}
 							</script>
-							<form name="editOtherIDForm" id="editOtherIDForm">
-    
+							<form name="editOtherIDForm" id="editOtherIDForm">   
 							<input type="hidden" name="Action" value="saveEdits">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 							<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
@@ -660,7 +671,7 @@ limitations under the License.
 										<ul class="list-group">
 											<cfloop query="oid">
 												<li class="list-group-item">#other_id_type#:
-													<cfif len(link) gt 0>
+													<cfif len(display_value) gt 0>
 														<a class="external" href="##" target="_blank">#display_value#</a>
 														<cfelse>
 														#display_value#
