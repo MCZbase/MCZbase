@@ -249,11 +249,9 @@ limitations under the License.
 							<ul class="list-group">
 								<cfloop query="oid">
 									<li class="list-group-item">#other_id_type#:
-										<cfif len(link) gt 0>
-											<a class="external" href="#link#" target="_blank">#display_value#</a>
-											<cfelse>
+									
 											#display_value#
-										</cfif>
+								
 									</li>
 								</cfloop>
 							</ul>
