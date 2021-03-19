@@ -530,7 +530,7 @@ limitations under the License.
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 			<cftry>
-				<div class="col-12 px-0">
+				<div class="container-fluid">
 					<cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							coll_obj_other_id_num.other_id_type,
@@ -547,15 +547,15 @@ limitations under the License.
 					<input type="hidden" name="Action" value="saveEdits">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 					<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
-					<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
-								<div class="row mt-2">
+					<div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
+								<div class="col-12 mt-2">
 								
 												<cfif len(getotherids.display_value) gt 0>
-													<ul class="list-group">
+													<ul class="list-group list-group-horizontal">
 														<cfloop query="getotherids">
 															<li class="list-group-item">
-																<input class="data-enty_input col-6" value="#other_id_type#">:
-																<input class="data-entry-input col-6" value="#display_value#">
+																<input class="data-enty_input" value="#other_id_type#">:
+																<input class="data-entry-input" value="#display_value#">
 															</li>
 														</cfloop>
 													</ul>
