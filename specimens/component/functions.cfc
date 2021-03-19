@@ -555,12 +555,9 @@ limitations under the License.
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group">
 														<cfloop query="getotherids">
-															<li class="list-group-item">#other_id_type#:
-																<cfif len(display_value) gt 0>
-																	<a class="external" href="##" target="_blank">#display_value#</a>
-																	<cfelse>
-																	#display_value#
-																</cfif>
+															<li class="list-group-item">
+																<input class="data-enty_input col-6" value="#other_id_type#">:
+																<input class="data-entry-input col-6" value="#display_value#">
 															</li>
 														</cfloop>
 													</ul>
