@@ -47,7 +47,7 @@
 				AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
 			</cfif>
 			<cfif isdefined("Last_Name") AND len(#Last_Name#) gt 0>
-				AND Last_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lastname#">
+				AND Last_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">
 			</cfif>
 			<cfif isdefined("Middle_Name") AND len(#Middle_Name#) gt 0>
 				AND Middle_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Middle_Name#">
@@ -71,7 +71,7 @@
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
 			</cfif>
 			<cfif isdefined("anyName") AND len(#anyName#) gt 0>
-				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(aName)#%">
+				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%"
 			</cfif>
 			<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 				AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
