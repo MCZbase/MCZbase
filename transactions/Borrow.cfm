@@ -1183,10 +1183,10 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned_fg#">
 					</cfif>
 					<cfif len(#received_date#) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>,
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>
 					</cfif>
 					<cfif len(#due_date#) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(due_date,"yyyy-mm-dd")#'>,
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(due_date,"yyyy-mm-dd")#'>
 					</cfif>
 					<cfif len(#lenders_instructions#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_instructions#">
