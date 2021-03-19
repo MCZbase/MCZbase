@@ -557,7 +557,7 @@ limitations under the License.
 														<cfloop query="getotherids">
 															<li class="list-group-item">#other_id_type#:
 																<cfif len(link) gt 0>
-																	<a class="external" href="#link#" target="_blank">#display_value#</a>
+																	<a class="external" href="##" target="_blank">#display_value#</a>
 																	<cfelse>
 																	#display_value#
 																</cfif>
