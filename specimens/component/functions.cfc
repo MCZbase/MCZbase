@@ -549,9 +549,7 @@ limitations under the License.
 					<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
 					<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
 								<div class="row mt-2">
-									<div class="col-6 px-0">
-											<div id="">
-												<div class="col-12">
+								
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group">
 														<cfloop query="getotherids">
@@ -562,13 +560,12 @@ limitations under the License.
 														</cfloop>
 													</ul>
 												</cfif>
-												</div>
-											</div>
+								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
 									</div>
 									<!---<span id="addOtherID_#i#"
 											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>--->
-								</div>
+							
 							</div>			
 				</div>	
 			<cfcatch>
