@@ -129,8 +129,9 @@
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-    		<div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
-        		<div style="width: 33em; float: left; margin-right: 2.2em;padding-top: 2em;">
+			<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
+    		<div style="width:70em; margin:0 auto; overflow: hidden;">
+        		<div style="width: 33em; float: left; margin-right: 2.2em;">
 					<h2>Server Settings</h2>
 					<ul>
 						<li>Application.protocol: #Application.protocol#</li>
