@@ -165,7 +165,7 @@ limitations under the License.
 		<div class="container mt-4" id="content">
 			<div class="row mb-5">
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-					<div class="col-12 col-md-6 mb-2">
+					<div class="col-12">
 						<h1 class="h2">Server Settings</h1>
 						<ul>
 							<li>Application.protocol: #Application.protocol#</li>
@@ -187,6 +187,8 @@ limitations under the License.
 							<li>Session.gitbranch: #Session.gitbranch# </li>
 						</ul>
 					</div>		
+					</div>
+					<div class="row mb-5">
 				</cfif>
 				<div class="col-12 col-md-6 mb-2">
 	
