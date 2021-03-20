@@ -242,42 +242,14 @@ limitations under the License.
 		<cfset Application.header_color = "##000066" />
 		<cfset Application.institutionlinkcolor = "##FF0000" />
 		<cfset Application.collectionlinkcolor = "##00FF00" />
+		<cfset Application.serverrole ="unknown">
 		<cfquery name="d" datasource="uam_god">
 			select ip from blacklist where sysdate-LISTDATE<180
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
-		<cfif serverName is "arctos.database.museum">
-			<cfset Application.collection_link_text = "Arctos" />
-			<cfset Application.institution_link_text = "Multi-Institution, Multi-Collection Museum Database" />
-			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
-			<cfset Application.DownloadPath = Application.webDirectory & "/download/" />
-			<cfset Application.bugReportEmail = "arctos.database@gmail.com,gordon.jarrell@gmail.com" />
-			<cfset Application.technicalEmail = "arctos.database@gmail.com,gordon.jarrell@gmail.com" />
-			<cfset Application.mapHeaderUrl = "#Application.serverRootUrl#/images/nada.gif" />
-			<cfset Application.mapFooterUrl = "#Application.serverRootUrl#/bnhmMaps/BerkMapFooter.html" />
-			<cfset Application.genBankPrid = "3849" />
-			<cfset Application.genBankUsername="uam" />
-			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.InstitutionBlurb = "" />
-			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
-		<cfelseif serverName is "arctos-test.arctos.database.museum">
-			<cfset Application.webDirectory = "/usr/local/apache2/htdocs" />
-			<cfset Application.DownloadPath = "#Application.webDirectory#/download/" />
-			<cfset Application.bugReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.technicalEmail = "arctos.database@gmail.com" />
-			<cfset Application.mapHeaderUrl = "#Application.serverRootUrl#/images/nada.gif" />
-			<cfset Application.mapFooterUrl = "#Application.serverRootUrl#/bnhmMaps/BerkMapFooter.html" />
-			<cfset Application.genBankPrid = "3849" />
-			<cfset Application.genBankUsername="uam" />
-			<cfset Application.convertPath = "/usr/local/bin/convert" />
-			<cfset Application.BerkeleyMapperConfigFile = "/bnhmMaps/UamConfig.xml" />
-			<cfset Application.InstitutionBlurb = "" />
-			<cfset Application.DataProblemReportEmail = "arctos.database@gmail.com" />
-			<cfset Application.PageProblemEmail = "arctos.database@gmail.com" />
-		<cfelseif serverName contains "harvard.edu">
+		<cfif serverName contains "harvard.edu">
 		    <cfif serverName contains "-test">
+				 <cfset Application.serverrole ="test">
 			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
@@ -285,6 +257,7 @@ limitations under the License.
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-TEST</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 		    <cfelseif serverName contains "-dev">
+				 <cfset Application.serverrole ="development">
 			    <cfset Application.header_color = "##CAEAAD" />
 			    <cfset Application.login_color = "##000066" />
 			    <cfset Application.institutionlinkcolor = "##000066" />
@@ -292,6 +265,7 @@ limitations under the License.
 			    <cfset Application.collection_link_text = "MCZ</span><span class=""headerCollectionTextSmall"">BASE-DEV</span><span class=""headerCollectionText"">:The Database of the Zoological Collections" />
 			    <cfset Application.header_image = "/images/mcz_krono_logo.png" />
 			 <cfelse>
+				 <cfset Application.serverrole ="production">
                 <!--- Production MCZbase values --->
 			    <cfset Application.header_color = "##000000" />
 			    <cfset Application.login_color = "##000000" />
