@@ -164,7 +164,34 @@ limitations under the License.
 	<cfoutput query="getPrefs" group="user_id">
 		<div class="container mt-4" id="content">
 			<div class="row mb-5">
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+					<div class="col-12">
+						<h1 class="h2">Server Settings</h1>
+						<ul>
+							<li>Application.protocol: #Application.protocol#</li>
+							<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+								<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+							</cfif>
+							<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+							<li>Application.serverrole: #Application.serverrole# </li>
+							<cfif NOT isdefined("Session.gitBranch")>
+								<cftry>
+									<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+									<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+								<cfcatch>
+									<cfset gitBranch = "unknown">
+								</cfcatch>
+								</cftry>
+								<cfset Session.gitBranch = gitBranch>
+							</cfif>
+							<li>Session.gitbranch: #Session.gitbranch# </li>
+						</ul>
+					</div>		
+					</div>
+					<div class="row mb-5">
+				</cfif>
 				<div class="col-12 col-md-6 mb-2">
+	
 					
 			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
 						<small>(login: #getPrefs.username#)</small></h1>

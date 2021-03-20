@@ -1273,6 +1273,12 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	if (transaction_type == "Accession") { 
 		method = "getAccnPrintListDialogContent";
 	}
+	if (transaction_type == "Deaccession") { 
+		method = "getDeaccnPrintListDialogContent";
+	}
+	if (transaction_type == "Borrow") { 
+		method = "getBorrowPrintListDialogContent";
+	}
 	if (method=="") { 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
 	} else { 

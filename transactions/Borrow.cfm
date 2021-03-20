@@ -74,8 +74,9 @@ limitations under the License.
 		// setup date pickers
 		jQuery(document).ready(function() {
 			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -183,10 +184,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
-								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input">
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="reqdClr data-entry-input" required>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
+								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged as returned?</label>
 								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
 									<option value="0" selected="selected">no</option>
 									<option value="1">yes</option>
@@ -194,120 +195,14 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="auth_agent" class="data-entry-label">
-										In-house authorized by:
-										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
-								</div>
-								<input type="hidden" name="auth_agent_id" id="auth_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
-								</script> 
+							<div class="col-12 col-md-4">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input">
 							</div>
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="rec_agent_name" class="data-entry-label">
-										Received By:
-										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input name="rec_agent_name" id="rec_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
-								</div>
-								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
-								</script> 
+							<div class="col-12 col-md-4">
+								<label for="received_date" class="data-entry-label">Received Date</label>
+								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input">
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="inhouse_contact_agent_name" class="data-entry-label">
-										In-House Contact:
-										<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="inhouse_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="inhouse_contact_agent_name" id="inhouse_contact_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
-								</div>
-								<input type="hidden" name="inhouse_contact_agent_id" id="inhouse_contact_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('inhouse_contact_agent_name','inhouse_contact_agent_id','inhouse_contact_agent_icon','inhouse_contact_agent_view',null));
-								</script> 
-							</div>
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="additional_outcontact_agent_name" class="data-entry-label">
-										Additional Outside Contact:
-										<span id="additional_outcontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="additional_outcontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="additional_outcontact_agent_name" id="additional_outcontact_agent_name" class="form-control form-control-sm data-entry-input" >
-								</div>
-								<input type="hidden" name="additional_outcontact_agent_id" id="additional_outcontact_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('additional_outcontact_agent_name','additional_outcontact_agent_id','additional_outcontact_agent_icon','additional_outcontact_agent_view',null));
-								</script> 
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="recipient_institution_agent_name" class="data-entry-label">
-										Recipent Institution
-										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name" required class="form-control form-control-sm data-entry-input reqdClr">
-								</div>
-								<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
-								</script> 
-							</div>
-							<div class="col-12 col-md-6">
-								<span>
-									<label for="foruseby_agent_name" class="data-entry-label">
-										For Use By:
-										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
-								</span>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control form-control-sm data-entry-input" >
-								</div>
-								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
-								<script>
-									$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
-								</script> 
-							</div>
-						</div>
-						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
@@ -315,13 +210,182 @@ limitations under the License.
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input">
 							</div>
+						</div>
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-								<label for="method" class="data-entry-label">Method of Transfer</label>
-								<input type="text" name="method" id="method" class="w-100 data-entry-input">
+								<span>
+									<label for="auth_agent" class="data-entry-label">
+										Outside authorized by:
+										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="auth_agent_name" id="auth_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
+								</script> 
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
-								<input type="text" name="value" id="value" class="w-100 data-entry-input">
+								<span>
+									<label for="overseenby_agent_name" class="data-entry-label">
+										Borrow Overseen By (MCZ):
+										<span id="overseenby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="overseenby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="overseenby_agent_name" id="overseenby_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+								</div>
+								<input type="hidden" name="over_agent_id" id="over_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('overseenby_agent_name','over_agent_id','overseenby_agent_icon','overseenby_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="received_agent_name" class="data-entry-label">
+										Received By:
+										<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="received_agent_name" id="received_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+								</div>
+								<input type="hidden" name="received_agent_id" id="received_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('received_agent_name','received_agent_id','received_agent_icon','received_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="received_from_agent_name" class="data-entry-label">
+										Received From:
+										<span id="received_from_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="received_from_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="received_from_agent_name" id="received_from_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
+								</div>
+								<input type="hidden" name="received_from_agent_id" id="received_from_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('received_from_agent_name','received_from_agent_id','received_from_agent_icon','received_from_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="lending_institution_agent_name" class="data-entry-label">
+										Lending Institution:
+										<span id="lending_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="lending_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="lending_institution_agent_name" id="lending_institution_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required>
+								</div>
+								<input type="hidden" name="lending_institution_agent_id" id="lending_institution_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('lending_institution_agent_name','lending_institution_agent_id','lending_institution_agent_icon','lending_institution_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="inhouse_contact_agent_name" class="data-entry-label">
+										In-house Contact:
+										<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="inhouse_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="inhouse_contact_agent_name" id="inhouse_contact_agent_name" class="form-control form-control-sm data-entry-input reqdClr" required>
+								</div>
+								<input type="hidden" name="inhouse_contact_agent_id" id="inhouse_contact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('inhouse_contact_agent_name','inhouse_contact_agent_id','inhouse_contact_agent_icon','inhouse_contact_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="outside_contact_agent_name" class="data-entry-label">
+										Outside Contact:
+										<span id="outside_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="outside_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="outside_contact_agent_name" id="outside_contact_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="outside_contact_agent_id" id="outside_contact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('outside_contact_agent_name','outside_contact_agent_id','outside_contact_agent_icon','outside_contact_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="additional_out_contact_agent_name" class="data-entry-label">
+										Additional Outside Contact:
+										<span id="additional_out_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="additional_out_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="additional_out_contact_agent_name" id="additional_out_contact_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="additional_out_contact_agent_id" id="additional_out_contact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('additional_out_contact_agent_name','additional_out_contact_agent_id','additional_out_contact_agent_icon','additional_out_contact_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="for_use_by_agent_name" class="data-entry-label">
+										Received From:
+										<span id="for_use_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="for_use_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input name="for_use_by_agent_name" id="for_use_by_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="for_use_by_agent_id" id="for_use_by_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('for_use_by_agent_name','for_use_by_agent_id','for_use_by_agent_icon','for_use_by_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-12">
+								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
+								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
+									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
+									class="data-entry-textarea autogrow" 
+									></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -335,9 +399,9 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
-								<label for="borrow_reason" class="data-entry-label">Reason for Borrow (<span id="length_borrow_reason"></span>)</label>
-								<textarea name="borrow_reason" id="borrow_reason" rows="2" 
-									onkeyup="countCharsLeft('borrow_reason', 4000, 'length_borrow_reason');"
+								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
+								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
+									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
 									class="reqdClr data-entry-textarea autogrow" 
 									required ></textarea>
 							</div>
@@ -370,39 +434,6 @@ limitations under the License.
 					</script>
 					<!--- handlers for various change events --->
 					<script>
-						// on page load, bind a function to collection_id to change the list of borrow
-						// based on the selected collection
-						$("##collection_id").change( function () {
-							if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-								// only MCZ collections (the non-specimen collection) is allowed to make transfers.
-								$("##borrow_type").append($("<option></option>").attr("value",'#MAGIC_DTYPE_TRANSFER#').text('#MAGIC_DTYPE_TRANSFER#'));
-							} else {
-								$("##borrow_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
-							}
-						});
-						$("##borrow_type").change( function () {
-							if ( $("##borrow_type option:selected").text() == "discarded" ) {
-								$("##rec_agent_name").val('not applicable');
-								$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
-								$("##rec_agent_id").trigger('change');
-								$("##recipient_institution_agent_name").val('not applicable');
-								$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
-								$("##recipient_institution_agent_id").trigger('change');
-								forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-								forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
-							} else {
-								if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
-									$("##rec_agent_name").val('');
-									$("##rec_agent_id").val('');
-									$("##rec_agent_id").trigger('change');
-								}
-								if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
-									$("##recipient_institution_agent_name").val('');
-									$("##recipient_institution_agent_id").val('');
-									$("##recipient_institution_agent_id").trigger('change');
-								}
-							}
-						});
 					</script>
 				</section>
 			</div>
@@ -412,9 +443,12 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 	<cfset title="Edit Borrow">
+	<!--- Include the template that contains functions used to load portions of this page --->
+	<cfinclude template="/transactions/component/functions.cfc" runOnce="true">
+
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
-		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to edit">
+		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to be edited">
 	</cfif>
 	<cfoutput>
 		<script>
@@ -452,17 +486,24 @@ limitations under the License.
 					trans.transaction_type,
 					trans_date dateEntered,
 					borrow_number,
-					borrow_type,
 					borrow_status,
 					trans_date,
+					received_date,
+					due_date,
+					lenders_loan_date,
 					nature_of_material,
-					borrow_reason,
-					value,
-					method,
+					description_of_borrow,
+					lenders_trans_num_cde,
+					lender_loan_type,
+					lenders_instructions,
+					lenders_invoice_returned_fg,
+					no_of_specimens,
 					trans_remarks,
 					trans.collection_id,
 					collection.collection,
-					concattransagent(trans.transaction_id,'entered by') enteredby
+					concattransagent(trans.transaction_id,'entered by') enteredby,
+					return_acknowledged_date,
+					ret_acknowledged_by
 				 from
 					trans
 					left join borrow on trans.transaction_id = borrow.transaction_id 
@@ -549,9 +590,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="borrow_number" class="data-entry-label">Borrow Number (nnnnnn)</label>
+								<label for="borrow_number" class="data-entry-label">MCZ Borrow Number (Byyyy-n-Dept)</label>
 								<input type="text" name="borrow_number" id="borrow_number" value="#encodeForHTML(borrowDetails.borrow_number)#" class="reqdClr data-entry-input" 
 									required pattern="#BORROWNUMBERPATTERN#" >
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_trans_num_cde)#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="borrow_status" class="data-entry-label">Borrow Status</label>
@@ -564,45 +609,39 @@ limitations under the License.
 									</select>
 								</span>
 							</div>
-							<div class="col-12 col-md-3">
-								<label for="borrow_type" class="data-entry-label">Borrow Type</label>
-								<!--- special case handling of other and transfer borrow types --->
-								<cfif borrowDetails.borrow_type EQ "#MAGIC_TTYPE_OTHER#">
-									<!--- borrow_type other (MAGIC_TTYPE_OTHER) is read only --->
-									<input type="hidden" name="borrow_type" id="borrow_type" value="#MAGIC_TTYPE_OTHER#">
-									<select name="borrow_type_readonly" id="borrow_type" class="reqdClr data-entry-select" disabled="true">
-										<option selected="selected" value="#MAGIC_TTYPE_OTHER#">#MAGIC_TTYPE_OTHER#</option>
-									</select>
-								<cfelse>
-									<select name="borrow_type" id="borrow_type" class="reqdClr data-entry-select" required>
-										<cfloop query="ctBorrowType">
-											<!--- Other is not an allowed option (unless it is already set) --->
-											<cfif ctBorrowType.borrow_type NEQ MAGIC_TTYPE_OTHER >
-												<!--- Only the MCZ Collection is allowed to make transfers --->
-												<cfif ctBorrowType.borrow_type NEQ MAGIC_DTYPE_TRANSFER OR borrowDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctBorrowType.borrow_type is borrowDetails.borrow_type> selected="selected" </cfif>
-														value="#ctBorrowType.borrow_type#">#ctBorrowType.borrow_type#</option>
-												<cfelseif borrowDetails.borrow_type EQ "#MAGIC_DTYPE_TRANSFER#" AND borrowDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-													<option <cfif ctBorrowType.borrow_type is borrowDetails.borrow_type> selected="selected" </cfif> value=""></option>
-												</cfif>
-											</cfif>
-										</cfloop>
-									</select>
-								</cfif>
-							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-3">
 								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
-								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrwDetails.lender_loan_type)#">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
-								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.lenders_loan_date)#">
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" value="#encodeForHTML(borrowDetails.lender_loan_type)#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="data-entry-input" value="#encodeForHTML(borrowDetails.no_of_specimens)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<span class="data-entry-label">Date Entered</span>
+								<div class="col-12 bg-light border non-field-text">
+									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
+								</div>
+							</div>
+							<div class="col-12 col-md-3">
+								<span class="data-entry-label">Entered By</span>
+								<div class="col-12 bg-light: border non-field-text">
+									<span id="entered_by">#encodeForHTML(borrowDetails.enteredby)#</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12 col-md-3">
+								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" 
+									value="#dateformat(borrowDetails.lenders_loan_date,"yyyy-mm-dd")#" class="data-entry-input" >
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="due_date" class="data-entry-label">Due Date</label>
+								<input type="text" name="due_date" id="due_date"
+									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
@@ -613,42 +652,14 @@ limitations under the License.
 									<cfset selected0 = "selected='selected'">
 									<cfset selected1 = "">
 								</cfif>
-								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+								<select name="lenders_invoice_returned_fg" id="return_acknowledged" size="1" class="data-entry-select reqdClr" required>
 									<option value="0" #selected0#>no</option>
 									<option value="1" #selected1#>yes</option>
 								</select>
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="method" class="data-entry-label">Method of Transfer</label>
-								<!--- needs to submit as methodoftransfer to disambiguate from cfcomponent method in post --->
-								<input type="text" name="methodoftransfer" id="method" 
-									value="#encodeForHTML(borrowDetails.method)#" class="data-entry-input" >
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
-								<input type="text" name="value" id="value" 
-									value="#encodeForHTML(borrowDetails.value)#" class="data-entry-input" >
-							</div>
-							<div class="col-12 col-md-2">
-								<label for="trans_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="trans_date" id="trans_date" required
-									value="#dateformat(borrowDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
-							</div>
-							<div class="col-12 col-md-2">
-								<span class="data-entry-label">Date Entered</span>
-								<div class="col-12 bg-light border non-field-text">
-									<span id="date_entered">#dateformat(borrowDetails.dateEntered,'yyyy-mm-dd')#</span>
-								</div>
-							</div>
-							<div class="col-12 col-md-2">
-								<span class="data-entry-label">Entered By</span>
-								<div class="col-12 bg-light: border non-field-text">
-									<span id="entered_by">#encodeForHTML(borrowDetails.enteredby)#</span>
-								</div>
+								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.return_acknowledged_date)#">
 							</div>
 						</div>
 						<!--- Begin transaction agents table: Load via ajax. --->
@@ -681,6 +692,14 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12">
+								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
+								<textarea type="text" name="lenders_instructions" id="lenders_instructions" 
+									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
+									class="data-entry-input autogrow" >#encodeForHTML(borrowDetails.lenders_instructions)#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
@@ -689,10 +708,10 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12">
-								<label for="borrow_reason" class="data-entry-label">Reason For Borrow (<span id="length_borrow_reason"></span>)</label>
-								<textarea name="borrow_reason" id="borrow_reason" rows="1" 
-									onkeyup="countCharsLeft('borrow_reason', 4000, 'length_borrow_reason');"
-									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(borrowDetails.borrow_reason)#</textarea>
+								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
+								<textarea name="description_of_borrow" id="description_of_borrow" rows="1" 
+									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
+									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(borrowDetails.description_of_borrow)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -1054,31 +1073,33 @@ limitations under the License.
 				not isDefined("collection_id") OR 
 				not isDefined("borrow_number") OR
 				not isDefined("borrow_status") OR
-				not isDefined("borrow_type") OR
 				not isDefined("trans_date") OR
+				not isDefined("no_of_specimens") OR
 				not isDefined("nature_of_material")  OR
-				not isDefined("borrow_reason")  OR
-				not isDefined("auth_agent_id") OR
-				not isDefined("rec_agent_id") OR
+				not isDefined("description_of_borrow")  OR
 				not isDefined("inhouse_contact_agent_id") OR
-				not isDefined("recipient_institution_agent_id") 
+				not isDefined("received_agent_id") OR
+				not isDefined("received_from_agent_id") OR
+				not isDefined("over_agent_id") OR
+				not isDefined("lending_institution_agent_id")
 			) OR (
 				len(collection_id) is 0 OR 
 				len(borrow_number) is 0 OR
 				len(borrow_status) is 0 OR
-				len(borrow_type) is 0 OR
 				len(trans_date) is 0 OR
+				len(no_of_specimens) is 0 OR
 				len(nature_of_material) is 0 OR
-				len(borrow_reason) is 0 OR
-				len(auth_agent_id) is 0 OR
-				len(rec_agent_id) is 0 OR
+				len(description_of_borrow) is 0 OR
 				len(inhouse_contact_agent_id) is 0 OR
-				len(recipient_institution_agent_id) is 0
+				len(received_agent_id) is 0 OR
+				len(received_from_agent_id) is 0 OR
+				len(over_agent_id) is 0 OR
+				len(lending_institution_agent_id) is 0
 			)
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Borrow Number, Borrow Type, Status, Date Received, Nature of Material, Borrow Reason, Received From, In-House Authorized By, Recipient Institution, and Received By.  Use the agent <i>not applicable</i> if recipient institution or received by are not applicable to a discarded borrow.</p>
+			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
@@ -1115,42 +1136,64 @@ limitations under the License.
 			<cfquery name="newBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newBorrow_result">
 				INSERT INTO borrow (
 					TRANSACTION_ID
-					,BORROW_TYPE
 					,borrow_number
-					,borrow_reason
+					,description_of_borrow
 					,BORROW_STATUS
-					<cfif len(#value#) gt 0>
-						,value
+					,no_of_specimens
+					<cfif len(#lenders_trans_num_cde#) gt 0>
+						,lenders_trans_num_cde
 					</cfif>
-					<cfif len(#method#) gt 0>
-						,method
+					<cfif len(#lenders_invoice_returned_fg#) gt 0>
+						,lenders_invoice_returned_fg
+					</cfif>
+					<cfif len(#received_date#) gt 0>
+						,received_date
+					</cfif>
+					<cfif len(#due_date#) gt 0>
+						,due_date
+					</cfif>
+					<cfif len(#lenders_instructions#) gt 0>
+						,lenders_instructions
+					</cfif>
+					<cfif len(#lender_loan_type#) gt 0>
+						,lender_loan_type
 					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
-					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_number#'>
-					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_reason#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description_of_borrow#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_status#'>
-					<cfif len(#value#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value#">
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#no_of_specimens#'>
+					<cfif len(#lenders_trans_num_cde#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_trans_num_cde#">
 					</cfif>
-					<cfif len(#method#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#method#">
+					<cfif len(#lenders_invoice_returned_fg#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned_fg#">
+					</cfif>
+					<cfif len(#received_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>
+					</cfif>
+					<cfif len(#due_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(due_date,"yyyy-mm-dd")#'>
+					</cfif>
+					<cfif len(#lenders_instructions#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_instructions#">
+					</cfif>
+					<cfif len(#lender_loan_type#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lender_loan_type#">
 					</cfif>
 				)
 			</cfquery>
-			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
-				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO trans_agent (
-						transaction_id,
-						agent_id,
-						trans_agent_role
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#for_use_by#">,
-						'for use by')
-				</cfquery>
-			</cfif>
+			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#over_agent_id#">,
+					'borrow overseen by')
+			</cfquery>
 			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
@@ -1159,7 +1202,27 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'in-house authorized by')
+					'outside authorized by')
+			</cfquery>
+			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_agent_id#">,
+					'received by')
+			</cfquery>
+			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_from_agent_id#">,
+					'received from')
 			</cfquery>
 			<cfquery name="q_recipinst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
@@ -1168,21 +1231,9 @@ limitations under the License.
 					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recipient_institution_agent_id#">,
-					'recipient institution')
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lending_institution_agent_id#">,
+					'lending institution')
 			</cfquery>
-			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
-				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO trans_agent (
-						transaction_id,
-						agent_id,
-						trans_agent_role
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rec_agent_id#">,
-						'received by')
-				</cfquery>
-			</cfif>
 			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
 				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
@@ -1195,7 +1246,19 @@ limitations under the License.
 						'in-house contact')
 				</cfquery>
 			</cfif>
-			<cfif isdefined("additional_incontact_agent_id") and len(additional_incontact_agent_id) gt 0>
+			<cfif isdefined("for_use_by_agent_id") and len(for_use_by_agent_id) gt 0>
+				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO trans_agent (
+						transaction_id,
+						agent_id,
+						trans_agent_role
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#for_use_by_agent_id#">,
+						'for use by')
+				</cfquery>
+			</cfif>
+			<cfif isdefined("outside_contact_agent_id") and len(outside_contact_agent_id) gt 0>
 				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1203,8 +1266,8 @@ limitations under the License.
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_incontact_agent_id#">,
-						'additional in-house contact')
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#outside_contact_agent_id#">,
+						'outside contact')
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_outcontact_agent_id") and len(additional_outcontact_agent_id) gt 0>
