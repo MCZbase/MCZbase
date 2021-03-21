@@ -489,6 +489,12 @@ limitations under the License.
 				taxonomy.TAXON_REMARKS,
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
 		</cfquery>
+		<!--- TODO:  Replace tracking information added into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSearch... tables. 
+		Relevant pre-redesign code: 
+		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
+		./TaxonomyResults.cfm:<CFSET SQL = "create table #session.TaxSrchTab# as #SQL#">
+		./TaxonomyResults.cfm:		drop table #session.TaxSrchTab#
+		--->
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
