@@ -231,6 +231,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 		<!--- expected condition for first search after login, no session search table. No action needed --->
 	<cfelseif tableexistscheck.ct EQ 1>
 		<!--- session search table exists, drop it to recreate with new search below --->
+		<!--- Note: Drop of SpecSrchTab is used to generate query statistics from entries in dba_recyclebin --->
 		<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			drop table #session.SpecSrchTab#
 		</cfquery>
@@ -250,6 +251,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <cfif isdefined("debug") and debug is true>
 	#preserveSingleQuotes(SqlString)#
 </cfif>
+<!--- Note: SpecSrchTab is used to generate query statistics from entries in dba_recyclebin as well as passing search results --->
 <cfset SqlString = "create table #session.SpecSrchTab# AS #SqlString#">
     <cfset linguisticFlag = false>
     <cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1><cfset linguisticFlag=true></cfif>

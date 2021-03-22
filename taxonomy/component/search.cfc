@@ -489,6 +489,21 @@ limitations under the License.
 				taxonomy.TAXON_REMARKS,
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
 		</cfquery>
+		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables. 
+		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
+		./TaxonomyResults.cfm:<CFSET SQL = "create table #session.TaxSrchTab# as #SQL#">
+		./TaxonomyResults.cfm:		drop table #session.TaxSrchTab#
+		--->
+		<cftry>
+			<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
+			</cfquery>
+			<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
+			</cfquery>
+		<cfcatch>
+		</cfcatch>
+		</cftry>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
