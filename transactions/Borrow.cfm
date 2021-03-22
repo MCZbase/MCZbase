@@ -672,14 +672,9 @@ limitations under the License.
 									reloadTransactionAgents();
 								});
 							</script>
+							<cfset agentBlock = agentTableHtml(transaction_id="#transaction_id#",containing_form_id="editBorrowForm")>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
-								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
-								<script>
-								$(document).ready(function() { 
-									$('##agentWarningSpan').delay(1000).fadeIn(300);
-								});
-								</script>
+								#agentBlock#
 							</div>
 							<script>
 								$(document).ready(function() { 
