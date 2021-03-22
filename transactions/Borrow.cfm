@@ -830,6 +830,7 @@ limitations under the License.
 								<div class="col-12 col-md-1">
 									<label class="data-entry-label">&nbsp;</label>
 									<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
+								</div>
 							</form>
 						</div>
 					</div>
