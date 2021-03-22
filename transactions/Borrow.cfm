@@ -445,7 +445,7 @@ limitations under the License.
 	<cfset title="Edit Borrow">
 	<!--- Include the template that contains functions used to load portions of this page --->
 	<cfinclude template="/transactions/component/functions.cfc" runOnce="true">
-
+	<cfinclude template="/transactions/component/borrowFunctions.cfc" runOnce="true">
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to be edited">
@@ -781,8 +781,8 @@ limitations under the License.
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
-						<div class="row">
-							<form id="addBorrowItemform">
+						<form id="addBorrowItemform">
+							<div class="row">
 								<h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
 								<input type="hidden" name="method" value="addBorrowItem">
 								<input type="hidden" name="returnformat" value="json">
@@ -798,7 +798,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-1">
 									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
-									<input type="text"  name="no_of_spec" id="no_of_spec" class="data-entry-input">
+									<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
 								</div>
 								<div class="col-12 col-md-2">
 									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
@@ -820,8 +820,8 @@ limitations under the License.
 									<label class="data-entry-label">&nbsp;</label>
 									<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
 					</div>
 					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
 					<div class="col-12 pt-3 pb-1">
@@ -862,7 +862,7 @@ limitations under the License.
 						};
 						function addBorrowItem2() {
 							jQuery.ajax( {
-								url : "/component/functions.cfc",
+								url : "/transactions/component/functions.cfc",
 								type : "post",
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
