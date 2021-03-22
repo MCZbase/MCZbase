@@ -3556,7 +3556,7 @@ limitations under the License.
 					LENDERS_INVOICE_RETURNED_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENDERS_INVOICE_RETURNED_FG#">,
 					LENDERS_TRANS_NUM_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_TRANS_NUM_CDE#">,
 					LENDER_LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDER_LOAN_TYPE#">,
-					<cfif isdefined("received_date") AND len(received_date) GT 0)>
+					<cfif isdefined("received_date") AND len(received_date) GT 0>
 						RECEIVED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#">,
 					</cfif>
 					DUE_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(DUE_DATE,"yyyy-mm-dd")#">,
