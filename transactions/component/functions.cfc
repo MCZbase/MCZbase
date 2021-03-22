@@ -3571,7 +3571,9 @@ limitations under the License.
 			<cfquery name="setTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
-					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
+					<cfif isdefined("trans_date") AND len(trans_date) GT 0>
+						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(trans_date,"yyyy-mm-dd")#">,
+					</cfif>
 					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
 					TRANS_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TRANS_REMARKS#">
 				WHERE
