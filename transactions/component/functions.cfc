@@ -22,7 +22,7 @@ limitations under the License.
 <cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
 <cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
 
-<cfinclude template = "/shared/functionLib.cfm">
+<cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
@@ -3086,32 +3086,39 @@ limitations under the License.
 							<input type="text" name="permit_remarks" id="npf_permit_remarks" class="data-entry-input">
 						</div>
 					</div>
+
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
-							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control autogrow"></textarea>
+							<div class="grow-wrap">
+							<textarea cols='80' rows='2' name='restriction_summary' id="npf_restriction_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value" style="height:auto!important;"></textarea>
+							</div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
-							<textarea cols='80' rows='3' name='benefits_summary' id="npf_benefits_summary" class="form-control autogrow"></textarea>
+							<div class="grow-wrap">
+							<textarea cols='80' rows='2' name='benefits_summary' id="npf_benefits_summary" class="form-control" onInput="this.parentNode.dataset.replicatedValue = this.value"  style="height:auto!important;"></textarea>
+							</div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div class="col-12">
 							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
-							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" class="form-control autogrow"></textarea>
+							<div class="grow-wrap">
+							<textarea cols='80' rows='2' name='benefits_provided' id="npf_benefits_provided" onInput="this.parentNode.dataset.replicatedValue = this.value" class="form-control" style="height:auto!important;"></textarea>
+							</div>
 						</div>
 					</div>
 					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
-					<script language='javascript' type='text/javascript'>
-						$("textarea.autogrow").keyup(autogrow);
-						function addnewpermit(event) { 
-							event.preventDefault();
-							return false; 
-						};
-					</script>
+				<script language='javascript' type='text/javascript'>
+//						$("textarea.autogrow").keyup(autogrow);
+//						function addnewpermit(event) { 
+//							event.preventDefault();
+//							return false; 
+//						};
+			</script>
 				</form> 
 				<div id='permitAddResults'></div>
 			</cfoutput>
@@ -3750,7 +3757,7 @@ limitations under the License.
 	<cfthread name="getAccnPrintHtmlThread">
 		<cftry>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Accession Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header" target="_blank">Header Copy for MCZ Files</a></li>
@@ -3793,7 +3800,7 @@ limitations under the License.
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 			</cfquery>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Deaccession Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<cfif inhouse.c is 1 and authorized.c GT 0 >
@@ -3831,7 +3838,7 @@ limitations under the License.
 	<cfthread name="getAccnPrintHtmlThread">
 		<cftry>
 			<cfoutput>
-				<h2 class="h2">Print Loan Paperwork</h2> 
+				<h2 class="h2">Print Borrow Paperwork</h2> 
 				<p>Links to available reports:</p>
 				<ul>
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrower_header">MCZ Return Receipt Header</a></li>
@@ -4180,7 +4187,7 @@ limitations under the License.
 									</div>							
 									<div class="col-12 col-md-1">
 										<label class="data-entry-label"> 						
-											<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block mt-1"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
 													&nbsp;
 												<cfelseif transAgents.worstagentrank EQ 'F'>
@@ -4432,7 +4439,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 				<form id="project_picker_form">
-					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
+					<label for="pick_project_name">Pick a Project to associate with <br><strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong> (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
 					<input type="text" name="pick_project_name" id="pick_project_name" class="data-entry-input mb-2 reqdClr" >
 					<label for="project_trans_remarks">Project-Transaction Remarks</label>
@@ -4516,13 +4523,13 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-						<h1 class="h4" for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</h1>
+						<h1 class="h4" for="create_project">Create a New Project linked to <br><strong>#lookupTrans.transaction_type# #lookupTrans.specific_number#</strong></h1>
 						<form id="create_project">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
@@ -4543,7 +4550,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
@@ -4557,42 +4564,42 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row">
-						<div class="col-12 px-0">
+					<div class="form-row mt-2">
+						<div class="col-6 px-0">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="data-entry-input">
 						</div>
-						<div class="col-12 px-0">
+						<div class="col-6 px-0">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
 							<input type="text" name="end_date" id="end_date" class="data-entry-input">
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<label for="project_name" class="data-entry-label">Project Title</label>
 							<textarea name="project_name" id="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
 							<textarea name="project_remarks" id="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 							<label for="project_trans_remarks" class="data-entry-label">Project-Transaction Remarks</label>
 							<textarea name="project_trans_remarks" id="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-2">
 						<div class="col-12 px-0">
 						<div class="form-group mt-2">
 							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"

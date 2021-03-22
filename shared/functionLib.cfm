@@ -61,6 +61,9 @@ limitations under the License.
 	      return r;
 	</cfscript>
 </cffunction>
+	
+	
+
 <!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
@@ -74,21 +77,22 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
-			<cfreturn "/images/noThumbGray.jpg">
-		<cfelseif mt is "audio">
-			<cfreturn "/images/noThumbGray.jpg">
-		<cfelseif mt is "text">
-			<cfreturn "/images/noThumbGray.jpg">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/noThumbGray.jpg">
+		<cfif mt contains "image">
+			<cfreturn "/shared/images/48px-Gnome-image-x-generic.svg.png">
+		<cfelseif mt contains "audio" >
+			<cfreturn "/shared/images/48px-Gnome-audio-volume-medium.svg.png">
+		<cfelseif mt contains "text">
+			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png">
+		<cfelseif mt contains "model">
+			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png"><!---nothing was working for mime type--->
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
 	</cfif>
 </cffunction>
+
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">

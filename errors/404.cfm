@@ -1,5 +1,5 @@
-<cfif not isdefined("toProperCase")>
-	<!---  if header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
+<cfif not isdefined("headerPath")>
+	<!---  if header has been included, headerPath will have a value --->
 	<cfinclude template="/includes/_header.cfm">
 </cfif>
 <cfoutput>
@@ -157,4 +157,8 @@
 	 </p>
         </div>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfif headerPath IS "includes">
+	<cfinclude template="/includes/_footer.cfm">
+<cfelse>
+	<cfinclude template="/shared/_footer.cfm">
+</cfif>

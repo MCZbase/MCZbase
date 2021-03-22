@@ -1,7 +1,7 @@
 <!---
 _header.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-
+<cfset headerPath = "shared"><!--- Identify which header has been included --->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +96,7 @@ limitations under the License.
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
@@ -103,6 +104,7 @@ limitations under the License.
 <!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 

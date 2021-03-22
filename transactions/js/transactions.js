@@ -2129,3 +2129,30 @@ function updateDeaccLoans(transaction_id,targetDiv) {
 		dataType: "html"
 	});
 };
+
+function updateCondition (partID) {
+	var condition = $('#condition' + partID).val();
+	if (!condition || 0 === condition.length) {
+		messageDialog('You must supply a value for condition.','Error');
+	} else {
+		var transaction_id = $('transaction_id').val();
+		jQuery.ajax({
+			url: "/specimens/component/functions.cfc",
+			data: {
+				method : "updateCondition",
+				part_id : partID,
+				condition : condition,
+				returnformat : "json",
+				queryformat : 'column'
+			},
+			success: function (result) {
+				$("#"+targetDiv).html(result);
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"obtaining loans of items in a deaccession");
+			},
+			dataType: "html"
+		});
+ 	}
+};
+

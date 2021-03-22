@@ -66,15 +66,15 @@
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/images/noThumb.jpg">
-		<cfelseif mt is "audio">
-			<cfreturn "/images/audioNoThumb.png">
-		<cfelseif mt is "text">
-			<cfreturn "/images/documentNoThumb.png">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/document_thumbnail.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
+		<cfelseif mt is "audio" || #media_type# is "audio">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "text" || #media_type# is "text">
+			<cfreturn "/shared/images/noThumbDoc.png">
+		<cfelseif mt is "3D model" || #media_type# is "3D model">
+			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
-			<cfreturn "/images/noThumb.jpg">
+			<cfreturn "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
@@ -254,6 +254,15 @@
 	<cfset session.TaxSrchTab="TaxSrch" & temp>
 	<cfset session.exclusive_collection_id="">
 	<cfset session.mczmediafail=0>
+	<!--- determine which git branch is currently checked out --->
+	<cftry>
+		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfcatch>
+		<cfset gitBranch = "unknown">
+	</cfcatch>
+	</cftry>
+	<cfset Session.gitBranch = gitBranch>
 
 	<!---------------------------- login ------------------------------------------------>
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>

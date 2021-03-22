@@ -1,12 +1,6 @@
 <cfcomponent>
 <cfinclude template = "../includes/functionLib.cfm">
 <!------------------------------------------------------------------->
-<cffunction name="getExternalStatus" access="remote">
-	<cfargument name="uri" type="string" required="yes">
-	<cfhttp url="#uri#" method="head"></cfhttp>
-	<cfreturn left(cfhttp.statuscode,3)>
-</cffunction>
-<!------------------------------------------------------------------->
 <cffunction name="getPartByContainer" access="remote">
 	<cfargument name="barcode" type="string" required="yes">
 	<cfargument name="i" type="string" required="yes">

@@ -2,7 +2,7 @@
 <!--
 Specimens.cfm
 
-Copyright 2019 President and Fellows of Harvard College
+Copyright 2019-2021 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="input-group mt-1 px-3">
 										<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 											<label for="col-multi-select" class="sr-only">Collection</label>
-											<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10" style="padding:.3em .5em">
+											<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10">
 												<cfloop query="collSearch">
 													<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 												</cfloop>
@@ -122,11 +122,11 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 										</div>
 										<div class="col-12 col-sm-5 col-md-6 px-md-0">
 											<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="form-control-sm" name="searchText" placeholder="Search term" aria-label="search text">
+											<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text">
 										</div>
 										<div class="col-12 col-sm-3 col-md-3 input-group-btn">
 											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-											<button class="btn btn-sm btn-primary px-2 py-1" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+											<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 										</div>
 									</div>
 								</div>
@@ -674,7 +674,7 @@ $(document).ready(function() {
 					{text: 'Link', datafield: 'collection_object_id', width: 100,
 						createwidget: function  (row, column, value, htmlElement) {
 							var datarecord = value;
-							var linkurl = '/specimens/SpecimenDetail.cfm?collection_object_id=' + value;
+							var linkurl = '/specimens/Specimen.cfm?collection_object_id=' + value;
 							var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a aria-label="specimen detail" href="' + linkurl + '">';
 							var button = $(link + "<span>View Record</span></a></div>");
 						$(htmlElement).append(button);
