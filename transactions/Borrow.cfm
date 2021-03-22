@@ -792,23 +792,48 @@ limitations under the License.
 				</script>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
-						<form id="addBorrowItemform">
-	      	         <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
-	         	      <input type="hidden" name="method" value="addBorrowItem">
-	            	   <input type="hidden" name="returnformat" value="json">
-	               	<input type="hidden" name="queryformat" value="column">
-	               	<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td>
-	                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
-	                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
-	                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
-	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
-	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
-	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
-	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field lnkBtn" type="button" onclick=" addBorrowItem2();" value="Add Row"></label></td>
-	           		</form>
+						<div class="row">
+							<form id="addBorrowItemform">
+								<h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
+								<input type="hidden" name="method" value="addBorrowItem">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+								<div class="col-12 col-md-1">
+									<label for="catalog_number" class="data-entry-label">Catalog Number
+									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name</label>
+									<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
+									<input type="text"  name="no_of_spec" id="no_of_spec" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
+									<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="type_status" class="data-entry-label">Type Status</label>
+									<input type="text" class="data-entry-input" name="type_status" id="type_status" >
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="country_of_origin" class="data-entry-label">County of Origin</label>
+									<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="object_remarks" class="data-entry-label">Remarks</label>
+									<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
+								</div>
+								<div class="col-12 col-md-1">
+									<label class="data-entry-label">&nbsp;</label>
+									<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
+							</form>
+						</div>
 					</div>
+					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: editable borrow item table --->
                   <div id="borrowItems"></div>
@@ -842,6 +867,65 @@ limitations under the License.
 							}
 						</script>
 					</div>
+					<script>
+						function addBorrowItem2() {
+						jQuery.ajax(
+			            {
+			                url : "/component/functions.cfc",
+			                type : "post",
+			                dataType : "json",
+			                data : $("##addBorrowItemform").serialize(),
+			                success : function (data) {
+			                    loadBorrowItems(#transaction_id#);
+			                    $("##catalog_number").val('');
+			                    $("##no_of_spec").val('');
+			                    $("##type_status").val('');
+			                },
+			                fail: function(jqXHR,textStatus){
+			                    alert(textStatus);
+			                }
+			            }
+			        );
+			    };
+			        function deleteBorrowItem(borrow_item_id) {
+				    jQuery.ajax(
+			            {
+			                
+url : "/component/functions.cfc",
+			                type : "post",
+			                dataType : "json",
+			                data : {
+			                   method : "deleteBorrowItem",
+			                   returnformat : "json",
+			                   queryformat : 'column',
+			                   borrow_item_id : borrow_item_id
+			                },
+			                success : function (data) {
+			                    loadBorrowItems(#transaction_id#);
+			                },
+			                fail: function(jqXHR,textStatus){
+			                    alert(textStatus);
+			                }
+			            }
+			        );
+			    };
+			    function loadBorrowItems(transaction_id) {
+
+			        jQuery.ajax({
+			          url: "component/functions.cfc",
+			          data : {
+			            method : "getBorrowItemsHTML",
+			            transaction_id : transaction_id
+			         },
+			        success: function (result) {
+			           $("##borrowItems").html(result);
+			        },
+			        dataType: "html"
+			       }
+			     )};
+			    $(document).ready(loadBorrowItems(#transaction_id#));
+
+			</script>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
