@@ -800,7 +800,7 @@ limitations under the License.
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
 								<div class="col-12 col-md-1">
-									<label for="catalog_number" class="data-entry-label">Catalog Number
+									<label for="catalog_number" class="data-entry-label">Catalog Number</label>
 									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
 								</div>
 								<div class="col-12 col-md-2">
