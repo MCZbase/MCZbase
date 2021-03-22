@@ -779,17 +779,6 @@ limitations under the License.
 						</script>
 					</form>
 				</section>
-				<script>
-					function updateItemSections() { 
-						updateDeaccItemCount('#transaction_id#','borrowItemCountDiv');
-						updateDeaccItemDispositions('#transaction_id#','borrowItemDispositionsDiv');
-						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
-						updateDeaccLoans('#transaction_id#','borrowLoansDiv');
-					};
-					$(document).ready(function() {
-						updateItemSections();
-					});
-				</script>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
 						<div class="row">
@@ -837,22 +826,22 @@ limitations under the License.
 					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: editable borrow item table --->
-                  <div id="borrowItems"></div>
+						<div id="borrowItems"></div>
 					</div>
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
 						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
-        				<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
-	           			<input type="hidden" name="action" value="getFile">
-	           			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	           			<input type="file"
-		   					name="FiletoUpload"
-			   				size="45">
-				  		<input type="submit" value="Upload this file" >
-			  			</cfform>
+						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
+							<input type="hidden" name="action" value="getFile">
+							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+							<input type="file"
+								name="FiletoUpload"
+								size="45">
+							<input type="submit" value="Upload this file" >
+						</cfform>
 					</div>
 					<div class="col-12 pt-3 pb-1">
-			  			<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
+						<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
 						<div id="template" style="display:none;">
 							<label for="t">Copy the following code and save as a .csv file</label>
 							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
@@ -869,25 +858,26 @@ limitations under the License.
 						</script>
 					</div>
 					<script>
+						function loadBorrowItems(transaction_id) {
+						};
 						function addBorrowItem2() {
-						jQuery.ajax(
-			            {
-			                url : "/component/functions.cfc",
-			                type : "post",
-			                dataType : "json",
-			                data : $("##addBorrowItemform").serialize(),
-			                success : function (data) {
-			                    loadBorrowItems(#transaction_id#);
-			                    $("##catalog_number").val('');
-			                    $("##no_of_spec").val('');
-			                    $("##type_status").val('');
-			                },
-			                fail: function(jqXHR,textStatus){
-			                    alert(textStatus);
-			                }
-			            }
-			        );
-			    };
+							jQuery.ajax( {
+								url : "/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data : $("##addBorrowItemform").serialize(),
+								success : function (data) {
+									loadBorrowItems(#transaction_id#);
+									$("##catalog_number").val('');
+									$("##no_of_spec").val('');
+									$("##type_status").val('');
+								},
+								error: function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"adding borrow item");
+								}
+							});
+						};
+/*
 			        function deleteBorrowItem(borrow_item_id) {
 				    jQuery.ajax(
 			            {
@@ -925,7 +915,7 @@ url : "/component/functions.cfc",
 			       }
 			     )};
 			    $(document).ready(loadBorrowItems(#transaction_id#));
-
+*/
 			</script>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
@@ -1034,17 +1024,6 @@ url : "/component/functions.cfc",
 							</div>
 						</section>
 						<cfinclude template="/transactions/shipmentDialog.cfm">
-						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2" title="Subsection: Country of Origin">
-							<div class="col-12 pb-3">
-								<div id="countriesOfOriginDiv"></div>
-							</div>
-						</section>
-						<section title="Loans of material in this borrow" name="loansSection" class="row mx-0 mt-2" title="Subsection: Loan of Borrow Material">
-							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
-								<h2 class="h3">Loans of material in this borrow</h2>
-								<div id="borrowLoansDiv"></div>
-							</div>
-						</section>	
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
