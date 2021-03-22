@@ -781,9 +781,9 @@ limitations under the License.
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
+						<h3 class="h4">Add Borrowed Item</h3>
 						<form id="addBorrowItemform">
 							<div class="row">
-								<h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
 								<input type="hidden" name="method" value="addBorrowItem">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
@@ -862,7 +862,7 @@ limitations under the License.
 						};
 						function addBorrowItem2() {
 							jQuery.ajax( {
-								url : "/transactions/component/functions.cfc",
+								url : "/transactions/component/borrowFunctions.cfc",
 								type : "post",
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
@@ -881,8 +881,7 @@ limitations under the License.
 			        function deleteBorrowItem(borrow_item_id) {
 				    jQuery.ajax(
 			            {
-			                
-url : "/component/functions.cfc",
+								url : "/transactions/component/borrowFunctions.cfc",
 			                type : "post",
 			                dataType : "json",
 			                data : {
@@ -903,7 +902,7 @@ url : "/component/functions.cfc",
 			    function loadBorrowItems(transaction_id) {
 
 			        jQuery.ajax({
-			          url: "component/functions.cfc",
+			          url: "/transactions/component/borrowFunctions.cfc",
 			          data : {
 			            method : "getBorrowItemsHTML",
 			            transaction_id : transaction_id
