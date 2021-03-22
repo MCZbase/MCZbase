@@ -230,7 +230,7 @@
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findAccessions">Accession</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findLoans">Loans</a>
-									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findBorrows.cfm">Borrow</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findBorrows">Borrow</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findDeaccessions">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession (old)</a>
