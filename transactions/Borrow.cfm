@@ -672,7 +672,7 @@ limitations under the License.
 									reloadTransactionAgents();
 								});
 							</script>
-							<cfset agentBlock = agentTableHtml(transaction_id="#transaction_id#",containing_form_id="editBorrowForm")>
+							<cfset agentBlock = agentTableHtml(transaction_id="#transaction_id#", containing_form_id="editBorrowForm")>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								#agentBlock#
 							</div>
