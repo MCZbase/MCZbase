@@ -497,10 +497,10 @@ limitations under the License.
 		<cftry>
 			<cfquery name="prepStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				create table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif> as select * from taxonomy where rownum < 2
-			<cfquery>
+			</cfquery>
 			<cfquery name="createStatRecord" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				drop table <cfif isDefined("session.TaxSrchTab")>#session.TaxSrchTab#</cfif>
-			<cfquery>
+			</cfquery>
 		<cfcatch>
 		</cfcatch>
 		</cftry>
