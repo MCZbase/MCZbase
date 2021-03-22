@@ -3546,6 +3546,7 @@ limitations under the License.
 	<cfargument name="borrow_status" type="string" required="yes">
 	<cfargument name="nature_of_material" type="string" required="yes">
 	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="numagents" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -3555,7 +3556,9 @@ limitations under the License.
 					LENDERS_INVOICE_RETURNED_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENDERS_INVOICE_RETURNED_FG#">,
 					LENDERS_TRANS_NUM_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_TRANS_NUM_CDE#">,
 					LENDER_LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDER_LOAN_TYPE#">,
-					RECEIVED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#">,
+					<cfif isdefined("received_date") AND len(received_date) GT 0)>
+						RECEIVED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#">,
+					</cfif>
 					DUE_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(DUE_DATE,"yyyy-mm-dd")#">,
 					LENDERS_LOAN_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#">,
 					LENDERS_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_INSTRUCTIONS#">,
@@ -3574,6 +3577,50 @@ limitations under the License.
 				WHERE
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 			</cfquery>
+			<cfloop from="1" to="#numAgents#" index="n">
+				<cfif IsDefined("trans_agent_id_" & n) >
+					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+					<cfset agent_id_ = evaluate("agent_id_" & n)>
+					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+					<cftry>
+						<cfset del_agnt_=evaluate("del_agnt_" & n)>
+					<cfcatch>
+						<cfset del_agnt_=0>
+					</cfcatch>
+					</cftry>
+					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from trans_agent 
+							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+						</cfquery>
+					<cfelse>
+						<cfif len(agent_id_) GT 0>
+							<!--- don't try to add/update a blank row --->
+							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									insert into trans_agent (
+										transaction_id,
+										agent_id,
+										trans_agent_role
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									)
+								</cfquery>
+							<cfelseif del_agnt_ is 0>
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update trans_agent set
+										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									where
+										trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
+				</cfif>
+			</cfloop>
 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
