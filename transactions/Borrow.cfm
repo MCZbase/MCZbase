@@ -669,7 +669,8 @@ limitations under the License.
 									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editBorrowForm",handleChange);
 								}
 							</script>
-							<cfset agentBlock = agentTableHtml(transaction_id="#transaction_id#", containing_form_id="editBorrowForm")>
+							<cfset containing_form_id = "editBorrowForm">
+							<cfset agentBlock = agentTableHtml("#transaction_id#", "#containing_form_id#")>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								#agentBlock#
 							</div>
