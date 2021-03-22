@@ -3531,6 +3531,79 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- method saveBorrow given a transaction_id and additional fields, update a borrow record --->
+<cffunction name="saveBorrow" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="lenders_invoice_returned_fg" type="string" required="no">
+	<cfargument name="lenders_trans_num_cde" type="string" required="no">
+	<cfargument name="lender_loan_type" type="string" required="no">
+	<cfargument name="received_date" type="string" required="no">
+	<cfargument name="due_date" type="string" required="no">
+	<cfargument name="lenders_loan_date" type="string" required="no">
+	<cfargument name="lenders_instructions" type="string" required="no">
+	<cfargument name="description_of_borrow" type="string" required="yes">
+	<cfargument name="no_of_specimens" type="string" required="no">
+	<cfargument name="borrow_status" type="string" required="yes">
+	<cfargument name="nature_of_material" type="string" required="yes">
+	<cfargument name="trans_remarks" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="setBorrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE borrow SET
+					LENDERS_INVOICE_RETURNED_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENDERS_INVOICE_RETURNED_FG#">,
+					LENDERS_TRANS_NUM_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_TRANS_NUM_CDE#">,
+					LENDER_LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDER_LOAN_TYPE#">,
+					RECEIVED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#">,
+					DUE_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(DUE_DATE,"yyyy-mm-dd")#">,
+					LENDERS_LOAN_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#">,
+					LENDERS_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_INSTRUCTIONS#">,
+					DESCRIPTION_OF_BORROW = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION_OF_BORROW#">,
+					NO_OF_SPECIMENS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NO_OF_SPECIMENS#">,
+					BORROW_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BORROW_STATUS#">
+				WHERE
+					TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+			</cfquery>
+			<cfquery name="setTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE trans SET
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
+					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
+					TRANS_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TRANS_REMARKS#">
+				WHERE
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+			</cfquery>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#transaction_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!------------------------------------------------------->
 <cffunction name="saveLoan" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
