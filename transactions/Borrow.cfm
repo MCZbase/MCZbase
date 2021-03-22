@@ -445,7 +445,7 @@ limitations under the License.
 	<cfset title="Edit Borrow">
 	<!--- Include the template that contains functions used to load portions of this page --->
 	<cfinclude template="/transactions/component/functions.cfc" runOnce="true">
-
+	<cfinclude template="/transactions/component/borrowFunctions.cfc" runOnce="true">
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Borrow called without a transaction_id for the borrow to be edited">
@@ -668,18 +668,11 @@ limitations under the License.
 								function reloadTransactionAgents() { 
 									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editBorrowForm",handleChange);
 								}
-								$(document).ready(function() {
-									reloadTransactionAgents();
-								});
 							</script>
+							<cfset containing_form_id = "editBorrowForm">
+							<cfset agentBlock = agentTableHtml("#transaction_id#", "#containing_form_id#")>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
-								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
-								<script>
-								$(document).ready(function() { 
-									$('##agentWarningSpan').delay(1000).fadeIn(300);
-								});
-								</script>
+								#agentBlock#
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -786,54 +779,69 @@ limitations under the License.
 						</script>
 					</form>
 				</section>
-				<script>
-					function updateItemSections() { 
-						updateDeaccItemCount('#transaction_id#','borrowItemCountDiv');
-						updateDeaccItemDispositions('#transaction_id#','borrowItemDispositionsDiv');
-						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
-						updateDeaccLoans('#transaction_id#','borrowLoansDiv');
-					};
-					$(document).ready(function() {
-						updateItemSections();
-					});
-				</script>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
 					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
+						<h3 class="h4">Add Borrowed Item</h3>
 						<form id="addBorrowItemform">
-	      	         <h4 style="margin-bottom: 0;margin-left: 5px;">Add Borrowed Item</h4>
-	         	      <input type="hidden" name="method" value="addBorrowItem">
-	            	   <input type="hidden" name="returnformat" value="json">
-	               	<input type="hidden" name="queryformat" value="column">
-	               	<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	               <td><label for="catalog_number" style="width: 120px;margin-right: 5px;">Catalog Number <input type="text" class="input-field" name="catalog_number" id="catalog_number" style="width: 120px;margin-right: 5px;"></label></td>
-	                <td><label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name <input type="text" class="input-field" name="sci_name" id="sci_name" style="width: 190px;margin-right:5px;"></label></td>
-	                <td><label for="no_of_spec" style="width: 113px;margin-right: 5px;">No.&nbsp;of&nbsp;Specimens <input type="text" class="input-field" name="no_of_spec" id="no_of_spec" style="width: 113px;margin-right: 5px;"></label></td>
-	                <td><label for="spec_prep" style="width: 156px;">Specimen Preparation <input type="text" class="input-field" name="spec_prep" id="spec_prep" style="width: 156px;"></label></td>
-	                <td><label for="type_status" style="width:93px;">Type Status <input type="text" class="input-field" name="type_status" id="type_status" style="width:93px;"></label></td>
-	                <td><label for="country_of_origin" style="width: 116px;">County of Origin <input type="text" class="input-field" name="country_of_origin" id="country_of_origin" style="width: 116px;"></label></td>
-	                <td><label for="object_remarks" style="width: 170px;">Remarks <input type="text" class="input-field" name="object_remarks" id="object_remarks" style="width: 170px;"></label></td>
-	                <td><label style="width:75px;margin:20px 0 0 0;padding:0;"><input class="input-field lnkBtn" type="button" onclick=" addBorrowItem2();" value="Add Row"></label></td>
-	           		</form>
+							<div class="row">
+								<input type="hidden" name="method" value="addBorrowItem">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+								<div class="col-12 col-md-1">
+									<label for="catalog_number" class="data-entry-label">Catalog Number</label>
+									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name</label>
+									<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
+									<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
+									<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="type_status" class="data-entry-label">Type Status</label>
+									<input type="text" class="data-entry-input" name="type_status" id="type_status" >
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="country_of_origin" class="data-entry-label">County of Origin</label>
+									<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="object_remarks" class="data-entry-label">Remarks</label>
+									<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
+								</div>
+								<div class="col-12 col-md-1">
+									<label class="data-entry-label">&nbsp;</label>
+									<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
+								</div>
+							</div>
+						</form>
 					</div>
+					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: editable borrow item table --->
-                  <div id="borrowItems"></div>
+						<div id="borrowItems"></div>
 					</div>
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
 						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
-        				<cfform name="csv" method="post" action="/Borrow.cfm" enctype="multipart/form-data">
-	           			<input type="hidden" name="action" value="getFile">
-	           			<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-	           			<input type="file"
-		   					name="FiletoUpload"
-			   				size="45">
-				  		<input type="submit" value="Upload this file" >
-			  			</cfform>
+						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
+							<input type="hidden" name="action" value="getFile">
+							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+							<input type="file"
+								name="FiletoUpload"
+								size="45">
+							<input type="submit" value="Upload this file" >
+						</cfform>
 					</div>
 					<div class="col-12 pt-3 pb-1">
-			  			<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
+						<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
 						<div id="template" style="display:none;">
 							<label for="t">Copy the following code and save as a .csv file</label>
 							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
@@ -849,6 +857,65 @@ limitations under the License.
 							}
 						</script>
 					</div>
+					<script>
+						function loadBorrowItems(transaction_id) {
+						};
+						function addBorrowItem2() {
+							jQuery.ajax( {
+								url : "/transactions/component/borrowFunctions.cfc",
+								type : "post",
+								dataType : "json",
+								data : $("##addBorrowItemform").serialize(),
+								success : function (data) {
+									loadBorrowItems(#transaction_id#);
+									$("##catalog_number").val('');
+									$("##no_of_spec").val('');
+									$("##type_status").val('');
+								},
+								error: function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"adding borrow item");
+								}
+							});
+						};
+/*
+			        function deleteBorrowItem(borrow_item_id) {
+				    jQuery.ajax(
+			            {
+								url : "/transactions/component/borrowFunctions.cfc",
+			                type : "post",
+			                dataType : "json",
+			                data : {
+			                   method : "deleteBorrowItem",
+			                   returnformat : "json",
+			                   queryformat : 'column',
+			                   borrow_item_id : borrow_item_id
+			                },
+			                success : function (data) {
+			                    loadBorrowItems(#transaction_id#);
+			                },
+			                fail: function(jqXHR,textStatus){
+			                    alert(textStatus);
+			                }
+			            }
+			        );
+			    };
+			    function loadBorrowItems(transaction_id) {
+
+			        jQuery.ajax({
+			          url: "/transactions/component/borrowFunctions.cfc",
+			          data : {
+			            method : "getBorrowItemsHTML",
+			            transaction_id : transaction_id
+			         },
+			        success: function (result) {
+			           $("##borrowItems").html(result);
+			        },
+			        dataType: "html"
+			       }
+			     )};
+			    $(document).ready(loadBorrowItems(#transaction_id#));
+*/
+			</script>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
@@ -956,17 +1023,6 @@ limitations under the License.
 							</div>
 						</section>
 						<cfinclude template="/transactions/shipmentDialog.cfm">
-						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2" title="Subsection: Country of Origin">
-							<div class="col-12 pb-3">
-								<div id="countriesOfOriginDiv"></div>
-							</div>
-						</section>
-						<section title="Loans of material in this borrow" name="loansSection" class="row mx-0 mt-2" title="Subsection: Loan of Borrow Material">
-							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
-								<h2 class="h3">Loans of material in this borrow</h2>
-								<div id="borrowLoansDiv"></div>
-							</div>
-						</section>	
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
