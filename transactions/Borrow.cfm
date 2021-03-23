@@ -908,7 +908,7 @@ limitations under the License.
 								error: function(jqXHR,textStatus,error){
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
-							)};
+							});
 						};
 						$(document).ready(loadBorrowItems(#transaction_id#));
 					</script>
