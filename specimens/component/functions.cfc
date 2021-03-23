@@ -582,12 +582,14 @@ limitations under the License.
                                                  		<cfset otheridnum=otheridnum+1>
 													</cfloop>
                                                     <button id="addOtherID_#i#"
-														onclick="addOtherID('#i#','#otheridnum#')" class="btn btn-xs btn-secondary mt-4">Add Other Identifier</button>
+														onclick="addOtherID('#i#','#otheridnum#')" class="btn btn-xs btn-secondary mt-4">
+                                                        Add Other Identifier
+                                                    </button>
                                                     
 												</cfif>
 									</div>		
 							</div>	
-                                        <button class="btn btn-xs btn-secondary mt-4 mx-2" type="submit">Save Edits</button>
+                                        <button class="btn btn-xs btn-primary mt-4 mx-2" type="submit">Save Edits</button>
 						</form>
 				</div>	
 			<cfcatch>
