@@ -573,7 +573,7 @@ limitations under the License.
 									}
 								}
 							</script>
-							<form name="editOtherIDForm" id="editOtherIDForm">   
+						<form name="editOtherIDForm" id="editOtherIDForm">   
 							<input type="hidden" name="Action" value="saveEdits">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 							<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
@@ -581,21 +581,25 @@ limitations under the License.
 								<div class="col-12 mt-2">
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group list-group-horizontal">
-														<cfloop query="getotherids">
+												<cfset otheridnum=1>
+													<cfloop query="getotherids">
+														<div id="OtherIdTr_#i#_#otheridnum#">
 															<li class="list-group-item">
 																<input class="data-enty_input" value="#other_id_type#"></li>
 															<li class="list-group-item">
 																<input class="data-entry-input" value="#display_value#">
 															</li>
-														</cfloop>
+                                                        </div>
+                                                        <input type="hidden" name="OtherID_#i#_#otheridnum#_id" id="OtherID_#i#_#otheridnum#_id" value="#display_value#" >
+                                                 		<cfset otheridnum=otheridnum+1>
+													</cfloop>
 													</ul>
+                                                    <span  id="addOtherID_#i#"
+														onclick="addOtherID('#i#','#otheridnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other Identifier</span>
 												</cfif>
 								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
-									</div>
-									<!---<span id="addOtherID_#i#"
-											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>--->
-							
+									</div>		
 							</div>	
 						</form>
 				</div>	
