@@ -582,7 +582,7 @@ limitations under the License.
                                                  		<cfset otheridnum=otheridnum+1>
 													</cfloop>
                                                     <button id="addOtherID_#i#"
-														onclick="addOtherID('#i#','#otheridnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other Identifier</button>
+														onclick="addOtherID('#i#','#otheridnum#')" class="col-2 px-0 mt-4 float-right d-inline-block">Add Other Identifier</button>
 												</cfif>
 								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
