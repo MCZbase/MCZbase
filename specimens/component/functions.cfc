@@ -560,19 +560,7 @@ limitations under the License.
 								Edit Existing Other Identifiers
 								<a href="javascript:void(0);" onClick="getMCZDocs('Other ID')"><i class="fa fa-info-circle"></i></a>
 							</h1>
-							<script>
-								function idFormulaChanged(newFormula,baseId) { 
-									if(newFormula.includes("B")) {
-										$('##' + baseId).show();
-										$('##'+baseId+'_label').show();
-									} else { 
-										$('##' + baseId).hide();
-										$('##'+baseId+'_label').hide();
-										$('##' + baseId).val("");
-										$('##'+baseID+'_id').val("");
-									}
-								}
-							</script>
+			
 							<form name="editOtherIDForm" id="editOtherIDForm">   
 							<input type="hidden" name="Action" value="saveEdits">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
@@ -581,14 +569,21 @@ limitations under the License.
 								<div class="col-12 mt-2">
 												<cfif len(getotherids.display_value) gt 0>
 													<ul class="list-group list-group-horizontal">
-														<cfloop query="getotherids">
+												<cfset otheridnum=1>
+													<cfloop query="getotherids">
+														<div id="OtherIdTr_#i#_#otheridnum#">
 															<li class="list-group-item">
 																<input class="data-enty_input" value="#other_id_type#"></li>
 															<li class="list-group-item">
 																<input class="data-entry-input" value="#display_value#">
 															</li>
-														</cfloop>
+                                                        </div>
+                                                        <input type="hidden" name="OtherID_#i#_#otheridnum#_id" id="OtherID_#i#_#otheridnum#_id" value="#display_value#" >
+                                                 		<cfset otheridnum=otheridnum+1>
+													</cfloop>
 													</ul>
+                                                    <span  id="addOtherID_#i#"
+														onclick="addOtherID('#i#','#otheridnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other Identifier</span>
 												</cfif>
 								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
