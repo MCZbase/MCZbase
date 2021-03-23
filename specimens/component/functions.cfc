@@ -566,7 +566,7 @@ limitations under the License.
                                 </cfif>
                             </div>
                         </div>
-                        <button class="btn btn-xs btn-primary mt-4 mx-2" type="submit">Save Edits</button>
+                        <button class="btn btn-xs btn-primary mt-2" type="submit">Save Edits</button>
                     </form>
                 </div>
                 <cfcatch>
