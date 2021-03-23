@@ -877,45 +877,43 @@ limitations under the License.
 								}
 							});
 						};
-/*
-			        function deleteBorrowItem(borrow_item_id) {
-				    jQuery.ajax(
-			            {
+						function deleteBorrowItem(borrow_item_id) {
+							jQuery.ajax({
 								url : "/transactions/component/borrowFunctions.cfc",
-			                type : "post",
-			                dataType : "json",
-			                data : {
-			                   method : "deleteBorrowItem",
-			                   returnformat : "json",
-			                   queryformat : 'column',
-			                   borrow_item_id : borrow_item_id
-			                },
-			                success : function (data) {
-			                    loadBorrowItems(#transaction_id#);
-			                },
-			                fail: function(jqXHR,textStatus){
-			                    alert(textStatus);
-			                }
-			            }
-			        );
-			    };
-			    function loadBorrowItems(transaction_id) {
-
-			        jQuery.ajax({
-			          url: "/transactions/component/borrowFunctions.cfc",
-			          data : {
-			            method : "getBorrowItemsHTML",
-			            transaction_id : transaction_id
-			         },
-			        success: function (result) {
-			           $("##borrowItems").html(result);
-			        },
-			        dataType: "html"
-			       }
-			     )};
-			    $(document).ready(loadBorrowItems(#transaction_id#));
-*/
-			</script>
+								type : "post",
+								dataType : "json",
+								data : {
+									method : "deleteBorrowItem",
+									returnformat : "json",
+									queryformat : 'column',
+									borrow_item_id : borrow_item_id
+								},
+								success : function (data) {
+									loadBorrowItems(#transaction_id#);
+			 					},
+								error: function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"adding borrow item");
+								}
+							});
+						};
+						function loadBorrowItems(transaction_id) {
+							jQuery.ajax({
+								url: "/transactions/component/borrowFunctions.cfc",
+								dataType: "html",
+								data : {
+									method : "getBorrowItemsHTML",
+									transaction_id : transaction_id
+								},
+								success: function (result) {
+									$("##borrowItems").html(result);
+								},
+								error: function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"adding borrow item");
+								}
+							)};
+						}
+						$(document).ready(loadBorrowItems(#transaction_id#));
+					</script>
 				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
