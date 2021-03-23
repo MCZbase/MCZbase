@@ -572,7 +572,7 @@ limitations under the License.
 												<cfset otheridnum=1>
 													<cfloop query="getotherids">
 														<ul class="list-group list-group-horizontal" id="OtherIdTr_#i#_#otheridnum#">
-															<li class="list-group-item">
+															<li class="list-group-item ml-0">
 																<input class="data-enty_input" value="#other_id_type#"></li>
 															<li class="list-group-item">
 																<input class="data-entry-input" value="#display_value#">
