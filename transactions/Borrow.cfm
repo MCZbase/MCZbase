@@ -858,8 +858,6 @@ limitations under the License.
 						</script>
 					</div>
 					<script>
-						function loadBorrowItems(transaction_id) {
-						};
 						function addBorrowItem2() {
 							jQuery.ajax( {
 								url : "/transactions/component/borrowFunctions.cfc",
@@ -911,7 +909,7 @@ limitations under the License.
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
 							)};
-						}
+						};
 						$(document).ready(loadBorrowItems(#transaction_id#));
 					</script>
 				</section>
