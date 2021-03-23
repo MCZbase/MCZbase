@@ -52,7 +52,7 @@ limitations under the License.
     <cfreturn result>
 </cffunction>
 
-<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
+<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
@@ -566,7 +566,7 @@ limitations under the License.
                                 </cfif>
                             </div>
                         </div>
-                        <button class="btn btn-xs btn-primary mt-2" type="submit">Save Edits</button>
+                         <input type="submit" class="btn btn-xs btn-primary" id="editOtherIDs_submit" value="Save Changes" title="Save Changes">
                     </form>
                 </div>
                 <cfcatch>
@@ -649,6 +649,8 @@ limitations under the License.
                                                 </cfloop>
                                             </ul>
                                         </cfif>
+                                          <button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
+												 onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
                                     </div>
                                 </div>
                             </form>
