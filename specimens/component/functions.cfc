@@ -567,12 +567,12 @@ limitations under the License.
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 							<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
 							<div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
-								<div class="col-12 mt-2">
+								<div class="col-12 mt-2 px-0">
 												<cfif len(getotherids.display_value) gt 0>
 												<cfset otheridnum=1>
 													<cfloop query="getotherids">
 														<ul class="list-group list-group-horizontal" id="OtherIdTr_#i#_#otheridnum#">
-															<li class="list-group-item ml-0">
+															<li class="list-group-item pl-0">
 																<input class="data-enty_input" value="#other_id_type#"></li>
 															<li class="list-group-item">
 																<input class="data-entry-input" value="#display_value#">
