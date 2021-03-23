@@ -569,22 +569,20 @@ limitations under the License.
 							<div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">		
 								<div class="col-12 mt-2">
 												<cfif len(getotherids.display_value) gt 0>
-													<ul class="list-group list-group-horizontal">
 												<cfset otheridnum=1>
 													<cfloop query="getotherids">
-														<div id="OtherIdTr_#i#_#otheridnum#">
+														<ul class="list-group list-group-horizontal" id="OtherIdTr_#i#_#otheridnum#">
 															<li class="list-group-item">
 																<input class="data-enty_input" value="#other_id_type#"></li>
 															<li class="list-group-item">
 																<input class="data-entry-input" value="#display_value#">
 															</li>
-                                                        </div>
+                                                        </ul>
                                                         <input type="hidden" name="OtherID_#i#_#otheridnum#_id" id="OtherID_#i#_#otheridnum#_id" value="#display_value#" >
                                                  		<cfset otheridnum=otheridnum+1>
 													</cfloop>
-													</ul>
-                                                    <span  id="addOtherID_#i#"
-														onclick="addOtherID('#i#','#otheridnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other Identifier</span>
+                                                    <button id="addOtherID_#i#"
+														onclick="addOtherID('#i#','#otheridnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other Identifier</button>
 												</cfif>
 								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
