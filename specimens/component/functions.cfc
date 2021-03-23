@@ -560,8 +560,25 @@ limitations under the License.
 								Edit Existing Other Identifiers
 								<a href="javascript:void(0);" onClick="getMCZDocs('Other ID')"><i class="fa fa-info-circle"></i></a>
 							</h1>
+<<<<<<< HEAD
 			
 							<form name="editOtherIDForm" id="editOtherIDForm">   
+=======
+							<script>
+								function idFormulaChanged(newFormula,baseId) { 
+									if(newFormula.includes("B")) {
+										$('##' + baseId).show();
+										$('##'+baseId+'_label').show();
+									} else { 
+										$('##' + baseId).hide();
+										$('##'+baseId+'_label').hide();
+										$('##' + baseId).val("");
+										$('##'+baseID+'_id').val("");
+									}
+								}
+							</script>
+						<form name="editOtherIDForm" id="editOtherIDForm">   
+>>>>>>> origin/specimendetailsredesign
 							<input type="hidden" name="Action" value="saveEdits">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 							<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
@@ -587,10 +604,7 @@ limitations under the License.
 												</cfif>
 								
 											<!---<cfset OtherIdnum=OtherIdnum+1>--->
-									</div>
-									<!---<span id="addOtherID_#i#"
-											onclick="addOtherID('#i#','#OtherIdnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Other ID</span>--->
-							
+									</div>		
 							</div>	
 						</form>
 				</div>	
