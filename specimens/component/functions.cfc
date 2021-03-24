@@ -628,7 +628,7 @@ limitations under the License.
                        <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
                                 <div class="row mx-0">
-                                <div class="form-group col-2 pl-0 pr-1">
+                                <div class="form-group col-3 pl-0 pr-1">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                                 <input type="hidden" name="Action" value="newOID">
                                 <select name="other_id_type" size="1" class="reqdClr">
@@ -650,7 +650,7 @@ limitations under the License.
                                     <label class="data-entry-label" id="other_id_number">Other ID Number</label>
                                     <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
                                 </div>
-                                <div class="form-group col-2 px-1 mt-3">
+                                <div class="form-group col-1 px-1 mt-3">
                                     <input type="submit" value="Save" class="btn btn-xs btn-primary">	
                                 </div>
                                 </div>
