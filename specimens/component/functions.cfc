@@ -608,10 +608,8 @@ limitations under the License.
                                 <cfset i=#i#+1>
                             </cfif>
                         </cfloop>
-	 <div class="">
-	   <h1 class="h2">Add New Identifier:</h1> 
-        <img class="likeLink" src="/images/ctinfo.gif" onMouseOver="self.status='Code Table Value Definition';return true;"
-        onmouseout="self.status='';return true;" border="0" alt="Code Table Value Definition" onClick="getCtDoc('ctcoll_other_id_type','')">
+	 <div class="mt-2">
+	   <h1 class="h2">Add New Identifier: <i class="fa fa-question-circle" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
         <form name="newOID" method="post" action="editIdentifiers.cfm">
 		    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		    <input type="hidden" name="Action" value="newOID">
