@@ -631,6 +631,7 @@ limitations under the License.
                                 <div class="form-group col-3 pl-0 pr-1">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                                 <input type="hidden" name="Action" value="newOID">
+                                    <label class="data-entry-label" id="other_id_type">Other ID Type</label>
                                 <select name="other_id_type" size="1" class="reqdClr">
                                     <cfloop query="ctType">
                                         <option 
