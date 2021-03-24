@@ -566,7 +566,7 @@ limitations under the License.
                         from collection
                     </cfquery>
                 <cfoutput>
-                    <h1 class="h2">Edit existing identifiers:</h1>
+                    <h1 class="h3">Edit existing identifiers:</h1>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
                     <div class="mb-1">
                       <input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -608,8 +608,8 @@ limitations under the License.
                                 <cfset i=#i#+1>
                             </cfif>
                         </cfloop>
-	 <div class="mt-2">
-	   <h1 class="h2">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
+	 <div class="mt-4">
+	   <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
         <form name="newOID" method="post" action="editIdentifiers.cfm">
 		    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		    <input type="hidden" name="Action" value="newOID">
