@@ -604,10 +604,12 @@ limitations under the License.
                                 </div>
                                 <div class="form-group">
                                     <label class="data-entry-label">Other ID Prefix</label>
-                                    <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                    <input class="" type="text" value="#oids.other_id_prefix#" size="1" name="other_id_prefix">
                                 </div>
-                                <label>Other ID Number</label>
-                                <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
+                                <div class="form-group">
+                                    <label class="data-entry-label">Other ID Number</label>
+                                    <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
+                                </div>
                                 <label>Other ID Suffix</label>
                                 <input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">		
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
