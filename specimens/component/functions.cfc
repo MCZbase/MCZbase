@@ -572,7 +572,7 @@ limitations under the License.
                       <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                       <input type="hidden" name="Action" value="saveCatEdits">
                          Catalog&nbsp;Number:
-                        <select name="collection_id" size="1" class="reqdClr">
+                        <select name="collection_id" size="1" class="reqdClr data-entry-select">
                             <cfset thisCollId=#getIDs.collection_id#>
                             <cfloop query="ctcoll_cde">
                                 <option 
