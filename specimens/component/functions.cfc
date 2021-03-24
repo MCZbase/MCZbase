@@ -592,15 +592,20 @@ limitations under the License.
                                 <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
                                 <input type="hidden" name="Action">
                                 <cfset thisType = #oids.other_id_type#>
-                                <select name="other_id_type" size="1">				
-                                    <cfloop query="ctType">					
-                                        <option 
-                                            <cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-                                            value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-                                    </cfloop>			
-                                </select>
-                                <label class="data-entry-label">Other ID Prefix</label>
-                                <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                <div class="form-group">
+                                    <label class="data-entry-label">Other ID Type</label>
+                                    <select name="other_id_type" size="1">				
+                                        <cfloop query="ctType">					
+                                            <option 
+                                                <cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+                                                value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+                                        </cfloop>			
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="data-entry-label">Other ID Prefix</label>
+                                    <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                </div>
                                 <label>Other ID Number</label>
                                 <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 <label>Other ID Suffix</label>
