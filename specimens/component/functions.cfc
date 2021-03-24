@@ -603,21 +603,21 @@ limitations under the License.
                                         </cfloop>			
                                     </select>
                                 </div>
-                                <div class="form-group col-3">
+                                <div class="form-group col-2 px-0">
                                     <label class="data-entry-label">Other ID Prefix</label>
                                     <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
                                 </div>
-                                <div class="form-group col-3">
+                                <div class="form-group col-2 px-0">
                                     <label class="data-entry-label">Other ID Number</label>
                                     <input type="text" class="data-entry-input" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 </div>
-                                <div class="form-group col-3">
+                                <div class="form-group col-4 px-0">
                                 <label class="data-entry-label">Other ID Suffix</label>
-                                <input type="text" class="data-entry-input" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">	
-                                </div>
+                                <input type="text" class="data-entry-input" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
                                 <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-                                    </div>
+                                </div>
+                              </div>
                             </form>
                                 <cfset i=#i#+1>
                             </cfif>
