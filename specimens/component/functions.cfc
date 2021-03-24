@@ -627,6 +627,7 @@ limitations under the License.
                         </cfloop>
                        <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
+                                <div class="container-fluid">
                                 <div class="row mx-0">
                                 <div class="form-group col-3 pl-0 pr-1">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -653,6 +654,7 @@ limitations under the License.
                                 </div>
                                 <div class="form-group col-1 px-1 mt-3">
                                     <input type="submit" value="Save" class="btn btn-xs btn-primary">	
+                                </div>
                                 </div>
                                 </div>
                             </form>
