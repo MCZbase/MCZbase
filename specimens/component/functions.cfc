@@ -611,11 +611,14 @@ limitations under the License.
                                     <label class="data-entry-label">Other ID Number</label>
                                     <input type="text" class="data-entry-input" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 </div>
-                                <div class="form-group col-4 px-1">
+                                <div class="form-group col-2 px-1">
                                 <label class="data-entry-label">Other ID Suffix</label>
                                 <input type="text" class="data-entry-input w-75" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
+                                    </div>
+                                                   <div class="form-group col-2 px-1">
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
                                 <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+                                    </div>
                                 </div>
                               </div>
                             </form>
@@ -636,7 +639,7 @@ limitations under the License.
 			<input type="text" class="reqdClr" name="other_id_prefix" size="6">
 			<input type="text" class="reqdClr" name="other_id_number" size="6">
 			<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
-			<input type="submit" value="Save" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">	
+			<input type="submit" value="Save" class="btn btn-xs btn-primary">	
         </form>
     </div>
 
