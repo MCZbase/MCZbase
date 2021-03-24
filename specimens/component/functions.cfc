@@ -371,6 +371,7 @@ limitations under the License.
                         </div>
                     </div>
                 </div>
+                </div>
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
@@ -502,7 +503,7 @@ limitations under the License.
     <cfreturn getIdentificationThread.output>
 </cffunction>
 
-<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification edtior dialog for a specimen.
+<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
