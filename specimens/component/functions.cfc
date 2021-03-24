@@ -593,9 +593,9 @@ limitations under the License.
                                 <input type="hidden" name="Action">
                                 <cfset thisType = #oids.other_id_type#>
                                 <div class="row">
-                                <div class="form-group col-3 pl-0 pr-1">
+                                <div class="form-group col-2 pl-0 pr-1">
                                     <label class="data-entry-label">Other ID Type</label>
-                                    <select name="other_id_type" size="1">				
+                                    <select name="other_id_type" class="data-entry-select" size="1">				
                                         <cfloop query="ctType">					
                                             <option 
                                                 <cfif #ctType.other_id_type# is #thisType#> selected </cfif>
