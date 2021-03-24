@@ -592,7 +592,7 @@ limitations under the License.
                                 <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
                                 <input type="hidden" name="Action">
                                 <cfset thisType = #oids.other_id_type#>
-                                <div class="form-group">
+                                <div class="form-group col-3">
                                     <label class="data-entry-label">Other ID Type</label>
                                     <select name="other_id_type" size="1">				
                                         <cfloop query="ctType">					
@@ -602,17 +602,17 @@ limitations under the License.
                                         </cfloop>			
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-3">
                                     <label class="data-entry-label">Other ID Prefix</label>
                                     <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-3">
                                     <label class="data-entry-label">Other ID Number</label>
                                     <input type="text" class="data-entry-input" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-3">
                                 <label class="data-entry-label">Other ID Suffix</label>
-                                <input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">	
+                                <input type="text" class="data-entry-input" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">	
                                 </div>
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
                                 <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
