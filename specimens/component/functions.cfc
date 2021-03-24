@@ -513,62 +513,120 @@ limitations under the License.
     <cfthread name="getEditOtherIDsThread"> <cfoutput>
             <cftry>
                 <div class="container-fluid">
-                    <cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-						case when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
-							coll_obj_other_id_num.display_value
-						end display_value,
-						coll_obj_other_id_num.other_id_type,
-						case when base_url is not null then
-							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-						else
-							null
-						end link
-					FROM
-						coll_obj_other_id_num 
-						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-					where
-						collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY
-						other_id_type,
-						display_value
-					</cfquery>
-                    <cfset i = 1>
-                    <cfset sortCount=getotherids.recordcount - 1>
-                    <h1 class="h3 mb-0 px-1"> Edit Existing Other Identifiers <a href="javascript:void(0);" onClick="getMCZDocs('Other ID')"><i class="fa fa-info-circle"></i></a> </h1>
-                    <form name="editOtherIDForm" id="editOtherIDForm">
-                        <input type="hidden" name="Action" value="saveEdits">
-                        <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-                        <input type="hidden" name="number_of_ids" id="number_of_ids" value="#getotherids.recordcount#">
-                        <div class="row border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">
-                            <div class="col-12 mt-2 px-0">
-                                <cfif len(getotherids.display_value) gt 0>
-                                    <cfset otheridnum=1>
-                                    <cfloop query="getotherids">
-                                        <ul class="list-group list-group-horizontal" id="OtherIdTr_#i#_#otheridnum#">
-                                            <li class="list-group-item pl-0">
-                                                <input class="data-enty_input" value="#other_id_type#">
-                                            </li>
-                                            <li class="list-group-item">
-                                                <input class="data-entry-input" value="#display_value#">
-                                            </li>
-                                        </ul>
-                                        <input type="hidden" name="OtherID_#i#_#otheridnum#_id" id="OtherID_#i#_#otheridnum#_id" value="#display_value#" >
-                                        <cfset otheridnum=otheridnum+1>
-                                    </cfloop>
-                                    <!---                <button id="addOtherID_#i#"
-														onclick="addOtherID('#i#','#otheridnum#')" class="btn btn-xs btn-secondary mt-4">
-                                                        Add Other Identifier
-                                                    </button>--->
-                                    
-                                </cfif>
-                            </div>
-                        </div>
-                         <input type="submit" class="btn btn-xs btn-primary" id="editOtherIDs_submit" value="Save Changes" title="Save Changes">
+                    <cfquery name="getOtherIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                        select 
+                            COLL_OBJ_OTHER_ID_NUM_ID,
+                            cat_num,
+                            cat_num_prefix,
+                            cat_num_integer,
+                            cat_num_suffix,
+                            other_id_prefix,
+                            other_id_number,
+                            other_id_suffix,
+                            other_id_type, 
+                            cataloged_item.collection_id,
+                            collection.collection_cde,
+                            institution_acronym
+                        from 
+                            cataloged_item, 
+                            coll_obj_other_id_num,
+                            collection 
+                        where
+                            cataloged_item.collection_id=collection.collection_id and
+                            cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
+                            cataloged_item.collection_object_id=#collection_object_id#
+                    </cfquery>
+                    <cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                        select other_id_type from ctcoll_other_id_type
+                    </cfquery>
+                    <cfquery name="cataf" dbtype="query">
+                        select cat_num from getIDs group by cat_num
+                    </cfquery>
+                    <cfquery name="oids" dbtype="query">
+                        select 
+                            COLL_OBJ_OTHER_ID_NUM_ID,
+                            other_id_prefix,
+                            other_id_number,
+                            other_id_suffix,
+                            other_id_type 
+                        from 
+                            getIDs 
+                        group by 
+                            COLL_OBJ_OTHER_ID_NUM_ID,
+                            other_id_prefix,
+                            other_id_number,
+                            other_id_suffix,
+                            other_id_type
+                    </cfquery>
+                    <cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                        select 
+                            institution_acronym,
+                            collection_cde,
+                            collection_id 
+                        from collection
+                    </cfquery>
+                <cfoutput>
+                    <h3>Edit existing identifiers:</h3>
+                    <form name="ids" method="post" action="editIdentifiers.cfm">
+                      <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                      <input type="hidden" name="Action" value="saveCatEdits">
+                         Catalog&nbsp;Number:
+                        <select name="collection_id" size="1" class="reqdClr">
+                            <cfset thisCollId=#getOtherIDs.collection_id#>
+                            <cfloop query="ctcoll_cde">
+                                <option 
+                                    <cfif #thisCollId# is #collection_id#> selected </cfif>
+                                value="#collection_id#">#institution_acronym# #collection_cde#</option>
+                            </cfloop>
+                        </select>
+                        <input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
+                        <input type="submit" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
                     </form>
+                    <cfset i=1>
+                        <cfloop query="oids">
+                            <cfif len(#other_id_type#) gt 0>
+                                <form name="oids#i#" method="post" action="editIdentifiers.cfm">
+                                <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                                <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+                                <input type="hidden" name="Action">
+                                <cfset thisType = #oids.other_id_type#>
+                                <select name="other_id_type" size="1">				
+                                    <cfloop query="ctType">					
+                                        <option 
+                                            <cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+                                            value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+                                    </cfloop>			
+                                </select>
+                                <input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
+                                <input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">		
+                                <input type="button" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+                                <input type="button" value="Delete" class="delBtn" onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+                            </form>
+                                <cfset i=#i#+1>
+                            </cfif>
+                        </cfloop>
+	                <div class="newRec" style="padding: 1em;width: 100%;">
+	        <b>Add New Identifier:</b> 
+        <img class="likeLink" src="/images/ctinfo.gif" onMouseOver="self.status='Code Table Value Definition';return true;"
+        onmouseout="self.status='';return true;" border="0" alt="Code Table Value Definition" onClick="getCtDoc('ctcoll_other_id_type','')">
+        <form name="newOID" method="post" action="editIdentifiers.cfm">
+		    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+		    <input type="hidden" name="Action" value="newOID">
+            <select name="other_id_type" size="1" class="reqdClr">
+				<cfloop query="ctType">
+					<option 
+						value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+				</cfloop>
+			</select>
+			<input type="text" class="reqdClr" name="other_id_prefix" size="6">
+			<input type="text" class="reqdClr" name="other_id_number" size="6">
+			<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
+			<input type="submit" value="Save" class="insBtn" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">	
+        </form>
+    </div>
+
+                        </cfoutput>
                 </div>
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
