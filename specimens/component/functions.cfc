@@ -511,6 +511,104 @@ limitations under the License.
     <cfargument name="collection_object_id" type="string" required="yes">
     <cfthread name="getEditOtherIDsThread"> <cfoutput>
             <cftry>
+                <cfquery name="ctother_id_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select other_id_type from ctcoll_other_id_type
+				</cfquery>
+                <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 px-0"> 
+                        <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
+                        <div class="col-12 col-lg-6 float-left pl-0">
+                            <h1 class="h3 mb-0 px-1"> Add New Other ID 
+                                <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> 
+                            </h1>
+                            <form name="newOtherIDForm" id="newOtherIDForm">
+                                <input type="hidden" name="Action" value="createNew">
+                                <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                                <input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
+                                <div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-3 px-1">
+                                            <label for="other_id_type" class="data-entry-label">Other ID Type</label>
+                                            <select name="other_id_prefix" id="other_id_prefix" size="1" class="reqdClr w-100" required>
+                                                <cfloop query="ctother_id_type">
+                                                    <cfif selected_value EQ ctother_id_type.other_id_type>
+                                                        <cfset selected = "selected='selected'">
+                                                        <cfelse>
+                                                        <cfset selected ="">
+                                                    </cfif>
+                                                    <option #selected# value="#ctcoll_other_id_type.#">#ctcoll_other_id_type.other_id_type#</option>
+                                                </cfloop>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-2 px-1">
+                                            <label for="taxona" class="data-entry-label reqdClr" required>Other ID Prefix</label>
+                                            <input type="text" name="id_prefix" id="id_prefix" class="reqdClr data-entry-input" size="50">
+                                            <input type="hidden" name="" id="taxona_id">
+                                        </div>
+                                        <div class="col-12 col-md-2 px-1">
+                                            <label id="other_id_number" for="other_id_number" class="data-entry-label">Other ID Number</label>
+                                            <input type="text" name="other_id_number" id="other_id_number" class="reqdClr w-100" size="50">
+                                        </div>
+                                        <div class="col-12 col-md-2 px-1">
+                                            <label for="other_id_suffix" class="data-entry-label" >Other ID Suffix</label>
+                                            <input type="text" name="other_id_suffix" id="other_id_suffix" class="data-entry-input">
+                                        </div>
+                        
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-4 pr-0">
+                                            <label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
+                                            Identified By
+                                            <h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+                                                <input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
+                                                <input type="hidden" name="newIdBy_id" id="newIdBy_id">
+                                            </div>
+                                            <!--- TODO: Add determiners ---> 
+                                        </div>
+                                        <div class="col-12 col-md-4 pr-0">
+                                            <label for="made_date" class="data-entry-label" >Date Identified</label>
+                                            <input type="text" name="made_date" id="made_date" class="data-entry-input">
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+                                            <select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+                                                <cfloop query="ctnature">
+                                                    <option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+                                                </cfloop>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-6 pr-0">
+                                            <label for="identification_publication" class="data-entry-label" >Sensu</label>
+                                            <input type="hidden" name="new_publication_id" id="new_publication_id">
+                                            <input type="text" id="newPub" class="data-entry-input">
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="identification_remarks" class="data-entry-label" >Remarks</label>
+                                            <input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-12">
+                                            <button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+                                        </div>
+                                    </div>
+                                    <script>
+                            $(document).ready(function() {
+                                makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+                                makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+                                makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
+                                makePublicationAutocompleteMeta("newPub", "new_publication_id");
+                            });
+                        </script> 
+                                </div>
+                            </form>
+                        </div>
                 <div class="container-fluid">
                     <cfquery name="getotherids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
