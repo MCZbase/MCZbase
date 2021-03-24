@@ -592,6 +592,7 @@ limitations under the License.
                                 <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
                                 <input type="hidden" name="Action">
                                 <cfset thisType = #oids.other_id_type#>
+                                <div class="row">
                                 <div class="form-group col-3">
                                     <label class="data-entry-label">Other ID Type</label>
                                     <select name="other_id_type" size="1">				
@@ -616,6 +617,7 @@ limitations under the License.
                                 </div>
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
                                 <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+                                    </div>
                             </form>
                                 <cfset i=#i#+1>
                             </cfif>
