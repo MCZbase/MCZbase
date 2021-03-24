@@ -568,6 +568,7 @@ limitations under the License.
                 <cfoutput>
                     <h3>Edit existing identifiers:</h3>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
+                    <div class="mb-1">
                       <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                       <input type="hidden" name="Action" value="saveCatEdits">
                          Catalog&nbsp;Number:
@@ -581,6 +582,7 @@ limitations under the License.
                         </select>
                         <input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
                         <input type="submit" value="Save" class="savBtn" onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
+                    </div>
                     </form>
                     <cfset i=1>
                         <cfloop query="oids">
