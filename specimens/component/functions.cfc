@@ -599,8 +599,8 @@ limitations under the License.
                                             value="#ctType.other_id_type#">#ctType.other_id_type#</option>
                                     </cfloop>			
                                 </select>
-                                <label>Other ID Prefix</label>
-                                <input type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                <label class="data-entry-label">Other ID Prefix</label>
+                                <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
                                 <label>Other ID Number</label>
                                 <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 <label>Other ID Suffix</label>
