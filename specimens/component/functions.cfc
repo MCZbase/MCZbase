@@ -603,7 +603,7 @@ limitations under the License.
                                 <input type="text" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 <input type="text" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">		
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-                                <button type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">Delete</button>
+                                <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
                             </form>
                                 <cfset i=#i#+1>
                             </cfif>
