@@ -625,10 +625,10 @@ limitations under the License.
                                 <cfset i=#i#+1>
                             </cfif>
                         </cfloop>
-                     <div class="mt-4 row">
-                         <div class="col-12 pl-0 pr-1">
                        <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
+                                <div class="row mx-0">
+                                <div class="form-group col-2 pl-0 pr-1">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                                 <input type="hidden" name="Action" value="newOID">
                                 <select name="other_id_type" size="1" class="reqdClr">
@@ -636,7 +636,8 @@ limitations under the License.
                                         <option 
                                             value="#ctType.other_id_type#">#ctType.other_id_type#</option>
                                     </cfloop>
-                                </select>
+                                    </select>
+                                </div>
                                 <div class="form-group col-2 px-1">
                                     <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
                                     <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
@@ -652,9 +653,9 @@ limitations under the License.
                                 <div class="form-group col-2 px-1 mt-3">
                                     <input type="submit" value="Save" class="btn btn-xs btn-primary">	
                                 </div>
+                                </div>
                             </form>
-                        </div>
-                    </div>
+                 
 
                 </div>
                 <cfcatch>
