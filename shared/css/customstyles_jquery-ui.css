@@ -167,6 +167,11 @@ override Bootstrap styles
 	border: 1px solid hsl(0, 0%, 62%);
 	color: #212529;
 }
+.ui-dialog .btn-danger {
+	background-color: #f8d7da;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #c82333;
+}
 .small, small {
     font-size: 80%;
     font-weight: 400;
