@@ -568,11 +568,11 @@ limitations under the License.
                 <cfoutput>
                     <h1 class="h3">Edit existing identifiers:</h1>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
-                    <div class="mb-1 col-6">
+                    <div class="mb-1">
                       <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                       <input type="hidden" name="Action" value="saveCatEdits">
                          Catalog&nbsp;Number:
-                        <select name="collection_id" size="1" class="reqdClr data-entry-select">
+                        <select name="collection_id" size="1" class="reqdClr">
                             <cfset thisCollId=#getIDs.collection_id#>
                             <cfloop query="ctcoll_cde">
                                 <option 
