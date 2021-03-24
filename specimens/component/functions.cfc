@@ -632,7 +632,7 @@ limitations under the License.
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                                 <input type="hidden" name="Action" value="newOID">
                                     <label class="data-entry-label" id="other_id_type">Other ID Type</label>
-                                <select name="other_id_type" size="1" class="reqdClr">
+                                <select name="other_id_type" size="1" class="reqdClr data-entry-select">
                                     <cfloop query="ctType">
                                         <option 
                                             value="#ctType.other_id_type#">#ctType.other_id_type#</option>
