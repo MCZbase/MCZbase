@@ -609,7 +609,7 @@ limitations under the License.
                             </cfif>
                         </cfloop>
 	 <div class="mt-2">
-	   <h1 class="h2">Add New Identifier: <i class="fa fa-question-circle" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
+	   <h1 class="h2">Add New Identifier: <i class="fa fa-question-circle d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
         <form name="newOID" method="post" action="editIdentifiers.cfm">
 		    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		    <input type="hidden" name="Action" value="newOID">
