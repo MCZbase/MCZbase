@@ -510,7 +510,8 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
     <cfargument name="collection_object_id" type="string" required="yes">
-    <cfthread name="getEditOtherIDsThread"> <cfoutput>
+    <cfthread name="getEditOtherIDsThread"> 
+        <cfoutput>
             <cftry>
                 <div class="container-fluid">
                     <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -565,7 +566,6 @@ limitations under the License.
                             collection_id 
                         from collection
                     </cfquery>
-                <cfoutput>
                     <h1 class="h3">Edit existing identifiers:</h1>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
                     <div class="mb-4">
@@ -592,10 +592,10 @@ limitations under the License.
                                 <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
                                 <input type="hidden" name="Action">
                                 <cfset thisType = #oids.other_id_type#>
-                                <div class="row mx-0">
+                            <div class="row mx-0">
                                 <div class="form-group col-2 pl-0 pr-1">
                                     <label class="data-entry-label">Other ID Type</label>
-                                    <select name="other_id_type" class="data-entry-select" size="1">				
+                                    <select name="other_id_type" class="data-entry-select" style="" size="1">				
                                         <cfloop query="ctType">					
                                             <option 
                                                 <cfif #ctType.other_id_type# is #thisType#> selected </cfif>
@@ -604,15 +604,15 @@ limitations under the License.
                                     </select>
                                 </div>
                                 <div class="form-group col-2 px-1">
-                                <label class="data-entry-label">Other ID Prefix</label>
+                                <label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
                                 <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
                                 </div>
                                 <div class="form-group col-2 px-1">
-                                <label class="data-entry-label">Other ID Number</label>
+                                <label for="other_id_number" class="data-entry-label">Other ID Number</label>
                                 <input type="text" class="data-entry-input" value="#oids.other_id_number#" size="12" name="other_id_number">
                                 </div>
                                 <div class="form-group col-2 px-1">
-                                <label class="data-entry-label">Other ID Suffix</label>
+                                <label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
                                 <input type="text" class="data-entry-input" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
                                 </div>
                                 <div class="form-group col-2 px-1 mt-3">
@@ -625,25 +625,37 @@ limitations under the License.
                                 <cfset i=#i#+1>
                             </cfif>
                         </cfloop>
-	 <div class="mt-4">
-	   <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
-        <form name="newOID" method="post" action="editIdentifiers.cfm">
-		    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		    <input type="hidden" name="Action" value="newOID">
-            <select name="other_id_type" size="1" class="reqdClr">
-				<cfloop query="ctType">
-					<option 
-						value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-				</cfloop>
-			</select>
-			<input type="text" class="reqdClr" name="other_id_prefix" size="6">
-			<input type="text" class="reqdClr" name="other_id_number" size="6">
-			<input type="text" class="reqdClr" name="other_id_suffix" size="6">		
-			<input type="submit" value="Save" class="btn btn-xs btn-primary">	
-        </form>
-    </div>
+                     <div class="mt-4 row">
+                         <div class="col-12 pl-0 pr-1">
+                       <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
+                            <form name="newOID" method="post" action="editIdentifiers.cfm">
+                                <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                                <input type="hidden" name="Action" value="newOID">
+                                <select name="other_id_type" size="1" class="reqdClr">
+                                    <cfloop query="ctType">
+                                        <option 
+                                            value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+                                    </cfloop>
+                                </select>
+                                <div class="form-group col-2 px-1">
+                                    <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+                                    <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+                                </div>
+                                <div class="form-group col-2 px-1">
+                                    <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                                    <input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+                                </div>
+                                <div class="form-group col-2 px-1">
+                                    <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                                    <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
+                                </div>
+                                <div class="form-group col-2 px-1 mt-3">
+                                    <input type="submit" value="Save" class="btn btn-xs btn-primary">	
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                        </cfoutput>
                 </div>
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
