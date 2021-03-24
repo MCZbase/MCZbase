@@ -38,7 +38,7 @@ customstyles_jquery-ui.css  */
 	vertical-align: middle;
 	font-size: .875rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font: 400 13.333px Arial, sans-serif;
 
 }
 .ui-widget input.btn {
