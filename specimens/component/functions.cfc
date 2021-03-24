@@ -513,7 +513,7 @@ limitations under the License.
     <cfthread name="getEditOtherIDsThread"> <cfoutput>
             <cftry>
                 <div class="container-fluid">
-                    <cfquery name="getOtherIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                    <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                         select 
                             COLL_OBJ_OTHER_ID_NUM_ID,
                             cat_num,
@@ -540,7 +540,7 @@ limitations under the License.
                         select other_id_type from ctcoll_other_id_type
                     </cfquery>
                     <cfquery name="cataf" dbtype="query">
-                        select cat_num from getOtherIDs group by cat_num
+                        select cat_num from getIDs group by cat_num
                     </cfquery>
                     <cfquery name="oids" dbtype="query">
                         select 
