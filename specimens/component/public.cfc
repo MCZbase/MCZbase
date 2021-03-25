@@ -508,78 +508,103 @@ limitations under the License.
                 <cfquery name="ctPart" dbtype="query">
                 select count(*) as ct from parts group by lot_count order by part_name
                 </cfquery>
-                      <cfset i = 1>
-                        <cfloop query="citations">
-                            <div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-                            target="_mainFrame">#formatted_publication#</a>,
-                                <cfif len(occurs_page_number) gt 0>
-                                    Page
-                                    <cfif len(citation_page_uri) gt 0>
-                                        <a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-                                        <cfelse>
-                                        #occurs_page_number#,
-                                    </cfif>
-                                </cfif>
-                                    <span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-                                <cfif find("(ms)", #type_status#) NEQ 0>
-                                    <!--- Type status with (ms) is used to mark to be published types,
-`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-                                    as appropriate to the name of the parent taxon of the new name --->
-                                    <cfif find(" ", #cited_name#) NEQ 0>
-                                        &nbsp;ssp. nov.
-                                        <cfelse>
-                                        &nbsp;sp. nov.
-                                    </cfif>
-                                </cfif>
-                                    <span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-                            </div>
-                            <cfset i = i + 1>
-                        </cfloop>
-                        <cfif publicationMedia.recordcount gt 0>
-                            <cfloop query="publicationMedia">
-                                <cfset puri=getMediaPreview(preview_uri,mime_type)>	
-                                <cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                            select
-                                                    media_label,
-                                                    label_value
-                                            from
-                                                    media_labels
-                                            where
-                                                    media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-                                </cfquery>
-                                <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                            select
-                                                    media_label,
-                                                    label_value
-                                            from
-                                                    media_labels
-                                            where
-                                                    media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-                                </cfquery>
-                                <cfquery name="desc" dbtype="query">
-                                    select 
-                                        label_value 
-                                    from 
-                                        labels 
-                                    where 
-                                        media_label='description'
-                                </cfquery>
-                                <cfset alt="Media Preview Image">
-                                <cfif desc.recordcount is 1>
-                                    <cfset alt=desc.label_value>
-                                </cfif>
-                                <div class="col-2 m-2 float-left d-inline"> 
-                                    <cfset mt = #mime_type#>
-                                    <cfset muri = #media_uri#>
-                                    <a href="#media_uri#" target="_blank">
-                                        <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
-                                    </a>
-                                    <span class="d-block smaller text-center" style="line-height:.7rem;">
-                                        <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
-                                    </span> 
-                                </div>
-                            </cfloop>		
-                        </cfif>
+                 <table class="table border-bottom mb-0">
+											<thead>
+												<tr class="bg-light">
+													<th><span>Part Name</span></th>
+													<th><span>Condition</span></th>
+													<th><span>Disposition</span></th>
+													<th><span>##</span></th>
+													<th><cfif oneOfus is "1">
+														<span>Container</span>
+													</cfif>
+													</th>
+													
+												</tr>
+											</thead>
+											<tbody>
+												<cfset i=1>
+												<cfloop query="mPart">
+													<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+														<td><span class="">#part_name#</span></td>
+														<td>#part_condition#</td>
+														<td>#part_disposition#</td>
+														<td>#lot_count#</td>
+														<td><cfif oneOfus is 1>#label#</cfif></td>
+													</tr>
+													<cfif len(part_remarks) gt 0>
+														<tr class="small">
+															<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+														</tr>
+													</cfif>
+													<cfquery name="patt" dbtype="query">
+														select
+															attribute_type,
+															attribute_value,
+															attribute_units,
+															determined_date,
+															attribute_remark,
+															agent_name
+														from
+															rparts
+														where
+															attribute_type is not null and
+															part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+														group by
+															attribute_type,
+															attribute_value,
+															attribute_units,
+															determined_date,
+															attribute_remark,
+															agent_name
+													</cfquery>
+													<cfif patt.recordcount gt 0>
+														<tr>
+															<td colspan="5">
+																<cfloop query="patt">
+																	<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+																		<cfif len(attribute_units) gt 0>
+																			#attribute_units#
+																		</cfif>
+																		<cfif len(determined_date) gt 0>
+																			determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+																		</cfif>
+																		<cfif len(agent_name) gt 0>
+																			determined by=#agent_name#
+																		</cfif>
+																		<cfif len(attribute_remark) gt 0>
+																			remark=#attribute_remark#
+																		</cfif>
+																	</div>
+																</cfloop>
+															</td>
+														</tr>
+													</cfif>
+													<!---/cfloop--->
+													<cfquery name="sPart" dbtype="query">
+														select * from parts 
+														where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+													</cfquery>
+													<cfloop query="sPart">
+														<tr>
+															<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+															<td>#part_condition#</td>
+															<td>#part_disposition#</td>
+															<td>#lot_count#</td>
+															
+															<td><cfif oneOfus is 1>#label#</cfif></td>
+													
+														
+														</tr>
+														<cfif len(part_remarks) gt 0>
+														<tr class="small">
+															<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+														</tr>
+													</cfif>
+													</cfloop>
+												</cfloop>
+											</tbody>
+										</table>
                 <cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
