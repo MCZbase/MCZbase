@@ -633,7 +633,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
 							</cfif>
 						</div>
-						<div id="PartsPane" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+						<div id="PartsPane" style="height:300px;" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
 								<cfset block = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
