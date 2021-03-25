@@ -1,125 +1,107 @@
-function loadCitPubForMedia(publication_id) {
-targetDiv="CitPubFormMedia";
-	console.log(" media in #"+ targetDiv);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaForCitPub",
-			publication_id: publication_id,
-		},
-		success: function (result) {
-			$("#CitPubFormMedia").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing pub");
-		},
-		dataType: "html"
-	});
-}
+//function loadCitPubForMedia(publication_id) {
+//targetDiv="CitPubFormMedia";
+//	console.log(" media in #"+ targetDiv);
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getMediaForCitPub",
+//			publication_id: publication_id,
+//		},
+//		success: function (result) {
+//			$("#CitPubFormMedia").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing pub");
+//		},
+//		dataType: "html"
+//	});
+//}
+//	$(function() {
+//     $(".dialog").dialog({
+//		open: function(event,ui){},
+//        Title: {style:"font-size: 1.3em;"},
+//		bgiframe: true,
+//        autoOpen: false,
+//    	width: '700px',
+//    	minWidth: 500,
+//    	minHeight: 400,
+//		buttons: [
+//			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
+//        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
+//		 ],
+//        close: function() {
+//            $(this).dialog( "close" );
+//        },
+//        modal: true
+//	 }
+//       );
+//     $('body')
+//      .bind(
+//       'click',
+//       function(e){
+//        if(
+//         $('.dialog-ID').dialog('isOpen')
+//         && !$(e.target).is('.ui-dialog, button')
+//         && !$(e.target).closest('.ui-dialog').length
+//        ){
+//         $('.dialog').dialog('close');
+//        }
+//       }
+//      );
+//    }
+//   );
+//	$(function() {
+//     $(".dialog-locality").dialog({
+//		open: function(event,ui){},
+//        Title: {style:"font-size: 1.3em;"},
+//		bgiframe: true,
+//        autoOpen: false,
+//    	width: '700px',
+//    	minWidth: 500,
+//    	minHeight: 400,
+//		buttons: [
+//			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
+//        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
+//		 ],
+//        close: function() {
+//            $(this).dialog( "close" );
+//        },
+//        modal: true
+//	 }
+//       );
+//     $('body')
+//      .bind(
+//       'click',
+//       function(e){
+//        if(
+//         $('.dialog-ID').dialog('isOpen')
+//         && !$(e.target).is('.ui-dialog, button')
+//         && !$(e.target).closest('.ui-dialog').length
+//        ){
+//         $('.dialog-locality').dialog('close');
+//        }
+//       }
+//      );
+//    }
+//   );
 
-	$(function() {
-     $(".dialog").dialog({
-		open: function(event,ui){},
-        Title: {style:"font-size: 1.3em;"},
-		bgiframe: true,
-        autoOpen: false,
-    	width: '700px',
-    	minWidth: 500,
-    	minHeight: 400,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
-		 ],
-        close: function() {
-            $(this).dialog( "close" );
-        },
-        modal: true
-	 }
-       );
-     $('body')
-      .bind(
-       'click',
-       function(e){
-        if(
-         $('.dialog-ID').dialog('isOpen')
-         && !$(e.target).is('.ui-dialog, button')
-         && !$(e.target).closest('.ui-dialog').length
-        ){
-         $('.dialog').dialog('close');
-        }
-       }
-      );
-    }
-   );
 
-
-	$(function() {
-     $(".dialog-locality").dialog({
-		open: function(event,ui){},
-        Title: {style:"font-size: 1.3em;"},
-		bgiframe: true,
-        autoOpen: false,
-    	width: '700px',
-    	minWidth: 500,
-    	minHeight: 400,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
-		 ],
-        close: function() {
-            $(this).dialog( "close" );
-        },
-        modal: true
-	 }
-       );
-     $('body')
-      .bind(
-       'click',
-       function(e){
-        if(
-         $('.dialog-ID').dialog('isOpen')
-         && !$(e.target).is('.ui-dialog, button')
-         && !$(e.target).closest('.ui-dialog').length
-        ){
-         $('.dialog-locality').dialog('close');
-        }
-       }
-      );
-    }
-   );
-function loadIdentification(identification_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getIdentificationHtml",
-			identification_id: identification_id,
-		},
-		success: function (result) {
-			$("#identificationHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing identification");
-		},
-		dataType: "html"
-	});
-};
-
-function loadLocality(locality_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getLocalityHtml",
-			locality_id: locality_id,
-		},
-		success: function (result) {
-			$("#localityHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing locality");
-		},
-		dataType: "html"
-	});
-};
+//function loadLocality(locality_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getLocalityHtml",
+//			locality_id: locality_id,
+//		},
+//		success: function (result) {
+//			$("#localityHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing locality");
+//		},
+//		dataType: "html"
+//	});
+//};
 
 function checkFormValidity(form) { 
 	var result = false;
@@ -149,6 +131,25 @@ function checkFormValidity(form) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  */
+
+function loadIdentification(identification_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getIdentificationHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing identification");
+		},
+		dataType: "html"
+	});
+};
+
+
 function loadIdentifications(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
