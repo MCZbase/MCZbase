@@ -412,8 +412,8 @@ limitations under the License.
 	<cfthread name="getPartsThread">
 		<cfoutput>
 			<cftry>
-				<cfoutput>
-					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+<cfoutput>
+					<cfif status is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 						<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 									specimen_part.collection_object_id part_id,
@@ -466,7 +466,6 @@ limitations under the License.
 								from
 										rparts
 								group by
-
 										part_id,
 										label,
 										part_name,
@@ -478,23 +477,48 @@ limitations under the License.
 								order by
 										part_name
 						</cfquery>
+						<cfquery name="parts" dbtype="query">
+        select  
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        from
+                rparts
+        group by
+			
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        order by
+                part_name
+</cfquery>
 						<cfquery name="mPart" dbtype="query">
 							select * from parts where sampled_from_obj_id is null order by part_name
 						</cfquery>
-		<!---				<cfset ctPart.ct=''>
+						<cfset ctPart.ct=''>
 						<cfquery name="ctPart" dbtype="query">
 						select count(*) as ct from parts group by lot_count order by part_name
-						</cfquery>--->
-<!---						<div class="accordion w-100" id="accordionForParts">
+						</cfquery>
+						<div class="accordion w-100" id="accordionForParts">
 							<div class="card mb-2">
 								<div class="card-header float-left w-100" id="headingPart">
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+										<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 									</cfif>
 								</div>
-								<div class="card-body p-0">--->
-							<!---		<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">--->
+								<div class="card-body p-0">
+									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 										<table class="table border-bottom mb-0">
 											<thead>
 												<tr class="bg-light">
@@ -592,12 +616,13 @@ limitations under the License.
 												</cfloop>
 											</tbody>
 										</table>
-					<!---				</div>--->
-		<!---						</div>
+									</div>
+								</div>
 							</div>
-						</div>--->
+						</div>
 					</cfif>
 				</cfoutput> 
+
                 <cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
