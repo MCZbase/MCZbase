@@ -633,7 +633,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="PartsPane" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-							<div class="card-body mb-2 float-left" id="partsCardBody">
+							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
 								<cfset block = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
