@@ -509,9 +509,6 @@ limitations under the License.
  @return html for editing identifications for the specified cataloged item. 
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
- <button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
-    							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
     <cfargument name="collection_object_id" type="string" required="yes">
     <cfthread name="getEditOtherIDsThread"> 
         <cfoutput>
