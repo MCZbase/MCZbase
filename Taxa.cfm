@@ -594,7 +594,7 @@ limitations under the License.
 		<script>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 					};
 				</cfif>
 
