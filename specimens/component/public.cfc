@@ -484,7 +484,6 @@ limitations under the License.
         group by
 			
                 part_id,
-                label,
                 part_name,
                 sampled_from_obj_id,
                 part_disposition,
