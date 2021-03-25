@@ -182,6 +182,23 @@ function loadCitations(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
+function loadParts(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getPartsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading parts");
+		},
+		dataType: "html"
+	});
+}
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.

@@ -579,98 +579,6 @@ limitations under the License.
 					</div>
 				</div>
 
-				<!------------------------------------ citations ------------------------------------------>
-	<!---			<cfif len(citations.cited_name) gt 0>
-					<div class="accordion" id="accordionC">
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="heading2">
-								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
-								</h3>
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<button type="button" class="btn btn-xs py-0 float-right small" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
-								</cfif>
-							</div>
-							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
-								<div class="card-body mb-2 float-left">
-								<div class="row mx-0">
-									<div class="col-12 px-0">
-								   <cfset i = 1>
-									<cfloop query="citations" group="formatted_publication">
-										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-										target="_mainFrame">#formatted_publication#</a>,
-											<cfif len(occurs_page_number) gt 0>
-												Page
-												<cfif len(citation_page_uri) gt 0>
-													<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-													<cfelse>
-													#occurs_page_number#,
-												</cfif>
-											</cfif>
-												<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-											<cfif find("(ms)", #type_status#) NEQ 0>
-												<cfif find(" ", #cited_name#) NEQ 0>
-													&nbsp;ssp. nov.
-													<cfelse>
-													&nbsp;sp. nov.
-												</cfif>
-											</cfif>
-												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-										</div>
-										<cfset i = i + 1>
-									</cfloop>
-									<cfif publicationMedia.recordcount gt 0>
-										<cfloop query="publicationMedia">
-											<cfset puri=getMediaPreview(preview_uri,mime_type)>	
-											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select
-																media_label,
-																label_value
-														from
-																media_labels
-														where
-																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select
-																media_label,
-																label_value
-														from
-																media_labels
-														where
-																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfquery name="desc" dbtype="query">
-												select 
-													label_value 
-												from 
-													labels 
-												where 
-													media_label='description'
-											</cfquery>
-											<cfset alt="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset alt=desc.label_value>
-											</cfif>
-											<div class="col-2 m-2 float-left d-inline"> 
-												<cfset mt = #mime_type#>
-												<cfset muri = #media_uri#>
-												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
-												</a>
-												<span class="d-block smaller text-center" style="line-height:.7rem;">
-													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
-												</span> 
-											</div>
-										</cfloop>		
-									</cfif>
-									</div>
-								</div>
-							</div>
-							</div>
-						</div>
-					</div>
-				</cfif>--->
 			<!------------------------------------ other identifiers ---------------------------------->
  
 				<div class="accordion" id="accordionOtherID">
@@ -693,6 +601,35 @@ limitations under the License.
 						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 							<div class="card-body mb-2 float-left" id="otherIDsCardBody">
 								<cfset block = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+                    
+                    
+<!------------------------------------ parts new ---------------------------------->
+ 
+				<div class="accordion" id="accordionParts">
+					<div class="card mb-2 bg-light">
+						<div id="partsDialog"></div>
+						<script>
+							function reloadParts() { 
+								// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other ID block.
+								loadParts(#collection_object_id#,'partsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingParts">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
+							</cfif>
+						</div>
+						<div id="PartsPane" class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+							<div class="card-body mb-2 float-left" id="partsCardBody">
+								<cfset block = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
 						</div>
@@ -766,38 +703,38 @@ limitations under the License.
 										part_name
 						</cfquery>
 						<cfquery name="parts" dbtype="query">
-        select  
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        from
-                rparts
-        group by
-			
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        order by
-                part_name
-</cfquery>
+                            select  
+                                    part_id,
+                                    label,
+                                    part_name,
+                                    sampled_from_obj_id,
+                                    part_disposition,
+                                    part_condition,
+                                    lot_count,
+                                    part_remarks
+                            from
+                                    rparts
+                            group by
+
+                                    part_id,
+                                    label,
+                                    part_name,
+                                    sampled_from_obj_id,
+                                    part_disposition,
+                                    part_condition,
+                                    lot_count,
+                                    part_remarks
+                            order by
+                                    part_name
+                    </cfquery>
 						<cfquery name="mPart" dbtype="query">
 							select * from parts where sampled_from_obj_id is null order by part_name
 						</cfquery>
-						<cfset ctPart.ct=''>
+		<!---				<cfset ctPart.ct=''>
 						<cfquery name="ctPart" dbtype="query">
 						select count(*) as ct from parts group by lot_count order by part_name
-						</cfquery>
-						<div class="accordion w-100" id="accordionForParts">
+						</cfquery>--->
+<!---						<div class="accordion w-100" id="accordionForParts">
 							<div class="card mb-2">
 								<div class="card-header float-left w-100" id="headingPart">
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
@@ -805,7 +742,7 @@ limitations under the License.
 										<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 									</cfif>
 								</div>
-								<div class="card-body p-0">
+								<div class="card-body p-0">--->
 									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 										<table class="table border-bottom mb-0">
 											<thead>
@@ -905,9 +842,9 @@ limitations under the License.
 											</tbody>
 										</table>
 									</div>
-								</div>
+		<!---						</div>
 							</div>
-						</div>
+						</div>--->
 					</cfif>
 				</cfoutput> 
 
