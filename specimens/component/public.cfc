@@ -451,7 +451,6 @@ limitations under the License.
 						<cfquery name="parts" dbtype="query">
 								select  
 										part_id,
-										label,
 										part_name,
 										sampled_from_obj_id,
 										part_disposition,
@@ -462,7 +461,6 @@ limitations under the License.
 										rparts
 								group by
 										part_id,
-										label,
 										part_name,
 										sampled_from_obj_id,
 										part_disposition,
@@ -475,7 +473,6 @@ limitations under the License.
 						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
-                label,
                 part_name,
                 sampled_from_obj_id,
                 part_disposition,
