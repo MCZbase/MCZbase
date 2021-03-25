@@ -269,6 +269,7 @@ BELOW: Small Form button (bootstrap override)
 .btn-outline-primary {
 	background-color: white;
 }
+
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
@@ -1742,7 +1743,20 @@ div[aria-hidden='false'] {
 .show {
 	display:block;
 }
-
+a.btn-outline-primary {
+    backgroun-color: white;
+    padding-bottom: .05rem;
+    color: #007bff;
+    text-decoration:none;
+    font-size: .785rem;
+}
+a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
+    background-color: #007bff;
+    text-decoration:none;
+    color: white;
+    padding-bottom: .05rem;
+    font-size: .785rem;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
