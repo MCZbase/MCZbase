@@ -619,10 +619,10 @@ limitations under the License.
 								loadParts(#collection_object_id#,'partsCardBody');
 							}
 						</script>
-           <!---             <cfset ctPart.ct=''>
+                        <cfset ctPart.ct=''>
 						<cfquery name="ctPart" dbtype="query">
-						select count(*) as ct from parts group by lot_count order by part_name
-						</cfquery>--->
+						select count(*) as ct from specimen_part, coll_object where coll_object.collection_object_id = specimen_part.collection_object_id group by lot_count order by part_name
+						</cfquery>
 						<div class="card-header" id="headingParts">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
