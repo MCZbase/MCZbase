@@ -504,9 +504,7 @@ limitations under the License.
 							<div class="card mb-2">
 								<div class="card-header float-left w-100" id="headingPart">
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-									</cfif>
+
 								</div>
 								<div class="card-body p-0">
 									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
