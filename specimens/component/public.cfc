@@ -448,7 +448,7 @@ limitations under the License.
 									oc.parent_container_id=pc.container_id (+) and
 									specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 							</cfquery>
-						<cfquery name="parts" dbtype="query">
+						<cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select  
 										part_id,
 										part_name,
@@ -470,30 +470,8 @@ limitations under the License.
 								order by
 										part_name
 						</cfquery>
-						<cfquery name="parts" dbtype="query">
-                                select  
-                                        part_id,
-                                        part_name,
-                                        sampled_from_obj_id,
-                                        part_disposition,
-                                        part_condition,
-                                        lot_count,
-                                        part_remarks
-                                from
-                                        rparts
-                                group by
 
-                                        part_id,
-                                        part_name,
-                                        sampled_from_obj_id,
-                                        part_disposition,
-                                        part_condition,
-                                        lot_count,
-                                        part_remarks
-                                order by
-                                        part_name
-                        </cfquery>
-						<cfquery name="mPart" dbtype="query">
+						<cfquery name="mPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select * from parts where sampled_from_obj_id is null order by part_name
 						</cfquery>
 						<cfset ctPart.ct=''>
@@ -530,7 +508,7 @@ limitations under the License.
 														<td>#part_condition#</td>
 														<td>#part_disposition#</td>
 														<td>#lot_count#</td>
-														<td><cfif oneOfus is 1>#label#</cfif></td>
+												<!---		<td><cfif oneOfus is 1>#label#</cfif></td>--->
 													</tr>
 													<cfif len(part_remarks) gt 0>
 														<tr class="small">
@@ -592,7 +570,7 @@ limitations under the License.
 															<td>#part_disposition#</td>
 															<td>#lot_count#</td>
 															
-															<td><cfif oneOfus is 1>#label#</cfif></td>
+													<!---		<td><cfif oneOfus is 1>#label#</cfif></td>--->
 													
 														
 														</tr>
