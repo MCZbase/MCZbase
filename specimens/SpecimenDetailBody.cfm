@@ -575,7 +575,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!----------------------------- Citatons new ----------------------------------> 
-			<cfif is_defined(citations.collection_object_id)>
+			<cfif isDefined(citations.collection_object_id)>
                     <div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
