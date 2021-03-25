@@ -329,29 +329,7 @@ limitations under the License.
 				 and ctrel.rel_type <> 'functional'
 			)
 		</cfquery>
-	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				citation.type_status,
-				citation.occurs_page_number,
-				citation.citation_page_uri,
-				citation.CITATION_REMARKS,
-				cited_taxa.scientific_name as cited_name,
-				cited_taxa.taxon_name_id as cited_name_id,
-				formatted_publication.formatted_publication,
-				formatted_publication.publication_id,
-				cited_taxa.taxon_status as cited_name_status
-			from
-				citation,
-				taxonomy cited_taxa,
-				formatted_publication
-			where
-				citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
-				citation.publication_id = formatted_publication.publication_id AND
-				format_style='short' and
-				citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			order by
-				substr(formatted_publication, - 4)
-		</cfquery>
+
 	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -569,6 +547,32 @@ limitations under the License.
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left" id="identificationsCardBody">
 								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+				<!----------------------------- Citatons new ----------------------------------> 
+				<div class="accordion" id="accordionCitations">
+					<div class="card mb-2 bg-light">
+						<div id="citationsDialog"></div>
+						<script>
+							function reloadCitations() { 
+								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+								loadCitations(#collection_object_id#,'citationsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingCitations">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
+							</cfif>
+						</div>
+						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
+							<div class="card-body mb-2 float-left" id="citationsCardBody">
+								<cfset block = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
 						</div>
