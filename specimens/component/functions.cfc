@@ -211,7 +211,7 @@ limitations under the License.
                                         <cfset sortCount=getIds.recordcount - 1>
                                         <input type="hidden" name="Action" value="saveEdits">
                                         <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-                            <!---            <input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">--->
+                                        <input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
                                         <cfloop query="getIds">
                                             <!---<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">--->
                                             <cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
