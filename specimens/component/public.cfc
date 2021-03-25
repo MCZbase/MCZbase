@@ -558,6 +558,7 @@ limitations under the License.
 															</td>
 														</tr>
 													</cfif>
+                                                        </cfloop>
 													<!---/cfloop--->
 													<cfquery name="sPart" dbtype="query">
 														select * from parts 
