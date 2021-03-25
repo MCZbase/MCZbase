@@ -258,7 +258,7 @@ function loadOtherIDs(collection_object_id,targetDivId) {
  * @param callback a callback function to invoke on closing the dialog.
  */
 function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Identifications for " + guid;
+	var title = "Edit Other IDs for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
