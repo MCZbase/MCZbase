@@ -1727,7 +1727,7 @@ a.btn-outline-primary {
 a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
     background-color: #007bff;
     text-decoration:none;
-    color: white;
+    color: white !important;
     padding-bottom: .05rem;
     font-size: .785rem;
 }
