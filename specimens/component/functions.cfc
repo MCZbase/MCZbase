@@ -566,6 +566,7 @@ limitations under the License.
                             collection_id 
                         from collection
                     </cfquery>
+   
                     <h1 class="h3">Edit existing identifiers:</h1>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
                     <div class="mb-4">
@@ -586,8 +587,8 @@ limitations under the License.
                     </form>
                     <cfset i=1>
                         <cfloop query="oids">
-                            <cfif len(#other_id_type#) gt 0>
-                                <form name="oids#i#" method="post" action="editIdentifiers.cfm">
+                        <cfif len(#other_id_type#) gt 0>
+                        <form name="oids#i#" method="post" action="editIdentifiers.cfm">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                                 <input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
                                 <input type="hidden" name="Action">
@@ -622,12 +623,13 @@ limitations under the License.
                                 </div>
                               </div>
                             </form>
-                                <cfset i=#i#+1>
-                            </cfif>
+                        <cfset i=#i#+1>
+                        </cfif>
                         </cfloop>
+                            <div class="container-fluid">
                        <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
-                                <div class="container-fluid">
+                    
                                 <div class="row mx-0">
                                 <div class="form-group col-3 pl-0 pr-1">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -658,6 +660,7 @@ limitations under the License.
                                 </div>
                                 </div>
                             </form>
+                </div>
                  
 
                 </div>
