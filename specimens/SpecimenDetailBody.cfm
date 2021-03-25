@@ -580,7 +580,7 @@ limitations under the License.
 				</div>
 
 				<!------------------------------------ citations ------------------------------------------>
-				<cfif len(citations.cited_name) gt 0>
+	<!---			<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="heading2">
@@ -609,9 +609,6 @@ limitations under the License.
 											</cfif>
 												<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 											<cfif find("(ms)", #type_status#) NEQ 0>
-												<!--- Type status with (ms) is used to mark to be published types,
-		`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-												as appropriate to the name of the parent taxon of the new name --->
 												<cfif find(" ", #cited_name#) NEQ 0>
 													&nbsp;ssp. nov.
 													<cfelse>
@@ -673,7 +670,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</cfif>
+				</cfif>--->
 			<!------------------------------------ other identifiers ---------------------------------->
  
 				<div class="accordion" id="accordionOtherID">
