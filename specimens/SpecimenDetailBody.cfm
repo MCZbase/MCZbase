@@ -619,9 +619,14 @@ limitations under the License.
 								loadParts(#collection_object_id#,'partsCardBody');
 							}
 						</script>
+                        <cfset ctPart.ct=''>
+						<cfquery name="ctPart" dbtype="query">
+						select count(*) as ct from parts group by lot_count order by part_name
+						</cfquery>
 						<div class="card-header" id="headingParts">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
+                                <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
@@ -636,7 +641,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!------------------------------------ parts ----------------------------------------------> 
-				<cfoutput>
+<!---				<cfoutput>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 						<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
@@ -729,7 +734,7 @@ limitations under the License.
                     </cfquery>
 						<cfquery name="mPart" dbtype="query">
 							select * from parts where sampled_from_obj_id is null order by part_name
-						</cfquery>
+						</cfquery>--->
 		<!---				<cfset ctPart.ct=''>
 						<cfquery name="ctPart" dbtype="query">
 						select count(*) as ct from parts group by lot_count order by part_name
@@ -845,8 +850,8 @@ limitations under the License.
 		<!---						</div>
 							</div>
 						</div>--->
-					</cfif>
-				</cfoutput> 
+			<!---		</cfif>
+				</cfoutput> --->
 
 				
 				<!------------------------------------ attributes ----------------------------------------->
