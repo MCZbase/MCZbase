@@ -329,7 +329,29 @@ limitations under the License.
 				 and ctrel.rel_type <> 'functional'
 			)
 		</cfquery>
-
+    <cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                    SELECT
+                        citation.type_status,
+                        citation.occurs_page_number,
+                        citation.citation_page_uri,
+                        citation.CITATION_REMARKS,
+                        cited_taxa.scientific_name as cited_name,
+                        cited_taxa.taxon_name_id as cited_name_id,
+                        formatted_publication.formatted_publication,
+                        formatted_publication.publication_id,
+                        cited_taxa.taxon_status as cited_name_status
+                    from
+                        citation,
+                        taxonomy cited_taxa,
+                        formatted_publication
+                    where
+                        citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
+                        citation.publication_id = formatted_publication.publication_id AND
+                        format_style='short' and
+                        citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+                    order by
+                        substr(formatted_publication, - 4)
+                </cfquery>
 	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -553,7 +575,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!----------------------------- Citatons new ----------------------------------> 
-			<cfif len(citations) gt 0>
+			<cfif len(citations.collection_object_id) gt 0>
                     <div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
