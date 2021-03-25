@@ -626,7 +626,7 @@ limitations under the License.
                         <cfset i=#i#+1>
                         </cfif>
                         </cfloop>
-                            <div class="container-fluid">
+                            <div class="container-fluid mt-4">
                        <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
                     
