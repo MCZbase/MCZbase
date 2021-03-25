@@ -412,7 +412,7 @@ limitations under the License.
 	<cfthread name="getPartsThread">
 		<cfoutput>
 			<cftry>
-                            <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 									specimen_part.collection_object_id part_id,
 									Case
@@ -508,7 +508,7 @@ limitations under the License.
                 <cfquery name="ctPart" dbtype="query">
                 select count(*) as ct from parts group by lot_count order by part_name
                 </cfquery>
-                 <table class="table border-bottom mb-0">
+                <table class="table border-bottom mb-0">
 											<thead>
 												<tr class="bg-light">
 													<th><span>Part Name</span></th>
