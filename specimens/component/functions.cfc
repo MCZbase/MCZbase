@@ -627,7 +627,7 @@ limitations under the License.
                         </cfif>
                         </cfloop>
                             <div class="container-fluid mt-4">
-                       <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getCtDoc('ctcoll_other_id_type','')"></i></h1>
+                       <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getMCZDoc('Add/Edit_an_identifier_number')"></i></h1>
                             <form name="newOID" method="post" action="editIdentifiers.cfm">
                     
                                 <div class="row mx-0">
