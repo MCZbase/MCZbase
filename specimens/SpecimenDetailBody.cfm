@@ -575,7 +575,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!----------------------------- Citatons new ----------------------------------> 
-			<cfif isDefined(citations.collection_object_id)>
+		
                     <div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
@@ -601,9 +601,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-                <cfelse>
-                    nothing to see here
-            </cfif>
+         
 			<!------------------------------------ other identifiers ---------------------------------->
  
 				<div class="accordion" id="accordionOtherID">
