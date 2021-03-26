@@ -1050,8 +1050,7 @@ limitations under the License.
 		accn.transaction_id = trans.transaction_id(+) AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-                <cfoutput query="one">
-		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
+ 
                 <cfif len(locality_coll.collection_object_id) gt 0>
 				        <div class="col-5 pl-0 pr-3 mb-2 float-right">
 							<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
@@ -1170,7 +1169,7 @@ limitations under the License.
 										</div>
 				        <div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
                 </cfif>
-                                    </cfoutput>
+                              
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
