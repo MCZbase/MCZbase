@@ -1137,6 +1137,9 @@ limitations under the License.
 							$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 						});
 					});
+					$(document).ready(function() {
+						loadGrid();
+					});
 				</script>
 
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
