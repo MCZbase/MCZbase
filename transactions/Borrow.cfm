@@ -857,7 +857,7 @@ limitations under the License.
 						</form>
 					</div>
 					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
+						<!--- TODO: refactor upload csv to use ajax and a backing method --->
 						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
 						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="getFile">
@@ -869,10 +869,10 @@ limitations under the License.
 						</cfform>
 					</div>
 					<div class="col-12 pt-3 pb-1">
-						<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
-						<div id="template" style="display:none;">
-							<label for="t">Copy the following code and save as a .csv file</label>
-							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+						<p><span class="data-entry-label" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
+						<div id="template" style="display:none;" class="w-100">
+							<label for="t" class="data-entry-label">Copy the following code and save as a .csv file</label>
+							<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 						</div>
 						<script>
 							function toggleTemplate() {
