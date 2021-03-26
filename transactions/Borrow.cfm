@@ -913,6 +913,153 @@ limitations under the License.
 						$(document).ready(loadBorrowItems(#transaction_id#));
 					</script>
 				</section>
+				<!--- TODO: Edtable JQXgrid. --->
+				<section class="container-fluid">
+					<div class="row">
+						<div class="col-12 mb-5">
+							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+							<h1 class="h4">Borrow Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
+								<div id="columnPickDialog">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-12 col-md-6">
+												<div id="columnPick" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div id="columnPick1" class="px-1"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0 mx-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<script>
+					$(document).ready(function() {
+	
+						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+						$('##resultCount').html('');
+						$('##resultLink').html('');
+	
+						var search =
+							{
+							datatype: "json",
+							datafields:
+								[
+								{ name: 'transaction_id', type: 'string' },
+								{ name: 'borrow_item_id', type: 'string' },
+								{ name: 'catalog_number', type: 'string' },
+								{ name: 'sci_name', type: 'string' },
+								{ name: 'no_of_spec', type: 'string' },
+								{ name: 'spec_prep', type: 'string' },
+								{ name: 'type_status', type: 'string' },
+								{ name: 'country_of_origin', type: 'string' },
+								{ name: 'object_remarks', type: 'string' }
+								],
+							updaterow: function (rowid, rowdata, commit) {
+								var data = "method=updateBorrowItem"
+								data = data + "&transaction_id=" + rowdata.transaction_id
+								$.ajax({
+									dataType: 'json',
+									url: '/transactions/component/borrowFunctions.cfc',
+									data: data,
+										success: function (data, status, xhr) {
+										commit(true);
+									},
+									error: function (jqXHR,textStatus,error) {
+										commit(false);
+										handleFail(jqXHR,textStatus,error,"saving borrow item");
+									}
+								});
+							},
+							root: 'borrowItemRecord',
+							id: 'borrow_item_id',
+							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
+							timeout: 30000, // units not specified, miliseconds? 
+							loadError: function(jqXHR, textStatus, error) { 
+								handleFail(jqXHR,textStatus,error,"loading borrow items");
+							},
+							async: true
+						};
+	
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+						var details = $($(parentElement).children()[0]);
+						details.html("<div id='rowDetailsTarget" + index + "'></div>");
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+					};
+	
+					$("##searchResultsGrid").jqxGrid({
+						width: '100%',
+						autoheight: 'true',
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: true,
+						pagesize: 50,
+						pagesizeoptions: ['5','50','100'],
+						showaggregates: true,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						autoshowloadelement: false, // overlay acts as load element for form+results
+						columnsreorder: true,
+						groupable: true,
+						selectionmode: 'singlerow',
+						altrows: true,
+						showtoolbar: false,
+						ready: function () {
+							$("##searchResultsGrid").jqxGrid('selectrow', 0);
+						},
+						columns: [
+							{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
+							{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: true },
+							{text: 'Catalog Number', datafield: 'catalog_number', width:120, hideable: true, hidden: false },
+							{text: 'Scientific Name', datafield: 'sci_name', width:120, hideable: true, hidden: false },
+							{text: 'No. of Specimens', datafield: 'no_of_spec', width:120, hideable: true, hidden: false },
+							{text: 'Parts/Prep', datafield: 'spec_prep', width:120, hideable: true, hidden: false },
+							{text: 'Type Status', datafield: 'type_status', width:120, hideable: true, hidden: false },
+							{text: 'Country of Origin', datafield: 'country_of_origin', width:120, hideable: true, hidden: false },
+							{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
+						],
+						rowdetails: true,
+						rowdetailstemplate: {
+							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+							rowdetailsheight: 1 // row details will be placed in popup dialog
+						},
+						initrowdetails: initRowDetails
+					});
+					$("##searchResultsGrid").on("bindingcomplete", function(event) {
+						gridLoaded('searchResultsGrid','borrow item');
+					});
+					$('##searchResultsGrid').on('rowexpand', function (event) {
+						// Create a content div, add it to the detail row, and make it into a dialog.
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						var datarecord = args.owner.source.records[rowIndex];
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					});
+					$('##searchResultsGrid').on('rowcollapse', function (event) {
+						// remove the dialog holding the row details
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+					});
+				</script>
+
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
