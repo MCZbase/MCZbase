@@ -443,6 +443,10 @@ limitations under the License.
 											<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
+										<div class="col-md-2">
+											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecific Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
+										</div>
 									</div>
 									<div class="form-row mb-0">
 										<div class="col-md-2">
@@ -457,6 +461,20 @@ limitations under the License.
 											<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
 											<input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#subphylum#" placeholder="subphylum">
 										</div>
+										<div class="col-md-3">&nbsp;
+										</div>
+										<div class="col-md-3">
+											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+												<option></option>
+												<cfloop query="ctnomenclatural_code">
+													<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
 											<input type="small" class="data-entry-input" id="superclass" name="superclass" value="#superclass#" placeholder="superclass">
@@ -465,13 +483,25 @@ limitations under the License.
 											<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
 											<input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#phylclass#" placeholder="class">
 										</div>
-										<div class="col-md-1">
+										<div class="col-md-2">
 											<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#subclass#" placeholder="subclass">
 										</div>
-										<div class="col-md-1">
+										<div class="col-md-2">
 											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
+										</div>
+										<div class="col-md-1">&nbsp;
+										</div>
+										<div class="col-md-3">
+											<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+											<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+												<option></option>
+												<cfloop query="CTTAXONOMIC_AUTHORITY">
+													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#source_authority#" #selected#>#source_authority#</option>
+												</cfloop>
+											</select>
 										</div>
 									</div>
 									<div class="form-row mb-0">
@@ -490,6 +520,18 @@ limitations under the License.
 										<div class="col-md-2">
 											<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
+										</div>
+										<div class="col-md-1">&nbsp;
+										</div>
+										<div class="col-md-3">
+											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+												<option></option>
+												<cfloop query="cttaxon_status">
+													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#taxon_status#" #selected#>#taxon_status#</option>
+												</cfloop>
+											</select>
 										</div>
 									</div>
 									<div class="form-row mb-0">
@@ -512,42 +554,6 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
-										</div>
-									</div>
-									<div class="form-row mb-3 mt-1">
-										<div class="col-md-3">
-											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-												<option></option>
-												<cfloop query="ctnomenclatural_code">
-													<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-											<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-												<option></option>
-												<cfloop query="CTTAXONOMIC_AUTHORITY">
-													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#source_authority#" #selected#>#source_authority#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
-											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-												<option></option>
-												<cfloop query="cttaxon_status">
-													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#taxon_status#" #selected#>#taxon_status#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecific Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
-											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
 										</div>
 									</div>
 									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
