@@ -808,12 +808,12 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Edit</button>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collecting_event_id#,'localityDialog','#guid#',reloadLocality)">Edit</button>
 							</cfif>
 						</div>
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 							<div class="card-body mb-2 float-left" id="localityCardBody">
-								<cfset block = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+								<cfset block = getLocalityHTML(collecting_event_id = "#collecting_event_id#")>
 								#block#
 							</div>
 						</div>
