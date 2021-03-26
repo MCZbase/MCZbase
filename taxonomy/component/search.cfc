@@ -144,6 +144,8 @@ limitations under the License.
 						AND upper(taxonomy.kingdom) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(kingdom,len(kingdom)-1))#">
 					<cfelseif kingdom is "NULL">
 						AND upper(taxonomy.kingdom) is null
+					<cfelseif kingdom is "NOT NULL">
+						AND upper(taxonomy.kingdom) is not null
 					<cfelse>
 						<cfif find(',',kingdom) GT 0>
 							AND upper(taxonomy.kingdom) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(kingdom)#" list="yes"> )
@@ -159,6 +161,8 @@ limitations under the License.
 						AND upper(taxonomy.phylum) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylum,len(phylum)-1))#">
 					<cfelseif phylum is "NULL">
 						AND upper(taxonomy.phylum) is null
+					<cfelseif phylum is "NOT NULL">
+						AND upper(taxonomy.phylum) is not null
 					<cfelse>
 						<cfif find(',',phylum) GT 0>
 							AND upper(taxonomy.phylum) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylum)#" list="yes"> )
@@ -174,6 +178,8 @@ limitations under the License.
 						AND upper(taxonomy.subphylum) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subphylum,len(subphylum)-1))#">
 					<cfelseif subphylum is "NULL">
 						AND upper(taxonomy.subphylum) is null
+					<cfelseif subphylum is "NOT NULL">
+						AND upper(taxonomy.subphylum) is not null
 					<cfelse>
 						<cfif find(',',subphylum) GT 0>
 							AND upper(taxonomy.subphylum) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subphylum)#" list="yes"> )
@@ -189,6 +195,8 @@ limitations under the License.
 						AND upper(taxonomy.superclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superclass,len(superclass)-1))#">
 					<cfelseif superclass is "NULL">
 						AND upper(taxonomy.superclass) is null
+					<cfelseif superclass is "NOT NULL">
+						AND upper(taxonomy.superclass) is not null
 					<cfelse>
 						<cfif find(',',superclass) GT 0>
 							AND upper(taxonomy.superclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superclass)#" list="yes"> )
@@ -204,6 +212,8 @@ limitations under the License.
 						AND upper(taxonomy.phylclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">
 					<cfelseif phylclass is "NULL">
 						AND upper(taxonomy.phylclass) is null
+					<cfelseif phylclass is "NOT NULL">
+						AND upper(taxonomy.phylclass) is not null
 					<cfelse>
 						<cfif find(',',phylclass) GT 0>
 							AND upper(taxonomy.phylclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylclass)#" list="yes"> )
@@ -219,6 +229,8 @@ limitations under the License.
 						AND upper(taxonomy.subclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subclass,len(subclass)-1))#">
 					<cfelseif subclass is "NULL">
 						AND upper(taxonomy.subclass) is null
+					<cfelseif subclass is "NOT NULL">
+						AND upper(taxonomy.subclass) is not null
 					<cfelse>
 						<cfif find(',',subclass) GT 0>
 							AND upper(taxonomy.subclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subclass)#" list="yes"> )
@@ -234,6 +246,8 @@ limitations under the License.
 						AND upper(taxonomy.infraclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
 					<cfelseif infraclass is "NULL">
 						AND upper(taxonomy.infraclass) is null
+					<cfelseif infraclass is "NOT NULL">
+						AND upper(taxonomy.infraclass) is not null
 					<cfelse>
 						<cfif find(',',infraclass) GT 0>
 							AND upper(taxonomy.infraclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(infraclass)#" list="yes"> )
@@ -249,6 +263,8 @@ limitations under the License.
 						AND upper(taxonomy.superorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superorder,len(superorder)-1))#">
 					<cfelseif superorder is "NULL">
 						AND upper(taxonomy.superorder) is null
+					<cfelseif superorder is "NOT NULL">
+						AND upper(taxonomy.superorder) is not null
 					<cfelse>
 						<cfif find(',',superorder) GT 0>
 							AND upper(taxonomy.superorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superorder)#" list="yes"> )
@@ -264,6 +280,8 @@ limitations under the License.
 						AND upper(taxonomy.phylorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylorder,len(phylorder)-1))#">
 					<cfelseif phylorder is "NULL">
 						AND upper(taxonomy.phylorder) is null
+					<cfelseif phylorder is "NOT NULL">
+						AND upper(taxonomy.phylorder) is not null
 					<cfelse>
 						<cfif find(',',phylorder) GT 0>
 							AND upper(taxonomy.phylorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(phylorder)#" list="yes"> )
@@ -279,6 +297,8 @@ limitations under the License.
 						AND upper(taxonomy.suborder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suborder,len(suborder)-1))#">
 					<cfelseif suborder is "NULL">
 						AND upper(taxonomy.suborder) is null
+					<cfelseif suborder is "NOT NULL">
+						AND upper(taxonomy.suborder) is not null
 					<cfelse>
 						<cfif find(',',suborder) GT 0>
 							AND upper(taxonomy.suborder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(suborder)#" list="yes"> )
@@ -294,6 +314,8 @@ limitations under the License.
 						AND upper(taxonomy.infraorder) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraorder,len(infraorder)-1))#">
 					<cfelseif infraorder is "NULL">
 						AND upper(taxonomy.infraorder) is null
+					<cfelseif infraorder is "NOT NULL">
+						AND upper(taxonomy.infraorder) is not null
 					<cfelse>
 						<cfif find(',',infraorder) GT 0>
 							AND upper(taxonomy.infraorder) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(infraorder)#" list="yes"> )
@@ -309,6 +331,8 @@ limitations under the License.
 						AND upper(taxonomy.superfamily) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(superfamily,len(superfamily)-1))#">
 					<cfelseif superfamily is "NULL">
 						AND upper(taxonomy.superfamily) is null
+					<cfelseif superfamily is "NOT NULL">
+						AND upper(taxonomy.superfamily) is not null
 					<cfelse>
 						<cfif find(',',superfamily) GT 0>
 							AND upper(taxonomy.superfamily) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(superfamily)#" list="yes"> )
@@ -324,6 +348,8 @@ limitations under the License.
 						AND upper(taxonomy.family) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(family,len(family)-1))#">
 					<cfelseif family is "NULL">
 						AND upper(taxonomy.family) is null
+					<cfelseif family is "NOT NULL">
+						AND upper(taxonomy.family) is not null
 					<cfelse>
 						<cfif find(',',family) GT 0>
 							AND upper(taxonomy.family) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(family)#" list="yes"> )
@@ -339,6 +365,8 @@ limitations under the License.
 						AND upper(taxonomy.subfamily) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subfamily,len(subfamily)-1))#">
 					<cfelseif subfamily is "NULL">
 						AND upper(taxonomy.subfamily) is null
+					<cfelseif subfamily is "NOT NULL">
+						AND upper(taxonomy.subfamily) is not null
 					<cfelse>
 						<cfif find(',',subfamily) GT 0>
 							AND upper(taxonomy.subfamily) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subfamily)#" list="yes"> )
@@ -354,6 +382,8 @@ limitations under the License.
 						AND upper(taxonomy.tribe) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(tribe,len(tribe)-1))#">
 					<cfelseif tribe is "NULL">
 						AND upper(taxonomy.tribe) is null
+					<cfelseif tribe is "NOT NULL">
+						AND upper(taxonomy.tribe) is not null
 					<cfelse>
 						<cfif find(',',tribe) GT 0>
 							AND upper(taxonomy.tribe) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(tribe)#" list="yes"> )
@@ -369,6 +399,8 @@ limitations under the License.
 						AND upper(taxonomy.genus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
 					<cfelseif genus is "NULL">
 						AND upper(taxonomy.genus) is null
+					<cfelseif genus is "NOT NULL">
+						AND upper(taxonomy.genus) is not null
 					<cfelse>
 						<cfif find(',',genus) GT 0>
 							AND upper(taxonomy.genus) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(genus)#" list="yes"> )
@@ -384,6 +416,8 @@ limitations under the License.
 						AND upper(taxonomy.subgenus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
 					<cfelseif subgenus is "NULL">
 						AND upper(taxonomy.subgenus) is null
+					<cfelseif subgenus is "NOT NULL">
+						AND upper(taxonomy.subgenus) is not null
 					<cfelse>
 						<cfif find(',',subgenus) GT 0>
 							AND upper(taxonomy.subgenus) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subgenus)#" list="yes"> )
@@ -399,6 +433,8 @@ limitations under the License.
 						AND upper(taxonomy.species) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif species is "NULL">
 						AND upper(taxonomy.species) is null
+					<cfelseif species is "NOT NULL">
+						AND upper(taxonomy.species) is not null
 					<cfelse>
 						<cfif find(',',species) GT 0>
 							AND upper(taxonomy.species) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(species)#" list="yes"> )
@@ -414,6 +450,8 @@ limitations under the License.
 						AND upper(taxonomy.subspecies) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif subspecies is "NULL">
 						AND upper(taxonomy.subspecies) is null
+					<cfelseif subspecies is "NOT NULL">
+						AND upper(taxonomy.subspecies) is not null
 					<cfelse>
 						<cfif find(',',subspecies) GT 0>
 							AND upper(taxonomy.subspecies) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subspecies)#" list="yes"> )
@@ -429,8 +467,23 @@ limitations under the License.
 						AND upper(taxonomy.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif author_text is "NULL">
 						AND upper(taxonomy.author_text) is null
+					<cfelseif author_text is "NOT NULL">
+						AND upper(taxonomy.author_text) is not null
 					<cfelse>
 						AND upper(taxonomy.author_text) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author_text)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("infraspecific_author") AND len(infraspecific_author) gt 0>
+					<cfif left(infraspecific_author,1) is "=">
+						AND upper(taxonomy.infraspecific_author) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
+					<cfelseif left(infraspecific_author,1) is "!">
+						AND upper(taxonomy.infraspecific_author) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
+					<cfelseif infraspecific_author is "NULL">
+						AND upper(taxonomy.infraspecific_author) is null
+					<cfelseif infraspecific_author is "NOT NULL">
+						AND upper(taxonomy.infraspecific_author) is not null
+					<cfelse>
+						AND upper(taxonomy.infraspecific_author) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(infraspecific_author)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("taxon_remarks") AND len(taxon_remarks) gt 0>
@@ -440,6 +493,8 @@ limitations under the License.
 						AND upper(taxonomy.taxon_remarks) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_remarks,len(taxon_remarks)-1))#">
 					<cfelseif taxon_remarks is "NULL">
 						AND upper(taxonomy.taxon_remarks) is null
+					<cfelseif taxon_remarks is "NOT NULL">
+						AND upper(taxonomy.taxon_remarks) is not null
 					<cfelse>
 						AND upper(taxonomy.taxon_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_remarks)#%">
 					</cfif>
