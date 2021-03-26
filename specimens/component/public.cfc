@@ -862,7 +862,7 @@ limitations under the License.
     <cfthread name="getLocalityThread"> <cfoutput>
             <cftry>
                 
-                <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
