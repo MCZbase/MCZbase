@@ -18,7 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 
-<!---   Function getTaxa  --->
+<!--- Function getTaxa  --->
 <cffunction name="getTaxa" access="remote" returntype="any" returnformat="json">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
@@ -29,7 +29,7 @@ limitations under the License.
 	<cfargument name="superclass" type="string" required="no">
 	<cfargument name="phylclass" type="string" required="no">
 	<cfargument name="subclass" type="string" required="no">
-    <cfargument name="infraclass" type="string" required="no">
+	<cfargument name="infraclass" type="string" required="no">
 	<cfargument name="superorder" type="string" required="no">
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="suborder" type="string" required="no">
@@ -68,7 +68,7 @@ limitations under the License.
 				taxonomy.SUPERCLASS,
 				taxonomy.PHYLCLASS,
 				taxonomy.SUBCLASS,
-                taxonomy.INFRACLASS,
+				taxonomy.INFRACLASS,
 				taxonomy.SUPERORDER,
 				taxonomy.PHYLORDER,
 				taxonomy.SUBORDER,
@@ -227,7 +227,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-                <cfif isdefined("infraclass") AND len(infraclass) gt 0>
+					<cfif isdefined("infraclass") AND len(infraclass) gt 0>
 					<cfif left(infraclass,1) is "=">
 						AND upper(taxonomy.infraclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
 					<cfelseif left(infraclass,1) is "!">
@@ -478,7 +478,7 @@ limitations under the License.
 				taxonomy.SUPERCLASS,
 				taxonomy.PHYLCLASS,
 				taxonomy.SUBCLASS,
-                taxonomy.INFRACLASS,
+				taxonomy.INFRACLASS,
 				taxonomy.SUPERORDER,
 				taxonomy.PHYLORDER,
 				taxonomy.SUBORDER,
@@ -558,7 +558,7 @@ Function getPhylumAutocomplete.  Search for phyla by name with a substring match
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				count(*) as ct,
@@ -616,7 +616,7 @@ Function getClassAutocomplete.  Search for taxonomic classes by name with a subs
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT count(*) as ct,
 				phylclass as class
@@ -677,7 +677,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT count(*) as ct,
 				<cfswitch expression="#rank#">
@@ -687,7 +687,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">superclass as name</cfcase>
 					<cfcase value="class">phylclass as name</cfcase>
 					<cfcase value="subclass">subclass as name</cfcase>
-                    <cfcase value="infraclass">infraclass as name</cfcase>
+					<cfcase value="infraclass">infraclass as name</cfcase>
 					<cfcase value="superorder">superorder as name</cfcase>
 					<cfcase value="order">phylorder as name</cfcase>
 					<cfcase value="suborder">suborder as name</cfcase>
@@ -709,7 +709,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">upper (superclass)</cfcase>
 					<cfcase value="class">upper (phylclass)</cfcase>
 					<cfcase value="subclass">upper (subclass)</cfcase>
-                    <cfcase value="infraclass">upper (infraclass)</cfcase>
+					<cfcase value="infraclass">upper (infraclass)</cfcase>
 					<cfcase value="superorder">upper (superorder)</cfcase>
 					<cfcase value="order">upper (phylorder)</cfcase>
 					<cfcase value="suborder">upper (suborder)</cfcase>
@@ -730,7 +730,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">superclass</cfcase>
 					<cfcase value="class">phylclass</cfcase>
 					<cfcase value="subclass">subclass</cfcase>
-                    <cfcase value="infraclass">infraclass</cfcase>
+					<cfcase value="infraclass">infraclass</cfcase>
 					<cfcase value="superorder">superorder</cfcase>
 					<cfcase value="order">phylorder</cfcase>
 					<cfcase value="suborder">suborder</cfcase>
@@ -788,7 +788,7 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT
 				distinct

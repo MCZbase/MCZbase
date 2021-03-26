@@ -60,13 +60,13 @@ limitations under the License.
 </cfquery>
 <cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%taxonomy.taxonid%'
+	from ctguid_type 
+	where applies_to like '%taxonomy.taxonid%'
 </cfquery>
 <cfquery name="ctguid_type_scientificname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%taxonomy.scientificnameid%'
+	from ctguid_type 
+	where applies_to like '%taxonomy.scientificnameid%'
 </cfquery>
 <cfset title="Edit Taxon">
 <cfif !isdefined("subgenus_message")>
@@ -126,9 +126,9 @@ limitations under the License.
 		} 
 	}
 	/** getLowestTaxon 
-    * find the lowest ranking taxon name on the taxonomy form.
-	 * @return the value of the lowest rank filled in field (or set of fields if below generic rank).
-	 */
+	* find the lowest ranking taxon name on the taxonomy form.
+	* @return the value of the lowest rank filled in field (or set of fields if below generic rank).
+	*/
 	function getLowestTaxon() { 
 		var result = "";
 		if ($('##genus').val()!="") { 
@@ -158,7 +158,7 @@ limitations under the License.
 			result = $('##phylorder').val();
 		} else if ($('##superorder').val()!="") { 
 			result = $('##superorder').val();
-        } else if ($('##infraclass').val()!="") { 
+		} else if ($('##infraclass').val()!="") { 
 			result = $('##infraclass').val();
 		} else if ($('##subclass').val()!="") { 
 			result = $('##subclass').val();
@@ -181,7 +181,7 @@ limitations under the License.
 	}
 
 	/** toggleBotanicalVisibility
-    */
+	*/
 	function toggleBotanicalVisibility() { 
 		var ncode = $('##nomenclatural_code').val();
 		if (ncode=='ICNafp' || ncode=='ICBN') { 

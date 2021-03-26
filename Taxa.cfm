@@ -160,7 +160,7 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 			};
-            jQuery("##infraclass").autocomplete({
+			jQuery("##infraclass").autocomplete({
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
@@ -678,7 +678,7 @@ limitations under the License.
 							{ name: 'SUPERCLASS', type: 'string' },
 							{ name: 'PHYLCLASS', type: 'string' },
 							{ name: 'SUBCLASS', type: 'string' },
-                            { name: 'INFRACLASS', type: 'string' },
+							{ name: 'INFRACLASS', type: 'string' },
 							{ name: 'SUPERORDER', type: 'string' },
 							{ name: 'PHYLORDER', type: 'string' },
 							{ name: 'SUBORDER', type: 'string' },
@@ -718,7 +718,7 @@ limitations under the License.
 						timeout: 30000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
-						var message = "";      
+						var message = "";
 							if (error == 'timeout') { 
 						   message = ' Server took too long to respond.';
 							} else { 
@@ -784,7 +784,7 @@ limitations under the License.
 							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
 							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
-                            { text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
 							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
 							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
@@ -990,7 +990,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
-                $("##searchResultsGrid").jqxGrid(action, 'INFRACLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRACLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');
