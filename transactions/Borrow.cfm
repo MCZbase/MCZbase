@@ -1118,12 +1118,12 @@ limitations under the License.
 								$("##searchResultsGrid").jqxGrid('selectrow', 0);
 							},
 							columns: [
-								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
-								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer },
-								{text: 'Catalog Number', datafield: 'catalog_number', width:180, hideable: true, hidden: false },
+								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
+								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+								{text: 'Catalog Number', datafield: 'catalog_number', width:170, hideable: true, hidden: false },
 								{text: 'Scientific Name', datafield: 'sci_name', width:200, hideable: true, hidden: false },
-								{text: 'No. of Specimens', datafield: 'no_of_spec', width:120, hideable: true, hidden: false },
-								{text: 'Parts/Prep', datafield: 'spec_prep', width:200, hideable: true, hidden: false },
+								{text: 'No. of Specimens', datafield: 'no_of_spec', width:130, hideable: true, hidden: false },
+								{text: 'Parts/Prep', datafield: 'spec_prep', width:210, hideable: true, hidden: false },
 								{text: 'Type Status', datafield: 'type_status', width:180, hideable: true, hidden: false },
 								{text: 'Country of Origin', datafield: 'country_of_origin', width:200, hideable: true, hidden: false },
 								{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
