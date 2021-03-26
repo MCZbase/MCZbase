@@ -964,15 +964,16 @@ limitations under the License.
 								{ name: 'object_remarks', type: 'string' }
 								],
 							updaterow: function (rowid, rowdata, commit) {
-								var data = "method=updateBorrowItem"
-								data = data + "&transaction_id=" + rowdata.transaction_id
-								data = data + "&borrow_item_id=" + rowdata.borrow_item_id
-								data = data + "&catalog_number=" + rowdata.catalog_number
-								data = data + "&sci_name=" + rowdata.sci_name
-								data = data + "&no_of_spec=" + rowdata.no_of_spec
-								data = data + "&spec_prep=" + rowdata.spec_prep
-								data = data + "&country_of_origin=" + rowdata.country_of_origin
-								data = data + "&object_remarks=" + rowdata.object_remarks
+								var data = "method=updateBorrowItem";
+								data = data + "&transaction_id=" + rowdata.transaction_id;
+								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
+								data = data + "&catalog_number=" + rowdata.catalog_number;
+								data = data + "&sci_name=" + rowdata.sci_name;
+								data = data + "&no_of_spec=" + rowdata.no_of_spec;
+								data = data + "&type_status=" + rowdata.type_status;
+								data = data + "&spec_prep=" + rowdata.spec_prep;
+								data = data + "&country_of_origin=" + rowdata.country_of_origin;
+								data = data + "&object_remarks=" + rowdata.object_remarks;
 								$.ajax({
 									dataType: 'json',
 									url: '/transactions/component/borrowFunctions.cfc',
