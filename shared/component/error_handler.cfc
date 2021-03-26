@@ -39,3 +39,5 @@ limitations under the License.
 		</div>
 	</cfoutput>
 </cffunction>
+
+<cfcomponent>
