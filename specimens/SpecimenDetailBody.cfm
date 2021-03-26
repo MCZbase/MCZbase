@@ -390,6 +390,9 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
+            <cfquery name="ctmedia">
+                select count(*) as ct from mediaS2 group by media_id order by media_id
+            </cfquery>
             <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 									specimen_part.collection_object_id part_id,
@@ -462,18 +465,20 @@ limitations under the License.
 						</cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-				<div class="accordion" id="accordionE">
+				<div class="accordion" id="accordionMedia">
 					<div class="card bg-light">
-						<div class="card-header mb-2" id="headingTwo">
+						<div class="card-header mb-2" id="headingMedia">
 							<h3 class="h4 my-0 float-left collapsed MediaAccordionShow btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseMedia">Media</a>
 							</h3>
-							<h3 class="h4 my-0 float-left MediaAccordionHide">Media</h3>
+							<h3 class="h4 my-0 float-left MediaAccordionHide">Media
+                                     <span class="text-success small ml-4">(count: #ctmedia.ct# media records)</span>
+                            </h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs py-0 small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
 							</cfif>
 						</div>
-						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
+						<div id="collapseMedia" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
@@ -721,7 +726,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
 							</cfif>
 						</div>
-                        <div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;" class="collapsed show"<cfelse> class="collapse show"</cfif> aria-labelledby="headingParts" data-parent="##accordionParts">
+                        <div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
 								<cfset block = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
