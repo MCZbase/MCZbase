@@ -478,6 +478,7 @@ limitations under the License.
 				taxonomy.SUPERCLASS,
 				taxonomy.PHYLCLASS,
 				taxonomy.SUBCLASS,
+                taxonomy.INFRACLASS,
 				taxonomy.SUPERORDER,
 				taxonomy.PHYLORDER,
 				taxonomy.SUBORDER,
@@ -686,6 +687,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">superclass as name</cfcase>
 					<cfcase value="class">phylclass as name</cfcase>
 					<cfcase value="subclass">subclass as name</cfcase>
+                    <cfcase value="infraclass">infraclass as name</cfcase>
 					<cfcase value="superorder">superorder as name</cfcase>
 					<cfcase value="order">phylorder as name</cfcase>
 					<cfcase value="suborder">suborder as name</cfcase>
@@ -707,6 +709,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">upper (superclass)</cfcase>
 					<cfcase value="class">upper (phylclass)</cfcase>
 					<cfcase value="subclass">upper (subclass)</cfcase>
+                    <cfcase value="infraclass">upper (infraclass)</cfcase>
 					<cfcase value="superorder">upper (superorder)</cfcase>
 					<cfcase value="order">upper (phylorder)</cfcase>
 					<cfcase value="suborder">upper (suborder)</cfcase>
@@ -727,6 +730,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="superclass">superclass</cfcase>
 					<cfcase value="class">phylclass</cfcase>
 					<cfcase value="subclass">subclass</cfcase>
+                    <cfcase value="infraclass">infraclass</cfcase>
 					<cfcase value="superorder">superorder</cfcase>
 					<cfcase value="order">phylorder</cfcase>
 					<cfcase value="suborder">suborder</cfcase>
