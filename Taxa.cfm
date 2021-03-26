@@ -444,7 +444,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
 										<div class="col-md-2">
-											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecific Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+											<label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
 											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
 										</div>
 									</div>
@@ -530,7 +530,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mb-0">
+									<div class="form-row mb-3">
 										<div class="col-md-2">
 											<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
@@ -556,7 +556,7 @@ limitations under the License.
 									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
 									<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-										<button type="button" class="btn btn-xs btn-warning" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+										<button type="button" class="btn btn-xs btn-warning mt-2 mt-md-0" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
 									</cfif>
 								</div>
 							</form>
