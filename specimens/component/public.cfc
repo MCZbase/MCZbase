@@ -999,7 +999,8 @@ limitations under the License.
                     </div>
                 </cfcatch>
             </cftry>
-        </cfoutput> </cfthread>
+        </cfoutput> 
+    </cfthread>
     <cfthread action="join" name="getLocalityThread" />
     <cfreturn getLocalityThread.output>
 </cffunction>
