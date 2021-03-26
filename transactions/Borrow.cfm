@@ -893,6 +893,7 @@ limitations under the License.
 							loadGrid();
 						};
 					</script>
+					<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
@@ -919,74 +920,16 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					</div>
 				</section>
 				<script>
 					$(document).ready(function() {
-	
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 						$('##resultCount').html('');
 						$('##resultLink').html('');
-	
-						var search = {
-							datatype: "json",
-							datafields:
-								[
-								{ name: 'transaction_id', type: 'string' },
-								{ name: 'borrow_item_id', type: 'string' },
-								{ name: 'catalog_number', type: 'string' },
-								{ name: 'sci_name', type: 'string' },
-								{ name: 'no_of_spec', type: 'string' },
-								{ name: 'spec_prep', type: 'string' },
-								{ name: 'type_status', type: 'string' },
-								{ name: 'country_of_origin', type: 'string' },
-								{ name: 'object_remarks', type: 'string' }
-								],
-							updaterow: function (rowid, rowdata, commit) {
-								var data = "method=updateBorrowItem";
-								data = data + "&transaction_id=" + rowdata.transaction_id;
-								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
-								data = data + "&catalog_number=" + rowdata.catalog_number;
-								data = data + "&sci_name=" + rowdata.sci_name;
-								data = data + "&no_of_spec=" + rowdata.no_of_spec;
-								data = data + "&type_status=" + rowdata.type_status;
-								data = data + "&spec_prep=" + rowdata.spec_prep;
-								data = data + "&country_of_origin=" + rowdata.country_of_origin;
-								data = data + "&object_remarks=" + rowdata.object_remarks;
-								$.ajax({
-									dataType: 'json',
-									url: '/transactions/component/borrowFunctions.cfc',
-									data: data,
-										success: function (data, status, xhr) {
-										commit(true);
-									},
-									error: function (jqXHR,textStatus,error) {
-										commit(false);
-										handleFail(jqXHR,textStatus,error,"saving borrow item");
-									}
-								});
-							},
-							root: 'borrowItemRecord',
-							id: 'borrow_item_id',
-							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
-							timeout: 30000, // units not specified, miliseconds? 
-							loadError: function(jqXHR, textStatus, error) { 
-								handleFail(jqXHR,textStatus,error,"loading borrow items");
-							},
-							async: true
-						};
-	
-						var dataAdapter = new $.jqx.dataAdapter(search);
-						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-							// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-							var details = $($(parentElement).children()[0]);
-							details.html("<div id='rowDetailsTarget" + index + "'></div>");
-							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-							// Workaround, expansion sits below row in zindex.
-							var maxZIndex = getMaxZIndex();
-							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-						};
-
 					});
+	
+
 
 					function gridLoaded(gridId, searchType) { 
 						$("##overlay").hide();
@@ -1079,6 +1022,64 @@ limitations under the License.
 					};
 
 					function loadGrid() { 
+						var search = {
+							datatype: "json",
+							datafields:
+								[
+								{ name: 'transaction_id', type: 'string' },
+								{ name: 'borrow_item_id', type: 'string' },
+								{ name: 'catalog_number', type: 'string' },
+								{ name: 'sci_name', type: 'string' },
+								{ name: 'no_of_spec', type: 'string' },
+								{ name: 'spec_prep', type: 'string' },
+								{ name: 'type_status', type: 'string' },
+								{ name: 'country_of_origin', type: 'string' },
+								{ name: 'object_remarks', type: 'string' }
+								],
+							updaterow: function (rowid, rowdata, commit) {
+								var data = "method=updateBorrowItem";
+								data = data + "&transaction_id=" + rowdata.transaction_id;
+								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
+								data = data + "&catalog_number=" + rowdata.catalog_number;
+								data = data + "&sci_name=" + rowdata.sci_name;
+								data = data + "&no_of_spec=" + rowdata.no_of_spec;
+								data = data + "&type_status=" + rowdata.type_status;
+								data = data + "&spec_prep=" + rowdata.spec_prep;
+								data = data + "&country_of_origin=" + rowdata.country_of_origin;
+								data = data + "&object_remarks=" + rowdata.object_remarks;
+								$.ajax({
+									dataType: 'json',
+									url: '/transactions/component/borrowFunctions.cfc',
+									data: data,
+										success: function (data, status, xhr) {
+										commit(true);
+									},
+									error: function (jqXHR,textStatus,error) {
+										commit(false);
+										handleFail(jqXHR,textStatus,error,"saving borrow item");
+									}
+								});
+							},
+							root: 'borrowItemRecord',
+							id: 'borrow_item_id',
+							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
+							timeout: 30000, // units not specified, miliseconds? 
+							loadError: function(jqXHR, textStatus, error) { 
+								handleFail(jqXHR,textStatus,error,"loading borrow items");
+							},
+							async: true
+						};
+	
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+							// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+							var details = $($(parentElement).children()[0]);
+							details.html("<div id='rowDetailsTarget" + index + "'></div>");
+							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+							// Workaround, expansion sits below row in zindex.
+							var maxZIndex = getMaxZIndex();
+							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+						};
 						$("##searchResultsGrid").jqxGrid({
 							width: '100%',
 							autoheight: 'true',
