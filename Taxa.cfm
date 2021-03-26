@@ -159,6 +159,20 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 			};
+            jQuery("##infraclass").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'infraclass' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##superorder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -456,6 +470,10 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mb-0">
+                                        <div class="col-md-2">
+											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
+											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
+										</div>
 										<div class="col-md-2">
 											<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superorder" name="superorder" value="#superorder#" placeholder="superorder">

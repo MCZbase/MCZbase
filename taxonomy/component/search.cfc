@@ -29,6 +29,7 @@ limitations under the License.
 	<cfargument name="superclass" type="string" required="no">
 	<cfargument name="phylclass" type="string" required="no">
 	<cfargument name="subclass" type="string" required="no">
+    <cfargument name="infraclass" type="string" required="no">
 	<cfargument name="superorder" type="string" required="no">
 	<cfargument name="phylorder" type="string" required="no">
 	<cfargument name="suborder" type="string" required="no">
@@ -67,6 +68,7 @@ limitations under the License.
 				taxonomy.SUPERCLASS,
 				taxonomy.PHYLCLASS,
 				taxonomy.SUBCLASS,
+                taxonomy.INFRACLASS,
 				taxonomy.SUPERORDER,
 				taxonomy.PHYLORDER,
 				taxonomy.SUBORDER,
@@ -222,6 +224,21 @@ limitations under the License.
 							AND upper(taxonomy.subclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subclass)#" list="yes"> )
 						<cfelse>
 							AND upper(taxonomy.subclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subclass)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+                <cfif isdefined("infraclass") AND len(infraclass) gt 0>
+					<cfif left(infraclass,1) is "=">
+						AND upper(taxonomy.infraclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
+					<cfelseif left(infraclass,1) is "!">
+						AND upper(taxonomy.infraclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraclass,len(infraclass)-1))#">
+					<cfelseif infraclass is "NULL">
+						AND upper(taxonomy.infraclass) is null
+					<cfelse>
+						<cfif find(',',infraclass) GT 0>
+							AND upper(taxonomy.infraclass) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(infraclass)#" list="yes"> )
+						<cfelse>
+							AND upper(taxonomy.infraclass) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(infraclass)#%">
 						</cfif>
 					</cfif>
 				</cfif>
