@@ -390,7 +390,7 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
-            <cfquery name="ctmedia">
+            <cfquery name="ctmedia"  dbtype="query">>
                 select count(*) as ct from mediaS2 group by media_id order by media_id
             </cfquery>
             <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -472,7 +472,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseMedia">Media</a>
 							</h3>
 							<h3 class="h4 my-0 float-left MediaAccordionHide">Media
-                                     <span class="text-success small ml-4">(count: #ctmedia.ct# parts)</span>
+                                     <span class="text-success small ml-4">(count: #ctmedia.ct# media records)</span>
                             </h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs py-0 small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
