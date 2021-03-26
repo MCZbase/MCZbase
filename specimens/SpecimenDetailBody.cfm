@@ -792,16 +792,15 @@ limitations under the License.
 			</div>
 			<!---  start of column three  --->
 			<div class="col-12 col-md-6 px-1 float-left"> 
+                
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
-				
-				
             <div class="accordion" id="accordionLocality">
 					<div class="card mb-2 bg-light">
 						<div id="LocalityDialog"></div>
 						<script>
 							function reloadLocality() { 
 								// invoke specimen/component/public.cfc function getLocalityHTML via ajax and repopulate the Other ID block.
-								loadLocality(#collection_object_id#,'LocalityCardBody');
+								loadLocality(#collection_object_id#,'localityCardBody');
 							}
 						</script>
 						<div class="card-header" id="headingLocality">
