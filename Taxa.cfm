@@ -461,9 +461,9 @@ limitations under the License.
 											<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
 											<input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#subphylum#" placeholder="subphylum">
 										</div>
-										<div class="col-md-3">&nbsp;
+										<div class="col-md-2">&nbsp;
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
 											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 												<option></option>
@@ -491,9 +491,7 @@ limitations under the License.
 											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
 										</div>
-										<div class="col-md-1">&nbsp;
-										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
 											<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 												<option></option>
@@ -521,9 +519,7 @@ limitations under the License.
 											<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
 										</div>
-										<div class="col-md-1">&nbsp;
-										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
 											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 												<option></option>
