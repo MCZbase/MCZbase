@@ -861,7 +861,7 @@ limitations under the License.
     <cfargument name="collection_object_id" type="string" required="yes">
     <cfthread name="getLocalityThread"> <cfoutput>
             <cftry>
-                <cfif len(one.collection_object_id) gt 0>
+                <cfif len(collection_object_id) gt 0>
 				        <div class="col-5 pl-0 pr-3 mb-2 float-right">
 							<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
 								<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
