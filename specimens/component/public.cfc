@@ -861,107 +861,9 @@ limitations under the License.
     <cfargument name="collection_object_id" type="string" required="yes">
     <cfthread name="getLocalityThread"> <cfoutput>
             <cftry>
-                <cfquery name="locality_coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		cataloged_item.collection_object_id as collection_object_id,
-		cataloged_item.cat_num,
-		collection.collection_cde,
-		cataloged_item.accn_id,
-		collection.collection,
-		identification.scientific_name,
-		identification.identification_remarks,
-		identification.identification_id,
-		identification.made_date,
-		identification.nature_of_id,
-		collecting_event.collecting_event_id,
-collecting_event.verbatim_date,
-		collecting_event.startDayOfYear,
-		collecting_event.endDayOfYear,
-		collecting_event.habitat_desc,
-		locality.locality_id,
-		locality.minimum_elevation,
-		locality.maximum_elevation,
-		locality.orig_elev_units,
-		locality.sovereign_nation,
-		collecting_event.verbatimcoordinates,
-		collecting_event.verbatimlatitude verblat,
-		collecting_event.verbatimlongitude verblong,
-		collecting_event.verbatimcoordinatesystem,
-		collecting_event.verbatimSRS,
-		accepted_lat_long.dec_lat,
-		accepted_lat_long.dec_long,
-		accepted_lat_long.max_error_distance,
-		accepted_lat_long.max_error_units,
-		accepted_lat_long.determined_date latLongDeterminedDate,
-		accepted_lat_long.lat_long_ref_source,
-		accepted_lat_long.lat_long_remarks,
-		accepted_lat_long.datum,
-		latLongAgnt.agent_name latLongDeterminer,
-		geog_auth_rec.geog_auth_rec_id,
-		geog_auth_rec.continent_ocean,
-		geog_auth_rec.country,
-		geog_auth_rec.state_prov,
-		geog_auth_rec.quad,
-		geog_auth_rec.county,
-		geog_auth_rec.island,
-		geog_auth_rec.island_group,
-		geog_auth_rec.sea,
-		geog_auth_rec.feature,
-		coll_object.coll_object_entered_date,
-		coll_object.last_edit_date,
-		coll_object.flags,
-		coll_object_remark.coll_object_remarks,
-		coll_object_remark.disposition_remarks,
-		coll_object_remark.associated_species,
-		coll_object_remark.habitat,
-		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
-		accn_number accession,
-		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-		end locality_remarks,
-		end verbatim_locality,
-		collecting_time,
-		fish_field_number,
-		min_depth,
-		max_depth,
-		depth_units,
-		collecting_method,
-		collecting_source
-	FROM
-		cataloged_item,
-		collection,
-		identification,
-		collecting_event,
-		locality,
-		accepted_lat_long,
-		preferred_agent_name latLongAgnt,
-		geog_auth_rec,
-		coll_object,
-		coll_object_remark,
-		preferred_agent_name enteredPerson,
-		preferred_agent_name editedPerson,
-		accn,
-		trans
-	WHERE
-		cataloged_item.collection_id = collection.collection_id AND
-		cataloged_item.collection_object_id = identification.collection_object_id AND
-		identification.accepted_id_fg = 1 AND
-		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-		collecting_event.locality_id = locality.locality_id  AND
-		locality.locality_id = accepted_lat_long.locality_id (+) AND
-		accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-		cataloged_item.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-		coll_object.entered_person_id = enteredPerson.agent_id AND
-		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-		cataloged_item.accn_id =  accn.transaction_id  AND
-		accn.transaction_id = trans.transaction_id(+) AND
-		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
+      
  
-                <cfif len(locality_coll.locality_id) gt 0>
+
 				        <div class="col-5 pl-0 pr-3 mb-2 float-right">
 							<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
 								<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1078,7 +980,7 @@ collecting_event.verbatim_date,
 								</ul>
 										</div>
 				        <div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
-                </cfif>
+   
                               
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
