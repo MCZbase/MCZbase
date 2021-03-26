@@ -859,6 +859,7 @@ limitations under the License.
 </cffunction>
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
     <cfargument name="collection_object_id" type="string" required="yes">
+    <cfargument name="locality_id" type="string" required="yes">
     <cfthread name="getLocalityThread"> <cfoutput>
             <cftry>
                 <cfif len(one.locality_id) gt 0>
@@ -929,7 +930,7 @@ limitations under the License.
 										</ul>
 									</div>
                         <div class="col-12 float-left px-0">
-										<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+				                <ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
 									<cfif len(one.spec_locality) gt 0>
 										<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
 										<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
