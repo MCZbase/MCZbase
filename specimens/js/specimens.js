@@ -199,6 +199,23 @@ function loadParts(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
+function loadLocality(collecting_event_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getLocalityHTML",
+			collecting_event_id: collecting_event_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading locality");
+		},
+		dataType: "html"
+	});
+}
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
