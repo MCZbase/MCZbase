@@ -999,64 +999,64 @@ limitations under the License.
 							var maxZIndex = getMaxZIndex();
 							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 						};
-					};
 	
-					$("##searchResultsGrid").jqxGrid({
-						width: '100%',
-						autoheight: 'true',
-						source: dataAdapter,
-						filterable: true,
-						sortable: true,
-						pageable: true,
-						editable: true,
-						pagesize: 50,
-						pagesizeoptions: ['5','50','100'],
-						showaggregates: true,
-						columnsresize: true,
-						autoshowfiltericon: true,
-						autoshowcolumnsmenubutton: false,
-						autoshowloadelement: false, // overlay acts as load element for form+results
-						columnsreorder: true,
-						groupable: true,
-						selectionmode: 'singlerow',
-						altrows: true,
-						showtoolbar: false,
-						ready: function () {
-							$("##searchResultsGrid").jqxGrid('selectrow', 0);
-						},
-						columns: [
-							{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
-							{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: true },
-							{text: 'Catalog Number', datafield: 'catalog_number', width:120, hideable: true, hidden: false },
-							{text: 'Scientific Name', datafield: 'sci_name', width:120, hideable: true, hidden: false },
-							{text: 'No. of Specimens', datafield: 'no_of_spec', width:120, hideable: true, hidden: false },
-							{text: 'Parts/Prep', datafield: 'spec_prep', width:120, hideable: true, hidden: false },
-							{text: 'Type Status', datafield: 'type_status', width:120, hideable: true, hidden: false },
-							{text: 'Country of Origin', datafield: 'country_of_origin', width:120, hideable: true, hidden: false },
-							{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
-						],
-						rowdetails: true,
-						rowdetailstemplate: {
-							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-							rowdetailsheight: 1 // row details will be placed in popup dialog
-						},
-						initrowdetails: initRowDetails
-					});
-					$("##searchResultsGrid").on("bindingcomplete", function(event) {
-						gridLoaded('searchResultsGrid','borrow item');
-					});
-					$('##searchResultsGrid').on('rowexpand', function (event) {
-						// Create a content div, add it to the detail row, and make it into a dialog.
-						var args = event.args;
-						var rowIndex = args.rowindex;
-						var datarecord = args.owner.source.records[rowIndex];
-						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-					});
-					$('##searchResultsGrid').on('rowcollapse', function (event) {
-						// remove the dialog holding the row details
-						var args = event.args;
-						var rowIndex = args.rowindex;
-						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+						$("##searchResultsGrid").jqxGrid({
+							width: '100%',
+							autoheight: 'true',
+							source: dataAdapter,
+							filterable: true,
+							sortable: true,
+							pageable: true,
+							editable: true,
+							pagesize: 50,
+							pagesizeoptions: ['5','50','100'],
+							showaggregates: true,
+							columnsresize: true,
+							autoshowfiltericon: true,
+							autoshowcolumnsmenubutton: false,
+							autoshowloadelement: false, // overlay acts as load element for form+results
+							columnsreorder: true,
+							groupable: true,
+							selectionmode: 'singlerow',
+							altrows: true,
+							showtoolbar: false,
+							ready: function () {
+								$("##searchResultsGrid").jqxGrid('selectrow', 0);
+							},
+							columns: [
+								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
+								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: true },
+								{text: 'Catalog Number', datafield: 'catalog_number', width:120, hideable: true, hidden: false },
+								{text: 'Scientific Name', datafield: 'sci_name', width:120, hideable: true, hidden: false },
+								{text: 'No. of Specimens', datafield: 'no_of_spec', width:120, hideable: true, hidden: false },
+								{text: 'Parts/Prep', datafield: 'spec_prep', width:120, hideable: true, hidden: false },
+								{text: 'Type Status', datafield: 'type_status', width:120, hideable: true, hidden: false },
+								{text: 'Country of Origin', datafield: 'country_of_origin', width:120, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
+							],
+							rowdetails: true,
+							rowdetailstemplate: {
+								rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+								rowdetailsheight: 1 // row details will be placed in popup dialog
+							},
+							initrowdetails: initRowDetails
+						});
+						$("##searchResultsGrid").on("bindingcomplete", function(event) {
+							gridLoaded('searchResultsGrid','borrow item');
+						});
+						$('##searchResultsGrid').on('rowexpand', function (event) {
+							// Create a content div, add it to the detail row, and make it into a dialog.
+							var args = event.args;
+							var rowIndex = args.rowindex;
+							var datarecord = args.owner.source.records[rowIndex];
+							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+						});
+						$('##searchResultsGrid').on('rowcollapse', function (event) {
+							// remove the dialog holding the row details
+							var args = event.args;
+							var rowIndex = args.rowindex;
+							$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+						});
 					});
 				</script>
 
