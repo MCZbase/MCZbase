@@ -152,7 +152,7 @@ limitations under the License.
 					borrow_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">
 					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfif updateBorrow_Item_result.recordcount NEQ 0>
+			<cfif updateBorrow_Item_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #borrow_item_id# #updateBorrow_Item_result.sql#">
 			</cfif>
 			<cfif updateBorrow_Item_result.recordcount eq 1>
