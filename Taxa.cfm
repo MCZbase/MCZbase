@@ -465,16 +465,16 @@ limitations under the License.
 											<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
 											<input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#phylclass#" placeholder="class">
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-1">
 											<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#subclass#" placeholder="subclass">
 										</div>
-									</div>
-									<div class="form-row mb-0">
-                                        <div class="col-md-2">
+										<div class="col-md-1">
 											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
 										</div>
+									</div>
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superorder" name="superorder" value="#superorder#" placeholder="superorder">
