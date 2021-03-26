@@ -814,4 +814,193 @@ limitations under the License.
     <cfthread action="join" name="getAttributesThread" />
     <cfreturn getAttributesThread.output>
 </cffunction>
+<cffunction name="getRelationsHTML" returntype="string" access="remote" returnformat="plain">
+    <cfargument name="collection_object_id" type="string" required="yes">
+    <cfthread name="getRelationsThread"> <cfoutput>
+            <cftry>
+
+                <cfif len(relns.biol_indiv_relationship) gt 0 >
+                            <ul class="list-group list-group-flush float-left">
+								<cfloop query="relns">
+									<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+											(Remark: #biol_indiv_relation_remarks#)
+										</cfif>
+									</li>
+								</cfloop>
+								<cfif len(relns.biol_indiv_relationship) gt 0>
+									<li class="pb-1"> <a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
+								</cfif>
+							</ul>
+                </cfif>
+                <cfcatch>
+                    <cfif isDefined("cfcatch.queryError") >
+                        <cfset queryError=cfcatch.queryError>
+                        <cfelse>
+                        <cfset queryError = ''>
+                    </cfif>
+                    <cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+                    <cfcontent reset="yes">
+                    <cfheader statusCode="500" statusText="#message#">
+                    <div class="container">
+                        <div class="row">
+                            <div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+                                <h2>Internal Server Error.</h2>
+                                <p>#message#</p>
+                                <p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </cfcatch>
+            </cftry>
+        </cfoutput> </cfthread>
+    <cfthread action="join" name="getRelationsThread" />
+    <cfreturn getRelationsThread.output>
+</cffunction>
+<cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
+    <cfargument name="collection_object_id" type="string" required="yes">
+    <cfthread name="getLocalityThread"> <cfoutput>
+            <cftry>
+                <cfif len(one.locality_id) gt 0>
+				        <div class="col-5 pl-0 pr-3 mb-2 float-right">
+							<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
+								<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                    select  spec_locality, geog_auth_rec_id from locality
+                                    where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+                                </cfquery>
+                                <cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                    select higher_geog from geog_auth_rec where
+                                    geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+                                </cfquery>
+								<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                    SELECT 
+                                        media_id 
+                                    FROM 
+                                        media_relations 
+                                    WHERE 
+                                        RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+                                        MEDIA_RELATIONSHIP like '% locality'
+                                </cfquery>
+								<cfif len(one.spec_locality) gt 0>
+									<cfif localityMedia.recordcount gt 0>
+										<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
+									</cfif>
+								</cfif>
+									</div>
+				        <div class="col-7 px-0 float-left">
+								<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+									<cfif len(one.continent_ocean) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+										<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
+									</cfif>
+									<cfif len(one.sea) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+										<li class="list-group-item col-7 px-0">#one.sea#</li>
+									</cfif>
+									<cfif len(one.country) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+										<li class="list-group-item col-7 px-0">#one.country#</li>
+									</cfif>
+									<cfif len(one.state_prov) gt 0>
+										<li class="list-group-item col-5 px-0"><em>State:</em></li>
+										<li class="list-group-item col-7 px-0">#one.state_prov#</li>
+									</cfif>
+									<cfif len(one.feature) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+										<li class="list-group-item col-7 px-0">#one.feature#</li>
+									</cfif>
+									<cfif len(one.county) gt 0>
+										<li class="list-group-item col-5 px-0"><em>County:</em></li>
+										<li class="list-group-item col-7 px-0">#one.county#</li>
+									</cfif>
+
+									<cfif len(one.island_group) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+										<li class="list-group-item col-7 px-0">#one.island_group#</li>
+									</cfif>
+									<cfif len(one.island) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+										<li class="list-group-item col-7 px-0">#one.island#</li>
+									</cfif>
+									<cfif len(one.quad) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+										<li class="list-group-item col-7 px-0">#one.quad#</li>
+									</cfif>
+										</ul>
+									</div>
+                        <div class="col-12 float-left px-0">
+										<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+									<cfif len(one.spec_locality) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
+										<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
+									</cfif>
+									<cfif len(one.verbatim_locality) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
+										<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
+									</cfif>
+									<cfif len(one.collecting_source) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
+									</cfif>
+									<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+									<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.began_date#</li>
+									</cfif>
+									<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
+									</cfif>
+									<cfif len(one.verbatim_date) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
+									</cfif>
+									<cfif len(one.verbatimcoordinates) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
+									</cfif>
+									<cfif len(one.collecting_method) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
+									</cfif>
+									<cfif len(one.coll_event_remarks) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
+									</cfif>
+									<cfif len(one.habitat_desc) gt 0>
+										<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
+										<li class="list-group-item col-7 px-0">#one.habitat_desc#</li>
+									</cfif>
+									<cfif len(one.habitat) gt 0>
+										<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
+										<li class="list-group-item col-7 px-0">#one.habitat#</li>
+									</cfif>
+								</ul>
+										</div>
+				        <div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
+                </cfif>
+                <cfcatch>
+                    <cfif isDefined("cfcatch.queryError") >
+                        <cfset queryError=cfcatch.queryError>
+                        <cfelse>
+                        <cfset queryError = ''>
+                    </cfif>
+                    <cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+                    <cfcontent reset="yes">
+                    <cfheader statusCode="500" statusText="#message#">
+                    <div class="container">
+                        <div class="row">
+                            <div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+                                <h2>Internal Server Error.</h2>
+                                <p>#message#</p>
+                                <p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </cfcatch>
+            </cftry>
+        </cfoutput> </cfthread>
+    <cfthread action="join" name="getLocalityThread" />
+    <cfreturn getLocalityThread.output>
+</cffunction>
 </cfcomponent>

@@ -763,36 +763,67 @@ limitations under the License.
 				</div>
 				
 				<!------------------------------------ relationships  ------------------------------------->
-				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<div class="card mb-2">
-						<div class="card-header float-left w-100">
-							<h3 class="h4 my-0 float-left">Relationship</h3>
+                    
+				<div class="accordion" id="accordionRelations">
+					<div class="card mb-2 bg-light">
+						<div id="RelationsDialog"></div>
+						<script>
+							function reloadRelations() { 
+								// invoke specimen/component/public.cfc function getRelationsHTML via ajax and repopulate the Other ID block.
+								loadRelations(#collection_object_id#,'RelationsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingRelations">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##RelationsPane">Relationships</a>
+							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</button>
 							</cfif>
 						</div>
-						<div class="card-body mb-2 float-left">
-							<ul class="list-group list-group-flush float-left">
-								<cfloop query="relns">
-									<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
-										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-											(Remark: #biol_indiv_relation_remarks#)
-										</cfif>
-									</li>
-								</cfloop>
-								<cfif len(relns.biol_indiv_relationship) gt 0>
-									<li class="pb-1"> <a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
-								</cfif>
-							</ul>
+						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+							<div class="card-body mb-2 float-left" id="relationsCardBody">
+								<cfset block = getRelationsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
 						</div>
 					</div>
-				</cfif>
+				</div>
 			</div>
 			<!---  start of column three  --->
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
 				
-				<div class="accordion" id="accordionG">
+				
+            <div class="accordion" id="accordionLocality">
+					<div class="card mb-2 bg-light">
+						<div id="LocalityDialog"></div>
+						<script>
+							function reloadLocality() { 
+								// invoke specimen/component/public.cfc function getLocalityHTML via ajax and repopulate the Other ID block.
+								loadLocality(#collection_object_id#,'LocalityCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingLocality">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Edit</button>
+							</cfif>
+						</div>
+						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
+							<div class="card-body mb-2 float-left" id="localityCardBody">
+								<cfset block = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div> 
+                
+                
+                
+                <div class="accordion" id="accordionG">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading6">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
@@ -804,32 +835,32 @@ limitations under the License.
 						</div>
 						<div id="collapseLoc" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 							<div class="card-body px-0 pb-0"> 
-								<div class="col-5 pl-0 pr-3 mb-2 float-right">
+				        <div class="col-5 pl-0 pr-3 mb-2 float-right">
 							<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
 								<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select  spec_locality, geog_auth_rec_id from locality
-					where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-								<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select higher_geog from geog_auth_rec where
-					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
+                                    select  spec_locality, geog_auth_rec_id from locality
+                                    where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+                                </cfquery>
+                                <cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                    select higher_geog from geog_auth_rec where
+                                    geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+                                </cfquery>
 								<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 
-								media_id 
-							FROM 
-								media_relations 
-							WHERE 
-								RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-								MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
+                                    SELECT 
+                                        media_id 
+                                    FROM 
+                                        media_relations 
+                                    WHERE 
+                                        RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+                                        MEDIA_RELATIONSHIP like '% locality'
+                                </cfquery>
 								<cfif len(one.spec_locality) gt 0>
 									<cfif localityMedia.recordcount gt 0>
 										<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 									</cfif>
 								</cfif>
 									</div>
-									<div class="col-7 px-0 float-left">
+				        <div class="col-7 px-0 float-left">
 								<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 									<cfif len(one.continent_ocean) gt 0>
 										<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
@@ -870,8 +901,7 @@ limitations under the License.
 									</cfif>
 										</ul>
 									</div>
-
-										<div class="col-12 float-left px-0">
+                        <div class="col-12 float-left px-0">
 										<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
 									<cfif len(one.spec_locality) gt 0>
 										<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
@@ -920,7 +950,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 										</div>
-									<div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
+				        <div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
 
 							</div>
 						</div>
