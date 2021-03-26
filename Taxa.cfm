@@ -784,7 +784,7 @@ limitations under the License.
 							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
 							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
-                            { text: 'infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
+                            { text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
 							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
 							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
