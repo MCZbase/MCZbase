@@ -949,8 +949,7 @@ limitations under the License.
 						$('##resultCount').html('');
 						$('##resultLink').html('');
 	
-						var search =
-							{
+						var search = {
 							datatype: "json",
 							datafields:
 								[
@@ -992,13 +991,14 @@ limitations under the License.
 	
 						var dataAdapter = new $.jqx.dataAdapter(search);
 						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-						var details = $($(parentElement).children()[0]);
-						details.html("<div id='rowDetailsTarget" + index + "'></div>");
-						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-						// Workaround, expansion sits below row in zindex.
-						var maxZIndex = getMaxZIndex();
-						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+							var details = $($(parentElement).children()[0]);
+							details.html("<div id='rowDetailsTarget" + index + "'></div>");
+							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+							// Workaround, expansion sits below row in zindex.
+							var maxZIndex = getMaxZIndex();
+							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+						};
 					};
 	
 					$("##searchResultsGrid").jqxGrid({
