@@ -649,9 +649,10 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+                    
 <!----------------------------- Citatons new ----------------------------------> 
 		
-                    <div class="accordion" id="accordionCitations">
+                <div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
 						<script>
@@ -705,7 +706,6 @@ limitations under the License.
 					</div>
 				</div>
                     
-                    
 <!------------------------------------ parts new ---------------------------------->
  
 				<div class="accordion" id="accordionParts">
@@ -735,7 +735,7 @@ limitations under the License.
 					</div>
 				</div>
 						
-				<!------------------------------------ attributes ----------------------------------------->
+<!------------------------------------ attributes ----------------------------------------->
 				<div class="accordion" id="accordionAttributes">
 					<div class="card mb-2 bg-light">
 						<div id="AttributesDialog"></div>
@@ -789,9 +789,9 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</div>
-			<!---  start of column three  --->
-			<div class="col-12 col-md-6 px-1 float-left"> 
+</div>
+<!---  start of column three  --->
+<div class="col-12 col-md-6 px-1 float-left"> 
                 
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
             <div class="accordion" id="accordionLocality">
@@ -800,7 +800,7 @@ limitations under the License.
 						<script>
 							function reloadLocality() { 
 								// invoke specimen/component/public.cfc function getLocalityHTML via ajax and repopulate the Other ID block.
-								loadLocality(#collection_object_id#,'localityCardBody');
+								loadLocality(#collecting_event_id#,'localityCardBody');
 							}
 						</script>
 						<div class="card-header" id="headingLocality">
