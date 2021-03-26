@@ -1170,6 +1170,7 @@ limitations under the License.
 										</div>
 				        <div id="localityHTML" class="dialog-locality" title="Edit Locality (id: #locality_id#)"></div>
                 </cfif>
+                                    </cfoutput>
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
