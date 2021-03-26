@@ -40,4 +40,4 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
-<cfcomponent>
+</cfcomponent>
