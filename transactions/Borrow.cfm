@@ -823,11 +823,6 @@ limitations under the License.
 							</div>
 						</form>
 					</div>
-					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
-					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: editable borrow item table --->
-						<div id="borrowItems"></div>
-					</div>
 					<div class="col-12 pt-3 pb-1">
 						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
 						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
@@ -865,7 +860,7 @@ limitations under the License.
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
 								success : function (data) {
-									loadBorrowItems(#transaction_id#);
+									reloadBorrowItems(#transaction_id#);
 									$("##catalog_number").val('');
 									$("##no_of_spec").val('');
 									$("##type_status").val('');
@@ -887,34 +882,17 @@ limitations under the License.
 									borrow_item_id : borrow_item_id
 								},
 								success : function (data) {
-									loadBorrowItems(#transaction_id#);
+									reloadBorrowItems(#transaction_id#);
 			 					},
 								error: function(jqXHR,textStatus,error){
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
 							});
 						};
-						function loadBorrowItems(transaction_id) {
-							jQuery.ajax({
-								url: "/transactions/component/borrowFunctions.cfc",
-								dataType: "html",
-								data : {
-									method : "getBorrowItemsHTML",
-									transaction_id : transaction_id
-								},
-								success: function (result) {
-									$("##borrowItems").html(result);
-								},
-								error: function(jqXHR,textStatus,error){
-									handleFail(jqXHR,textStatus,error,"adding borrow item");
-								}
-							});
+						function reloadBorrowItems(transaction_id) {
+							loadGrid();
 						};
-						$(document).ready(loadBorrowItems(#transaction_id#));
 					</script>
-				</section>
-				<!--- TODO: Edtable JQXgrid. --->
-				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12 mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
@@ -1007,7 +985,100 @@ limitations under the License.
 							var maxZIndex = getMaxZIndex();
 							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 						};
-	
+
+					});
+
+					function gridLoaded(gridId, searchType) { 
+						$("##overlay").hide();
+						var now = new Date();
+						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+						var filename = searchType + '_results_' + nowstring + '.csv';
+						// display the number of rows found
+						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+						var rowcount = datainformation.rowscount;
+						var items = "";
+						if (searchType == 'accn') { 
+							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+							if (item_summary['sum']==1){ 
+								items = ' ' + item_summary['sum'] + ' cataloged_item';
+							} else {
+								items = ' ' + item_summary['sum'] + ' cataloged_items';
+							}
+						}
+						if (searchType == 'deacc') { 
+							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+							if (item_summary['sum']==1){ 
+								items = ' ' + item_summary['sum'] + ' cataloged_item';
+							} else {
+								items = ' ' + item_summary['sum'] + ' cataloged_items';
+							}
+						}
+						if (rowcount == 1) {
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
+						} else { 
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
+						}
+						// set maximum page size
+						if (rowcount > 100) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
+						} else if (rowcount > 50) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
+						} else { 
+							$('##' + gridId).jqxGrid({ pageable: false });
+						}
+						// add a control to show/hide columns
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 0; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){ $(this).dialog("close"); }
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+						);
+						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+						var maxZIndex = getMaxZIndex();
+						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					}
+
+					function loadGrid() { 
 						$("##searchResultsGrid").jqxGrid({
 							width: '100%',
 							autoheight: 'true',

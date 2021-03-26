@@ -235,7 +235,7 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!--- TODO: Refactor to use grid ---> 
+<!--- deprecated, now uses editable grid with data load from getBorrowItemsData ---> 
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItems_result">
