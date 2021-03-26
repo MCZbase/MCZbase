@@ -390,6 +390,76 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
+            <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select
+									specimen_part.collection_object_id part_id,
+									Case
+										when #oneOfus#= 1
+										then pc.label
+										else null
+									End label,
+									nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+									sampled_from_obj_id,
+									coll_object.COLL_OBJ_DISPOSITION part_disposition,
+									coll_object.CONDITION part_condition,
+									nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+									coll_object_remarks part_remarks,
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name
+								from
+									specimen_part,
+									coll_object,
+									coll_object_remark,
+									coll_obj_cont_hist,
+									container oc,
+									container pc,
+									specimen_part_attribute,
+									preferred_agent_name
+								where
+									specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+									specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+									specimen_part.collection_object_id=coll_object.collection_object_id and
+									coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+									coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+									coll_obj_cont_hist.container_id=oc.container_id and
+									oc.parent_container_id=pc.container_id (+) and
+									specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+							</cfquery>
+						<cfquery name="parts" dbtype="query">
+								select  
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								from
+										rparts
+								group by
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								order by
+										part_name
+						</cfquery>
+						<cfquery name="mPart" dbtype="query">
+							select * from parts where sampled_from_obj_id is null order by part_name
+						</cfquery>
+						<cfset ctPart.ct=''>
+						<cfquery name="ctPart" dbtype="query">
+						select count(*) as ct from parts group by lot_count order by part_name
+						</cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
@@ -642,15 +712,10 @@ limitations under the License.
 								loadParts(#collection_object_id#,'partsCardBody');
 							}
 						</script>
-                        <cfset ctPart.ct=''>
-						<cfquery name="ctPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select count(*) as ct from specimen_part, coll_object where coll_object.collection_object_id = specimen_part.collection_object_id
-						</cfquery>
-                            
 						<div class="card-header" id="headingParts">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
-                     <!---           <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>--->
+                                <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
