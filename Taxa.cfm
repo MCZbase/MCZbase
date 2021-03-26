@@ -45,6 +45,7 @@ limitations under the License.
 <cfif NOT isDefined("superclass")><cfset superclass=""></cfif>
 <cfif NOT isDefined("phylclass")><cfset phylclass=""></cfif>
 <cfif NOT isDefined("subclass")><cfset subclass=""></cfif>
+<cfif NOT isDefined("infraclass")><cfset infraclass=""></cfif>
 <cfif NOT isDefined("superorder")><cfset superorder=""></cfif>
 <cfif NOT isDefined("phylorder")><cfset phylorder=""></cfif>
 <cfif NOT isDefined("suborder")><cfset suborder=""></cfif>
@@ -150,6 +151,20 @@ limitations under the License.
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
 						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subclass' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
+			jQuery("##infraclass").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'infraclass' },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
@@ -428,6 +443,10 @@ limitations under the License.
 											<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
+										<div class="col-md-2">
+											<label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
+										</div>
 									</div>
 									<div class="form-row mb-0">
 										<div class="col-md-2">
@@ -442,6 +461,20 @@ limitations under the License.
 											<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
 											<input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#subphylum#" placeholder="subphylum">
 										</div>
+										<div class="col-md-2">&nbsp;
+										</div>
+										<div class="col-md-4">
+											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+												<option></option>
+												<cfloop query="ctnomenclatural_code">
+													<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
 											<input type="small" class="data-entry-input" id="superclass" name="superclass" value="#superclass#" placeholder="superclass">
@@ -453,6 +486,20 @@ limitations under the License.
 										<div class="col-md-2">
 											<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#subclass#" placeholder="subclass">
+										</div>
+										<div class="col-md-2">
+											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
+											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
+										</div>
+										<div class="col-md-4">
+											<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+											<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+												<option></option>
+												<cfloop query="CTTAXONOMIC_AUTHORITY">
+													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#source_authority#" #selected#>#source_authority#</option>
+												</cfloop>
+											</select>
 										</div>
 									</div>
 									<div class="form-row mb-0">
@@ -472,8 +519,18 @@ limitations under the License.
 											<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
 										</div>
+										<div class="col-md-4">
+											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+												<option></option>
+												<cfloop query="cttaxon_status">
+													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#taxon_status#" #selected#>#taxon_status#</option>
+												</cfloop>
+											</select>
+										</div>
 									</div>
-									<div class="form-row mb-0">
+									<div class="form-row mb-3">
 										<div class="col-md-2">
 											<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
@@ -495,47 +552,11 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
 										</div>
 									</div>
-									<div class="form-row mb-3 mt-1">
-										<div class="col-md-3">
-											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-												<option></option>
-												<cfloop query="ctnomenclatural_code">
-													<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-											<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-												<option></option>
-												<cfloop query="CTTAXONOMIC_AUTHORITY">
-													<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#source_authority#" #selected#>#source_authority#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
-											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-												<option></option>
-												<cfloop query="cttaxon_status">
-													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#taxon_status#" #selected#>#taxon_status#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-3">
-											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecific Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
-											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
-										</div>
-									</div>
 									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
 									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
 									<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-										<button type="button" class="btn btn-xs btn-warning" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+										<button type="button" class="btn btn-xs btn-warning mt-2 mt-md-0" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
 									</cfif>
 								</div>
 							</form>
@@ -592,9 +613,9 @@ limitations under the License.
 		</script>
 		<!--- links --->
 		<script>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="border rounded btn-outline-primary" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 					};
 				</cfif>
 
@@ -659,6 +680,7 @@ limitations under the License.
 							{ name: 'SUPERCLASS', type: 'string' },
 							{ name: 'PHYLCLASS', type: 'string' },
 							{ name: 'SUBCLASS', type: 'string' },
+							{ name: 'INFRACLASS', type: 'string' },
 							{ name: 'SUPERORDER', type: 'string' },
 							{ name: 'PHYLORDER', type: 'string' },
 							{ name: 'SUBORDER', type: 'string' },
@@ -698,7 +720,7 @@ limitations under the License.
 						timeout: 30000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
-						var message = "";      
+						var message = "";
 							if (error == 'timeout') { 
 						   message = ' Server took too long to respond.';
 							} else { 
@@ -764,6 +786,7 @@ limitations under the License.
 							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
 							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
 							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
 							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
@@ -969,6 +992,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRACLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');
