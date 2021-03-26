@@ -862,10 +862,8 @@ limitations under the License.
 						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="getFile">
 							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-							<input type="file"
-								name="FiletoUpload"
-								size="45">
-							<input type="submit" value="Upload this file" >
+							<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
+							<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
 						</cfform>
 					</div>
 					<div class="col-12 pt-3 pb-1">
