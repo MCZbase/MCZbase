@@ -1028,7 +1028,7 @@ limitations under the License.
 						var result = "";
 						var itemid = rowData['borrow_item_id'];
 						if (itemid) {
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(#borrow_item_id#);" class="btn btn-xs btn-danger">Delete</button></span>';
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' +  itemid+ ');" class="btn btn-xs btn-danger">Delete</button></span>';
 						} else { 
 							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
