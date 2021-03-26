@@ -80,6 +80,39 @@ limitations under the License.
 		});
 	</script>
 </cfoutput>
+
+<!--- TODO: Refactor into an ajax backing method --->
+<cfif action is "getFile">
+	<cfoutput>
+		<!-- upload items --->
+		<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+		<cfset fileContent=replace(fileContent,"'","''","all")>
+		<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+		<cfset colNames="">
+		<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
+			<cfset colVals="">
+				<cfloop from="1" to ="#ArrayLen(arrResult[o])#" index="i">
+					<cfset thisBit=arrResult[o][i]>
+					<cfif #o# is 1>
+						<cfset colNames="#colNames#,#thisBit#">
+					<cfelse>
+						<cfset colVals="#colVals#,'#thisBit#'">
+					</cfif>
+				</cfloop>
+			<cfif #o# is 1>
+				<cfset colNames="TRANSACTION_ID#colNames#">
+			</cfif>
+			<cfif len(#colVals#) gt 1>
+				<cfset colVals="#transaction_id##colVals#">
+				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into BORROW_ITEM (#colNames#) values (#preservesinglequotes(colVals)#)
+				</cfquery>
+			</cfif>
+		</cfloop>
+		<cflocation url="/transactions/Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
+	</cfoutput>
+</cfif>
+
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "new">
 	<cfset title="New Borrow">
@@ -727,7 +760,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits();  } " 
+									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
@@ -1028,7 +1061,7 @@ limitations under the License.
 						var result = "";
 						var itemid = rowData['borrow_item_id'];
 						if (itemid) {
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' +  itemid+ ');" class="btn btn-xs btn-danger">Delete</button></span>';
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</button></span>';
 						} else { 
 							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
@@ -1237,7 +1270,7 @@ limitations under the License.
 											draggable:true,
 											resizable:true,
 											buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-											close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+											close: function() { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); }
 										});
 										adialog.dialog('open');
 									};
@@ -1245,7 +1278,7 @@ limitations under the License.
 								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
 									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+										left join addr toaddr on sh.shipped_to_addr_id = toaddr.addr_id
 										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrowDetails.transaction_id#">
 								</cfquery>
@@ -1371,8 +1404,8 @@ limitations under the License.
 				not isDefined("borrow_status") OR
 				not isDefined("trans_date") OR
 				not isDefined("no_of_specimens") OR
-				not isDefined("nature_of_material")  OR
-				not isDefined("description_of_borrow")  OR
+				not isDefined("nature_of_material") OR
+				not isDefined("description_of_borrow") OR
 				not isDefined("inhouse_contact_agent_id") OR
 				not isDefined("received_agent_id") OR
 				not isDefined("received_from_agent_id") OR
