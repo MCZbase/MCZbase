@@ -45,6 +45,7 @@ limitations under the License.
 <cfif NOT isDefined("superclass")><cfset superclass=""></cfif>
 <cfif NOT isDefined("phylclass")><cfset phylclass=""></cfif>
 <cfif NOT isDefined("subclass")><cfset subclass=""></cfif>
+<cfif NOT isDefined("infraclass")><cfset infraclass=""></cfif>
 <cfif NOT isDefined("superorder")><cfset superorder=""></cfif>
 <cfif NOT isDefined("phylorder")><cfset phylorder=""></cfif>
 <cfif NOT isDefined("suborder")><cfset suborder=""></cfif>
@@ -677,6 +678,7 @@ limitations under the License.
 							{ name: 'SUPERCLASS', type: 'string' },
 							{ name: 'PHYLCLASS', type: 'string' },
 							{ name: 'SUBCLASS', type: 'string' },
+                            { name: 'INFRACLASS', type: 'string' },
 							{ name: 'SUPERORDER', type: 'string' },
 							{ name: 'PHYLORDER', type: 'string' },
 							{ name: 'SUBORDER', type: 'string' },
@@ -782,6 +784,7 @@ limitations under the License.
 							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
 							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
+                            { text: 'infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
 							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
 							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
@@ -987,6 +990,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
+                $("##searchResultsGrid").jqxGrid(action, 'INFRACLASS');
 				$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
 				$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');

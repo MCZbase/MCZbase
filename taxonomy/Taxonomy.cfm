@@ -158,6 +158,8 @@ limitations under the License.
 			result = $('##phylorder').val();
 		} else if ($('##superorder').val()!="") { 
 			result = $('##superorder').val();
+        } else if ($('##infraclass').val()!="") { 
+			result = $('##infraclass').val();
 		} else if ($('##subclass').val()!="") { 
 			result = $('##subclass').val();
 		} else if ($('##phylclass').val()!="") { 
