@@ -922,6 +922,7 @@ limitations under the License.
 					</div>
 					</div>
 				</section>
+				<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 				<script>
 					$(document).ready(function() {
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
@@ -1021,6 +1022,19 @@ limitations under the License.
 						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					};
 
+					// Cell renderers
+					var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var result = "";
+						var itemid = rowData['borrow_item_id'];
+						if (itemid) {
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(#borrow_item_id#);" class="btn btn-xs btn-danger">Delete</button></span>';
+						} else { 
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						}
+						return result;
+					};
+
 					function loadGrid() { 
 						var search = {
 							datatype: "json",
@@ -1105,13 +1119,13 @@ limitations under the License.
 							},
 							columns: [
 								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
-								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: true },
-								{text: 'Catalog Number', datafield: 'catalog_number', width:120, hideable: true, hidden: false },
-								{text: 'Scientific Name', datafield: 'sci_name', width:120, hideable: true, hidden: false },
+								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 50, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer },
+								{text: 'Catalog Number', datafield: 'catalog_number', width:180, hideable: true, hidden: false },
+								{text: 'Scientific Name', datafield: 'sci_name', width:200, hideable: true, hidden: false },
 								{text: 'No. of Specimens', datafield: 'no_of_spec', width:120, hideable: true, hidden: false },
-								{text: 'Parts/Prep', datafield: 'spec_prep', width:120, hideable: true, hidden: false },
-								{text: 'Type Status', datafield: 'type_status', width:120, hideable: true, hidden: false },
-								{text: 'Country of Origin', datafield: 'country_of_origin', width:120, hideable: true, hidden: false },
+								{text: 'Parts/Prep', datafield: 'spec_prep', width:200, hideable: true, hidden: false },
+								{text: 'Type Status', datafield: 'type_status', width:180, hideable: true, hidden: false },
+								{text: 'Country of Origin', datafield: 'country_of_origin', width:200, hideable: true, hidden: false },
 								{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
 							],
 							rowdetails: true,
