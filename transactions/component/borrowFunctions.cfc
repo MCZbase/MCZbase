@@ -152,7 +152,7 @@ limitations under the License.
 					borrow_item_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow_item_id#">
 					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfif updateBorrow_Item_result.recordcount NEQ 0>
+			<cfif updateBorrow_Item_result.recordcount NEQ 1>
 				<cfthrow message="Record not updated. #borrow_item_id# #updateBorrow_Item_result.sql#">
 			</cfif>
 			<cfif updateBorrow_Item_result.recordcount eq 1>
@@ -235,7 +235,7 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!--- TODO: Refactor to use grid ---> 
+<!--- deprecated, now uses editable grid with data load from getBorrowItemsData ---> 
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItems_result">
@@ -267,6 +267,46 @@ limitations under the License.
 	<cfset resulthtml = resulthtml & "</table>">
 
 	<cfreturn resulthtml>
+</cffunction>
+
+<!--- Return the borrow items for a transaction as json to populate a jqx grid 
+ @param transaction_id idenitifying the borrow for which to return the borrow items.
+--->
+<cffunction name="getBorrowItemsData" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result">
+			select 
+				transaction_id, borrow_item_id, 
+				catalog_number, sci_name, 
+				no_of_spec, spec_prep, 
+				type_status, country_of_origin, 
+				object_remarks
+			from borrow_item 
+			where 
+				transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfset rows = getBorrowItemsQuery_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="getBorrowItemsQuery">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(getBorrowItemsQuery.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#getBorrowItemsQuery[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 </cfcomponent>

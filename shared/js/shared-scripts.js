@@ -675,7 +675,7 @@ function handleFail(jqXHR,textStatus,error,context) {
 	var details = 'Error:' + context + ': ' + message;
 	console.log(details);
 	if (!error) { error = ""; } 
-	messageDialog(details, 'Error: '+error.substring(0,50));
+	messageDialog(details, 'Error: '+error.toString().substring(0,50));
 }
 
 /** Make a paired hidden id and text name control into an autocomplete publication picker.
