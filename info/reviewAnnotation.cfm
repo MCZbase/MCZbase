@@ -410,7 +410,7 @@
 			where
 				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
 		</cfquery>
-		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
+		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#&collection=#collection#" addtoken="false">
 	</cfoutput>
 </cfif>
 
