@@ -822,7 +822,7 @@ limitations under the License.
 					<cfif itemCount GT 0>
 						<!--- Open accordion card for entering new items if there are no attached items --->
 						<cfset openAccord = "">
-						<cfset btnAccord = "collapse">
+						<cfset btnAccord = "collapsed">
 					<cfelse>
 						<cfset openAccord = "show">
 						<cfset btnAccord = "">
