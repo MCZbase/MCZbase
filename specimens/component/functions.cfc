@@ -85,7 +85,7 @@ limitations under the License.
       </h1>
     </div>
 
-    <div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
+    <div id="collapseOnex" class="collapsed" aria-labelledby="headingOnex" data-parent="##accordion1">
       <div class="card-body">
                        <script>
                                         function idFormulaChanged(newFormula,baseId) { 
