@@ -70,17 +70,7 @@ limitations under the License.
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 px-0"> 
-                        <div class="accordion" id="accordionExample">
-                          <div class="card">
-                            <div class="card-header" id="headingOne">
-                              <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                 Add New Determination
-                                </button>
-                              </h2>
-                              </div>
-                           </div>
-                        </div>
+                        
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
                         <div class="col-12 col-lg-6 float-left pl-0">
                             <h1 class="h3 mb-0 px-1"> Add New Determination <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
