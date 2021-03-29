@@ -1927,6 +1927,7 @@ function updateBorrowLimitations(transaction_id,targetDiv) {
 		},
 		dataType: "html"
 	});
+};
 
 /** Make a paired hidden id and text name control into an autocomplete borrow picker.
  *
