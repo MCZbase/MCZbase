@@ -4284,7 +4284,7 @@ limitations under the License.
 									<cfset rowstyle = "list-even">
 								</cfif>
 								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
-									<div class="col-12 col-md-4 pr-md-0">
+									<div class="col-12 col-md-4 mt-2 mt-md-0 pr-md-0">
 										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
