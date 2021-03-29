@@ -643,8 +643,25 @@ limitations under the License.
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left" id="identificationsCardBody">
-								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+                                
+                                 <div id="accordion1">
+  <div class="card">
+    <div class="card-header" id="headingOnex">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+          Collapsible Group Item #1
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="#accordion1">
+      <div class="card-body">
+	<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
+      </div>
+    </div>
+                                    </div></div>
+							
 							</div>
 						</div>
 					</div>
