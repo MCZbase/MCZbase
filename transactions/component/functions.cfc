@@ -3560,6 +3560,21 @@ limitations under the License.
 					group by
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						borrow.transaction_id, borrow.borrow_number
+					union
+					select count(distinct borrow_item.borrow_item_id) as ct,
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id as borrow_id, borrow.borrow_number
+					from 
+						borrow
+						left join shipment on borrow.transaction_id = shipment.transaction_id
+						left join permit_shipment on shipment.shipment_id = permit_shipment.permit_id
+						left join permit on permit_shipment.permit_id = permit.permit_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+					where 
+						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary IS NOT NULL
+					group by
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 				</cfquery>
 				<cfif borrowLimitations.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
