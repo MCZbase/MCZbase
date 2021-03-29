@@ -1906,6 +1906,29 @@ function makeDeaccessionAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/* Update the content of a div containing restrictions and benefits summaries for permissons
+ * and rights documents on a borrow.
+ *
+ * @param transactionId the transaction_id of the borrow to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateBorrowLimitations(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getBorrowLimitations",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for a borrow");
+		},
+		dataType: "html"
+	});
+};
+
 /** Make a paired hidden id and text name control into an autocomplete borrow picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

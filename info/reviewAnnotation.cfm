@@ -120,7 +120,7 @@
 				higher_geog,
 				spec_locality
 		</cfquery>
-			<h2 class="h3 mt-3">Annotations for #collection#</h2>
+			<h2 class="h3 mt-3">Annotations</h2>
 			<table class="table border table-responsive table-striped">
 				<Cfset i=1>
 				<cfloop query="catitem">

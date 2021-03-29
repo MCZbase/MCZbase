@@ -1545,36 +1545,36 @@ limitations under the License.
 					order by ct.specific_type
 				</cfquery>
 
-				<h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
+				<h3>Search for Permissions &amp; Rights documents. <span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important.</span></h3>
 				<form id='findPermitForm' onsubmit='searchforpermits(event);'>
 					<input type='hidden' name='method' value='findPermitSearchResults'>
 					<input type='hidden' name='returnformat' value='plain'>
 					<input type='hidden' name='transaction_id' value='#transaction_id#'>
 					<input type='hidden' name='transaction_label' value='#transaction_label#'>
 					<div class="form-row">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
 							<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
 							<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="data-entry-input">
 						</div>
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-3 mt-1">
 							<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
 							<input type="text" name="issued_Date" id="pf_issued_date" class="data-entry-input">
 						</div>
-						<div class="col-6 col-md-3">
+						<div class="col-6 col-md-3 mt-1">
 							<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
 							<input type="text" name="renewed_Date" id="pf_renewed_date" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
 							<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label class="data-entry-label" for="permit_Num">Permit Number</label>
 							<input type="text" name="permit_num" id="search_permit_num" class="data-entry-input">
 							<input type="hidden" name="permit_id" id="search_permit_id" class="data-entry-input">
@@ -1590,7 +1590,7 @@ limitations under the License.
 								});
 							});
 						</script>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
 							<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
 								<option value=""></option>
@@ -1599,13 +1599,13 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mt-1">
 							<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
 							<input type="text" name="permit_remarks" id="pf_permit_remarks" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6 mt-1">
 							<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
 							<select name="specific_type" size="1" id="pf_specific_type" class="data-entry-select">
 								<option value=""></option>
@@ -1614,22 +1614,22 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6 mt-1">
 							<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
 							<input type="text" name="permit_title" id="pf_permit_title" class="data-entry-input">
 						</div>
 					</div>
-					<div class="form-row my-2">
-						<div class="col-6 col-md-6">
-							<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
+					<div class="form-row mb-2">
+						<div class="col-6 col-md-6 mt-1">
+							<input type="button" value="Search" class="btn btn-xs btn-primary mr-2" onclick="$('##findPermitForm').submit()">	
 							<script>
 								function createPermitDialogDone () { 
 									$("##permit_Num").val($("##permit_number_passon").val()); 
 								};
 							</script>
-							<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
+							<input type="reset" value="Clear" class="btn btn-xs btn-warning mr-4">
 						</div>
-						<div class="col-6 col-md-6">
+						<div class="col-6 col-md-6 mt-1">
 							<span id='createPermit_#transaction_id#_span'>
 								<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#transaction_id#","#transaction_label#", #transaction_id#, "transaction", createPermitDialogDone);' >
 							</span>
@@ -2359,33 +2359,45 @@ limitations under the License.
 								<input type="hidden" name="shipment_id" value="#shipment_id#">
 								<input type="hidden" name="shipment_label" value="#shipment_label#">
 								<div class="form-row">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
 										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
 										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="data-entry-input">
 									</div>
-									<div class="col-6 col-md-3">
+									<div class="col-6 col-md-3 mt-1">
 										<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
 										<input type="text" name="issued_Date" id="pf_issued_date" class="data-entry-input">
 									</div>
-									<div class="col-6 col-md-3">
+									<div class="col-6 col-md-3 mt-1">
 										<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
 										<input type="text" name="renewed_Date" id="pf_renewed_date" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
 										<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
 									</div>
-									<div class="col-12 col-md-3">
-										<label class="data-entry-label" for="permit_Num">Permit Number</label>
-										<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
+									<div class="col-12 col-md-3 mt-1">
+										<label class="data-entry-label" for="search_permit_num">Permit Number</label>
+										<input type="text" name="permit_Num" id="search_permit_num" class="data-entry-input">
+										<input type="hidden" name="permit_id" id="search_permit_id">
 									</div>
-									<div class="col-12 col-md-3">
+									<script>
+										$(document).ready(function() {
+											$(makePermitPicker('search_permit_num','search_permit_id'));
+											$('##search_permit_num').blur( function () {
+												// prevent an invisible permit_id from being included in the search.
+												if ($('##search_permit_num').val().trim() == "") { 
+													$('##search_permit_id').val("");
+												}
+											});
+										});
+									</script>
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
 										<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
 											<option value=""></option>
@@ -2394,13 +2406,13 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
 										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
 										<select name="specific_type" size="1" id="pf_specific_type" class="data-entry-select">
 											<option value=""></option>
@@ -2409,24 +2421,24 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
 										<input type="text" name="permit_title" id="pf_permit_title" class="data-entry-input">
 									</div>
 								</div>
-								<div class="form-row my-2">
-									<div class="col-6 col-md-6">
-										<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
+								<div class="form-row">
+									<div class="col-6 col-md-6 mt-1 mb-2">
+										<input type="button" value="Search" class="btn btn-xs btn-primary mt-1 mr-2" onclick="$('##findPermitForm').submit()">	
 										<script>
 											function createPermitDialogDone () { 
 												$("##permit_Num").val($("##permit_number_passon").val()); 
 											};
 										</script>
-										<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
+										<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-1 mr-4">
 									</div>
-									<div class="col-6 col-md-6">
+									<div class="col-6 col-md-6 mt-1 mb-2">
 										<span id="createPermit_#shipment_id#_span">
-											<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+											<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-1' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
 										</span>
 										<div id="createPermitDlg_#shipment_id#"></div>
 									</div>
@@ -2487,6 +2499,7 @@ limitations under the License.
 	<cfargument name="renewed_Date" type="string" required="no">
 	<cfargument name="exp_Date" type="string" required="no">
 	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="specific_type" type="string" required="no">
 	<cfargument name="permit_Type" type="string" required="no">
 	<cfargument name="permit_title" type="string" required="no">
@@ -2499,6 +2512,7 @@ limitations under the License.
 		<cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
 		<cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
 		<cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+		<cfif NOT isdefined('permit_id')><cfset permit_id=''></cfif>
 		<cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
 		<cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
 		<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
@@ -2535,6 +2549,9 @@ limitations under the License.
 				left join permit_trans on permit.permit_id = permit_trans.permit_id 
 			where
 				permit.permit_id is not null
+				<cfif len(#permit_id#) gt 0>
+					AND permit.permit_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#permit_id#'>
+				</cfif>
 				<cfif len(#IssuedByAgent#) gt 0>
 					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
 				</cfif>
@@ -2550,8 +2567,8 @@ limitations under the License.
 				<cfif len(#exp_Date#) gt 0>
 					AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
 				</cfif>
-				<cfif len(#permit_Num#) gt 0>
-					AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+				<cfif len(#permit_Num#) gt 0 and len(#permit_id#) EQ 0>
+					AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(permit_Num)#'>
 				</cfif>
 				<cfif len(#specific_type#) gt 0>
 					AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
@@ -2881,10 +2898,14 @@ limitations under the License.
 						<cfelseif transaction EQ "accn">
 							cataloged_item li
 						</cfif>
-						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-						left join accn on ci.accn_id = accn.transaction_id
-						left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						<cfif transaction EQ "borrow">
+							left join permit_trans on li.transaction_id = permit_trans.transaction_id
+						<cfelse>
+							left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+							left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+							left join accn on ci.accn_id = accn.transaction_id
+							left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						</cfif>
 						left join permit p on permit_trans.permit_id = p.permit_id
 						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
 					where 
@@ -3536,6 +3557,79 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material (borrow items) in a borrow 
+ @param transaction_id identifying the borrow for which to lookup restrictions and agreeed benefits
+ @return a block of html listing restrictions and benefits from permissions and rights documents on the borrow.
+--->
+<cffunction name="getBorrowLimitations" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getBorrowLimitThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(distinct borrow_item.borrow_item_id) as ct,
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id as borrow_id, borrow.borrow_number
+					from  
+						borrow
+						left join permit_trans on borrow.transaction_id = permit_trans.transaction_id
+						left join permit on permit_trans.permit_id = permit.permit_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+					where 
+						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary IS NOT NULL
+					group by
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id, borrow.borrow_number
+					union
+					select count(distinct borrow_item.borrow_item_id) as ct,
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id as borrow_id, borrow.borrow_number
+					from 
+						borrow
+						left join shipment on borrow.transaction_id = shipment.transaction_id
+						left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+						left join permit on permit_shipment.permit_id = permit.permit_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+					where 
+						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary IS NOT NULL
+					group by
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id, borrow.borrow_number
+				</cfquery>
+				<cfif borrowLimitations.recordcount GT 0>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Items</th><th>Document</th><th>Restrictions Summary</th><th>Agreed Benefits</th><th>Benefits Provided</th></thead>
+						<tbody>
+							<cfloop query="borrowLimitations">
+								<tr>
+									<td>#ct#</td>
+									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
+									<td>#restriction_summary#</td>
+									<td>#benefits_summary#</td>
+									<td>#benefits_provided#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None recorded.
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getBorrowLimitThread" />
+	<cfreturn getBorrowLimitThread.output>
 </cffunction>
 
 <!--- method saveBorrow given a transaction_id and additional fields, update a borrow record --->
@@ -4291,7 +4385,7 @@ limitations under the License.
 									<cfset rowstyle = "list-even">
 								</cfif>
 								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-4 mt-2 mt-md-0 pr-md-0">
 										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
@@ -4307,7 +4401,7 @@ limitations under the License.
 											});
 										</script>
 									</div>							
-									<div class="col-12 col-md-1">
+									<div class="col-12 col-md-1 px-md-0">
 										<label class="data-entry-label"> 						
 											<span id="agentViewLink_#i#" class="px-2 d-inline-block mt-1"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
@@ -4334,11 +4428,11 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<button type="button" 
-											class="btn btn-xs btn-warning float-left mr-2" 
+											class="btn btn-xs btn-warning float-left mt-2 mt-md-0 mb-1 mr-2" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
 											>Remove</button>
 										<button type="button" 
-											class="btn btn-xs btn-secondary float-left" 
+											class="btn btn-xs btn-secondary mt-2 mt-md-0 mb-1 float-left" 
 											onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');"
 											>Clone</button>
 									</div>

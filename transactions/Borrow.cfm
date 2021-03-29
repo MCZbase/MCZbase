@@ -122,7 +122,7 @@ limitations under the License.
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available borrow number"> 
 					<script>
-						function setDeaccNum(cid,borrowNum) {
+						function setBorrowNum(cid,borrowNum) {
 							$("##borrow_number").val(borrowNum);
 							$("##collection_id").val(cid);
 							$("##collection_id").change();
@@ -163,7 +163,7 @@ limitations under the License.
 							</cfcatch>
 							</cftry>
 							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setDeaccNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setBorrowNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 							<cfelse>
 								<span style="font-size:x-small"> No data available for #collection#. </span>
 							</cfif>
@@ -174,8 +174,8 @@ limitations under the License.
 				<section class="col-12 border bg-white pt-3" id="newBorrowFormSection" aria-label="Form to create new borrow">
 					<form name="newBorrow" id="newBorrow" class="" action="/transactions/Borrow.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeBorrow">
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-3">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select" required >
 									<option value=""></option>
@@ -184,11 +184,11 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="borrow_number" class="data-entry-label">Borrow Number (Byyyy-n-Coll)</label>
 								<input type="text" name="borrow_number" class="reqdClr data-entry-input" id="borrow_number" required pattern="#BORROWNUMBERPATTERN#">
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="status" class="data-entry-label">Status</label>
 								<select name="borrow_status" id="status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctBorrowStatus">
@@ -201,25 +201,25 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
 								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" >
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-3">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
 								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" >
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="reqdClr data-entry-input" required>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged as returned?</label>
 								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
 									<option value="0" selected="selected">no</option>
@@ -227,16 +227,16 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="received_date" class="data-entry-label">Received Date</label>
 								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									required
@@ -244,8 +244,8 @@ limitations under the License.
 									class="reqdClr w-100 data-entry-input">
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="auth_agent" class="data-entry-label">
 										Outside authorized by:
@@ -263,7 +263,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="overseenby_agent_name" class="data-entry-label">
 										Borrow Overseen By (MCZ):
@@ -281,7 +281,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('overseenby_agent_name','over_agent_id','overseenby_agent_icon','overseenby_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="received_agent_name" class="data-entry-label">
 										Received By:
@@ -300,8 +300,8 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="received_from_agent_name" class="data-entry-label">
 										Received From:
@@ -319,7 +319,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('received_from_agent_name','received_from_agent_id','received_from_agent_icon','received_from_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="lending_institution_agent_name" class="data-entry-label">
 										Lending Institution:
@@ -337,7 +337,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('lending_institution_agent_name','lending_institution_agent_id','lending_institution_agent_icon','lending_institution_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="inhouse_contact_agent_name" class="data-entry-label">
 										In-house Contact:
@@ -356,8 +356,8 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="outside_contact_agent_name" class="data-entry-label">
 										Outside Contact:
@@ -375,7 +375,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('outside_contact_agent_name','outside_contact_agent_id','outside_contact_agent_icon','outside_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="additional_out_contact_agent_name" class="data-entry-label">
 										Additional Outside Contact:
@@ -393,10 +393,10 @@ limitations under the License.
 									$(makeRichTransAgentPicker('additional_out_contact_agent_name','additional_out_contact_agent_id','additional_out_contact_agent_icon','additional_out_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="for_use_by_agent_name" class="data-entry-label">
-										Received From:
+										For Use By:
 										<span id="for_use_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
@@ -412,8 +412,8 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-12">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-12 mb-1 mb-md-0">
 								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
 									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
@@ -421,8 +421,8 @@ limitations under the License.
 									></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-12">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-12 mb-1 mb-md-0">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
@@ -430,8 +430,8 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-12">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-12 mb-1 mb-md-0">
 								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
 								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
 									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
@@ -439,8 +439,8 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-12">
+						<div class="form-row mb-0 mb-md-2">
+							<div class="col-12 col-md-12 mb-1 mb-md-0">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
@@ -757,8 +757,8 @@ limitations under the License.
 								$('textarea.autogrow').keyup();
 							});
 						</script> 
-						<div class="form-row mb-1">
-							<div class="form-group col-12">
+						<div class="form-row">
+							<div class="form-group col-12 mb-3 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
@@ -813,90 +813,122 @@ limitations under the License.
 					</form>
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
-					<div class="col-12 pt-3 pb-1">
-						<h3 class="h4">Add Borrowed Item</h3>
-						<form id="addBorrowItemform">
-							<div class="row">
-								<input type="hidden" name="method" value="addBorrowItem">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-								<div class="col-12 col-md-1">
-									<label for="catalog_number" class="data-entry-label">Catalog Number</label>
-									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="sci_name" style="width: 190px;margin-right:5px;">Scientific Name</label>
-									<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-1">
-									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
-									<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
-									<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-1">
-									<label for="type_status" class="data-entry-label">Type Status</label>
-									<input type="text" class="data-entry-input" name="type_status" id="type_status" >
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="country_of_origin" class="data-entry-label">County of Origin</label>
-									<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="object_remarks" class="data-entry-label">Remarks</label>
-									<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
-								</div>
-								<div class="col-12 col-md-1">
-									<label class="data-entry-label">&nbsp;</label>
-									<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
+					<cfquery name="borrowItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItemsCount_result">
+						select count(*) as ct 
+						from borrow_item
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfset itemCount = borrowItemCount.ct>
+					<cfif itemCount GT 0>
+						<!--- Open accordion card for entering new items if there are no attached items --->
+						<cfset openAccord = "">
+						<cfset btnAccord = "collapsed">
+					<cfelse>
+						<cfset openAccord = "show">
+						<cfset btnAccord = "">
+					</cfif>
+					<div class="accordion w-100" id="itemAccordion">
+						<div class="card">
+							<h3 class="card-header" id="itemAccordHeadingOne">
+								<button class="btn btn-link btn-block text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+									Add Borrowed Item
+								</button>
+							</h3>
+   						<div id="itemCollapseOne" class="collapse #openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+						      <div class="card-body">
+									<form id="addBorrowItemform">
+										<div class="row mx-0">
+											<input type="hidden" name="method" value="addBorrowItem">
+											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="queryformat" value="column">
+											<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+											<div class="col-12 col-md-2 px-1 mt-1">
+												<label for="catalog_number" class="data-entry-label">Catalog Number</label>
+												<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="sci_name" class="data-entry-label">Scientific Name</label>
+												<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-2 px-1 mt-1">
+												<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
+												<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
+												<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="type_status" class="data-entry-label">Type Status</label>
+												<input type="text" class="data-entry-input" name="type_status" id="type_status" >
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="country_of_origin" class="data-entry-label">County of Origin</label>
+												<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
+											</div>
+											<div class="col-12 col-md-6 px-1 mt-1">
+												<label for="object_remarks" class="data-entry-label">Remarks</label>
+												<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
+											</div>
+											<div class="form-group col-12 px-1 pt-1">
+												<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
+												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
-						</form>
-					</div>
-					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: refactor upload csv to use ajax and a backing method --->
-						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
-						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
-							<input type="hidden" name="action" value="getFile">
-							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-							<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
-							<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
-						</cfform>
-					</div>
-					<div class="col-12 pt-3 pb-1">
-						<p><span class="data-entry-label" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
-						<div id="template" style="display:none;" class="w-100">
-							<label for="t" class="data-entry-label">Copy the following code and save as a .csv file</label>
-							<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 						</div>
-						<script>
-							function toggleTemplate() {
-								$('##template').toggle();
-								if ($('##template').is(':visible')) {
-									$('##toggleLink').html('Hide csv file temlate');
-								} else {
-									$('##toggleLink').html('View csv file temlate');
-								}
-							}
-						</script>
+					<div class="card-item">
+						<h2 class="card-header" id="itemAccordHeadingTwo">
+							<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+								Upload Items From CSV File
+							</button>
+						</h2>
+						<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
+							<div class="card-body">
+								<div class="w-100">
+									<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
+										<input type="hidden" name="action" value="getFile">
+										<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+										<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
+										<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
+									</cfform>
+								</div>
+							</div>
+							<div class="w-100">
+								<label for="t" class="data-entry-label">For a Template, copy the following header line and save it as a .csv file:</label>
+								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+							</div>
+						</div>
 					</div>
+
 					<script>
-						function addBorrowItem2() {
+						function addBorrowItem() {
+							$('##addItemFeedback').html("Saving...");
+							$('##addItemFeedback').addClass('text-warning');
+							$('##addItemFeedback').removeClass('text-success');
+							$('##addItemFeedback').removeClass('text-danger');
 							jQuery.ajax( {
 								url : "/transactions/component/borrowFunctions.cfc",
 								type : "post",
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
 								success : function (data) {
-									reloadBorrowItems(#transaction_id#);
+									$('##addItemFeedback').html("Added borrow item.");
+									$('##addItemFeedback').addClass('text-success');
+									$('##addItemFeedback').removeClass('text-warning');
+									$('##addItemFeedback').removeClass('text-danger');
 									$("##catalog_number").val('');
 									$("##no_of_spec").val('');
 									$("##type_status").val('');
+									reloadBorrowItems(#transaction_id#);
 								},
 								error: function(jqXHR,textStatus,error){
+									$('##addItemFeedback').html("Error");
+									$('##addItemFeedback').addClass('text-danger');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-warning');
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
 							});
@@ -921,12 +953,12 @@ limitations under the License.
 							});
 						};
 						function reloadBorrowItems(transaction_id) {
-							loadGrid();
+							reloadGrid();
 						};
 					</script>
 					<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 mb-5">
+						<div class="col-12 mb-3">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h1 class="h4">Borrow Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
 								<div id="columnPickDialog">
@@ -960,8 +992,6 @@ limitations under the License.
 						$('##resultCount').html('');
 						$('##resultLink').html('');
 					});
-	
-
 
 					function gridLoaded(gridId, searchType) { 
 						$("##overlay").hide();
@@ -971,22 +1001,9 @@ limitations under the License.
 						// display the number of rows found
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
-						var items = "";
-						if (searchType == 'accn') { 
-							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-							if (item_summary['sum']==1){ 
-								items = ' ' + item_summary['sum'] + ' cataloged_item';
-							} else {
-								items = ' ' + item_summary['sum'] + ' cataloged_items';
-							}
-						}
-						if (searchType == 'deacc') { 
-							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-							if (item_summary['sum']==1){ 
-								items = ' ' + item_summary['sum'] + ' cataloged_item';
-							} else {
-								items = ' ' + item_summary['sum'] + ' cataloged_items';
-							}
+						var items = "."
+						if (rowcount > 0) {
+							items = ". Click on a cell to edit. ";
 						}
 						if (rowcount == 1) {
 							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
@@ -1059,61 +1076,67 @@ limitations under the License.
 						var result = "";
 						var itemid = rowData['borrow_item_id'];
 						if (itemid) {
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</button></span>';
+							result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
 						} else { 
 							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 						}
 						return result;
 					};
 
+					var search = {
+						datatype: "json",
+						datafields:
+							[
+							{ name: 'transaction_id', type: 'string' },
+							{ name: 'borrow_item_id', type: 'string' },
+							{ name: 'catalog_number', type: 'string' },
+							{ name: 'sci_name', type: 'string' },
+							{ name: 'no_of_spec', type: 'string' },
+							{ name: 'spec_prep', type: 'string' },
+							{ name: 'type_status', type: 'string' },
+							{ name: 'country_of_origin', type: 'string' },
+							{ name: 'object_remarks', type: 'string' }
+							],
+						updaterow: function (rowid, rowdata, commit) {
+							var data = "method=updateBorrowItem";
+							data = data + "&transaction_id=" + rowdata.transaction_id;
+							data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
+							data = data + "&catalog_number=" + rowdata.catalog_number;
+							data = data + "&sci_name=" + rowdata.sci_name;
+							data = data + "&no_of_spec=" + rowdata.no_of_spec;
+							data = data + "&type_status=" + rowdata.type_status;
+							data = data + "&spec_prep=" + rowdata.spec_prep;
+							data = data + "&country_of_origin=" + rowdata.country_of_origin;
+							data = data + "&object_remarks=" + rowdata.object_remarks;
+							$.ajax({
+								dataType: 'json',
+								url: '/transactions/component/borrowFunctions.cfc',
+								data: data,
+									success: function (data, status, xhr) {
+									commit(true);
+								},
+								error: function (jqXHR,textStatus,error) {
+									commit(false);
+									handleFail(jqXHR,textStatus,error,"saving borrow item");
+								}
+							});
+						},
+						root: 'borrowItemRecord',
+						id: 'borrow_item_id',
+						url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
+						timeout: 30000, // units not specified, miliseconds? 
+						loadError: function(jqXHR, textStatus, error) { 
+							handleFail(jqXHR,textStatus,error,"loading borrow items");
+						},
+						async: true
+					};
+
+					function reloadGrid() { 
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+					};
+
 					function loadGrid() { 
-						var search = {
-							datatype: "json",
-							datafields:
-								[
-								{ name: 'transaction_id', type: 'string' },
-								{ name: 'borrow_item_id', type: 'string' },
-								{ name: 'catalog_number', type: 'string' },
-								{ name: 'sci_name', type: 'string' },
-								{ name: 'no_of_spec', type: 'string' },
-								{ name: 'spec_prep', type: 'string' },
-								{ name: 'type_status', type: 'string' },
-								{ name: 'country_of_origin', type: 'string' },
-								{ name: 'object_remarks', type: 'string' }
-								],
-							updaterow: function (rowid, rowdata, commit) {
-								var data = "method=updateBorrowItem";
-								data = data + "&transaction_id=" + rowdata.transaction_id;
-								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
-								data = data + "&catalog_number=" + rowdata.catalog_number;
-								data = data + "&sci_name=" + rowdata.sci_name;
-								data = data + "&no_of_spec=" + rowdata.no_of_spec;
-								data = data + "&type_status=" + rowdata.type_status;
-								data = data + "&spec_prep=" + rowdata.spec_prep;
-								data = data + "&country_of_origin=" + rowdata.country_of_origin;
-								data = data + "&object_remarks=" + rowdata.object_remarks;
-								$.ajax({
-									dataType: 'json',
-									url: '/transactions/component/borrowFunctions.cfc',
-									data: data,
-										success: function (data, status, xhr) {
-										commit(true);
-									},
-									error: function (jqXHR,textStatus,error) {
-										commit(false);
-										handleFail(jqXHR,textStatus,error,"saving borrow item");
-									}
-								});
-							},
-							root: 'borrowItemRecord',
-							id: 'borrow_item_id',
-							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
-							timeout: 30000, // units not specified, miliseconds? 
-							loadError: function(jqXHR, textStatus, error) { 
-								handleFail(jqXHR,textStatus,error,"loading borrow items");
-							},
-							async: true
-						};
 	
 						var dataAdapter = new $.jqx.dataAdapter(search);
 						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
@@ -1198,15 +1221,15 @@ limitations under the License.
 									if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
 										$('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
 									}
-									updateDeaccLimitations('#transaction_id#','borrowLimitationsDiv');
+									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
 								$( document ).ready( function() { 
 									loadTransactionFormPermits(#transaction_id#);
-									updateDeaccLimitations('#transaction_id#','borrowLimitationsDiv');
+									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
-								<p>List here all permissions and rights related documents associated with this borrow including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this borrow.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
+								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
 								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
@@ -1218,11 +1241,10 @@ limitations under the License.
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" title="Subsection: Media">
-							<div class="col-12">
+							<div class="col-12 mb-2">
 								<h2 class="h3">
 									Media documenting this Borrow
-<!--- TODO: Rework text --->
-									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
+									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attatch collecting permits as permissions and rights documents, not here.</span>
 								</h2>
 								<span>
 									<cfset relation="documents borrow">
@@ -1511,7 +1533,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_overAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1520,16 +1542,6 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#over_agent_id#">,
 					'borrow overseen by')
-			</cfquery>
-			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO trans_agent (
-					transaction_id,
-					agent_id,
-					trans_agent_role
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'outside authorized by')
 			</cfquery>
 			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
@@ -1541,7 +1553,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_agent_id#">,
 					'received by')
 			</cfquery>
-			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_receivedfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1561,16 +1573,26 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lending_institution_agent_id#">,
 					'lending institution')
 			</cfquery>
-			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
-				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_contact_agent_id#">,
+					'in-house contact')
+			</cfquery>
+			<cfif isdefined("auth_agent_id") and len(auth_agent_id) gt 0>
+				<cfquery name="q_outauthAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_contact_agent_id#">,
-						'in-house contact')
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
+						'outside authorized by')
 				</cfquery>
 			</cfif>
 			<cfif isdefined("for_use_by_agent_id") and len(for_use_by_agent_id) gt 0>
