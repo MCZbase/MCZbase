@@ -78,14 +78,14 @@ limitations under the License.
                                               <div id="accordion1">
   <div class="card">
     <div class="card-header" id="headingOnex">
-      <h1 class="h3 mb-0 px-1">
-        <button class="btn btn-link" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+      <h1 class="h2 mb-0 px-1">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
           Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
         </button>
       </h1>
     </div>
 
-    <div id="collapseOnex" class="collapsed" aria-labelledby="headingOnex" data-parent="##accordion1">
+    <div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
       <div class="card-body">
                        <script>
                                         function idFormulaChanged(newFormula,baseId) { 
