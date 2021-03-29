@@ -813,15 +813,22 @@ limitations under the License.
 					</form>
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
+					<cfquery name="borrowItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItemsCount_result">
+						select count(*) as ct 
+						from borrow_item
+						where transaction_id = <cfqueryparam cfsqtype="CF_SQL_DECIMAL" value="#transaction_id#">
+					</cfquery>
+					<cfset itemCount = borrowItemCount.ct>
 					<div class="accordion" id="itemAccordion">
-						<div class="accordion-item">
-							<h3 class="accordion-header" id="itemAccordHeadingOne">
-								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+						<div class="card">
+							<h3 class="card-header" id="itemAccordHeadingOne">
+								<button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" data-bs-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
 									Add Borrowed Item
 								</button>
 							</h3>
-   						<div id="itemCollapseOne" class="accordion-collapse collapse show" aria-labelledby="itemAccordHeadingOne" data-bs-parent="##itemAccordion">
-						      <div class="accordion-body">
+							<cfif itemCount GT 0><cfset openAccord = ""><cfelse><cfset openAccord = "show"></cfif>
+   						<div id="itemCollapseOne" class="collapse #openAccord#" aria-labelledby="itemAccordHeadingOne" data-bs-parent="##itemAccordion">
+						      <div class="card-body">
 									<form id="addBorrowItemform">
 										<div class="row mx-0">
 											<input type="hidden" name="method" value="addBorrowItem">
@@ -864,14 +871,14 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="itemAccordHeadingTwo">
+					<div class="card-item">
+						<h2 class="card-header" id="itemAccordHeadingTwo">
 							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
 								Upload Items From CSV File
 							</button>
 						</h2>
-						<div id="itemCollapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="##itemAccordion">
-							<div class="accordion-body">
+						<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="##itemAccordion">
+							<div class="card-body">
 								<div class="w-100">
 									<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 										<input type="hidden" name="action" value="getFile">
@@ -882,7 +889,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="w-100">
-								<label for="t" class="data-entry-label">For a Template, copy the following header line and save as a .csv file:</label>
+								<label for="t" class="data-entry-label">For a Template, copy the following header line and save it as a .csv file:</label>
 								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 							</div>
 						</div>
