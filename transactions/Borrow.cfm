@@ -396,7 +396,7 @@ limitations under the License.
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<span>
 									<label for="for_use_by_agent_name" class="data-entry-label">
-										Received From:
+										For Use By:
 										<span id="for_use_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
@@ -1533,7 +1533,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_overAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1542,16 +1542,6 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#over_agent_id#">,
 					'borrow overseen by')
-			</cfquery>
-			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO trans_agent (
-					transaction_id,
-					agent_id,
-					trans_agent_role
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'outside authorized by')
 			</cfquery>
 			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
@@ -1563,7 +1553,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_agent_id#">,
 					'received by')
 			</cfquery>
-			<cfquery name="q_receivedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_receivedfrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1583,16 +1573,26 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lending_institution_agent_id#">,
 					'lending institution')
 			</cfquery>
-			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
-				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_contact_agent_id#">,
+					'in-house contact')
+			</cfquery>
+			<cfif isdefined("auth_agent_id") and len(auth_agent_id) gt 0>
+				<cfquery name="q_outauthAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_contact_agent_id#">,
-						'in-house contact')
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
+						'outside authorized by')
 				</cfquery>
 			</cfif>
 			<cfif isdefined("for_use_by_agent_id") and len(for_use_by_agent_id) gt 0>
