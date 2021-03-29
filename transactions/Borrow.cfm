@@ -122,7 +122,7 @@ limitations under the License.
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available borrow number"> 
 					<script>
-						function setDeaccNum(cid,borrowNum) {
+						function setBorrowNum(cid,borrowNum) {
 							$("##borrow_number").val(borrowNum);
 							$("##collection_id").val(cid);
 							$("##collection_id").change();
@@ -163,7 +163,7 @@ limitations under the License.
 							</cfcatch>
 							</cftry>
 							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setDeaccNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setBorrowNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 							<cfelse>
 								<span style="font-size:x-small"> No data available for #collection#. </span>
 							</cfif>
@@ -1221,11 +1221,11 @@ limitations under the License.
 									if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
 										$('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
 									}
-									updateDeaccLimitations('#transaction_id#','borrowLimitationsDiv');
+									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
 								$( document ).ready( function() { 
 									loadTransactionFormPermits(#transaction_id#);
-									updateDeaccLimitations('#transaction_id#','borrowLimitationsDiv');
+									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>

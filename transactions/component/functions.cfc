@@ -3535,6 +3535,59 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material (borrow items) in a borrow --->
+<cffunction name="getBorrowLimitations" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getDeaccLimitThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(distinct borrow_item.borrow_item_id) as ct,
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id as borrow_id, borrow.borrow_number
+					from  
+						borrow
+						left join permit_trans on borrow.transaction_id = permit_trans.transaction_id
+						left join permit on permit_trans.permit_id = permit.permit_id
+					where 
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary IS NOT NULL
+					group by
+						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id, borrow.borrow_number
+				</cfquery>
+				<cfif borrowLimitations.recordcount GT 0>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Items</th><th>Document</th><th>Restrictions Summary</th><th>Agreed Benefits</th><th>Benefits Provided</th></thead>
+						<tbody>
+							<cfloop query="deaccLimitations">
+								<tr>
+									<td>#ct#</td>
+									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
+									<td>#restriction_summary#</td>
+									<td>#benefits_summary#</td>
+									<td>#benefits_provided#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None recorded.
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getDeaccLimitThread" />
+	<cfreturn getDeaccLimitThread.output>
+</cffunction>
+
 <!--- method saveBorrow given a transaction_id and additional fields, update a borrow record --->
 <cffunction name="saveBorrow" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
