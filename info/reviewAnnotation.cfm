@@ -139,6 +139,7 @@
 								<input type="hidden" name="action" value="saveReview">
 								<input type="hidden" name="type" value="collection_object_id">
 								<input type="hidden" name="id" value="#collection_object_id#">
+                                <input type="hidden" name="collection" value="#collection#">
 								<input type="hidden" name="annotation_id" value="#annotation_id#">
 								<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
