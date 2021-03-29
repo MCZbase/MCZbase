@@ -758,7 +758,7 @@ limitations under the License.
 							});
 						</script> 
 						<div class="form-row">
-							<div class="form-group col-12 mb-3 mt-2">
+							<div class="form-group col-12 mb-3 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
