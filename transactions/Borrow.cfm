@@ -1205,7 +1205,7 @@ limitations under the License.
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
-								<p>List here all permissions and rights related documents associated with this borrow including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this borrow.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
+								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
 								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
@@ -1220,8 +1220,7 @@ limitations under the License.
 							<div class="col-12 mb-2">
 								<h2 class="h3">
 									Media documenting this Borrow
-<!--- TODO: Rework text --->
-									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
+									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attatch collecting permits as permissions and rights documents, not here.</span>
 								</h2>
 								<span>
 									<cfset relation="documents borrow">
