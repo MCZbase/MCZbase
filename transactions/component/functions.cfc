@@ -2415,7 +2415,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-6 col-md-6 mt-1 mb-3">
+									<div class="col-6 col-md-6 mt-1 mb-2">
 										<input type="button" value="Search" class="btn btn-xs btn-primary mt-1 mr-2" onclick="$('##findPermitForm').submit()">	
 										<script>
 											function createPermitDialogDone () { 
@@ -2424,7 +2424,7 @@ limitations under the License.
 										</script>
 										<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-1 mr-4">
 									</div>
-									<div class="col-6 col-md-6">
+									<div class="col-6 col-md-6 mt-1 mb-2">
 										<span id="createPermit_#shipment_id#_span">
 											<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-1' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
 										</span>
