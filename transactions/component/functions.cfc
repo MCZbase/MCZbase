@@ -3575,6 +3575,7 @@ limitations under the License.
 						and permit.restriction_summary IS NOT NULL
 					group by
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
+						borrow.transaction_id, borrow.borrow_number
 				</cfquery>
 				<cfif borrowLimitations.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
