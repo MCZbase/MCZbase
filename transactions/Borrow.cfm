@@ -174,7 +174,7 @@ limitations under the License.
 				<section class="col-12 border bg-white pt-3" id="newBorrowFormSection" aria-label="Form to create new borrow">
 					<form name="newBorrow" id="newBorrow" class="" action="/transactions/Borrow.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeBorrow">
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select" required >
@@ -206,7 +206,7 @@ limitations under the License.
 								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" >
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-3">
 								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
 								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" >
@@ -227,7 +227,7 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input">
@@ -244,7 +244,7 @@ limitations under the License.
 									class="reqdClr w-100 data-entry-input">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="auth_agent" class="data-entry-label">
@@ -300,7 +300,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="received_from_agent_name" class="data-entry-label">
@@ -356,7 +356,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="outside_contact_agent_name" class="data-entry-label">
@@ -412,7 +412,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12">
 								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
@@ -421,7 +421,7 @@ limitations under the License.
 									></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
@@ -430,7 +430,7 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12">
 								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
 								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
@@ -439,7 +439,7 @@ limitations under the License.
 									required ></textarea>
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
