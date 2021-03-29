@@ -75,10 +75,19 @@ limitations under the License.
                         <div class="col-12 col-lg-6 float-left pl-0">
                             
 
-                            
-                            
-                            <h1 class="h3 mb-0 px-1"> Add New Determination <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
-                            <script>
+                                              <div id="accordion1">
+  <div class="card">
+    <div class="card-header" id="headingOnex">
+      <h1 class="h3 mb-0 px-1">
+        <button class="btn btn-link" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+          Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
+        </button>
+      </h1>
+    </div>
+
+    <div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
+      <div class="card-body">
+                       <script>
                                         function idFormulaChanged(newFormula,baseId) { 
                                             if(newFormula.includes("B")) {
                                                 $('##' + baseId).show();
@@ -182,6 +191,11 @@ limitations under the License.
                         </script> 
                                 </div>
                             </form>
+      </div>
+    </div>
+                                    </div></div>
+                            
+                           
                         </div>
                         <div class="col-12 col-lg-6 float-left px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
