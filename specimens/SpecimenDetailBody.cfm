@@ -649,7 +649,7 @@ limitations under the License.
     <div class="card-header" id="headingOnex">
       <h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-          Collapsible Group Item #1
+          Collapsible Group Item 
         </button>
       </h5>
     </div>
