@@ -4284,7 +4284,7 @@ limitations under the License.
 									<cfset rowstyle = "list-even">
 								</cfif>
 								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
-									<div class="col-12 col-md-4 pr-0">
+									<div class="col-12 col-md-4 pr-md-0">
 										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
@@ -4300,7 +4300,7 @@ limitations under the License.
 											});
 										</script>
 									</div>							
-									<div class="col-12 col-md-1 px-0">
+									<div class="col-12 col-md-1 px-md-0">
 										<label class="data-entry-label"> 						
 											<span id="agentViewLink_#i#" class="px-2 d-inline-block mt-1"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
