@@ -813,6 +813,81 @@ limitations under the License.
 					</form>
 				</section>
 				<section name="borrowItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Borrow">
+					<div class="accordion" id="itemAccordion">
+						<div class="accordion-item">
+							<h3 class="accordion-header" id="itemAccordHeadingOne">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+									Add Borrowed Item
+								</button>
+							</h3>
+   						<div id="itemCollapseOne" class="accordion-collapse collapse show" aria-labelledby="itemAccordHeadingOne" data-bs-parent="##itemAccordion">
+						      <div class="accordion-body">
+									<form id="addBorrowItemform">
+										<div class="row mx-0">
+											<input type="hidden" name="method" value="addBorrowItem">
+											<input type="hidden" name="returnformat" value="json">
+											<input type="hidden" name="queryformat" value="column">
+											<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+											<div class="col-12 col-md-2 px-1 mt-1">
+												<label for="catalog_number" class="data-entry-label">Catalog Number</label>
+												<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="sci_name" class="data-entry-label">Scientific Name</label>
+												<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-2 px-1 mt-1">
+												<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
+												<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
+												<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="type_status" class="data-entry-label">Type Status</label>
+												<input type="text" class="data-entry-input" name="type_status" id="type_status" >
+											</div>
+											<div class="col-12 col-md-3 px-1 mt-1">
+												<label for="country_of_origin" class="data-entry-label">County of Origin</label>
+												<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
+											</div>
+											<div class="col-12 col-md-6 px-1 mt-1">
+												<label for="object_remarks" class="data-entry-label">Remarks</label>
+												<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
+											</div>
+											<div class="col-12 col-md-12 px-1">
+												<button class="btn btn-xs btn-primary col-2 col-xl-1 px-0 mt-2" type="button" onclick=" addBorrowItem2();" value="Add Item">Add Item</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="itemAccordHeadingTwo">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+								Upload Items From CSV File
+							</button>
+						</h2>
+						<div id="itemCollapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="##itemAccordion">
+							<div class="accordion-body">
+								<div class="w-100">
+									<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
+										<input type="hidden" name="action" value="getFile">
+										<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+										<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
+										<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
+									</cfform>
+								</div>
+							</div>
+							<div class="w-100">
+								<label for="t" class="data-entry-label">For a Template, copy the following header line and save as a .csv file:</label>
+								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+							</div>
+						</div>
+					</div>
+
 					<div class="col-12 pt-3 pb-1">
 						<h3 class="h4">Add Borrowed Item</h3>
 						<form id="addBorrowItemform">
