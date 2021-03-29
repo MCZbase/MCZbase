@@ -992,8 +992,6 @@ limitations under the License.
 						$('##resultCount').html('');
 						$('##resultLink').html('');
 					});
-	
-
 
 					function gridLoaded(gridId, searchType) { 
 						$("##overlay").hide();
@@ -1003,22 +1001,9 @@ limitations under the License.
 						// display the number of rows found
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
-						var items = "";
-						if (searchType == 'accn') { 
-							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-							if (item_summary['sum']==1){ 
-								items = ' ' + item_summary['sum'] + ' cataloged_item';
-							} else {
-								items = ' ' + item_summary['sum'] + ' cataloged_items';
-							}
-						}
-						if (searchType == 'deacc') { 
-							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-							if (item_summary['sum']==1){ 
-								items = ' ' + item_summary['sum'] + ' cataloged_item';
-							} else {
-								items = ' ' + item_summary['sum'] + ' cataloged_items';
-							}
+						var items = "."
+						if (rowcount > 0) {
+							items = ". Click on a cell to edit. ";
 						}
 						if (rowcount == 1) {
 							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
