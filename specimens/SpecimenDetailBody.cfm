@@ -648,13 +648,13 @@ limitations under the License.
   <div class="card">
     <div class="card-header" id="headingOnex">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+        <button class="btn btn-link" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
           Collapsible Group Item 
         </button>
       </h5>
     </div>
 
-    <div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="#accordion1">
+    <div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
       <div class="card-body">
 	<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
