@@ -827,7 +827,7 @@ limitations under the License.
 						<cfset openAccord = "show">
 						<cfset btnAccord = "">
 					</cfif>
-					<div class="accordion" id="itemAccordion">
+					<div class="accordion w-100" id="itemAccordion">
 						<div class="card">
 							<h3 class="card-header" id="itemAccordHeadingOne">
 								<button class="btn btn-link btn-block text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
@@ -902,75 +902,6 @@ limitations under the License.
 						</div>
 					</div>
 
-					<div class="col-12 pt-3 pb-1">
-						<h3 class="h4 px-2">Add Borrowed Item</h3>
-						<form id="addBorrowItemform">
-							<div class="row mx-0">
-								<input type="hidden" name="method" value="addBorrowItem">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-								<div class="col-12 col-md-2 px-1 mt-1">
-									<label for="catalog_number" class="data-entry-label">Catalog Number</label>
-									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
-								</div>
-								<div class="col-12 col-md-3 px-1 mt-1">
-									<label for="sci_name" class="data-entry-label">Scientific Name</label>
-									<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-2 px-1 mt-1">
-									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
-									<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-3 px-1 mt-1">
-									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
-									<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
-								</div>
-								<div class="col-12 col-md-3 px-1 mt-1">
-									<label for="type_status" class="data-entry-label">Type Status</label>
-									<input type="text" class="data-entry-input" name="type_status" id="type_status" >
-								</div>
-								<div class="col-12 col-md-3 px-1 mt-1">
-									<label for="country_of_origin" class="data-entry-label">County of Origin</label>
-									<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
-								</div>
-								<div class="col-12 col-md-6 px-1 mt-1">
-									<label for="object_remarks" class="data-entry-label">Remarks</label>
-									<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
-								</div>
-								<div class="col-12 col-md-12 px-1">
-									<button class="btn btn-xs btn-primary col-2 col-xl-1 px-0 mt-2" type="button" onclick=" addBorrowItem2();" value="Add Item">Add Item</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: refactor upload csv to use ajax and a backing method --->
-						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
-						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
-							<input type="hidden" name="action" value="getFile">
-							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-							<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
-							<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
-						</cfform>
-					</div>
-					<div class="col-12 pt-3 pb-1">
-						<p><span class="data-entry-label" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
-						<div id="template" style="display:none;" class="w-100">
-							<label for="t" class="data-entry-label">Copy the following code and save as a .csv file</label>
-							<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
-						</div>
-						<script>
-							function toggleTemplate() {
-								$('##template').toggle();
-								if ($('##template').is(':visible')) {
-									$('##toggleLink').html('Hide csv file temlate');
-								} else {
-									$('##toggleLink').html('View csv file temlate');
-								}
-							}
-						</script>
-					</div>
 					<script>
 						function addBorrowItem2() {
 							jQuery.ajax( {
