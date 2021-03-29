@@ -67,29 +67,30 @@ limitations under the License.
                 <cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-                <div class="container-fluid">
-                <div class="row">
+                <section class="container-fluid">
+                <div class="row accordion w-100">
                     <div class="col-12 px-0"> 
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-                        <div class="col-12 col-lg-6 float-left pl-0">
-                            <h1 class="h3 mb-0 px-1"> Add New Determination <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
+                        <div class="card col-12 col-lg-6 float-left pl-0">
+                            <h1 class="h3 mb-0 px-1 card-header"><button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne"> Add New Determination <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </button></h1>
                             <script>
-                                        function idFormulaChanged(newFormula,baseId) { 
-                                            if(newFormula.includes("B")) {
-                                                $('##' + baseId).show();
-                                                $('##'+baseId+'_label').show();
-                                            } else { 
-                                                $('##' + baseId).hide();
-                                                $('##'+baseId+'_label').hide();
-                                                $('##' + baseId).val("");
-                                                $('##'+baseID+'_id').val("");
-                                            }
-                                        }
-                                        </script>
+                            function idFormulaChanged(newFormula,baseId) { 
+                                if(newFormula.includes("B")) {
+                                    $('##' + baseId).show();
+                                    $('##'+baseId+'_label').show();
+                                } else { 
+                                    $('##' + baseId).hide();
+                                    $('##'+baseId+'_label').hide();
+                                    $('##' + baseId).val("");
+                                    $('##'+baseID+'_id').val("");
+                                }
+                            }
+                            </script>
                             <form name="newIDForm" id="newIDForm">
                                 <input type="hidden" name="Action" value="createNew">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-                                <div class="border bg-light px-3 rounded mt-0 pt-2 pb-3">
+                                <div id="itemCollapseOne" class="collapse show" aria-labelledby="itemAccordHeadingOne" data-parent="#itemAccordion">
+                                    <div class="card-body border bg-light px-3 rounded mt-0 pt-2 pb-3">
                                     <div class="row mt-2">
                                         <div class="col-12 col-md-3">
                                             <label for="taxa_formula" class="data-entry-label">ID Formula</label>
@@ -175,6 +176,7 @@ limitations under the License.
                                 makePublicationAutocompleteMeta("newPub", "new_publication_id");
                             });
                         </script> 
+                                </div>
                                 </div>
                             </form>
                         </div>
@@ -371,7 +373,7 @@ limitations under the License.
                         </div>
                     </div>
                 </div>
-                </div>
+                </section>
                 <cfcatch>
                     <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
