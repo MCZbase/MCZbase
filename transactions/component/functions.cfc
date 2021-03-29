@@ -3553,6 +3553,7 @@ limitations under the License.
 						borrow
 						left join permit_trans on borrow.transaction_id = permit_trans.transaction_id
 						left join permit on permit_trans.permit_id = permit.permit_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
 					where 
 						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and permit.restriction_summary IS NOT NULL
