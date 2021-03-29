@@ -2512,6 +2512,7 @@ limitations under the License.
 		<cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
 		<cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
 		<cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+		<cfif NOT isdefined('permit_id')><cfset permit_id=''></cfif>
 		<cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
 		<cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
 		<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
@@ -2548,7 +2549,7 @@ limitations under the License.
 				left join permit_trans on permit.permit_id = permit_trans.permit_id 
 			where
 				permit.permit_id is not null
-				<cfif isDefined("permit_id") AND len(#permit_id#) gt 0>
+				<cfif len(#permit_id#) gt 0>
 					AND permit.permit_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#permit_id#'>
 				</cfif>
 				<cfif len(#IssuedByAgent#) gt 0>
@@ -2566,8 +2567,8 @@ limitations under the License.
 				<cfif len(#exp_Date#) gt 0>
 					AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
 				</cfif>
-				<cfif len(#permit_Num#) gt 0>
-					AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+				<cfif len(#permit_Num#) gt 0 and len(#permit_id#) EQ 0>
+					AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#trim(permit_Num)#'>
 				</cfif>
 				<cfif len(#specific_type#) gt 0>
 					AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
