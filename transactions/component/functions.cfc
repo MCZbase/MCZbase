@@ -2881,10 +2881,14 @@ limitations under the License.
 						<cfelseif transaction EQ "accn">
 							cataloged_item li
 						</cfif>
-						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-						left join accn on ci.accn_id = accn.transaction_id
-						left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						<cfif transaction EQ "borrow">
+							left join permit_trans on li.transaction_id = permit_trans.transaction_id
+						<cfelse>
+							left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+							left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+							left join accn on ci.accn_id = accn.transaction_id
+							left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						</cfif>
 						left join permit p on permit_trans.permit_id = p.permit_id
 						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
 					where 
