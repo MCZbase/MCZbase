@@ -3567,7 +3567,7 @@ limitations under the License.
 					from 
 						borrow
 						left join shipment on borrow.transaction_id = shipment.transaction_id
-						left join permit_shipment on shipment.shipment_id = permit_shipment.permit_id
+						left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 						left join permit on permit_shipment.permit_id = permit.permit_id
 						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
 					where 
