@@ -200,15 +200,32 @@ function loadParts(collection_object_id,targetDivId) {
 	});
 }
 
-function loadLocality(collecting_event_id,targetDivId) { 
+function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getLocalityHTML",
-			collecting_event_id: collecting_event_id,
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading locality");
+		},
+		dataType: "html"
+	});
+}
+
+function loadLocality(collecting_event_id,form) { 
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getLocalityHtml",
+			collecting_event_id: collecting_event_id,
+		},
+		success: function (result) {
+			$("#localityHTML).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading locality");
