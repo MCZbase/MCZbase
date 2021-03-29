@@ -1775,6 +1775,10 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
     color: #bd2130 !important; 
     text-decoration: underline;
 }
+.jqx-grid-cell-selected-light a.btn-danger:focus:hover, .jqx-fill-state-pressed a.btn-danger:hover {
+    color: #ffffff !important; 
+    text-decoration: underline;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
