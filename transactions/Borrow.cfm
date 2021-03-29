@@ -870,8 +870,11 @@ limitations under the License.
 												<label for="object_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
 											</div>
-											<div class="col-12 col-md-12 px-1">
-												<button class="btn btn-xs btn-primary col-2 col-xl-1 px-0 mt-2" type="button" onclick=" addBorrowItem2();" value="Add Item">Add Item</button>
+											<div class="col-12 col-md-2 px-1">
+												<button class="btn btn-xs btn-primary col-2 col-xl-1 px-0 mt-2" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
+											</div>
+											<div class="col-12 col-md-10 px-1">
+												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
 											</div>
 										</div>
 									</form>
@@ -903,19 +906,31 @@ limitations under the License.
 					</div>
 
 					<script>
-						function addBorrowItem2() {
+						function addBorrowItem() {
+							$('##addItemFeedback').html("Saving...");
+							$('##addItemFeedback').addClass('text-warning');
+							$('##addItemFeedback').removeClass('text-success');
+							$('##addItemFeedback').removeClass('text-danger');
 							jQuery.ajax( {
 								url : "/transactions/component/borrowFunctions.cfc",
 								type : "post",
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
 								success : function (data) {
-									reloadBorrowItems(#transaction_id#);
+									$('##addItemFeedback').html("Added borrow item.");
+									$('##addItemFeedback').addClass('text-success');
+									$('##addItemFeedback').removeClass('text-warning');
+									$('##addItemFeedback').removeClass('text-danger');
 									$("##catalog_number").val('');
 									$("##no_of_spec").val('');
 									$("##type_status").val('');
+									reloadBorrowItems(#transaction_id#);
 								},
 								error: function(jqXHR,textStatus,error){
+									$('##addItemFeedback').html("Error");
+									$('##addItemFeedback').addClass('text-danger');
+									$('##addItemFeedback').removeClass('text-success');
+									$('##addItemFeedback').removeClass('text-warning');
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
 							});
@@ -940,7 +955,7 @@ limitations under the License.
 							});
 						};
 						function reloadBorrowItems(transaction_id) {
-							loadGrid();
+							reloadGrid();
 						};
 					</script>
 					<div class="container-fluid">
@@ -1085,54 +1100,60 @@ limitations under the License.
 						return result;
 					};
 
+					var search = {
+						datatype: "json",
+						datafields:
+							[
+							{ name: 'transaction_id', type: 'string' },
+							{ name: 'borrow_item_id', type: 'string' },
+							{ name: 'catalog_number', type: 'string' },
+							{ name: 'sci_name', type: 'string' },
+							{ name: 'no_of_spec', type: 'string' },
+							{ name: 'spec_prep', type: 'string' },
+							{ name: 'type_status', type: 'string' },
+							{ name: 'country_of_origin', type: 'string' },
+							{ name: 'object_remarks', type: 'string' }
+							],
+						updaterow: function (rowid, rowdata, commit) {
+							var data = "method=updateBorrowItem";
+							data = data + "&transaction_id=" + rowdata.transaction_id;
+							data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
+							data = data + "&catalog_number=" + rowdata.catalog_number;
+							data = data + "&sci_name=" + rowdata.sci_name;
+							data = data + "&no_of_spec=" + rowdata.no_of_spec;
+							data = data + "&type_status=" + rowdata.type_status;
+							data = data + "&spec_prep=" + rowdata.spec_prep;
+							data = data + "&country_of_origin=" + rowdata.country_of_origin;
+							data = data + "&object_remarks=" + rowdata.object_remarks;
+							$.ajax({
+								dataType: 'json',
+								url: '/transactions/component/borrowFunctions.cfc',
+								data: data,
+									success: function (data, status, xhr) {
+									commit(true);
+								},
+								error: function (jqXHR,textStatus,error) {
+									commit(false);
+									handleFail(jqXHR,textStatus,error,"saving borrow item");
+								}
+							});
+						},
+						root: 'borrowItemRecord',
+						id: 'borrow_item_id',
+						url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
+						timeout: 30000, // units not specified, miliseconds? 
+						loadError: function(jqXHR, textStatus, error) { 
+							handleFail(jqXHR,textStatus,error,"loading borrow items");
+						},
+						async: true
+					};
+
+					function reloadGrid() { 
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+					};
+
 					function loadGrid() { 
-						var search = {
-							datatype: "json",
-							datafields:
-								[
-								{ name: 'transaction_id', type: 'string' },
-								{ name: 'borrow_item_id', type: 'string' },
-								{ name: 'catalog_number', type: 'string' },
-								{ name: 'sci_name', type: 'string' },
-								{ name: 'no_of_spec', type: 'string' },
-								{ name: 'spec_prep', type: 'string' },
-								{ name: 'type_status', type: 'string' },
-								{ name: 'country_of_origin', type: 'string' },
-								{ name: 'object_remarks', type: 'string' }
-								],
-							updaterow: function (rowid, rowdata, commit) {
-								var data = "method=updateBorrowItem";
-								data = data + "&transaction_id=" + rowdata.transaction_id;
-								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
-								data = data + "&catalog_number=" + rowdata.catalog_number;
-								data = data + "&sci_name=" + rowdata.sci_name;
-								data = data + "&no_of_spec=" + rowdata.no_of_spec;
-								data = data + "&type_status=" + rowdata.type_status;
-								data = data + "&spec_prep=" + rowdata.spec_prep;
-								data = data + "&country_of_origin=" + rowdata.country_of_origin;
-								data = data + "&object_remarks=" + rowdata.object_remarks;
-								$.ajax({
-									dataType: 'json',
-									url: '/transactions/component/borrowFunctions.cfc',
-									data: data,
-										success: function (data, status, xhr) {
-										commit(true);
-									},
-									error: function (jqXHR,textStatus,error) {
-										commit(false);
-										handleFail(jqXHR,textStatus,error,"saving borrow item");
-									}
-								});
-							},
-							root: 'borrowItemRecord',
-							id: 'borrow_item_id',
-							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
-							timeout: 30000, // units not specified, miliseconds? 
-							loadError: function(jqXHR, textStatus, error) { 
-								handleFail(jqXHR,textStatus,error,"loading borrow items");
-							},
-							async: true
-						};
 	
 						var dataAdapter = new $.jqx.dataAdapter(search);
 						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
