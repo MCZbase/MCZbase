@@ -816,40 +816,40 @@ limitations under the License.
 					<div class="col-12 pt-3 pb-1">
 						<h3 class="h4">Add Borrowed Item</h3>
 						<form id="addBorrowItemform">
-							<div class="row">
+							<div class="row mx-0">
 								<input type="hidden" name="method" value="addBorrowItem">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-								<div class="col-12 col-md-2 mt-1">
+								<div class="col-12 col-md-2 px-1 mt-1">
 									<label for="catalog_number" class="data-entry-label">Catalog Number</label>
 									<input type="text" class="data-entry-input" name="catalog_number" id="catalog_number">
 								</div>
-								<div class="col-12 col-md-3 mt-1">
+								<div class="col-12 col-md-3 px-1 mt-1">
 									<label for="sci_name" class="data-entry-label">Scientific Name</label>
 									<input type="text" name="sci_name" id="sci_name" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-2 mt-1">
+								<div class="col-12 col-md-2 px-1 mt-1">
 									<label for="no_of_spec" class="data-entry-label">No.&nbsp;of Specimens</label>
 									<input type="text" name="no_of_spec" id="no_of_spec" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 mt-1">
+								<div class="col-12 col-md-3 px-1 mt-1">
 									<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
 									<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-3 mt-1">
+								<div class="col-12 col-md-3 px-1 mt-1">
 									<label for="type_status" class="data-entry-label">Type Status</label>
 									<input type="text" class="data-entry-input" name="type_status" id="type_status" >
 								</div>
-								<div class="col-12 col-md-3 mt-1">
+								<div class="col-12 col-md-3 px-1 mt-1">
 									<label for="country_of_origin" class="data-entry-label">County of Origin</label>
 									<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
 								</div>
-								<div class="col-12 col-md-8 mt-1">
+								<div class="col-12 col-md-8 px-1 mt-1">
 									<label for="object_remarks" class="data-entry-label">Remarks</label>
 									<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
 								</div>
-								<div class="col-12 col-md-12">
+								<div class="col-12 col-md-12 px-1">
 									<button class="btn btn-xs btn-primary col-1 px-0 mt-2" type="button" onclick=" addBorrowItem2();" value="Add Row">Add Row</button>
 								</div>
 							</div>
