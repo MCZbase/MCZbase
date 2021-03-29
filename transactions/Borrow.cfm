@@ -896,7 +896,7 @@ limitations under the License.
 					</div>
 
 					<div class="col-12 pt-3 pb-1">
-						<h3 class="h4">Add Borrowed Item</h3>
+						<h3 class="h4 px-2">Add Borrowed Item</h3>
 						<form id="addBorrowItemform">
 							<div class="row mx-0">
 								<input type="hidden" name="method" value="addBorrowItem">
