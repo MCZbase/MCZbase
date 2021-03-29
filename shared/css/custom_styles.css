@@ -1752,7 +1752,7 @@ div[aria-hidden='false'] {
 	display:block;
 }
 a.btn-outline-primary {
-    backgroun-color: white;
+    background-color: white;
     padding-bottom: .05rem;
     color: #007bff;
     text-decoration:none;
@@ -1764,6 +1764,28 @@ a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):
     color: white !important;
     padding-bottom: .05rem;
     font-size: .785rem;
+}
+a.btn-danger {
+    background-color: white;
+    padding-bottom: .05rem;
+    color: #bd2130;
+    text-decoration:none;
+    font-size: .785rem;
+}
+a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
+    background-color: #bd2130;
+    text-decoration:none;
+    color: white !important;
+    padding-bottom: .05rem;
+    font-size: .785rem;
+}
+.jqx-grid-cell-selected-light a.btn-danger:focus, .jqx-fill-state-pressed a.btn-danger {
+    color: #bd2130 !important; 
+    text-decoration: none;
+}
+.jqx-fill-state-pressed a.btn-danger:hover, .jqx-fill-state-pressed a.btn-danger.hover {
+    color: #ffffff !important; 
+    text-decoration: none;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
