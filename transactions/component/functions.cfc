@@ -2359,33 +2359,33 @@ limitations under the License.
 								<input type="hidden" name="shipment_id" value="#shipment_id#">
 								<input type="hidden" name="shipment_label" value="#shipment_label#">
 								<div class="form-row">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
 										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
 										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="data-entry-input">
 									</div>
-									<div class="col-6 col-md-3">
+									<div class="col-6 col-md-3 mt-1">
 										<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
 										<input type="text" name="issued_Date" id="pf_issued_date" class="data-entry-input">
 									</div>
-									<div class="col-6 col-md-3">
+									<div class="col-6 col-md-3 mt-1">
 										<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
 										<input type="text" name="renewed_Date" id="pf_renewed_date" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
 										<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="permit_Num">Permit Number</label>
 										<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
 										<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
 											<option value=""></option>
@@ -2394,13 +2394,13 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-3 mt-1">
 										<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
 										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
 										<select name="specific_type" size="1" id="pf_specific_type" class="data-entry-select">
 											<option value=""></option>
@@ -2409,13 +2409,13 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
 										<input type="text" name="permit_title" id="pf_permit_title" class="data-entry-input">
 									</div>
 								</div>
-								<div class="form-row my-2">
-									<div class="col-6 col-md-6">
+								<div class="form-row">
+									<div class="col-6 col-md-6 mt-1">
 										<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
 										<script>
 											function createPermitDialogDone () { 
