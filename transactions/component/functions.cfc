@@ -2382,9 +2382,21 @@ limitations under the License.
 										<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
 									</div>
 									<div class="col-12 col-md-3">
-										<label class="data-entry-label" for="permit_Num">Permit Number</label>
-										<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
+										<label class="data-entry-label" for="search_permit_num">Permit Number</label>
+										<input type="text" name="permit_Num" id="search_permit_num" class="data-entry-input">
+										<input type="hidden" name="permit_id" id="search_permit_id">
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makePermitPicker('search_permit_num','search_permit_id'));
+											$('##search_permit_num').blur( function () {
+												// prevent an invisible permit_id from being included in the search.
+												if ($('##search_permit_num').val().trim() == "") { 
+													$('##search_permit_id').val("");
+												}
+											});
+										});
+									</script>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
 										<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
@@ -2487,6 +2499,7 @@ limitations under the License.
 	<cfargument name="renewed_Date" type="string" required="no">
 	<cfargument name="exp_Date" type="string" required="no">
 	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="specific_type" type="string" required="no">
 	<cfargument name="permit_Type" type="string" required="no">
 	<cfargument name="permit_title" type="string" required="no">
@@ -2535,6 +2548,9 @@ limitations under the License.
 				left join permit_trans on permit.permit_id = permit_trans.permit_id 
 			where
 				permit.permit_id is not null
+				<cfif isDefined("permit_id") AND len(#permit_id#) gt 0>
+					AND permit.permit_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#permit_id#'>
+				</cfif>
 				<cfif len(#IssuedByAgent#) gt 0>
 					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
 				</cfif>
