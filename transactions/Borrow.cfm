@@ -816,7 +816,7 @@ limitations under the License.
 					<cfquery name="borrowItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItemsCount_result">
 						select count(*) as ct 
 						from borrow_item
-						where transaction_id = <cfqueryparam cfsqtype="CF_SQL_DECIMAL" value="#transaction_id#">
+						where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					</cfquery>
 					<cfset itemCount = borrowItemCount.ct>
 					<div class="accordion" id="itemAccordion">
