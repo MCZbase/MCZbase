@@ -870,10 +870,8 @@ limitations under the License.
 												<label for="object_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
 											</div>
-											<div class="col-12 col-md-2 px-1">
-												<button class="btn btn-xs btn-primary col-2 col-xl-1 px-0 mt-2" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
-											</div>
-											<div class="col-12 col-md-10 px-1">
+											<div class="form-group col-12 px-1">
+												<button class="btn btn-xs btn-primary" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
 												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
 											</div>
 										</div>
