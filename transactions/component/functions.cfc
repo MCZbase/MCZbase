@@ -4327,11 +4327,11 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<button type="button" 
-											class="btn btn-xs btn-warning float-left my-1 mr-2" 
+											class="btn btn-xs btn-warning float-left mt-2 mb-1 mr-2" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
 											>Remove</button>
 										<button type="button" 
-											class="btn btn-xs btn-secondary my-1 float-left" 
+											class="btn btn-xs btn-secondary mt-2 mb-1 float-left" 
 											onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');"
 											>Clone</button>
 									</div>
