@@ -80,6 +80,39 @@ limitations under the License.
 		});
 	</script>
 </cfoutput>
+
+<!--- TODO: Refactor into an ajax backing method --->
+<cfif action is "getFile">
+	<cfoutput>
+		<!-- upload items --->
+		<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+		<cfset fileContent=replace(fileContent,"'","''","all")>
+		<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+		<cfset colNames="">
+		<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
+			<cfset colVals="">
+				<cfloop from="1" to ="#ArrayLen(arrResult[o])#" index="i">
+					<cfset thisBit=arrResult[o][i]>
+					<cfif #o# is 1>
+						<cfset colNames="#colNames#,#thisBit#">
+					<cfelse>
+						<cfset colVals="#colVals#,'#thisBit#'">
+					</cfif>
+				</cfloop>
+			<cfif #o# is 1>
+				<cfset colNames="TRANSACTION_ID#colNames#">
+			</cfif>
+			<cfif len(#colVals#) gt 1>
+				<cfset colVals="#transaction_id##colVals#">
+				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into BORROW_ITEM (#colNames#) values (#preservesinglequotes(colVals)#)
+				</cfquery>
+			</cfif>
+		</cfloop>
+		<cflocation url="/transactions/Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
+	</cfoutput>
+</cfif>
+
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "new">
 	<cfset title="New Borrow">
@@ -727,7 +760,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits();  } " 
+									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
@@ -823,28 +856,21 @@ limitations under the License.
 							</div>
 						</form>
 					</div>
-					<!--- TODO: Copy and refactor add item from /Borrow.cfm --->
 					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: editable borrow item table --->
-						<div id="borrowItems"></div>
-					</div>
-					<div class="col-12 pt-3 pb-1">
-						<!--- TODO: Copy and refactor upload csv from /Borrow.cfm --->
+						<!--- TODO: refactor upload csv to use ajax and a backing method --->
 						<h4 style="margin-bottom: 0;margin-left: 5px;">Upload Items From CSV File</h4>
 						<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 							<input type="hidden" name="action" value="getFile">
 							<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-							<input type="file"
-								name="FiletoUpload"
-								size="45">
-							<input type="submit" value="Upload this file" >
+							<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
+							<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
 						</cfform>
 					</div>
 					<div class="col-12 pt-3 pb-1">
-						<p style="margin: 1em 0;"><span class="likeLink" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
-						<div id="template" style="display:none;">
-							<label for="t">Copy the following code and save as a .csv file</label>
-							<textarea rows="2" cols="90" id="t">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
+						<p><span class="data-entry-label" onclick=" toggleTemplate(); " id="toggleLink">View csv file template</span></p>
+						<div id="template" style="display:none;" class="w-100">
+							<label for="t" class="data-entry-label">Copy the following code and save as a .csv file</label>
+							<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 						</div>
 						<script>
 							function toggleTemplate() {
@@ -865,7 +891,7 @@ limitations under the License.
 								dataType : "json",
 								data : $("##addBorrowItemform").serialize(),
 								success : function (data) {
-									loadBorrowItems(#transaction_id#);
+									reloadBorrowItems(#transaction_id#);
 									$("##catalog_number").val('');
 									$("##no_of_spec").val('');
 									$("##type_status").val('');
@@ -887,32 +913,281 @@ limitations under the License.
 									borrow_item_id : borrow_item_id
 								},
 								success : function (data) {
-									loadBorrowItems(#transaction_id#);
+									reloadBorrowItems(#transaction_id#);
 			 					},
 								error: function(jqXHR,textStatus,error){
 									handleFail(jqXHR,textStatus,error,"adding borrow item");
 								}
 							});
 						};
-						function loadBorrowItems(transaction_id) {
-							jQuery.ajax({
-								url: "/transactions/component/borrowFunctions.cfc",
-								dataType: "html",
-								data : {
-									method : "getBorrowItemsHTML",
-									transaction_id : transaction_id
-								},
-								success: function (result) {
-									$("##borrowItems").html(result);
-								},
-								error: function(jqXHR,textStatus,error){
-									handleFail(jqXHR,textStatus,error,"adding borrow item");
-								}
-							});
+						function reloadBorrowItems(transaction_id) {
+							loadGrid();
 						};
-						$(document).ready(loadBorrowItems(#transaction_id#));
 					</script>
+					<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mb-5">
+							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+							<h1 class="h4">Borrow Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
+								<div id="columnPickDialog">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-12 col-md-6">
+												<div id="columnPick" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div id="columnPick1" class="px-1"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0 mx-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
+						</div>
+					</div>
+					</div>
 				</section>
+				<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
+				<script>
+					$(document).ready(function() {
+						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+						$('##resultCount').html('');
+						$('##resultLink').html('');
+					});
+	
+
+
+					function gridLoaded(gridId, searchType) { 
+						$("##overlay").hide();
+						var now = new Date();
+						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+						var filename = searchType + '_results_' + nowstring + '.csv';
+						// display the number of rows found
+						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+						var rowcount = datainformation.rowscount;
+						var items = "";
+						if (searchType == 'accn') { 
+							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+							if (item_summary['sum']==1){ 
+								items = ' ' + item_summary['sum'] + ' cataloged_item';
+							} else {
+								items = ' ' + item_summary['sum'] + ' cataloged_items';
+							}
+						}
+						if (searchType == 'deacc') { 
+							item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+							if (item_summary['sum']==1){ 
+								items = ' ' + item_summary['sum'] + ' cataloged_item';
+							} else {
+								items = ' ' + item_summary['sum'] + ' cataloged_items';
+							}
+						}
+						if (rowcount == 1) {
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
+						} else { 
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
+						}
+						// set maximum page size
+						if (rowcount > 100) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
+						} else if (rowcount > 50) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
+						} else { 
+							$('##' + gridId).jqxGrid({ pageable: false });
+						}
+						// add a control to show/hide columns
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 0; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){ $(this).dialog("close"); }
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+						);
+						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+						var maxZIndex = getMaxZIndex();
+						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					};
+
+					// Cell renderers
+					var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var result = "";
+						var itemid = rowData['borrow_item_id'];
+						if (itemid) {
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><button name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</button></span>';
+						} else { 
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						}
+						return result;
+					};
+
+					function loadGrid() { 
+						var search = {
+							datatype: "json",
+							datafields:
+								[
+								{ name: 'transaction_id', type: 'string' },
+								{ name: 'borrow_item_id', type: 'string' },
+								{ name: 'catalog_number', type: 'string' },
+								{ name: 'sci_name', type: 'string' },
+								{ name: 'no_of_spec', type: 'string' },
+								{ name: 'spec_prep', type: 'string' },
+								{ name: 'type_status', type: 'string' },
+								{ name: 'country_of_origin', type: 'string' },
+								{ name: 'object_remarks', type: 'string' }
+								],
+							updaterow: function (rowid, rowdata, commit) {
+								var data = "method=updateBorrowItem";
+								data = data + "&transaction_id=" + rowdata.transaction_id;
+								data = data + "&borrow_item_id=" + rowdata.borrow_item_id;
+								data = data + "&catalog_number=" + rowdata.catalog_number;
+								data = data + "&sci_name=" + rowdata.sci_name;
+								data = data + "&no_of_spec=" + rowdata.no_of_spec;
+								data = data + "&type_status=" + rowdata.type_status;
+								data = data + "&spec_prep=" + rowdata.spec_prep;
+								data = data + "&country_of_origin=" + rowdata.country_of_origin;
+								data = data + "&object_remarks=" + rowdata.object_remarks;
+								$.ajax({
+									dataType: 'json',
+									url: '/transactions/component/borrowFunctions.cfc',
+									data: data,
+										success: function (data, status, xhr) {
+										commit(true);
+									},
+									error: function (jqXHR,textStatus,error) {
+										commit(false);
+										handleFail(jqXHR,textStatus,error,"saving borrow item");
+									}
+								});
+							},
+							root: 'borrowItemRecord',
+							id: 'borrow_item_id',
+							url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
+							timeout: 30000, // units not specified, miliseconds? 
+							loadError: function(jqXHR, textStatus, error) { 
+								handleFail(jqXHR,textStatus,error,"loading borrow items");
+							},
+							async: true
+						};
+	
+						var dataAdapter = new $.jqx.dataAdapter(search);
+						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+							// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+							var details = $($(parentElement).children()[0]);
+							details.html("<div id='rowDetailsTarget" + index + "'></div>");
+							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+							// Workaround, expansion sits below row in zindex.
+							var maxZIndex = getMaxZIndex();
+							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+						};
+						$("##searchResultsGrid").jqxGrid({
+							width: '100%',
+							autoheight: 'true',
+							source: dataAdapter,
+							filterable: true,
+							sortable: true,
+							pageable: true,
+							editable: true,
+							pagesize: 50,
+							pagesizeoptions: ['5','50','100'],
+							showaggregates: true,
+							columnsresize: true,
+							autoshowfiltericon: true,
+							autoshowcolumnsmenubutton: false,
+							autoshowloadelement: false, // overlay acts as load element for form+results
+							columnsreorder: true,
+							groupable: true,
+							selectionmode: 'singlerow',
+							altrows: true,
+							showtoolbar: false,
+							ready: function () {
+								$("##searchResultsGrid").jqxGrid('selectrow', 0);
+							},
+							columns: [
+								{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
+								{text: 'borrowItemID', datafield: 'borrow_item_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+								{text: 'Catalog Number', datafield: 'catalog_number', width:170, hideable: true, hidden: false },
+								{text: 'Scientific Name', datafield: 'sci_name', width:200, hideable: true, hidden: false },
+								{text: 'No. of Specimens', datafield: 'no_of_spec', width:130, hideable: true, hidden: false },
+								{text: 'Parts/Prep', datafield: 'spec_prep', width:210, hideable: true, hidden: false },
+								{text: 'Type Status', datafield: 'type_status', width:180, hideable: true, hidden: false },
+								{text: 'Country of Origin', datafield: 'country_of_origin', width:200, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'object_remarks', hideable: true, hidden: false }
+							],
+							rowdetails: true,
+							rowdetailstemplate: {
+								rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+								rowdetailsheight: 1 // row details will be placed in popup dialog
+							},
+							initrowdetails: initRowDetails
+						});
+						$("##searchResultsGrid").on("bindingcomplete", function(event) {
+							gridLoaded('searchResultsGrid','borrow item');
+						});
+						$('##searchResultsGrid').on('rowexpand', function (event) {
+							// Create a content div, add it to the detail row, and make it into a dialog.
+							var args = event.args;
+							var rowIndex = args.rowindex;
+							var datarecord = args.owner.source.records[rowIndex];
+							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+						});
+						$('##searchResultsGrid').on('rowcollapse', function (event) {
+							// remove the dialog holding the row details
+							var args = event.args;
+							var rowIndex = args.rowindex;
+							$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+						});
+					};
+					$(document).ready(function() {
+						loadGrid();
+					});
+				</script>
+
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
@@ -993,7 +1268,7 @@ limitations under the License.
 											draggable:true,
 											resizable:true,
 											buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-											close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+											close: function() { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); }
 										});
 										adialog.dialog('open');
 									};
@@ -1001,7 +1276,7 @@ limitations under the License.
 								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
 									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+										left join addr toaddr on sh.shipped_to_addr_id = toaddr.addr_id
 										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrowDetails.transaction_id#">
 								</cfquery>
@@ -1127,8 +1402,8 @@ limitations under the License.
 				not isDefined("borrow_status") OR
 				not isDefined("trans_date") OR
 				not isDefined("no_of_specimens") OR
-				not isDefined("nature_of_material")  OR
-				not isDefined("description_of_borrow")  OR
+				not isDefined("nature_of_material") OR
+				not isDefined("description_of_borrow") OR
 				not isDefined("inhouse_contact_agent_id") OR
 				not isDefined("received_agent_id") OR
 				not isDefined("received_from_agent_id") OR

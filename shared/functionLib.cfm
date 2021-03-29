@@ -294,3 +294,63 @@ limitations under the License.
 	</cfloop>
 	<cfreturn result>
 </cffunction>
+
+<cffunction name="CSVToArray" access="public" returntype="array" output="false" hint="Converts the given CSV string to an array of arrays.">
+	<cfargument name="CSV" type="string" required="true" hint="This is the CSV string that will be manipulated." />
+	<cfargument name="Delimiter" type="string" required="false" default="," hint="This is the delimiter that will separate the fields within the CSV value." />
+	<cfargument name="Qualifier" type="string" required="false" default="""" hint="This is the qualifier that will wrap around fields that have special characters embeded." />
+
+	<cfset var LOCAL = StructNew() />
+	<cfset ARGUMENTS.Delimiter = Left( ARGUMENTS.Delimiter, 1 ) />
+	<cfif Len( ARGUMENTS.Qualifier )>
+ 	    <cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
+	</cfif>
+	<cfset LOCAL.LineDelimiter = Chr( 13 ) />
+	<cfset ARGUMENTS.CSV = ARGUMENTS.CSV.ReplaceAll( "\r?\n", LOCAL.LineDelimiter) />
+	<cfset LOCAL.Delimiters = ARGUMENTS.CSV.ReplaceAll( "[^\#ARGUMENTS.Delimiter#\#LOCAL.LineDelimiter#]+", "") .ToCharArray() />
+	<cfset ARGUMENTS.CSV = (" " & ARGUMENTS.CSV) />
+
+	<!--- Now add the space to each field. --->
+	<cfset ARGUMENTS.CSV = ARGUMENTS.CSV.ReplaceAll( "([\#ARGUMENTS.Delimiter#\#LOCAL.LineDelimiter#]{1})", "$1 ") />
+	<cfset LOCAL.Tokens = ARGUMENTS.CSV.Split( "[\#ARGUMENTS.Delimiter#\#LOCAL.LineDelimiter#]{1}") />
+	<cfset LOCAL.Return = ArrayNew( 1 ) />
+	<cfset ArrayAppend( LOCAL.Return, ArrayNew( 1 )) />
+	<cfset LOCAL.RowIndex = 1 />
+	<cfset LOCAL.IsInValue = false />
+	<cfloop index="LOCAL.TokenIndex" from="1" to="#ArrayLen( LOCAL.Tokens )#" step="1">
+		<cfset LOCAL.FieldIndex = ArrayLen( LOCAL.Return[ LOCAL.RowIndex ]) />
+		<cfset LOCAL.Token = LOCAL.Tokens[ LOCAL.TokenIndex ].ReplaceFirst( "^.{1}", "") />
+		<cfif Len( ARGUMENTS.Qualifier )>
+			<cfif LOCAL.IsInValue>
+				<cfset LOCAL.Token = LOCAL.Token.ReplaceAll( "\#ARGUMENTS.Qualifier#{2}", "{QUALIFIER}") />
+				<cfset LOCAL.Return[ LOCAL.RowIndex ][ LOCAL.FieldIndex ] = ( LOCAL.Return[ LOCAL.RowIndex ][ LOCAL.FieldIndex ] & LOCAL.Delimiters[ LOCAL.TokenIndex - 1 ] & LOCAL.Token) />
+				<cfif (Right( LOCAL.Token, 1 ) EQ ARGUMENTS.Qualifier)>
+					<cfset LOCAL.Return[ LOCAL.RowIndex ][ LOCAL.FieldIndex ] = LOCAL.Return[ LOCAL.RowIndex ][ LOCAL.FieldIndex ].ReplaceFirst( ".{1}$", "" ) />
+					<cfset LOCAL.IsInValue = false />
+				</cfif>
+			<cfelse>
+				<cfif (Left( LOCAL.Token, 1 ) EQ ARGUMENTS.Qualifier)>
+					<cfset LOCAL.Token = LOCAL.Token.ReplaceFirst( "^.{1}", "") />
+					<cfset LOCAL.Token = LOCAL.Token.ReplaceAll( "\#ARGUMENTS.Qualifier#{2}", "{QUALIFIER}") />
+					<cfif (Right( LOCAL.Token, 1 ) EQ ARGUMENTS.Qualifier)>
+						<cfset ArrayAppend( LOCAL.Return[ LOCAL.RowIndex ], LOCAL.Token.ReplaceFirst( ".{1}$", "")) />
+					<cfelse>
+						<cfset LOCAL.IsInValue = true />
+						<cfset ArrayAppend( LOCAL.Return[ LOCAL.RowIndex ], LOCAL.Token) />
+					</cfif>
+				<cfelse>
+					<cfset ArrayAppend( LOCAL.Return[ LOCAL.RowIndex ], LOCAL.Token) />
+				</cfif>
+			</cfif>
+			<cfset LOCAL.Return[ LOCAL.RowIndex ][ ArrayLen( LOCAL.Return[ LOCAL.RowIndex ] ) ] = Replace( LOCAL.Return[ LOCAL.RowIndex ][ ArrayLen( LOCAL.Return[ LOCAL.RowIndex ] ) ], "{QUALIFIER}", ARGUMENTS.Qualifier, "ALL") />
+		<cfelse>
+			<cfset ArrayAppend( LOCAL.Return[ LOCAL.RowIndex ], LOCAL.Token) />
+		</cfif>
+		<cfif ( (NOT LOCAL.IsInValue) AND (LOCAL.TokenIndex LT ArrayLen( LOCAL.Tokens )) AND (LOCAL.Delimiters[ LOCAL.TokenIndex ] EQ LOCAL.LineDelimiter))>
+			<cfset ArrayAppend( LOCAL.Return, ArrayNew( 1 )) />
+			<cfset LOCAL.RowIndex = (LOCAL.RowIndex + 1) />
+		</cfif>
+	</cfloop>
+	<cfreturn LOCAL.Return />
+
+</cffunction>
