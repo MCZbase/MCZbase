@@ -71,7 +71,7 @@ limitations under the License.
                 <div class="row">
                     <div class="col-10 mt-2 mx-auto"> 
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-                        <div class="col-12 col-lg-12 float-left mb-2 px-0">
+                        <div class="col-12 col-lg-12 float-left mb-4 px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
                                 <h1 class="h3 mb-0 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
                                 <div class="row mx-0">
@@ -268,7 +268,7 @@ limitations under the License.
     <div class="card-header" id="headingOnex">
       <h1 class="my-0 px-1">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-          Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
+            <span style="font-size: 1.6rem;">Add New Determination</span>  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
         </button>
       </h1>
     </div>
