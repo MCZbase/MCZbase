@@ -71,15 +71,14 @@ limitations under the License.
                 <div class="row">
                     <div class="col-2 mt-2">
                         <ul class="list-unstyled">
-                            <li><button class="btn btn-xs btn-secondary">Identification</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Citations</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Other IDs</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Parts</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Attributes</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Relations</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Collector/Prep.</button></li>
-                            <li><button class="btn btn-xs btn-secondary">Transactions</button></li>
-              
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Citations</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Other IDs</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Parts</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Attributes</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Relations</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Collector/Prep.</button></li>
+                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Transactions</button></li>
                         </ul>
                     </div>
                     <div class="col-10 mt-2"> 
