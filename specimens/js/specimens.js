@@ -333,7 +333,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
 		// cap width at 1200 pixel
-		w = 1200;
+		w = 999;
 	} 
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
