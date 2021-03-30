@@ -71,14 +71,14 @@ limitations under the License.
                 <div class="row">
                     <div class="col-2 mt-2">
                         <ul class="list-unstyled">
-                            <li><button>Identification</button></li>
-                            <li><button>Citations</button></li>
-                            <li><button>Other IDs</button></li>
-                            <li><button>Parts</button></li>
-                            <li><button>Attributes</button></li>
-                            <li><button>Relations</button></li>
-                            <li><button>Collector/Prep.</button></li>
-                            <li><button>Transactions</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Identification</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Citations</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Other IDs</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Parts</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Attributes</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Relations</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Collector/Prep.</button></li>
+                            <li><button class="btn btn-xs btn-secondary">Transactions</button></li>
               
                         </ul>
                     </div>
