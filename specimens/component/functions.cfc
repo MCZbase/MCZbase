@@ -645,7 +645,7 @@ limitations under the License.
   <div class="card">
     <div class="card-header" id="headingTwo">
       <h1 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <button class="btn collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <span style="font-size: 1.25rem;">Add New Identifier</span>
         </button>
       </h1>
@@ -653,38 +653,38 @@ limitations under the License.
 
     <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
       <div class="card-body">
-  <form name="newOID" method="post" action="editIdentifiers.cfm">
-                    
-                                <div class="row mx-0">
-                                <div class="form-group col-3 pl-0 pr-1">
-                                <input type="hidden" name="collection_object_id" value="#collection_object_id#">
-                                <input type="hidden" name="Action" value="newOID">
-                                    <label class="data-entry-label" id="other_id_type">Other ID Type</label>
-                                <select name="other_id_type" size="1" class="reqdClr data-entry-select">
-                                    <cfloop query="ctType">
-                                        <option 
-                                            value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-                                    </cfloop>
-                                    </select>
-                                </div>
-                                <div class="form-group col-2 px-1">
-                                    <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-                                    <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-                                </div>
-                                <div class="form-group col-2 px-1">
-                                    <label class="data-entry-label" id="other_id_number">Other ID Number</label>
-                                    <input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-                                </div>
-                                <div class="form-group col-2 px-1">
-                                    <label class="data-entry-label" id="other_id_number">Other ID Number</label>
-                                    <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
-                                </div>
-                                <div class="form-group col-1 px-1 mt-3">
-                                    <input type="submit" value="Save" class="btn btn-xs btn-primary">	
-                                </div>
-                                </div>
-                                </div>
-                            </form>
+        <form name="newOID" method="post" action="editIdentifiers.cfm">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group col-3 pl-0 pr-1">
+                    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                    <input type="hidden" name="Action" value="newOID">
+                        <label class="data-entry-label" id="other_id_type">Other ID Type</label>
+                    <select name="other_id_type" size="1" class="reqdClr data-entry-select">
+                        <cfloop query="ctType">
+                            <option 
+                                value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+                        </cfloop>
+                        </select>
+                    </div>
+                    <div class="form-group col-2 px-1">
+                        <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+                        <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+                    </div>
+                    <div class="form-group col-2 px-1">
+                        <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                        <input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+                    </div>
+                    <div class="form-group col-2 px-1">
+                        <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                        <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
+                    </div>
+                    <div class="form-group col-1 px-1 mt-3">
+                        <input type="submit" value="Save" class="btn btn-xs btn-primary">	
+                    </div>
+                </div>
+            </div>
+        </form>
       </div>
     </div>
   </div>
