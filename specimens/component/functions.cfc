@@ -69,9 +69,9 @@ limitations under the License.
 				</cfquery>
                 <div class="container-fluid">
                 <div class="row">
-                    <div class="col-10 mt-3 mx-auto"> 
+                    <div class="col-10 mt-2 mx-auto"> 
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-                        <div class="col-12 col-lg-12 float-left px-0">
+                        <div class="col-12 col-lg-12 float-left mb-2 px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
                                 <h1 class="h3 mb-0 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
                                 <div class="row mx-0">
