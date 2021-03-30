@@ -1308,13 +1308,8 @@ limitations under the License.
 										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrowDetails.transaction_id#">
 								</cfquery>
-									<div id="shipmentTable" class="bg-light"> 
-										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
-									</div>
-								<!--- shippmentTable for ajax replace ---> 
-								<script>
-									$( document ).ready(loadShipments(#transaction_id#));
-								</script>
+								<cfset shipmentsBlock = getShipmentsByTransHtml(transaction_id="#transaction_id#")>
+								<div id="shipmentTable" class="bg-light">#shipmentsBlock#</div>
 								<div>
 									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 									<div class="float-left mt-2 mt-md-0">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
