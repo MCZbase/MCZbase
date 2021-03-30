@@ -78,7 +78,7 @@ limitations under the License.
                                               <div id="accordion1">
   <div class="card">
     <div class="card-header" id="headingOnex">
-      <h1 class="h2 mb-0 px-1">
+      <h1 class="my-0 px-1">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
           Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
         </button>
