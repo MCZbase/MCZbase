@@ -655,7 +655,6 @@ limitations under the License.
       <div class="card-body">
         <form name="newOID" method="post" action="editIdentifiers.cfm">
             <div class="row">
-                <div class="col-12">
                     <div class="form-group col-3 pl-0 pr-1">
                     <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                     <input type="hidden" name="Action" value="newOID">
