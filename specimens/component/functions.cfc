@@ -69,134 +69,8 @@ limitations under the License.
 				</cfquery>
                 <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 px-0"> 
-                        
+                    <div class="col-10 mt-3 mx-auto"> 
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-                        <div class="col-12 col-lg-12 float-left pl-0">
-                            
-
-                        <div id="accordion1">
-  <div class="card">
-    <div class="card-header" id="headingOnex">
-      <h1 class="my-0 px-1">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-          Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
-        </button>
-      </h1>
-    </div>
-
-    <div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
-      <div class="card-body">
-                       <script>
-                                        function idFormulaChanged(newFormula,baseId) { 
-                                            if(newFormula.includes("B")) {
-                                                $('##' + baseId).show();
-                                                $('##'+baseId+'_label').show();
-                                            } else { 
-                                                $('##' + baseId).hide();
-                                                $('##'+baseId+'_label').hide();
-                                                $('##' + baseId).val("");
-                                                $('##'+baseID+'_id').val("");
-                                            }
-                                        }
-                                        </script>
-                            <form name="newIDForm" id="newIDForm">
-                                <input type="hidden" name="Action" value="createNew">
-                                <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-                                <div class="px-3 mt-0 pt-2 pb-3">
-                                    <div class="row mt-2">
-                                        <div class="col-12 col-md-3">
-                                            <label for="taxa_formula" class="data-entry-label">ID Formula</label>
-                                            <cfif not isdefined("taxa_formula")>
-                                                <cfset taxa_formula='A'>
-                                            </cfif>
-                                            <select name="taxa_formula" id="taxa_formula" size="1" 
-                                                                         class="reqdClr w-100" required 
-                                                                         onchange="idFormulaChanged(this.value,'taxonb');">
-                                                <cfset selected_value = "#taxa_formula#">
-                                                <cfloop query="ctFormula">
-                                                    <cfif selected_value EQ ctFormula.taxa_formula>
-                                                        <cfset selected = "selected='selected'">
-                                                        <cfelse>
-                                                        <cfset selected ="">
-                                                    </cfif>
-                                                    <option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-                                                </cfloop>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-md-3">
-                                            <label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-                                            <input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
-                                            <input type="hidden" name="taxona_id" id="taxona_id">
-                                        </div>
-                                        <div class="col-12 col-md-3 d-none">
-                                            <label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-                                            <input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-                                            <input type="hidden" name="taxonb_id" id="taxonb_id">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="user_id" class="data-entry-label" >Identification</label>
-                                            <input type="text" name="user_id" id="user_id" class="data-entry-input">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-12 col-md-4 pr-0">
-                                            <label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
-                                            Identified By
-                                            <h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                                            </label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-                                                <input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
-                                                <input type="hidden" name="newIdBy_id" id="newIdBy_id">
-                                            </div>
-                                            <!--- TODO: Add determiners ---> 
-                                        </div>
-                                        <div class="col-12 col-md-4 pr-0">
-                                            <label for="made_date" class="data-entry-label" >Date Identified</label>
-                                            <input type="text" name="made_date" id="made_date" class="data-entry-input">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-                                            <select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-                                                <cfloop query="ctnature">
-                                                    <option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-                                                </cfloop>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-12 col-md-6 pr-0">
-                                            <label for="identification_publication" class="data-entry-label" >Sensu</label>
-                                            <input type="hidden" name="new_publication_id" id="new_publication_id">
-                                            <input type="text" id="newPub" class="data-entry-input">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="identification_remarks" class="data-entry-label" >Remarks</label>
-                                            <input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-12 col-md-12">
-                                            <button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-                                        </div>
-                                    </div>
-                                    <script>
-                            $(document).ready(function() {
-                                makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-                                makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-                                makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-                                makePublicationAutocompleteMeta("newPub", "new_publication_id");
-                            });
-                        </script> 
-                                </div>
-                            </form>
-      </div>
-    </div>
-                                    </div></div>
-                            
-                           
-                        </div>
                         <div class="col-12 col-lg-12 float-left px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
                                 <h1 class="h3 mb-0 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
@@ -387,6 +261,127 @@ limitations under the License.
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                        <div class="col-12 col-lg-12 float-left px-0">
+                            <div id="accordion1">
+  <div class="card">
+    <div class="card-header" id="headingOnex">
+      <h1 class="my-0 px-1">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+          Add New Determination  <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a>
+        </button>
+      </h1>
+    </div>
+
+    <div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+      <div class="card-body">
+                       <script>
+                                        function idFormulaChanged(newFormula,baseId) { 
+                                            if(newFormula.includes("B")) {
+                                                $('##' + baseId).show();
+                                                $('##'+baseId+'_label').show();
+                                            } else { 
+                                                $('##' + baseId).hide();
+                                                $('##'+baseId+'_label').hide();
+                                                $('##' + baseId).val("");
+                                                $('##'+baseID+'_id').val("");
+                                            }
+                                        }
+                                        </script>
+                            <form name="newIDForm" id="newIDForm">
+                                <input type="hidden" name="Action" value="createNew">
+                                <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+                                <div class="px-3 mt-0 pt-2 pb-3">
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-3">
+                                            <label for="taxa_formula" class="data-entry-label">ID Formula</label>
+                                            <cfif not isdefined("taxa_formula")>
+                                                <cfset taxa_formula='A'>
+                                            </cfif>
+                                            <select name="taxa_formula" id="taxa_formula" size="1" 
+                                                                         class="reqdClr w-100" required 
+                                                                         onchange="idFormulaChanged(this.value,'taxonb');">
+                                                <cfset selected_value = "#taxa_formula#">
+                                                <cfloop query="ctFormula">
+                                                    <cfif selected_value EQ ctFormula.taxa_formula>
+                                                        <cfset selected = "selected='selected'">
+                                                        <cfelse>
+                                                        <cfset selected ="">
+                                                    </cfif>
+                                                    <option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+                                                </cfloop>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
+                                            <input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
+                                            <input type="hidden" name="taxona_id" id="taxona_id">
+                                        </div>
+                                        <div class="col-12 col-md-3 d-none">
+                                            <label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+                                            <input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
+                                            <input type="hidden" name="taxonb_id" id="taxonb_id">
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="user_id" class="data-entry-label" >Identification</label>
+                                            <input type="text" name="user_id" id="user_id" class="data-entry-input">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-4 pr-0">
+                                            <label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
+                                            Identified By
+                                            <h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+                                                <input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
+                                                <input type="hidden" name="newIdBy_id" id="newIdBy_id">
+                                            </div>
+                                            <!--- TODO: Add determiners ---> 
+                                        </div>
+                                        <div class="col-12 col-md-4 pr-0">
+                                            <label for="made_date" class="data-entry-label" >Date Identified</label>
+                                            <input type="text" name="made_date" id="made_date" class="data-entry-input">
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+                                            <select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+                                                <cfloop query="ctnature">
+                                                    <option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+                                                </cfloop>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-6 pr-0">
+                                            <label for="identification_publication" class="data-entry-label" >Sensu</label>
+                                            <input type="hidden" name="new_publication_id" id="new_publication_id">
+                                            <input type="text" id="newPub" class="data-entry-input">
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="identification_remarks" class="data-entry-label" >Remarks</label>
+                                            <input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 col-md-12">
+                                            <button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+                                        </div>
+                                    </div>
+                                    <script>
+                            $(document).ready(function() {
+                                makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+                                makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+                                makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
+                                makePublicationAutocompleteMeta("newPub", "new_publication_id");
+                            });
+                        </script> 
+                                </div>
+                            </form>
+      </div>
+    </div>
+                                    </div></div>
                         </div>
                     </div>
                 </div>
