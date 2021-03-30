@@ -77,6 +77,7 @@ limitations under the License.
 			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##due_date").datepicker({ dateFormat: 'yy-mm-dd'});
 			$("##lenders_loan_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##return_acknowledged_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
