@@ -898,7 +898,12 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="w-100">
-								<label for="t" class="data-entry-label">For a Template, copy the following header line and save it as a .csv file:</label>
+								<label for="t" class="data-entry-label">
+									<a href='data:text/csv;charset=utf-8,"CATALOG_NUMBER","SCI_NAME","NO_OF_SPEC","SPEC_PREP","TYPE_STATUS","COUNTRY_OF_ORIGIN","OBJECT_REMARKS"'
+										download="borrow_items.csv" 
+										target="_blank">Download a template</a>
+									, or copy the following header line and save it as a .csv file:
+								</label>
 								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 							</div>
 						</div>
