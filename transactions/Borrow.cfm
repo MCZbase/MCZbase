@@ -1229,15 +1229,12 @@ limitations under the License.
 									}
 									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
-								$( document ).ready( function() { 
-									loadTransactionFormPermits(#transaction_id#);
-									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
-								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
 								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
-								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
+								<cfset permitsBlock = getPermitsForTransHtml(transaction_id="#transaction_id#") >
+								<div id="transactionFormPermits" class="col-12 px-0 pb-1">#permitsBlock#</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
 									<input type='button' 
 										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
@@ -1313,7 +1310,8 @@ limitations under the License.
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
-								<div id="borrowLimitationsDiv"></div>
+								<cfset limitationsBlock = getBorrowLimitations(transaction_id="#transaction_id#")>
+								<div id="borrowLimitationsDiv">#limitationsBlock#</div>
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
