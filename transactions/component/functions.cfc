@@ -3632,6 +3632,7 @@ limitations under the License.
 	<cfargument name="lenders_trans_num_cde" type="string" required="no">
 	<cfargument name="lender_loan_type" type="string" required="no">
 	<cfargument name="received_date" type="string" required="no">
+	<cfargument name="return_acknowledged_date" type="string" required="no">
 	<cfargument name="due_date" type="string" required="no">
 	<cfargument name="lenders_loan_date" type="string" required="no">
 	<cfargument name="lenders_instructions" type="string" required="no">
@@ -3653,8 +3654,15 @@ limitations under the License.
 					<cfif isdefined("received_date") AND len(received_date) GT 0>
 						RECEIVED_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RECEIVED_DATE,"yyyy-mm-dd")#">,
 					</cfif>
-					DUE_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(DUE_DATE,"yyyy-mm-dd")#">,
-					LENDERS_LOAN_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#">,
+					<cfif isdefined("due_date") AND len(due_date) GT 0>
+						DUE_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(DUE_DATE,"yyyy-mm-dd")#">,
+					</cfif>
+					<cfif isdefined("lenders_loan_date") AND len(lenders_loan_date) GT 0>
+						LENDERS_LOAN_DATE = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(LENDERS_LOAN_DATE,"yyyy-mm-dd")#">,
+					</cfif>
+					<cfif isdefined("return_acknowldeged_date") AND len(return_acknowldeged_date) GT 0>
+						return_acknowldeged_date = <cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(return_acknowldeged_date,"yyyy-mm-dd")#">,
+					</cfif>
 					LENDERS_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LENDERS_INSTRUCTIONS#">,
 					DESCRIPTION_OF_BORROW = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION_OF_BORROW#">,
 					NO_OF_SPECIMENS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NO_OF_SPECIMENS#">,
