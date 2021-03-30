@@ -72,10 +72,10 @@ limitations under the License.
                     <div class="col-12 px-0"> 
                         
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
-                        <div class="col-12 col-lg-6 float-left pl-0">
+                        <div class="col-12 col-lg-12 float-left pl-0">
                             
 
-                                              <div id="accordion1">
+                        <div id="accordion1">
   <div class="card">
     <div class="card-header" id="headingOnex">
       <h1 class="my-0 px-1">
@@ -197,7 +197,7 @@ limitations under the License.
                             
                            
                         </div>
-                        <div class="col-12 col-lg-6 float-left px-0">
+                        <div class="col-12 col-lg-12 float-left px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
                                 <h1 class="h3 mb-0 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
                                 <div class="row mx-0">
