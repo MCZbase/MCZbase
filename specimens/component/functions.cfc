@@ -641,8 +641,19 @@ limitations under the License.
                         </cfif>
                         </cfloop>
                             <div class="container-fluid mt-4">
-                       <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getMCZDoc('Add/Edit_an_identifier_number')"></i></h1>
-                            <form name="newOID" method="post" action="editIdentifiers.cfm">
+                                    <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h1 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <span style="font-size: 1.25rem;">Add New Identifier</span>
+        </button>
+      </h1>
+    </div>
+
+    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
+      <div class="card-body">
+  <form name="newOID" method="post" action="editIdentifiers.cfm">
                     
                                 <div class="row mx-0">
                                 <div class="form-group col-3 pl-0 pr-1">
@@ -674,6 +685,11 @@ limitations under the License.
                                 </div>
                                 </div>
                             </form>
+      </div>
+    </div>
+  </div>
+                 <!---      <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getMCZDoc('Add/Edit_an_identifier_number')"></i></h1>--->
+                           
                 </div>
                  
 
