@@ -1301,13 +1301,6 @@ limitations under the License.
 										adialog.dialog('open');
 									};
 								</script>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id = toaddr.addr_id
-										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrowDetails.transaction_id#">
-								</cfquery>
 								<cfset shipmentsBlock = getShipmentsByTransHtml(transaction_id="#transaction_id#")>
 								<div id="shipmentTable" class="bg-light">#shipmentsBlock#</div>
 								<div>
@@ -1329,11 +1322,9 @@ limitations under the License.
 									Projects associated with this borrow
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
 								</h2>
-								<div id="projectsDiv" class="mx-3"></div>
+								<cfset projectsBlock = getProjectListHtml(transaction_id="#transaction_id#") >
+								<div id="projectsDiv" class="mx-3">#projectsBlock#</div>
 								<script>
-									$(document).ready( 
-										loadProjects('projectsDiv',#borrowDetails.transaction_id#) 
-									);
 									function reloadTransProjects() {
 										loadProjects('projectsDiv',#borrowDetails.transaction_id#);
 									} 
