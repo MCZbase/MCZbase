@@ -69,7 +69,20 @@ limitations under the License.
 				</cfquery>
                 <div class="container-fluid">
                 <div class="row">
-                    <div class="col-10 mt-2 mx-auto"> 
+                    <div class="col-2 mt-2">
+                        <ul class="list-unstyled">
+                            <li><button>Identification</button></li>
+                            <li><button>Citations</button></li>
+                            <li><button>Other IDs</button></li>
+                            <li><button>Parts</button></li>
+                            <li><button>Attributes</button></li>
+                            <li><button>Relations</button></li>
+                            <li><button>Collector/Prep.</button></li>
+                            <li><button>Transactions</button></li>
+              
+                        </ul>
+                    </div>
+                    <div class="col-10 mt-2"> 
                         <!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
                         <div class="col-12 col-lg-12 float-left mb-4 px-0">
                             <form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
@@ -264,18 +277,18 @@ limitations under the License.
                         </div>
                         <div class="col-12 col-lg-12 float-left px-0">
                             <div id="accordion1">
-  <div class="card">
-    <div class="card-header" id="headingOnex">
-      <h1 class="my-0 px-1">
-        <button class="btn btn-link w-100 text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-            <span style="font-size: 1.25rem;">Add New Determination</span> 
-        </button>
-      </h1>
-    </div>
+                              <div class="card">
+                                <div class="card-header" id="headingOnex">
+                                  <h1 class="my-0 px-1">
+                                    <button class="btn btn-link w-100 text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+                                        <span style="font-size: 1.25rem;">Add New Determination</span> 
+                                    </button>
+                                  </h1>
+                                </div>
 
-    <div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
-      <div class="card-body">
-                       <script>
+                                <div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+                                  <div class="card-body">
+                                    <script>
                                         function idFormulaChanged(newFormula,baseId) { 
                                             if(newFormula.includes("B")) {
                                                 $('##' + baseId).show();
@@ -287,8 +300,8 @@ limitations under the License.
                                                 $('##'+baseID+'_id').val("");
                                             }
                                         }
-                                        </script>
-                            <form name="newIDForm" id="newIDForm">
+                                    </script>
+                                    <form name="newIDForm" id="newIDForm">
                                 <input type="hidden" name="Action" value="createNew">
                                 <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
                                 <div class="px-3 mt-0 pt-2 pb-3">
@@ -379,9 +392,10 @@ limitations under the License.
                         </script> 
                                 </div>
                             </form>
-      </div>
-    </div>
-                                    </div></div>
+                                  </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
