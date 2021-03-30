@@ -898,7 +898,12 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="w-100">
-								<label for="t" class="data-entry-label">For a Template, copy the following header line and save it as a .csv file:</label>
+								<label for="t" class="data-entry-label">
+									<a href='data:text/csv;charset=utf-8,"CATALOG_NUMBER","SCI_NAME","NO_OF_SPEC","SPEC_PREP","TYPE_STATUS","COUNTRY_OF_ORIGIN","OBJECT_REMARKS"'
+										download="borrow_items.csv" 
+										target="_blank">Download a template</a>
+									, or copy the following header line and save it as a .csv file:
+								</label>
 								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
 							</div>
 						</div>
@@ -1224,15 +1229,12 @@ limitations under the License.
 									}
 									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
-								$( document ).ready( function() { 
-									loadTransactionFormPermits(#transaction_id#);
-									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
-								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
 								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
-								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
+								<cfset permitsBlock = getPermitsForTransHtml(transaction_id="#transaction_id#") >
+								<div id="transactionFormPermits" class="col-12 px-0 pb-1">#permitsBlock#</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
 									<input type='button' 
 										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
@@ -1296,20 +1298,8 @@ limitations under the License.
 										adialog.dialog('open');
 									};
 								</script>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id = toaddr.addr_id
-										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrowDetails.transaction_id#">
-								</cfquery>
-									<div id="shipmentTable" class="bg-light"> 
-										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
-									</div>
-								<!--- shippmentTable for ajax replace ---> 
-								<script>
-									$( document ).ready(loadShipments(#transaction_id#));
-								</script>
+								<cfset shipmentsBlock = getShipmentsByTransHtml(transaction_id="#transaction_id#")>
+								<div id="shipmentTable" class="bg-light">#shipmentsBlock#</div>
 								<div>
 									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 									<div class="float-left mt-2 mt-md-0">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
@@ -1320,7 +1310,8 @@ limitations under the License.
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
-								<div id="borrowLimitationsDiv"></div>
+								<cfset limitationsBlock = getBorrowLimitations(transaction_id="#transaction_id#")>
+								<div id="borrowLimitationsDiv">#limitationsBlock#</div>
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
@@ -1329,11 +1320,9 @@ limitations under the License.
 									Projects associated with this borrow
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
 								</h2>
-								<div id="projectsDiv" class="mx-3"></div>
+								<cfset projectsBlock = getProjectListHtml(transaction_id="#transaction_id#") >
+								<div id="projectsDiv" class="mx-3">#projectsBlock#</div>
 								<script>
-									$(document).ready( 
-										loadProjects('projectsDiv',#borrowDetails.transaction_id#) 
-									);
 									function reloadTransProjects() {
 										loadProjects('projectsDiv',#borrowDetails.transaction_id#);
 									} 

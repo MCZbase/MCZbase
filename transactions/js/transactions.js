@@ -1282,7 +1282,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	if (method=="") { 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
 	} else { 
-		var content = '<div id="'+dialogid+'_div">Loading....</div>';
+		var content = '<div id="'+dialogid+'_div" style="width: 25rem;">Loading....</div>';
 		var thedialog = $("#"+dialogid).html(content)
 		.dialog({
 			title: title,
@@ -1773,7 +1773,7 @@ function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transacti
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+		handleFail(jqXHR,textStatus,error,"moving permit from one shipment to another");
 	});
 	loadShipments(transactionId);
 }
