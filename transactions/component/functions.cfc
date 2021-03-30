@@ -4054,7 +4054,7 @@ limitations under the License.
 					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_borrow_header">Header for MCZ Files</a></li>
             	<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</a></li>
 				</ul>
-   			<div style="margin-top: 1em;border: 1px solid orange;padding: 10px;">
+   			<div class="p-1 border border-warning" style="width: 30rem;">
 					<strong>The return shipment must be entered and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong>
 				</div>
 				</ul>
