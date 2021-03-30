@@ -1773,7 +1773,7 @@ function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transacti
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+		handleFail(jqXHR,textStatus,error,"moving permit from one shipment to another");
 	});
 	loadShipments(transactionId);
 }
