@@ -1,6 +1,6 @@
 <cfset pageTitle = "Potential Missed GenBank Records">
 <cfinclude template="/shared/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 
 <main class="container py-3" id=”content” title="GenBank report content" >
 	<section class=”row border rounded my-2”>
@@ -11,6 +11,7 @@
 			<br>Data in the table below are far from perfect and require human verification
 			(excepting <strong>specimen_voucher:collection</strong>).
 			These queries represent guesses based on what GenBank has received from researchers.
+			Run Date represents the date on which our automatic process most recently checked GenBank.
 		</div>
 		<cfoutput>
 			<cfquery name="gb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -21,7 +22,7 @@
 			
 			<table border id="t" class="sortable">
 				<tr>
-					<th>Owner</th>
+					<th>Department</th>
 					<th>Count</th>
 					<th>Run Date</th>
 					<th>Query Type</th>
