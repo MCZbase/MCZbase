@@ -541,7 +541,7 @@ Some Totally Random String Data .....
 							<td>
 								<input type="text"  name="verbatim_locality"
 									class="reqdClr" size="75"
-									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#stripQuotes(verbatim_locality)#">
+									id="verbatim_locality" title="VERBATIM_LOCALITY" value="#encodeForHTML(verbatim_locality)#">
 							<!---	<span class="infoLink" onclick="document.getElementById('verbatim_locality').value=document.getElementById('spec_locality').value;">
 									&nbsp;Use&nbsp;Specloc
 								</span>--->
@@ -550,7 +550,7 @@ Some Totally Random String Data .....
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Date</span></td>
 							<td>
-								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#verbatim_date#" id="verbatim_date" size="14">
+								<input type="text" name="verbatim_date" title="VERBATIM_DATE" class="reqdClr" value="#encodeForHTML(verbatim_date)#" id="verbatim_date" size="14">
 								<span class="infoLink"
 									onClick="copyVerbatim($('##verbatim_date').val());"> >> </span>
 								<span class="f11a">Begin</span>
@@ -625,11 +625,11 @@ Some Totally Random String Data .....
                           <tr>
                         <td align="right"><span class="f11a">Verbatim Coordinates</span></td>
                         <td>
-                        <input type="text" title="verbatimcoordinates" name="verbatimcoordinates" size="75" id="verbatimcoordinates" value="#verbatimcoordinates#"><span class="f11a">(summary as given)</span></td></tr>
+                        <input type="text" title="verbatimcoordinates" name="verbatimcoordinates" size="75" id="verbatimcoordinates" value="#encodeForHTML(verbatimcoordinates)#"><span class="f11a">(summary as given)</span></td></tr>
      <td align="right"><span class="f11a">Verbatim Latitude</span></td>
-                      <td><input type="text" title="verbatimLatitude" name="verbatimlatitude" size="14" id="verbatimlatitude" value="#verbatimlatitude#">
+                      <td><input type="text" title="verbatimLatitude" name="verbatimlatitude" size="14" id="verbatimlatitude" value="#encodeForHTML(verbatimlatitude)#">
                         <span class="f11a">Verbatim Longitude</span>
-                       <input type="text" title="verbatimlongitude" name="verbatimlongitude" size="14" id="verbatimlongitude" value="#verbatimlongitude#"></td></tr>
+                       <input type="text" title="verbatimlongitude" name="verbatimlongitude" size="14" id="verbatimlongitude" value="#encodeForHTML(verbatimlongitude)#"></td></tr>
 
                       <tr><td align="right"><span class="f11a">Verbatim Coordinate System</span></td>
                        <td><input type="text" title="verbatimcoordinatesystem" name="verbatimcoordinatesystem" size="24" id="verbatimcoordinatesystem" value="#verbatimcoordinatesystem#"><span class="f11a">(e.g., decimal degrees, degrees minutes seconds, etc.)</span></td></tr>
