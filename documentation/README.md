@@ -721,6 +721,12 @@ The code:
         <input type="text" name="trans_agent_1" id="trans_agent_1" required="" class="goodPick form-control data-entry-input data-height ui-autocomplete-input" value="Joe Q. Pimm" autocomplete="off">
         </div>`
 
+### Simple static tabular data
+HTML tables MAY be used, when appropriate, for presenting simple tabular data that has a natural tabular structure (such as tables of controlled vocabulary values with additional metadata columns).  Such tables can be made sortable by including the /lib/misc/sorttable.js script on the page, and adding the sortable class to the table element.
+
+	<script src="/lib/misc/sorttable.js"></script>
+	<table border class="sortable">
+
 ## Accessibility:
 
 ### Use Semantic tags
