@@ -99,7 +99,7 @@
 		</span>
 		<br>
 	</cfloop>
-	<cfif getAgents.recordcount GT 499 >
+	<cfif getAgents.recordcount GT 498 >
 		<cfquery name="getAgentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				count(distinct preferred_agent_name.agent_id) as ct
@@ -150,9 +150,11 @@
 					)
 				</cfif>
 		</cfquery>
-		<span style="display: inline-block;padding:1px 5px;">
-			#getAgentCount.ct# matching agents, only the first 500 shown.
-		</span>
+		<cfloop query="getAgentCount">
+			<span class="error">
+				#getAgentCount.ct# matching agents, only the first 500 shown.
+			</span>
+		</cfloop>
 	</cfif>
 
 	</div>
