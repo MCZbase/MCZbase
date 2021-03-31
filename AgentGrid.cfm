@@ -42,7 +42,7 @@
 			LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
 		WHERE
 			agent.agent_id > -1
-			and rownum<500
+			and rownum<501
 			<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
 				AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
 			</cfif>
@@ -99,6 +99,61 @@
 		</span>
 		<br>
 	</cfloop>
+	<cfif getAgents.recordcount GT 499 >
+		<cfquery name="getAgentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				count(distinct preferred_agent_name.agent_id) as ct
+			FROM 
+				agent_name
+				left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
+				LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
+				LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
+			WHERE
+				agent.agent_id > -1
+				and rownum<500
+				<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
+					AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
+				</cfif>
+				<cfif isdefined("Last_Name") AND len(#Last_Name#) gt 0>
+					AND Last_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">
+				</cfif>
+				<cfif isdefined("Middle_Name") AND len(#Middle_Name#) gt 0>
+					AND Middle_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Middle_Name#">
+				</cfif>
+				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
+					AND Suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Suffix#">
+				</cfif>
+				<cfif isdefined("Prefix") AND len(#Prefix#) gt 0>
+					AND Prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+				</cfif>
+				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
+					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
+					AND Birth_Date 
+						<cfif birthOper IS "<="> <= <cfelseif birthOper IS ">="> >= <cfelse> = </cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+				</cfif>
+				<cfif isdefined("Death_Date") AND len(#Death_Date#) gt 0>
+					<cfset ddate = #dateformat(Death_Date,'yyyy-mm-dd')#>
+					AND Death_Date 
+						<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+				</cfif>
+				<cfif isdefined("anyName") AND len(#anyName#) gt 0>
+					AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
+				</cfif>
+				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
+					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfif>
+				<cfif isdefined("address") AND len(#address#) gt 0>
+					AND agent.agent_id IN (
+						select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
+					)
+				</cfif>
+		</cfquery>
+		<span style="display: inline-block;padding:1px 5px;">
+			#getAgentCount.ct# matching agents, only the first 500 shown.
+		</span>
+	</cfif>
 
 	</div>
 </cfoutput>
