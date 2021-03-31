@@ -7,8 +7,8 @@
 		<h1 class=”h2”>Potential Missed GenBank Records</h1>
 		<div class="border p-1">
 			The following are potential specimen records that are in GenBank but not in MCZbase.
-			<br><strong>wildcard</strong> query types are limited to 600 records by GenBank - the numbers you see here may make no sense.
-			<br>Data in the table below are far from perfect and require human verification
+			On GenBank <strong>wild1:</strong> query types are limited to 600 records - the numbers you see here may make no sense.
+			Data in the table below are far from perfect and require human verification
 			(excepting <strong>specimen_voucher:collection</strong>).
 			These queries represent guesses based on what GenBank has received from researchers.
 			Run Date represents the date on which our automatic process most recently checked GenBank.
