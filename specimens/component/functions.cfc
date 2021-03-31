@@ -180,7 +180,7 @@ limitations under the License.
                                                                         <div class="input-group">
                                                                             <div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
                                                                             <input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
-                                                        value="#agent_name#" class="reqdClr data-entry-input form-control" >
+                                                        value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
                                                                         </div>
                                                                         <input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
                                                                         <input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
@@ -224,7 +224,7 @@ limitations under the License.
                                                         <label for="publication_#i#" class="data-entry-label">Sensu</label>
                                                         <!--- TODO: Cause clearing publication picker to clear id --->
                                                         <input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
-                                                        <input type="text" id="publication_#i#" value='#formatted_publication#' class="data-entry-input">
+                                                        <input type="text" id="publication_#i#" value='#encodeForHTML(formatted_publication)#' class="data-entry-input">
                                                     </div>
                                                 </div>
                                                 <div class="row mt-2">
@@ -457,7 +457,7 @@ limitations under the License.
                                     <div class="col-md-6 col-sm-12 float-left">
                                         <div class="form-group">
                                             <label for="scientific_name">Scientific Name:</label>
-                                            <input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#scientific_name#" size="1" 
+                                            <input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" 
 												onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
 												onKeyPress="return noenter(event);">
                                             <input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
@@ -481,7 +481,7 @@ limitations under the License.
                                         <div class="form-group"> 
                                             <!--- TODO: Fix this, should be an agent picker --->
                                             <label for="determinedby">Determined By:</label>
-                                            <input type="text" class="form-control-sm" id="determinedby" value="#agent_name#">
+                                            <input type="text" class="form-control-sm" id="determinedby" value="#encodeForHTML(agent_name)#">
                                         </div>
                                         <div class="form-group">
                                             <label for="nature_of_id">Nature of ID:</label>
@@ -497,15 +497,15 @@ limitations under the License.
                                     <div class="col-md-12 col-sm-12 float-left">
                                         <div class="form-group">
                                             <label for="full_taxon_name">Full Taxon Name:</label>
-                                            <input type="text" class="form-control-sm" id="full_taxon_name" value="#full_taxon_name#">
+                                            <input type="text" class="form-control-sm" id="full_taxon_name" value="#encodeForHTML(full_taxon_name)#">
                                         </div>
                                         <div class="form-group">
                                             <label for="identification_remarks">Identification Remarks:</label>
-                                            <textarea type="text" class="form-control" id="identification_remarks" value="#identification_remarks#"></textarea>
+                                            <textarea type="text" class="form-control" id="identification_remarks" value="#encodeForHTML(identification_remarks)#"></textarea>
                                         </div>
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" id="materialUnchecked">
-                                            <label class="mt-2 form-check-label" for="materialUnchecked">Stored as #scientific_name#</label>
+                                            <label class="mt-2 form-check-label" for="materialUnchecked">Stored as #encodeForHTML(scientific_name)#</label>
                                         </div>
                                         <div class="form-group float-right">
                                             <button type="button" value="Create New Identification" class="btn btn-primary ml-2"
@@ -633,15 +633,15 @@ limitations under the License.
                                 </div>
                                 <div class="form-group col-2 px-1">
                                 <label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-                                <input class="data-entry-input" type="text" value="#oids.other_id_prefix#" size="12" name="other_id_prefix">
+                                <input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
                                 </div>
                                 <div class="form-group col-2 px-1">
                                 <label for="other_id_number" class="data-entry-label">Other ID Number</label>
-                                <input type="text" class="data-entry-input" value="#oids.other_id_number#" size="12" name="other_id_number">
+                                <input type="text" class="data-entry-input" value="#encodeForHTML((oids.other_id_number)#" size="12" name="other_id_number">
                                 </div>
                                 <div class="form-group col-2 px-1">
                                 <label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-                                <input type="text" class="data-entry-input" value="#oids.other_id_suffix#" size="12"  name="other_id_suffix">
+                                <input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
                                 </div>
                                 <div class="form-group col-2 px-1 mt-3">
                                 <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
@@ -877,11 +877,11 @@ limitations under the License.
                 <cfset resulthtml1 = resulthtml1 & "<form><div class='container pl-1'>">
                 <cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'>">
                 <cfset resulthtml1 = resulthtml1 & "<div class='form-group'><label for='spec_locality' class='data-entry-label mb-0'>Specific Locality</label>">
-                <cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#spec_locality#'></div>">
+                <cfset resulthtml1 = resulthtml1 & "<input name='spec_locality' class='data-entry-input' value='#encodeForHTML(spec_locality)#'></div>">
                 <cfset resulthtml1 = resulthtml1 & "<div class='form-row form-group'><label for='verbatim_locality' class='data-entry-label mb-0'>Verbatim Locality</label>">
-                <cfset resulthtml1 = resulthtml1 & "<input name='verbatim_locality' class='data-entry-input' value='#verbatim_locality#'></div></div>">
+                <cfset resulthtml1 = resulthtml1 & "<input name='verbatim_locality' class='data-entry-input' value='#encodeForHTML(verbatim_locality)#'></div></div>">
                 <cfset resulthtml1 = resulthtml1 & "<div class='col-md-6 col-sm-12 float-left'><label for='collecting_source' class='data-entry-label mb-0'>Collecting Source</label>">
-                <cfset resulthtml1 = resulthtml1 & "<input name='collecting_source' class='data-entry-input' value='#collecting_source#'>">
+                <cfset resulthtml1 = resulthtml1 & "<input name='collecting_source' class='data-entry-input' value='#encodeForHTML(collecting_source)#'>">
                 <cfset resulthtml1 = resulthtml1 & "<label for='began_date' class='data-entry-label mb-0'>Began Date</label>">
                 <cfset resulthtml1 = resulthtml1 & "<input name='began_date' class='data-entry-input' value='#began_date#'>">
                 <cfset resulthtml1 = resulthtml1 & "<label for='ended_date' class='data-entry-label mb-0'>End Date</label>">
