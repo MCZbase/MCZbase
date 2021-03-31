@@ -32,7 +32,7 @@
 		select * from (
 		SELECT 
 			distinct preferred_agent_name.agent_id,
-			preferred_agent_name.agent_name,
+			preferred_agent_name.agent_name as agent_name,
 			agent_type,
 			agent.edited,
 			MCZBASE.get_worstagentrank(agent.agent_id) worstagentrank
@@ -83,7 +83,7 @@
 			</cfif>
 		)
 		WHERE rownum<501
-		ORDER BY preferred_agent_name.agent_name
+		ORDER BY agent_name
 	</cfquery>
 
 	<cfif getAgents.recordcount is 0>
