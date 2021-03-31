@@ -42,14 +42,21 @@ CREATE OR REPLACE TRIGGER cf_temp_georef_key
 sho err
 --->
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 50em; padding: 1em 0 3em 0;margin: 0 auto;">
+
+<div style="width: 50em; padding: 1em 0 3em 0;margin: 0 auto;">
+
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Geography</h3>
 	<p>HigherGeography, SpecLocality, and locality_id must all match MCZbase data or this form will not work. There are still plenty of ways to hook a georeference to the wrong socket&mdash;make sure you know what you're doing before you try to use this form.  If in doubt, give your filled-out template to Collections Operations to load.</p>
 
     <p><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
-		<label for="t">Copy and save as a .csv file</label>
+		<label for="t">
+			<a href='data:text/csv;charset=utf-8,"HigherGeography","SpecLocality","Locality_ID","Dec_Lat","Dec_Long","MAX_ERROR_DISTANCE","MAX_ERROR_UNITS","LAT_LONG_REMARKS","DETERMINED_BY_AGENT","GEOREFMETHOD","ORIG_LAT_LONG_UNITS","DATUM","DETERMINED_DATE","LAT_LONG_REF_SOURCE","EXTENT","GPSACCURACY","VERIFICATIONSTATUS","SPATIALFIT"'
+				download="geography_bulkload_template.csv" 
+				target="_blank">Download a template</a> 
+			Or, copy and save the following as a .csv file:
+		</label>
 		<textarea rows="2" cols="80" id="t">HigherGeography,SpecLocality,Locality_ID,Dec_Lat,Dec_Long,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,LAT_LONG_REMARKS,DETERMINED_BY_AGENT,GEOREFMETHOD,ORIG_LAT_LONG_UNITS,DATUM,DETERMINED_DATE,LAT_LONG_REF_SOURCE,EXTENT,GPSACCURACY,VERIFICATIONSTATUS,SPATIALFIT</textarea>
 	</div>
 <p>
@@ -349,36 +356,36 @@ Data:
 					SPATIALFIT
 				) values (
 					sq_lat_long_id.nextval,
-					#Locality_ID#,
-					#Dec_Lat#,
-					#Dec_Long#,
-					'#DATUM#',
-					'#ORIG_LAT_LONG_UNITS#',
-					#DETERMINED_BY_AGENT_ID#,
-					'#dateformat(DETERMINED_DATE,'yyyy-mm-dd')#',
-					'#LAT_LONG_REF_SOURCE#',
-					'#LAT_LONG_REMARKS#',
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Locality_ID#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(DETERMINED_DATE,'yyyy-mm-dd')#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">,
 					<cfif len(MAX_ERROR_DISTANCE) gt 0>
-						#MAX_ERROR_DISTANCE#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#MAX_ERROR_UNITS#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
 					1,
 					<cfif len(EXTENT) gt 0>
-						#EXTENT#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(GPSACCURACY) gt 0>
-						#GPSACCURACY#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					'#GEOREFMETHOD#',
-					'#VERIFICATIONSTATUS#',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
 					<cfif len(SPATIALFIT) gt 0>
-						#SPATIALFIT#
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#">
 					<cfelse>
 						NULL
 					</cfif>
@@ -386,8 +393,9 @@ Data:
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-	Spiffy, all done.
+	Load all done.
 </cfoutput>
 </cfif>
-            </div>
+
+</div>
 <cfinclude template="/includes/_footer.cfm">
