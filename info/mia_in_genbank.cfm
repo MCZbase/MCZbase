@@ -14,7 +14,7 @@
 		</div>
 		<cfoutput>
 			<cfquery name="gb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select owner, found_count, run_date, query_typoe, link_url
+				select owner, found_count, run_date, query_type, link_url
 				from cf_genbank_crawl 
 				order by owner
 			</cfquery>
