@@ -2,7 +2,7 @@
 <cfinclude template="/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
 
-<main class=”container py-3” id=”content” >
+<main class="container py-3" id=”content” title="GenBank report content" >
 	<section class=”row border rounded my-2”>
 		<h1 class=”h2”>Potential Missed GenBank Records</h1>
 		<div class="border p-1">
