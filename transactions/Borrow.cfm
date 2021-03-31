@@ -859,18 +859,22 @@ limitations under the License.
 												<label for="spec_prep" class="data-entry-label">Specimen Preparation</label>
 												<input type="text" name="spec_prep" id="spec_prep" class="data-entry-input">
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
+											<div class="col-12 col-md-2 px-1 mt-1">
 												<label for="type_status" class="data-entry-label">Type Status</label>
 												<input type="text" class="data-entry-input" name="type_status" id="type_status" >
 											</div>
-											<div class="col-12 col-md-3 px-1 mt-1">
+										</div>
+										<div class="row mx-0">
+											<div class="col-12 col-md-4 px-1 mt-1">
 												<label for="country_of_origin" class="data-entry-label">County of Origin</label>
 												<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
 											</div>
-											<div class="col-12 col-md-6 px-1 mt-1">
+											<div class="col-12 col-md-8 px-1 mt-1">
 												<label for="object_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" class="data-entry-input" name="object_remarks" id="object_remarks" >
 											</div>
+										</div>
+										<div class="row mx-0">
 											<div class="form-group col-12 px-1 pt-1">
 												<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
 												<span id="addItemFeedback" class="text-danger">&nbsp;</span>

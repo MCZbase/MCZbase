@@ -1162,6 +1162,7 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
+/* Sortable class for tables, used with /lib/misc/sorttable.js */
 .sortable {
 	margin: 2px;
 	padding: 5px;

@@ -20,6 +20,8 @@ limitations under the License.
 
 <!--- function getAgents search for agents returning json suitable for a jqxgrid --->
 <cffunction name="getAgents" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_type" type="string" required="no">
+	<cfargument name="edited" type="string" required="no">
 	<cfargument name="first_name" type="string" required="no">
 	<cfargument name="last_name" type="string" required="no">
 	<cfargument name="middle_name" type="string" required="no">
@@ -47,23 +49,75 @@ limitations under the License.
 				agent.edited,
 				MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
 				birth_date,
-				death_date
+				death_date,
+				agentguid
 			FROM 
 				agent_name
-				left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
-				LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
-				LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
+				left outer join preferred_agent_name ON agent_name.agent_id = preferred_agent_name.agent_id
+				LEFT OUTER JOIN agent ON agent_name.agent_id = agent.agent_id
+				LEFT OUTER JOIN person ON agent.agent_id = person.person_id
 			WHERE
 				agent.agent_id > -1
-				and rownum<500
-				<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
-					AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
+				<cfif isdefined("agent_type") AND len(#agent_type#) gt 0>
+					<cfif left(agent_type,1) is "!">
+						AND agent_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(agent_type,len(agent_type)-1)#">
+					<cfelse>
+						AND agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">
+					</cfif>
 				</cfif>
-				<cfif isdefined("Last_Name") AND len(#Last_Name#) gt 0>
-					AND Last_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">
+				<cfif isdefined("edited") AND len(#edited#) gt 0>
+					AND edited = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#edited#">
 				</cfif>
-				<cfif isdefined("Middle_Name") AND len(#Middle_Name#) gt 0>
-					AND Middle_Name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Middle_Name#">
+				<cfif isdefined("first_name") AND len(first_name) gt 0>
+					<cfif left(first_name,1) is "=">
+						AND upper(first_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
+					<cfelseif left(first_name,1) is "!">
+						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
+					<cfelseif first_name is "NULL">
+						AND upper(first_name) is null
+					<cfelseif first_name is "NOT NULL">
+						AND upper(first_name) is not null
+					<cfelse>
+						<cfif find(',',first_name) GT 0>
+							AND upper(first_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(first_name)#" list="yes"> )
+						<cfelse>
+							AND upper(first_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(first_name)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("last_name") AND len(last_name) gt 0>
+					<cfif left(last_name,1) is "=">
+						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif left(last_name,1) is "!">
+						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif last_name is "NULL">
+						AND upper(last_name) is null
+					<cfelseif last_name is "NOT NULL">
+						AND upper(last_name) is not null
+					<cfelse>
+						<cfif find(',',last_name) GT 0>
+							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
+						<cfelse>
+							AND upper(last_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(last_name)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("last_name") AND len(last_name) gt 0>
+					<cfif left(last_name,1) is "=">
+						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif left(last_name,1) is "!">
+						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif last_name is "NULL">
+						AND upper(last_name) is null
+					<cfelseif last_name is "NOT NULL">
+						AND upper(last_name) is not null
+					<cfelse>
+						<cfif find(',',last_name) GT 0>
+							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
+						<cfelse>
+							AND upper(last_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(last_name)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
 					AND Suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Suffix#">
@@ -83,8 +137,22 @@ limitations under the License.
 						<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
 				</cfif>
-				<cfif isdefined("anyName") AND len(#anyName#) gt 0>
-					AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
+				<cfif isdefined("anyName") AND len(anyName) gt 0>
+					<cfif left(anyName,1) is "=">
+						AND upper(agent_name.agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
+					<cfelseif left(anyName,1) is "!">
+						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
+					<cfelseif anyName is "NULL">
+						AND upper(agent_name.agent_name) is null
+					<cfelseif anyName is "NOT NULL">
+						AND upper(agent_name.agent_name) is not null
+					<cfelse>
+						<cfif find(',',anyName) GT 0>
+							AND upper(agent_name.agent_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(anyName)#" list="yes"> )
+						<cfelse>
+							AND upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
