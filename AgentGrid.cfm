@@ -103,7 +103,7 @@
 		</span>
 		<br>
 	</cfloop>
-	<cfif getAgents.recordcount GT 498 >
+	<cfif getAgents.recordcount GT 499 >
 		<cfquery name="getAgentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				count(distinct preferred_agent_name.agent_id) as ct
@@ -114,7 +114,6 @@
 				LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
 			WHERE
 				agent.agent_id > -1
-				and rownum<500
 				<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
 					AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
 				</cfif>
@@ -155,7 +154,7 @@
 				</cfif>
 		</cfquery>
 		<cfloop query="getAgentCount">
-			<span class="error">
+			<span style="display: inline-block;padding:1px 5px;">
 				#getAgentCount.ct# matching agents, only the first 500 shown.
 			</span>
 		</cfloop>
