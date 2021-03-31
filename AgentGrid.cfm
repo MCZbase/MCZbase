@@ -90,7 +90,11 @@
 		<span class="error">Nothing Matched.</span>
 	<cfelse>
 		<span style="display: inline-block;padding:1px 5px;">
-			#getAgents.recordcount# matches (limit 500)
+			<cfif getAgents.recordcount GT 499 >
+				#getAgents.recordcount# matches shown.
+			<cfelse>
+				#getAgents.recordcount# matches.
+			</cfif>
 		</span>
 		<br>
 	</cfif>
