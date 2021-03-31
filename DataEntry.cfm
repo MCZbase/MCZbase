@@ -512,7 +512,7 @@ Some Totally Random String Data .....
 						</tr>
 						<tr id="d_identification_remarks">
 							<td align="right"><span class="f11a">ID Remark</span></td>
-							<td><input type="text" name="identification_remarks" title="IDENTIFICATION_REMARKS" value="#identification_remarks#"
+							<td><input type="text" name="identification_remarks" title="IDENTIFICATION_REMARKS" value="#encodeForHTML(identification_remarks)#"
 								id="identification_remarks" size="75">
 							</td>
 						</tr>
@@ -683,13 +683,13 @@ Some Totally Random String Data .....
 						<tr id="d_coll_event_remarks">
 							<td align="right"><span class="f11a">Coll.&nbsp;Event&nbsp;Remark</span></td>
 							<td>
-								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" size="75" value="#coll_event_remarks#" id="coll_event_remarks">
+								<input type="text" title="COLL_EVENT_REMARKS" name="coll_event_remarks" size="75" value="#encodeForHTML(coll_event_remarks)#" id="coll_event_remarks">
 							</td>
 						</tr>
 						<tr id="d_locality_remarks">
 							<td align="right"><span class="f11a" onclick="checkPicked()">Locality Remark</span></td>
 							<td>
-								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="75" value="#locality_remarks#" id="locality_remarks">
+								<input type="text" title="LOCALITY_REMARKS" name="locality_remarks" size="75" value="#encodeForHTML(locality_remarks)#" id="locality_remarks">
 							</td>
 						</tr>
         	<tr>
@@ -854,7 +854,7 @@ Some Totally Random String Data .....
 									<tr id="d_lat_long_remarks">
 										<td align="right"><span class="f11a">LatLongRemk</span></td>
 										<td colspan="3">
-											<input type="text" name="lat_long_remarks" size="80" value="#lat_long_remarks#" id="lat_long_remarks">
+											<input type="text" name="lat_long_remarks" size="80" value="#encodeForHTML(lat_long_remarks)#" id="lat_long_remarks">
 										</td>
 									</tr>
 								</table>
