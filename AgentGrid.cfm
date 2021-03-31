@@ -89,6 +89,10 @@
 
 	<cfif getAgents.recordcount is 0>
 		<span class="error">Nothing Matched.</span>
+	<cfelse>
+		<span style="display: inline-block;padding:1px 5px;">
+			#getAgents.recordcount# matches (limit 500)
+		</span>
 	</cfif>
 
 	<cfloop query="getAgents">
