@@ -29,6 +29,7 @@
 	<cfif not isDefined("birthOper")><cfset birthOper="="></cfif>
 	<cfif not isDefined("deathOper")><cfset deathOper="="></cfif>
 	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from (
 		SELECT 
 			distinct preferred_agent_name.agent_id,
 			preferred_agent_name.agent_name,
@@ -37,12 +38,11 @@
 			MCZBASE.get_worstagentrank(agent.agent_id) worstagentrank
 		FROM 
 			agent_name
-			left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
-			LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
-			LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
+			left outer join preferred_agent_name ON agent_name.agent_id = preferred_agent_name.agent_id
+			LEFT OUTER JOIN agent ON agent_name.agent_id = agent.agent_id
+			LEFT OUTER JOIN person ON agent.agent_id = person.person_id
 		WHERE
 			agent.agent_id > -1
-			and rownum<501
 			<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
 				AND first_name LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#First_Name#">
 			</cfif>
@@ -81,6 +81,8 @@
 					select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
 				)
 			</cfif>
+		)
+		WHERE rownum<501
 		ORDER BY preferred_agent_name.agent_name
 	</cfquery>
 
