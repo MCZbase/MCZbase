@@ -109,9 +109,9 @@
 				count(distinct preferred_agent_name.agent_id) as ct
 			FROM 
 				agent_name
-				left outer join preferred_agent_name ON (agent_name.agent_id = preferred_agent_name.agent_id)
-				LEFT OUTER JOIN agent ON (agent_name.agent_id = agent.agent_id)
-				LEFT OUTER JOIN person ON (agent.agent_id = person.person_id)
+				left outer join preferred_agent_name ON agent_name.agent_id = preferred_agent_name.agent_id
+				LEFT OUTER JOIN agent ON agent_name.agent_id = agent.agent_id
+				LEFT OUTER JOIN person ON agent.agent_id = person.person_id
 			WHERE
 				agent.agent_id > -1
 				<cfif isdefined("First_Name") AND len(#First_Name#) gt 0>
