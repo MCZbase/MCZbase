@@ -82,7 +82,7 @@
 				)
 			</cfif>
 		)
-		WHERE rownum<501
+		WHERE rownum<1001
 		ORDER BY agent_name
 	</cfquery>
 
@@ -90,7 +90,7 @@
 		<span class="error">Nothing Matched.</span>
 	<cfelse>
 		<span style="display: inline-block;padding:1px 5px;">
-			<cfif getAgents.recordcount GT 499 >
+			<cfif getAgents.recordcount GT 999 >
 				#getAgents.recordcount# matches shown.
 			<cfelse>
 				#getAgents.recordcount# matches.
@@ -107,7 +107,7 @@
 		</span>
 		<br>
 	</cfloop>
-	<cfif getAgents.recordcount GT 499 >
+	<cfif getAgents.recordcount GT 999 >
 		<cfquery name="getAgentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				count(distinct preferred_agent_name.agent_id) as ct
@@ -159,7 +159,7 @@
 		</cfquery>
 		<cfloop query="getAgentCount">
 			<span style="display: inline-block;padding:1px 5px;">
-				#getAgentCount.ct# matching agents, only the first 500 shown.
+				#getAgentCount.ct# matching agents, only the first 1000 shown.
 			</span>
 		</cfloop>
 	</cfif>
