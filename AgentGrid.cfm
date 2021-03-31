@@ -81,9 +81,6 @@
 					select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
 				)
 			</cfif>
-		GROUP BY preferred_agent_name.agent_id,
-					preferred_agent_name.agent_name,
-					agent_type,agent.edited, MCZBASE.get_worstagentrank(agent.agent_id)
 		ORDER BY preferred_agent_name.agent_name
 	</cfquery>
 
@@ -93,6 +90,7 @@
 		<span style="display: inline-block;padding:1px 5px;">
 			#getAgents.recordcount# matches (limit 500)
 		</span>
+		<br>
 	</cfif>
 
 	<cfloop query="getAgents">
