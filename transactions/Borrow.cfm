@@ -675,7 +675,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date"
-									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
