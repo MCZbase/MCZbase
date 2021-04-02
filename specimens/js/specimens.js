@@ -304,7 +304,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit identifications dialog");
+			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
 		},
 		dataType: "html"
 	});
