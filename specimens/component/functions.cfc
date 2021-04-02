@@ -799,10 +799,12 @@ limitations under the License.
                     </cfloop>
                     <!--- theResult ---> 
                 </div>
-            <cfcatch>
-                <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-            </cfcatch>
                </cfoutput>
+            <cfcatch>
+               <cfoutput>
+                <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+               </cfoutput>
+            </cfcatch>
         </cftry>
     </cfthread>
     <cfthread action="join" name="getOtherIDThread" />
