@@ -183,7 +183,7 @@ limitations under the License.
 					<!--- NOTE: Leading / is included below in id_link assembly --->
 					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
 					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
-					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
+					<cfcase value="borrow"><cfset targetform = "transactions/Borrow.cfm?action=edit&"></cfcase>
 					<cfcase value="deaccession"><cfset targetform = "transactions/Deaccession.cfm?action=edit&"></cfcase>
 				</cfswitch>
 			<cfelse>
@@ -2153,10 +2153,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-				<cfset row["id_link"] = "<a href='/Borrow.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
-			<cfelse>
-				<cfset row["id_link"] = "<a href='/Borrow.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
+			<cfset row["id_link"] = "<a href='/transactions/Borrow.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
