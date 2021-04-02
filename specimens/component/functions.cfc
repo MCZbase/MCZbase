@@ -432,6 +432,7 @@ limitations under the License.
     <cfargument name="identification_id" type="string" required="yes">
     <cfthread name="getIdentificationThread">
         <cftry>
+            <cfoutput>
             <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
 					identification.scientific_name, identification.made_date, identification.nature_of_id, 
@@ -448,7 +449,7 @@ limitations under the License.
 				ORDER BY 
 					made_date
 			</cfquery>
-            <cfoutput>
+          
                 <div id="identificationHTML">
                     <cfloop query="theResult">
                         <div class="identifcationExistingForm">
@@ -518,12 +519,13 @@ limitations under the License.
                     </cfloop>
                     <!--- theResult ---> 
                 </div>
-            </cfoutput>
+          
             <cfcatch>
-                <cfoutput>
+                
                     <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-                </cfoutput>
+               
             </cfcatch>
+            </cfoutput>
         </cftry>
     </cfthread>
     <cfthread action="join" name="getIdentificationThread" />
@@ -653,61 +655,58 @@ limitations under the License.
                         <cfset i=#i#+1>
                         </cfif>
                         </cfloop>
-                            <div class="container-fluid mt-4">
-                                    <div id="accordion">
-  <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h1 class="mb-0">
-        <button class="btn collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <span style="font-size: 1.25rem;">Add New Identifier</span>
-        </button>
-      </h1>
-    </div>
-
-    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
-      <div class="card-body">
-        <form name="newOID" method="post" action="editIdentifiers.cfm">
-            <div class="row">
-                    <div class="form-group col-3 pl-0 pr-1">
-                    <input type="hidden" name="collection_object_id" value="#collection_object_id#">
-                    <input type="hidden" name="Action" value="newOID">
-                        <label class="data-entry-label" id="other_id_type">Other ID Type</label>
-                    <select name="other_id_type" size="1" class="reqdClr data-entry-select">
-                        <cfloop query="ctType">
-                            <option 
-                                value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-                        </cfloop>
-                        </select>
-                    </div>
-                    <div class="form-group col-2 px-1">
-                        <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-                        <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-                    </div>
-                    <div class="form-group col-2 px-1">
-                        <label class="data-entry-label" id="other_id_number">Other ID Number</label>
-                        <input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-                    </div>
-                    <div class="form-group col-2 px-1">
-                        <label class="data-entry-label" id="other_id_number">Other ID Number</label>
-                        <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
-                    </div>
-                    <div class="form-group col-1 px-1 mt-3">
-                        <input type="submit" value="Save" class="btn btn-xs btn-primary">	
-                    </div>
-                </div>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
+                        <div class="container-fluid mt-4">
+                        <div id="accordion">
+                          <div class="card">
+                            <div class="card-header" id="headingTwo">
+                              <h1 class="mb-0">
+                                <button class="btn collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    <span style="font-size: 1.25rem;">Add New Identifier</span>
+                                </button>
+                              </h1>
+                            </div>
+                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
+                              <div class="card-body">
+                                <form name="newOID" method="post" action="editIdentifiers.cfm">
+                                    <div class="row">
+                                            <div class="form-group col-3 pl-0 pr-1">
+                                            <input type="hidden" name="collection_object_id" value="#collection_object_id#">
+                                            <input type="hidden" name="Action" value="newOID">
+                                                <label class="data-entry-label" id="other_id_type">Other ID Type</label>
+                                            <select name="other_id_type" size="1" class="reqdClr data-entry-select">
+                                                <cfloop query="ctType">
+                                                    <option 
+                                                        value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+                                                </cfloop>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-2 px-1">
+                                                <label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+                                                <input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+                                            </div>
+                                            <div class="form-group col-2 px-1">
+                                                <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                                                <input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+                                            </div>
+                                            <div class="form-group col-2 px-1">
+                                                <label class="data-entry-label" id="other_id_number">Other ID Number</label>
+                                                <input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
+                                            </div>
+                                            <div class="form-group col-1 px-1 mt-3">
+                                                <input type="submit" value="Save" class="btn btn-xs btn-primary">	
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
                  <!---      <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getMCZDoc('Add/Edit_an_identifier_number')"></i></h1>--->
                            
                 </div>
-                 
-
                 </div>
                 <cfcatch>
-                    <cfif isDefined("cfcatch.queryError") >
+                <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
                         <cfelse>
                         <cfset queryError = ''>
@@ -724,9 +723,11 @@ limitations under the License.
                             </div>
                         </div>
                     </div>
+              
                 </cfcatch>
             </cftry>
-        </cfoutput> </cfthread>
+        </cfoutput> 
+    </cfthread>
     <cfthread action="join" name="getEditOtherIDsThread" />
     <cfreturn getEditOtherIDsThread.output>
 </cffunction>
@@ -740,6 +741,7 @@ limitations under the License.
     <cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
     <cfthread name="getOtherIDsThread">
         <cftry>
+            <cfoutput>
             <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -766,7 +768,6 @@ limitations under the License.
 						display_value
 				</cfquery>
             </cfquery>
-            <cfoutput>
                 <div id="otherIDHTML">
                     <cfloop query="theResult">
                         <div class="OtherIDExistingForm">
@@ -795,12 +796,10 @@ limitations under the License.
                     </cfloop>
                     <!--- theResult ---> 
                 </div>
-            </cfoutput>
             <cfcatch>
-                <cfoutput>
-                    <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-                </cfoutput>
+                <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
             </cfcatch>
+               </cfoutput>
         </cftry>
     </cfthread>
     <cfthread action="join" name="getOtherIDThread" />
