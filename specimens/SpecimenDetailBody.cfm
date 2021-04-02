@@ -643,7 +643,7 @@ limitations under the License.
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left" id="identificationsCardBody">
-								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+								<cfset block = getIdentificationHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
 						</div>
