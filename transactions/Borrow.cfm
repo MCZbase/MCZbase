@@ -1477,7 +1477,7 @@ limitations under the License.
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.</p>
+			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.  Make sure that all agents have been picked and their agent icons are green.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
@@ -1539,7 +1539,7 @@ limitations under the License.
 					<cfif len(#lenders_loan_date#) gt 0>
 						,lenders_loan_date
 					</cfif>
-					<cfif len(#return_acknowledged_date#) gt 0>
+					<cfif isdefined('return_acknowledged_date') AND len(#return_acknowledged_date#) gt 0>
 						,return_acknowledged_date
 					</cfif>
 				) VALUES (
@@ -1569,7 +1569,7 @@ limitations under the License.
 					<cfif len(#lenders_loan_date#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_date#">
 					</cfif>
-					<cfif len(#return_acknowledged_date#) gt 0>
+					<cfif isdefined('return_acknowledged_date') AND len(#return_acknowledged_date#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#return_acknowledged_date#">
 					</cfif>
 				)
