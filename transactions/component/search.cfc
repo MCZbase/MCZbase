@@ -2154,7 +2154,6 @@ limitations under the License.
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfset row["id_link"] = "<a href='/transactions/Borrow.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.borrow_number#</a>">
-			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
