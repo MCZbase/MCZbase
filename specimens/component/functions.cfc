@@ -71,12 +71,12 @@ limitations under the License.
                 <div class="row">
                     <div class="col-2 mt-2">
                         <ul class="list-unstyled">
-                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
+                            <li><button  class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
                             <li><button class="btn btn-xs btn-secondary w-100 my-2">Citations</button></li>
                             <li><button class="btn btn-xs btn-secondary w-100 my-2">Other IDs</button></li>
-                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Parts</button></li>
-                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Attributes</button></li>
-                            <li><button class="btn btn-xs btn-secondary w-100 my-2">Relations</button></li>
+                            <li><button onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)" class="btn btn-xs btn-secondary w-100 my-2">Parts</button></li>
+                            <li><button onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)" class="btn btn-xs btn-secondary w-100 my-2">Attributes</button></li>
+                            <li><button onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)" class="btn btn-xs btn-secondary w-100 my-2">Relations</button></li>
                             <li><button class="btn btn-xs btn-secondary w-100 my-2">Collector/Prep.</button></li>
                             <li><button class="btn btn-xs btn-secondary w-100 my-2">Transactions</button></li>
                         </ul>
