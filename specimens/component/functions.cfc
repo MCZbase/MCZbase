@@ -59,7 +59,8 @@ limitations under the License.
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
     <cfargument name="collection_object_id" type="string" required="yes">
-    <cfthread name="getEditIdentsThread"> <cfoutput>
+    <cfthread name="getEditIdentsThread"> 
+        <cfoutput>
             <cftry>
                 <cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select nature_of_id from ctnature_of_id
@@ -68,7 +69,7 @@ limitations under the License.
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
                 <div class="container-fluid">
-                <div class="row">
+                    <div class="row">
                     <div class="col-2 mt-2">
                         <ul class="list-unstyled">
                             <li><button class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
@@ -419,7 +420,8 @@ limitations under the License.
                     </div>
                 </cfcatch>
             </cftry>
-        </cfoutput> </cfthread>
+        </cfoutput>
+        </cfthread>
     <cfthread action="join" name="getEditIdentsThread" />
     <cfreturn getEditIdentsThread.output>
 </cffunction>
@@ -432,7 +434,7 @@ limitations under the License.
     <cfargument name="identification_id" type="string" required="yes">
     <cfthread name="getIdentificationThread">
         <cftry>
-            <cfoutput>
+            
             <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
 					identification.scientific_name, identification.made_date, identification.nature_of_id, 
@@ -449,7 +451,7 @@ limitations under the License.
 				ORDER BY 
 					made_date
 			</cfquery>
-          
+          <cfoutput>
                 <div id="identificationHTML">
                     <cfloop query="theResult">
                         <div class="identifcationExistingForm">
@@ -519,13 +521,13 @@ limitations under the License.
                     </cfloop>
                     <!--- theResult ---> 
                 </div>
-          
+                </cfoutput>
             <cfcatch>
-                
+                <cfoutput>
                     <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-               
+                 </cfoutput>
             </cfcatch>
-            </cfoutput>
+          
         </cftry>
     </cfthread>
     <cfthread action="join" name="getIdentificationThread" />
