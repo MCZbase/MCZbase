@@ -542,9 +542,9 @@ limitations under the License.
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
     <cfargument name="collection_object_id" type="string" required="yes">
     <cfthread name="getEditOtherIDsThread"> 
-        <cfoutput>
+
             <cftry>
-                <div class="container-fluid">
+     
                     <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                         select 
                             COLL_OBJ_OTHER_ID_NUM_ID,
@@ -597,10 +597,11 @@ limitations under the License.
                             collection_id 
                         from collection
                     </cfquery>
-   
+           <cfoutput>
+                <div class="container-fluid">
                     <h1 class="h3">Edit existing identifiers:</h1>
                     <form name="ids" method="post" action="editIdentifiers.cfm">
-                    <div class="mb-4">
+                        <div class="mb-4">
                       <input type="hidden" name="collection_object_id" value="#collection_object_id#">
                       <input type="hidden" name="Action" value="saveCatEdits">
                          Catalog&nbsp;Number:
@@ -707,6 +708,7 @@ limitations under the License.
                            
                 </div>
                 </div>
+                </cfoutput>
                 <cfcatch>
                 <cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
@@ -728,7 +730,7 @@ limitations under the License.
               
                 </cfcatch>
             </cftry>
-        </cfoutput> 
+
     </cfthread>
     <cfthread action="join" name="getEditOtherIDsThread" />
     <cfreturn getEditOtherIDsThread.output>
