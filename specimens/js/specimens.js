@@ -16,16 +16,16 @@ function checkFormValidity(form) {
 			messageDialog(message,'Unable to Save');
 		}
 	return result;
-};
+}
 
 /** loadIdentifications populate an html block with the identification 
- * history for a cataloged item.
- * @param collection_object_id identifying the cataloged item for which 
- *  to list the identification history.
- * @param targetDivId the id for the div in the dom, without a leading #
- *  selector, for which to replace the html content with the identification 
- *  history.
- */
+* history for a cataloged item.
+* @param collection_object_id identifying the cataloged item for which 
+*  to list the identification history.
+* @param targetDivId the id for the div in the dom, without a leading #
+*  selector, for which to replace the html content with the identification 
+*  history.
+*/
 
 function loadIdentification(identification_id,form) {
 	jQuery.ajax({
