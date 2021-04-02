@@ -721,7 +721,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
-								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.return_acknowledged_date)#">
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#dateformat(borrowDetails.return_acknowledged_date,'yyyy-mm-dd')#">
 							</div>
 						</div>
 						<!--- Begin transaction agents table: Load via ajax. --->
