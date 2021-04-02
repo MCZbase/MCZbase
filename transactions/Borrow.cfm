@@ -516,28 +516,27 @@ limitations under the License.
 			function checkEditBorrowFormValidity(form) { 
 				var result = false;
 				var validationFailure = false;
+				var message = "Form Input validation problem.<br><dl>";
 				if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
 					// there is a return acknowledged date, but the return acknowleged is set to no.
-					var message = "Form Input validation problem.<br><dl>";
-					message = message + "There is a return acknowledged date, but return acknowledged is set to 'no'."
-					message = message + "</dl>"
-					messageDialog(message,'Unable to Save');
+					message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
 					validationFailure = true;
 				}
 				if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
 					// there is a return acknowledged date, but the return acknowleged is set to no.
-					var message = "Form Input validation problem.<br><dl>";
-					message = message + "There is a return acknowledged date, but borrow is still open."
-					message = message + "</dl>"
-					messageDialog(message,'Unable to Save');
+					message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
 					validationFailure = true;
 				}
 				// add any other specific tests here
 				
-				if (validationFailure==false) { 
+				if (validationFailure==true) {
+					// deliver warning message.
+					message = message + "</dl>"
+					messageDialog(message,'Unable to Save');
+				} else {  
 					// no specific failure, so test general form rules.
 					result = checkFormValidity(form);
-				}
+				} 
 				return result;
 			};
 		</script>
