@@ -1536,6 +1536,12 @@ limitations under the License.
 					<cfif len(#lender_loan_type#) gt 0>
 						,lender_loan_type
 					</cfif>
+					<cfif len(#lenders_loan_date#) gt 0>
+						,lenders_loan_date
+					</cfif>
+					<cfif len(#return_acknowledged_date#) gt 0>
+						,return_acknowledged_date
+					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_number#'>
@@ -1559,6 +1565,12 @@ limitations under the License.
 					</cfif>
 					<cfif len(#lender_loan_type#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lender_loan_type#">
+					</cfif>
+					<cfif len(#lenders_loan_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_date#">
+					</cfif>
+					<cfif len(#return_acknowledged_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#return_acknowledged_date#">
 					</cfif>
 				)
 			</cfquery>
@@ -1648,7 +1660,7 @@ limitations under the License.
 						'outside contact')
 				</cfquery>
 			</cfif>
-			<cfif isdefined("additional_outcontact_agent_id") and len(additional_outcontact_agent_id) gt 0>
+			<cfif isdefined("additional_out_contact_agent_id") and len(additional_out_contact_agent_id) gt 0>
 				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1656,7 +1668,7 @@ limitations under the License.
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_outcontact_agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_out_contact_agent_id#">,
 						'additional outside contact')
 				</cfquery>
 			</cfif>
