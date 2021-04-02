@@ -468,14 +468,10 @@ where
 		<input type="submit" value="Edit this permit" class="lnkBtn"
    				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>
-	<form action="editAccn.cfm" method="post">
-	<input type="hidden" name="permit_id" value="#permit_id#">
-	<input type="hidden" name="Action" value="findAccessions">
-		<input type="submit" value="Accession List" class="lnkBtn"
-				onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
+	<a href="/Transactions.cfm?action=findAccessions&execute=true&method=getAccessions&permit_id=#permit_id#&permit_num=#encodeForURL(permit_num)#">List of Accession which use this Permissions and rights document</a>
 	</form>
-        <!--- TODO: revisit permit report --->
-        <!---
+   <!--- TODO: revisit permit report --->
+   <!---
 	<form action="Reports/permit.cfm" method="post">
 	<input type="hidden" name="permit_id" value="#permit_id#">
 		<input type="submit" value="Permit Report" class="lnkBtn"
