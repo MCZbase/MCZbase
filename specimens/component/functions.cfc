@@ -452,7 +452,7 @@ limitations under the License.
 				ORDER BY 
 					made_date
 			</cfquery>
-		  <cfoutput>
+			<cfoutput>
 				<div id="identificationHTML">
 					<cfloop query="theResult">
 						<div class="identifcationExistingForm">
@@ -528,7 +528,6 @@ limitations under the License.
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 				 </cfoutput>
 			</cfcatch>
-		  
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getIdentificationThread" />
@@ -542,7 +541,6 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-
 	<cfthread name="getEditOtherIDsThread"> 
 		<cftry>
 			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -597,7 +595,7 @@ limitations under the License.
 					collection_id 
 				from collection
 			</cfquery>
-		   <cfoutput>
+			<cfoutput>
 				<div class="container-fluid">
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
@@ -620,63 +618,62 @@ limitations under the License.
 					<cfset i=1>
 					<cfloop query="oids">
 						<cfif len(#other_id_type#) gt 0>
-						<form name="oids#i#" method="post" action="editIdentifiers.cfm">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-								<input type="hidden" name="Action">
-								<cfset thisType = #oids.other_id_type#>
-							<div class="row mx-0">
-								<div class="form-group col-2 pl-0 pr-1">
-									<label class="data-entry-label">Other ID Type</label>
-									<select name="other_id_type" class="data-entry-select" style="" size="1">				
-										<cfloop query="ctType">					
-											<option 
-												<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-												value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-										</cfloop>			
-									</select>
+							<form name="oids#i#" method="post" action="editIdentifiers.cfm">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+									<input type="hidden" name="Action">
+									<cfset thisType = #oids.other_id_type#>
+								<div class="row mx-0">
+									<div class="form-group col-2 pl-0 pr-1">
+										<label class="data-entry-label">Other ID Type</label>
+										<select name="other_id_type" class="data-entry-select" style="" size="1">				
+											<cfloop query="ctType">					
+												<option 
+													<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+													value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+											</cfloop>			
+										</select>
+									</div>
+									<div class="form-group col-2 px-1">
+										<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
+										<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
+									</div>
+									<div class="form-group col-2 px-1">
+										<label for="other_id_number" class="data-entry-label">Other ID Number</label>
+										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
+									</div>
+									<div class="form-group col-2 px-1">
+										<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
+										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
+									</div>
+									<div class="form-group col-2 px-1 mt-3">
+										<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+										<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+									</div>
 								</div>
-								<div class="form-group col-2 px-1">
-								<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-								<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
-								</div>
-								<div class="form-group col-2 px-1">
-								<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-								<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
-								</div>
-								<div class="form-group col-2 px-1">
-								<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-								<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
-								</div>
-								<div class="form-group col-2 px-1 mt-3">
-								<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-								<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-								</div>
-								</div>
-							  </div>
 							</form>
 						<cfset i=#i#+1>
 						</cfif>
-						</cfloop>
-						<div class="container-fluid mt-4">
+					</cfloop>
+					<div class="container-fluid mt-4">
 						<div id="accordion">
-						  <div class="card">
+							<div class="card">
 							<div class="card-header" id="headingTwo">
-							  <h1 class="mb-0">
+								<h1 class="mb-0">
 								<button class="btn collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 									<span style="font-size: 1.25rem;">Add New Identifier</span>
 								</button>
-							  </h1>
+							</h1>
 							</div>
 							<div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
-							  <div class="card-body">
-								<form name="newOID" method="post" action="editIdentifiers.cfm">
-									<div class="row">
+								<div class="card-body">
+									<form name="newOID" method="post" action="editIdentifiers.cfm">
+										<div class="row">
 											<div class="form-group col-3 pl-0 pr-1">
-											<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-											<input type="hidden" name="Action" value="newOID">
+												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+												<input type="hidden" name="Action" value="newOID">
 												<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-											<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+												<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 												<cfloop query="ctType">
 													<option 
 														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
@@ -699,35 +696,33 @@ limitations under the License.
 												<input type="submit" value="Save" class="btn btn-xs btn-primary">	
 											</div>
 										</div>
-									</div>
-								</form>
-							  </div>
+									</form>
+								</div>
 							</div>
-						  </div>
-				 <!---	  <h1 class="h3">Add New Identifier: <i class="fa fa-question-circle infoLink small d-inline" onClick="getMCZDoc('Add/Edit_an_identifier_number')"></i></h1>--->
-						   
-				</div>
+						</div>
+						</div>
+					</div>
 				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
 					</div>
+				</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -747,29 +742,29 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						case when status = 1 and
-							concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
-							coll_obj_other_id_num.display_value
-						end display_value,
-						coll_obj_other_id_num.other_id_type,
-						case when base_url is not null then
-							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-						else
-							null
-						end link
-					FROM
-						coll_obj_other_id_num 
-						left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-					where
-						collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY
-						other_id_type,
-						display_value
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					case when status = 1 and
+						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+						coll_obj_other_id_num.other_id_type = 'original identifier'
+						then 'Masked'
+					else
+						coll_obj_other_id_num.display_value
+					end display_value,
+					coll_obj_other_id_num.other_id_type,
+					case when base_url is not null then
+						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+					else
+						null
+					end link
+				FROM
+					coll_obj_other_id_num 
+					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+				where
+					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					other_id_type,
+					display_value
 			</cfquery>
 				<div id="otherIDHTML">
 					<cfloop query="theResult">
@@ -783,15 +778,15 @@ limitations under the License.
 													<li class="list-group-item">#other_id_type#:
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
-															<cfelse>
-#display_value#
+														<cfelse>
+															#display_value#
 														</cfif>
 													</li>
 												</cfloop>
 											</ul>
 										</cfif>
-										  <button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
-												 onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
+										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
+										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
 									</div>
 								</div>
 							</form>
@@ -799,11 +794,11 @@ limitations under the License.
 					</cfloop>
 					<!--- theResult ---> 
 				</div>
-			   </cfoutput>
+			</cfoutput>
 			<cfcatch>
-			   <cfoutput>
+				<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-			   </cfoutput>
+				</cfoutput>
 			</cfcatch>
 		</cftry>
 	</cfthread>
@@ -817,7 +812,7 @@ limitations under the License.
 	<cfset r=1>
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
+			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
 			from identification
 			where identification_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 		</cfquery>
@@ -844,9 +839,9 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		   select 1 as status, locality_id, geog_auth_rec_id, spec_locality
-			 from locality
-			 where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			select 1 as status, locality_id, geog_auth_rec_id, spec_locality
+			from locality
+			where locality_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfif theResults.recordcount eq 0>
 			<cfset theResults=queryNew("status, message")>
@@ -868,13 +863,13 @@ limitations under the License.
 	<cfset r=1>
 	<cfthread name="getLocalityThread">
 		<cftry>
-			<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="theResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 1 as status, locality.spec_locality, locality.geog_auth_rec_id, collecting_event.collecting_event_id, collecting_event.verbatim_locality, collecting_event.began_date, collecting_event.ended_date, collecting_event.collecting_source 
 		from locality, collecting_event, geog_auth_rec 
 		where locality.geog_auth_rec_id= geog_auth_rec.geog_auth_rec_id
 		and collecting_event.locality_id = locality.locality_id
 		and locality.locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-	</cfquery>
+		</cfquery>
 			<cfset resulthtml1 = "<div id='localityHTML'> ">
 			<cfloop query="theResults">
 				<cfset resulthtml1 = resulthtml1 & "<div class='localityExistingForm'>">

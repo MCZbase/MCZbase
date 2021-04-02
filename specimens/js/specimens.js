@@ -1,108 +1,3 @@
-//function loadCitPubForMedia(publication_id) {
-//targetDiv="CitPubFormMedia";
-//	console.log(" media in #"+ targetDiv);
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getMediaForCitPub",
-//			publication_id: publication_id,
-//		},
-//		success: function (result) {
-//			$("#CitPubFormMedia").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing pub");
-//		},
-//		dataType: "html"
-//	});
-//}
-//	$(function() {
-//     $(".dialog").dialog({
-//		open: function(event,ui){},
-//        Title: {style:"font-size: 1.3em;"},
-//		bgiframe: true,
-//        autoOpen: false,
-//    	width: '700px',
-//    	minWidth: 500,
-//    	minHeight: 400,
-//		buttons: [
-//			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-//        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
-//		 ],
-//        close: function() {
-//            $(this).dialog( "close" );
-//        },
-//        modal: true
-//	 }
-//       );
-//     $('body')
-//      .bind(
-//       'click',
-//       function(e){
-//        if(
-//         $('.dialog-ID').dialog('isOpen')
-//         && !$(e.target).is('.ui-dialog, button')
-//         && !$(e.target).closest('.ui-dialog').length
-//        ){
-//         $('.dialog').dialog('close');
-//        }
-//       }
-//      );
-//    }
-//   );
-//	$(function() {
-//     $(".dialog-locality").dialog({
-//		open: function(event,ui){},
-//        Title: {style:"font-size: 1.3em;"},
-//		bgiframe: true,
-//        autoOpen: false,
-//    	width: '700px',
-//    	minWidth: 500,
-//    	minHeight: 400,
-//		buttons: [
-//			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-//        	{ text: "Save",  click: function() { alert("save"); }, class:"btn btn-primary"}
-//		 ],
-//        close: function() {
-//            $(this).dialog( "close" );
-//        },
-//        modal: true
-//	 }
-//       );
-//     $('body')
-//      .bind(
-//       'click',
-//       function(e){
-//        if(
-//         $('.dialog-ID').dialog('isOpen')
-//         && !$(e.target).is('.ui-dialog, button')
-//         && !$(e.target).closest('.ui-dialog').length
-//        ){
-//         $('.dialog-locality').dialog('close');
-//        }
-//       }
-//      );
-//    }
-//   );
-
-
-//function loadLocality(locality_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getLocalityHtml",
-//			locality_id: locality_id,
-//		},
-//		success: function (result) {
-//			$("#localityHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing locality");
-//		},
-//		dataType: "html"
-//	});
-//};
-
 function checkFormValidity(form) { 
 	var result = false;
 	if (!form.checkValidity || form.checkValidity()) { 
@@ -136,7 +31,7 @@ function loadIdentification(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationHtml",
+			method : "getIdentificationHTML",
 			identification_id: identification_id,
 		},
 		success: function (result) {
@@ -199,40 +94,6 @@ function loadParts(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
-//function loadLocality(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/public.cfc",
-//		data : {
-//			method : "getLocalityHTML",
-//			collection_object_id: collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading locality");
-//		},
-//		dataType: "html"
-//	});
-//}
-
-//function loadLocality(collecting_event_id,form) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getLocalityHtml",
-//			collecting_event_id: collecting_event_id,
-//		},
-//		success: function (result) {
-//			$("#localityHTML).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading locality");
-//		},
-//		dataType: "html"
-//	});
-//}
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
@@ -336,7 +197,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		w = 999;
 	} 
 	var thedialog = $("#"+dialogId).html(content)
-	.dialog({
+	dialog({
 		title: title,
 		autoOpen: false,
 		dialogClass: 'dialog_fixed,ui-widget-header',
