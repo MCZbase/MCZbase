@@ -216,7 +216,7 @@ These include "male ?,"  "fe<b>male</b>," and "fe<b>male</b> ?"</p>
 				
 					<cfloop query="valCodes">
 						<cfset cleanVal = #replace(valCodes.valCodes,"'","\'","all")#>
-						<a href="javascript: void(0);" 
+						<a style="padding-bottom: .25rem; display: inline-block; font-size: .98rem;" href="javascript: void(0);" 
 							onClick="opener.document.SpecData.attribute_value_#attNum#.value='#cleanVal#'; 
 								opener.document.SpecData.attribute_type_#attNum#.value='#attribute#'; 
 								opener.document.SpecData.attribute_units_#attNum#.value=''; 
