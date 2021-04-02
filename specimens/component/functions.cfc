@@ -642,7 +642,7 @@ limitations under the License.
                                 </div>
                                 <div class="form-group col-2 px-1">
                                 <label for="other_id_number" class="data-entry-label">Other ID Number</label>
-                                <input type="text" class="data-entry-input" value="#encodeForHTML((oids.other_id_number)#" size="12" name="other_id_number">
+                                <input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
                                 </div>
                                 <div class="form-group col-2 px-1">
                                 <label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
