@@ -636,7 +636,7 @@
                                 TRANS_AGENT_ROLE
 		</cfquery>
 		<cfloop query="trans_agent_b">
-			<li>#TRANS_AGENT_ROLE# for Borrow <a href="/Borrow.cfm?action=edit&transaction_id=#transaction_id#">#collection# #borrow_number#</a></li>
+			<li>#TRANS_AGENT_ROLE# for Borrow <a href="/transactions/Borrow.cfm?action=edit&transaction_id=#transaction_id#">#collection# #borrow_number#</a></li>
 		</cfloop>
 	</ul>
 </cfoutput>

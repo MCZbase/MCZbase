@@ -1059,7 +1059,7 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
 								left join borrow on trans.transaction_id = borrow.transaction_id
@@ -1067,7 +1067,7 @@ limitations under the License.
 								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 							union
 							select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-								concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
 							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 								left join trans on shipment.transaction_id = trans.transaction_id
 								left join collection on trans.collection_id = collection.collection_id
@@ -1403,7 +1403,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
@@ -1416,7 +1416,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,

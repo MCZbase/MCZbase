@@ -512,6 +512,33 @@ limitations under the License.
 				console.log(transaction_id);
 				console.log(relationship);
 		 	};
+			// check specific buisness rules for valid save of edit borrow, then general test of form field validity
+			function checkEditBorrowFormValidity(form) { 
+				var result = false;
+				var validationFailure = false;
+				var message = "Form Input validation problem.<br><dl>";
+				if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
+					// there is a return acknowledged date, but the return acknowleged is set to no.
+					message = message + "<dt>Return Acknowleged:</dt> <dd>There is a return acknowledged date, but return acknowledged is set to 'no'.</dd>"
+					validationFailure = true;
+				}
+				if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
+					// there is a return acknowledged date, but the return acknowleged is set to no.
+					message = message + "<dt>Borrow Status:</dt> <dd>There is a return acknowledged date, but borrow is still open.</dd>"
+					validationFailure = true;
+				}
+				// add any other specific tests here
+				
+				if (validationFailure==true) {
+					// deliver warning message.
+					message = message + "</dl>"
+					messageDialog(message,'Unable to Save');
+				} else {  
+					// no specific failure, so test general form rules.
+					result = checkFormValidity(form);
+				} 
+				return result;
+			};
 		</script>
 		<cftry>
 			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowDetails_result">
@@ -675,7 +702,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="due_date" class="data-entry-label">Due Date</label>
 								<input type="text" name="due_date" id="due_date"
-									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+									value="#dateformat(borrowDetails.due_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged returned?</label>
@@ -693,7 +720,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="return_acknowledged_date" class="data-entry-label">Return Acknowledged Date</label>
-								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#encodeForHTML(borrowDetails.return_acknowledged_date)#">
+								<input type="text" name="return_acknowledged_date" id="return_acknowledged_date" class="data-entry-input" value="#dateformat(borrowDetails.return_acknowledged_date,'yyyy-mm-dd')#">
 							</div>
 						</div>
 						<!--- Begin transaction agents table: Load via ajax. --->
@@ -761,7 +788,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-12 mb-3 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
+									onClick="if (checkEditBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
@@ -1313,9 +1340,16 @@ limitations under the License.
 						<cfinclude template="/transactions/shipmentDialog.cfm">
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
-								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
-								<cfset limitationsBlock = getBorrowLimitations(transaction_id="#transaction_id#")>
-								<div id="borrowLimitationsDiv">#limitationsBlock#</div>
+								<div class="row">
+									<div class="col-12 py-1">
+										<h2 class="h3 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+										<button class="btn btn-secondary btn-xs ml-2" onclick=" updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv'); " value="Refresh"><i class="fas fa-sync"></i> Refresh</button>
+									</div>
+									<div class="col-12">
+										<cfset limitationsBlock = getBorrowLimitations(transaction_id="#transaction_id#")>
+										<div id="borrowLimitationsDiv">#limitationsBlock#</div>
+									</div>
+								</div>
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
@@ -1442,7 +1476,7 @@ limitations under the License.
 		>
 			<!--- we shouldn't reach here, as the browser should enforce the required fields on the form before submission --->
 			<h1 class="h2">One or more required fields are missing.</h1>
-			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.</p>
+			<p>You must fill in Collection, Borrow Number, Status, Transaction Date Received, Nature of Material, Description of Borrow, Received From, Received By, Outside Authorized By, Number of Specimens, and Borrow Overseen By.  Make sure that all agents have been picked and their agent icons are green.</p>
 			<p>Use your browser's back button to fix the problem and try again.</p>
 			<cfabort>
 		</cfif>
@@ -1501,6 +1535,12 @@ limitations under the License.
 					<cfif len(#lender_loan_type#) gt 0>
 						,lender_loan_type
 					</cfif>
+					<cfif len(#lenders_loan_date#) gt 0>
+						,lenders_loan_date
+					</cfif>
+					<cfif isdefined('return_acknowledged_date') AND len(#return_acknowledged_date#) gt 0>
+						,return_acknowledged_date
+					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#borrow_number#'>
@@ -1524,6 +1564,12 @@ limitations under the License.
 					</cfif>
 					<cfif len(#lender_loan_type#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lender_loan_type#">
+					</cfif>
+					<cfif len(#lenders_loan_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_date#">
+					</cfif>
+					<cfif isdefined('return_acknowledged_date') AND len(#return_acknowledged_date#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#return_acknowledged_date#">
 					</cfif>
 				)
 			</cfquery>
@@ -1613,7 +1659,7 @@ limitations under the License.
 						'outside contact')
 				</cfquery>
 			</cfif>
-			<cfif isdefined("additional_outcontact_agent_id") and len(additional_outcontact_agent_id) gt 0>
+			<cfif isdefined("additional_out_contact_agent_id") and len(additional_out_contact_agent_id) gt 0>
 				<cfquery name="q_addoutsidecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1621,7 +1667,7 @@ limitations under the License.
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_outcontact_agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_out_contact_agent_id#">,
 						'additional outside contact')
 				</cfquery>
 			</cfif>
