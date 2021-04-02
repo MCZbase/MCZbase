@@ -770,7 +770,6 @@ limitations under the License.
 					ORDER BY
 						other_id_type,
 						display_value
-				</cfquery>
             </cfquery>
                 <div id="otherIDHTML">
                     <cfloop query="theResult">
