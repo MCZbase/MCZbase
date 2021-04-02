@@ -16,7 +16,7 @@ function checkFormValidity(form) {
 			messageDialog(message,'Unable to Save');
 		}
 	return result;
-}
+};
 
 /** loadIdentifications populate an html block with the identification 
 * history for a cataloged item.
