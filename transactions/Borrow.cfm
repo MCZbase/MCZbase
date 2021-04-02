@@ -512,6 +512,34 @@ limitations under the License.
 				console.log(transaction_id);
 				console.log(relationship);
 		 	};
+			// check specific buisness rules for valid save of edit borrow, then general test of form field validity
+			function checkEditBorrowFormValidity(form) { 
+				var result = false;
+				var validationFailure = false;
+				if ($('##return_acknowledged_date').val()!="" && $('##return_acknowledged option:selected').val() == 0 ) { 
+					// there is a return acknowledged date, but the return acknowleged is set to no.
+					var message = "Form Input validation problem.<br><dl>";
+					message = message + "There is a return acknowledged date, but return acknowledged is set to 'no'."
+					message = message + "</dl>"
+					messageDialog(message,'Unable to Save');
+					validationFailure = true;
+				}
+				if ($('##return_acknowledged_date').val()!="" && $('##borrow_status option:selected').val() == 'open' ) { 
+					// there is a return acknowledged date, but the return acknowleged is set to no.
+					var message = "Form Input validation problem.<br><dl>";
+					message = message + "There is a return acknowledged date, but borrow is still open."
+					message = message + "</dl>"
+					messageDialog(message,'Unable to Save');
+					validationFailure = true;
+				}
+				// add any other specific tests here
+				
+				if (validationFailure==false) { 
+					// no specific failure, so test general form rules.
+					result = checkFormValidity(form);
+				}
+				return result;
+			};
 		</script>
 		<cftry>
 			<cfquery name="borrowDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowDetails_result">
@@ -761,7 +789,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-12 mb-3 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
+									onClick="if (checkEditBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Borrow Paperwork" id="borrowPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
