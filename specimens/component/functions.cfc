@@ -71,7 +71,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-					<div class="col-2 mt-2">
+						<div class="col-2 mt-2">
 						<ul class="list-unstyled">
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Citations</button></li>
@@ -83,8 +83,7 @@ limitations under the License.
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Transactions</button></li>
 						</ul>
 					</div>
-					<div class="col-10 mt-2"> 
-						<!--- form name="newID" id="newID" method="post" action="editIdentification.cfm" --->
+						<div class="col-10 mt-2">
 						<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 								<h1 class="h3 px-1"> <span style="font-size: 1.25rem;">Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a></span> </h1>
@@ -120,7 +119,6 @@ limitations under the License.
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getIds.recordcount#">
 										<cfloop query="getIds">
-											<!---<div class="row border bg-light px-3 rounded mt-2 pt-2 pb-3">--->
 											<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
 													agent_name, identifier_order,
@@ -155,8 +153,7 @@ limitations under the License.
 															<cfset selected0 = "">
 															<cfset selected1 = "selected">
 														</cfif>
-														<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read#
-											class="reqdClr w-50" onchange="flippedAccepted('#i#')">
+														<select name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" size="1" #read# class="reqdClr w-50" onchange="flippedAccepted('#i#')">
 															<option value="1" #selected1#>yes</option>
 															<option value="0" #selected0#>no</option>
 															<cfif #ACCEPTED_ID_FG# is 0>
@@ -164,7 +161,7 @@ limitations under the License.
 															</cfif>
 														</select>
 														<cfif #ACCEPTED_ID_FG# is 0>
-															<span class="infoLink text-dander" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+														<span class="infoLink text-dander" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
 														</cfif>
 													</div>
 												</div>
@@ -181,28 +178,21 @@ limitations under the License.
 																	<div class="col-12 px-0">
 																		<div class="input-group">
 																			<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-																			<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#"
-														value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
+																			<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
 																		</div>
 																		<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
-																		<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#"
-													value="#identification_agent_id#">
+																		<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
 																	</div>
 																</div>
-										<!---<div class="col-12 col-md-2 px-0">
-												<cfif #idnum# gt 1>
-													<button class="btn btn-xs btn-danger" onclick="removeIdentifier('#i#','#idnum#')" /><i class="fa fa-times"></i></button>
-												</cfif>
-											</div>---> 
-											<script>
-												makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-											</script> 
+																<script>
+																	makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
+																</script>
 															</div>
 															<cfset idnum=idnum+1>
 														</cfloop>
 													</div>
-													<span  id="addIdentifier_#i#"
-										onclick="addIdentifier('#i#','#idnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span> </div>
+													<span id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="infoLink col-2 px-0 mt-4 float-right" style="display: inline-block;padding-right: 1em;">Add Identifier</span> 
+												</div>
 												<div class="row mt-2">
 													<div class="col-12 col-md-3">
 														<label for="made_date_#i#" class="data-entry-label">ID Date</label>
@@ -232,9 +222,7 @@ limitations under the License.
 												<div class="row mt-2">
 													<div class="col-12 col-md-6 pr-0">
 														<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
-														<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
-										class="data-entry-input"
-										value="#encodeForHtml(identification_remarks)#" >
+														<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#" class="data-entry-input" value="#encodeForHtml(identification_remarks)#" >
 													</div>
 													<div class="col-12 col-md-3">
 														<cfif #accepted_id_fg# is 0>
@@ -252,20 +240,19 @@ limitations under the License.
 													<div class="col-12 col-md-3 mt-3">
 														<cfif #accepted_id_fg# is 0>
 															<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
-															<input type="checkbox" class="data-entry-checkbox" 
-											name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-															<cfelse>
+															<input type="checkbox" class="data-entry-checkbox" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
+														<cfelse>
 															<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
 														</cfif>
 													</div>
 												</div>
 												<script>
-							$(document).ready(function() {
-								//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-								//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-								makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
-							});
-						</script> 
+													$(document).ready(function() {
+														//makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+														//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+														makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
+													});
+												</script>
 											</div>
 											<cfset i = #i#+1>
 										</cfloop>
@@ -278,18 +265,17 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-lg-12 float-left px-0">
 							<div id="accordion1">
-							  <div class="card">
-								<div class="card-header" id="headingOnex">
-								  <h1 class="my-0 px-1">
-									<button class="btn btn-link w-100 text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-										<span style="font-size: 1.25rem;">Add New Determination</span> 
-									</button>
-								  </h1>
+								<div class="card">
+									<div class="card-header" id="headingOnex">
+									<h1 class="my-0 px-1">
+										<button class="btn btn-link w-100 text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
+											<span style="font-size: 1.25rem;">Add New Determination</span> 
+										</button>
+									</h1>
 								</div>
-
-								<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
-								  <div class="card-body">
-									<script>
+									<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+										<div class="card-body">
+																			<script>
 										function idFormulaChanged(newFormula,baseId) { 
 											if(newFormula.includes("B")) {
 												$('##' + baseId).show();
@@ -302,104 +288,104 @@ limitations under the License.
 											}
 										}
 									</script>
-									<form name="newIDForm" id="newIDForm">
-								<input type="hidden" name="Action" value="createNew">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-								<div class="px-3 mt-0 pt-2 pb-3">
-									<div class="row mt-2">
-										<div class="col-12 col-md-3">
-											<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-											<cfif not isdefined("taxa_formula")>
-												<cfset taxa_formula='A'>
-											</cfif>
-											<select name="taxa_formula" id="taxa_formula" size="1" 
-																		 class="reqdClr w-100" required 
-																		 onchange="idFormulaChanged(this.value,'taxonb');">
-												<cfset selected_value = "#taxa_formula#">
-												<cfloop query="ctFormula">
-													<cfif selected_value EQ ctFormula.taxa_formula>
-														<cfset selected = "selected='selected'">
-														<cfelse>
-														<cfset selected ="">
-													</cfif>
-													<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-											<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
-											<input type="hidden" name="taxona_id" id="taxona_id">
-										</div>
-										<div class="col-12 col-md-3 d-none">
-											<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-											<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-											<input type="hidden" name="taxonb_id" id="taxonb_id">
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="user_id" class="data-entry-label" >Identification</label>
-											<input type="text" name="user_id" id="user_id" class="data-entry-input">
-										</div>
-									</div>
-									<div class="row mt-2">
-										<div class="col-12 col-md-4 pr-0">
-											<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
-											Identified By
-											<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-												<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
-												<input type="hidden" name="newIdBy_id" id="newIdBy_id">
+										<form name="newIDForm" id="newIDForm">
+											<input type="hidden" name="Action" value="createNew">
+											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+											<div class="px-3 mt-0 pt-2 pb-3">
+										<div class="row mt-2">
+											<div class="col-12 col-md-3">
+												<label for="taxa_formula" class="data-entry-label">ID Formula</label>
+												<cfif not isdefined("taxa_formula")>
+													<cfset taxa_formula='A'>
+												</cfif>
+												<select name="taxa_formula" id="taxa_formula" size="1" 
+																			 class="reqdClr w-100" required 
+																			 onchange="idFormulaChanged(this.value,'taxonb');">
+													<cfset selected_value = "#taxa_formula#">
+													<cfloop query="ctFormula">
+														<cfif selected_value EQ ctFormula.taxa_formula>
+															<cfset selected = "selected='selected'">
+															<cfelse>
+															<cfset selected ="">
+														</cfif>
+														<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+													</cfloop>
+												</select>
 											</div>
-											<!--- TODO: Add determiners ---> 
+											<div class="col-12 col-md-3">
+												<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
+												<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
+												<input type="hidden" name="taxona_id" id="taxona_id">
+											</div>
+											<div class="col-12 col-md-3 d-none">
+												<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+												<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
+												<input type="hidden" name="taxonb_id" id="taxonb_id">
+											</div>
+											<div class="col-12 col-md-6">
+												<label for="user_id" class="data-entry-label" >Identification</label>
+												<input type="text" name="user_id" id="user_id" class="data-entry-input">
+											</div>
 										</div>
-										<div class="col-12 col-md-4 pr-0">
-											<label for="made_date" class="data-entry-label" >Date Identified</label>
-											<input type="text" name="made_date" id="made_date" class="data-entry-input">
+										<div class="row mt-2">
+											<div class="col-12 col-md-4 pr-0">
+												<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
+												Identified By
+												<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+													<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
+													<input type="hidden" name="newIdBy_id" id="newIdBy_id">
+												</div>
+												<!--- TODO: Add determiners ---> 
+											</div>
+											<div class="col-12 col-md-4 pr-0">
+												<label for="made_date" class="data-entry-label" >Date Identified</label>
+												<input type="text" name="made_date" id="made_date" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+												<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+													<cfloop query="ctnature">
+														<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+													</cfloop>
+												</select>
+											</div>
 										</div>
-										<div class="col-12 col-md-4">
-											<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-											<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-												<cfloop query="ctnature">
-													<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-												</cfloop>
-											</select>
+										<div class="row mt-2">
+											<div class="col-12 col-md-6 pr-0">
+												<label for="identification_publication" class="data-entry-label" >Sensu</label>
+												<input type="hidden" name="new_publication_id" id="new_publication_id">
+												<input type="text" id="newPub" class="data-entry-input">
+											</div>
+											<div class="col-12 col-md-6">
+												<label for="identification_remarks" class="data-entry-label" >Remarks</label>
+												<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+											</div>
 										</div>
+										<div class="row mt-2">
+											<div class="col-12 col-md-12">
+												<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+											</div>
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+												makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+												makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
+												makePublicationAutocompleteMeta("newPub", "new_publication_id");
+											});
+										</script>
 									</div>
-									<div class="row mt-2">
-										<div class="col-12 col-md-6 pr-0">
-											<label for="identification_publication" class="data-entry-label" >Sensu</label>
-											<input type="hidden" name="new_publication_id" id="new_publication_id">
-											<input type="text" id="newPub" class="data-entry-input">
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="identification_remarks" class="data-entry-label" >Remarks</label>
-											<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-										</div>
+										</form>
 									</div>
-									<div class="row mt-2">
-										<div class="col-12 col-md-12">
-											<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-										</div>
 									</div>
-									<script>
-							$(document).ready(function() {
-								makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-								makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-								makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-								makePublicationAutocompleteMeta("newPub", "new_publication_id");
-							});
-						</script> 
 								</div>
-							</form>
-								  </div>
-								</div>
-							</div>
 							</div>
 						</div>
 					</div>
-				</div>
+					</div>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
@@ -435,7 +421,6 @@ limitations under the License.
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
-			
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
 					identification.scientific_name, identification.made_date, identification.nature_of_id, 
@@ -461,9 +446,7 @@ limitations under the License.
 									<div class="col-md-6 col-sm-12 float-left">
 										<div class="form-group">
 											<label for="scientific_name">Scientific Name:</label>
-											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" 
-												onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
-												onKeyPress="return noenter(event);">
+											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;" onKeyPress="return noenter(event);">
 											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 										</div>
 										<div class="form-group w-25 mb-3 float-left">
@@ -522,11 +505,11 @@ limitations under the License.
 					</cfloop>
 					<!--- theResult ---> 
 				</div>
-				</cfoutput>
+			</cfoutput>
 			<cfcatch>
-				<cfoutput>
+			<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				 </cfoutput>
+				</cfoutput>
 			</cfcatch>
 		</cftry>
 	</cfthread>
@@ -889,7 +872,6 @@ limitations under the License.
 				<cfset resulthtml1 = resulthtml1 & "</div></div>">
 			</cfloop>
 			<!--- theResult --->
-			
 			<cfcatch>
 				<cfset resulthtml1 = resulthtml1 & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
 			</cfcatch>
@@ -897,7 +879,7 @@ limitations under the License.
 		<cfoutput>#resulthtml1#</cfoutput> </cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
-</cffunction>
+</cffunction>--->
 <!-----------------------------------------------------------------------------------------------------------------> 
 
 <!---				
