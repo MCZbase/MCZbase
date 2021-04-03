@@ -678,9 +678,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-         
 <!------------------------------------ other identifiers ---------------------------------->
- 
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
 						<div id="otherIDsDialog"></div>
@@ -706,7 +704,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-                    
+
 <!------------------------------------ parts new ---------------------------------->
  
 				<div class="accordion" id="accordionParts">
@@ -764,7 +762,7 @@ limitations under the License.
 				</div>
 				
 <!------------------------------------ relationships  ------------------------------------->
-                    
+
 				<div class="accordion" id="accordionRelations">
 					<div class="card mb-2 bg-light">
 						<div id="RelationsDialog"></div>
@@ -793,7 +791,7 @@ limitations under the License.
 </div>
 <!---  start of column three  --->
 <div class="col-12 col-md-6 px-1 float-left"> 
-                
+
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
 <!---            <div class="accordion" id="accordionLocality">
 					<div class="card mb-2 bg-light">
@@ -1051,7 +1049,7 @@ limitations under the License.
 				</form>
 			</cfif>
 		</div>
-					</div>
+	</div>
 	</cfoutput>
 	</div>
 </section>
