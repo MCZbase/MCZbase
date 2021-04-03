@@ -37,8 +37,8 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 					group by mczbase.get_collcodes_for_locality(locality.locality_id, 0)
 				</cfquery>
 				<ul>
+					<cfset accumulate_shared = 0>
 					<cfloop query="getcounts">
-						<cfset accumulate_shared = 0>
 						<cfif colls contains ','>
 							<cfset accumulate_shared = accumulate_shared + ct>
 						<cfelse>
