@@ -35,7 +35,7 @@ Landing pad page with lists of various self service reports.
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-				 		<li class="py-1"><a href="reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
+				 		<li class="py-1"><a href="/reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 						<br/>
