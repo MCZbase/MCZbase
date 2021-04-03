@@ -41,6 +41,8 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 					<cfloop query="getcounts">
 						<cfif colls contains ','>
 							<cfset accumulate_shared = accumulate_shared + ct>
+						<cfelseif len(trim(colls)) EQ 0>
+							<!--- skip, localities not used by any collection --->
 						<cfelse>
 							<cfquery name="getcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcid_result">
 								select collection_id from collection where collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls#">
