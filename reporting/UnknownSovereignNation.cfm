@@ -49,7 +49,7 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 						</cfif>
 					</cfloop>
 					<cfif accumulate_shared NEQ 0>
-						<li class="py-1"><a href="/Locality.cfm?action=findLocality&sovereign_nation=[unknown]&findNoGeoRef=on&onlyShared=on&include_counts=1">Shared</a> (#accumulated_shared#)</li>
+						<li class="py-1"><a href="/Locality.cfm?action=findLocality&sovereign_nation=[unknown]&findNoGeoRef=on&onlyShared=on&include_counts=1">Shared</a> (#accumulate_shared#)</li>
 					</cfif>
 				</ul>
 			</div>
