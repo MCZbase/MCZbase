@@ -77,6 +77,13 @@
 						<cfelse>
 							<cfset tiss='FAIL'>
 						</cfif>
+						<!--- obtain summary by collection counts --->
+						<cfquery name="cp" dbtype="query">
+							select collection,collection_id,cnt 
+							from p 
+							where part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
+							group by collection,collection_id,cnt
+						</cfquery>
 						<cfquery name="tc" dbtype="query">
 							select sum(cnt) sc from cp
 						</cfquery>
@@ -85,12 +92,6 @@
 							<td>#tiss#</td>
 							<td>#tc.sc#</td>
 							<td>
-								<cfquery name="cp" dbtype="query">
-									select collection,collection_id,cnt 
-									from p 
-									where part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dp.part_name#">
-									group by collection,collection_id,cnt
-								</cfquery>
 								<cfloop query="cp">
 									<a href="/SpecimenResults.cfm?collection_id=#collection_id#&part_name==#dp.part_name#">#collection#: #cnt#</a><br>
 								</cfloop>
