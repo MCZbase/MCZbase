@@ -63,7 +63,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select nature_of_id from ctnature_of_id
+					select nature_of_id from ctnature_of_id
 				</cfquery>
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
@@ -120,8 +120,7 @@ limitations under the License.
 										<cfloop query="getIds">
 											<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT distinct
-													agent_name, identifier_order,
-													identification_agent.agent_id, identification_agent_id
+													agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
 												FROM
 													identification_agent
 													left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
@@ -138,8 +137,7 @@ limitations under the License.
 													<div class="col-12 col-md-6 pr-0"> 
 														<!--- TODO: A/B pickers --->
 														<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
-														<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" 
-										class="data-entry-input" readonly="true" value="#scientific_name#">
+														<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" readonly="true" value="#scientific_name#">
 													</div>
 													<div class="col-12 col-md-4">
 														<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
