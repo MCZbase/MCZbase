@@ -876,7 +876,7 @@ limitations under the License.
 		<cfoutput>#resulthtml1#</cfoutput> </cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
-</cffunction>--->
+</cffunction>
 <!-----------------------------------------------------------------------------------------------------------------> 
 
 <!---				
