@@ -41,7 +41,7 @@
 			collection.collection_id, 
 			specimen_part.part_name,
 			ctspecimen_part_name.is_tissue
-		order by ucase(specimen_part.part_name), collection.collection
+		order by upper(specimen_part.part_name), collection.collection
 	</cfquery>
 	<cfquery name="dp" dbtype="query">
 		select part_name from p group by part_name
