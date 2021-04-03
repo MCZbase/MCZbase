@@ -107,8 +107,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
    group by ctpermit_type.permit_type
    order by ctpermit_type.permit_type
@@ -123,8 +123,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
@@ -151,8 +151,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'accn'
    group by ctpermit_type.permit_type
@@ -168,8 +168,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'accn'
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
@@ -185,8 +185,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'loan'
    group by ctpermit_type.permit_type
@@ -202,8 +202,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'loan'
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
@@ -219,8 +219,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'deaccession'
    group by ctpermit_type.permit_type
@@ -236,8 +236,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'deaccession'
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
@@ -253,8 +253,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'borrow'
    group by ctpermit_type.permit_type
@@ -270,8 +270,8 @@ limitations under the License.
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
 	   and (
    	   shipment.transaction_id = trans.transaction_id
-      	or
-	      permit_trans.transaction_id = trans.transaction_id
+			or
+			permit_trans.transaction_id = trans.transaction_id
    	)
 		and trans.transaction_type = 'borrow'
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type

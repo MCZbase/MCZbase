@@ -1,3 +1,24 @@
+<!---
+/reporting/Reports.cfm
+
+Copyright 2021 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
+<!---
+Landing pad page with lists of various self service reports.
+--->
 <cfset pageTitle = "Reports">
 <cfinclude template = "/shared/_header.cfm">
 
@@ -13,6 +34,9 @@
 					<li class="py-1"><a href="/Reports/partusage.cfm">Part Usage</a> &ndash; Part name usage &ndash; Part in first column (e.g., brain, cast, whole animal); <em>isTissue</em> in the second column; sum of parts with that name in the third column; count of part name used per collection with link to specimen results</li>
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 				 	<li class="py-1"><a href="/tools/findGap.cfm">Catalog Number Gaps</a> &ndash; Show gaps in Catalog Number series</li>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+				 		<li class="py-1"><a href="reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
+					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 						<br/>
 						<h2 class="h3">Broken or Problematic Reports</h1>
