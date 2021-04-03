@@ -28,7 +28,6 @@ limitations under the License.
 <cffunction name="updateCondition" access="remote" returntype="query">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
-
 	<cftry>
 		<cftransaction>
 			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
