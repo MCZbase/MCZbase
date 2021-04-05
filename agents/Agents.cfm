@@ -127,14 +127,14 @@ limitations under the License.
 						datatype: "json",
 						datafields:
 						[
-							{ name: 'AGENT_ID', type: 'string' },
-							{ name: 'AGENT_NAME', type: 'string' },
-							{ name: 'AGENT_TYPE', type: 'string' },
-							{ name: 'EDITED', type: 'string' },
-							{ name: 'WORSTAGENTRANK', type: 'string' },
-							{ name: 'BIRTH_DATE', type: 'string' },
-							{ name: 'DEATH_DATE', type: 'string' },
-							{ name: 'AGENTGUID', type: 'string' }
+							{ name: 'agent_id', type: 'string' },
+							{ name: 'agent_name', type: 'string' },
+							{ name: 'agent_type', type: 'string' },
+							{ name: 'edited', type: 'string' },
+							{ name: 'worstagentrank', type: 'string' },
+							{ name: 'birth_date', type: 'string' },
+							{ name: 'death_date', type: 'string' },
+							{ name: 'agentguid', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
@@ -189,12 +189,12 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'AGENT_ID', width:100, hideable: true, hidden: true },
-							{text: 'Name', datafield: 'AGENT_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-							{text: 'Type', datafield: 'AGENT_TYPE', width: 150, hidable: true, hidden: false },
-							{text: 'Birth', datafield: 'BIRTH_DATE', width:100, hideable: true, hidden: false },
-							{text: 'Death', datafield: 'DEATH_DATE', width:100, hideable: true, hidden: false },
-							{text: 'Guid', datafield: 'AGENTGUID', hideable: true, hidden: false },
+							{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
+							{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							{text: 'Type', datafield: 'agent_type', width: 150, hidable: true, hidden: false },
+							{text: 'Birth', datafield: 'birth_date', width:100, hideable: true, hidden: false },
+							{text: 'Death', datafield: 'death_date', width:100, hideable: true, hidden: false },
+							{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false },
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
