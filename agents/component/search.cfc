@@ -162,10 +162,10 @@ limitations under the License.
 				<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
 					<cfif agent_remarks is "NULL">
 						AND agent_remarks is null
-					<cfelseif anyName is "NOT NULL">
+					<cfelseif agent_remarks is "NOT NULL">
 						AND agent_remarks is not null
 					<cfelse>
-						AND agent.agent_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">
+						AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("address") AND len(#address#) gt 0>
