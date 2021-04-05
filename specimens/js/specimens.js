@@ -185,6 +185,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  */
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
+	var navDialog = '<nav><div><ul><li><button>ID</button></li><li><button>Citations</button></li><li><button>Other IDs</button></li><li><button>Parts</button></li><li><button>Attributes</button></li><li><button>Relations</button></li><li><button>Collectors</button></li><li><button>Transactions</button></li></ul></div></nav>';
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
