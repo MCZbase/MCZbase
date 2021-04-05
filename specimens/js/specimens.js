@@ -184,7 +184,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  *  for example to ajax reload a related part of a page.
  */
 function createSpecimenEditDialog(dialogId,title,closecallback) {
-	var content = '<div id="'+dialogId+'_div">Loading...Hi.</div>';
+	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();

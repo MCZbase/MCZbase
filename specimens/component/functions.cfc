@@ -710,7 +710,6 @@ limitations under the License.
 	<cfthread name="getOtherIDsThread">
 		<cftry>
 			<cfoutput>
-			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					case when status = 1 and
