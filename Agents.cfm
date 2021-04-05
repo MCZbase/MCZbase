@@ -1,7 +1,7 @@
 <!---
 /Agents.cfm
 
-For managing agents
+Agent search/results 
 
 Copyright 2021 President and Fellows of Harvard College
 
@@ -21,11 +21,14 @@ limitations under the License.
 <cfset pageTitle = "Search Agents">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfquery name="prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(prefix) as prefix from person where prefix is not null
+<cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(prefix) as dist_prefix from person where prefix is not null
 </cfquery>
-<cfquery name="suffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(suffix) as suffix from person where suffix is not null
+<cfquery name="dist_suffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(suffix) as dist_suffix from person where suffix is not null
+</cfquery>
+<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select agent_type  from ctagent_type
 </cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
@@ -44,6 +47,17 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("last_name")> 
 		<cfset last_name="">
+	</cfif>
+	<cfif not isdefined("middle_name")> 
+		<cfset middle_name="">
+	</cfif>
+	<cfif not isdefined("first_name")> 
+		<cfset first_name="">
+	</cfif>
+	<cfif NOT isDefined("agent_type")>
+		<cfset in_agent_type="">
+	<cfelse>
+		<cfset in_agent_type="#agent_type#">
 	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
@@ -65,6 +79,50 @@ limitations under the License.
 									<div class="col-md-5">
 										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks</label>
 										<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+									</div>
+									<div class="col-md-2">
+										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
+										<select id="agent_type" name="agent_type" class="data-entry-select">
+											<option></option>
+											<cfloop query="ctagent_type">
+												<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-md-2">
+										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
+										<select id="prefix" name="prefix" class="data-entry-select">
+											<option></option>
+											<cfloop query="dist_prefix">
+												<cfif prefix EQ dist_prefix.prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#dist_prefix.prefix#" #selected#>#dist_prefix.prefix#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label for="first_name" class="data-entry-label" id="first_name_label">First Name</label>
+										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
+									</div>
+									<div class="col-md-2">
+										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name</label>
+										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
+									</div>
+									<div class="col-md-3">
+										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name</label>
+										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
+									</div>
+									<div class="col-md-2">
+										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
+										<select id="suffix" name="suffix" class="data-entry-select">
+											<option></option>
+											<cfloop query="dist_suffix">
+												<cfif suffix EQ dist_suffix.suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#dist_suffix.suffix#" #selected#>#dist_suffix.suffix#</option>
+											</cfloop>
+										</select>
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
