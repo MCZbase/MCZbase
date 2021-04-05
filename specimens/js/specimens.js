@@ -200,7 +200,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
-		content: content,
+		navDialog: navDialog,
 		autoOpen: false,
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
