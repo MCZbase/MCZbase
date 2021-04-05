@@ -56,6 +56,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 px-4 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
+								<input type="hidden" name="method" value="getAgents">
 								<div class="form-row mb-2">
 									<div class="col-md-5">
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
