@@ -121,11 +121,27 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
-					AND Suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Suffix#">
-				</cfif>
 				<cfif isdefined("Prefix") AND len(#Prefix#) gt 0>
-					AND Prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+					<cfif left(prefix,1) is "!">
+						AND upper(prefix) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(prefix,len(prefix)-1))#">
+					<cfelseif prefix is "NULL">
+						AND prefix is null
+					<cfelseif prefix is "NOT NULL">
+						AND prefix is not null
+					<cfelse>
+						AND Prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
+					<cfif left(suffix,1) is "!">
+						AND upper(suffix) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suffix,len(suffix)-1))#">
+					<cfelseif suffix is "NULL">
+						AND suffix is null
+					<cfelseif suffix is "NOT NULL">
+						AND suffix is not null
+					<cfelse>
+						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
 					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>

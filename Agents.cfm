@@ -88,6 +88,10 @@ limitations under the License.
 												<cfif in_agent_type EQ ctagent_type.agent_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="#ctagent_type.agent_type#" #selected#>#ctagent_type.agent_type#</option>
 											</cfloop>
+											<cfloop query="ctagent_type">
+												<cfif in_agent_type EQ "!#ctagent_type.agent_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="!#ctagent_type.agent_type#" #selected#>not #ctagent_type.agent_type#</option>
+											</cfloop>
 										</select>
 									</div>
 								</div>
@@ -100,6 +104,12 @@ limitations under the License.
 												<cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
 											</cfloop>
+											<cfloop query="dist_prefix">
+												<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
+											</cfloop>
+											<option value="NULL">NULL</option>
+											<option value="NOT NULL">NOT NULL</option>
 										</select>
 									</div>
 									<div class="col-md-3">
@@ -122,6 +132,12 @@ limitations under the License.
 												<cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
 											</cfloop>
+											<cfloop query="dist_suffix">
+												<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
+											</cfloop>
+											<option value="NULL">NULL</option>
+											<option value="NOT NULL">NOT NULL</option>
 										</select>
 									</div>
 								</div>
