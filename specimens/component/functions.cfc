@@ -59,7 +59,8 @@ limitations under the License.
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditIdentsThread"> 
+	<cfthread name="getEditIdentsThread">
+		<cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
@@ -403,6 +404,7 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
+		</cfoutput>
 		</cfthread>
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
