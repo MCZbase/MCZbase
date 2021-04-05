@@ -111,6 +111,9 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 			method : "getEditIdentificationsHTML",
 			collection_object_id: collection_object_id,
 		},
+		content : {
+			method : "getDialogNav",
+		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
 		},
