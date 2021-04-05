@@ -76,9 +76,9 @@ limitations under the License.
 					<cfelseif left(first_name,1) is "!">
 						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif first_name is "NULL">
-						AND upper(first_name) is null
+						AND first_name is null
 					<cfelseif first_name is "NOT NULL">
-						AND upper(first_name) is not null
+						AND first_name is not null
 					<cfelse>
 						<cfif find(',',first_name) GT 0>
 							AND upper(first_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(first_name)#" list="yes"> )
@@ -93,9 +93,9 @@ limitations under the License.
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
-						AND upper(last_name) is null
+						AND last_name is null
 					<cfelseif last_name is "NOT NULL">
-						AND upper(last_name) is not null
+						AND last_name is not null
 					<cfelse>
 						<cfif find(',',last_name) GT 0>
 							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
@@ -110,9 +110,9 @@ limitations under the License.
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
-						AND upper(last_name) is null
+						AND last_name is null
 					<cfelseif last_name is "NOT NULL">
-						AND upper(last_name) is not null
+						AND last_name is not null
 					<cfelse>
 						<cfif find(',',last_name) GT 0>
 							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
@@ -145,9 +145,9 @@ limitations under the License.
 					<cfelseif left(anyName,1) is "!">
 						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif anyName is "NULL">
-						AND upper(agent_name.agent_name) is null
+						AND agent_name.agent_name is null
 					<cfelseif anyName is "NOT NULL">
-						AND upper(agent_name.agent_name) is not null
+						AND agent_name.agent_name is not null
 					<cfelse>
 						<cfif find(',',anyName) GT 0>
 							AND upper(agent_name.agent_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(anyName)#" list="yes"> )
@@ -159,8 +159,14 @@ limitations under the License.
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfif>
-				<cfif isdefined("agent_remarks") AND isnumeric(#agent_remarks#)>
-					AND agent.agent_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">
+				<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+					<cfif agent_remarks is "NULL">
+						AND agent_remarks is null
+					<cfelseif anyName is "NOT NULL">
+						AND agent_remarks is not null
+					<cfelse>
+						AND agent.agent_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("address") AND len(#address#) gt 0>
 					AND agent.agent_id IN (
