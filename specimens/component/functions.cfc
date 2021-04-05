@@ -52,6 +52,21 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+			
+<cffunction name="getDialogNav" access="remote" returntype="query">
+	<cfargument name="collection_object_id" type="numeric" required="yes">
+	<cfthread name="getDialogNavThread">
+		<cfoutput>
+			<cftry>
+			<p>Something</p>	
+	<cfcatch>
+		Hi
+	</cfcatch>
+	</cftry>
+	</cfoutput>
+	<cfthread action="join" name="getDialogNavThread" />
+	<cfreturn getDialogNavThread.output>
+</cffunction>
 <!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
