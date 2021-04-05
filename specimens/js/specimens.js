@@ -185,7 +185,6 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  */
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
-	var navDialog = '$("button").attr("id")';
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
@@ -219,8 +218,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			var navDialog =$("button").attr("id");
-			$("#dialog-form").dialog("option","title",navDialog);
+			var navDialog =$("button").html("id");
+			$("#dialog-form").html("");
 		},
 		close: function(event,ui) {
 			if (jQuery.type(closecallback)==='function')	{
