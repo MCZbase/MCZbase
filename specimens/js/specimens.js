@@ -197,7 +197,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		// cap width at 1200 pixel
 		w = 999;
 	} 
-	var thedialog = $("#"+dialogId).html(content)
+	var thedialog = $("#"+dialogId).html(content,navDialog)
 	.dialog({
 		title: title,
 		navDialog: navDialog,
