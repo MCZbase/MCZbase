@@ -35,7 +35,7 @@ function loadIdentification(identification_id,form) {
 			identification_id: identification_id,
 		},
 		success: function (result) {
-			$("#identificationsHTML").html(result);
+			$("#identificationHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"removing identification");

@@ -414,7 +414,7 @@ limitations under the License.
  @param identification-id the identification.identification_id to edit.
  @return html for editing the identification 
 --->
-<cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
