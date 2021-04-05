@@ -627,8 +627,8 @@ limitations under the License.
 						<div id="accordion2">
 							<div class="card">
 							<div class="card-header" id="headingTwo">
-								<h1 class="my-0 px-1 mb-0">
-								<button class="btn btn-link text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+								<h1 class="my-0 px-1 pb-1">
+								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 									<span style="font-size: 1.25rem;">Add New Identifier</span>
 								</button>
 							</h1>
