@@ -624,16 +624,16 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<div class="container-fluid mt-4">
-						<div id="accordion">
+						<div id="accordion2">
 							<div class="card">
 							<div class="card-header" id="headingTwo">
-								<h1 class="mb-0">
-								<button class="btn collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+								<h1 class="my-0 px-1 mb-0">
+								<button class="btn btn-link text-left pb-2 collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 									<span style="font-size: 1.25rem;">Add New Identifier</span>
 								</button>
 							</h1>
 							</div>
-							<div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion">
+							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 								<div class="card-body">
 									<form name="newOID" method="post" action="editIdentifiers.cfm">
 										<div class="row">
