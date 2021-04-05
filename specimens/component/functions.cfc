@@ -623,7 +623,7 @@ limitations under the License.
 						<cfset i=#i#+1>
 						</cfif>
 					</cfloop>
-					<div class="col-12 mt-4">
+					<div class="col-12 px-0 mt-4">
 						<div id="accordion2">
 							<div class="card">
 							<div class="card-header" id="headingTwo">
