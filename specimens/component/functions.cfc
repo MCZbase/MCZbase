@@ -414,7 +414,7 @@ limitations under the License.
  @param identification-id the identification.identification_id to edit.
  @return html for editing the identification 
 --->
-<cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
@@ -435,7 +435,7 @@ limitations under the License.
 					made_date
 			</cfquery>
 			<cfoutput>
-				<div id="identificationsHTML">
+				<div id="identificationHTML">
 					<cfloop query="theResult">
 						<div class="identifcationExistingForm">
 							<form>
