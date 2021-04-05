@@ -54,6 +54,24 @@ limitations under the License.
 	<cfif not isdefined("first_name")> 
 		<cfset first_name="">
 	</cfif>
+	<cfif not isdefined("birth_date")> 
+		<cfset birth_date="">
+	</cfif>
+	<cfif not isdefined("to_birth_date")> 
+		<cfset to_birth_date="">
+	</cfif>
+	<cfif not isdefined("death_date")> 
+		<cfset death_date="">
+	</cfif>
+	<cfif not isdefined("to_death_date")> 
+		<cfset to_death_date="">
+	</cfif>
+	<cfif not isdefined("collected_date")> 
+		<cfset collected_date="">
+	</cfif>
+	<cfif not isdefined("to_collected_date")> 
+		<cfset to_collected_date="">
+	</cfif>
 	<cfif NOT isDefined("agent_type")>
 		<cfset in_agent_type="">
 	<cfelse>
