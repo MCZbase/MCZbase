@@ -57,6 +57,20 @@ limitations under the License.
 				person.middle_name,
 				person.last_name,
 				person.suffix,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'preferred') as preferred,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'abbreviation') as abbreviation,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'author') as author,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'second author') as second_author,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'expanded') as expanded,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'full') as full,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'initials') as initials,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'initials plus last') as initials_plus_last,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'last_plus_initials') as last_plus_initials,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'maiden') as maiden,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'married') as married,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'aka') as aka,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'acronym') as acronym,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
 				agentguid
 			FROM 
 				agent_name
