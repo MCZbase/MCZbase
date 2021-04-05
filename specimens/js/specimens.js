@@ -196,7 +196,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		// cap width at 1200 pixel
 		w = 999;
 	} 
-	var thedialog = $("#"+dialogId).html(content,navDialog)
+	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -218,8 +218,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			var navDialog =$("button").html("id");
-			$("#dialog-form").html("");
 		},
 		close: function(event,ui) {
 			if (jQuery.type(closecallback)==='function')	{

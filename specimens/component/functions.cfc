@@ -565,7 +565,6 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="container-fluid">
-					<div id="dialog-form"></div>
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
@@ -670,6 +669,10 @@ limitations under the License.
 							</div>
 						</div>
 						</div>
+					</div>
+					<div class="col-12 px-0 mt-3">
+						 <a class="btn btn-primary" href="#dialog" data-bs-toggle="dialog" role="button">Open #dialog</a>
+						 <a class="btn btn-primary" href="#dialog" data-bs-toggle="dialog" role="button">Open #dialog</a>
 					</div>
 				</div>
 			</cfoutput>
