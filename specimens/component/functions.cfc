@@ -60,7 +60,6 @@ limitations under the License.
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditIdentsThread"> 
-		<cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
@@ -71,7 +70,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-2 mt-2">
-						<ul class="list-unstyled">
+							<ul class="list-unstyled">
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Identification</button></li>
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Citations</button></li>
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Other IDs</button></li>
@@ -81,7 +80,7 @@ limitations under the License.
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Collector/Prep.</button></li>
 							<li><button class="btn btn-xs btn-secondary w-100 my-2">Transactions</button></li>
 						</ul>
-					</div>
+						</div>
 						<div class="col-10 mt-2">
 						<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
@@ -230,7 +229,7 @@ limitations under the License.
 																	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
 																</cfloop>
 															</select>
-															<cfelse>
+														<cfelse>
 															<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
 														</cfif>
 													</div>
@@ -404,7 +403,6 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput>
 		</cfthread>
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
