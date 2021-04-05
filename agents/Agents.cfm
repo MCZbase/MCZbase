@@ -108,7 +108,8 @@ limitations under the License.
 		<script>
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editAllAgent.cfm?agent_id=' + rowData['AGENT_ID'] + '">'+value+'</a></span>';
+				var vetted = rowData['edited'];
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">'+value+'</a> ' +vetted+ '</span>';
 			};
 	
 			$(document).ready(function() {
@@ -134,6 +135,7 @@ limitations under the License.
 							{ name: 'worstagentrank', type: 'string' },
 							{ name: 'birth_date', type: 'string' },
 							{ name: 'death_date', type: 'string' },
+							{ name: 'agent_remarks', type: 'string' },
 							{ name: 'agentguid', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -191,10 +193,12 @@ limitations under the License.
 						columns: [
 							{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
 							{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: false },
 							{text: 'Type', datafield: 'agent_type', width: 150, hidable: true, hidden: false },
 							{text: 'Birth', datafield: 'birth_date', width:100, hideable: true, hidden: false },
 							{text: 'Death', datafield: 'death_date', width:100, hideable: true, hidden: false },
-							{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false },
+							{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
+							{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false },
 						],
 						rowdetails: true,
 						rowdetailstemplate: {

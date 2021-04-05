@@ -51,6 +51,7 @@ limitations under the License.
 				MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
 				birth_date,
 				death_date,
+				agent_remarks,
 				agentguid
 			FROM 
 				agent_name
@@ -173,14 +174,16 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-			<cfset row["agent_id"] = "#search.agent_id#">
-			<cfset row["agent_name"] = "#search.agent_name#">
-			<cfset row["agent_type"] = "#search.agent_type#">
-			<cfset row["edited"] = "#search.edited#">
-			<cfset row["preferred_agent_name"] = "#search.agent_name#">
-			<cfset row["worstagentrank"] = "#search.worstagentrank#">
-			<cfset row["birth_date"] = "#search.birth_date#">
-			<cfset row["death_date"] = "#search.death_date#">
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfif col EQ "AGENT_REMARKS">
+					<!--- strip html markup out of remarks --->
+					<cfset row["agent_remarks"] = REReplace(search.agent_remarks,"<[^>]*(?:>|$)","","ALL")>
+				<cfelseif col EQ "EDITED">
+					<cfset row["edited"] = edited_marker >
+				<cfelse>
+					<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+				</cfif>
+			</cfloop>
 			<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
