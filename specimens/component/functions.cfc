@@ -671,8 +671,8 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-12 px-0 mt-3">
-						 <a class="btn btn-primary" href="##dialog" data-bs-toggle="dialog" role="button">Open ##dialog</a>
-						 <a class="btn btn-primary" href="##dialog2" data-bs-toggle="dialog" role="button">Open ##dialog2</a>
+						 <a class="btn btn-primary" href="##otherIDsDialog" data-bs-toggle="dialog" role="button">Open ##dialog</a>
+						 <a class="btn btn-primary" href="##identificationsDialog" data-bs-toggle="dialog" role="button">Open ##dialog2</a>
 					</div>
 				</div>
 			</cfoutput>
