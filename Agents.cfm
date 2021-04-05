@@ -141,6 +141,35 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
+								<div class="form-row mb-2">
+									<div class="col-md-4">
+										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">Date Of Birth</label>
+											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#birth_date#" aria-label="start of range for date of birth">
+											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+											<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
+											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">Date Of Death</label>
+											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#death_date#" aria-label="start of range for date of death">
+											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+											<label class="data-entry-label sr-only" for="to_death_date">end of search range for date of death</label>		
+											<input type="text" name="to_death_date" id="to_death_date" value="#to_death_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
+											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#collected_date#" aria-label="start of range for dates collected">
+											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
+											<input type="text" name="to_collected_date" id="to_collected_date" value="#to_collected_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+										</div>
+									</div>
+								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
