@@ -407,7 +407,8 @@ limitations under the License.
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
-<p>hello</p>
+			<cfoutput>
+				<p>hello</p></cfoutput>
 			<cfcatch>
 			<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
