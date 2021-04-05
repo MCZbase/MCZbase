@@ -211,7 +211,9 @@ limitations under the License.
 							{ name: 'suffix', type: 'string' },
 							{ name: 'agent_type', type: 'string' },
 							{ name: 'edited', type: 'string' },
-							{ name: 'worstagentrank', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+								{ name: 'worstagentrank', type: 'string' },
+							</cfif>
 							{ name: 'birth_date', type: 'string' },
 							{ name: 'death_date', type: 'string' },
 							{ name: 'agent_remarks', type: 'string' },
@@ -226,7 +228,9 @@ limitations under the License.
 							{ name: 'initials', type: 'string' },
 							{ name: 'initials_plus_last', type: 'string' },
 							{ name: 'last_plus_initials', type: 'string' },
-							{ name: 'login', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+								{ name: 'login', type: 'string' },
+							</cfif>
 							{ name: 'maiden', type: 'string' },
 							{ name: 'married', type: 'string' },
 							{ name: 'agentguid', type: 'string' }
@@ -287,6 +291,9 @@ limitations under the License.
 							{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
 							{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: false },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: false },
+							</cfif>
 							{text: 'Prefix', datafield: 'prefix', width: 60, hidable: true, hidden: true },
 							{text: 'First', datafield: 'first_name', width: 100, hidable: true, hidden: true },
 							{text: 'Middle', datafield: 'middle_name', width: 100, hidable: true, hidden: true },
@@ -308,7 +315,9 @@ limitations under the License.
 							{text: 'initials', datafield: 'initials', width:100, hideable: true, hidden: true },
 							{text: 'initials_plus_last', datafield: 'initials_plus_last', width:100, hideable: true, hidden: true },
 							{text: 'last_plus_initials', datafield: 'last_plus_initials', width:100, hideable: true, hidden: true },
-							{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
+							</cfif>
 							{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
 							{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false },
 						],

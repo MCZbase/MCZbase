@@ -48,9 +48,16 @@ limitations under the License.
 				preferred_agent_name.agent_name as agent_name,
 				agent_type,
 				agent.edited,
-				MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
-				birth_date,
-				death_date,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					birth_date,
+					death_date,
+				<cfelse>
+					(case when death_date is not null then substr(birth_date,0,4) else null end) as birth_date,
+					substr(death_date,0,4) as death_date,
+				</cfif>
 				agent_remarks,
 				person.prefix,
 				person.first_name,
@@ -70,7 +77,9 @@ limitations under the License.
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'married') as married,
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'aka') as aka,
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'acronym') as acronym,
-				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
+				</cfif>
 				agentguid
 			FROM 
 				agent_name
