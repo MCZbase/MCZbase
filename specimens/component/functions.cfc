@@ -980,7 +980,7 @@ limitations under the License.
 					</cfif>
 				</span>
 			</div> <!---  --->
-		</cfoutput>
+<!---		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getMediaForCitPub" />
 	<cfreturn getMediaForCitPub.output>
