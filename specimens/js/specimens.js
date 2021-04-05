@@ -31,7 +31,7 @@ function loadIdentifications(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getIdentificationsHTML",
+			method : "getIdentificationHTML",
 			identification_id: identification_id,
 		},
 		success: function (result) {
