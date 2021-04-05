@@ -623,7 +623,7 @@ limitations under the License.
 						<cfset i=#i#+1>
 						</cfif>
 					</cfloop>
-					<div class="container-fluid mt-4">
+					<div class="col-12 mt-4">
 						<div id="accordion2">
 							<div class="card">
 							<div class="card-header" id="headingTwo">
@@ -636,7 +636,7 @@ limitations under the License.
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 								<div class="card-body">
 									<form name="newOID" method="post" action="editIdentifiers.cfm">
-										<div class="row">
+										<div class="row mx-0">
 											<div class="form-group col-3 pl-0 pr-1">
 												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 												<input type="hidden" name="Action" value="newOID">
