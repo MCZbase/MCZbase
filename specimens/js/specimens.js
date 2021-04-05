@@ -211,7 +211,15 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
-			}
+			},
+			"prev": function() {
+                 $(this).dialog('close');
+                 //open previous dialog
+             },
+             "next": function() {
+                 $(this).dialog('close');
+                 //open next dialog
+             }
 		},
 		open: function (event, ui) {
 			// force the dialog to lay above any other elements in the page.
