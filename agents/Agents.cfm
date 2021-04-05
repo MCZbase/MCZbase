@@ -33,6 +33,18 @@ limitations under the License.
 	<cfif not isdefined("prefix")> 
 		<cfset prefix="">
 	</cfif>
+	<cfif not isdefined("suffix")> 
+		<cfset suffix="">
+	</cfif>
+	<cfif not isdefined("anyName")> 
+		<cfset anyName="">
+	</cfif>
+	<cfif not isdefined("agent_remarks")> 
+		<cfset agent_remarks="">
+	</cfif>
+	<cfif not isdefined("last_name")> 
+		<cfset last_name="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
