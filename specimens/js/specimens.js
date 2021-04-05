@@ -185,7 +185,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  */
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
-	var navDialog = '<nav><div><ul><li><button>ID</button></li><li><button>Citations</button></li><li><button>Other IDs</button></li><li><button>Parts</button></li><li><button>Attributes</button></li><li><button>Relations</button></li><li><button>Collectors</button></li><li><button>Transactions</button></li></ul></div></nav>';
+	var navDialog = '$("button").attr("id")';
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
@@ -200,7 +200,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var thedialog = $("#"+dialogId).html(content,navDialog)
 	.dialog({
 		title: title,
-		navDialog: navDialog,
 		autoOpen: false,
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
@@ -220,6 +219,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			var navDialog =$("button").attr("id");
+			$("#dialog-form").dialog("option","title",navDialog);
 		},
 		close: function(event,ui) {
 			if (jQuery.type(closecallback)==='function')	{
