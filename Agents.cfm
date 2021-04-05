@@ -97,8 +97,8 @@ limitations under the License.
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
 											<cfloop query="dist_prefix">
-												<cfif prefix EQ dist_prefix.prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_prefix.prefix#" #selected#>#dist_prefix.prefix#</option>
+												<cfif prefix EQ dist_prefix.dist_prefix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#dist_prefix.dist_prefix#" #selected#>#dist_prefix.dist_prefix#</option>
 											</cfloop>
 										</select>
 									</div>
@@ -119,8 +119,8 @@ limitations under the License.
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
 											<cfloop query="dist_suffix">
-												<cfif suffix EQ dist_suffix.suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-												<option value="#dist_suffix.suffix#" #selected#>#dist_suffix.suffix#</option>
+												<cfif suffix EQ dist_suffix.dist_suffix><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#dist_suffix.dist_suffix#" #selected#>#dist_suffix.dist_suffix#</option>
 											</cfloop>
 										</select>
 									</div>
