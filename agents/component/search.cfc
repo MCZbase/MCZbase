@@ -34,6 +34,7 @@ limitations under the License.
 	<cfargument name="anyName" type="string" required="no">
 	<cfargument name="agent_id" type="string" required="no">
 	<cfargument name="address" type="string" required="no">
+	<cfargument name="agent_remarks" type="string" required="no">
 
 	<cfif not isDefined("birthOper")><cfset birthOper="="></cfif>
 	<cfif not isDefined("deathOper")><cfset deathOper="="></cfif>
@@ -156,6 +157,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfif>
+				<cfif isdefined("agent_remarks") AND isnumeric(#agent_remarks#)>
+					AND agent.agent_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">
 				</cfif>
 				<cfif isdefined("address") AND len(#address#) gt 0>
 					AND agent.agent_id IN (
