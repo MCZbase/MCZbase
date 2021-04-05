@@ -52,6 +52,11 @@ limitations under the License.
 				birth_date,
 				death_date,
 				agent_remarks,
+				person.prefix,
+				person.first_name,
+				person.middle_name,
+				person.last_name,
+				person.suffix,
 				agentguid
 			FROM 
 				agent_name
@@ -121,7 +126,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isdefined("Prefix") AND len(#Prefix#) gt 0>
+				<cfif isdefined("prefix") AND len(#prefix#) gt 0>
 					<cfif left(prefix,1) is "!">
 						AND upper(prefix) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(prefix,len(prefix)-1))#">
 					<cfelseif prefix is "NULL">
@@ -129,7 +134,7 @@ limitations under the License.
 					<cfelseif prefix is "NOT NULL">
 						AND prefix is not null
 					<cfelse>
-						AND Prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+						AND prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">
 					</cfif>
 				</cfif>
 				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
@@ -140,7 +145,7 @@ limitations under the License.
 					<cfelseif suffix is "NOT NULL">
 						AND suffix is not null
 					<cfelse>
-						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">
 					</cfif>
 				</cfif>
 				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
