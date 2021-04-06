@@ -6,9 +6,10 @@ window.addEventListener("DOMContentLoaded", () => {
   const tabList = document.querySelector('[role="tablist"]');
      var tab = $('.tabList > .active').get(0);        
         alert('Hello from Tab Button ' + $(tab).attr('id'));
+	
   // Add a click event handler to each tab
   tabs.forEach(tab => {
-    tab.addEventListener("click", changeTabs);
+    tab.addEventListener("click", changeTabs,0);
   });
 
   // Enable arrow navigation between tabs in the tab list
