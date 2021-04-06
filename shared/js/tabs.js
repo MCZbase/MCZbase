@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
         tabFocus++;
         // If we're at the end, go to the start
         if (tabFocus >= tabs.length) {
-          tabFocus = 0;
+          tabFocus = tab;
         }
         // Move left
       } else if (e.keyCode === 37) {
