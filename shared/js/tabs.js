@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
+  let tabFocus = tab; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
 
    tabList.addEventListener("keydown", e => {
     // Move right
