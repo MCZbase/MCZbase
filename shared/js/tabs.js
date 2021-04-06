@@ -3,14 +3,12 @@
 //
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
-  const tabList = document.querySelector('[role="tablist"]');
-     var tab = $('.tabList > .active').get(0);        
-        alert('Hello from Tab Button ' + $(tab).attr('id'));
-	
+  const tabList = $('.tabList > .active').get(0);
+    //var tab = $('.tabList > .active').get(0);   
+   // alert('Hello from Tab Button ' + $(tab).attr('id'));
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
-	tabFocus = $('.tabList > .active').get(0); //want to say for each tab where the .tabList > .active.get(0); make the focus go there.
   });
 
   // Enable arrow navigation between tabs in the tab list
