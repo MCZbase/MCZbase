@@ -127,7 +127,7 @@ limitations under the License.
 				left outer join preferred_agent_name ON agent_name.agent_id = preferred_agent_name.agent_id
 				LEFT OUTER JOIN agent ON agent_name.agent_id = agent.agent_id
 				LEFT OUTER JOIN person ON agent.agent_id = person.person_id
-				<cfif isdefined("date_collected") AND len(#date_collected#) gt 0>
+				<cfif isdefined("collected_date") AND len(#collected_date#) gt 0>
 					LEFT OUTER JOIN collector ON agent.agent_id = collector.agent_id
 					LEFT OUTER JOIN cataloged_item on collector.collection_object_id = cataloged_item.collection_object_id
 					LEFT OUTER JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
