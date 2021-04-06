@@ -622,7 +622,8 @@ limitations under the License.
 		</cfif>
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
-			<style>
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.css" rel="stylesheet">
+<style>
 					
 .stepper .body {    
 	padding-bottom: 28px;
@@ -780,7 +781,7 @@ limitations under the License.
   margin-right: 20px;
 }
 				</style>
-					<script>
+<script>
 					//Based on: https://codepen.io/sharafat_8271/pen/KVWMXP
 
 $('##next1').click(function(){
@@ -1017,10 +1018,6 @@ form.children("div").steps({
 </div>
 			<div class="col-12 col-md-6 px-1 float-left"> 
 
-				
-				
-				
-			
 <!----------------------------- identifications ----------------------------------> 
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
