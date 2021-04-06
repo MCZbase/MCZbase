@@ -954,7 +954,7 @@ $('##finish').click(function(){
 });
 $('##previous2').click(function(){
   $('##stepper1').removeClass('step-done');
-  activeStep($('#step1'));
+  activeStep($('##step1'));
 });
 $('##previous3').click(function(){
   $('##stepper2').removeClass('step-done');
