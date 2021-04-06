@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
-	tab.setAttribute("tabindex", 0);
+	tabFocus = $('.tabList > .active').get(0); //want to say for each tab where the .tabList > .active.get(0); make the focus go there.
   });
 
   // Enable arrow navigation between tabs in the tab list
