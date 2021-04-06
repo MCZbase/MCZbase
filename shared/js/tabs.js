@@ -4,8 +4,8 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-     var tab = $('.tabList > .active').get(0).focus();   
-     alert('Hello from Tab Button ' + $(tab).attr('id'));
+     var tab = $('.tabList > .active').get(0);   
+     alert('Hello from Tab Button ' + $(tab).attr('id').focus());
 	
 	
   // Add a click event handler to each tab
