@@ -227,7 +227,7 @@ limitations under the License.
 						birth_date_date between 
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(birth_date, "yyyy-mm-dd")#'>) and
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_birth_date, "yyyy-mm-dd")#'>)
-					}
+					)
 				</cfif>
 				<cfif isdefined("Death_Date") AND len(#Death_Date#) gt 0>
 					<cfset ddate = #dateformat(Death_Date,'yyyy-mm-dd')#>
@@ -239,7 +239,7 @@ limitations under the License.
 						death_date_date between 
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_death_date, "yyyy-mm-dd")#'>)
-					}
+					)
 				</cfif>
 				<cfif isdefined("collected_date") and len(collected_date) gt 0>
 					AND to_char(collecting_event.date_began_date,'yyyy') = to_char(collecting_event.date_ended_date,'yyyy')
