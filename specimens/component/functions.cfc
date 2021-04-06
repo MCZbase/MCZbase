@@ -62,29 +62,36 @@ limitations under the License.
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
-				  
-	 <div class="panel panel-default">
+<div class="container">
+  <div class="page-header">
+Other Edit Forms
+
+  </div>
+  <div class="panel panel-default">
     <div class="panel-body">
+
+
+
       <div class="stepper">
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
             <a class="persistant-disabled" href="##stepper-step-1" data-toggle="tab" aria-controls="stepper-step-1" role="tab" title="Step 1">
-              <span class="round-tab">Ident</span>
+              <span class="round-tab">1</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
             <a class="persistant-disabled" href="##stepper-step-2" data-toggle="tab" aria-controls="stepper-step-2" role="tab" title="Step 2">
-              <span class="round-tab">Citations</span>
+              <span class="round-tab">2</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
             <a class="persistant-disabled" href="##stepper-step-3" data-toggle="tab" aria-controls="stepper-step-3" role="tab" title="Step 3">
-              <span class="round-tab">Other ID</span>
+              <span class="round-tab">3</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
             <a class="persistant-disabled" href="##stepper-step-4" data-toggle="tab" aria-controls="stepper-step-4" role="tab" title="Complete">
-              <span class="round-tab">Parts</span>
+              <span class="round-tab">4</span>
             </a>
           </li>
         </ul>
