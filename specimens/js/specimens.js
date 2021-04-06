@@ -185,6 +185,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  */
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
+	var x=1;
 	var h = $(window).height();
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
@@ -208,27 +209,19 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
-		body: $('<button/>').text('Launch another dialog').click(function() {
-      $.dialog({
-        title: 'Dialog #2',
-        show: true,
-        modal: true,
-        width: 400,
-        height: 400,
-        footer: $('<div/>')
-          .addClass('dialog-button')
-          .attr('data-dialog-action', 'hide')
-          .text('Close')
-	  });
 		buttons: {
 	
 			"prev": function() {
                  $("#"+dialogId).dialog('close');
                  //open previous dialog
+				x--;
+				$(this).text(x);
              },
              "next": function() {
                  $("#"+dialogId).dialog('close');
                  //open next dialog
+				 x++;
+				$(this).text(x);
              },
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
