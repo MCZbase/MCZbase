@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<cfhtmlhead text='<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'>
+<cfhtmlhead text='<script src="https://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'>
 <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
 <cfset title="Specimen Search">
 <cfset metaDesc="Search for museum specimens and observations by taxonomy, identifications, specimen attributes, and usage history.">
@@ -1331,7 +1331,7 @@
          <cfif listcontainsnocase(session.roles,"manage_specimens")>
 				<!--- NOTE: if widened beyond manage_specimens to public, include the mask_fg = 0 in the query. --->
 	         <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   	      	select underscore_collection_id, collection_name from underscore_collection 
+   	      	select underscore_collection_id, collection_name from underscore_collection
 					order by collection_name
          	</cfquery>
 			</cfif>
