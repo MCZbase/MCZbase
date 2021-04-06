@@ -1815,6 +1815,14 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
     padding: 0;
     color: #f1f1f1;
 }
+.stepper .nav-tabs > li {
+    width: 25%;
+    position: relative;
+}
+.stepper .active .round-tab {
+    background: #fff;
+    border: 2px solid #34bc9b;
+}
 .nav-tabs [data-toggle='tab'] {
         width: 25px;
         height: 25px;
