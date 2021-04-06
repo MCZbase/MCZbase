@@ -630,22 +630,22 @@ limitations under the License.
       <div class="stepper">
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
-            <a class="persistant-disabled" href="#stepper-step-1" data-toggle="tab" aria-controls="stepper-step-1" role="tab" title="Step 1">
+            <a class="persistant-disabled" href="##stepper-step-1" data-toggle="tab" aria-controls="stepper-step-1" role="tab" title="Step 1">
               <span class="round-tab">1</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="#stepper-step-2" data-toggle="tab" aria-controls="stepper-step-2" role="tab" title="Step 2">
+            <a class="persistant-disabled" href="##stepper-step-2" data-toggle="tab" aria-controls="stepper-step-2" role="tab" title="Step 2">
               <span class="round-tab">2</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="#stepper-step-3" data-toggle="tab" aria-controls="stepper-step-3" role="tab" title="Step 3">
+            <a class="persistant-disabled" href="##stepper-step-3" data-toggle="tab" aria-controls="stepper-step-3" role="tab" title="Step 3">
               <span class="round-tab">3</span>
             </a>
           </li>
           <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="#stepper-step-4" data-toggle="tab" aria-controls="stepper-step-4" role="tab" title="Complete">
+            <a class="persistant-disabled" href="##stepper-step-4" data-toggle="tab" aria-controls="stepper-step-4" role="tab" title="Complete">
               <span class="round-tab">4</span>
             </a>
           </li>
