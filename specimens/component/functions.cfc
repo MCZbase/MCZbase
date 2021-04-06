@@ -70,9 +70,10 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<button>previous</button><button>next</button>
+						<div class="col-1"><button>previous</button></div>
+						<button>next</button>
 						<div class="col-10 mt-2">
-						<div class="col-12 col-lg-12 float-left mb-4 px-0">
+							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 								<h1 class="h3 px-1"> <span style="font-size: 1.25rem;">Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a></span> </h1>
 								<div class="row mx-0">
@@ -249,7 +250,7 @@ limitations under the License.
 								</div>
 							</form>
 						</div>
-						<div class="col-12 col-lg-12 float-left px-0">
+							<div class="col-12 col-lg-12 float-left px-0">
 							<div id="accordion1">
 								<div class="card">
 									<div class="card-header" id="headingOnex">
@@ -261,7 +262,7 @@ limitations under the License.
 								</div>
 									<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
 										<div class="card-body">
-																			<script>
+									<script>
 										function idFormulaChanged(newFormula,baseId) { 
 											if(newFormula.includes("B")) {
 												$('##' + baseId).show();
@@ -370,7 +371,8 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
+						</div>
+						<div class="col-1"><button>next</button></div>
 					</div>
 				</div>
 				<cfcatch>
