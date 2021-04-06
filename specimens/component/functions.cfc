@@ -62,146 +62,245 @@ limitations under the License.
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
-<div class="container">
-  <div class="page-header">
-Other Edit Forms
-
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-body">
+<section>
+  
 
 
+    <div id="stepper">
+        <svg class="stepper-svg"></svg>
+        <div class="stepper-steps"></div>
+    </div>
 
-      <div class="stepper">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active">
-            <a class="persistant-disabled" href="##stepper-step-1" data-toggle="tab" aria-controls="stepper-step-1" role="tab" title="Step 1">
-              <span class="round-tab">1</span>
-            </a>
-          </li>
-          <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="##stepper-step-2" data-toggle="tab" aria-controls="stepper-step-2" role="tab" title="Step 2">
-              <span class="round-tab">2</span>
-            </a>
-          </li>
-          <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="##stepper-step-3" data-toggle="tab" aria-controls="stepper-step-3" role="tab" title="Step 3">
-              <span class="round-tab">3</span>
-            </a>
-          </li>
-          <li role="presentation" class="disabled">
-            <a class="persistant-disabled" href="##stepper-step-4" data-toggle="tab" aria-controls="stepper-step-4" role="tab" title="Complete">
-              <span class="round-tab">4</span>
-            </a>
-          </li>
-        </ul>
-        <form role="form">
-          <div class="tab-content">
-            <div class="tab-pane fade in active" role="tabpanel" id="stepper-step-1">
-              <h3 class "h2">1. Select Payment Type</h3>
-              <p>This is step 1</p>
-              <ul class="list-inline pull-right">
-                <li>
-                  <a class="btn btn-primary next-step">Next</a>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-pane fade" role="tabpanel" id="stepper-step-2">
-              <h3 class "h2">2. Enter Payment Information</h3>
-              <p>This is step 2</p>
-              <ul class="list-inline pull-right">
-                <li>
-                  <a class="btn btn-default prev-step">Back</a>
-                </li>
-                <li>
-                  <a class="btn btn-primary next-step">Next</a>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-pane fade" role="tabpanel" id="stepper-step-3">
-              <h3 class="hs">3. Review and Submit Payment</h3>
-              <p>This is step 3</p>
-              <ul class="list-inline pull-right">
-                <li>
-                  <a class="btn btn-default prev-step">Back</a>
-                </li>
-                <li>
-                  <a class="btn btn-default cancel-stepper">Cancel Payment</a>
-                </li>
-                <li>
-                  <a class="btn btn-primary next-step">Submit Payment</a>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-pane fade" role="tabpanel" id="stepper-step-4">
-              <h3>4. All done!</h3>
-              <p>You have successfully completed all steps.</p>
-            </div>
-          </div>
-        </form>
-      </div>
-		<script>
-/*jslint browser: true*/
-/*global $, jQuery, alert*/
-(function($) {
-  'use strict';
+    <div class="center">
+        <button class="btn" id="stepper-back-btn">Back</button>
+        <button class="btn" id="get-steper-step">Current step</button>
+        <button class="btn" id="stepper-next-btn">Next</button>
+    </div>
 
-  $(function() {
+    <h2>Custom</h2>
+    <div id="stepper2">
+        <svg class="stepper-svg"></svg>
+        <div class="stepper-steps"></div>
+    </div>
 
-    $(document).ready(function() {
-      function triggerClick(elem) {
-        $(elem).click();
-      }
-      var $progressWizard = $('.stepper'),
-        $tab_active,
-        $tab_prev,
-        $tab_next,
-        $btn_prev = $progressWizard.find('.prev-step'),
-        $btn_next = $progressWizard.find('.next-step'),
-        $tab_toggle = $progressWizard.find('[data-toggle="tab"]'),
-        $tooltips = $progressWizard.find('[data-toggle="tab"][title]');
+    <div class="center">
+        <button class="btn" id="stepper-back-btn2">Back</button>
+        <button class="btn" id="get-steper-step2">Current step</button>
+        <button class="btn" id="stepper-next-btn2">Next</button>
+    </div>
+  
+<script>
+	//----init steppers----
+window.addEventListener('load', function () {
+  initProgressBar({
+    steps: ['Simple1', 'Simple2', 'Simple3', 'Simple4', 'Simple5', 'Simple6'],
+    id: 'stepper',
+    nextBtnId: 'stepper-next-btn',
+    backBtnId: 'stepper-back-btn',
+    currentStep: 2
+  });
+  initProgressBar({
+    steps: ['Custom1', 'Custom2', 'Custom3', 'Custom4', 'Custom5', 'Custom6'],
+    radius: 10,
+    activeColor: 'black',
+    inactiveColor: 'red',
+    backColor: 'white',
+    id: 'stepper2',
+    lineWidth: 3,
+    currentStep: 3,
+    animationDuration: 200,
+    nextBtnId: 'stepper-next-btn2',
+    backBtnId: 'stepper-back-btn2'
+  });
+});
+//----init steppers----
 
-      // To do:
-      // Disable User select drop-down after first step.
-      // Add support for payment type switching.
 
-      //Initialize tooltips
-      $tooltips.tooltip();
+//----get current steps----
+document.getElementById('get-steper-step').addEventListener('click',function(){
+  alert(document.getElementById('stepper').currentStep);
+});
+document.getElementById('get-steper-step2').addEventListener('click',function(){
+  alert(document.getElementById('stepper2').currentStep);
+})
+//----get current steps----
 
-      //Wizard
-      $tab_toggle.on('show.bs.tab', function(e) {
-        var $target = $(e.target);
 
-        if (!$target.parent().hasClass('active, disabled')) {
-          $target.parent().prev().addClass('completed');
-        }
-        if ($target.parent().hasClass('disabled')) {
-          return false;
-        }
-      });
+//-----just copy and paste-----
+var initProgressBar = function (initialValues) {
 
-      $btn_next.on('click', function() {
-        $tab_active = $progressWizard.find('.active');
+  if (initialValues.radius == undefined)
+    initialValues.radius = 12;
+  if (initialValues.activeColor == undefined)
+    initialValues.activeColor = 'black';
+  if (initialValues.inactiveColor == undefined)
+    initialValues.inactiveColor = 'red';
+  if (initialValues.backColor == undefined)
+    initialValues.backColor = 'white';
+  if (initialValues.lineWidth == undefined)
+    initialValues.lineWidth = 2;
+  if (initialValues.currentStep == undefined)
+    initialValues.currentStep = 1;
+  if (initialValues.animationDuration == undefined)
+    initialValues.animationDuration = 300;
 
-        $tab_active.next().removeClass('disabled');
+  createProgressBar(initialValues.steps.length, initialValues.radius, initialValues.activeColor, initialValues.inactiveColor, initialValues.backColor, initialValues.id, initialValues.currentStep, initialValues.lineWidth);
 
-        $tab_next = $tab_active.next().find('a[data-toggle="tab"]');
-        triggerClick($tab_next);
+  setNextBack(initialValues.id, initialValues.backBtnId, initialValues.nextBtnId, initialValues.steps.length);
+  
+  createStepsTitles(initialValues.steps, initialValues.id);
 
-      });
-      $btn_prev.click(function() {
-        $tab_active = $progressWizard.find('.active');
-        $tab_prev = $tab_active.prev().find('a[data-toggle="tab"]');
-        triggerClick($tab_prev);
-      });
-    });
+  document.getElementById(initialValues.nextBtnId).addEventListener('click', function () {
+    nextStep(initialValues.id, initialValues.animationDuration, initialValues.activeColor, initialValues.steps.length);
+    setNextBack(initialValues.id, initialValues.backBtnId, initialValues.nextBtnId, initialValues.steps.length);
   });
 
-}(jQuery, this));
-		</script>
-    </div>
-  </div>
-</div>
+  document.getElementById(initialValues.backBtnId).addEventListener('click', function () {
+    backStep(initialValues.id, initialValues.animationDuration, initialValues.inactiveColor, initialValues.backColor);
+    setNextBack(initialValues.id, initialValues.backBtnId, initialValues.nextBtnId, initialValues.steps.length);
+  });
+
+  window.addEventListener('resize', function () {
+    createProgressBar(initialValues.steps.length, initialValues.radius, initialValues.activeColor, initialValues.inactiveColor, initialValues.backColor, initialValues.id, document.getElementById(initialValues.id).currentStep, initialValues.lineWidth);
+  });
+}
+var createProgressBar = function (stepsNo, radius, activeColor, inactiveColor, backColor, id, currentStep, stroke) {
+  document.getElementById(id).currentStep = 1;
+  let svg = Array.from(document.getElementById(id).childNodes).find(x => x.tagName == 'svg');
+  let r = radius;
+  if (stroke > r / 2)
+    stroke = r / 2;
+  svg.style.height = 3 * r + 'px';
+  let y = r + r / 2;
+  svg.innerHTML = "";
+  let posX = [];
+  let width = document.getElementById(id).offsetWidth;
+  let dX = width / stepsNo;
+  for (let i = 0; i < stepsNo; i++)
+    posX.push((i * dX) + (dX / 2));
+
+  for (let i = 0; i < posX.length - 1; i++) {
+    svg.innerHTML += '<line id = ' + id + '-svg-main-line-step-' + (i + 1) + ' x1="' + (posX[i] + r) + '" y1="' + y + '" x2="' + (posX[i + 1] - r) + '" y2="' + y + '" stroke="' + inactiveColor + '" stroke-width="' + stroke + '"/>';
+    svg.innerHTML += '<line id = ' + id + '-svg-color-line-step-' + (i + 1) + ' x1="' + (posX[i] + r) + '" y1="' + y + '" x2="' + (posX[i] + r) + '" y2="' + y + '" stroke="' + activeColor + '" stroke-width="' + stroke + '"/>';
+  }
+  for (let i = 0; i < posX.length; i++)
+    svg.innerHTML += '<circle id = ' + id + '-svg-circle-step-' + (i + 1) + ' cx="' + posX[i] + '" cy="' + y + '" r="' + r + '" stroke="' + (i < currentStep ? activeColor : inactiveColor) + '" stroke-width="' + stroke + '" fill="' + (i < currentStep - 1 ? activeColor : backColor) + '"/>';
+
+  for (let i = 0; i < currentStep - 1; i++)
+    nextStep(id, 1, activeColor);
+}
+
+var createStepsTitles = function (stepsTitles, id) {
+  let container = Array.from(document.getElementById(id).childNodes).find(x => x.tagName == 'DIV');
+  let percent = 100 / stepsTitles.length;
+  let style = "";
+  for (let i = 0; i < stepsTitles.length; i++) {
+    container.innerHTML += '<div>' + stepsTitles[i] + '</div>';
+    style += percent + "% ";
+  }
+  container.style.gridTemplateColumns = style;
+  container.style.textAlign = 'center';
+}
+
+var nextStep = function (id, duration, activeColor, allSteps) {
+  let currentStep = document.getElementById(id).currentStep;
+
+  if (currentStep == allSteps)
+    return;
+
+  let line = document.getElementById(id + '-svg-main-line-step-' + currentStep);
+  let colorLine = document.getElementById(id + '-svg-color-line-step-' + currentStep);
+  let x1 = parseFloat(line.getAttribute('x1'));
+  let x2 = parseFloat(line.getAttribute('x2'));
+  let currentCircle = document.getElementById(id + '-svg-circle-step-' + currentStep);
+  let nextCircle = document.getElementById(id + '-svg-circle-step-' + (currentStep + 1));
+
+  currentCircle.setAttribute("fill", activeColor);
+  currentCircle.setAttribute("stroke", activeColor);
+  fillLineAnim(colorLine, line, x1, x2, duration);
+  setTimeout(() => {
+    nextCircle.setAttribute("stroke", activeColor);
+  }, duration);
+
+  document.getElementById(id).currentStep = ++currentStep;
+}
+
+var backStep = function (id, duration, inactiveColor, backColor) {
+  let currentStep = document.getElementById(id).currentStep;
+  if (currentStep == 1)
+    return;
+  let line = document.getElementById(id + '-svg-main-line-step-' + (currentStep - 1));
+  let colorLine = document.getElementById(id + '-svg-color-line-step-' + (currentStep - 1));
+  let x1 = parseFloat(colorLine.getAttribute('x1'));
+  let x2 = parseFloat(colorLine.getAttribute('x2'));
+  let currentCircle = document.getElementById(id + '-svg-circle-step-' + currentStep);
+  let backCircle = document.getElementById(id + '-svg-circle-step-' + (currentStep - 1));
+
+  currentCircle.setAttribute("fill", backColor);
+  currentCircle.setAttribute("stroke", inactiveColor);
+  unFillLineAnim(colorLine, line, x1, x2, duration);
+  setTimeout(() => {
+    backCircle.setAttribute("fill", backColor);
+  }, duration);
+
+  document.getElementById(id).currentStep = --currentStep;
+}
+
+var fillLineAnim = function (Colorline, line, x1, x2, duration) {
+  let dx = x2 - x1;
+  dx = dx;
+  let frame = 10;
+  let step = (dx / duration) * frame;
+  let timer;
+  let x = x1;
+  timer = setInterval(() => {
+    if (x > x2) {
+      Colorline.setAttribute('x2', x2.toString());
+      line.setAttribute('x1', x2.toString());
+      clearInterval(timer);
+      return;
+    }
+    x += step;
+    Colorline.setAttribute('x2', x.toString());
+    line.setAttribute('x1', x.toString());
+  }, frame);
+}
+var unFillLineAnim = function (Colorline, line, x1, x2, duration) {
+  let dx = x2 - x1;
+  dx = dx;
+  let frame = 10;
+  let step = (dx / duration) * frame;
+  let timer;
+  let x = x2;
+  timer = setInterval(() => {
+    if (x < x1) {
+      Colorline.setAttribute('x2', x1.toString());
+      line.setAttribute('x1', x1.toString());
+      clearInterval(timer);
+      return;
+    }
+    x -= step;
+    Colorline.setAttribute('x2', x.toString());
+    line.setAttribute('x1', x.toString());
+  }, frame);
+}
+
+var setNextBack = function (id, backId, nextId, allSteps) {
+  let currentStep = document.getElementById(id).currentStep;
+  if (currentStep == allSteps)
+    document.getElementById(nextId).style.visibility = 'hidden';
+  else
+    document.getElementById(nextId).style.visibility = 'visible';
+
+  if (currentStep == 1)
+    document.getElementById(backId).style.visibility = 'hidden';
+  else
+    document.getElementById(backId).style.visibility = 'visible';
+}
+//-----just copy and paste-----
+
+</script>
+</section>
 				
 				
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

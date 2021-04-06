@@ -1788,116 +1788,63 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
     color: #ffffff !important; 
     text-decoration: none;
 }
-.stepper .nav-tabs [data-toggle=tab] {
-    width: 25px;
-    height: 25px;
-    margin: 20px auto;
-    border-radius: 100%;
-    border: none;
-    padding: 0;
-    color: #f1f1f1;
-}
-.stepper .round-tab {
-    width: 25px;
-    height: 25px;
-    line-height: 22px;
-    display: inline-block;
-    border-radius: 25px;
-    background: #fff;
-    border: 2px solid #34bc9b;
-    color: #34bc9b;
-    z-index: 2;
-    position: absolute;
-    left: 0;
-    text-align: center;
-    font-size: 14px;
-}
-.stepper .completed .round-tab {
-    background: #34bc9b;
+
+/*-----Copy and paste-----*/
+.stepper-svg {
+  width: 100%;
 }
 
-.stepper .nav-tabs > li {
-    width: 25%;
-    position: relative;
+.stepper-steps {
+  display: grid;
 }
-.stepper .active .round-tab {
-    background: #fff;
-    border: 2px solid #34bc9b;
+
+@media(max-width:450px) {
+  .stepper-steps {
+    display: none;
+  }
 }
-.nav-tabs [data-toggle='tab'] {
-        width: 25px;
-        height: 25px;
-        margin: 20px auto;
-        border-radius: 100%;
-        border: none;
-        padding: 0;
-        color: #f1f1f1;
-    }
-    .nav-tabs [data-toggle='tab']:hover {
-        background: transparent;
-        border: none;
-    }
-    .nav-tabs > .active > [data-toggle='tab'], .nav-tabs > .active > [data-toggle='tab']:hover, .nav-tabs > .active > [data-toggle='tab']:focus {
-        color: #34bc9b;
-        cursor: default;
-        border: none;
-    }
-    .tab-pane {
-        position: relative;
-        padding-top: 50px;
-    }
-    .round-tab {
-        width: 25px;
-        height: 25px;
-        line-height: 22px;
-        display: inline-block;
-        border-radius: 25px;
-        background: #fff;
-        border: 2px solid #34bc9b;
-        color: #34bc9b;
-        z-index: 2;
-        position: absolute;
-        left: 0;
-        text-align: center;
-        font-size: 14px;
-        
-    }
-    .completed .round-tab{
-    	background: #34bc9b;
-    	&::after {
-    		content: '✔';
-    		color: #fff;
-    		position: absolute;
-    		left: 0;
-    		right: 0;
-    		margin: 0 auto;
-    		top: 0;
-    		display: block;
-        }
-    }
-    .active .round-tab {
-        background: #fff;
-        border: 2px solid #34bc9b;
-        &:hover {
-            background: #fff;
-            border: 2px solid #34bc9b;
-        }
-        &::after {
-            display: none;
-        }
-    }
-    .disabled .round-tab {
-        background: #fff;
-        color: #f1f1f1;
-        border-color: #f1f1f1;
-        &:hover {
-            color: #4dd3b6;
-            border: 2px solid #a6dfd3;
-        }
-        &::after {
-            display: none;
-        }
-    }
+/*-----Copy and paste-----*/
+
+section {
+  padding: 30px;
+  font-family: cursive;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 50px;
+}
+
+h3{
+  margin-top:50px;
+  font-size:16px;
+  text-align:center;
+}
+.btn {
+  border: 2px solid black;
+  background: black;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  font-family: cursive;
+  width: 100px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.btn:hover {
+  background-color: red;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
