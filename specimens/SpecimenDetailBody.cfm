@@ -623,156 +623,7 @@ limitations under the License.
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
-
-<div class="container">
-	<h5>first dialog</h5>
-
-<!-- HORIZONTAL STEPPER -->
-	<div class="mdl-card mdl-shadow--2dp">
-		<div class="mdl-card__supporting-text">
-			<div class="mdl-stepper-horizontal-alternative">
-				<div id="stepper1" class="mdl-stepper-step active-step editable-step">
-					<div class="mdl-stepper-circle"><span>1</span></div>
-					<div class="mdl-stepper-title">Place</div>
-					<div class="mdl-stepper-optional">Where it is?</div>
-					<div class="mdl-stepper-bar-left"></div>
-					<div class="mdl-stepper-bar-right"></div>
-				</div>
-				<div id="stepper2" class="mdl-stepper-step">
-					<div class="mdl-stepper-circle"><span>2</span></div>
-					<div class="mdl-stepper-title">Organizer</div>
-					<div class="mdl-stepper-bar-left"></div>
-					<div class="mdl-stepper-bar-right"></div>
-				</div>
-				<div id="stepper3" class="mdl-stepper-step">
-					<div class="mdl-stepper-circle"><span>3</span></div>
-					<div class="mdl-stepper-title">Event info</div>
-					<div class="mdl-stepper-optional">Optional</div>
-					<div class="mdl-stepper-bar-left"></div>
-					<div class="mdl-stepper-bar-right"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end HORIZONTAL STEPPER -->
-
-	<!-- STEPS -->
-	<div class="stepper">
-		<div id="step1" class="step">
-			<div class="row">
-				<div class="input-field col s12">
-					<input placeholder="Event title" id="title" type="text" class="validate">
-					<label for="title">Title</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<select>
-						<option value="" disabled selected>Choose event type</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
-					</select>
-					<label>Event type</label>
-				</div>
-				<div class="input-field col s6">
-					<select multiple>
-						<option value="" disabled selected>Choose style(s)</option>
-						<option value="1">Option 1</option>
-						<option value="2">Option 2</option>
-						<option value="3">Option 3</option>
-					</select>
-					<label>Styles</label>
-				</div>
-			</div>
-			<a id="next1" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
-		</div>
-		<div id="step2" class="step hide">
-			<div class="row">
-				<div class="input-field col s6">
-					<label>Begin date</label>
-					<input id="beginDate" type="date" class="datepicker">
-				</div>
-				<div class="input-field col s6">
-					<label>End date</label>
-					<input id="endDate" type="date" class="datepicker">
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-field col s12">
-					<input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
-					<label for="organizer">Organizer</label>
-				</div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
-              <label for="website">Website</label>
-            </div>
-            <div class="input-field col s6">
-              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
-              <label for="email">Contact email</label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="input-field col s12">
-              <textarea id="description" class="materialize-textarea" length="140"></textarea>
-              <label for="description">Describe the event in a tweet!</label>
-            </div>
-          </div>
-          <a id="previous2" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
-          <a id="next2" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
-        </div>
-
-    <div id="step3" class="step hide">
-      
-          <div class="row">
-            <div class="input-field col s6">
-              <label>Begin date</label>
-              <input id="beginDate" type="date" class="datepicker">
-
-            </div>
-            <div class="input-field col s6">
-              <label>End date</label>
-              <input id="endDate" type="date" class="datepicker">
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
-              <label for="organizer">Organizer</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
-              <label for="website">Website</label>
-            </div>
-            <div class="input-field col s6">
-              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
-              <label for="email">Contact email</label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="input-field col s12">
-              <textarea id="description" class="materialize-textarea" length="140"></textarea>
-              <label for="description">Describe the event in a tweet!</label>
-            </div>
-          </div>
-          <a id="previous3" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
-          <a id="finish" class="waves-effect waves-light btn"><i class="material-icons right">done_all</i>FINISH</a>
-        </div>
-
-      
-  </div>
-  <!-- end STEPS -->
-</div>
-				
-				
-				<style>
+<style>
 					
 .stepper .body {    
 	padding-bottom: 28px;
@@ -930,6 +781,155 @@ limitations under the License.
   margin-right: 20px;
 }
 				</style>
+<div class="container">
+	<h5>first dialog</h5>
+
+<!-- HORIZONTAL STEPPER -->
+	<div class="mdl-card mdl-shadow--2dp">
+		<div class="mdl-card__supporting-text">
+			<div class="mdl-stepper-horizontal-alternative">
+				<div id="stepper1" class="mdl-stepper-step active-step editable-step">
+					<div class="mdl-stepper-circle"><span>1</span></div>
+					<div class="mdl-stepper-title">Place</div>
+					<div class="mdl-stepper-optional">Where it is?</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+				<div id="stepper2" class="mdl-stepper-step">
+					<div class="mdl-stepper-circle"><span>2</span></div>
+					<div class="mdl-stepper-title">Organizer</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+				<div id="stepper3" class="mdl-stepper-step">
+					<div class="mdl-stepper-circle"><span>3</span></div>
+					<div class="mdl-stepper-title">Event info</div>
+					<div class="mdl-stepper-optional">Optional</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end HORIZONTAL STEPPER -->
+
+	<!-- STEPS -->
+	<div class="stepper">
+		<div id="step1" class="step">
+			<div class="row">
+				<div class="input-field col s12">
+					<input placeholder="Event title" id="title" type="text" class="validate">
+					<label for="title">Title</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s6">
+					<select>
+						<option value="" disabled selected>Choose event type</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+					<label>Event type</label>
+				</div>
+				<div class="input-field col s6">
+					<select multiple>
+						<option value="" disabled selected>Choose style(s)</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+					<label>Styles</label>
+				</div>
+			</div>
+			<a id="next1" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+		</div>
+		<div id="step2" class="step hide">
+			<div class="row">
+				<div class="input-field col s6">
+					<label>Begin date</label>
+					<input id="beginDate" type="date" class="datepicker">
+				</div>
+				<div class="input-field col s6">
+					<label>End date</label>
+					<input id="endDate" type="date" class="datepicker">
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
+					<label for="organizer">Organizer</label>
+				</div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
+              <label for="website">Website</label>
+            </div>
+            <div class="input-field col s6">
+              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+              <label for="email">Contact email</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" class="materialize-textarea" length="140"></textarea>
+              <label for="description">Describe the event in a tweet!</label>
+            </div>
+          </div>
+          <a id="previous2" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+          <a id="next2" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+        </div>
+
+    <div id="step3" class="step hide">
+      
+          <div class="row">
+            <div class="input-field col s6">
+              <label>Begin date</label>
+              <input id="beginDate" type="date" class="datepicker">
+
+            </div>
+            <div class="input-field col s6">
+              <label>End date</label>
+              <input id="endDate" type="date" class="datepicker">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
+              <label for="organizer">Organizer</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
+              <label for="website">Website</label>
+            </div>
+            <div class="input-field col s6">
+              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+              <label for="email">Contact email</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" class="materialize-textarea" length="140"></textarea>
+              <label for="description">Describe the event in a tweet!</label>
+            </div>
+          </div>
+          <a id="previous3" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+          <a id="finish" class="waves-effect waves-light btn"><i class="material-icons right">done_all</i>FINISH</a>
+        </div>
+
+      
+  </div>
+  <!-- end STEPS -->
+</div>
+				
+				
+				
 				<script>
 					//Based on: https://codepen.io/sharafat_8271/pen/KVWMXP
 
