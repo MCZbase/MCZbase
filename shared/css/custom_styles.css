@@ -1788,6 +1788,15 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
     color: #ffffff !important; 
     text-decoration: none;
 }
+.stepper .nav-tabs [data-toggle=tab] {
+    width: 25px;
+    height: 25px;
+    margin: 20px auto;
+    border-radius: 100%;
+    border: none;
+    padding: 0;
+    color: #f1f1f1;
+}
 .stepper .round-tab {
     width: 25px;
     height: 25px;
@@ -1806,15 +1815,7 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 .stepper .completed .round-tab {
     background: #34bc9b;
 }
-.stepper .nav-tabs [data-toggle=tab] {
-    width: 25px;
-    height: 25px;
-    margin: 20px auto;
-    border-radius: 100%;
-    border: none;
-    padding: 0;
-    color: #f1f1f1;
-}
+
 .stepper .nav-tabs > li {
     width: 25%;
     position: relative;
