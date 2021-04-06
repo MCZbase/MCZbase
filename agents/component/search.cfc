@@ -245,7 +245,7 @@ limitations under the License.
 					AND collector_role = 'c'
 					AND substr(collecting_event.began_date,0,4) = substr(collecting_event.ended_date,0,4)
 					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') <= to_date(substr(collecting_event.ended_date,0,4),'yyyy')
-					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') >= to_datecollecting_event.began_date,0,4),'yyyy')
+					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') >= to_date(substr(collecting_event.began_date,0,4),'yyyy')
 				</cfif>
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
