@@ -219,22 +219,28 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
 					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
+					<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
 					AND (
-						birth_date 
-							<cfif birthOper IS "<="> <= <cfelseif birthOper IS ">="> >= <cfelse> = </cfif>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+						(
+						birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+						AND
+						birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+						)
 						OR 
 						birth_date_date between 
-							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(birth_date, "yyyy-mm-dd")#'>) and
-							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_birth_date, "yyyy-mm-dd")#'>)
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#bdate#'>) and
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#to_bdate#'>)
 					)
 				</cfif>
 				<cfif isdefined("Death_Date") AND len(#Death_Date#) gt 0>
 					<cfset ddate = #dateformat(Death_Date,'yyyy-mm-dd')#>
+					<cfset to_ddate = #dateformat(to_death_date,'yyyy-mm-dd')#>
 					AND (
-						death_date 
-							<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+						(
+						death_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+						AND
+						death_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_ddate#">
+						}
 						OR 
 						death_date_date between 
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
