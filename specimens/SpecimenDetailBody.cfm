@@ -683,7 +683,7 @@ limitations under the License.
 }
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step:hover .mdl-stepper-circle {
-  background-color: #757575;
+  background-color: ##757575;
 }
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step:first-child .mdl-stepper-bar-left,
@@ -695,7 +695,7 @@ limitations under the License.
   width: 24px;
   height: 24px;
   margin: 0 auto;
-  background-color: #9E9E9E;
+  background-color: ##9E9E9E;
   border-radius: 50%;
   text-align: center;
   line-height: 2em;
@@ -766,7 +766,7 @@ limitations under the License.
   position: absolute;
   top: 36px;
   height: 1px;
-  border-top: 1px solid #BDBDBD;
+  border-top: 1px solid ##BDBDBD;
 }
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
