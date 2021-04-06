@@ -3,9 +3,11 @@
 //
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
-  const tabList = $('.tabList > .active').get(0);
-    //var tab = $('.tabList > .active').get(0);   
-   // alert('Hello from Tab Button ' + $(tab).attr('id'));
+  const tabList = document.querySelector('[role="tablist"]');
+     var tab = $('.tabList > .active').get(0).focus();   
+     alert('Hello from Tab Button ' + $(tab).attr('id'));
+	
+	
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
