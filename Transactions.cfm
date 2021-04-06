@@ -600,17 +600,17 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-								<button class="px-5 #allTabActive#" id="tab-1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="tab-3" role="tab"  aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-								<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
-								<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
+								<button class="px-5 #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
+								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
+								<button class="px-5 #accnTabActive#" id="3" role="tab"  aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+								<button class="px-5 #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
+								<button class="px-5 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
 							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
+							<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
