@@ -4,9 +4,8 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-  const findfocustab = $('.tab-content > .active').get(0);        
-   tabs[findfocustab].setAttribute("tabindex", 0);
-    
+     var findfocustab = $('.tab-content > .active').get(0);        
+       alert('Hello from Tab ' + $(tab).attr('id'));
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
