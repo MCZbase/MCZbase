@@ -1007,8 +1007,8 @@ form.children("div").steps({
               <label for="description">Describe the event in a tweet!</label>
             </div>
           </div>
-          <a id="previous3" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
-          <a id="finish" class="waves-effect waves-light btn"><i class="material-icons right">done_all</i>FINISH</a>
+          <a id="previous3" class="waves-effect waves-light btn"><i class="fas fa-material-icons left"></i>PREVIOUS</a>
+          <a id="finish" class="waves-effect waves-light btn"><i class="fas fa-material-icons right"></i>FINISH</a>
         </div>
 
       
