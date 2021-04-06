@@ -62,9 +62,6 @@ limitations under the License.
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
-
-				
-				
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
@@ -72,7 +69,8 @@ limitations under the License.
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
 				<div class="container-fluid">
-					<div class="row">					
+					<div class="row">
+						<button>previous</button><button>next</button>
 						<div class="col-10 mt-2">
 						<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">

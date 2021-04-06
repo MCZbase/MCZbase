@@ -628,7 +628,6 @@ limitations under the License.
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
 						<div id="identificationsDialog">
-						<button>test</button>
 						</div>
 						<script>
 							function reloadIdentifications() { 
