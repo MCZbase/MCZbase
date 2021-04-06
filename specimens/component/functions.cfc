@@ -71,7 +71,6 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-1"><button>previous</button></div>
-						<button>next</button>
 						<div class="col-10 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
