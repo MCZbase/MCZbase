@@ -4,7 +4,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-     var tab = $('.tab-content > .active').get(0);        
+     var tab = $('.tab-header > .active').get(0);        
         alert('Hello from Tab ' + $(tab).attr('id'));
   // Add a click event handler to each tab
   tabs.forEach(tab => {
