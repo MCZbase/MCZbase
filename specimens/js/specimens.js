@@ -197,7 +197,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		w = 999;
 	} 
 	var thedialog = $("#"+dialogId).html(content)
-	var x = 1
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -209,22 +208,30 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
+		body: $('<button/>').text('Launch another dialog').click(function() {
+      $.dialog({
+        title: 'Dialog #2',
+        show: true,
+        modal: true,
+        width: 400,
+        height: 400,
+        footer: $('<div/>')
+          .addClass('dialog-button')
+          .attr('data-dialog-action', 'hide')
+          .text('Close')
+	  });
 		buttons: {
-			
+	
 			"prev": function() {
                  $("#"+dialogId).dialog('close');
                  //open previous dialog
-				x--;
-				$(this).text(x);
              },
              "next": function() {
                  $("#"+dialogId).dialog('close');
                  //open next dialog
              },
-					"Close Dialog": function() {
+			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
-						x++;
-				$(this).text(x);
 			}
 		},
 		open: function (event, ui) {
