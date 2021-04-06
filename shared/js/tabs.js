@@ -4,15 +4,15 @@
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
-     var findfocustab = $('.tab-content > .active').get(0);        
-       alert('Hello from Tab ' + $(tab).attr('id'));
+     var tab = $('.tab-content > .active').get(0);        
+        alert('Hello from Tab ' + $(tab).attr('id'));
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs);
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = findfocustab; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
+  let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
 
    tabList.addEventListener("keydown", e => {
     // Move right
