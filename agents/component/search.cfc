@@ -40,8 +40,8 @@ limitations under the License.
 	<cfargument name="address" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 
-	<cfif not isDefined("birthOper")><cfset birthOper="="></cfif>
-	<cfif not isDefined("deathOper")><cfset deathOper="="></cfif>
+	<cfif not isDefined("birthOper")><cfset birthOper=">="></cfif>
+	<cfif not isDefined("deathOper")><cfset deathOper=">="></cfif>
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("birth_date") and len(#birth_date#) gt 0>
 		<cfif not isdefined("to_birth_date") or len(to_birth_date) is 0>
@@ -219,30 +219,32 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
 					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
-					AND birth_date 
-						<cfif birthOper IS "<="> <= <cfelseif birthOper IS ">="> >= <cfelse> = </cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
-				</cfif>
-				<cfif isdefined("birth_date") and len(birth_date) gt 0>
-					AND birth_date_date between 
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(birth_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_birth_date, "yyyy-mm-dd")#'>)
+					AND (
+						birth_date 
+							<cfif birthOper IS "<="> <= <cfelseif birthOper IS ">="> >= <cfelse> = </cfif>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+						OR 
+						birth_date_date between 
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(birth_date, "yyyy-mm-dd")#'>) and
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_birth_date, "yyyy-mm-dd")#'>)
+					}
 				</cfif>
 				<cfif isdefined("Death_Date") AND len(#Death_Date#) gt 0>
 					<cfset ddate = #dateformat(Death_Date,'yyyy-mm-dd')#>
-					AND death_date 
-						<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
-				</cfif>
-				<cfif isdefined("death_date") and len(death_date) gt 0>
-					AND death_date_date between 
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_death_date, "yyyy-mm-dd")#'>)
+					AND (
+						death_date 
+							<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+						OR 
+						death_date_date between 
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_death_date, "yyyy-mm-dd")#'>)
+					}
 				</cfif>
 				<cfif isdefined("collected_date") and len(collected_date) gt 0>
 					AND to_char(collecting_event.date_began_date,'yyyy') = to_char(collecting_event.date_ended_date,'yyyy')
-					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(collected_date, "yyyy-mm-dd")#'>) before collecting_event.date_ended_date
-					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>) after collecting_event.date_began_date
+					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') <= collecting_event.date_ended_date
+					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') >= collecting_event.date_began_date
 				</cfif>
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
