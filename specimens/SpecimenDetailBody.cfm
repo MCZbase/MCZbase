@@ -938,14 +938,14 @@ $('##next1').click(function(){
   $('##stepper1').removeClass('editable-step');
   $('##stepper2').addClass('active-step');
   $('##stepper2').addClass('editable-step');
-  activeStep($('#step2'));
+  activeStep($('##step2'));
 });
 $('##next2').click(function(){
   $('##stepper2').addClass('step-done');
   $('##stepper2').removeClass('editable-step');
   $('##stepper3').addClass('active-step');
   $('##stepper3').addClass('editable-step');
-  activeStep($('#step3'));
+  activeStep($('##step3'));
 });
 $('##finish').click(function(){
   $('##stepper3').addClass('step-done');
