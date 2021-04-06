@@ -197,6 +197,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		w = 999;
 	} 
 	var thedialog = $("#"+dialogId).html(content)
+	var x = 1
 	.dialog({
 		title: title,
 		autoOpen: false,
@@ -209,9 +210,12 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minHeight: 450,
 		draggable:true,
 		buttons: {
+			
 			"prev": function() {
                  $("#"+dialogId).dialog('close');
                  //open previous dialog
+				x--;
+				$(this).text(x);
              },
              "next": function() {
                  $("#"+dialogId).dialog('close');
@@ -219,6 +223,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
              },
 					"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
+						x++;
+				$(this).text(x);
 			}
 		},
 		open: function (event, ui) {
