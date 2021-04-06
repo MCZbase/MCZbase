@@ -10,12 +10,12 @@ window.addEventListener("DOMContentLoaded", () => {
   // Add a click event handler to each tab
   tabs.forEach(tab => {
     tab.addEventListener("click", changeTabs); 
-		tab.focus()
+		tab.focus(0);
   });
 
   // Enable arrow navigation between tabs in the tab list
  // let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
-var tabFocus = '';
+var tabFocus = tab.focus(0)	;
    tabList.addEventListener("keydown", e => {
     // Move right
     if (e.keyCode === 39 || e.keyCode === 37) {
