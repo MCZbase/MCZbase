@@ -9,11 +9,12 @@ window.addEventListener("DOMContentLoaded", () => {
 	
   // Add a click event handler to each tab
   tabs.forEach(tab => {
-    tab.addEventListener("click", changeTabs,0);
+    tab.addEventListener("click", changeTabs);
+	tab.setAttribute("tabindex", 0);
   });
 
   // Enable arrow navigation between tabs in the tab list
-  let tabFocus = tab; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
+  let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
 
    tabList.addEventListener("keydown", e => {
     // Move right
