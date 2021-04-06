@@ -624,6 +624,401 @@ limitations under the License.
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 
+<div class="container">
+	<h5>first dialog</h5>
+
+<!-- HORIZONTAL STEPPER -->
+	<div class="mdl-card mdl-shadow--2dp">
+		<div class="mdl-card__supporting-text">
+			<div class="mdl-stepper-horizontal-alternative">
+				<div id="stepper1" class="mdl-stepper-step active-step editable-step">
+					<div class="mdl-stepper-circle"><span>1</span></div>
+					<div class="mdl-stepper-title">Place</div>
+					<div class="mdl-stepper-optional">Where it is?</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+				<div id="stepper2" class="mdl-stepper-step">
+					<div class="mdl-stepper-circle"><span>2</span></div>
+					<div class="mdl-stepper-title">Organizer</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+				<div id="stepper3" class="mdl-stepper-step">
+					<div class="mdl-stepper-circle"><span>3</span></div>
+					<div class="mdl-stepper-title">Event info</div>
+					<div class="mdl-stepper-optional">Optional</div>
+					<div class="mdl-stepper-bar-left"></div>
+					<div class="mdl-stepper-bar-right"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end HORIZONTAL STEPPER -->
+
+	<!-- STEPS -->
+	<div class="stepper">
+		<div id="step1" class="step">
+			<div class="row">
+				<div class="input-field col s12">
+					<input placeholder="Event title" id="title" type="text" class="validate">
+					<label for="title">Title</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s6">
+					<select>
+						<option value="" disabled selected>Choose event type</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+					<label>Event type</label>
+				</div>
+				<div class="input-field col s6">
+					<select multiple>
+						<option value="" disabled selected>Choose style(s)</option>
+						<option value="1">Option 1</option>
+						<option value="2">Option 2</option>
+						<option value="3">Option 3</option>
+					</select>
+					<label>Styles</label>
+				</div>
+			</div>
+			<a id="next1" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+		</div>
+		<div id="step2" class="step hide">
+			<div class="row">
+				<div class="input-field col s6">
+					<label>Begin date</label>
+					<input id="beginDate" type="date" class="datepicker">
+				</div>
+				<div class="input-field col s6">
+					<label>End date</label>
+					<input id="endDate" type="date" class="datepicker">
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
+					<label for="organizer">Organizer</label>
+				</div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
+              <label for="website">Website</label>
+            </div>
+            <div class="input-field col s6">
+              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+              <label for="email">Contact email</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" class="materialize-textarea" length="140"></textarea>
+              <label for="description">Describe the event in a tweet!</label>
+            </div>
+          </div>
+          <a id="previous2" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+          <a id="next2" class="waves-effect waves-light btn"><i class="material-icons right">keyboard_arrow_right</i>NEXT</a>
+        </div>
+
+    <div id="step3" class="step hide">
+      
+          <div class="row">
+            <div class="input-field col s6">
+              <label>Begin date</label>
+              <input id="beginDate" type="date" class="datepicker">
+
+            </div>
+            <div class="input-field col s6">
+              <label>End date</label>
+              <input id="endDate" type="date" class="datepicker">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
+              <label for="organizer">Organizer</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
+              <label for="website">Website</label>
+            </div>
+            <div class="input-field col s6">
+              <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+              <label for="email">Contact email</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="description" class="materialize-textarea" length="140"></textarea>
+              <label for="description">Describe the event in a tweet!</label>
+            </div>
+          </div>
+          <a id="previous3" class="waves-effect waves-light btn"><i class="material-icons left">keyboard_arrow_left</i>PREVIOUS</a>
+          <a id="finish" class="waves-effect waves-light btn"><i class="material-icons right">done_all</i>FINISH</a>
+        </div>
+
+      
+  </div>
+  <!-- end STEPS -->
+</div>
+				
+				
+				<style>
+					
+.stepper .body {    
+	padding-bottom: 28px;
+    padding-top: 8px;
+}
+
+/* Simple setup for this demo */
+
+.mdl-card {
+  width: 550px;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.mdl-card__supporting-text {
+  width: 100%;
+  padding: 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step {
+  width: 25%;
+  /* 100 / no_of_steps */
+}
+
+
+/* Begin actual mdl-stepper css styles */
+
+.mdl-stepper-horizontal-alternative {
+  display: table;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step {
+  display: table-cell;
+  position: relative;
+  padding: 24px;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:hover,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:active {
+  background-color: rgba(0, 0, 0, .06);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:active {
+  border-radius: 15% / 75%;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:first-child:active {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:last-child:active {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:hover .mdl-stepper-circle {
+  background-color: #757575;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:first-child .mdl-stepper-bar-left,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:last-child .mdl-stepper-bar-right {
+  display: none;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle {
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  background-color: #9E9E9E;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 2em;
+  font-size: 12px;
+  color: white;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle {
+  background-color: rgb(33, 150, 243);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.step-done .mdl-stepper-circle:before {
+  content: "\2714";
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.step-done .mdl-stepper-circle *,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.editable-step .mdl-stepper-circle * {
+  display: none;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.editable-step .mdl-stepper-circle {
+  -moz-transform: scaleX(-1);
+  /* Gecko */
+  -o-transform: scaleX(-1);
+  /* Opera */
+  -webkit-transform: scaleX(-1);
+  /* Webkit */
+  transform: scaleX(-1);
+  /* Standard */
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.editable-step .mdl-stepper-circle:before {
+  content: "\270E";
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-title {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-title,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-optional {
+  text-align: center;
+  color: rgba(0, 0, 0, .26);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-title {
+  font-weight: 500;
+  color: rgba(0, 0, 0, .87);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.step-done .mdl-stepper-title,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.editable-step .mdl-stepper-title {
+  font-weight: 300;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-optional {
+  font-size: 12px;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-optional {
+  color: rgba(0, 0, 0, .54);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-left,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
+  position: absolute;
+  top: 36px;
+  height: 1px;
+  border-top: 1px solid #BDBDBD;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
+  right: 0;
+  left: 50%;
+  margin-left: 20px;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-left {
+  left: 0;
+  right: 50%;
+  margin-right: 20px;
+}
+				</style>
+				<script>
+					//Based on: https://codepen.io/sharafat_8271/pen/KVWMXP
+
+$('#next1').click(function(){
+  $('#stepper1').addClass('step-done');
+  $('#stepper1').removeClass('editable-step');
+  $('#stepper2').addClass('active-step');
+  $('#stepper2').addClass('editable-step');
+  activeStep($('#step2'));
+});
+$('#next2').click(function(){
+  $('#stepper2').addClass('step-done');
+  $('#stepper2').removeClass('editable-step');
+  $('#stepper3').addClass('active-step');
+  $('#stepper3').addClass('editable-step');
+  activeStep($('#step3'));
+});
+$('#finish').click(function(){
+  $('#stepper3').addClass('step-done');
+  $('#stepper3').removeClass('editable-step');
+  //DO SOMETHING
+});
+$('#previous2').click(function(){
+  $('#stepper1').removeClass('step-done');
+  activeStep($('#step1'));
+});
+$('#previous3').click(function(){
+  $('#stepper2').removeClass('step-done');
+  activeStep($('#step2'));
+});
+
+function activeStep(stepDiv){
+  $('.step').addClass('hide');
+  stepDiv.removeClass('hide');
+}
+
+
+
+$('.datepicker').pickadate({
+    min: new Date(),
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year
+    firstDay: 1
+  });
+
+var picker = $('#beginDate').pickadate('picker');
+picker.set('select', new Date());
+var picker = $('#endDate').pickadate('picker');
+picker.set('select', new Date());
+
+
+ $('select').material_select();
+
+
+var form = $("#example-form");
+form.children("div").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+  
+    /* Labels */
+    labels: {
+        cancel: "Cancel?",
+        current: "current step:",
+        pagination: "Pagination",
+        finish: "Finish!!",
+        next: "Next >",
+        previous: "< Previous",
+        loading: "Loading ..."
+    },
+  
+  
+    onStepChanging: function (event, currentIndex, newIndex)
+    {
+        
+        return true;
+    },
+    onFinishing: function (event, currentIndex)
+    {
+        
+        return true;
+    },
+    onFinished: function (event, currentIndex)
+    {
+        alert("Submitted!");
+    }
+});
+				
+</script>
 <!----------------------------- identifications ----------------------------------> 
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
