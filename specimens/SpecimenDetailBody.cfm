@@ -627,7 +627,9 @@ limitations under the License.
 <!----------------------------- identifications ----------------------------------> 
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
-						<div id="identificationsDialog"></div>
+						<div id="identificationsDialog">
+						<button>test</button>
+						</div>
 						<script>
 							function reloadIdentifications() { 
 								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
