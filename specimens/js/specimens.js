@@ -227,6 +227,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
+		footer:"<button>other id</button>",
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
