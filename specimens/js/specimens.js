@@ -227,15 +227,18 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
-		buttons: {
+		buttons: [{
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
 			},
 			"Save": function() {
 				$("#"+dialogId).dialog('close');
 			},
-			id:"test","data-test":"data test", text: "Ok", click: function() {alert($('#test').data('test')); $( this ).dialog( "close" ); } 
-		},
+			id:"test","data-test":"data test", text: "Ok", click: function() {
+				alert($('#test').data('test')); 
+				$( this ).dialog( "close" ); 
+			} 
+		}],
 		open: function (event, ui) {
 			// force the dialog to lay above any other elements in the page.
 			var maxZindex = getMaxZIndex();
