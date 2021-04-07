@@ -227,16 +227,12 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
-		id:"test","data-test":"data test", text: "Ok", click: function() {
-				alert($('#test').data('test')); 
-				$( this ).dialog( "close" ); 
-			},
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
 			},
 			"Save": function() {
-				$("#"+dialogId).dialog('close');
+				$("#"+dialogId).dialog('submit');
 			}
 		},
 		open: function (event, ui) {
