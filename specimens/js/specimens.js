@@ -231,11 +231,9 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
 			},
-			    "Another Dialog": function() {
-                 $(this).dialog("close");
-                 //what should we do when "Maybe" is clicked?
-
-               }   
+			"Save": function() {
+				$("#"+dialogId).dialog('close');
+			}
 		},
 		open: function (event, ui) {
 			// force the dialog to lay above any other elements in the page.
