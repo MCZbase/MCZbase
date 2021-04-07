@@ -70,7 +70,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-<div class="BtnGoHere"></div>
+<div id="BtnGoHere"></div>
 						<div class="col-10 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">

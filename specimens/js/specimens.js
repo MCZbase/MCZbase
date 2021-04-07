@@ -245,7 +245,8 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			$("#"+dialogId+"_div").html("");
 			$("#"+dialogId).dialog('destroy');
 		}
-	});
-	$( ".BtnGoHere" ).append( "<div class='col-12'><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditIdentificationsDialog(#collection_object_id#,\'identificationsDialog\')'>Identifications</button><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditCitationsDialog(#collection_object_id#,\'citationsDialog\')'>Citations</button><button type='button' class='btn btn-xs  btn-secondary small mt-0 p-1' onClick='openEditOtherIDsDialog(#collection_object_id#,\'otherIDsDialog\')'>Other IDs</button></div>");
+			$( "#BtnGoHere" ).append( "<div class='col-12'><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditIdentificationsDialog(#collection_object_id#,\'identificationsDialog\')'>Identifications</button><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditCitationsDialog(#collection_object_id#,\'citationsDialog\')'>Citations</button><button type='button' class='btn btn-xs  btn-secondary small mt-0 p-1' onClick='openEditOtherIDsDialog(#collection_object_id#,\'otherIDsDialog\')'>Other IDs</button></div>");
 	thedialog.dialog('open');
+	});
+
 }
