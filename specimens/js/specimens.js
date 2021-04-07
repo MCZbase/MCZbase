@@ -116,7 +116,7 @@ function loadCitation(collection_object_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getCitationHtml",
+			method : "getCitationHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
