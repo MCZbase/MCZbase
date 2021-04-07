@@ -888,7 +888,7 @@ limitations under the License.
 								</div>
 								<cfset i = i + 1>
 							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
+						
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
 									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -932,9 +932,7 @@ limitations under the License.
 										</span>
 									</div>
 								</cfloop>
-							<cfelse>
-							none
-							</cfif>	
+				
 					</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
@@ -1038,7 +1036,7 @@ limitations under the License.
 								</div>
 								<cfset i = i + 1>
 							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
+						
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
 									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1082,9 +1080,7 @@ limitations under the License.
 										</span>
 									</div>
 								</cfloop>
-							<cfelse>
-								none
-							</cfif>	
+						
 					</div>
 			<cfcatch>
 				<cfoutput>
