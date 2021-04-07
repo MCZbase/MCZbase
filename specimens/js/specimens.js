@@ -120,6 +120,25 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 		dataType: "html"
 	});
 };
+
+function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Identifications for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCitationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit citations dialog");
+		},
+		dataType: "html"
+	});
+};
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
  * @param collection_object_id identifying the cataloged item for which 
