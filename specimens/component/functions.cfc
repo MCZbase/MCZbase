@@ -1080,6 +1080,8 @@ limitations under the License.
 										</span>
 									</div>
 								</cfloop>
+							<cfelse>
+								
 							</cfif>	
 					</div>
 			<cfcatch>
