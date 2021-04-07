@@ -57,17 +57,6 @@ limitations under the License.
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
 --->
-<cffunction>
-						<div class="col-12">
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Attributes</button>
-							<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
-						</div>		
-</cffunction>			
-			
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">	
 	<cfthread name="getEditIdentsThread">
@@ -81,7 +70,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-	
+			
 						<div class="col-10 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
@@ -578,7 +567,14 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="container-fluid">
-
+					<div class="col-12">
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Attributes</button>
+						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
+					</div>
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
