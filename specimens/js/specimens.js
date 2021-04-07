@@ -230,6 +230,9 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
+			},
+			"Identification": function() {
+				$("#"+dialogId+"_div").html("<button type=\"button\" class=\"btn btn-xs btn-secondary small mt-0 p-1\" onClick=\"openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')\">Identifications</button>");
 			}
 		},
 		open: function (event, ui) {
@@ -247,5 +250,3 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 		}
 	});
 }
-	$( "#BtnGoHere" ).append( "<button type='button' class='btn btn-xs btn-secondary small mt-0 p-1'></button>");
-	thedialog.dialog('open');
