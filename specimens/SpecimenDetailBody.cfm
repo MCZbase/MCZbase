@@ -795,7 +795,7 @@ limitations under the License.
 <div class="col-12 col-md-6 px-1 float-left"> 
 
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
-<!---            <div class="accordion" id="accordionLocality">
+				<div class="accordion" id="accordionLocality">
 					<div class="card mb-2 bg-light">
 						<div id="LocalityDialog"></div>
 						<script>
@@ -819,7 +819,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div> --->
+				</div> 
 				
 				<!--- --------------------------------- Collectors and Preparators ----------------------------- --->
 				<div class="accordion" id="accordionH">
