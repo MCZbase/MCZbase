@@ -122,7 +122,7 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 };
 
 function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Identifications for " + guid;
+	var title = "Edit Citations for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
