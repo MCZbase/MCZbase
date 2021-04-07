@@ -815,7 +815,10 @@ limitations under the License.
 	<cfthread name="getEditCitationsThread">
 		<cfoutput>
 			<cftry>
-
+			<div id="citationsDialog">
+				
+			test	
+			</div>
 				
 				
 				
