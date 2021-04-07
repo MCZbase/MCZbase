@@ -187,17 +187,17 @@ limitations under the License.
 							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
 						</cfif>
 						<span class="small">Determination: #agent_name#
-                        <cfif len(made_date) gt 0>
-                            on #dateformat(made_date,"yyyy-mm-dd")#
-                        </cfif>
-                        <span class="d-block">Nature of ID: #nature_of_id#</span>
-                        <cfif len(identification_remarks) gt 0>
-                            <span class="d-block">Remarks: #identification_remarks#</span>
-                        </cfif>
-                    </cfif>
-                    </li>
-                    </ul>
-                </cfloop>
+						<cfif len(made_date) gt 0>
+							on #dateformat(made_date,"yyyy-mm-dd")#
+						</cfif>
+						<span class="d-block">Nature of ID: #nature_of_id#</span>
+						<cfif len(identification_remarks) gt 0>
+							<span class="d-block">Remarks: #identification_remarks#</span>
+						</cfif>
+					</cfif>
+					</li>
+				</ul>
+			</cfloop>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>

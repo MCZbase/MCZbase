@@ -653,7 +653,7 @@ limitations under the License.
 				</div>
 
 <!----------------------------- Citations new ----------------------------------> 
-			<cfif len(citations.citation_page_uri) gt 0>
+			
 				<div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
@@ -679,7 +679,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</cfif>
+			
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
