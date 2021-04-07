@@ -256,14 +256,3 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 	});
 	thedialog.dialog('open');
 }
-
-$(function() {
-    $('#buttons').find('button').click(function() {
-        // close all dialogs
-        $('.dialogBtn').dialog("close");
-
-        // find out clicked id and open dialog
-        var nr = this.id.split("_")[1];
-        $('#dialog_'+nr).dialog();
-    });
-});
