@@ -888,7 +888,7 @@ limitations under the License.
 								</div>
 								<cfset i = i + 1>
 							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
+							<cfif len(media_relations.media_id) gt 0>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
 									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
