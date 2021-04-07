@@ -232,7 +232,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 				$("#"+dialogId).dialog('close');
 			},
 			"Identification": function() {
-				$("#"+dialogId+"_div").html("<button type=\"button\" class=\"btn btn-xs btn-secondary small mt-0 p-1\" onClick=\"openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')\">Identifications</button>");
+				$("#"+dialogId+"_div").html("<button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')'>Identifications</button>");
 			}
 		},
 		open: function (event, ui) {
