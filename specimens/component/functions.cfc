@@ -72,7 +72,7 @@ limitations under the License.
 					<div class="row">
 <div id="BtnGoHere"></div>
 						
-						<div class='col-12'><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditIdentificationsDialog(#collection_object_id#,\'identificationsDialog\')'>Identifications</button><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditCitationsDialog(#collection_object_id#,\'citationsDialog\')'>Citations</button><button type='button' class='btn btn-xs  btn-secondary small mt-0 p-1' onClick='openEditOtherIDsDialog(#collection_object_id#,\'otherIDsDialog\')'>Other IDs</button></div>
+						<div class='col-12'><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditIdentificationsDialog(#collection_object_id#,\'identificationsDialog\')'>Identifications</button><button type='button' class='btn btn-xs btn-secondary small mt-0 p-1' onClick='openEditCitationsDialog(#collection_object_id#,'citationsDialog')'>Citations</button><button type='button' class='btn btn-xs  btn-secondary small mt-0 p-1' onClick='openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')'>Other IDs</button></div>
 						
 						
 						<div class="col-10 mt-2">
