@@ -59,6 +59,7 @@ limitations under the License.
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfargument name="guid" type="string" required="yes">
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
