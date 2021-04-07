@@ -932,6 +932,8 @@ limitations under the License.
 										</span>
 									</div>
 								</cfloop>
+							<cfelse>
+							none
 							</cfif>	
 					</div>
 				<cfcatch>
@@ -1081,7 +1083,7 @@ limitations under the License.
 									</div>
 								</cfloop>
 							<cfelse>
-								
+								none
 							</cfif>	
 					</div>
 			<cfcatch>
