@@ -231,12 +231,16 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
 			}
+			id: "OtherID",
+			text: "Other ID",
+			click: function(openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog'));
 		},
 		open: function (event, ui) {
 			// force the dialog to lay above any other elements in the page.
 			var maxZindex = getMaxZIndex();
 			$('.ui-dialog').css({'z-index': maxZindex + 6 });
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			
 		},
 		close: function(event,ui) {
 			if (jQuery.type(closecallback)==='function')	{
