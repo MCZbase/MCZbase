@@ -358,31 +358,31 @@ limitations under the License.
 						<cfloop query="publicationMedia">
 							<cfset puri=getMediaPreview(preview_uri,mime_type)>
 							<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select
-														media_label,
-														label_value
-												from
-														media_labels
-												where
-														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
+								select
+										media_label,
+										label_value
+								from
+										media_labels
+								where
+										media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
 							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select
-														media_label,
-														label_value
-												from
-														media_labels
-												where
-														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
+								select
+										media_label,
+										label_value
+								from
+										media_labels
+								where
+										media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
 							<cfquery name="desc" dbtype="query">
-										select 
-											label_value 
-										from 
-											labels 
-										where 
-											media_label='description'
-									</cfquery>
+								select 
+									label_value 
+								from 
+									labels 
+								where 
+									media_label='description'
+							</cfquery>
 							<cfset alt="Media Preview Image">
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
