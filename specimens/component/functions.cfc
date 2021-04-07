@@ -70,13 +70,13 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
-							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Attributes</button>
-							<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
+						<div class="col-12" id="buttons">
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 p-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 p-1 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 p-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
 						</div>
 						<div class="col-10 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
