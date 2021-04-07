@@ -246,4 +246,5 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			$("#"+dialogId).dialog('destroy');
 		}
 	});
+	thedialog.dialog('open');
 }
