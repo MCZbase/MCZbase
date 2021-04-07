@@ -653,7 +653,7 @@ limitations under the License.
 				</div>
 
 <!----------------------------- Citatons new ----------------------------------> 
-			<cfif len(citation.citation_page_uri) gt 0>
+			<cfif len(citations.citation_page_uri) gt 0>
 				<div class="accordion" id="accordionCitations">
 					<div class="card mb-2 bg-light">
 						<div id="citationsDialog"></div>
