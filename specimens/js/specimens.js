@@ -246,6 +246,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			$("#"+dialogId).dialog('destroy');
 		}
 	});
+}
 	$( "#BtnGoHere" ).append( "<button type='button' class='btn btn-xs btn-secondary small mt-0 p-1'></button>");
 	thedialog.dialog('open');
-}
