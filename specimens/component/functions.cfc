@@ -574,6 +574,14 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="container-fluid">
+					<div class="col-12">
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
+						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Attributes</button>
+						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
+					</div>
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
