@@ -142,7 +142,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit citations dialog");
+			handleFail(jqXHR,textStatus,error,"opening edit Citations dialog");
 		},
 		dataType: "html"
 	});
