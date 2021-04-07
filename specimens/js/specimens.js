@@ -234,7 +234,7 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 			id: "Save", click: function() {
 				$("#"+dialogId).dialog('close');
 			},
-			id:"test","data-test":"data test", text: "Ok", click: function() {
+			id:"test","data-test":"<button>Button</button>", text: "Ok", click: function() {
 				alert($('#test').data('test')); 
 				$( this ).dialog( "close" ); 
 			} 
