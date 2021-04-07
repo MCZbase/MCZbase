@@ -58,8 +58,7 @@ limitations under the License.
  @return html for editing identifications for the specified cataloged item. 
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-		
+	<cfargument name="collection_object_id" type="string" required="yes">	
 	<cfthread name="getEditIdentsThread">
 		<cfoutput>
 			<cftry>
@@ -72,11 +71,9 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<button><i class="fas fa-chevron-left"></i></button>
 							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
 							<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
 							<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button><i class="fas fa-chevron-right"></i></button>
 						</div>
 						<div class="col-10 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
@@ -813,7 +810,41 @@ limitations under the License.
 </cffunction>
 			
 
+<cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">	
+	<cfthread name="getEditCitationsThread">
+		<cfoutput>
+			<cftry>
+
 				
+				
+				
+				
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditCitationsThread" />
+	<cfreturn getEditCitationsThread.output>
+</cffunction>				
 				
 
 
