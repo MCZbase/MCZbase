@@ -73,8 +73,9 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<button><i class="fas fa-chevron-left"></i></button>
-							<button type="button" class="btn btn-xs btn-secondary small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Edit ID</button>
-							<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Edit Other IDs</button>
+							<button type="button" class="btn btn-xs btn-secondary small p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="btn btn-xs small p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="btn btn-xs small p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
 							<button><i class="fas fa-chevron-right"></i></button>
 						</div>
 						<div class="col-10 mt-2">
