@@ -894,7 +894,7 @@ limitations under the License.
 </cffunction>
 						
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getLocalityThread"> <cfoutput>
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
