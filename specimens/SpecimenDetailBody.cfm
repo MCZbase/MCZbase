@@ -801,7 +801,7 @@ limitations under the License.
 						<script>
 							function reloadLocality() { 
 					
-								loadLocality(#collecting_event_id#,'localityCardBody');
+								loadLocality(#collection_object_id#,'localityCardBody');
 							}
 						</script>
 						<div class="card-header" id="headingLocality">
