@@ -2,6 +2,16 @@
 <cfset headerPath = "includes"><!--- Identify which header has been included --->
 <head>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
+</script>
+
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
 	<cfinclude template="/includes/imageInclude.cfm">
 <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
@@ -48,10 +58,10 @@
 	<noscript>
 		<div class="browserCheck">
 			JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
-			try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. 
+			try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option.
 		</div>
 	</noscript>
-	
+
 	<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
 	<div id="headerContent" style="background-color: #Application.header_color#;">
 		<div id="image_headerWrap">
@@ -66,7 +76,7 @@
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
 	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
-	
+
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
@@ -92,7 +102,7 @@
 					</ul>
 					<!--- end main menu element for search --->
 	 			</li>
-			</cfif>	
+			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 				<!--- begin additional main menu items to be shown to authorized users --->
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -103,7 +113,7 @@
 							<li class="d-md-flex align-items-start justify-content-start">
 							<div style="float:left; width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
+									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 										<a class="dropdown-item" target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 									</cfif>
@@ -194,12 +204,12 @@
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 33.2%;">
-										<div class="h5 dropdown-header px-4 text-danger">Create</div>			
+										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Group</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
 											<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
-											
+
 										</cfif>
 									</div>
 								</cfif>
@@ -294,10 +304,10 @@
 										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
-										<!--- 
+										<!---
 											<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
 											<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
-											TODO:  These doesn't seem to work on production, fix or remove. 
+											TODO:  These doesn't seem to work on production, fix or remove.
 										--->
 										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Manage Blocklist</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
@@ -316,7 +326,7 @@
 					</li>
 				</cfif>
 				<!--- end additional main menu items to be shown to authorized users --->
-			</cfif> 
+			</cfif>
 			<cfif len(session.username) gt 0>
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->

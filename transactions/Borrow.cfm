@@ -1291,6 +1291,7 @@ limitations under the License.
 								</span>
 								<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 								<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
+								<cfset transaction_type = "borrow">
  								<cfset mediaBlock = getMediaForTransHtml(transaction_id="#transaction_id#", transaction_type="borrow") >
 								<div id="transactionFormMedia" class="my-2">#mediaBlock#</div>
 								<script>
