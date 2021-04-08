@@ -51,7 +51,6 @@ limitations under the License.
 		collection.collection_cde,
 		cataloged_item.accn_id,
 		collection.collection,
-		specimen_part.collection_object_id part_id
 		identification.scientific_name,
 		identification.identification_remarks,
 		identification.identification_id,
@@ -204,7 +203,6 @@ limitations under the License.
 		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM
 		cataloged_item,
-		specimen_part,
 		collection,
 		identification,
 		collecting_event,
@@ -233,7 +231,6 @@ limitations under the License.
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
-		specimen_part.collection_object_id = coll_object.collection_object_id AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
