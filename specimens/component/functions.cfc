@@ -846,30 +846,6 @@ limitations under the License.
 				order by
 					part_name
 			</cfquery>
-			<cfquery name="parts" dbtype="query">
-				select
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				from
-					rparts
-				group by
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				order by
-					part_name
-			</cfquery>
 			<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
