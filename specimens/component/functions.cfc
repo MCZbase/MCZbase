@@ -1039,30 +1039,6 @@ limitations under the License.
 				order by
 					part_name
 			</cfquery>
-			<cfquery name="parts" dbtype="query">
-				select
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				from
-					rparts
-				group by
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				order by
-					part_name
-			</cfquery>
 			<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
@@ -1084,11 +1060,11 @@ limitations under the License.
 					<cfset i=1>
 					<cfloop query="mPart">
 					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
-						<td>#part_disposition#</td>
-						<td>#lot_count#</td>
-						<td>#label#</td>
+						<td><input class="data-entry-input" value="#part_name#"></td>
+						<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
+						<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
+						<td><input class="data-entry-input" size="3" value="#lot_count#"></td>
+						<td><input class="data-entry-input" value="#label#"></td>
 					</tr>
 					<cfif len(part_remarks) gt 0>
 						<tr class="small">
