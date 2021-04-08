@@ -1034,9 +1034,9 @@ limitations under the License.
 					<cfif oneOfUs is 1>
 						<div class="card mb-2">
 							<div class="card-header float-left w-100">
-								<h3 class="h4 my-0 float-left">
+								<h3 class="h4 px-3 my-0 float-left">
 								Metadata
-								</h4>
+								</h3>
 							</div>
 							<div class="card-body mb-2 float-left">
 								<ul class="list-group pl-0 pt-1">
