@@ -52,7 +52,7 @@ limitations under the License.
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
-					<cfloop query="identification">
+				<cfloop query="identification">
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							taxonomy.taxon_name_id,
@@ -116,18 +116,18 @@ limitations under the License.
 								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 							</cfloop>
 							<div class="form-row mx-0">
-							<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
-								<cfif len(made_date) gt 0>
-								<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
+									<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
+									<cfif len(made_date) gt 0>
+									<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
+									</cfif>
+								</div>
+								</div>
+							<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
+							<cfif len(identification_remarks) gt 0>
+									<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
 								</cfif>
-							</div>
-						</div>
-						<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
-						<cfif len(identification_remarks) gt 0>
-							<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
-						</cfif>
 						</ul>
-						<cfelse>
+					<cfelse>
 						<!---Start of former Identifications--->
 						<cfif getTaxa.recordcount gt 0>
 							<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
@@ -161,12 +161,12 @@ limitations under the License.
 							<cfif not isdefined("metaDesc")>
 								<cfset metaDesc="">
 							</cfif>
-						<cfloop query="getTaxa">
-						<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-						<p class="small text-muted mb-0"> #full_taxon_name#</p>
-						<!--- full taxon name for former id--->
-						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfloop query="getTaxa">
+							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
+							<p class="small text-muted mb-0"> #full_taxon_name#</p>
+							<!--- full taxon name for former id--->
+							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										common_name 
 									FROM 
@@ -183,21 +183,22 @@ limitations under the License.
 							</cfif>
 							<!---  common name for former id--->
 						</cfloop>
-						<cfif len(formatted_publication) gt 0>
+							<cfif len(formatted_publication) gt 0>
 							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
-						</cfif>
-						<span class="small">Determination: #agent_name#
-						<cfif len(made_date) gt 0>
+							</cfif>
+							<span class="small">Determination: #agent_name#
+							<cfif len(made_date) gt 0>
 							on #dateformat(made_date,"yyyy-mm-dd")#
-						</cfif>
-						<span class="d-block">Nature of ID: #nature_of_id#</span>
-						<cfif len(identification_remarks) gt 0>
+							</cfif>
+							<span class="d-block">Nature of ID: #nature_of_id#</span>
+							<cfif len(identification_remarks) gt 0>
 							<span class="d-block">Remarks: #identification_remarks#</span>
-						</cfif>
+							</cfif>
+				
+							</li>
+						</ul>
 					</cfif>
-					</li>
-				</ul>
-			</cfloop>
+				</cfloop>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
                         <cfset queryError=cfcatch.queryError>
