@@ -575,12 +575,12 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 					<div class="col-12">
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditAttributesDialog(#collection_object_id#,'cattributesDialog')">Attributes</button>
-						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
+						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditRelationsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 					</div>
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
