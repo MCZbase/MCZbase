@@ -1097,18 +1097,18 @@ limitations under the License.
 							<td colspan="5">
 								<cfloop query="patt">
 									<div class="small pl-3" style="line-height: .9rem;">
-										#attribute_type#=#attribute_value#
+										<input class="data-entry-input" value="#attribute_type#=#attribute_value#">
 									<cfif len(attribute_units) gt 0>
-										#attribute_units#
+										<input class="data-entry-input" value="#attribute_units#">
 									</cfif>
 									<cfif len(determined_date) gt 0>
-										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+										determined date=<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 									</cfif>
 									<cfif len(agent_name) gt 0>
-										determined by=#agent_name#
+										determined by=<input class="data-entry-input" value="#agent_name#">
 									</cfif>
 									<cfif len(attribute_remark) gt 0>
-										remark=#attribute_remark#
+										remark=<input class="data-entry-input" value="#attribute_remark#">
 									</cfif>
 									</div>
 								</cfloop>
