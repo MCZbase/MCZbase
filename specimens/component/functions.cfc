@@ -715,12 +715,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-
-<!-----------------------------------------------------------------------------------------------------------------> 
-<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
- @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
- @return html for editing the other id 
---->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
@@ -789,9 +783,7 @@ limitations under the License.
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
 </cffunction>
-
-		
-	<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
@@ -1014,12 +1006,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditPartsThread" />
 	<cfreturn getEditPartsThread.output>
 </cffunction>
-
-<!-----------------------------------------------------------------------------------------------------------------> 
-<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
- @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
- @return html for editing the other id 
---->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="part_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
@@ -1227,7 +1213,6 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
-<!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="getIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
@@ -1256,8 +1241,6 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-			
-
 <cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">	
 	<cfthread name="getEditCitationsThread">
@@ -1403,8 +1386,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditCitationsThread" />
 	<cfreturn getEditCitationsThread.output>
-</cffunction>									
-							
+</cffunction>														
 <cffunction name="getCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCitationsThread">
