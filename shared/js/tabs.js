@@ -8,10 +8,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	if (typeof activeTab !== 'undefined') { 
 		var activeTabId = $(activeTab).attr('id');
 		var activeTabIndex = activeTabId - 1; // tabs array is zero indexed, tab Ids are 1 indexed.
-		console.log('Page loaded with Tab Button:' + activeTabId + " index:" + activeTabIndex);
 	} else { 
-		console.log("Page loaded with no active tab, index:" + activeTabIndex);
 		var activeTabIndex = 0;
+		console.log("Page loaded with no active tab, index:" + activeTabIndex);
 	}
 	let tabFocus = activeTabIndex;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
 
