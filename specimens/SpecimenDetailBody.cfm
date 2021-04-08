@@ -372,7 +372,7 @@ limitations under the License.
 		</cfquery>
 		<cfoutput query="one">
 	<cfif oneOfUs is 1>
-		<form name="editStuffLinks" method="post" action="SpecimenDetail.cfm">
+		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="suppressHeader" value="true">
 			<input type="hidden" name="action" value="nothing">
