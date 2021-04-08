@@ -1102,13 +1102,13 @@ limitations under the License.
 										<input class="data-entry-input" value="#attribute_units#">
 									</cfif>
 									<cfif len(determined_date) gt 0>
-										determined date=<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+										<input class="data-entry-input" value="determined date=#dateformat(determined_date,'yyyy-mm-dd')#">
 									</cfif>
 									<cfif len(agent_name) gt 0>
-										determined by=<input class="data-entry-input" value="#agent_name#">
+										<input class="data-entry-input" value="determined by=#agent_name#">
 									</cfif>
 									<cfif len(attribute_remark) gt 0>
-										remark=<input class="data-entry-input" value="#attribute_remark#">
+										<input class="data-entry-input" value="remark=#attribute_remark#">
 									</cfif>
 									</div>
 								</cfloop>
