@@ -871,8 +871,8 @@ limitations under the License.
 					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
 						<td><input class="data_entry_input" value="#part_name#"></td>
 						<td><input class="data_entry_input" value="#part_condition#"></td>
-						<td><input class="data_entry_input" value="#part_disposition#"></td>
-						<td><input class="data_entry_input" size="3" value="#lot_count#"></td>
+						<td><input class="data_entry_input" size="5" value="#part_disposition#"></td>
+						<td><input class="data_entry_input" size="2" value="#lot_count#"></td>
 						<td><input class="data_entry_input" value="#label#"></td>
 					</tr>
 					<cfif len(part_remarks) gt 0>
