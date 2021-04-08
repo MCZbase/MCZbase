@@ -1120,17 +1120,17 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="sPart">
 						<tr>
-							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
-							<td>#label#</td>
+							<td><span class="d-inline-block pl-3"><input class="data-entry-input" value="#part_name#"> <span class="font-italic">subsample</span></span></td>
+							<td><input class="data-entry-input" value="#part_condition#"></td>
+							<td><input class="data-entry-input" value="#part_disposition#"></td>
+							<td><input class="data-entry-input" value="#lot_count#"></td>
+							<td><input class="data-entry-input" value="#label#"></td>
 						</tr>
 						<cfif len(part_remarks) gt 0>
 						<tr class="small">
 							<td colspan="5">
 								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> #part_remarks#
+									<span class="font-italic">Remarks:</span> <input class="data-entry-input" value="#part_remarks#">
 								</span>
 							</td>
 						</tr>
