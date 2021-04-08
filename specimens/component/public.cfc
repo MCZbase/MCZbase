@@ -488,31 +488,7 @@ limitations under the License.
 					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 					coll_obj_cont_hist.container_id=oc.container_id and
 					oc.parent_container_id=pc.container_id (+) and
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
-			</cfquery>
-			<cfquery name="parts" dbtype="query">
-				select
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				from
-					rparts
-				group by
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				order by
-					part_name
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
 				select
@@ -567,10 +543,7 @@ limitations under the License.
 						<td>#part_condition#</td>
 						<td>#part_disposition#</td>
 						<td>#lot_count#</td>
-						<td><cfif oneOfus is 1>
-							#label#
-							</cfif>
-						</td>
+						<td>#label#</td>
 					</tr>
 					<cfif len(part_remarks) gt 0>
 						<tr class="small">
@@ -630,10 +603,7 @@ limitations under the License.
 							<td>#part_condition#</td>
 							<td>#part_disposition#</td>
 							<td>#lot_count#</td>
-							<td><cfif oneOfus is 1>
-								#label#
-								</cfif>
-							</td>
+							<td>#label#</td>
 						</tr>
 						<cfif len(part_remarks) gt 0>
 						<tr class="small">
