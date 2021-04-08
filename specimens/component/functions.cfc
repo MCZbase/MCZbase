@@ -935,9 +935,7 @@ limitations under the License.
 							<td>#part_condition#</td>
 							<td>#part_disposition#</td>
 							<td>#lot_count#</td>
-							<td><cfif oneOfus is 1>
-								#label#
-								</cfif>
+							<td>#label#</cfif>
 							</td>
 						</tr>
 						<cfif len(part_remarks) gt 0>
