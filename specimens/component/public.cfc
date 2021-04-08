@@ -443,7 +443,7 @@ limitations under the License.
 								
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="oneofus" type="string" required="yes">
+		<cfargument name="oneOfUs" type="string" required="yes">
 	<cfthread name="getPartsThread">
 	<cfoutput>
 		<cftry>
