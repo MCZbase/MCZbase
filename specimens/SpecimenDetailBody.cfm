@@ -200,6 +200,7 @@ limitations under the License.
 		depth_units,
 		collecting_method,
 		collecting_source,
+		specimen_part.derived_from_cat_item,
 		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM
 		cataloged_item,
@@ -215,7 +216,8 @@ limitations under the License.
 		preferred_agent_name enteredPerson,
 		preferred_agent_name editedPerson,
 		accn,
-		trans
+		trans,
+		specimen_part
 	WHERE
 		cataloged_item.collection_id = collection.collection_id AND
 		cataloged_item.collection_object_id = identification.collection_object_id AND
@@ -231,6 +233,7 @@ limitations under the License.
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
+		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
