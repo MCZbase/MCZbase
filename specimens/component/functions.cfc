@@ -796,15 +796,15 @@ limitations under the License.
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
+		<cfset oneOfUs2 = 1>
 			<cfelse>
-				<cfset oneOfUs = 1>
+				<cfset oneOfUs2 = 1>
 			</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
 					Case
-						when #oneOfus#= 1
+						when #oneOfus2#= 1
 						then pc.label
 						else null
 					End label,
@@ -1033,16 +1033,16 @@ limitations under the License.
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
 		<cftry>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs2 = 1>
 			<cfelse>
-				<cfset oneOfUs = 1>
+				<cfset oneOfUs2 = 1>
 			</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
 					Case
-						when #oneOfus#= 1
+						when #oneOfus2#= 1
 						then pc.label
 						else null
 					End label,

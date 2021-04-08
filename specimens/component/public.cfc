@@ -446,6 +446,11 @@ limitations under the License.
 	<cfthread name="getPartsThread">
 	<cfoutput>
 		<cftry>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 1>
+			</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
