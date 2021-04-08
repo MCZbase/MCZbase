@@ -1097,7 +1097,7 @@ limitations under the License.
 							<td colspan="5">
 								<cfloop query="patt">
 									<div class="small pl-3" style="line-height: .9rem;">
-										<input class="data-entry-input" value="#attribute_type#=#attribute_value# h">
+										<input class="data-entry-input" value="#attribute_type#=#attribute_value#">
 									<cfif len(attribute_units) gt 0>
 										<input class="data-entry-input" value="#attribute_units#">
 									</cfif>
