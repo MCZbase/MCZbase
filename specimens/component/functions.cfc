@@ -511,11 +511,6 @@ limitations under the License.
 	<cfreturn getIdentificationThread.output>
 </cffunction>
 
-<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
-	editor dialog.
- @return html for editing identifications for the specified cataloged item. 
---->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread"> 
@@ -716,11 +711,6 @@ limitations under the License.
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 
-<!-----------------------------------------------------------------------------------------------------------------> 
-<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
- @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
- @return html for editing the other id 
---->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
@@ -791,12 +781,11 @@ limitations under the License.
 </cffunction>
 
 		
-	<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs2 = 1>
+					<cfset oneOfUs2 = 1>
 			<cfelse>
 				<cfset oneOfUs2 = 1>
 			</cfif>
@@ -804,7 +793,7 @@ limitations under the License.
 				select
 					specimen_part.collection_object_id part_id,
 					Case
-						when #oneOfus2#= 1
+						when #oneOfUs2# = 1
 						then pc.label
 						else null
 					End label,
@@ -1024,13 +1013,8 @@ limitations under the License.
 	<cfreturn getEditPartsThread.output>
 </cffunction>
 
-<!-----------------------------------------------------------------------------------------------------------------> 
-<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
- @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
- @return html for editing the other id 
---->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
 		<cftry>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
