@@ -785,18 +785,10 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
-					<cfset oneOfUs2 = 1>
-			<cfelse>
-				<cfset oneOfUs2 = 1>
-			</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
-					Case
-						when #oneOfUs2# = 1
-						then pc.label
-						else null
-					End label,
+					pc.label,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
@@ -1025,11 +1017,7 @@ limitations under the License.
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
-					Case
-						when #oneOfus2#= 1
-						then pc.label
-						else null
-					End label,
+					pc.label
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
