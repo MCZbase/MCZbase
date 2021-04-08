@@ -789,7 +789,7 @@ limitations under the License.
 		<cftry>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
-					specimen_part.collection_object_id part_id,
+					specimen_part.collection_object_id collection_object_id,
 					pc.label label,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
