@@ -165,6 +165,25 @@ function loadParts(collection_object_id,targetDivId) {
 	});
 }
 
+function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Parts for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditPartsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Parts dialog");
+		},
+		dataType: "html"
+	});
+};
+
 function loadOtherIDs(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
