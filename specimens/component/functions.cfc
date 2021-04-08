@@ -854,6 +854,7 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 		<cfoutput>
+		<form>
 			<table class="table border-bottom mb-0">
 				<thead>
 					<tr class="bg-light">
@@ -868,8 +869,8 @@ limitations under the License.
 					<cfset i=1>
 					<cfloop query="mPart">
 					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
+						<td><span class=""><input class="" value="#part_name#"></span></td>
+						<td><input class="" value="#part_condition#"></td>
 						<td>#part_disposition#</td>
 						<td>#lot_count#</td>
 						<td>#label#</td>
@@ -947,6 +948,7 @@ limitations under the License.
 				</cfloop>
 				</tbody>
 			</table>
+		</form>
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
