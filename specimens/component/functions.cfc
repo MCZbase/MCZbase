@@ -795,175 +795,203 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					cat_num,
-					cat_num_prefix,
-					cat_num_integer,
-					cat_num_suffix,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type, 
-					cataloged_item.collection_id,
-					collection.collection_cde,
-					institution_acronym
-				from 
-					cataloged_item, 
-					coll_obj_other_id_num,
-					collection 
+			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					specimen_part.collection_object_id part_id,
+					Case
+						when #oneOfus#= 1
+						then pc.label
+						else null
+					End label,
+					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+					sampled_from_obj_id,
+					coll_object.COLL_OBJ_DISPOSITION part_disposition,
+					coll_object.CONDITION part_condition,
+					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+					coll_object_remarks part_remarks,
+					attribute_type,
+					attribute_value,
+					attribute_units,
+					determined_date,
+					attribute_remark,
+					agent_name
+				from
+					specimen_part,
+					coll_object,
+					coll_object_remark,
+					coll_obj_cont_hist,
+					container oc,
+					container pc,
+					specimen_part_attribute,
+					preferred_agent_name
 				where
-					cataloged_item.collection_id=collection.collection_id and
-					cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
-					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+					specimen_part.collection_object_id=coll_object.collection_object_id and
+					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+					coll_obj_cont_hist.container_id=oc.container_id and
+					oc.parent_container_id=pc.container_id (+) and
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
-			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type from ctcoll_other_id_type
+			<cfquery name="parts" dbtype="query">
+				select
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				from
+					rparts
+				group by
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				order by
+					part_name
 			</cfquery>
-			<cfquery name="cataf" dbtype="query">
-				select cat_num from getIDs group by cat_num
+			<cfquery name="parts" dbtype="query">
+				select
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				from
+					rparts
+				group by
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				order by
+					part_name
 			</cfquery>
-			<cfquery name="oids" dbtype="query">
-				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type 
-				from 
-					getIDs 
-				group by 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type
+			<cfquery name="mPart" dbtype="query">
+				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
-			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					institution_acronym,
-					collection_cde,
-					collection_id 
-				from collection
+			<cfset ctPart.ct=''>
+			<cfquery name="ctPart" dbtype="query">
+				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
-			<cfoutput>
-				<div class="container-fluid">
-					<div class="col-12">
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Parts</button>
-						<button type="button" class="btn btn-xs btn-secondary small mt-0 p-1" onClick="openEditAttributesDialog(#collection_object_id#,'cattributesDialog')">Attributes</button>
-						<button type="button" class="btn btn-xs  btn-secondary small mt-0 p-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Relationships</button>
-					</div>
-					<h1 class="h3">Edit existing identifiers:</h1>
-					<form name="ids" method="post" action="editIdentifiers.cfm">
-						<div class="mb-4">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<input type="hidden" name="Action" value="saveCatEdits">
-							Catalog&nbsp;Number:
-							<select name="collection_id" size="1" class="reqdClr">
-								<cfset thisCollId=#getIDs.collection_id#>
-								<cfloop query="ctcoll_cde">
-									<option 
-										<cfif #thisCollId# is #collection_id#> selected </cfif>
-									value="#collection_id#">#institution_acronym# #collection_cde#</option>
-								</cfloop>
-							</select>
-							<input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
-							<input type="submit" value="Save" class="btn btn-xs btn-primary">
-						</div>
-					</form>
+			<table class="table border-bottom mb-0">
+				<thead>
+					<tr class="bg-light">
+						<th><span>Part Name</span></th>
+						<th><span>Condition</span></th>
+						<th><span>Disposition</span></th>
+						<th><span>##</span></th>
+						<th>
+							<cfif oneOfus is "1">
+								<span>Container</span>
+							</cfif>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
 					<cfset i=1>
-					<cfloop query="oids">
-						<cfif len(#other_id_type#) gt 0>
-							<form name="oids#i#" method="post" action="editIdentifiers.cfm">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-									<input type="hidden" name="Action">
-									<cfset thisType = #oids.other_id_type#>
-								<div class="row mx-0">
-									<div class="form-group col-2 pl-0 pr-1">
-										<label class="data-entry-label">Other ID Type</label>
-										<select name="other_id_type" class="data-entry-select" style="" size="1">				
-											<cfloop query="ctType">					
-												<option 
-													<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-													value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-											</cfloop>			
-										</select>
+					<cfloop query="mPart">
+					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+						<td><span class="">#part_name#</span></td>
+						<td>#part_condition#</td>
+						<td>#part_disposition#</td>
+						<td>#lot_count#</td>
+						<td><cfif oneOfus is 1>
+							#label#
+							</cfif>
+						</td>
+					</tr>
+					<cfif len(part_remarks) gt 0>
+						<tr class="small">
+							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+						</tr>
+					</cfif>
+					<cfquery name="patt" dbtype="query">
+						select
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+						from
+							rparts
+						where
+							attribute_type is not null and
+							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						group by
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+					</cfquery>
+					<cfif patt.recordcount gt 0>
+						<tr>
+							<td colspan="5">
+								<cfloop query="patt">
+									<div class="small pl-3" style="line-height: .9rem;">
+										#attribute_type#=#attribute_value#
+									<cfif len(attribute_units) gt 0>
+										#attribute_units#
+									</cfif>
+									<cfif len(determined_date) gt 0>
+										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+									</cfif>
+									<cfif len(agent_name) gt 0>
+										determined by=#agent_name#
+									</cfif>
+									<cfif len(attribute_remark) gt 0>
+										remark=#attribute_remark#
+									</cfif>
 									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-										<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
-									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
-									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
-									</div>
-									<div class="form-group col-2 px-1 mt-3">
-										<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-										<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-									</div>
-								</div>
-							</form>
-						<cfset i=#i#+1>
+								</cfloop>
+							</td>
+						</tr>
+					</cfif>
+					<cfquery name="sPart" dbtype="query">
+						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					</cfquery>
+					<cfloop query="sPart">
+						<tr>
+							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+							<td>#part_condition#</td>
+							<td>#part_disposition#</td>
+							<td>#lot_count#</td>
+							<td><cfif oneOfus is 1>
+								#label#
+								</cfif>
+							</td>
+						</tr>
+						<cfif len(part_remarks) gt 0>
+						<tr class="small">
+							<td colspan="5">
+								<span class="pl-3 d-block">
+									<span class="font-italic">Remarks:</span> #part_remarks#
+								</span>
+							</td>
+						</tr>
 						</cfif>
 					</cfloop>
-					<div class="col-12 px-0 mt-4">
-						<div id="accordion2">
-							<div class="card">
-							<div class="card-header" id="headingTwo">
-								<h1 class="my-0 px-1 pb-1">
-								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									<span style="font-size: 1.25rem;">Add New Identifier</span>
-								</button>
-							</h1>
-							</div>
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-								<div class="card-body">
-									<form name="newOID" method="post" action="editIdentifiers.cfm">
-										<div class="row mx-0">
-											<div class="form-group col-3 pl-0 pr-1">
-												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-												<input type="hidden" name="Action" value="newOID">
-												<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-												<select name="other_id_type" size="1" class="reqdClr data-entry-select">
-												<cfloop query="ctType">
-													<option 
-														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-												</cfloop>
-												</select>
-											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
-											</div>
-											<div class="form-group col-1 px-1 mt-3">
-												<input type="submit" value="Save" class="btn btn-xs btn-primary">	
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
+				</cfloop>
+				</tbody>
+			</table>
 		<cfcatch>
 			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
@@ -1000,60 +1028,203 @@ limitations under the License.
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
 		<cftry>
-			<cfoutput>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					case when status = 1 and
-						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-						coll_obj_other_id_num.other_id_type = 'original identifier'
-						then 'Masked'
-					else
-						coll_obj_other_id_num.display_value
-					end display_value,
-					coll_obj_other_id_num.other_id_type,
-					case when base_url is not null then
-						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-					else
-						null
-					end link
-				FROM
-					coll_obj_other_id_num 
-					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					specimen_part.collection_object_id part_id,
+					Case
+						when #oneOfus#= 1
+						then pc.label
+						else null
+					End label,
+					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+					sampled_from_obj_id,
+					coll_object.COLL_OBJ_DISPOSITION part_disposition,
+					coll_object.CONDITION part_condition,
+					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+					coll_object_remarks part_remarks,
+					attribute_type,
+					attribute_value,
+					attribute_units,
+					determined_date,
+					attribute_remark,
+					agent_name
+				from
+					specimen_part,
+					coll_object,
+					coll_object_remark,
+					coll_obj_cont_hist,
+					container oc,
+					container pc,
+					specimen_part_attribute,
+					preferred_agent_name
 				where
-					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					other_id_type,
-					display_value
+					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+					specimen_part.collection_object_id=coll_object.collection_object_id and
+					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+					coll_obj_cont_hist.container_id=oc.container_id and
+					oc.parent_container_id=pc.container_id (+) and
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
-				<div id="otherIDHTML">
-					<cfloop query="theResult">
-						<div class="OtherIDExistingForm">
-							<form>
-								<div class="container pl-1">
-									<div class="col-12">
-										<cfif len(oid.other_id_type) gt 0>
-											<ul class="list-group">
-												<cfloop query="oid">
-													<li class="list-group-item">#other_id_type#:
-														<cfif len(display_value) gt 0>
-															<a class="external" href="##" target="_blank">#display_value#</a>
-														<cfelse>
-															#display_value#
-														</cfif>
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
-										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
+			<cfquery name="parts" dbtype="query">
+				select
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				from
+					rparts
+				group by
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				order by
+					part_name
+			</cfquery>
+			<cfquery name="parts" dbtype="query">
+				select
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				from
+					rparts
+				group by
+					part_id,
+					label,
+					part_name,
+					sampled_from_obj_id,
+					part_disposition,
+					part_condition,
+					lot_count,
+					part_remarks
+				order by
+					part_name
+			</cfquery>
+			<cfquery name="mPart" dbtype="query">
+				select * from parts where sampled_from_obj_id is null order by part_name
+			</cfquery>
+			<cfset ctPart.ct=''>
+			<cfquery name="ctPart" dbtype="query">
+				select count(*) as ct from parts group by lot_count order by part_name
+			</cfquery>
+			<table class="table border-bottom mb-0">
+				<thead>
+					<tr class="bg-light">
+						<th><span>Part Name</span></th>
+						<th><span>Condition</span></th>
+						<th><span>Disposition</span></th>
+						<th><span>##</span></th>
+						<th>
+							<cfif oneOfus is "1">
+								<span>Container</span>
+							</cfif>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<cfset i=1>
+					<cfloop query="mPart">
+					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+						<td><span class="">#part_name#</span></td>
+						<td>#part_condition#</td>
+						<td>#part_disposition#</td>
+						<td>#lot_count#</td>
+						<td><cfif oneOfus is 1>
+							#label#
+							</cfif>
+						</td>
+					</tr>
+					<cfif len(part_remarks) gt 0>
+						<tr class="small">
+							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+						</tr>
+					</cfif>
+					<cfquery name="patt" dbtype="query">
+						select
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+						from
+							rparts
+						where
+							attribute_type is not null and
+							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						group by
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+					</cfquery>
+					<cfif patt.recordcount gt 0>
+						<tr>
+							<td colspan="5">
+								<cfloop query="patt">
+									<div class="small pl-3" style="line-height: .9rem;">
+										#attribute_type#=#attribute_value#
+									<cfif len(attribute_units) gt 0>
+										#attribute_units#
+									</cfif>
+									<cfif len(determined_date) gt 0>
+										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+									</cfif>
+									<cfif len(agent_name) gt 0>
+										determined by=#agent_name#
+									</cfif>
+									<cfif len(attribute_remark) gt 0>
+										remark=#attribute_remark#
+									</cfif>
 									</div>
-								</div>
-							</form>
-						</div>
+								</cfloop>
+							</td>
+						</tr>
+					</cfif>
+					<cfquery name="sPart" dbtype="query">
+						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					</cfquery>
+					<cfloop query="sPart">
+						<tr>
+							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+							<td>#part_condition#</td>
+							<td>#part_disposition#</td>
+							<td>#lot_count#</td>
+							<td><cfif oneOfus is 1>
+								#label#
+								</cfif>
+							</td>
+						</tr>
+						<cfif len(part_remarks) gt 0>
+						<tr class="small">
+							<td colspan="5">
+								<span class="pl-3 d-block">
+									<span class="font-italic">Remarks:</span> #part_remarks#
+								</span>
+							</td>
+						</tr>
+						</cfif>
 					</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
+				</cfloop>
+				</tbody>
+			</table>
 			<cfcatch>
 				<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
