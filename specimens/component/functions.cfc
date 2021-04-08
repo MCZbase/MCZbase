@@ -877,7 +877,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 mt-3">
 						<table class="table border-bottom mb-0">
 				<thead>
 					<tr class="bg-light">
