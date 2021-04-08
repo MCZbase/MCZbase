@@ -586,7 +586,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-12 mt-2">
-					<h1 class="h3">Edit existing identifiers:</h1>
+					<h1 class="h2">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -651,7 +651,7 @@ limitations under the License.
 							<div class="card-header" id="headingTwo">
 								<h1 class="my-0 px-1 pb-1">
 								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									<span class="h2">Add New Identifier</span>
+									<span class="h3">Add New Identifier</span>
 								</button>
 							</h1>
 							</div>
