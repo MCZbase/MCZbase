@@ -576,12 +576,12 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row bg-light py-2 my-2 border">
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
 							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-							<button type="button" class="dialogBtnbtn btn-xs btn-white small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
 					</div>
 					<h1 class="h3">Edit existing identifiers:</h1>
