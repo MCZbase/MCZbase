@@ -6,8 +6,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	const tabList = document.querySelector('[role="tablist"]');
 	var activeTab = $('.tabList > .active').get(0);
 	var activeTabId = $(activeTab).attr('id');
-	console.log('Page loaded with Tab Button ' + activeTabId);
-	let tabFocus = activeTabId;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
+	var activeTabIndex = activeTabId - 1; // tabs array is zero indexed, tab Ids are 1 indexed.
+	console.log('Page loaded with Tab Button:' + activeTabId + " index:" + activeTabIndex);
+	let tabFocus = activeTabIndex;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
 
 	// Add a click event handler to each tab
 	tabs.forEach(tab => {
