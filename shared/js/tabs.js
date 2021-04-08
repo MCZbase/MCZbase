@@ -4,18 +4,18 @@
 window.addEventListener("DOMContentLoaded", () => {
 	const tabs = document.querySelectorAll('[role="tab"]');
 	const tabList = document.querySelector('[role="tablist"]');
-	var tab = $('.tabList > .active').get(0);
-	alert('Hello from Tab Button ' + $(tab).attr('id'));
+	var activeTab = $('.tabList > .active').get(0);
+	var activeTabId = $(activeTab).attr('id');
+	console.log('Page loaded with Tab Button ' + activeTabId);
+	let tabFocus = activeTabId;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
 
-// Add a click event handler to each tab
+	// Add a click event handler to each tab
 	tabs.forEach(tab => {
 		tab.addEventListener("click", changeTabs);
 		tab.focus()
 	});
 
-// Enable arrow navigation between tabs in the tab list
-// let tabFocus = 0; // "0" is a problem when any page other than "all transactions" is selected. Arrow right and left start at the first tab.
-	let tabFocus = 0;
+	// Enable arrow navigation between tabs in the tab list
 	tabList.addEventListener("keydown", e => {
 		// Move right
 		if (e.keyCode === 39 || e.keyCode === 37) {
