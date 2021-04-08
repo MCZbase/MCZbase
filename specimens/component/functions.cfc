@@ -575,12 +575,12 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
@@ -856,12 +856,12 @@ limitations under the License.
 		<cfoutput>
 		<form>
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
 			<table class="table border-bottom mb-0">
 				<thead>
@@ -1192,12 +1192,12 @@ limitations under the License.
 			<cftry>
 					<div id="citationsDialog">
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
 						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
