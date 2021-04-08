@@ -645,7 +645,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 						</div>
-					<div class="col-12 px-0 mt-4">
+					<div class="col-12 mt-4">
 						<div id="accordion2">
 							<div class="card">
 							<div class="card-header" id="headingTwo">
