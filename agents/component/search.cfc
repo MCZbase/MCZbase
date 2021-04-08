@@ -29,14 +29,56 @@ limitations under the License.
 	<cfargument name="prefix" type="string" required="no">
 	<cfargument name="birth_date" type="string" required="no">
 	<cfargument name="death_date" type="string" required="no">
+	<cfargument name="collected_date" type="string" required="no">
+	<cfargument name="to_birth_date" type="string" required="no">
+	<cfargument name="to_death_date" type="string" required="no">
+	<cfargument name="to_collected_date" type="string" required="no">
 	<cfargument name="birthOper" type="string" required="no">
 	<cfargument name="deathOper" type="string" required="no">
 	<cfargument name="anyName" type="string" required="no">
 	<cfargument name="agent_id" type="string" required="no">
 	<cfargument name="address" type="string" required="no">
+	<cfargument name="agent_remarks" type="string" required="no">
 
-	<cfif not isDefined("birthOper")><cfset birthOper="="></cfif>
-	<cfif not isDefined("deathOper")><cfset deathOper="="></cfif>
+	<cfif not isDefined("birthOper")><cfset birthOper=">="></cfif>
+	<cfif not isDefined("deathOper")><cfset deathOper=">="></cfif>
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("birth_date") and len(#birth_date#) gt 0>
+		<cfif not isdefined("to_birth_date") or len(to_birth_date) is 0>
+			<cfset to_birth_date=birth_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#birth_date#) EQ 4>
+			<cfset birth_date = "#birth_date#-01-01">
+		</cfif>
+		<cfif len(#to_birth_date#) EQ 4>
+			<cfset to_birth_date = "#to_birth_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("death_date") and len(#death_date#) gt 0>
+		<cfif not isdefined("to_death_date") or len(to_death_date) is 0>
+			<cfset to_death_date=death_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#death_date#) EQ 4>
+			<cfset death_date = "#death_date#-01-01">
+		</cfif>
+		<cfif len(#to_death_date#) EQ 4>
+			<cfset to_death_date = "#to_death_date#-12-31">
+		</cfif>
+	</cfif>
+	<cfif isdefined("collected_date") and len(#collected_date#) gt 0>
+		<cfif not isdefined("to_collected_date") or len(to_collected_date) is 0>
+			<cfset to_collected_date=collected_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#collected_date#) EQ 4>
+			<cfset collected_date = "#collected_date#-01-01">
+		</cfif>
+		<cfif len(#to_collected_date#) EQ 4>
+			<cfset to_collected_date = "#to_collected_date#-12-31">
+		</cfif>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -47,15 +89,49 @@ limitations under the License.
 				preferred_agent_name.agent_name as agent_name,
 				agent_type,
 				agent.edited,
-				MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
-				birth_date,
-				death_date,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					MCZBASE.get_worstagentrank(agent.agent_id) as worstagentrank,
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					birth_date,
+					death_date,
+				<cfelse>
+					(case when death_date is not null then substr(birth_date,0,4) else null end) as birth_date,
+					substr(death_date,0,4) as death_date,
+				</cfif>
+				agent_remarks,
+				person.prefix,
+				person.first_name,
+				person.middle_name,
+				person.last_name,
+				person.suffix,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'preferred') as preferred,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'abbreviation') as abbreviation,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'author') as author,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'second author') as second_author,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'expanded') as expanded,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'full') as full,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'initials') as initials,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'initials plus last') as initials_plus_last,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'last_plus_initials') as last_plus_initials,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'maiden') as maiden,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'married') as married,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'aka') as aka,
+				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'acronym') as acronym,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
+				</cfif>
 				agentguid
 			FROM 
 				agent_name
 				left outer join preferred_agent_name ON agent_name.agent_id = preferred_agent_name.agent_id
 				LEFT OUTER JOIN agent ON agent_name.agent_id = agent.agent_id
 				LEFT OUTER JOIN person ON agent.agent_id = person.person_id
+				<cfif isdefined("collected_date") AND len(#collected_date#) gt 0>
+					LEFT OUTER JOIN collector ON agent.agent_id = collector.agent_id
+					LEFT OUTER JOIN cataloged_item on collector.collection_object_id = cataloged_item.collection_object_id
+					LEFT OUTER JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+				</cfif>
 			WHERE
 				agent.agent_id > -1
 				<cfif isdefined("agent_type") AND len(#agent_type#) gt 0>
@@ -74,9 +150,9 @@ limitations under the License.
 					<cfelseif left(first_name,1) is "!">
 						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif first_name is "NULL">
-						AND upper(first_name) is null
+						AND first_name is null
 					<cfelseif first_name is "NOT NULL">
-						AND upper(first_name) is not null
+						AND first_name is not null
 					<cfelse>
 						<cfif find(',',first_name) GT 0>
 							AND upper(first_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(first_name)#" list="yes"> )
@@ -91,9 +167,9 @@ limitations under the License.
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
-						AND upper(last_name) is null
+						AND last_name is null
 					<cfelseif last_name is "NOT NULL">
-						AND upper(last_name) is not null
+						AND last_name is not null
 					<cfelse>
 						<cfif find(',',last_name) GT 0>
 							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
@@ -108,9 +184,9 @@ limitations under the License.
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
-						AND upper(last_name) is null
+						AND last_name is null
 					<cfelseif last_name is "NOT NULL">
-						AND upper(last_name) is not null
+						AND last_name is not null
 					<cfelse>
 						<cfif find(',',last_name) GT 0>
 							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
@@ -119,23 +195,63 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isdefined("Suffix") AND len(#Suffix#) gt 0>
-					AND Suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Suffix#">
+				<cfif isdefined("prefix") AND len(#prefix#) gt 0>
+					<cfif left(prefix,1) is "!">
+						AND upper(prefix) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(prefix,len(prefix)-1))#">
+					<cfelseif prefix is "NULL">
+						AND prefix is null
+					<cfelseif prefix is "NOT NULL">
+						AND prefix is not null
+					<cfelse>
+						AND prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">
+					</cfif>
 				</cfif>
-				<cfif isdefined("Prefix") AND len(#Prefix#) gt 0>
-					AND Prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Prefix#">
+				<cfif isdefined("suffix") AND len(#suffix#) gt 0>
+					<cfif left(suffix,1) is "!">
+						AND upper(suffix) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(suffix,len(suffix)-1))#">
+					<cfelseif suffix is "NULL">
+						AND suffix is null
+					<cfelseif suffix is "NOT NULL">
+						AND suffix is not null
+					<cfelse>
+						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("Birth_Date") AND len(#Birth_Date#) gt 0>
 					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
-					AND Birth_Date 
-						<cfif birthOper IS "<="> <= <cfelseif birthOper IS ">="> >= <cfelse> = </cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+					<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
+					AND (
+						(
+						birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+						AND
+						birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+						)
+						OR 
+						birth_date_date between 
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#bdate#'>) and
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#to_bdate#'>)
+					)
 				</cfif>
 				<cfif isdefined("Death_Date") AND len(#Death_Date#) gt 0>
 					<cfset ddate = #dateformat(Death_Date,'yyyy-mm-dd')#>
-					AND Death_Date 
-						<cfif deathOper IS "<="> <= <cfelseif deathOper IS ">="> >= <cfelse> = </cfif>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+					<cfset to_ddate = #dateformat(to_death_date,'yyyy-mm-dd')#>
+					AND (
+						(
+						death_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
+						AND
+						death_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_ddate#">
+						}
+						OR 
+						death_date_date between 
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
+							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_death_date, "yyyy-mm-dd")#'>)
+					)
+				</cfif>
+				<cfif isdefined("collected_date") and len(collected_date) gt 0>
+					AND collector_role = 'c'
+					AND substr(collecting_event.began_date,0,4) = substr(collecting_event.ended_date,0,4)
+					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') <= to_date(substr(collecting_event.ended_date,0,4),'yyyy')
+					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') >= to_date(substr(collecting_event.began_date,0,4),'yyyy')
 				</cfif>
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
@@ -143,9 +259,9 @@ limitations under the License.
 					<cfelseif left(anyName,1) is "!">
 						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif anyName is "NULL">
-						AND upper(agent_name.agent_name) is null
+						AND agent_name.agent_name is null
 					<cfelseif anyName is "NOT NULL">
-						AND upper(agent_name.agent_name) is not null
+						AND agent_name.agent_name is not null
 					<cfelse>
 						<cfif find(',',anyName) GT 0>
 							AND upper(agent_name.agent_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(anyName)#" list="yes"> )
@@ -156,6 +272,15 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfif>
+				<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+					<cfif agent_remarks is "NULL">
+						AND agent_remarks is null
+					<cfelseif agent_remarks is "NOT NULL">
+						AND agent_remarks is not null
+					<cfelse>
+						AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+					</cfif>
 				</cfif>
 				<cfif isdefined("address") AND len(#address#) gt 0>
 					AND agent.agent_id IN (
@@ -169,14 +294,16 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-			<cfset row["agent_id"] = "#search.agent_id#">
-			<cfset row["agent_name"] = "#search.agent_name#">
-			<cfset row["agent_type"] = "#search.agent_type#">
-			<cfset row["edited"] = "#search.edited#">
-			<cfset row["preferred_agent_name"] = "#search.agent_name#">
-			<cfset row["worstagentrank"] = "#search.worstagentrank#">
-			<cfset row["birth_date"] = "#search.birth_date#">
-			<cfset row["death_date"] = "#search.death_date#">
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfif col EQ "AGENT_REMARKS">
+					<!--- strip html markup out of remarks --->
+					<cfset row["agent_remarks"] = REReplace(search.agent_remarks,"<[^>]*(?:>|$)","","ALL")>
+				<cfelseif col EQ "EDITED">
+					<cfset row["edited"] = edited_marker >
+				<cfelse>
+					<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+				</cfif>
+			</cfloop>
 			<cfset row["id_link"] = "<a href='/agents/Agent.cfm?agent_id#search.agent_id#' target='_blank'>#search.agent_name# #edited_marker#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

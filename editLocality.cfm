@@ -1,7 +1,7 @@
 :<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfoutput>
-	<cfhtmlhead text='<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
 </cfoutput>
 <cfoutput>
         <script>
