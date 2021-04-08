@@ -371,6 +371,14 @@ limitations under the License.
 			ORDER by substr(formatted_publication, -4)
 		</cfquery>
 		<cfoutput query="one">
+	<cfif oneOfUs is 1>
+		<form name="editStuffLinks" method="post" action="SpecimenDetail.cfm">
+			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
+			<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">
+			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+	</cfif>
 			<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
