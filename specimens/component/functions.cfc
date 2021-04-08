@@ -511,6 +511,11 @@ limitations under the License.
 	<cfreturn getIdentificationThread.output>
 </cffunction>
 
+<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+	editor dialog.
+ @return html for editing identifications for the specified cataloged item. 
+--->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread"> 
@@ -711,6 +716,11 @@ limitations under the License.
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 
+<!-----------------------------------------------------------------------------------------------------------------> 
+<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
+ @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
+ @return html for editing the other id 
+--->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
@@ -781,14 +791,14 @@ limitations under the License.
 </cffunction>
 
 		
-<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
+	<cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
 		<cftry>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
-					pc.label,
+					pc.label label,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
@@ -1005,19 +1015,19 @@ limitations under the License.
 	<cfreturn getEditPartsThread.output>
 </cffunction>
 
+<!-----------------------------------------------------------------------------------------------------------------> 
+<!--- function getOtherIDHtml obtain an html block to popluate an edit dialog for an other id
+ @param other-id the coll_obj_other_id_num.coll_obj_other_id_num_id to edit.
+ @return html for editing the other id 
+--->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
 		<cftry>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs2 = 1>
-			<cfelse>
-				<cfset oneOfUs2 = 1>
-			</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
-					pc.label
+					pc.label label,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
