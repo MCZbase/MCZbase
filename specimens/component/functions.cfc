@@ -584,6 +584,8 @@ limitations under the License.
 							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-12 mt-2">
 					<h1 class="h3">Edit existing identifiers:</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
@@ -642,6 +644,7 @@ limitations under the License.
 						<cfset i=#i#+1>
 						</cfif>
 					</cfloop>
+						</div>
 					<div class="col-12 px-0 mt-4">
 						<div id="accordion2">
 							<div class="card">
@@ -689,6 +692,7 @@ limitations under the License.
 						</div>
 						</div>
 					</div>
+				</div>
 				</div>
 			</cfoutput>
 		<cfcatch>
