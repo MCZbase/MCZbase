@@ -651,7 +651,7 @@ limitations under the License.
 							<div class="card-header" id="headingTwo">
 								<h1 class="my-0 px-1 pb-1">
 								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									<span style="font-size: 1.25rem;">Add New Identifier</span>
+									<span class="h2">Add New Identifier</span>
 								</button>
 							</h1>
 							</div>
