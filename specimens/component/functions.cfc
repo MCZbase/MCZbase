@@ -70,15 +70,17 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
+						<div class="bg-light py-2 my-2 border">
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-							<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
+							<button type="button" class="dialogBtnbtn btn-xs btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
+							<button type="button" class="dialogBtn btn btn-xs  btn-white small mt-0 px-1 py-0 mx-1" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
 						</div>
-						<div class="col-10 mt-2">
+					</div>
+						<div class="col-12 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
 								<h1 class="h3 px-1"> <span style="font-size: 1.25rem;">Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a></span> </h1>
