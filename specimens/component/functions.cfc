@@ -1021,7 +1021,7 @@ limitations under the License.
  @return html for editing the other id 
 --->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="part_id" type="string" required="yes">
 	<cfthread name="getPartsThread">
 		<cftry>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
