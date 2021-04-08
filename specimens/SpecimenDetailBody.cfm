@@ -706,7 +706,7 @@ limitations under the License.
 						</script>
 						<div class="card-header" id="headingOtherID">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">OtherIDs</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
