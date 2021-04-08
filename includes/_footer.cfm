@@ -10,16 +10,16 @@
          </div>
          <div class="footer2 clearfix">
 	<div class="copyright">
-		<img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo"> 
+		<img src="/images/harvard_logo_sm.png" alt="Harvard Shield (logo)" class="harvard_logo">
 		<cfoutput>
-		<p>Database content: <br> (c) Copyright #Year(now())# President and Fellows of Harvard College <br> 
+		<p>Database content: <br> (c) Copyright #Year(now())# President and Fellows of Harvard College <br>
 		</cfoutput>
-		<a href="https://mcz.harvard.edu/privacy-policy">Privacy Statement</a> 
+		<a href="https://mcz.harvard.edu/privacy-policy">Privacy Statement</a>
 		<span>|</span>
 		<a href="https://mcz.harvard.edu/user-agreement">User Agreement</a>
-		<span>|</span> 
+		<span>|</span>
 		<a href="http://accessibility.harvard.edu/">Accessibility</a>
-		</p> 
+		</p>
 	</div>
 
 
@@ -46,7 +46,7 @@
 </div><!---end content_box_footer--->
 
 
-<script type="text/javascript">
+<!---script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
@@ -54,7 +54,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 try {
 var pageTracker = _gat._getTracker("<cfoutput>#Application.Google_uacct#</cfoutput>");
 pageTracker._trackPageview();
-} catch(err) {}</script>
+} catch(err) {}</script--->
 <cfif not isdefined("title")>
   <cfset title = "Database Access">
 </cfif>
