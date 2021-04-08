@@ -675,34 +675,7 @@ limitations under the License.
 							<div class="card-body mb-2 float-left" id="citationsCardBody">
 								<cfset block = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
-										<script>
-			function editPublicationHere(targetid,title,relationLabel,transaction_id,relationship){
-				console.log(targetid);
-				var url = '/SpecimenUsage.cfm?action=search&publication_id=#publication_id#';
-				var amddialog = $('##'+targetid)
-					.html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="ciationsPane"></iframe>')
-					.dialog({
-						title: title,
-						autoOpen: false,
-						dialogClass: 'dialog_fixed,ui-widget-header',
-						modal: true,
-						height: 900,
-						width: 1100,
-						minWidth: 400,
-						minHeight: 400,
-						draggable:true,
-						buttons: {
-							"Edit Publication": function () { 
-								load(#publication_id#); 
-								$(this).dialog("close"); 
-							} 
-						}
-					});
-				amddialog.dialog('open');
-				console.log(publication_id);
-				console.log(relationship);
-		 	};
-		</script>
+
 							</div>
 						</div>
 					</div>
