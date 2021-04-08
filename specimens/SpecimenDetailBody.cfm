@@ -20,8 +20,7 @@ limitations under the License.
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
-<!--- Include the template that contains functions used to load portions of this page --->
-<cfinclude template="/specimens/component/public.cfc">
+
 
 <cfoutput>
 	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
