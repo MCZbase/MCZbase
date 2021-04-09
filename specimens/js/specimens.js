@@ -219,7 +219,22 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function loadAttributes(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getAttributesHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attributes");
+		},
+		dataType: "html"
+	});
+}
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
