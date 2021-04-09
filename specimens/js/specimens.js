@@ -235,6 +235,24 @@ function loadAttributes(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditAttributesHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Attributes dialog");
+		},
+		dataType: "html"
+	});
+};
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
