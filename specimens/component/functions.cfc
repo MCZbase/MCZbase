@@ -1569,7 +1569,7 @@ limitations under the License.
 				</li>
 			</cfloop>
 						
-				<cfif isDefined(total_length)>
+				<cfif len(total_length) gt 0>
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
