@@ -1492,7 +1492,7 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
-	<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -1566,8 +1566,7 @@ limitations under the License.
 						, Remark: #attribute_remark#
 					</cfif>
 				</li>
-			</cfloop>
-		
+				</cfloop>
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -1651,26 +1650,6 @@ limitations under the License.
 					</li>
 				</cfloop>
 			</ul>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfcatch>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
