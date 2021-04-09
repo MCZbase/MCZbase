@@ -1566,9 +1566,90 @@ limitations under the License.
 						, Remark: #attribute_remark#
 					</cfif>
 				</li>
-			</cfloop>
-						
-
+			</cfloop>		
+				<cfif len(collection_object_id) gt 0>
+					<cfquery name="total_length" dbtype="query">
+						select * from attribute where attribute_type = 'total length'
+					</cfquery>
+					<cfquery name="tail_length" dbtype="query">
+						select * from attribute where attribute_type = 'tail length'
+					</cfquery>
+					<cfquery name="hf" dbtype="query">
+						select * from attribute where attribute_type = 'hind foot with claw'
+					</cfquery>
+					<cfquery name="efn" dbtype="query">
+						select * from attribute where attribute_type = 'ear from notch'
+					</cfquery>
+					<cfquery name="weight" dbtype="query">
+						select * from attribute where attribute_type = 'weight'
+					</cfquery>
+					<cfif
+						len(total_length.attribute_units) gt 0 OR
+						len(tail_length.attribute_units) gt 0 OR
+						len(hf.attribute_units) gt 0  OR
+						len(efn.attribute_units) gt 0  OR
+						len(weight.attribute_units) gt 0>
+						<!---semi-standard measurements --->
+					<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+					<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+						<tr>
+							<td><font size="-1">total length</font></td>
+							<td><font size="-1">tail length</font></td>
+							<td><font size="-1">hind foot</font></td>
+							<td><font size="-1">efn</font></td>
+							<td><font size="-1">weight</font></td>
+						</tr>
+						<tr>
+							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+						</tr>
+					</table>
+						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+							<cfset determination = "#attributeDeterminer#">
+							<cfif len(determined_date) gt 0>
+								<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+							</cfif>
+							<cfif len(determination_method) gt 0>
+								<cfset determination = '#determination#, #determination_method#'>
+							</cfif>
+							#determination#
+						</cfif>
+					</cfif>
+					<cfquery name="theRest" dbtype="query">
+						select * from attribute 
+						where attribute_type NOT IN (
+						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
+						)
+					</cfquery>
+				<cfelse>
+					<!--- not Mamm --->
+					<cfquery name="theRest" dbtype="query">
+						select * from attribute where attribute_type NOT IN ('sex')
+					</cfquery>
+				</cfif>
+				<cfloop query="theRest">
+					<li class="list-group-item">#attribute_type#: #attribute_value#
+						<cfif len(attribute_units) gt 0>
+							, #attribute_units#
+						</cfif>
+						<cfif len(attributeDeterminer) gt 0>
+						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+						<cfif len(determined_date) gt 0>
+							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+						</cfif>
+						<cfif len(determination_method) gt 0>
+							<cfset determination = '#determination#, #determination_method#'>
+						</cfif>
+							#determination#
+						</cfif>
+						<cfif len(attribute_remark) gt 0>
+							, Remark: #attribute_remark#
+						</cfif>
+					</li>
+				</cfloop>
 			</ul>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
