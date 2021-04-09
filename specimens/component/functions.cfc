@@ -1500,6 +1500,7 @@ limitations under the License.
 				WHERE 
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
+				#collection_cde#
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -1632,7 +1633,7 @@ limitations under the License.
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
 					</cfquery>
-					<cfelse>
+				<cfelse>
 					<!--- not Mamm --->
 					<cfquery name="theRest" dbtype="query">
 						select * from attribute where attribute_type NOT IN ('sex')
