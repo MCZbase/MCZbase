@@ -280,7 +280,7 @@ limitations under the License.
 			ORDER BY
 				coll_order
 		</cfquery>
-		<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				attributes.attribute_type,
 				attributes.attribute_value,
@@ -380,6 +380,7 @@ limitations under the License.
 			<input type="hidden" name="suppressHeader" value="true">
 			<input type="hidden" name="action" value="nothing">
 			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
 			<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
