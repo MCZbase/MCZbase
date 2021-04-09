@@ -1500,7 +1500,7 @@ limitations under the License.
 				WHERE 
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-				#collection_cde#
+				#getCollCde.collection_cde#
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
