@@ -1674,7 +1674,7 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getAttributesThread" />
+	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
 
