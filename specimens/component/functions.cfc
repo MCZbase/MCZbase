@@ -1492,7 +1492,7 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
-			<cfquery name="theRest" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -1510,7 +1510,7 @@ limitations under the License.
 			</cfquery>
 			
 			<ul class="list-group">
-				<cfloop query="theRest">
+				<cfloop query="attribute">
 					<li class="list-group-item">#attribute_type#: #attribute_value#
 						<cfif len(attribute_units) gt 0>
 							, #attribute_units#
