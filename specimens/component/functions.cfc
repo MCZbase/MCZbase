@@ -1492,7 +1492,6 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
-
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -1569,7 +1568,7 @@ limitations under the License.
 				</li>
 			</cfloop>
 						
-				<cfif len(total_length) gt 0>
+<!---				<cfif len(total_length) gt 0>
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -1651,7 +1650,7 @@ limitations under the License.
 							, Remark: #attribute_remark#
 						</cfif>
 					</li>
-				</cfloop>
+				</cfloop>--->
 			</ul>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
