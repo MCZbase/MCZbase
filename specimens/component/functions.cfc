@@ -1492,6 +1492,14 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
+			<cfquery name="getCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					collection_cde
+				FROM 
+					cataloged_item
+				WHERE 
+					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -1516,7 +1524,7 @@ limitations under the License.
 					 collection as related_collection,
 					 rel.related_coll_object_id as related_coll_object_id,
 					 rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks,
 				FROM
 					 biol_indiv_relations rel
 					 left join cataloged_item rcat
@@ -1567,7 +1575,7 @@ limitations under the License.
 					</cfif>
 				</li>
 			</cfloop>
-				<cfif collection_cde is "Mamm">
+				<cfif getCollCde.collection_cde is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
