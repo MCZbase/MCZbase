@@ -1500,7 +1500,6 @@ limitations under the License.
 				WHERE 
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-				#getCollCde.collection_cde#
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -1558,6 +1557,7 @@ limitations under the License.
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
+				#biol_indiv_relationship#
 			<ul class="list-group">
 				<cfloop query="sex">
 				<li class="list-group-item"> sex: #attribute_value#,
