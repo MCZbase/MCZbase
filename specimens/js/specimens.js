@@ -219,6 +219,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -235,8 +236,9 @@ function loadAttributes(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Other IDs for " + guid;
+	var title = "Edit Attributes for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
