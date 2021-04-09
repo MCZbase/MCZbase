@@ -1492,6 +1492,11 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs = 1>
+		<cfelse>
+		<cfset oneOfUs = 0>
+	</cfif>
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
