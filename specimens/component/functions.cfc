@@ -1567,7 +1567,7 @@ limitations under the License.
 					</cfif>
 				</li>
 			</cfloop>
-				<cfif one.collection_cde is "Mamm">
+				<cfif collection_cde is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -1677,6 +1677,8 @@ limitations under the License.
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
+						
+						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getAttributesThread"> 
