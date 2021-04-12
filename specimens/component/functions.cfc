@@ -1553,11 +1553,11 @@ limitations under the License.
 			<form>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> Sex: <input class="" value="#attribute_value#" size="20">,
+				<li class="list-group-item"> Sex: <input class="" value="#attribute_value#" size="20">
 					<cfif len(attributeDeterminer) gt 0>
 						, Determiner: <input class="" value="#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							, Determined Date: <input class="" value="#dateformat(determined_date,'yyyy-mm-dd')#" size="15">
+							, Determined Date: <input class="" value="#dateformat(determined_date,'yyyy-mm-dd')#" size="11">
 						</cfif>
 						<cfif len(determination_method) gt 0>
 							, Determination Method: <input class="" value="#determination_method#">
@@ -1565,7 +1565,7 @@ limitations under the License.
 						
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						, Remark: <input class="" value="#attribute_remark#">
+						, <label class="data-entry-label">Remark:</label> <input class="" value="#attribute_remark#">
 					</cfif>
 				</li>
 				</cfloop>
