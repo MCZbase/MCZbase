@@ -2052,6 +2052,55 @@ limitations under the License.
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
 </cffunction>
+						
+<cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditRelationsThread"> 
+		<cfoutput>
+		<cftry>
+<cfif len(relns.biol_indiv_relationship) gt 0 >
+				<ul class="list-group list-group-flush float-left">
+					<cfloop query="relns">
+						<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+								(Remark: #biol_indiv_relation_remarks#)
+							</cfif>
+						</li>
+					</cfloop>
+					<cfif len(relns.biol_indiv_relationship) gt 0>
+						<li class="pb-1">
+							<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						</li>
+					</cfif>
+				</ul>
+			</cfif>
+
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+		</cftry>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditRelationsThread" />
+	<cfreturn getEditRelationsThread.output>
+</cffunction>
 	
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -2383,8 +2432,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
-</cffunction>
-						
+</cffunction>					
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
