@@ -70,7 +70,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					
-					<div class="row bg-light py-2 my-2 border">
+<!---					<div class="row bg-light py-2 my-2 border">
 					<div class="col-12" id="buttons">
 						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
 						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
@@ -82,7 +82,7 @@ limitations under the License.
 						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
 						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
 					</div>
-					</div>
+					</div>--->
 					
 					<div class="row">
 						<div class="col-12 mt-2">
@@ -581,7 +581,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="container-fluid">
-					<div class="row bg-light py-2 my-2 border">
+<!---					<div class="row bg-light py-2 my-2 border">
 					<div class="col-12" id="buttons">
 						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
 						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
@@ -593,7 +593,7 @@ limitations under the License.
 						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
 						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
 					</div>
-					</div>
+					</div>--->
 					<div class="row">
 						<div class="col-12 mt-2">
 					<h1 class="h2">Edit existing identifiers:</h1>
@@ -872,7 +872,7 @@ limitations under the License.
 		<cfoutput>
 		<form>
 			<div class="container-fluid">
-				<div class="row bg-light py-2 my-2 border">
+<!---				<div class="row bg-light py-2 my-2 border">
 				<div class="col-12" id="buttons">
 					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
 					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
@@ -884,7 +884,7 @@ limitations under the License.
 					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
 					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
 				</div>
-				</div>
+				</div>--->
 				<div class="row">
 					<div class="col-12 mt-3">
 						<table class="table border-bottom mb-0">
@@ -1218,7 +1218,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 					<div id="citationsDialog">
-						<div class="col-12" id="buttons">
+<!---						<div class="col-12" id="buttons">
 							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
 							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
 							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
@@ -1228,7 +1228,7 @@ limitations under the License.
 							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
 							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
 							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-						</div>
+						</div>--->
 						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									citation.type_status,
@@ -1505,7 +1505,7 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
-			<div class="col-12" id="buttons">
+<!---			<div class="col-12" id="buttons">
 				<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
 				<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
@@ -1515,7 +1515,7 @@ limitations under the License.
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-			</div>
+			</div>--->
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
