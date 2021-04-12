@@ -131,7 +131,7 @@ function loadCitation(collection_object_id,form) {
 
 function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Citations for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
+	createCitationEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/Citations.cfm",
 		//data : {
@@ -256,6 +256,58 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 function createSpecimenEditDialog(dialogId,title,closecallback) {
+	var content = '<div id="'+dialogId+'_div">Loading...</div>';
+	var x=1;
+	var h = $(window).height();
+	if (h>775) { h=775; } // cap height at 775
+	var w = $(window).width();
+	// full width at less than medium screens
+	if (w>414 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at 1200 pixel
+		w = 999;
+	} 
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Save": function() {
+				$("#"+dialogId).dialog('submit');
+			},
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			
+		},
+		close: function(event,ui) {
+			if (jQuery.type(closecallback)==='function')	{
+				closecallback();
+			}
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+}
+
+function createCitationEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
 	var h = $(window).height();
