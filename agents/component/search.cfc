@@ -85,7 +85,7 @@ limitations under the License.
 					<cfset collected_date = lookupdate.startdate>
 				</cfif>
 				<cfif len(#to_collected_date#) LT 10>
-					<cfset to_collected_date = lokupdate.enddate>
+					<cfset to_collected_date = lookupdate.enddate>
 				</cfif>
 			</cfif>
 		</cfif>
