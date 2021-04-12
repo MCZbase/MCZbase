@@ -1492,7 +1492,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
-		<cftry><p>hello</p>
+		<cftry>
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -1550,9 +1550,10 @@ limitations under the License.
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
+			<form>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> sex: #attribute_value#,
+				<li class="list-group-item"> sex: <input class="data-entry-input" value="#attribute_value#",
 					<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
@@ -1561,10 +1562,10 @@ limitations under the License.
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '#determination#, #determination_method#'>
 						</cfif>
-						#determination#
+						<input value="#determination#" class="data-entry-input">
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						, Remark: #attribute_remark#
+						, Remark: <input class="data-entry-input" value="#attribute_remark#">
 					</cfif>
 				</li>
 				</cfloop>
@@ -1654,6 +1655,7 @@ limitations under the License.
 					</li>
 				</cfloop>
 			</ul>
+					</form>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
