@@ -40,6 +40,9 @@ limitations under the License.
 	<cfargument name="address" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 
+	<!--- TODO: allow relaxation of this criterion --->
+	<cfset knowntoyear = "yes">
+
 	<cfif not isDefined("birthOper")><cfset birthOper=">="></cfif>
 	<cfif not isDefined("deathOper")><cfset deathOper=">="></cfif>
 	<!--- set start/end date range terms to same if only one is specified --->
