@@ -1945,7 +1945,7 @@ limitations under the License.
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
 			
-<!---				<cfif len(one.collection_cde) gt 0>
+<!---				<cfif len(one1.collection_cde) gt 0>
 					<cfif localityMedia.recordcount gt 0>
 						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 					</cfif>
@@ -2076,11 +2076,11 @@ limitations under the License.
 		<div class="col-5 pl-0 pr-3 mb-2 float-right">
 	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfset oneOfUs = 1>
+			<cfset oneOfUs1 = 1>
 		<cfelse>
-			<cfset oneOfUs = 0>
+			<cfset oneOfUs1 = 0>
 		</cfif>
-		<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -2094,7 +2094,7 @@ limitations under the License.
 		identification.nature_of_id,
 		collecting_event.collecting_event_id,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				replace(began_date,substr(began_date,1,4),'8888')
@@ -2102,7 +2102,7 @@ limitations under the License.
 			collecting_event.began_date
 		end began_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				replace(ended_date,substr(ended_date,1,4),'8888')
@@ -2110,7 +2110,7 @@ limitations under the License.
 			collecting_event.ended_date
 		end ended_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 		then
 				'Masked'
@@ -2121,7 +2121,7 @@ limitations under the License.
 		collecting_event.endDayOfYear,
 		collecting_event.habitat_desc,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and collecting_event.coll_event_remarks is not null
 		then 
@@ -2134,7 +2134,7 @@ limitations under the License.
 		locality.maximum_elevation,
 		locality.orig_elev_units,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and locality.spec_locality is not null
 		then 
@@ -2143,7 +2143,7 @@ limitations under the License.
 			locality.spec_locality
 		end spec_locality,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 			and accepted_lat_long.orig_lat_long_units is not null
 		then 
@@ -2159,7 +2159,7 @@ limitations under the License.
 			)
 		end VerbatimLatitude,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and accepted_lat_long.orig_lat_long_units is not null
 		then 
@@ -2212,7 +2212,7 @@ limitations under the License.
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 			and locality.locality_remarks is not null
 		then 
@@ -2221,7 +2221,7 @@ limitations under the License.
 				locality.locality_remarks
 		end locality_remarks,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 			and verbatim_locality is not null
 		then 
@@ -2287,11 +2287,11 @@ limitations under the License.
 					FROM 
 						media_relations 
 					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						RELATED_PRIMARY_KEY= <cfqueryparam value="#one1.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
 			
-<!---				<cfif len(one.collection_cde) gt 0>
+<!---				<cfif len(one1.collection_cde) gt 0>
 					<cfif localityMedia.recordcount gt 0>
 						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 					</cfif>
@@ -2299,42 +2299,42 @@ limitations under the License.
 			</div>
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(one.continent_ocean) gt 0>
+					<cfif len(one1.continent_ocean) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
+						<li class="list-group-item col-7 px-0">#one1.continent_ocean#</li>
 					</cfif>
-					<cfif len(one.sea) gt 0>
+					<cfif len(one1.sea) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#one.sea#</li>
+						<li class="list-group-item col-7 px-0">#one1.sea#</li>
 					</cfif>
-					<cfif len(one.country) gt 0>
+					<cfif len(one1.country) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#one.country#</li>
+						<li class="list-group-item col-7 px-0">#one1.country#</li>
 					</cfif>
-					<cfif len(one.state_prov) gt 0>
+					<cfif len(one1.state_prov) gt 0>
 						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#one.state_prov#</li>
+						<li class="list-group-item col-7 px-0">#one1.state_prov#</li>
 					</cfif>
-					<cfif len(one.feature) gt 0>
+					<cfif len(one1.feature) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#one.feature#</li>
+						<li class="list-group-item col-7 px-0">#one1.feature#</li>
 					</cfif>
-					<cfif len(one.county) gt 0>
+					<cfif len(one1.county) gt 0>
 						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#one.county#</li>
+						<li class="list-group-item col-7 px-0">#one1.county#</li>
 					</cfif>
 
-					<cfif len(one.island_group) gt 0>
+					<cfif len(one1.island_group) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#one.island_group#</li>
+						<li class="list-group-item col-7 px-0">#one1.island_group#</li>
 					</cfif>
-					<cfif len(one.island) gt 0>
+					<cfif len(one1.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#one.island#</li>
+						<li class="list-group-item col-7 px-0">#one1.island#</li>
 					</cfif>
-					<cfif len(one.quad) gt 0>
+					<cfif len(one1.quad) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#one.quad#</li>
+						<li class="list-group-item col-7 px-0">#one1.quad#</li>
 					</cfif>
 				</ul>
 			</div>
