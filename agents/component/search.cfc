@@ -67,28 +67,28 @@ limitations under the License.
 			<cfset to_death_date = "#to_death_date#-12-31">
 		</cfif>
 	</cfif>
-	<cfif isdefined("collected_date") and len(#collected_date#) gt 0>
-		<cfif not isdefined("to_collected_date") or len(to_collected_date) is 0>
-			<cfset to_collected_date=collected_date>
-		</cfif>
-		<cfif len(#collected_date#) LT 10 OR len(#to_collected_date#) LT 10>
-			<cfquery name="lookupdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#">),'yyyy-mm-dd') as startdate,  
-				select to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">),'yyyy-mm-dd') as enddate,  
-				from dual;
-			</cfquery>
-			<!--- support search on just a year or pair of years or pair of year-month --->
-			<cfif len(#collected_date#) LT 10>
-				<cfset collected_date = lookupdate.startdate>
-			</cfif>
-			<cfif len(#to_collected_date#) LT 10>
-				<cfset to_collected_date = lokupdate.enddate>
-			</cfif>
-		</cfif>
-	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
+		<cfif isdefined("collected_date") and len(#collected_date#) gt 0>
+			<cfif not isdefined("to_collected_date") or len(to_collected_date) is 0>
+				<cfset to_collected_date=collected_date>
+			</cfif>
+			<cfif len(#collected_date#) LT 10 OR len(#to_collected_date#) LT 10>
+				<cfquery name="lookupdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+					select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#">),'yyyy-mm-dd') as startdate,  
+						to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">),'yyyy-mm-dd') as enddate
+					from dual
+				</cfquery>
+				<!--- support search on just a year or pair of years or pair of year-month --->
+				<cfif len(#collected_date#) LT 10>
+					<cfset collected_date = lookupdate.startdate>
+				</cfif>
+				<cfif len(#to_collected_date#) LT 10>
+					<cfset to_collected_date = lokupdate.enddate>
+				</cfif>
+			</cfif>
+		</cfif>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
