@@ -1551,7 +1551,7 @@ limitations under the License.
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
 			<form class="row mx-0">
-			<ul class="">
+			<ul class="col-12">
 				<cfloop query="sex">
 				
 				<li class="list-group-item "> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#"></li>
