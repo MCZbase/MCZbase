@@ -2311,50 +2311,50 @@ limitations under the License.
 			</div>
 			<div class="col-12 float-left px-0">
 				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
-					<cfif len(one.spec_locality) gt 0>
+					<cfif len(one1.spec_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
+						<li class="list-group-item col-7 px-0 last">#one1.spec_locality#</li>
 					</cfif>
-					<cfif len(one.verbatim_locality) gt 0>
+					<cfif len(one1.verbatim_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
+						<li class="list-group-item col-7 px-0 ">#one1.verbatim_locality#</li>
 					</cfif>
-					<cfif len(one.collecting_source) gt 0>
+					<cfif len(one1.collecting_source) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
+						<li class="list-group-item col-7 px-0">#one1.collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+					<cfif len(one1.began_date) gt 0 AND one.began_date eq #one1.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.began_date#</li>
+						<li class="list-group-item col-7 px-0">#one1.began_date#</li>
 					</cfif>
-					<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+					<cfif len(one1.began_date) gt 0 AND one1.began_date neq #one1.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
+						<li class="list-group-item col-7 px-0">#one1.began_date# - #one1.ended_date#</li>
 					</cfif>
-					<cfif len(one.verbatim_date) gt 0>
+					<cfif len(one1.verbatim_date) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
+						<li class="list-group-item col-7 px-0">#one1.verbatim_date#</li>
 					</cfif>
-					<cfif len(one.verbatimcoordinates) gt 0>
+					<cfif len(one1.verbatimcoordinates) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
+						<li class="list-group-item col-7 px-0">#one1.verbatimcoordinates#</li>
 					</cfif>
-					<cfif len(one.collecting_method) gt 0>
+					<cfif len(one1.collecting_method) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
+						<li class="list-group-item col-7 px-0">#one1.collecting_method#</li>
 					</cfif>
-					<cfif len(one.coll_event_remarks) gt 0>
+					<cfif len(one1.coll_event_remarks) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
+						<li class="list-group-item col-7 px-0">#one1.coll_event_remarks#</li>
 					</cfif>
-					<cfif len(one.habitat_desc) gt 0>
+					<cfif len(one1.habitat_desc) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.habitat_desc#</li>
+						<li class="list-group-item col-7 px-0">#one1.habitat_desc#</li>
 					</cfif>
-					<cfif len(one.habitat) gt 0>
+					<cfif len(one1.habitat) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-7 px-0">#one.habitat#</li>
+						<li class="list-group-item col-7 px-0">#one1.habitat#</li>
 					</cfif>
 				</ul>
 			</div>
