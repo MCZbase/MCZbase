@@ -1550,41 +1550,28 @@ limitations under the License.
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
-			<form class="">
-			<ul class="form-row">
+			<form class="row mx-0">
+			<ul class="">
 				<cfloop query="sex">
-						<li class="form-group "> 
-							<label>Sex:</label>
-							<input class="data-entry-input col-12 col-md-3" value="#attribute_value#">
-						</li>
+				
+				<li class="list-group-item "> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#"></li>
 					<cfif len(attributeDeterminer) gt 0>
-						<li class="form-group">, 
-							<label>Determiner:</label> 
-							<input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#">
-						</li>
-					</cfif>
-					<cfif len(determined_date) gt 0>
-						<li class="list-group-item">, 
-							<label class="data-entry-label">Date:</label> 
-							<input class="data-entry-input col-12 col-md-2" value="#dateformat(determined_date,'yyyy-mm-dd')#">
-						</li>
-					</cfif>
-					<cfif len(determination_method) gt 0>
-						<li class="form-group">, 
-							<label class="data-entry-label">Method:</label> 
-							<input class="data-entry-input col-12 col-md-2" value="#determination_method#">
-						</li>
-					</cfif>
+					<li class="list-group-item">	, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#"></li>
+						<cfif len(determined_date) gt 0>
+						<li class="list-group-item">	, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-2" value="#dateformat(determined_date,'yyyy-mm-dd')#"></li>
+						</cfif>
+						<cfif len(determination_method) gt 0>
+							<li class="list-group-item">, <label class="data-entry-label">Method:</label> <input class="data-entry-input col-12 col-md-2" value="#determination_method#"></li>
+						</cfif>
+						
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						<li class="form-group">, 
-							<label class="data-entry-label">Remark:</label> 
-							<input class="data-entry-input col-12 col-md-3" value="#attribute_remark#">
-						</li>
+						<li class="list-group-item">, <label class="data-entry-label">Remark:</label> <input class="data-entry-input col-12 col-md-3" value="#attribute_remark#"></li>
 					</cfif>
+				</li>
 				</cfloop>
 					<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
+						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
 				<cfif #code.collection_cde# is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
