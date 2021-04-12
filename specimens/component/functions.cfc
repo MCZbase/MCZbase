@@ -1550,14 +1550,15 @@ limitations under the License.
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
-			<form>
+			<form class="row">
 			<ul class="list-group">
 				<cfloop query="sex">
+				
 				<li class="list-group-item"> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#">
 					<cfif len(attributeDeterminer) gt 0>
 						, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-1" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+							, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-2" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 						</cfif>
 						<cfif len(determination_method) gt 0>
 							, <label class="data-entry-label">Method:</label> <input class="data-entry-input col-12 col-md-2" value="#determination_method#">
