@@ -1935,21 +1935,6 @@ limitations under the License.
 					select higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_id 
-					FROM 
-						media_relations 
-					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one1.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-			
-<!---				<cfif len(one1.collection_cde) gt 0>
-					<cfif localityMedia.recordcount gt 0>
-						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-					</cfif>
-				</cfif>--->
 			</div>
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
