@@ -274,7 +274,22 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function loadLocality(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getLocalityHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading locality");
+		},
+		dataType: "html"
+	});
+}
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
