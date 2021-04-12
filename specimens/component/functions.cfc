@@ -1582,10 +1582,9 @@ limitations under the License.
 							<input class="data-entry-input col-12 col-md-3" value="#attribute_remark#">
 						</li>
 					</cfif>
-				</ul>
 				</cfloop>
 					<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
+					select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
 				<cfif #code.collection_cde# is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
