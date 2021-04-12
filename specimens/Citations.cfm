@@ -28,7 +28,7 @@
 								order by
 									substr(formatted_publication, - 4)
 						</cfquery>
-						<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!---	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 								FROM
@@ -43,7 +43,7 @@
 									fp.format_style='short' and
 									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								ORDER by substr(formatted_publication, -4)
-						</cfquery>
+						</cfquery>--->
 							<cfset i = 1>
 							<cfloop query="citations" group="formatted_publication">
 								<div class="d-block py-1 px-2 w-100 float-left">
@@ -74,7 +74,7 @@
 								</div>
 								<cfset i = i + 1>
 							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
+						<!---	<cfif publicationMedia.recordcount gt 0>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
 									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -118,7 +118,7 @@
 										</span>
 									</div>
 								</cfloop>
-							</cfif>	
+							</cfif>	--->
 					</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
