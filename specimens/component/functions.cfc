@@ -1555,12 +1555,12 @@ limitations under the License.
 				<cfloop query="sex">
 				<li class="list-group-item"> Sex: <input class="" value="#attribute_value#">,
 					<cfif len(attributeDeterminer) gt 0>
-						<input class="" value="#attributeDeterminer#">
+						, Determiner: <input class="" value="#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							, Determiner: <input class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+							, Determined Date: <input class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							, Determined date: <input class="" value="#determination_method#">
+							, Determination Method: <input class="" value="#determination_method#">
 						</cfif>
 						
 					</cfif>
