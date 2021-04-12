@@ -1553,7 +1553,7 @@ limitations under the License.
 			<form>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> sex: <input class="" value="#attribute_value#",
+				<li class="list-group-item"> sex: <input class="" value="#attribute_value#">,
 					<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
