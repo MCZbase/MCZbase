@@ -240,7 +240,7 @@ limitations under the License.
 						death_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
 						AND
 						death_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_ddate#">
-						}
+						)
 						OR 
 						death_date_date between 
 							to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(death_date, "yyyy-mm-dd")#'>) and
