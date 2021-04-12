@@ -1731,10 +1731,10 @@ limitations under the License.
 			</div>--->
 	<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-				<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
+			<!---	<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"</cfquery>--->
 				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
+					select locality.spec_locality, locality.geog_auth_rec_id,locality.locality_id from locality, flat
 					where locality.locality_id = flat.locality_id
 					and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
@@ -1752,99 +1752,99 @@ limitations under the License.
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
 			
-				<cfif len(code.collection_cde) gt 0>
+<!---				<cfif len(getLoc.collection_cde) gt 0>
 					<cfif localityMedia.recordcount gt 0>
 						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 					</cfif>
-				</cfif>
+				</cfif>--->
 			</div>
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(one.continent_ocean) gt 0>
+					<cfif len(getGeo.continent_ocean) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#code.continent_ocean#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.continent_ocean#</li>
 					</cfif>
-					<cfif len(one.sea) gt 0>
+					<cfif len(getGeo.sea) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#code.sea#</li>
+						<li class="list-group-item col-7 px-0">getGeo.sea#</li>
 					</cfif>
-					<cfif len(one.country) gt 0>
+					<cfif len(getGeo.country) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#code.country#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.country#</li>
 					</cfif>
-					<cfif len(one.state_prov) gt 0>
+					<cfif len(getGeo.state_prov) gt 0>
 						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#code.state_prov#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.state_prov#</li>
 					</cfif>
-					<cfif len(one.feature) gt 0>
+					<cfif len(getGeo.feature) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#code.feature#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.feature#</li>
 					</cfif>
-					<cfif len(one.county) gt 0>
+					<cfif len(getGeo.county) gt 0>
 						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#code.county#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.county#</li>
 					</cfif>
 
-					<cfif len(one.island_group) gt 0>
+					<cfif len(getGeo.island_group) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#code.island_group#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.island_group#</li>
 					</cfif>
-					<cfif len(one.island) gt 0>
+					<cfif len(getGeo.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#code.island#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.island#</li>
 					</cfif>
-					<cfif len(one.quad) gt 0>
+					<cfif len(getGeo.quad) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#code.quad#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.quad#</li>
 					</cfif>
 				</ul>
 			</div>
 			<div class="col-12 float-left px-0">
 				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
-					<cfif len(one.spec_locality) gt 0>
+					<cfif len(getLoc.spec_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 last">#code.spec_locality#</li>
+						<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
 					</cfif>
-					<cfif len(one.verbatim_locality) gt 0>
+					<cfif len(getLoc.verbatim_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 ">#code.verbatim_locality#</li>
+						<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
 					</cfif>
-					<cfif len(one.collecting_source) gt 0>
+					<cfif len(getLoc.collecting_source) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.collecting_source#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.began_date#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
 					</cfif>
-					<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.began_date# - #code.ended_date#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.began_date# - #getLoc.ended_date#</li>
 					</cfif>
-					<cfif len(one.verbatim_date) gt 0>
+					<cfif len(getLoc.verbatim_date) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.verbatim_date#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
 					</cfif>
-					<cfif len(one.verbatimcoordinates) gt 0>
+					<cfif len(getLoc.verbatimcoordinates) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.verbatimcoordinates#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
 					</cfif>
-					<cfif len(one.collecting_method) gt 0>
+					<cfif len(getLoc.collecting_method) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.collecting_method#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
 					</cfif>
-					<cfif len(one.coll_event_remarks) gt 0>
+					<cfif len(getLoc.coll_event_remarks) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.coll_event_remarks#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
 					</cfif>
-					<cfif len(one.habitat_desc) gt 0>
+					<cfif len(getLoc.habitat_desc) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#code.habitat_desc#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
 					</cfif>
-					<cfif len(one.habitat) gt 0>
+					<cfif len(getLoc.habitat) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-7 px-0">#code.habitat#</li>
+						<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
 					</cfif>
 				</ul>
 			</div>
