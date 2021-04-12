@@ -1568,6 +1568,7 @@ limitations under the License.
 					</cfif>
 				</li>
 				</cfloop>
+				<cfif one.collection_cde is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -1617,7 +1618,7 @@ limitations under the License.
 							</cfif>
 							#determination#
 						</cfif>
-		
+					</cfif>
 					<cfquery name="theRest" dbtype="query">
 						select * from attribute 
 						where attribute_type NOT IN (
