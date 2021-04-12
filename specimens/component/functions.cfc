@@ -1731,8 +1731,8 @@ limitations under the License.
 			</div>--->
 	<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-			<!---	<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"</cfquery>--->
+				<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"</cfquery>
 				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select locality.spec_locality, locality.geog_auth_rec_id,locality.locality_id from locality, flat
 					where locality.locality_id = flat.locality_id
@@ -1742,7 +1742,7 @@ limitations under the License.
 					select higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_id 
 					FROM 
@@ -1750,7 +1750,7 @@ limitations under the License.
 					WHERE 
 						RELATED_PRIMARY_KEY= <cfqueryparam value="#code.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
+				</cfquery>--->
 			
 <!---				<cfif len(getLoc.collection_cde) gt 0>
 					<cfif localityMedia.recordcount gt 0>
