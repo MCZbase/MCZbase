@@ -1984,7 +1984,7 @@ limitations under the License.
 
 					<cfif len(one.island_group) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#code.island_group#</li>
+						<li class="list-group-item col-7 px-0">#one.island_group#</li>
 					</cfif>
 					<cfif len(one.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
