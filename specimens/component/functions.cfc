@@ -1730,7 +1730,7 @@ limitations under the License.
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
 			</div>--->
 	<div class="col-5 pl-0 pr-3 mb-2 float-right">
-				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
+				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
 					where locality.locality_id = flat.locality_id
