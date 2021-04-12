@@ -2013,7 +2013,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(one1.began_date) gt 0 AND one.began_date neq #one.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.began_date# - #one.ended_date#</li>
+						<li class="list-group-item col-7 px-0">#one1.began_date# - #one1.ended_date#</li>
 					</cfif>
 					<cfif len(one1.verbatim_date) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
