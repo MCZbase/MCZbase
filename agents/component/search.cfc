@@ -71,12 +71,19 @@ limitations under the License.
 		<cfif not isdefined("to_collected_date") or len(to_collected_date) is 0>
 			<cfset to_collected_date=collected_date>
 		</cfif>
-		<!--- support search on just a year or pair of years --->
-		<cfif len(#collected_date#) EQ 4>
-			<cfset collected_date = "#collected_date#-01-01">
-		</cfif>
-		<cfif len(#to_collected_date#) EQ 4>
-			<cfset to_collected_date = "#to_collected_date#-12-31">
+		<cfif len(#collected_date#) LT 10 OR len(#to_collected_date#) LT 10>
+			<cfquery name="lookupdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#">),'yyyy-mm-dd') as startdate,  
+				select to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">),'yyyy-mm-dd') as enddate,  
+				from dual;
+			</cfquery>
+			<!--- support search on just a year or pair of years or pair of year-month --->
+			<cfif len(#collected_date#) LT 10>
+				<cfset collected_date = lookupdate.startdate>
+			</cfif>
+			<cfif len(#to_collected_date#) LT 10>
+				<cfset to_collected_date = lokupdate.enddate>
+			</cfif>
 		</cfif>
 	</cfif>
 
@@ -249,9 +256,19 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("collected_date") and len(collected_date) gt 0>
 					AND collector_role = 'c'
-					AND substr(collecting_event.began_date,0,4) = substr(collecting_event.ended_date,0,4)
-					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') <= to_date(substr(collecting_event.ended_date,0,4),'yyyy')
-					AND to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_collected_date, "yyyy-mm-dd")#'>,'yyyy-mm-dd') >= to_date(substr(collecting_event.began_date,0,4),'yyyy')
+					<cfif isdefined("knowntoyear") and knowntoyear EQ 'yes'>
+						AND (
+							(began_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#"> and <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">)
+							AND
+							(substr(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#">,0,4) = substr(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">,0,4))
+						)
+					<cfelse>
+						AND (
+							(began_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#"> and <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">)
+							OR (ended_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#"> and <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">)
+							OR (began_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#"> and ended_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#"> and began_date <> '1700-01-01')
+						)
+					</cfif>
 				</cfif>
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
