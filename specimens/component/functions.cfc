@@ -1553,14 +1553,14 @@ limitations under the License.
 			<form class="row mx-0">
 			<ul class="col-12">
 				<cfloop query="sex">
-				<li class="list-group-item float-left col-12 col-md-3"> <label>Sex:</label><input class="data-entry-input" value="#attribute_value#"></li>
+				<li class="list-group-item float-left col-12 col-md-2"> <label>Sex:</label><input class="data-entry-input" value="#attribute_value#"></li>
 					<cfif len(attributeDeterminer) gt 0>
 					<li class="list-group-item float-left col-12 col-md-3"><label>Determiner:</label> <input class="data-entry-input" value="#attributeDeterminer#"></li>
 						<cfif len(determined_date) gt 0>
 						<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Date:</label> <input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#"></li>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<li class="list-group-item float-left col-12 col-md-3"><label class="data-entry-label">Method:</label> <input class="data-entry-input" value="#determination_method#"></li>
+							<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Method:</label> <input class="data-entry-input" value="#determination_method#"></li>
 						</cfif>
 						
 					</cfif>
