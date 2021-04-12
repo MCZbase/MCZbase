@@ -874,7 +874,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row bg-light py-2 my-2 border">
 				<div class="col-12" id="buttons">
-					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
+					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
 					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
 					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
 					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
