@@ -1554,21 +1554,21 @@ limitations under the License.
 			<ul class="col-12">
 				<cfloop query="sex">
 				
-				<li class="list-group-item "> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#"></li>
+				<li class="list-group-item float-left"> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#"></li>
 					<cfif len(attributeDeterminer) gt 0>
-					<li class="list-group-item">	, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#"></li>
+					<li class="list-group-item float-left">	, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#"></li>
 						<cfif len(determined_date) gt 0>
-						<li class="list-group-item">	, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-2" value="#dateformat(determined_date,'yyyy-mm-dd')#"></li>
+						<li class="list-group-item float-left">	, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-2" value="#dateformat(determined_date,'yyyy-mm-dd')#"></li>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<li class="list-group-item">, <label class="data-entry-label">Method:</label> <input class="data-entry-input col-12 col-md-2" value="#determination_method#"></li>
+							<li class="list-group-item float-left">, <label class="data-entry-label">Method:</label> <input class="data-entry-input col-12 col-md-2" value="#determination_method#"></li>
 						</cfif>
 						
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						<li class="list-group-item">, <label class="data-entry-label">Remark:</label> <input class="data-entry-input col-12 col-md-3" value="#attribute_remark#"></li>
+						<li class="list-group-item float-left">, <label class="data-entry-label">Remark:</label> <input class="data-entry-input col-12 col-md-3" value="#attribute_remark#"></li>
 					</cfif>
-				</li>
+		
 				</cfloop>
 				</ul>
 				<ul>
