@@ -751,7 +751,7 @@ limitations under the License.
 					</div>
 				</div>
 						
-<!------------------------------------ attributes ----------------------------------------->
+<!------------ attributes ----------------------------------------->
 				<div class="accordion" id="accordionAttributes">
 					<div class="card mb-2 bg-light">
 						<div id="attributesDialog"></div>

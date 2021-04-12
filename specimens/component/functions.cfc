@@ -1210,7 +1210,7 @@ limitations under the License.
 			<cftry>
 					<div id="citationsDialog">
 						<div class="col-12" id="buttons">
-							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
+							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
 							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
 							<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
 							<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
@@ -1486,7 +1486,8 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCitationsThread" />
 	<cfreturn getCitationsThread.output>
-</cffunction>		
+</cffunction>	
+										
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> 
@@ -1758,7 +1759,7 @@ limitations under the License.
 					</cfif>
 				</li>
 			</cfloop>
-				<cfif one.collection_cde is "Mamm">
+				
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -1808,7 +1809,7 @@ limitations under the License.
 							</cfif>
 							#determination#
 						</cfif>
-					</cfif>
+				
 					<cfquery name="theRest" dbtype="query">
 						select * from attribute 
 						where attribute_type NOT IN (
