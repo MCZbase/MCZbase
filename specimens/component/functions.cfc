@@ -1947,11 +1947,11 @@ limitations under the License.
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
 			
-				<cfif len(one.collection_cde) gt 0>
+<!---				<cfif len(one.collection_cde) gt 0>
 					<cfif localityMedia.recordcount gt 0>
 						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 					</cfif>
-				</cfif>
+				</cfif>--->
 			</div>
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
