@@ -133,7 +133,7 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Citations for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
+		url: "/specimens/Citations.cfm",
 		data : {
 			method : "getEditPublicationHTML",
 			collection_object_id: collection_object_id,
