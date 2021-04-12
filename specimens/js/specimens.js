@@ -273,7 +273,7 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		},
 		dataType: "html"
 	});
-};
+}
 
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
