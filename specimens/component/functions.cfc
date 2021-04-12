@@ -1599,11 +1599,13 @@ limitations under the License.
 						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
 						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
 						<tr>
-							<td><font size="-1">total length</font></td>
-							<td><font size="-1">tail length</font></td>
-							<td><font size="-1">hind foot</font></td>
-							<td><font size="-1">efn</font></td>
-							<td><font size="-1">weight</font></td>
+							<thead>
+							<th>total length</th>
+							<th>tail length</th>
+							<th>hind foot</th>
+							<th>efn</th>
+							<th>weight</th>
+							</thead>
 						</tr>
 						<tr>
 							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
