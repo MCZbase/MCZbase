@@ -1557,15 +1557,15 @@ limitations under the License.
 					<cfif len(attributeDeterminer) gt 0>
 						, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-3" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+							, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-1" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							, <label class="data-entry-label">Method:</label> <input class="data-entry-input" value="#determination_method#">
+							, <label class="data-entry-label">Method:</label> <input class="data-entry-input col-12 col-md-2" value="#determination_method#">
 						</cfif>
 						
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						, <label class="data-entry-label">Remark:</label> <input class="data-entry-input" value="#attribute_remark#">
+						, <label class="data-entry-label">Remark:</label> <input class="data-entry-input col-12 col-md-3" value="#attribute_remark#">
 					</cfif>
 				</li>
 				</cfloop>
