@@ -1730,7 +1730,7 @@ limitations under the License.
 				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
 			</div>--->
 	<div class="col-5 pl-0 pr-3 mb-2 float-right">
-	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
+<!---	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<cfset oneOfUs = 1>
 		<cfelse>
