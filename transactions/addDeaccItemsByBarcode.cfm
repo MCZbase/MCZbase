@@ -21,7 +21,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <script>
 	function addThis(i){
-		$.getJSON("/transactions/component/itemfunctions.cfc",
+		$.getJSON("/transactions/component/itemFunctions.cfc",
 			{
 				method : "addPartToDeacc",
 				transaction_id: $("#transaction_id").val(),
