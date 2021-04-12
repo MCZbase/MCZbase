@@ -266,10 +266,10 @@ limitations under the License.
 							<div class="col-12 col-lg-12 float-left px-0">
 							<div id="accordion1">
 								<div class="card">
-									<div class="card-header" id="headingOnex">
+									<div class="card-header pt-1" id="headingOnex">
 									<h1 class="my-0 px-1 pb-2">
 										<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-											<span style="font-size: 1.25rem;">Add New Determination</span> 
+											<span class="h3">Add New Determination</span> 
 										</button>
 									</h1>
 								</div>
@@ -658,7 +658,7 @@ limitations under the License.
 					<div class="col-12 mt-4">
 						<div id="accordion2">
 							<div class="card">
-							<div class="card-header" id="headingTwo">
+							<div class="card-header pt-1" id="headingTwo">
 								<h1 class="my-0 px-1 pb-1">
 								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 									<span class="h3">Add New Identifier</span>
