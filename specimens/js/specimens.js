@@ -274,6 +274,7 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -290,6 +291,7 @@ function loadLocality(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
