@@ -1598,15 +1598,17 @@ limitations under the License.
 						<!---semi-standard measurements --->
 						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
 						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+						
+					<thead>
 						<tr>
-							<thead>
 							<th>total length</th>
 							<th>tail length</th>
 							<th>hind foot</th>
 							<th>efn</th>
 							<th>weight</th>
-							</thead>
 						</tr>
+					</thead>
+					<tbody>						
 						<tr>
 							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
 							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
@@ -1614,6 +1616,7 @@ limitations under the License.
 							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
 							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
 						</tr>
+					</tbody>
 					</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
 							<cfset determination = "#attributeDeterminer#">
