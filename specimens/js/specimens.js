@@ -220,6 +220,25 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Other IDs for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditRelationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
+		},
+		dataType: "html"
+	});
+};
+
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -273,7 +292,7 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		},
 		dataType: "html"
 	});
-}
+};
 
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
