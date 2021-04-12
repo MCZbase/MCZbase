@@ -1553,19 +1553,19 @@ limitations under the License.
 			<form>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> <label>Sex:</label><input class="data-entry-input" value="#attribute_value#" size="20">
+				<li class="list-group-item"> <label>Sex:</label><input class="data-entry-input col-12 col-md-3" value="#attribute_value#">
 					<cfif len(attributeDeterminer) gt 0>
-						, <label>Determiner:</label> <input class="data-entry-input" value="#attributeDeterminer#">
+						, <label>Determiner:</label> <input class="data-entry-input col-12 col-md-3" value="#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							, <label>Date:</label> <input class="" value="#dateformat(determined_date,'yyyy-mm-dd')#" size="11">
+							, <label class="data-entry-label">Date:</label> <input class="data-entry-input col-12 col-md-3" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							, <label>Method:</label> <input class="" value="#determination_method#">
+							, <label class="data-entry-label">Method:</label> <input class="data-entry-input" value="#determination_method#">
 						</cfif>
 						
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						, <label class="data-entry-label">Remark:</label> <input class="" value="#attribute_remark#">
+						, <label class="data-entry-label">Remark:</label> <input class="data-entry-input" value="#attribute_remark#">
 					</cfif>
 				</li>
 				</cfloop>
