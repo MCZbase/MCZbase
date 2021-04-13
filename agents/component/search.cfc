@@ -65,6 +65,11 @@ limitations under the License.
 			</cfif>
 		</cfif>
 		<cfif isdefined("birth_date") AND len(#birth_date#) GT 0 AND NOT birth_date IS "NULL" AND NOT birth_date IS "NOT NULL" >
+			<cfif NOT isdefined("session.roles") OR ( isdefined("session.roles") and NOT listfindnocase(session.roles,"coldfusion_user"))>
+				<!--- truncate date to year --->
+				<cfif len(#birth_date#) GT 4 ><cfset birth_date = left(birth_date,4)></cfif>
+				<cfif len(#to_birth_date#) GT 4 ><cfset to_birth_date = left(to_birth_date,4)></cfif>
+			</cfif>
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_birth_date") or len(to_birth_date) is 0>
 				<cfset to_birth_date=birth_date>
@@ -85,6 +90,11 @@ limitations under the License.
 			</cfif>
 		</cfif>
 		<cfif isdefined("death_date") and len(#death_date#) gt 0 AND NOT death_date IS "NULL" AND NOT death_date IS "NOT NULL">
+			<cfif NOT isdefined("session.roles") OR ( isdefined("session.roles") and NOT listfindnocase(session.roles,"coldfusion_user"))>
+				<!--- truncate date to year --->
+				<cfif len(#death_date#) GT 4 ><cfset death_date = left(death_date,4)></cfif>
+				<cfif len(#to_death_date#) GT 4 ><cfset to_death_date = left(to_death_date,4)></cfif>
+			</cfif>
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_death_date") or len(to_death_date) is 0>
 				<cfset to_death_date=death_date>
