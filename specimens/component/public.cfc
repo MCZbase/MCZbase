@@ -997,7 +997,7 @@ limitations under the License.
 		coll_object_remark.habitat,
 		enteredPerson.agent_name EnteredBy,
 		editedPerson.agent_name EditedBy,
-		accn.accn_number,
+		accn.transaction_id Accession,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		locality.locality_remarks,
@@ -1045,8 +1045,6 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-	#accn.accn_number#
-	#accession#
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
@@ -1070,9 +1068,9 @@ limitations under the License.
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfset accession = "#one.accn_number#">
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.accn_number#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#Accession#</a>
 										<cfelse>
-										#one.accn_id#
+										#Accession#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
