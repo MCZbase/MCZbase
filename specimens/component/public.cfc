@@ -1144,7 +1144,7 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-group list-group-flush pl-0">
 				<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
-					<cfif oneOfUs is 1>
+					<cfif oneOfUs2 is 1>
 						<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one2.accn_id#" target="_blank">#accession#</a>
 						<cfelse>
 						#accession#
