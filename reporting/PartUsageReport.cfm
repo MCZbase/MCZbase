@@ -53,7 +53,7 @@
 				<p>Summary of use of <a href="/vocabularies/ControlledVocabulary.cfm?table=CTSPECIMEN_PART_NAME">Specimen Part Names</a>, with <em>is Tissue</em> codings with counts of part name by collection and links to specimens.</p>
 			</div>
 			<div class="col-12">
-				<table border id="t" class="sortable">
+				<table border id="t" class="sortable table table-responsive d-xl-table">
 					<tr>
 						<th>Part</th>
 						<th>is Tissue</th>

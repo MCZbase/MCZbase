@@ -20,7 +20,7 @@
 				order by owner
 			</cfquery>
 			
-			<table border id="t" class="sortable">
+			<table border id="t" class="sortable table table-responsive d-xl-table">
 				<tr>
 					<th>Department</th>
 					<th>Count</th>

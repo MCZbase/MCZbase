@@ -1,5 +1,5 @@
 <!---
-/Agents.cfm
+/agents/Agents.cfm
 
 Agent search/results 
 
@@ -77,6 +77,18 @@ limitations under the License.
 	<cfelse>
 		<cfset in_agent_type="#agent_type#">
 	</cfif>
+	<cfif not isdefined("agent_id")> 
+		<cfset agent_id="">
+	</cfif>
+	<cfif not isdefined("specificagent")> 
+		<cfset specificagent="">
+	</cfif>
+	<cfif not isdefined("address")> 
+		<cfset address="">
+	</cfif>
+	<cfif not isdefined("edited")> 
+		<cfset edited="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -86,19 +98,30 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
+						<!--- setup date pickers --->
+						<script>
+							$(document).ready(function() {
+								$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+							});
+						</script>
 						<div class="col-12 px-4 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
 								<div class="form-row mb-2">
-									<div class="col-md-5">
+									<div class="col-12 col-md-5">
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
-									<div class="col-md-5">
+									<div class="col-12 col-md-5">
 										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks</label>
 										<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
 									</div>
-									<div class="col-md-2">
+									<div class="col-12 col-md-2">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
 										<select id="agent_type" name="agent_type" class="data-entry-select">
 											<option></option>
@@ -114,7 +137,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-md-2">
+									<div class="col-12 col-md-2">
 										<label for="prefix" class="data-entry-label" id="prefix_label">Prefix</label>
 										<select id="prefix" name="prefix" class="data-entry-select">
 											<option></option>
@@ -130,19 +153,19 @@ limitations under the License.
 											<option value="NOT NULL">NOT NULL</option>
 										</select>
 									</div>
-									<div class="col-md-3">
+									<div class="col-12 col-md-3">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-md-2">
+									<div class="col-12 col-md-2">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-md-3">
+									<div class="col-12 col-md-3">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-md-2">
+									<div class="col-12 col-md-2">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
@@ -160,7 +183,35 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-md-4">
+									<div class="col-12 col-md-5">
+										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
+										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
+											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
+											>
+										<input type="hidden" id="agent_id" name="agent_id" value="#agent_id#">
+										<script>
+											$(document).ready(function() {
+												makeAgentPicker("specificagent", "agent_id");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-5">
+										<label for="address" class="data-entry-label" id="address_label">Address</label>
+										<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
+										<select id="edited" name="edited" class="data-entry-select">
+											<option></option>
+											<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="1" #sel# >Yes *</option>
+											<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="0" #sel#>No</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">Date Of Birth</label>
 											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#birth_date#" aria-label="start of range for date of birth">
@@ -169,7 +220,7 @@ limitations under the License.
 											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
-									<div class="col-md-4">
+									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">Date Of Death</label>
 											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#death_date#" aria-label="start of range for date of death">
@@ -178,7 +229,7 @@ limitations under the License.
 											<input type="text" name="to_death_date" id="to_death_date" value="#to_death_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
-									<div class="col-md-4">
+									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
 											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#collected_date#" aria-label="start of range for dates collected">
@@ -192,7 +243,7 @@ limitations under the License.
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/agents/Agents.cfm';" >New Search</button>
 									</div>
 								</div>
 							</form>
@@ -288,7 +339,7 @@ limitations under the License.
 						root: 'agentRecord',
 						id: 'agent_id',
 						url: '/agents/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 30000,  // units not specified, miliseconds? 
+						timeout: 60000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
 							var message = "";
@@ -377,7 +428,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/Agents.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/agents/Agents.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','agent');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
