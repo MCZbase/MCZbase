@@ -893,10 +893,24 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
-				
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+		<div class="error"> Improper call. Aborting..... </div>
+		<cfabort>
+	</cfif>
 		<cfset oneOfUs1 = 1>
 
+		<cfelse>
+		<cfset oneOfUs1 = 0>
 
+	</cfif>
+			<cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
+	Record masked. 
+	<!---- the correct the correct HTTP response is 403, forbiden ---->
+	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
+	<cfabort>
+</cfif>
+		
 		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
@@ -1098,6 +1112,17 @@ limitations under the License.
 					select higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+					
+							<cfoutput query="one">
+	<cfif oneOfUs1 is 1>
+		<form name="editLinks" method="post" action="Specimens.cfm">
+			<input type="hidden" name="collection_object_id" value="#one1.collection_object_id#">
+			<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">
+			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collection_cde" value="#one1.collection_cde#">
+			<input type="hidden" name="collecting_event_id" value="#one1.collecting_event_id#">
+	</cfif>
 <!---				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_id 
