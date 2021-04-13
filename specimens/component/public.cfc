@@ -21,9 +21,9 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs1 = 1>
+		<cfset oneOfUs1 = '1'>
 		<cfelse>
-		<cfset oneOfUs1 = 0>
+		<cfset oneOfUs1 = '0'>
 	</cfif>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
