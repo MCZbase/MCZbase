@@ -120,7 +120,7 @@ limitations under the License.
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
 									<div class="col-12 col-md-5">
-										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks</label>
+										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks (NULL, NOT NULL)</label>
 										<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
 									</div>
 									<div class="col-12 col-md-2">
@@ -158,15 +158,24 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="first_name" class="data-entry-label" id="first_name_label">First Name</label>
+										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
+											<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='='+e.value;" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+											(!, NULL, NOT NULL)
+										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name</label>
+										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
+											<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+											(!, NULL, NOT NULL)
+										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name</label>
+										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
+											<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='='+e.value;" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+											(!, NULL, NOT NULL)
+										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
 									</div>
 									<div class="col-12 col-md-2">
