@@ -931,7 +931,7 @@ limitations under the License.
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+	<cfif isdefined("session.roles")>
 		<cfset oneOfUs = 1>
 		<cfelse>
 		<cfset oneOfUs = 0>
