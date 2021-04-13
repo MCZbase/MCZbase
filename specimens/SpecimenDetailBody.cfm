@@ -866,7 +866,7 @@ limitations under the License.
 
 				<!--- ---------------------------------- tranactions  ----------------------------------- --->
 					
-				<div class="accordion" id="accordionTransactions">
+			<!---	<div class="accordion" id="accordionTransactions">
 					<div class="card mb-2 bg-light">
 						<div id="transactionsDialog"></div>
 						<script>
@@ -890,12 +890,8 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				
-					
-					
-					
-					<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				</div>--->
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -916,7 +912,14 @@ limitations under the License.
 				<cfif oneOfUs is 1 and vpdaccn is 1>
 				<div class="accordion" id="accordionI">
 					<div class="card mb-2 bg-light">
-
+						<div class="card-header mb-0" id="heading8">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>
+						</div>
 						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
 							<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush pl-0">
