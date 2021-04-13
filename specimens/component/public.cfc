@@ -931,12 +931,12 @@ limitations under the License.
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-		<cfset oneOfUs = 1>
-		<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
-<cfquery name="one2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -1045,7 +1045,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -1063,13 +1063,12 @@ limitations under the License.
 						media_relations.media_relationship like '% accn' and
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<ul class="list-group list-group-flush pl-0">
+			<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one2.accn_id#" target="_blank">#Accession#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accession#</a>
 										<cfelse>
-										#Accession#
+										#one.Accession#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
@@ -1186,7 +1185,6 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</ul>
-				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>

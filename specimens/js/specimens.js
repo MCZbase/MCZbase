@@ -328,6 +328,42 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function loadTransactions(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getTransactionsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading transactions");
+		},
+		dataType: "html"
+	});
+}
+
+function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Transactions for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditTransactionsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Transactions dialog");
+		},
+		dataType: "html"
+	});
+};
+
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
