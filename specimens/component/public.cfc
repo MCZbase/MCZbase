@@ -904,14 +904,14 @@ limitations under the License.
 		<cfset oneOfUs1 = 0>
 
 	</cfif>
-			<cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
+<cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked. 
 	<!---- the correct the correct HTTP response is 403, forbiden ---->
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
 		
-		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -1103,17 +1103,17 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
-					where locality.locality_id = flat.locality_id
-					and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-				<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select higher_geog from geog_auth_rec where
-					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
+	<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
+		where locality.locality_id = flat.locality_id
+		and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+	</cfquery>
+	<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select higher_geog from geog_auth_rec where
+		geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+	</cfquery>
 					
-							<cfoutput query="one">
+<cfoutput query="one">
 	<cfif oneOfUs1 is 1>
 		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#one1.collection_object_id#">
@@ -1123,21 +1123,8 @@ limitations under the License.
 			<input type="hidden" name="collection_cde" value="#one1.collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#one1.collecting_event_id#">
 	</cfif>
-<!---				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_id 
-					FROM 
-						media_relations 
-					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-				<cfif len(one.spec_locality) gt 0>
-					<cfif localityMedia.recordcount gt 0>
-						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-					</cfif>
-				</cfif>--->
-			</div>
+
+		
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 					<cfif len(one1.continent_ocean) gt 0>
@@ -1228,6 +1215,7 @@ limitations under the License.
 					</cfif>
 				</ul>
 			</div>
+		</form>
 					</cfoutput>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
