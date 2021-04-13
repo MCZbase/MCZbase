@@ -151,8 +151,10 @@ limitations under the License.
 												<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
 											</cfloop>
-											<option value="NULL">NULL</option>
-											<option value="NOT NULL">NOT NULL</option>
+											<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel# >NULL</option>
+											<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
@@ -179,8 +181,10 @@ limitations under the License.
 												<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
 											</cfloop>
-											<option value="NULL">NULL</option>
-											<option value="NOT NULL">NOT NULL</option>
+											<cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel#>NULL</option>
+											<cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
 								</div>
