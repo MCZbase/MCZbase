@@ -1288,7 +1288,7 @@ limitations under the License.
 						</li>
 					</cfif>
 				</ul>
-			</cfif>
+		
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
