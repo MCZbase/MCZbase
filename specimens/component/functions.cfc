@@ -809,6 +809,42 @@ limitations under the License.
 	<cfthread name="getEditCollectorsThread"> 
 		<cftry>
 		<cfoutput>
+			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				collector.coll_order,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
+				else
+					preferred_agent_name.agent_name
+				end collectors
+			FROM
+				collector,
+				preferred_agent_name
+			WHERE
+				collector.collector_role='c' and
+				collector.agent_id=preferred_agent_name.agent_id and
+				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			ORDER BY
+				coll_order
+		</cfquery>
+		<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				collector.coll_order,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
+				else
+					preferred_agent_name.agent_name
+				end preparators
+			FROM
+				collector,
+				preferred_agent_name
+			WHERE
+				collector.collector_role='p' and
+				collector.agent_id=preferred_agent_name.agent_id and
+				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			ORDER BY
+				coll_order
+		</cfquery>
 			<ul class="list-unstyled list-group form-row p-1 mb-0">
 				<cfif colls.recordcount gt 0>
 					<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
