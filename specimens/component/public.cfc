@@ -20,7 +20,11 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs1 = 1>
+		<cfelse>
+		<cfset oneOfUs1 = 0>
+	</cfif>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
@@ -1127,11 +1131,7 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs1 = 1>
-		<cfelse>
-		<cfset oneOfUs1 = 0>
-	</cfif>
+
 		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id as collection_object_id,
