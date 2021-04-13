@@ -1719,7 +1719,7 @@ limitations under the License.
 		<cfoutput>
 		<cftry>
 	<div class="col-5 pl-0 pr-3 mb-2 float-right">
-<!---	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
+	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 		<cfset oneOfUs1 = 1>
 		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
