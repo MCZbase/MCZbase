@@ -64,7 +64,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfif>
-		<cfif isdefined("birth_date") AND len(#birth_date#) GT 0 AND birth_date NOT EQ "NULL" and birth_date NOT EQ "NOT NULL">
+		<cfif isdefined("birth_date") AND len(#birth_date#) GT 0 AND NOT birth_date IS "NULL" AND NOT birth_date IS "NOT NULL" >
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_birth_date") or len(to_birth_date) is 0>
 				<cfset to_birth_date=birth_date>
@@ -84,7 +84,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfif>
-		<cfif isdefined("death_date") and len(#death_date#) gt 0 AND death_date NOT EQ "NULL" and death_date NOT EQ "NOT NULL">
+		<cfif isdefined("death_date") and len(#death_date#) gt 0 AND NOT death_date IS "NULL" AND NOT death_date IS "NOT NULL">
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_death_date") or len(to_death_date) is 0>
 				<cfset to_death_date=death_date>
