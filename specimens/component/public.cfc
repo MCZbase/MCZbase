@@ -884,6 +884,8 @@ limitations under the License.
 	<cfthread action="join" name="getRelationsThread"/>
 	<cfreturn getRelationsThread.output>
 </cffunction>
+
+						
 						
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -1031,4 +1033,7 @@ limitations under the License.
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
 </cffunction>
+							
+							
+							
 </cfcomponent>
