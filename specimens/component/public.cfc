@@ -1272,25 +1272,22 @@ limitations under the License.
 	<cfthread name="getCollectorsThread">
 	<cfoutput>
 		<cftry>
-			<div id="collapseCol" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
-				<div class="card-body mb-1 float-left">
-					<ul class="list-unstyled list-group form-row p-1 mb-0">
-						<cfif colls.recordcount gt 0>
-							<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
-								<cfloop query="colls">
-									#colls.collectors#<span>,</span>
-								</cfloop>
-							</li>
-						</cfif>
-						<cfif preps.recordcount gt 0>
-							<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
-								<cfloop query="preps">
-									#preps.preparators#<span>,</span>
-								</cfloop>
-							</li>
-						</cfif>
-					</ul>
-				</div>
+				<ul class="list-unstyled list-group form-row p-1 mb-0">
+					<cfif colls.recordcount gt 0>
+						<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
+							<cfloop query="colls">
+								#colls.collectors#<span>,</span>
+							</cfloop>
+						</li>
+					</cfif>
+					<cfif preps.recordcount gt 0>
+						<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
+							<cfloop query="preps">
+								#preps.preparators#<span>,</span>
+							</cfloop>
+						</li>
+					</cfif>
+				</ul>
 			</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
