@@ -207,7 +207,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-4">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
 											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
@@ -218,9 +218,9 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-1">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
-										<input type="text" id="agent_id" name="agent_id" value="#agent_id#">
+										<input type="text" id="agent_id" name="agent_id" value="#agent_id#" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-5">
 										<label for="address" class="data-entry-label" id="address_label">Address</label>
