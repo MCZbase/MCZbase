@@ -183,20 +183,20 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isdefined("last_name") AND len(last_name) gt 0>
-					<cfif left(last_name,1) is "=">
-						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
-					<cfelseif left(last_name,1) is "!">
-						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
-					<cfelseif last_name is "NULL">
-						AND last_name is null
-					<cfelseif last_name is "NOT NULL">
-						AND last_name is not null
+				<cfif isdefined("middle_name") AND len(middle_name) gt 0>
+					<cfif left(middle_name,1) is "=">
+						AND upper(middle_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+					<cfelseif left(middle_name,1) is "!">
+						AND upper(middle_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+					<cfelseif middle_name is "NULL">
+						AND middle_name is null
+					<cfelseif middle_name is "NOT NULL">
+						AND middle_name is not null
 					<cfelse>
-						<cfif find(',',last_name) GT 0>
-							AND upper(last_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(last_name)#" list="yes"> )
+						<cfif find(',',middle_name) GT 0>
+							AND upper(middle_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(middle_name)#" list="yes"> )
 						<cfelse>
-							AND upper(last_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(last_name)#%">
+							AND upper(middle_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(middle_name)#%">
 						</cfif>
 					</cfif>
 				</cfif>
