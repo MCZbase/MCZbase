@@ -238,7 +238,22 @@ function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
+function loadRelations(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getRelationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading other ids");
+		},
+		dataType: "html"
+	});
+}
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
