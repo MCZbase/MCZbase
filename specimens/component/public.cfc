@@ -933,7 +933,7 @@ limitations under the License.
 	<cfthread name="getLocalityThread"> <cfoutput>
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
-				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2  <cfif mediaS2.recordcount is 0>px-4</cfif>" alt="map placeholder"/>
+				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 				
 				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
