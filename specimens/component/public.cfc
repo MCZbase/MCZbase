@@ -1148,21 +1148,12 @@ limitations under the License.
 				collecting_event.startDayOfYear,
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
-				collecting_event.coll_event_remarks
+				collecting_event.coll_event_remarks,
 				locality.locality_id,
 				locality.minimum_elevation,
 				locality.maximum_elevation,
 				locality.orig_elev_units,
 				locality.spec_locality,
-<!---					decode(accepted_lat_long.orig_lat_long_units,
-						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-							decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-					),--->
-	<!---			verbatimLatitude,--->
 				locality.sovereign_nation,
 				collecting_event.verbatimcoordinates,
 				collecting_event.verbatimlatitude verblat,
@@ -1209,9 +1200,8 @@ limitations under the License.
 				depth_units,
 				collecting_method,
 				collecting_source,
-				specimen_part.derived_from_cat_item
-	<!---		,
-				decode(trans.transaction_id, null, 0, 1) vpdaccn--->
+				specimen_part.derived_from_cat_item,
+				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
 				cataloged_item,
 				collection,
