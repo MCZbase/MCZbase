@@ -1931,7 +1931,7 @@ limitations under the License.
 						RELATED_PRIMARY_KEY= <cfqueryparam value="#one1.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
-			<div>
+	
 				<cfif len(one1.spec_locality) gt 0>
 					<cfif localityMedia.recordcount gt 0>
 						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
