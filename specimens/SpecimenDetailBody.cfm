@@ -894,8 +894,8 @@ limitations under the License.
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif oneOfUs is 1>
 						<div class="card mb-2">
-							<div class="card-header float-left w-100">
-								<h3 class="h4 my-0 float-left">
+							<div class="card-header pt-1 float-left w-100">
+								<h3 class="h4 my-0 mx-2 pb-1 float-left">
 								Metadata
 								</h4>
 							</div>
