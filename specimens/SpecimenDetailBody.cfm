@@ -735,8 +735,8 @@ limitations under the License.
 						</script>
 						<div class="card-header" id="headingParts">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts  <span class="text-success small ml-4">See all (count: #ctPart.ct# parts)</span></a>
-                                
+								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
+                                <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
