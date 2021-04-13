@@ -64,19 +64,19 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfif>
-		<cfif isdefined("birth_date") and len(#birth_date#) gt 0>
+		<cfif isdefined("birth_date") AND len(#birth_date#) GT 0 AND birth_date NOT EQ "NULL" and birth_date NOT EQ "NOT NULL">
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_birth_date") or len(to_birth_date) is 0>
 				<cfset to_birth_date=birth_date>
 			</cfif>
-			<cfif len(#birth_date#) LT 10 OR len(#to_birth_date#) LT 10>
+			<cfif len(#birth_date#) LT 10 OR len(#to_birth_date#) LT 10 >
 				<cfquery name="lookupbdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 					select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#birth_date#">),'yyyy-mm-dd') as startdate,  
 						to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_birth_date#">),'yyyy-mm-dd') as enddate
 					from dual
 				</cfquery>
 				<!--- support search on just a year or pair of years or pair of year-month --->
-				<cfif len(#birth_date#) LT 10>
+				<cfif len(#birth_date#) LT 10 > 
 					<cfset birth_date = lookupbdate.startdate>
 				</cfif>
 				<cfif len(#to_birth_date#) LT 10>
@@ -84,7 +84,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 		</cfif>
-		<cfif isdefined("death_date") and len(#death_date#) gt 0>
+		<cfif isdefined("death_date") and len(#death_date#) gt 0 AND death_date NOT EQ "NULL" and death_date NOT EQ "NOT NULL">
 			<!--- set start/end date range terms to same if only one is specified --->
 			<cfif not isdefined("to_death_date") or len(to_death_date) is 0>
 				<cfset to_death_date=death_date>
@@ -240,25 +240,25 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("birth_date") AND len(#birth_date#) gt 0>
-					<cfif birth_date EQ "NULL">
+					<cfif birth_date IS "NULL">
 						AND birth_date IS NULL
-					<cfelseif birth_date EQ "NOT_NULL">
+					<cfelseif birth_date IS "NOT NULL">
 						AND birth_date IS NOT NULL
 					<cfelse>
-					<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
-					<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
+						<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
+						<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
 						AND birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
 						AND birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
 					</cfif>
 				</cfif>
 				<cfif isdefined("death_date") AND len(#death_date#) gt 0>
-					<cfif death_date EQ "NULL">
+					<cfif death_date IS "NULL">
 						AND death_date IS NULL
-					<cfelseif death_date EQ "NOT_NULL">
+					<cfelseif death_date IS "NOT NULL">
 						AND death_date IS NOT NULL
 					<cfelse>
-					<cfset ddate = dateformat(death_date,'yyyy-mm-dd')>
-					<cfset to_ddate = dateformat(to_death_date,'yyyy-mm-dd')>
+						<cfset ddate = dateformat(death_date,'yyyy-mm-dd')>
+						<cfset to_ddate = dateformat(to_death_date,'yyyy-mm-dd')>
 						AND death_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ddate#">
 						AND death_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_ddate#">
 					</cfif>
