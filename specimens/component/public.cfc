@@ -1146,7 +1146,7 @@ limitations under the License.
 				identification.nature_of_id,
 				collecting_event.collecting_event_id,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="oneOfUs1"> != 1 
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 				then
 						replace(began_date,substr(began_date,1,4),'8888')
