@@ -931,14 +931,12 @@ limitations under the License.
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
-		<cfset isClicky = "likeLink">
 		<cfelse>
 		<cfset oneOfUs = 0>
-		<cfset isClicky = "">
 	</cfif>
-			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -1045,14 +1043,8 @@ limitations under the License.
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-		cataloged_item.collection_object_id =370052
+		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-				<cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
-	Record masked. 
-	<!---- the correct the correct HTTP response is 403, forbiden ---->
-	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
-	<cfabort>
-</cfif>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
@@ -1069,11 +1061,12 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '% accn' and
-						media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
+									<cfset accession = "#one.accn_number#">
 									<cfif oneOfUs is 1>
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.accn_number#</a>
 										<cfelse>
