@@ -1498,8 +1498,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCitationsThread" />
 	<cfreturn getCitationsThread.output>
-</cffunction>	
-										
+</cffunction>							
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> 
@@ -1711,8 +1710,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
-</cffunction>
-						
+</cffunction>		
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditLocalityThread"> 
@@ -2054,8 +2052,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
-</cffunction>
-						
+</cffunction>		
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> 
