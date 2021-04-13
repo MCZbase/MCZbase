@@ -477,7 +477,7 @@ limitations under the License.
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
-		<cfif mediaS2.recordcount gt 1>
+			<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionMedia">
 					<div class="card bg-light">
@@ -812,7 +812,7 @@ limitations under the License.
 				<!--- --------------------------------- locality and collecting event-------------------------------------- ---->
 				<div class="accordion" id="accordionLocality">
 					<div class="card mb-2 bg-light">
-						<div id="LocalityDialog"></div>
+						<div id="localityDialog"></div>
 						<script>
 							function reloadLocality() { 
 					
