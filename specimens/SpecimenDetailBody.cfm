@@ -863,38 +863,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-					<div class="accordion" id="accordionH">
-					<div class="card mb-2 bg-light">
-						<div class="card-header" id="heading7">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-							</cfif>
-						</div>
-						<div id="collapseCol" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
-							<div class="card-body mb-1 float-left">
-							<ul class="list-unstyled list-group form-row p-1 mb-0">
-								<cfif colls.recordcount gt 0>
-									<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
-										<cfloop query="colls">
-											#colls.collectors#<span>,</span>
-										</cfloop>
-									</li>
-								</cfif>
-								<cfif preps.recordcount gt 0>
-									<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
-										<cfloop query="preps">
-											#preps.preparators#<span>,</span>
-										</cfloop>
-									</li>
-								</cfif>
-							</ul>
-						</div>
-						</div>
-					</div>
-				</div>
+
 				<!--- ---------------------------------- tranactions  ----------------------------------- --->
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
