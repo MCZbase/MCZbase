@@ -895,7 +895,7 @@ limitations under the License.
 					
 					
 					
-<!---					<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -1047,7 +1047,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				</cfif>--->
+				</cfif>
 				<!--- --------------------------------- metadata -------------------------------------- ---->
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif oneOfUs is 1>
