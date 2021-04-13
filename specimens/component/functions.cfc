@@ -88,7 +88,7 @@ limitations under the License.
 						<div class="col-12 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 							<form name="editIdentification" id="editIdentification" method="post" action="editIdentification.cfm">
-								<h1 class="px-1"> <span class="h3">Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a></span> </h1>
+								<h1 class="h3 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
 								<div class="row mx-0">
 									<div class="col-12 px-0">
 										<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
