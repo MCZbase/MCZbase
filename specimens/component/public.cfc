@@ -1113,7 +1113,7 @@ limitations under the License.
 		geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 					
-<cfoutput query="one">
+<cfoutput query="one1">
 	<cfif oneOfUs1 is 1>
 		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#one1.collection_object_id#">
