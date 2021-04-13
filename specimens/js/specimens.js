@@ -363,7 +363,7 @@ function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback)
 		dataType: "html"
 	});
 };
-function openEditCollectionsDialog(collection_object_id,dialogId,guid,callback) {
+function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Collectors and Preparators for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
