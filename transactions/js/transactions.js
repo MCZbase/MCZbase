@@ -203,6 +203,9 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 		minLength: 3
 	});
 }
+function makeRichTransAgentPickerConstrained(nameControl, idControl, iconControl, viewControl, agentId,constraint) {
+   alert('TODO: Implement organization only agent picker ');
+} 
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker.  Intended for use to pick agents for transaction roles where agent flags may apply.
  *  Triggers updateAgentLink on select to update agent flag in view agent link.  If a required class, turns the 
