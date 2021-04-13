@@ -207,7 +207,6 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									</div>
 									<div class="col-12 col-md-3">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
 										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
