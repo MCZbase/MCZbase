@@ -3458,7 +3458,7 @@ limitations under the License.
 					</cfif>
 					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-					<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0 >
+					<cfif isdefined("trans_remarks") >
 						, trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 					</cfif>
 				WHERE
@@ -3676,8 +3676,10 @@ limitations under the License.
 					<cfif isdefined("trans_date") AND len(trans_date) GT 0>
 						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(trans_date,"yyyy-mm-dd")#">,
 					</cfif>
-					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
-					TRANS_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TRANS_REMARKS#">
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">
+					<cfif isDefined("trans_remarks")>
+						,TRANS_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TRANS_REMARKS#">
+					</cfif>
 				WHERE
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 			</cfquery>
@@ -3788,8 +3790,10 @@ limitations under the License.
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
 					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
-					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
-					trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">
+					<cfif isDefined("trans_remarks")>
+						,trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+					</cfif>
 				where
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
