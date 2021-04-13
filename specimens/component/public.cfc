@@ -20,11 +20,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs1 = '1'>
-		<cfelse>
-		<cfset oneOfUs1 = '0'>
-	</cfif>
+
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
@@ -1131,7 +1127,6 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-
 		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id as collection_object_id,
@@ -1146,7 +1141,7 @@ limitations under the License.
 				identification.nature_of_id,
 				collecting_event.collecting_event_id,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 				then
 						replace(began_date,substr(began_date,1,4),'8888')
@@ -1154,7 +1149,7 @@ limitations under the License.
 					collecting_event.began_date
 				end began_date,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 				then
 						replace(ended_date,substr(ended_date,1,4),'8888')
@@ -1162,7 +1157,7 @@ limitations under the License.
 					collecting_event.ended_date
 				end ended_date,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
 				then
 						'Masked'
@@ -1173,7 +1168,7 @@ limitations under the License.
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 					and collecting_event.coll_event_remarks is not null
 				then 
@@ -1186,7 +1181,7 @@ limitations under the License.
 				locality.maximum_elevation,
 				locality.orig_elev_units,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 					and locality.spec_locality is not null
 				then 
@@ -1195,7 +1190,7 @@ limitations under the License.
 					locality.spec_locality
 				end spec_locality,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 					and accepted_lat_long.orig_lat_long_units is not null
 				then 
@@ -1211,7 +1206,7 @@ limitations under the License.
 					)
 				end VerbatimLatitude,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 					and accepted_lat_long.orig_lat_long_units is not null
 				then 
@@ -1264,7 +1259,7 @@ limitations under the License.
 				concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 				concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 					and locality.locality_remarks is not null
 				then 
@@ -1273,7 +1268,7 @@ limitations under the License.
 						locality.locality_remarks
 				end locality_remarks,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
 					and verbatim_locality is not null
 				then 
