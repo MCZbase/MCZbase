@@ -832,7 +832,57 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCollectorsThread" />
 	<cfreturn getCollectorsThread.output>
-</cffunction>	
+</cffunction>
+		
+<cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditCollectorsThread"> 
+		<cftry>
+		<cfoutput>
+			<ul class="list-unstyled list-group form-row p-1 mb-0">
+				<cfif colls.recordcount gt 0>
+					<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
+						<cfloop query="colls">
+							#colls.collectors#<span>,</span>
+						</cfloop>
+					</li>
+				</cfif>
+				<cfif preps.recordcount gt 0>
+					<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
+						<cfloop query="preps">
+							#preps.preparators#<span>,</span>
+						</cfloop>
+					</li>
+				</cfif>
+			</ul>
+		</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getEditCollectorsThread" />
+	<cfreturn getEditCollectorsThread.output>
+</cffunction>
+		
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread"> 
