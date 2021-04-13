@@ -891,7 +891,34 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			
+				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+					<cfif oneOfUs is 1>
+						<div class="card mb-2">
+							<div class="card-header float-left w-100">
+								<h3 class="h4 my-0 float-left">
+								Metadata
+								</h4>
+							</div>
+							<div class="card-body mb-2 float-left">
+								<ul class="list-group pl-0 pt-1">
+									<cfif len(#one.coll_object_remarks#) gt 0>
+										<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
+									</cfif>
+									<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
+									<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
+										<li class="list-group-item"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+									</cfif>
+									<cfif len(#one.flags#) is not 0>
+										<li class="list-group-item"> Missing (flags): #one.flags# </li>
+									</cfif>
+									<cfif len(#one.encumbranceDetail#) is not 0>
+										<li class="list-group-item"> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+									</cfif>
+								</ul>
+							</div>
+						</div>
+					</cfif>
+				</cfif>
 			</div>
 			<!--- end of column 3 --->
 			
