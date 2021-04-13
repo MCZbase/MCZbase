@@ -101,10 +101,12 @@ limitations under the License.
 						<!--- setup date pickers --->
 						<script>
 							$(document).ready(function() {
-								$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+									$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+									$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+									$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								</cfif>
 								$("##collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
@@ -210,23 +212,30 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<cfset dateWord = "Date">
+									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
+								<cfelse>
+									<cfset dateWord = "Year">
+									<cfset dateplaceholder = "yyyy">
+								</cfif>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">Date Of Birth</label>
-											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#birth_date#" aria-label="start of range for date of birth">
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">Date Of Death</label>
-											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#death_date#" aria-label="start of range for date of death">
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
+											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#death_date#" aria-label="start of range for #dateWord# of death">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_death_date">end of search range for date of death</label>		
-											<input type="text" name="to_death_date" id="to_death_date" value="#to_death_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
+											<input type="text" name="to_death_date" id="to_death_date" value="#to_death_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
@@ -281,8 +290,15 @@ limitations under the License.
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var vetted = rowData['edited'];
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">'+value+'</a> ' +vetted+ '</span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/agents/Agent.cfm?agent_id=' + rowData['agent_id'] + '">'+value+'</a> ' +vetted+ '</span>';
 			};
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var vetted = rowData['edited'];
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+				};
+			</cfif>
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -386,8 +402,13 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
-							{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: false, cellsrenderer: editIdCellRenderer },
+							<cfelse>
+								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
+								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							</cfif>
 							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: false },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: false },
