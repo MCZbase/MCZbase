@@ -865,7 +865,37 @@ limitations under the License.
 				</div>
 
 				<!--- ---------------------------------- tranactions  ----------------------------------- --->
-				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					
+				<div class="accordion" id="accordionTransactions">
+					<div class="card mb-2 bg-light">
+						<div id="transactionsDialog"></div>
+						<script>
+							function reloadTransactions() { 
+								// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
+								loadTransactions(#collection_object_id#,'transactionsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingCollectors">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##TransactionsPane">Collectors and Preparators</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Edit</button>
+							</cfif>
+						</div>
+						<div id="TransactionsPane" class="collapse show" aria-labelledby="headingTransactions" data-parent="##accordionTransactions">
+							<div class="card-body mb-2 float-left" id="collectorsCardBody">
+								<cfset block = getTransactionsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+				
+					
+					
+					
+<!---					<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -886,14 +916,7 @@ limitations under the License.
 				<cfif oneOfUs is 1 and vpdaccn is 1>
 				<div class="accordion" id="accordionI">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-0" id="heading8">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-							</cfif>
-						</div>
+
 						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
 							<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush pl-0">
@@ -1024,7 +1047,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				</cfif>
+				</cfif>--->
 				<!--- --------------------------------- metadata -------------------------------------- ---->
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif oneOfUs is 1>
@@ -1052,7 +1075,7 @@ limitations under the License.
 								</ul>
 							</div>
 						</div>
-					</cfif>
+				</cfif>
 				</cfif>
 			</div>
 			<!--- end of column 3 --->
