@@ -442,7 +442,7 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
 								{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false }
-							</cfelse>
+							<cfelse>
 								{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false }
 							</cfif>
 						],
