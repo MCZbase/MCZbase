@@ -803,7 +803,7 @@ limitations under the License.
 </cffunction>
 		
 <cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCollectorsThread">
 		<cftry>
 		<cfoutput>
