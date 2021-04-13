@@ -947,7 +947,7 @@ limitations under the License.
 					media.media_id=media_relations.media_id and
 					media.media_id=media_labels.media_id (+) and
 					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key = <cfqueryparam value="#one2.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+					media_relations.related_primary_key = <cfqueryparam value="#accn_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<ul class="list-group list-group-flush pl-0">
 				<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
