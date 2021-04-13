@@ -1189,8 +1189,6 @@ limitations under the License.
 				enteredPerson.agent_name EnteredBy,
 				editedPerson.agent_name EditedBy,
 				accn_number accession,
-				concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-				concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 				locality.locality_remarks,
 				verbatim_locality,
 				collecting_time,
@@ -1201,7 +1199,7 @@ limitations under the License.
 				collecting_method,
 				collecting_source,
 				specimen_part.derived_from_cat_item,
-				decode(trans.transaction_id, null, 0, 1) vpdaccn
+				trans.transaction_id
 			FROM
 				cataloged_item,
 				collection,
