@@ -782,7 +782,7 @@ limitations under the License.
 
 				<div class="accordion" id="accordionRelations">
 					<div class="card mb-2 bg-light">
-						<div id="RelationsDialog"></div>
+						<div id="relationsDialog"></div>
 						<script>
 							function reloadRelations() { 
 								// invoke specimen/component/public.cfc function getRelationsHTML via ajax and repopulate the Other ID block.
