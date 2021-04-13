@@ -363,6 +363,22 @@ function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback)
 		dataType: "html"
 	});
 };
+function loadCollectors(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getCollectorsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading collectors");
+		},
+		dataType: "html"
+	});
+}
 function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Collectors and Preparators for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
