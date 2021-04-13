@@ -98,6 +98,17 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
 						</div>
+						<!--- setup date pickers --->
+						<script>
+							$(document).ready(function() {
+								$("##birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_birth_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_death_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
+							});
+						</script>
 						<div class="col-12 px-4 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getAgents">
