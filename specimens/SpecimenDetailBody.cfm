@@ -837,7 +837,33 @@ limitations under the License.
 				</div> 
 				
 				<!--- --------------------------------- Collectors and Preparators ----------------------------- --->
-				<div class="accordion" id="accordionH">
+				
+				<div class="accordion" id="accordionCollectors">
+					<div class="card mb-2 bg-light">
+						<div id="collectorsDialog"></div>
+						<script>
+							function reloadCollectors() { 
+								// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
+								loadCollectors(#collection_object_id#,'collectorsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingCollectors">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Edit</button>
+							</cfif>
+						</div>
+						<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
+							<div class="card-body mb-2 float-left" id="collectorsCardBody">
+								<cfset block = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+					<div class="accordion" id="accordionH">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading7">
 							<h3 class="h4 my-0 float-left collapsed btn-link">

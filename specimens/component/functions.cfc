@@ -2143,7 +2143,7 @@ limitations under the License.
 	<cfreturn getEditRelationsThread.output>
 </cffunction>
 	
-<!---<cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getLocalityThread"> 
 		<cfoutput>
@@ -2473,7 +2473,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
-</cffunction>	--->				
+</cffunction>					
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
