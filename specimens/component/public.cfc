@@ -1123,7 +1123,8 @@ limitations under the License.
 						
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getLocalityThread"> <cfoutput>
+	<cfthread name="getLocalityThread">
+		<cfoutput>
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
