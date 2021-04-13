@@ -995,7 +995,7 @@ limitations under the License.
 					locality.spec_locality
 				end spec_locality,
 				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs2#"> != 1
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
 					and accepted_lat_long.orig_lat_long_units is not null
 				then 
