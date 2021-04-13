@@ -1144,7 +1144,7 @@ limitations under the License.
 				collecting_event.began_date,
 				collecting_event.ended_date,
 				collecting_event.verbatim_date,
-				end verbatim_date,
+				verbatim_date,
 				collecting_event.startDayOfYear,
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
