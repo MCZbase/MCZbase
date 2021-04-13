@@ -1,5 +1,5 @@
 <!---
-/Agents.cfm
+/agents/Agents.cfm
 
 Agent search/results 
 
@@ -174,7 +174,9 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-5">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label" >
+										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
+											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
+											>
 										<input type="hidden" id="agent_id" name="agent_id" value="#agent_id#">
 										<script>
 											$(document).ready(function() {
@@ -230,7 +232,7 @@ limitations under the License.
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
+										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/agents/Agents.cfm';" >New Search</button>
 									</div>
 								</div>
 							</form>
@@ -415,7 +417,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/Agents.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/agents/Agents.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','agent');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
