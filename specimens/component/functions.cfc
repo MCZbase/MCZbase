@@ -596,7 +596,7 @@ limitations under the License.
 					</div>--->
 					<div class="row">
 						<div class="col-12 mt-2">
-					<h1 class="h3">Edit existing identifiers:</h1>
+					<h1 class="h3">Edit Existing Identifiers</h1>
 					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
