@@ -1161,7 +1161,7 @@ limitations under the License.
 							decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
 						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-					)
+					),
 				VerbatimLatitude,
 				locality.sovereign_nation,
 				collecting_event.verbatimcoordinates,
