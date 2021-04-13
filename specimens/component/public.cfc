@@ -931,7 +931,7 @@ limitations under the License.
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
-	<cfif isdefined("session.roles")>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		<cfset oneOfUs = 1>
 		<cfelse>
 		<cfset oneOfUs = 0>
@@ -1063,7 +1063,6 @@ limitations under the License.
 						media_relations.media_relationship like '% accn' and
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 							<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
@@ -1186,7 +1185,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</ul>
-				</cfif>
+			
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
