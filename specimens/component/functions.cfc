@@ -2331,7 +2331,7 @@ limitations under the License.
 	<cfreturn getAttributesThread.output>
 </cffunction>
 						
-<cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getTransactionsThread"> 
 		<cfoutput>
@@ -2622,7 +2622,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getTransactionsThread" />
 	<cfreturn getTransactionsThread.output>
-</cffunction>
+</cffunction>--->
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> 
