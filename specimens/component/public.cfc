@@ -936,7 +936,7 @@ limitations under the License.
 		<cfelse>
 		<cfset oneOfUs = 0>
 	</cfif>
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="one2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -1066,9 +1066,8 @@ limitations under the License.
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
-									<cfset accession = "#one.accn_number#">
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#Accession#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one2.accn_id#" target="_blank">#Accession#</a>
 										<cfelse>
 										#Accession#
 									</cfif>
