@@ -1144,7 +1144,6 @@ limitations under the License.
 				collecting_event.began_date,
 				collecting_event.ended_date,
 				collecting_event.verbatim_date,
-				verbatim_date,
 				collecting_event.startDayOfYear,
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
@@ -1188,7 +1187,6 @@ limitations under the License.
 				coll_object_remark.habitat,
 				enteredPerson.agent_name EnteredBy,
 				editedPerson.agent_name EditedBy,
-				accn_number accession,
 				locality.locality_remarks,
 				verbatim_locality,
 				collecting_time,
@@ -1198,8 +1196,7 @@ limitations under the License.
 				depth_units,
 				collecting_method,
 				collecting_source,
-				specimen_part.derived_from_cat_item,
-				trans.transaction_id
+				specimen_part.derived_from_cat_item
 			FROM
 				cataloged_item,
 				collection,
@@ -1213,8 +1210,6 @@ limitations under the License.
 				coll_object_remark,
 				preferred_agent_name enteredPerson,
 				preferred_agent_name editedPerson,
-				accn,
-				trans,
 				specimen_part
 			WHERE
 				cataloged_item.collection_id = collection.collection_id AND
@@ -1227,10 +1222,7 @@ limitations under the License.
 				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 				cataloged_item.collection_object_id = coll_object.collection_object_id AND
 				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-				coll_object.entered_person_id = enteredPerson.agent_id AND
 				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-				cataloged_item.accn_id =  accn.transaction_id  AND
-				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
