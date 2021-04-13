@@ -131,7 +131,9 @@ limitations under the License.
 					(case when death_date is not null then substr(birth_date,0,4) else null end) as birth_date,
 					substr(death_date,0,4) as death_date,
 				</cfif>
-				agent_remarks,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					agent_remarks,
+				</cfif>
 				person.prefix,
 				person.first_name,
 				person.middle_name,

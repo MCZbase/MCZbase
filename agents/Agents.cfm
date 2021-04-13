@@ -330,7 +330,9 @@ limitations under the License.
 							</cfif>
 							{ name: 'birth_date', type: 'string' },
 							{ name: 'death_date', type: 'string' },
-							{ name: 'agent_remarks', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'agent_remarks', type: 'string' },
+							</cfif>
 							{ name: 'abbreviation', type: 'string' },
 							{ name: 'preferred', type: 'string' },
 							{ name: 'acronym', type: 'string' },
@@ -437,8 +439,12 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
 							</cfif>
-							{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
-							{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false }
+							</cfelse>
+								{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false }
+							</cfif>
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
