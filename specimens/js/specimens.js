@@ -220,6 +220,23 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function loadRelations(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getRelationsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading other ids");
+		},
+		dataType: "html"
+	});
+}
+
 function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Other IDs for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -238,22 +255,7 @@ function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function loadRelations(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getRelationsHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading other ids");
-		},
-		dataType: "html"
-	});
-}
+
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -290,6 +292,23 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 	});
 };
 
+function loadLocality(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getLocalityHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading locality");
+		},
+		dataType: "html"
+	});
+}
+
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -308,23 +327,6 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
-function loadLocality(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getLocalityHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading locality");
-		},
-		dataType: "html"
-	});
-}
 
 function createSpecimenEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
