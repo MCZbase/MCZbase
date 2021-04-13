@@ -931,39 +931,57 @@ limitations under the License.
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
-			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-				SELECT 
-					media.media_id,
-					media.media_uri,
-					media.mime_type,
-					media.media_type,
-					media.preview_uri,
-					label_value descr 
-				FROM 
-					media,
-					media_relations,
-					(select media_id,label_value from media_labels where media_label='description') media_labels 
-				WHERE 
-					media.media_id=media_relations.media_id and
-					media.media_id=media_labels.media_id (+) and
-					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key = <cfqueryparam value="#accn_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<ul class="list-group list-group-flush pl-0">
-				<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
-					<cfif accnMedia.recordcount gt 0>
-						<cfloop query="accnMedia">
-							<div class="m-2 d-inline"> 
-								<cfset mt = #media_type#>
-								<a href="/media/#media_id#" target="_blank">
-									<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-								</a>
-								<span class="small d-block">#media_type# (#mime_type#)</span>
-								<span class="small d-block">#descr#</span> 
-							</div>
-						</cfloop>
-					</cfif>
-				</li>
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					SELECT 
+						media.media_id,
+						media.media_uri,
+						media.mime_type,
+						media.media_type,
+						media.preview_uri,
+						label_value descr 
+					FROM 
+						media,
+						media_relations,
+						(select media_id,label_value from media_labels where media_label='description') media_labels 
+					WHERE 
+						media.media_id=media_relations.media_id and
+						media.media_id=media_labels.media_id (+) and
+						media_relations.media_relationship like '% accn' and
+						media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<div class="accordion" id="accordionI">
+					<div class="card mb-2 bg-light">
+						<div class="card-header mb-0" id="heading8">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
+							</h3>
+<!---							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs py-0 float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+							</cfif>--->
+						</div>
+						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
+							<div class="card-body mb-2 float-left">
+							<ul class="list-group list-group-flush pl-0">
+								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
+									<cfif oneOfUs is 1>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+										<cfelse>
+										#accession#
+									</cfif>
+									<cfif accnMedia.recordcount gt 0>
+										<cfloop query="accnMedia">
+											<div class="m-2 d-inline"> 
+												<cfset mt = #media_type#>
+												<a href="/media/#media_id#" target="_blank">
+													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
+												</a>
+												<span class="small d-block">#media_type# (#mime_type#)</span>
+												<span class="small d-block">#descr#</span> 
+											</div>
+										</cfloop>
+									</cfif>
+								</li>
 								
 								<!--------------------  Project / Usage ------------------------------------>
 								
@@ -985,7 +1003,7 @@ limitations under the License.
 										project_trans,
 										specimen_part 
 									WHERE 
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one2.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
 										loan_item.transaction_id=project_trans.transaction_id AND
 										project_trans.project_id=project.project_id AND
 										specimen_part.collection_object_id = loan_item.collection_object_id 
@@ -1009,7 +1027,7 @@ limitations under the License.
 										left join loan on loan_item.transaction_id = loan.transaction_id
 									WHERE
 										loan_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one2.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
@@ -1017,7 +1035,7 @@ limitations under the License.
 									FROM
 										specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 									WHERE
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one2.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
@@ -1027,7 +1045,7 @@ limitations under the License.
 										left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 									where
 										deacc_number is not null AND
-										specimen_part.derived_from_cat_item = <cfqueryparam value="#one2.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 									<cfloop query="isProj">
@@ -1068,6 +1086,11 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</ul>
+						</div>
+						</div>
+					</div>
+				</div>
+				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
