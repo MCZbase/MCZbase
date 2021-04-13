@@ -1088,6 +1088,7 @@ limitations under the License.
 				depth_units,
 				collecting_method,
 				collecting_source,
+						cataloged_item.accn_id,
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
