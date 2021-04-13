@@ -269,7 +269,7 @@ limitations under the License.
 									<div class="card-header pt-1" id="headingOnex">
 									<h1 class="my-0 px-1 pb-2">
 										<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-											<span class="h3">Add New Determination</span> 
+											<span class="h4">Add New Determination</span> 
 										</button>
 									</h1>
 								</div>
