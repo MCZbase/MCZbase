@@ -180,9 +180,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("first_name") AND len(first_name) gt 0>
 					<cfif left(first_name,1) is "=">
-						AND upper(first_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
+						AND first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-1)#">
 					<cfelseif left(first_name,1) is "!">
-						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
+						AND first_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-1)#">
 					<cfelseif first_name is "NULL">
 						AND first_name is null
 					<cfelseif first_name is "NOT NULL">
@@ -197,9 +197,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("middle_name") AND len(middle_name) gt 0>
 					<cfif left(middle_name,1) is "=">
-						AND upper(middle_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+						AND middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-1)#">
 					<cfelseif left(middle_name,1) is "!">
-						AND upper(middle_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+						AND middle_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-1)#">
 					<cfelseif middle_name is "NULL">
 						AND middle_name is null
 					<cfelseif middle_name is "NOT NULL">
@@ -214,9 +214,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("last_name") AND len(last_name) gt 0>
 					<cfif left(last_name,1) is "=">
-						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+						AND last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-1)#">
 					<cfelseif left(last_name,1) is "!">
-						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+						AND last_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-1)#">
 					<cfelseif last_name is "NULL">
 						AND last_name is null
 					<cfelseif last_name is "NOT NULL">
