@@ -247,8 +247,8 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-4">
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
 												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
@@ -256,8 +256,8 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
 												<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
 											</div>
-										</cfif>
-									</div>
+										</div>
+									</cfif>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
