@@ -778,7 +778,7 @@ limitations under the License.
 					</div>
 				</div>
 					<script>
-					if ($'#attributesDialog').children().length > 0) {
+					if ($'##attributesDialog').children().length > 0) {
 						console.log("something happened");
 					}
 					</script>
