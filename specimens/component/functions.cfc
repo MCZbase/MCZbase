@@ -68,22 +68,7 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<div class="container-fluid">
-					
-<!---					<div class="row bg-light py-2 my-2 border">
-					<div class="col-12" id="buttons">
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-						<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-					</div>
-					</div>--->
-					
+				<div class="container-fluid">				
 					<div class="row">
 						<div class="col-12 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
@@ -312,9 +297,9 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-6">
 												<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-												<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input" size="50">
+												<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 												<input type="hidden" name="taxona_id" id="taxona_id">
 											</div>
 											<div class="col-12 col-md-3 d-none">
@@ -322,10 +307,10 @@ limitations under the License.
 												<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 												<input type="hidden" name="taxonb_id" id="taxonb_id">
 											</div>
-											<div class="col-12 col-md-6">
+<!---											<div class="col-12 col-md-6">
 												<label for="user_id" class="data-entry-label" >Identification</label>
 												<input type="text" name="user_id" id="user_id" class="data-entry-input">
-											</div>
+											</div>--->
 										</div>
 										<div class="row mt-2">
 											<div class="col-12 col-md-4 pr-0">
