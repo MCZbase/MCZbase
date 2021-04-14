@@ -777,11 +777,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-					<script>
-					if ($'##attributesDialog').has('div').length > 0) {
-						console.log('something happened');
-					}
-					</script>
+
 <!------------------------------------ relationships  ------------------------------------->
 
 				<div class="accordion" id="accordionRelations">
