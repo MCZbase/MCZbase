@@ -778,8 +778,8 @@ limitations under the License.
 					</div>
 				</div>
 					<script>
-					if ($'##attributesDialog').children().length > 0) {
-						console.log("something happened");
+					if ($'##attributesDialog').has('div').length > 0) {
+						console.log('something happened');
 					}
 					</script>
 <!------------------------------------ relationships  ------------------------------------->
