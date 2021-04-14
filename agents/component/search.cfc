@@ -263,16 +263,18 @@ limitations under the License.
 						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">
 					</cfif>
 				</cfif>
-				<cfif isdefined("birth_date") AND len(#birth_date#) gt 0>
-					<cfif birth_date IS "NULL">
-						AND birth_date IS NULL
-					<cfelseif birth_date IS "NOT NULL">
-						AND birth_date IS NOT NULL
-					<cfelse>
-						<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
-						<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
-						AND birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
-						AND birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("birth_date") AND len(#birth_date#) gt 0>
+						<cfif birth_date IS "NULL">
+							AND birth_date IS NULL
+						<cfelseif birth_date IS "NOT NULL">
+							AND birth_date IS NOT NULL
+						<cfelse>
+							<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
+							<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
+							AND birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+							AND birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("death_date") AND len(#death_date#) gt 0>
@@ -327,19 +329,21 @@ limitations under the License.
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfif>
-				<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
-					<cfif agent_remarks is "NULL">
-						AND agent_remarks is null
-					<cfelseif agent_remarks is "NOT NULL">
-						AND agent_remarks is not null
-					<cfelse>
-						AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						<cfif agent_remarks is "NULL">
+							AND agent_remarks is null
+						<cfelseif agent_remarks is "NOT NULL">
+							AND agent_remarks is not null
+						<cfelse>
+							AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+						</cfif>
 					</cfif>
-				</cfif>
-				<cfif isdefined("address") AND len(#address#) gt 0>
-					AND agent.agent_id IN (
-						select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
-					)
+					<cfif isdefined("address") AND len(#address#) gt 0>
+						AND agent.agent_id IN (
+							select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
+						)
+					</cfif>
 				</cfif>
 			ORDER BY preferred_agent_name.agent_name
 		</cfquery>

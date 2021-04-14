@@ -119,9 +119,20 @@ limitations under the License.
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
-									<div class="col-12 col-md-5">
-										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
-										<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+									<div class="col-12 col-md-4">
+										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
+										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
+											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
+											>
+										<script>
+											$(document).ready(function() {
+												makeAgentPicker("specificagent", "agent_id");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-1">
+										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
+										<input type="text" id="agent_id" name="agent_id" value="#agent_id#" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
@@ -206,37 +217,28 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-4">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
-											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
-											>
-										<script>
-											$(document).ready(function() {
-												makeAgentPicker("specificagent", "agent_id");
-											});
-										</script>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-5">
+											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
+											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+										</div>
+										<div class="col-12 col-md-5">
+											<label for="address" class="data-entry-label" id="address_label">Address</label>
+											<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
+											<select id="edited" name="edited" class="data-entry-select">
+												<option></option>
+												<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="1" #sel# >Yes *</option>
+												<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="0" #sel#>No</option>
+											</select>
+										</div>
 									</div>
-									<div class="col-12 col-md-1">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
-										<input type="text" id="agent_id" name="agent_id" value="#agent_id#" class="data-entry-input">
-									</div>
-									<div class="col-12 col-md-5">
-										<label for="address" class="data-entry-label" id="address_label">Address</label>
-										<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
-										<select id="edited" name="edited" class="data-entry-select">
-											<option></option>
-											<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="1" #sel# >Yes *</option>
-											<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="0" #sel#>No</option>
-										</select>
-									</div>
-								</div>
+								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
 									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
@@ -246,13 +248,15 @@ limitations under the License.
 								</cfif>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-4">
-										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
-										</div>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
+												<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+											</div>
+										</cfif>
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
