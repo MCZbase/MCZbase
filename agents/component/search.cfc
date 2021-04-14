@@ -555,6 +555,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
 					AND project_agent.project_id is not null
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'organization_agent'>
+					AND agent.agent_type = 'organization'
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>

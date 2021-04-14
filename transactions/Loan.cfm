@@ -277,7 +277,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
 								<script>
-									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
+									$(makeRichTransAgentPickerConstrained('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null,'organization_agent'));
 								</script> 
 							</div>
 						</div>
