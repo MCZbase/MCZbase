@@ -1463,52 +1463,52 @@ limitations under the License.
 	<cfthread name="getCollectorsThread">
 	<cfoutput>
 		<cftry>
-							<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-		<div class="error"> Improper call. Aborting..... </div>
-		<cfabort>
-	</cfif>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-		<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
+			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+				<div class="error"> Improper call. Aborting..... </div>
+				<cfabort>
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
 			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				collector.coll_order,
-				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
-				else
-					preferred_agent_name.agent_name
-				end collectors
-			FROM
-				collector,
-				preferred_agent_name
-			WHERE
-				collector.collector_role='c' and
-				collector.agent_id=preferred_agent_name.agent_id and
-				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			ORDER BY
-				coll_order
-		</cfquery>
-		<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				collector.coll_order,
-				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
-				else
-					preferred_agent_name.agent_name
-				end preparators
-			FROM
-				collector,
-				preferred_agent_name
-			WHERE
-				collector.collector_role='p' and
-				collector.agent_id=preferred_agent_name.agent_id and
-				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			ORDER BY
-				coll_order
-		</cfquery>
-				<ul class="list-unstyled list-group form-row p-1 mb-0">
+				SELECT
+					collector.coll_order,
+					case when
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
+					else
+						preferred_agent_name.agent_name
+					end collectors
+				FROM
+					collector,
+					preferred_agent_name
+				WHERE
+					collector.collector_role='c' and
+					collector.agent_id=preferred_agent_name.agent_id and
+					collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					coll_order
+			</cfquery>
+			<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					collector.coll_order,
+					case when
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
+					else
+						preferred_agent_name.agent_name
+					end preparators
+				FROM
+					collector,
+					preferred_agent_name
+				WHERE
+					collector.collector_role='p' and
+					collector.agent_id=preferred_agent_name.agent_id and
+					collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					coll_order
+			</cfquery>
+			<ul class="list-unstyled list-group form-row p-1 mb-0">
 					<cfif colls.recordcount gt 0>
 						<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
@@ -1524,27 +1524,26 @@ limitations under the License.
 						</li>
 					</cfif>
 				</ul>
-		
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert">
-									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+					<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+								<div class="row">
+									<div class="alert alert-danger" role="alert">
+										<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+										<h2>Internal Server Error.</h2>
+										<p>#message#</p>
+										<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+									</div>
 								</div>
 							</div>
-						</div>
-			</cfcatch>
+				</cfcatch>
 		</cftry>
 	</cfoutput>
 	</cfthread>
