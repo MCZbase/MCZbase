@@ -173,7 +173,7 @@ limitations under the License.
 	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg enable</cfquery>
 	<cflocation url="Specimen.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
-</cfif>
+</cffunction>
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
