@@ -119,8 +119,8 @@ limitations under the License.
 		concatEncumbrances(flattable.collection_object_id) as encumbrance_action,
 		flattable.dec_lat,
 		flattable.dec_long
-<!---		<cfif len(#session.CustomOtherIdentifier#) gt 0>
-			,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
+<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
+		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
 		</cfif>--->
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
@@ -213,7 +213,7 @@ limitations under the License.
 			<input type="hidden" name="suppressHeader" value="true">
 			<input type="hidden" name="action" value="nothing">
 			<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-		<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+			<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
 				<cfset isPrev = "no">
 				<cfset isNext = "no">
 				<cfset currPos = 0>
@@ -225,31 +225,30 @@ limitations under the License.
 				<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
 				<cfset lenOfIdList = listlen(session.collObjIdList)>
 				<cfset firstID = listGetAt(session.collObjIdList,1)>
-			<cfif currPos lt lenOfIdList>
+				<cfif currPos lt lenOfIdList>
 					<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
 				</cfif>
-			<cfif currPos gt 1>
+				<cfif currPos gt 1>
 					<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
 				</cfif>
-			<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-			<cfif lenOfIdList gt 1>
-				<cfif currPos gt 1>
-					<cfset isPrev = "yes">
+				<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+				<cfif lenOfIdList gt 1>
+					<cfif currPos gt 1>
+						<cfset isPrev = "yes">
+					</cfif>
+					<cfif currPos lt lenOfIdList>
+						<cfset isNext = "yes">
+					</cfif>
 				</cfif>
-				<cfif currPos lt lenOfIdList>
-					<cfset isNext = "yes">
-				</cfif>
+			<cfelse>
+				<cfset isNext="">
+				<cfset isPrev="">
 			</cfif>
-		<cfelse>
-			<cfset isNext="">
-			<cfset isPrev="">
-		</cfif>
 		</form>
 	</cfif>
 </cfoutput>
 
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
-
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
 
 <!--- (5) Finish up with the page footer --->
