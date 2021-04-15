@@ -397,7 +397,7 @@ limitations under the License.
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
 <!-----------------------------------------------------------------------------------------------------------------> 
-<!---THIS? function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
  @return html for editing the identification 
 --->

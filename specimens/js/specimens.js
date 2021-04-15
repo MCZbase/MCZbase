@@ -68,6 +68,32 @@ function loadIdentifications(collection_object_id,targetDivId) {
 	});
 }
 
+function updateIdentifications(transactionId,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getLoanItemCounts",
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are " + result.DATA.PARTCOUNT[0];
+				message += " parts from " + result.DATA.CATITEMCOUNT[0];
+				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+};
+
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.
