@@ -1389,7 +1389,7 @@ limitations under the License.
 						<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one.began_date) gt 0 AND one.began_date eq #one1.ended_date#>
+					<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
 						<li class="list-group-item col-7 px-0">#one.began_date#</li>
 					</cfif>
