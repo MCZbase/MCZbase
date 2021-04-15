@@ -1422,7 +1422,7 @@ limitations under the License.
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 					<cfif len(one.continent_ocean) gt 0>
-						<cfif oneOfUs is 1
+					
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
 						<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
 					</cfif>
