@@ -283,9 +283,7 @@ limitations under the License.
 												<cfif not isdefined("taxa_formula")>
 													<cfset taxa_formula='A'>
 												</cfif>
-												<select name="taxa_formula" id="taxa_formula" size="1" 
-																			 class="reqdClr w-100" required 
-																			 onchange="idFormulaChanged(this.value,'taxonb');">
+												<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
 													<cfset selected_value = "#taxa_formula#">
 													<cfloop query="ctFormula">
 														<cfif selected_value EQ ctFormula.taxa_formula>
@@ -489,7 +487,7 @@ limitations under the License.
 							</form>
 						</div>
 					</cfloop>
-					<!--- theResult ---> 
+					<!--- theResult --->
 				</div>
 			</cfoutput>
 			<cfcatch>
