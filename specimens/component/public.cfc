@@ -1221,7 +1221,7 @@ limitations under the License.
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 
 				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select locality.spec_locality, locality.geog_auth_rec_id, flat.began_date, flat.ended_date, flat.verbatim_date from locality, flat
+					select locality.spec_locality, locality.geog_auth_rec_id, flat.began_date, flat.ended_date, flat.verbatim_date, flat.verbatim_locality from locality, flat
 					where locality.locality_id = flat.locality_id
 					and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
