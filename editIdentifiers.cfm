@@ -1,5 +1,5 @@
 <cfinclude template="/includes/alwaysInclude.cfm">
-    <div class="basic_box">
+<div class="basic_box">
 <cfset title = "Edit Identifiers">
 <cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
@@ -240,5 +240,5 @@
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------->
-            </div>
+</div>
 <cf_customizeIFrame>
