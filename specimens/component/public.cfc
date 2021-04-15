@@ -1238,38 +1238,38 @@ limitations under the License.
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
 						<li class="list-group-item col-7 px-0">#getGeo.continent_ocean#</li>
 					</cfif>
-					<cfif len(sea) gt 0>
+					<cfif len(getGeo.sea) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#sea#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.sea#</li>
 					</cfif>
-					<cfif len(country) gt 0>
+					<cfif len(getGeo.country) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#country#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.country#</li>
 					</cfif>
-					<cfif len(state_prov) gt 0>
+					<cfif len(getGeo.state_prov) gt 0>
 						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#state_prov#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.state_prov#</li>
 					</cfif>
-					<cfif len(feature) gt 0>
+					<cfif len(getGeo.feature) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#feature#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.feature#</li>
 					</cfif>
-					<cfif len(county) gt 0>
+					<cfif len(getGeo.county) gt 0>
 						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#county#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.county#</li>
 					</cfif>
 
-					<cfif len(island_group) gt 0>
+					<cfif len(getGeo.island_group) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#island_group#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.island_group#</li>
 					</cfif>
-					<cfif len(island) gt 0>
+					<cfif len(getGeo.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#island#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.island#</li>
 					</cfif>
-					<cfif len(quad) gt 0>
+					<cfif len(getGeo.quad) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#quad#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.quad#</li>
 					</cfif>
 				</ul>
 			</div>
