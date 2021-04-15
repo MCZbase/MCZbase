@@ -566,19 +566,6 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="container-fluid">
-<!---					<div class="row bg-light py-2 my-2 border">
-					<div class="col-12" id="buttons">
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-						<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-						<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
-						<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-					</div>
-					</div>--->
 					<div class="row">
 						<div class="col-12 mt-2">
 					<h1 class="h3">Edit Existing Identifiers</h1>
@@ -956,19 +943,6 @@ limitations under the License.
 		<cfoutput>
 		<form>
 			<div class="container-fluid">
-<!---				<div class="row bg-light py-2 my-2 border">
-				<div class="col-12" id="buttons">
-					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog')">Identifications</button>
-					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-					<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-					<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
-					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
-					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
-					<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-				</div>
-				</div>--->
 				<div class="row">
 					<div class="col-12 mt-3">
 						<table class="table border-bottom mb-0">
@@ -1577,17 +1551,6 @@ limitations under the License.
 	<cfthread name="getEditAttributesThread"> 
 		<cfoutput>
 		<cftry>
-<!---			<div class="col-12" id="buttons">
-				<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Identifications</button>
-				<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-1" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog')">Citations</button>
-				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog')">Other IDs</button>
-				<button type="button" class="dialogBtn btn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog')">Parts</button>
-				<button type="button" class="dialogBtnbtn btn-xs btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog')">Attributes</button>
-				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditRelationshipsDialog(#collection_object_id#,'relationshipsDialog')">Relationships</button>
-				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog')">Locality</button>
-				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditCollectorsDialog(#collection_object_id#,'localityDialog')">Collectors</button>
-				<button type="button" class="dialogBtn btn btn-xs  btn-secondary small mt-0 px-1 py-0 mx-2" onClick="openEditTransactionsDialog(#collection_object_id#,'localityDialog')">Transactions</button>
-			</div>--->
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -2850,11 +2813,11 @@ limitations under the License.
 											</div>
 										</cfloop>
 									</cfif>
-								</li>
+								</li>--->
 								
 								<!--------------------  Project / Usage ------------------------------------>
 								
-								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
 									FROM
@@ -2983,7 +2946,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getTransactionsThread" />
 	<cfreturn getTransactionsThread.output>
-</cffunction>--->						
+</cffunction>--->					
 <!---<cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getLocalityThread"> 
@@ -3255,7 +3218,7 @@ limitations under the License.
 						<li class="list-group-item col-7 px-0">#one1.collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one1.began_date) gt 0 AND one.began_date eq #one1.ended_date#>
+				<!---	<cfif len(one1.began_date) gt 0 AND one.began_date eq #one1.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
 						<li class="list-group-item col-7 px-0">#one1.began_date#</li>
 					</cfif>
@@ -3314,7 +3277,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
-</cffunction>	--->	
+</cffunction>--->		
 <!---<cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCollectorsThread">
