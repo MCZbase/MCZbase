@@ -217,8 +217,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
-									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
-									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="auth_agent_name" class="data-entry-label">
+										In-House Authorized By
+										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -233,8 +235,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
-									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
-									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="rec_agent_name" class="data-entry-label">
+										Received By:
+										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -250,8 +254,10 @@ limitations under the License.
 				
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
-									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
-									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="in_house_contact_agent_name" class="data-entry-label">
+										In-House Contact:
+										<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -266,8 +272,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
-									<label for="recipient_institution_agent_name" class="data-entry-label">Recipient Institution:</label>
-									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="recipient_institution_agent_name" class="data-entry-label">
+										Recipient Institution:
+										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -284,8 +292,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
-									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
-									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="additional_incontact_agent_name" class="data-entry-label">
+										Additional In-house Contact:
+										<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -300,8 +310,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
-									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
-									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="foruseby_agent_name" class="data-entry-label">
+										For Use By:
+										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
