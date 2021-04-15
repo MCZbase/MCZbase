@@ -2242,7 +2242,7 @@ limitations under the License.
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush float-left">
 					<cfloop query="relns">
-						<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+						<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
 							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 								(Remark: #biol_indiv_relation_remarks#)
 							</cfif>
