@@ -585,7 +585,7 @@ limitations under the License.
 							<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
 							<input type="submit" value="Save" class="btn btn-xs btn-primary">
 						</div>
-						<cfif #Action# is "saveCatEdits">
+						<cfif action is "#saveCatEdits#">
 							<cfoutput>
 								<cftransaction>
 								<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
