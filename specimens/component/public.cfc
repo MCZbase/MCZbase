@@ -1236,7 +1236,7 @@ limitations under the License.
 					<cfif len(continent_ocean) gt 0>
 					
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#continent_ocean#</li>
+						<li class="list-group-item col-7 px-0">#getGeo.continent_ocean#</li>
 					</cfif>
 					<cfif len(sea) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
