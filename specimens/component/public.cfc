@@ -1256,7 +1256,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(county) gt 0>
 						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#one.county#</li>
+						<li class="list-group-item col-7 px-0">#county#</li>
 					</cfif>
 
 					<cfif len(island_group) gt 0>
@@ -1288,37 +1288,37 @@ limitations under the License.
 						<li class="list-group-item col-7 px-0">#collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+					<cfif len(began_date) gt 0 AND began_date eq #ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.began_date#</li>
+						<li class="list-group-item col-7 px-0">#began_date#</li>
 					</cfif>
-					<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+					<cfif len(began_date) gt 0 AND began_date neq #ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
+						<li class="list-group-item col-7 px-0">#began_date# - #ended_date#</li>
 					</cfif>
-					<cfif len(one.verbatim_date) gt 0>
+					<cfif len(verbatim_date) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
+						<li class="list-group-item col-7 px-0">#verbatim_date#</li>
 					</cfif>
-					<cfif len(one.verbatimcoordinates) gt 0>
+					<cfif len(verbatimcoordinates) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
+						<li class="list-group-item col-7 px-0">#verbatimcoordinates#</li>
 					</cfif>
-					<cfif len(one.collecting_method) gt 0>
+					<cfif len(collecting_method) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
+						<li class="list-group-item col-7 px-0">#collecting_method#</li>
 					</cfif>
-					<cfif len(one.coll_event_remarks) gt 0>
+					<cfif len(coll_event_remarks) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
+						<li class="list-group-item col-7 px-0">#coll_event_remarks#</li>
 					</cfif>
-					<cfif len(one.habitat_desc) gt 0>
+					<cfif len(habitat_desc) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#one.habitat_desc#</li>
+						<li class="list-group-item col-7 px-0">#habitat_desc#</li>
 					</cfif>
-					<cfif len(one.habitat) gt 0>
+					<cfif len(habitat) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-7 px-0">#one.habitat#</li>
+						<li class="list-group-item col-7 px-0">#habitat#</li>
 					</cfif>
 				</ul>
 			</div>
