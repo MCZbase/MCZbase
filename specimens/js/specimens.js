@@ -42,6 +42,29 @@ function loadIdentification(identification_id,form) {
 		dataType: "html"
 	});
 };
+function updateIdentifications(identification_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getIdentification",
+			identification_id : idenification_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are ";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
@@ -68,14 +91,14 @@ function loadIdentifications(collection_object_id,targetDivId) {
 	});
 }
 
-function updateIdentifications(transactionId,targetDiv) {
+function updateIdentifications(identification_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
-			method : "getLoanItemCounts",
-			transaction_id : transactionId,
+			method : "updateOID",
+			identification_id : idenification_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -92,6 +115,7 @@ function updateIdentifications(transactionId,targetDiv) {
 			}
 		}
 	},
+	)
 };
 
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
