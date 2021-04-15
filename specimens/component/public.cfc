@@ -1226,7 +1226,7 @@ limitations under the License.
 					and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select higher_geog from geog_auth_rec where
+					select continent_ocean, higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 
