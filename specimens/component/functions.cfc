@@ -550,6 +550,7 @@ limitations under the License.
 --->
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -851,8 +852,8 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-						
-						
+
+
 <cffunction name="saveOID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -969,8 +970,9 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>					
-						
+</cffunction>
+
+
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
