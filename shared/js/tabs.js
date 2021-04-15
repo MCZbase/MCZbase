@@ -5,22 +5,23 @@ window.addEventListener("DOMContentLoaded", () => {
 	const tabs = document.querySelectorAll('[role="tab"]');
 	const tabList = document.querySelector('[role="tablist"]');
 	var activeTab = $('.tabList > .active').get(0);
-		if (typeof activeTab !== 'undefined') {
-			var activeTabId = $(activeTab).attr('id');
-			var activeTabIndex = activeTabId - 1;
-		} else {
-			var activeTabIndex = 0;
-			console.log("Page load with no active tab, index:" + activeTabIndex);
-		}
-	let tabFocus = activeTabIndex;
+	if (typeof activeTab !== 'undefined') { 
+		var activeTabId = $(activeTab).attr('id');
+		var activeTabIndex = activeTabId - 1; // tabs array is zero indexed, tab Ids are 1 indexed.
+	} else { 
+		var activeTabIndex = 0;
+		console.log("Page loaded with no active tab, index:" + activeTabIndex);
+	}
+	let tabFocus = activeTabIndex;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
+
 	// Add a click event handler to each tab
 	tabs.forEach(tab => {
 		tab.addEventListener("click", changeTabs);
 	});
 
-// Enable arrow navigation between tabs in the tab list
-	if (tabList !== null) {
-			tabList.addEventListener("keydown", e => {
+	// Enable arrow navigation between tabs in the tab list, if there is a tabList
+	if (tabList !== null) { 
+		tabList.addEventListener("keydown", e => {
 			// Move right
 			if (e.keyCode === 39 || e.keyCode === 37) {
 				tabs[tabFocus].setAttribute("tabindex", -1);
@@ -42,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
 				tabs[tabFocus].focus();
 			}
 		});
-	}
+	} 
 });
 
 function changeTabs(e) {
