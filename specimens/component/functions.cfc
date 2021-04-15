@@ -582,7 +582,7 @@ limitations under the License.
 									value="#collection_id#">#institution_acronym# #collection_cde#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="cat_num" value="#catAF.cat_num#" class="reqdClr">
+							<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
 							<input type="submit" value="Save" class="btn btn-xs btn-primary">
 						</div>
 					</form>
