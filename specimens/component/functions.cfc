@@ -390,7 +390,7 @@ limitations under the License.
 											<cfset i = #i#+1>
 										</cfloop>
 										<div class="col-12 mt-2">
-											<input type="submit" class="savBtn btn btn-xs btn-primary" id="editIdentification_submit" value="Save Changes" title="Save Changes">
+											<input type="submit" class="btn btn-xs btn-primary" id="" value="Save Changes" title="Save Changes">
 										</div>
 									</div>
 								</div>
