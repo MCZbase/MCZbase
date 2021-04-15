@@ -1754,13 +1754,13 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs1 = 1>
-		<cfelse>
-		<cfset oneOfUs1 = 0>
-	</cfif>
-		<cfquery name="one1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+<cfset detSelect = "
+			SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		collection.collection_cde,
@@ -1773,25 +1773,19 @@ limitations under the License.
 		identification.nature_of_id,
 		collecting_event.collecting_event_id,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
+			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
 				replace(began_date,substr(began_date,1,4),'8888')
 		else
 			collecting_event.began_date
 		end began_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
+			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
 				replace(ended_date,substr(ended_date,1,4),'8888')
 		else
 			collecting_event.ended_date
 		end ended_date,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
+			#oneOfUs# != 1 and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' then
 				'Masked'
 		else
 			collecting_event.verbatim_date
@@ -1800,33 +1794,30 @@ limitations under the License.
 		collecting_event.endDayOfYear,
 		collecting_event.habitat_desc,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and collecting_event.coll_event_remarks is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					collecting_event.coll_event_remarks is not null
+				then 'Masked'
 		else
-			collecting_event.coll_event_remarks
+				collecting_event.coll_event_remarks
 		end COLL_EVENT_REMARKS,
 		locality.locality_id,
 		locality.minimum_elevation,
 		locality.maximum_elevation,
 		locality.orig_elev_units,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and locality.spec_locality is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					locality.spec_locality is not null
+				then 'Masked'
 		else
-			locality.spec_locality
+		locality.spec_locality
 		end spec_locality,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-			and accepted_lat_long.orig_lat_long_units is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					accepted_lat_long.orig_lat_long_units is not null
+				then 'Masked'
 		else
 			decode(accepted_lat_long.orig_lat_long_units,
 				'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
@@ -1838,11 +1829,10 @@ limitations under the License.
 			)
 		end VerbatimLatitude,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and accepted_lat_long.orig_lat_long_units is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					accepted_lat_long.orig_lat_long_units is not null
+				then 'Masked'
 		else
 			decode(accepted_lat_long.orig_lat_long_units,
 				'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
@@ -1853,7 +1843,6 @@ limitations under the License.
 					to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
 			)
 		end VerbatimLongitude,
-		locality.sovereign_nation,
 		collecting_event.verbatimcoordinates,
 		collecting_event.verbatimlatitude verblat,
 		collecting_event.verbatimlongitude verblong,
@@ -1891,20 +1880,18 @@ limitations under the License.
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-			and locality.locality_remarks is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					locality.locality_remarks is not null
+				then 'Masked'
 		else
 				locality.locality_remarks
 		end locality_remarks,
 		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs1#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and verbatim_locality is not null
-		then 
-			'Masked'
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					verbatim_locality is not null
+				then 'Masked'
 		else
 			verbatim_locality
 		end verbatim_locality,
@@ -1915,7 +1902,6 @@ limitations under the License.
 		depth_units,
 		collecting_method,
 		collecting_source,
-		specimen_part.derived_from_cat_item,
 		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM
 		cataloged_item,
@@ -1931,8 +1917,7 @@ limitations under the License.
 		preferred_agent_name enteredPerson,
 		preferred_agent_name editedPerson,
 		accn,
-		trans,
-		specimen_part
+		trans
 	WHERE
 		cataloged_item.collection_id = collection.collection_id AND
 		cataloged_item.collection_object_id = identification.collection_object_id AND
@@ -1948,121 +1933,115 @@ limitations under the License.
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
-		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+	cataloged_item.collection_object_id = #collection_object_id#
+	">
+<cfset checkSql(detSelect)>
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	#preservesinglequotes(detSelect)#
 </cfquery>
-		<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
+	Record masked.<cfabort>
+</cfif>
+	
+				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select locality.spec_locality, locality.geog_auth_rec_id from locality, flat
 					where locality.locality_id = flat.locality_id
 					and flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select higher_geog from geog_auth_rec where
 					geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_id 
-					FROM 
-						media_relations 
-					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one1.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-	
-				<cfif len(one1.spec_locality) gt 0>
-					<cfif localityMedia.recordcount gt 0>
-						<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-					</cfif>
-				</cfif>
+
 			</div>
 			<div class="col-7 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(one1.continent_ocean) gt 0>
+					<cfif len(one.continent_ocean) gt 0>
+					
 						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.continent_ocean#</li>
+						<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
 					</cfif>
-					<cfif len(one1.sea) gt 0>
+					<cfif len(one.sea) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.sea#</li>
+						<li class="list-group-item col-7 px-0">#one.sea#</li>
 					</cfif>
-					<cfif len(one1.country) gt 0>
+					<cfif len(one.country) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.country#</li>
+						<li class="list-group-item col-7 px-0">#one.country#</li>
 					</cfif>
-					<cfif len(one1.state_prov) gt 0>
+					<cfif len(one.state_prov) gt 0>
 						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.state_prov#</li>
+						<li class="list-group-item col-7 px-0">#one.state_prov#</li>
 					</cfif>
-					<cfif len(one1.feature) gt 0>
+					<cfif len(one.feature) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.feature#</li>
+						<li class="list-group-item col-7 px-0">#one.feature#</li>
 					</cfif>
-					<cfif len(one1.county) gt 0>
+					<cfif len(one.county) gt 0>
 						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.county#</li>
+						<li class="list-group-item col-7 px-0">#one.county#</li>
 					</cfif>
 
-					<cfif len(one1.island_group) gt 0>
+					<cfif len(one.island_group) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.island_group#</li>
+						<li class="list-group-item col-7 px-0">#one.island_group#</li>
 					</cfif>
-					<cfif len(one1.island) gt 0>
+					<cfif len(one.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.island#</li>
+						<li class="list-group-item col-7 px-0">#one.island#</li>
 					</cfif>
-					<cfif len(one1.quad) gt 0>
+					<cfif len(one.quad) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.quad#</li>
+						<li class="list-group-item col-7 px-0">#one.quad#</li>
 					</cfif>
 				</ul>
 			</div>
 			<div class="col-12 float-left px-0">
 				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
-					<cfif len(one1.spec_locality) gt 0>
+					<cfif len(one.spec_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 last">#one1.spec_locality#</li>
+						<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
 					</cfif>
-					<cfif len(one1.verbatim_locality) gt 0>
+					<cfif len(one.verbatim_locality) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 ">#one1.verbatim_locality#</li>
+						<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
 					</cfif>
-					<cfif len(one1.collecting_source) gt 0>
+					<cfif len(one.collecting_source) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.collecting_source#</li>
+						<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
 					</cfif>
 					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(one1.began_date) gt 0 AND one1.began_date eq #one1.ended_date#>
+					<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.began_date#</li>
+						<li class="list-group-item col-7 px-0">#one.began_date#</li>
 					</cfif>
-					<cfif len(one1.began_date) gt 0 AND one1.began_date neq #one1.ended_date#>
+					<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.began_date# - #one1.ended_date#</li>
+						<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
 					</cfif>
-					<cfif len(one1.verbatim_date) gt 0>
+					<cfif len(one.verbatim_date) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.verbatim_date#</li>
+						<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
 					</cfif>
-					<cfif len(one1.verbatimcoordinates) gt 0>
+					<cfif len(one.verbatimcoordinates) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.verbatimcoordinates#</li>
+						<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
 					</cfif>
-					<cfif len(one1.collecting_method) gt 0>
+					<cfif len(one.collecting_method) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.collecting_method#</li>
+						<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
 					</cfif>
-					<cfif len(one1.coll_event_remarks) gt 0>
+					<cfif len(one.coll_event_remarks) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.coll_event_remarks#</li>
+						<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
 					</cfif>
-					<cfif len(one1.habitat_desc) gt 0>
+					<cfif len(one.habitat_desc) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#one1.habitat_desc#</li>
+						<li class="list-group-item col-7 px-0">#one.habitat_desc#</li>
 					</cfif>
-					<cfif len(one1.habitat) gt 0>
+					<cfif len(one.habitat) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-7 px-0">#one1.habitat#</li>
+						<li class="list-group-item col-7 px-0">#one.habitat#</li>
 					</cfif>
 				</ul>
 			</div>
