@@ -1021,7 +1021,7 @@ limitations under the License.
 						'received by')
 				</cfquery>
 			</cfif>
-			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
+			<cfif isdefined("in_house_contact_agent_id") and len(in_house_contact_agent_id) gt 0>
 				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1029,7 +1029,7 @@ limitations under the License.
 						trans_agent_role
 					) values (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#inhouse_contact_agent_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#in_house_contact_agent_id#">,
 						'in-house contact')
 				</cfquery>
 			</cfif>
