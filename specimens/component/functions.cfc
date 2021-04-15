@@ -52,7 +52,7 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 			
-<cffunction name="saveIdentification" access="remote" returntype="query">
+<!---<cffunction name="saveIdentification" access="remote" returntype="query">
 	<cfargument name="identification_id" type="numeric" required="yes">
 		<cfthread name="getEditIdentsThread">
 		
@@ -199,7 +199,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
-</cffunction>
+</cffunction>--->
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
