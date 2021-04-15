@@ -592,7 +592,7 @@ limitations under the License.
 							<form name="oids#i#" method="post" action="newOtherID">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-									<input type="hidden" name="Action">
+									<input type="hidden" name="Action" value="newOtherID">
 									<cfset thisType = #oids.other_id_type#>
 								<div class="row mx-0">
 									<div class="form-group col-2 pl-0 pr-1">
