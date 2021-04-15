@@ -54,7 +54,10 @@ limitations under the License.
 			
 <cffunction name="saveIdentification" access="remote" returntype="query">
 	<cfargument name="identification_id" type="numeric" required="yes">
+		<cfthread name="getEditIdentsThread">
+		
 <cfoutput>
+	<cftry>
 	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg disable</cfquery>
 	<cftransaction>
 		<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
@@ -171,8 +174,31 @@ limitations under the License.
 		</cfloop>
 	</cftransaction>
 	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg enable</cfquery>
-	<cflocation url="#guid#">
 </cfoutput>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getEditIdentsThread" />
+	<cfreturn getEditIdentsThread.output>
 </cffunction>
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
