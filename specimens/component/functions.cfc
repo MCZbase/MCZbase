@@ -51,8 +51,130 @@ limitations under the License.
 	</cftry>
 	<cfreturn result>
 </cffunction>
+			
+<cffunction name="saveIdentification" access="remote" returntype="query">
+	<cfargument name="identification_id" type="numeric" required="yes">
+<cfoutput>
+	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg disable</cfquery>
+	<cftransaction>
+		<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+			<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
+			<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
+			<cfset thisIdRemark = #evaluate("IDENTIFICATION_REMARKS_" & n)#>
+			<cfset thisMadeDate = #evaluate("MADE_DATE_" & n)#>
+			<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
+			<cfset thisNumIds = #evaluate("NUMBER_OF_IDENTIFIERS_" & n)#>
+			<cfset thisPubId = #evaluate("publication_id_" & n)#>
+			<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
+			<cfif #isdefined("storedas_" & n)#>
+				<cfset thisStoredAs = #evaluate("storedas_" & n)#>
+			<cfelse>
+				<cfset thisStoredAs = 0>
+			</cfif>
+			<cfif thisAcceptedIdFg is 1>
+				<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET ACCEPTED_ID_FG=0 where collection_object_id = #collection_object_id#
+				</cfquery>
+				<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET ACCEPTED_ID_FG=1, sort_order = null where identification_id = #thisIdentificationId#
+				</cfquery>
+				<cfset thisStoredAs = 0>
+			</cfif>
+			<cfif thisStoredAs is 1>
+				<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=0 where collection_object_id = #collection_object_id#
+				</cfquery>
+				<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=1 where identification_id = #thisIdentificationId#
+				</cfquery>
+			<cfelse>
+				<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE identification SET STORED_AS_FG=0 where identification_id = #thisIdentificationId#
+				</cfquery>
+			</cfif>
+			<cfif thisAcceptedIdFg is "DELETE">
+					<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						DELETE FROM identification_agent WHERE identification_id = #thisIdentificationId#
+					</cfquery>
+					<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						DELETE FROM identification_taxonomy WHERE identification_id = #thisIdentificationId#
+					</cfquery>
+					<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						DELETE FROM identification WHERE identification_id = #thisIdentificationId#
+					</cfquery>
 
-<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
+			<cfelse>
+				<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE identification SET
+						nature_of_id = '#thisNature#',
+						made_date = '#thisMadeDate#',
+						identification_remarks = '#escapeQuotes(thisIdRemark)#'
+						<cfif len(thisPubId) gt 0>
+							,publication_id = #thisPubId#
+						<cfelse>
+							,publication_id = NULL
+						</cfif>
+						<cfif len(thisSortOrder) gt 0>
+							,sort_order = #thisSortOrder#
+						<cfelse>
+							,sort_order = NULL
+						</cfif>
+					where identification_id=#thisIdentificationId#
+				</cfquery>
+				<cfloop from="1" to="#thisNumIds#" index="nid">
+					<cftry>
+						<!--- couter does not increment backwards - may be a few empty loops in here ---->
+						<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
+						<cfcatch>
+							<cfset thisIdId =-1>
+						</cfcatch>
+					</cftry>
+					<cftry>
+						<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
+						<cfcatch>
+							<cfset thisIdAgntId=-1>
+						</cfcatch>
+					</cftry>
+					<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
+						<!--- new identifier --->
+						<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into identification_agent
+								( IDENTIFICATION_ID,AGENT_ID,IDENTIFIER_ORDER)
+							values
+								(
+									#thisIdentificationId#,
+									#thisIdId#,
+									#nid#
+								)
+						</cfquery>
+					<cfelse>
+						<!--- update or delete --->
+						<cfif #thisIdId# is "DELETE">
+							<!--- delete --->
+							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								delete from identification_agent
+								where identification_agent_id=#thisIdAgntId#
+							</cfquery>
+						<cfelseif thisIdId gte 0>
+							<!--- update --->
+							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update identification_agent set
+									agent_id=#thisIdId#,
+									identifier_order=#nid#
+								 where
+								 	identification_agent_id=#thisIdAgntId#
+							</cfquery>
+						</cfif>
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfloop>
+	</cftransaction>
+	<cfquery datasource="uam_god">alter trigger tr_stored_as_fg enable</cfquery>
+	<cflocation url="editIdentification.cfm?collection_object_id=#collection_object_id#">
+</cfoutput>
+</cfif>
+<!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
  @return html for editing identifications for the specified cataloged item. 
