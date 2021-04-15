@@ -119,9 +119,20 @@ limitations under the License.
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
-									<div class="col-12 col-md-5">
-										<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks</label>
-										<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+									<div class="col-12 col-md-4">
+										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
+										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
+											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
+											>
+										<script>
+											$(document).ready(function() {
+												makeAgentPicker("specificagent", "agent_id");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-1">
+										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
+										<input type="text" id="agent_id" name="agent_id" value="#agent_id#" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
@@ -151,20 +162,40 @@ limitations under the License.
 												<cfif prefix EQ "!#dist_prefix.dist_prefix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="!#dist_prefix.dist_prefix#" #selected#>not #dist_prefix.dist_prefix#</option>
 											</cfloop>
-											<option value="NULL">NULL</option>
-											<option value="NOT NULL">NOT NULL</option>
+											<cfif prefix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel# >NULL</option>
+											<cfif prefix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="first_name" class="data-entry-label" id="first_name_label">First Name</label>
+										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
+											<span class="small">
+												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name</label>
+										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
+											<span class="small">
+												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name</label>
+										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
+											<span class="small">
+												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
 									</div>
 									<div class="col-12 col-md-2">
@@ -179,39 +210,35 @@ limitations under the License.
 												<cfif suffix EQ "!#dist_suffix.dist_suffix#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="!#dist_suffix.dist_suffix#" #selected#>not #dist_suffix.dist_suffix#</option>
 											</cfloop>
-											<option value="NULL">NULL</option>
-											<option value="NOT NULL">NOT NULL</option>
+											<cfif suffix EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel#>NULL</option>
+											<cfif suffix EQ "NOT NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NOT NULL" #sel#>NOT NULL</option>
 										</select>
 									</div>
 								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-5">
-										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
-											onblur=" if($('##specificagent').val()=='') { $('##agent_id').val(''); }"
-											>
-										<input type="hidden" id="agent_id" name="agent_id" value="#agent_id#">
-										<script>
-											$(document).ready(function() {
-												makeAgentPicker("specificagent", "agent_id");
-											});
-										</script>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-5">
+											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
+											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+										</div>
+										<div class="col-12 col-md-5">
+											<label for="address" class="data-entry-label" id="address_label">Address</label>
+											<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
+											<select id="edited" name="edited" class="data-entry-select">
+												<option></option>
+												<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="1" #sel# >Yes *</option>
+												<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="0" #sel#>No</option>
+											</select>
+										</div>
 									</div>
-									<div class="col-12 col-md-5">
-										<label for="address" class="data-entry-label" id="address_label">Address</label>
-										<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
-										<select id="edited" name="edited" class="data-entry-select">
-											<option></option>
-											<cfif edited EQ 1><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="1" #sel# >Yes *</option>
-											<cfif edited EQ 0><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="0" #sel#>No</option>
-										</select>
-									</div>
-								</div>
+								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset dateWord = "Date">
 									<cfset dateplaceholder = "yyyy-mm-dd or yyyy">
@@ -220,15 +247,17 @@ limitations under the License.
 									<cfset dateplaceholder = "yyyy">
 								</cfif>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-4">
-										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-											<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-											<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-											<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 col-md-4">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
+												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
+												<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+											</div>
 										</div>
-									</div>
+									</cfif>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
@@ -296,7 +325,7 @@ limitations under the License.
 				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var vetted = rowData['edited'];
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
 				};
 			</cfif>
 	
@@ -330,7 +359,9 @@ limitations under the License.
 							</cfif>
 							{ name: 'birth_date', type: 'string' },
 							{ name: 'death_date', type: 'string' },
-							{ name: 'agent_remarks', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'agent_remarks', type: 'string' },
+							</cfif>
 							{ name: 'abbreviation', type: 'string' },
 							{ name: 'preferred', type: 'string' },
 							{ name: 'acronym', type: 'string' },
@@ -437,8 +468,12 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
 							</cfif>
-							{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
-							{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
+								{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false }
+							<cfelse>
+								{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false }
+							</cfif>
 						],
 						rowdetails: true,
 						rowdetailstemplate: {

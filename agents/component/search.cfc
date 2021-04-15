@@ -131,7 +131,9 @@ limitations under the License.
 					(case when death_date is not null then substr(birth_date,0,4) else null end) as birth_date,
 					substr(death_date,0,4) as death_date,
 				</cfif>
-				agent_remarks,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					agent_remarks,
+				</cfif>
 				person.prefix,
 				person.first_name,
 				person.middle_name,
@@ -177,8 +179,12 @@ limitations under the License.
 					AND edited = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#edited#">
 				</cfif>
 				<cfif isdefined("first_name") AND len(first_name) gt 0>
-					<cfif left(first_name,1) is "=">
+					<cfif left(first_name,2) is "==">
+						AND first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-2)#">
+					<cfelseif left(first_name,1) is "=">
 						AND upper(first_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
+					<cfelseif left(first_name,2) is "!!">
+						AND first_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-2)#">
 					<cfelseif left(first_name,1) is "!">
 						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif first_name is "NULL">
@@ -194,8 +200,12 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("middle_name") AND len(middle_name) gt 0>
-					<cfif left(middle_name,1) is "=">
+					<cfif left(middle_name,2) is "==">
+						AND middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-2)#">
+					<cfelseif left(middle_name,1) is "=">
 						AND upper(middle_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+					<cfelseif left(middle_name,2) is "!!">
+						AND middle_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-2)#">
 					<cfelseif left(middle_name,1) is "!">
 						AND upper(middle_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
 					<cfelseif middle_name is "NULL">
@@ -211,8 +221,12 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("last_name") AND len(last_name) gt 0>
-					<cfif left(last_name,1) is "=">
+					<cfif left(last_name,2) is "==">
+						AND last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">
+					<cfelseif left(last_name,1) is "=">
 						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif left(last_name,2) is "!!">
+						AND last_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
@@ -249,16 +263,18 @@ limitations under the License.
 						AND suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">
 					</cfif>
 				</cfif>
-				<cfif isdefined("birth_date") AND len(#birth_date#) gt 0>
-					<cfif birth_date IS "NULL">
-						AND birth_date IS NULL
-					<cfelseif birth_date IS "NOT NULL">
-						AND birth_date IS NOT NULL
-					<cfelse>
-						<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
-						<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
-						AND birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
-						AND birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("birth_date") AND len(#birth_date#) gt 0>
+						<cfif birth_date IS "NULL">
+							AND birth_date IS NULL
+						<cfelseif birth_date IS "NOT NULL">
+							AND birth_date IS NOT NULL
+						<cfelse>
+							<cfset bdate = dateformat(birth_date,'yyyy-mm-dd')>
+							<cfset to_bdate = dateformat(to_birth_date,'yyyy-mm-dd')>
+							AND birth_date >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#bdate#">
+							AND birth_date <= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_bdate#">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("death_date") AND len(#death_date#) gt 0>
@@ -313,19 +329,21 @@ limitations under the License.
 				<cfif isdefined("agent_id") AND isnumeric(#agent_id#)>
 					AND agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfif>
-				<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
-					<cfif agent_remarks is "NULL">
-						AND agent_remarks is null
-					<cfelseif agent_remarks is "NOT NULL">
-						AND agent_remarks is not null
-					<cfelse>
-						AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						<cfif agent_remarks is "NULL">
+							AND agent_remarks is null
+						<cfelseif agent_remarks is "NOT NULL">
+							AND agent_remarks is not null
+						<cfelse>
+							AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+						</cfif>
 					</cfif>
-				</cfif>
-				<cfif isdefined("address") AND len(#address#) gt 0>
-					AND agent.agent_id IN (
-						select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
-					)
+					<cfif isdefined("address") AND len(#address#) gt 0>
+						AND agent.agent_id IN (
+							select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
+						)
+					</cfif>
 				</cfif>
 			ORDER BY preferred_agent_name.agent_name
 		</cfquery>
@@ -552,6 +570,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
 					AND project_agent.project_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'organization_agent'>
+					AND agent.agent_type = 'organization'
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
