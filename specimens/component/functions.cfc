@@ -569,7 +569,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2">
 					<h1 class="h3">Edit Existing Identifiers</h1>
-					<form name="ids" method="post" action="newOtherID">
+					<form name="ids" method="post" action="editIdentifiers.cfm">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<input type="hidden" name="Action" value="saveCatEdits">
@@ -589,10 +589,10 @@ limitations under the License.
 					<cfset i=1>
 					<cfloop query="oids">
 						<cfif len(#other_id_type#) gt 0>
-							<form name="oids#i#" method="post" action="newOtherID">
+							<form name="oids#i#" method="post" action="editIdentifiers.cfm">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-									<input type="hidden" name="Action" value="newOtherID">
+									<input type="hidden" name="Action">
 									<cfset thisType = #oids.other_id_type#>
 								<div class="row mx-0">
 									<div class="form-group col-2 pl-0 pr-1">
@@ -639,7 +639,7 @@ limitations under the License.
 							</div>
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 								<div class="card-body">
-									<form name="newOID" method="post" action="newOtherID">
+									<form name="newOID" method="post" action="editIdentifiers.cfm">
 										<div class="row mx-0">
 											<div class="form-group col-3 pl-0 pr-1">
 												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -678,7 +678,7 @@ limitations under the License.
 				</div>
 			</cfoutput>
 				<!-------------------------------------------------------->
-<cfif #Action# is "saveCatEdits">
+
 <cfoutput>
 	<cftransaction>
 	<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -688,9 +688,9 @@ limitations under the License.
 	WHERE collection_object_id=#collection_object_id#
 	</cfquery>
 	</cftransaction>
-	<cflocation url="SpecimenDetailBody.cfm?collection_object_id=#collection_object_id#">
+	
 </cfoutput>
-</cfif>
+
 		<cfcatch>
 			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
