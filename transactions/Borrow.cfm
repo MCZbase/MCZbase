@@ -335,7 +335,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="lending_institution_agent_id" id="lending_institution_agent_id" >
 								<script>
-									$(makeRichTransAgentPicker('lending_institution_agent_name','lending_institution_agent_id','lending_institution_agent_icon','lending_institution_agent_view',null));
+									$(makeRichTransAgentPickerConstrained('lending_institution_agent_name','lending_institution_agent_id','lending_institution_agent_icon','lending_institution_agent_view',null,'organization_agent'));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
