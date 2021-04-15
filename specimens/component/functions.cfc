@@ -586,7 +586,7 @@ limitations under the License.
 							<input type="submit" value="Save" class="btn btn-xs btn-primary">
 						</div>
 					</form>
-						<cfif Action = "saveCatEdits">
+						<cfif #Action# = "saveCatEdits">
 							<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								UPDATE cataloged_item SET 
 									cat_num = '#cat_num#',
@@ -687,17 +687,6 @@ limitations under the License.
 			</cfoutput>
 				<!-------------------------------------------------------->
 
-<cfoutput>
-
-	<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	UPDATE cataloged_item SET 
-		cat_num = '#cat_num#',
-		collection_id=#collection_id#		
-	WHERE collection_object_id=#collection_object_id#
-	</cfquery>
-
-	
-</cfoutput>
 
 		<cfcatch>
 			<cfoutput>
