@@ -567,7 +567,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mt-2">
 						<h1 class="h3">Edit Existing Identifiers</h1>
-						<form name="ids" method="post" action="Specimens.cfm">
+						<form name="ids" method="post" action="Specimen.cfm">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<input type="hidden" name="Action" value="saveCatEdits">
@@ -587,7 +587,7 @@ limitations under the License.
 						<cfset i=1>
 						<cfloop query="oids">
 							<cfif len(#other_id_type#) gt 0>
-								<form name="oids#i#" method="post" action="Specimens.cfm">
+								<form name="oids#i#" method="post" action="Specimen.cfm">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 										<input type="hidden" name="Action">
@@ -2250,7 +2250,7 @@ limitations under the License.
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
-							<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+							<a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
 						</li>
 					</cfif>
 				</ul>
