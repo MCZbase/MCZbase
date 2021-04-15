@@ -569,7 +569,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2">
 					<h1 class="h3">Edit Existing Identifiers</h1>
-					<form name="ids" method="post" action="editIdentifiers.cfm">
+					<form name="ids" method="post" action="newOtherID">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<input type="hidden" name="Action" value="saveCatEdits">
@@ -589,7 +589,7 @@ limitations under the License.
 					<cfset i=1>
 					<cfloop query="oids">
 						<cfif len(#other_id_type#) gt 0>
-							<form name="oids#i#" method="post" action="editIdentifiers.cfm">
+							<form name="oids#i#" method="post" action="newOtherID">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 									<input type="hidden" name="Action">
@@ -639,7 +639,7 @@ limitations under the License.
 							</div>
 							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 								<div class="card-body">
-									<form name="newOID" method="post" action="editIdentifiers.cfm">
+									<form name="newOID" method="post" action="newOtherID">
 										<div class="row mx-0">
 											<div class="form-group col-3 pl-0 pr-1">
 												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
