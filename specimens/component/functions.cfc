@@ -565,11 +565,11 @@ limitations under the License.
 				from collection
 			</cfquery>
 			<cfoutput>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 mt-2">
-					<h1 class="h3">Edit Existing Identifiers</h1>
-					<form name="ids" method="post" action="Specimens.cfm">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 mt-2">
+						<h1 class="h3">Edit Existing Identifiers</h1>
+						<form name="ids" method="post" action="Specimens.cfm">
 						<div class="mb-4">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<input type="hidden" name="Action" value="saveCatEdits">
@@ -586,100 +586,92 @@ limitations under the License.
 							<input type="submit" value="Save" class="btn btn-xs btn-primary">
 						</div>
 					</form>
-<!---						<cfif #Action# = "saveCatEdits">
-							<cfquery name="upCat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE cataloged_item SET 
-									cat_num = '#cat_num#',
-									collection_id=#collection_id#		
-								WHERE collection_object_id=#collection_object_id#
-							</cfquery>
-						</cfif>--->
-					<cfset i=1>
-					<cfloop query="oids">
-						<cfif len(#other_id_type#) gt 0>
-							<form name="oids#i#" method="post" action="Specimens.cfm">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-									<input type="hidden" name="Action">
-									<cfset thisType = #oids.other_id_type#>
-								<div class="row mx-0">
-									<div class="form-group col-2 pl-0 pr-1">
-										<label class="data-entry-label">Other ID Type</label>
-										<select name="other_id_type" class="data-entry-select" style="" size="1">				
-											<cfloop query="ctType">					
-												<option 
-													<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-													value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-											</cfloop>			
-										</select>
+						<cfset i=1>
+						<cfloop query="oids">
+							<cfif len(#other_id_type#) gt 0>
+								<form name="oids#i#" method="post" action="Specimens.cfm">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+										<input type="hidden" name="Action">
+										<cfset thisType = #oids.other_id_type#>
+									<div class="row mx-0">
+										<div class="form-group col-2 pl-0 pr-1">
+											<label class="data-entry-label">Other ID Type</label>
+											<select name="other_id_type" class="data-entry-select" style="" size="1">				
+												<cfloop query="ctType">					
+													<option 
+														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+												</cfloop>			
+											</select>
+										</div>
+										<div class="form-group col-2 px-1">
+											<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
+											<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
+										</div>
+										<div class="form-group col-2 px-1">
+											<label for="other_id_number" class="data-entry-label">Other ID Number</label>
+											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
+										</div>
+										<div class="form-group col-2 px-1">
+											<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
+											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
+										</div>
+										<div class="form-group col-2 px-1 mt-3">
+											<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+											<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+										</div>
 									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-										<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
-									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
-									</div>
-									<div class="form-group col-2 px-1">
-										<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-										<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
-									</div>
-									<div class="form-group col-2 px-1 mt-3">
-										<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-										<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-									</div>
-								</div>
-							</form>
-						<cfset i=#i#+1>
-						</cfif>
-					</cfloop>
-						</div>
+								</form>
+							<cfset i=#i#+1>
+							</cfif>
+						</cfloop>
+					</div>
 					<div class="col-12 mt-4">
 						<div id="accordion2">
 							<div class="card">
-							<div class="card-header pt-1" id="headingTwo">
-								<h1 class="my-0 px-1 pb-1">
-								<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									<span class="h4">Add New Identifier</span>
-								</button>
-							</h1>
-							</div>
-							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-								<div class="card-body">
-									<form name="newOID" method="post" action="Specimens.cfm">
-										<div class="row mx-0">
-											<div class="form-group col-3 pl-0 pr-1">
-												<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-												<input type="hidden" name="Action" value="newOID">
-												<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-												<select name="other_id_type" size="1" class="reqdClr data-entry-select">
-												<cfloop query="ctType">
-													<option 
-														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-												</cfloop>
-												</select>
+								<div class="card-header pt-1" id="headingTwo">
+									<h1 class="my-0 px-1 pb-1">
+										<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+											<span class="h4">Add New Identifier</span>
+										</button>
+									</h1>
+								</div>
+								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+									<div class="card-body">
+										<form name="newOID" method="post" action="Specimens.cfm">
+											<div class="row mx-0">
+												<div class="form-group col-3 pl-0 pr-1">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" name="Action" value="newOID">
+													<label class="data-entry-label" id="other_id_type">Other ID Type</label>
+													<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+													<cfloop query="ctType">
+														<option 
+															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+													</cfloop>
+													</select>
+												</div>
+												<div class="form-group col-2 px-1">
+													<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+												</div>
+												<div class="form-group col-2 px-1">
+													<label class="data-entry-label" id="other_id_number">Other ID Number</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+												</div>
+												<div class="form-group col-2 px-1">
+													<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
+													<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
+												</div>
+												<div class="form-group col-1 px-1 mt-3">
+													<input type="submit" value="Create New Identifier" class="btn btn-xs btn-primary">	
+												</div>
 											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-											</div>
-											<div class="form-group col-2 px-1">
-												<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-												<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
-											</div>
-											<div class="form-group col-1 px-1 mt-3">
-												<input type="submit" value="Save" class="btn btn-xs btn-primary">	
-											</div>
-										</div>
-									</form>
+										</form>
+									</div>
 								</div>
 							</div>
-						</div>
 						</div>
 					</div>
 				</div>
@@ -715,6 +707,124 @@ limitations under the License.
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
 						
+						
+<cffunction name="saveOID" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="other_id_type" type="string" required="yes">
+	<cfargument name="other_id_prefix" type="string" required="no">
+	<cfargument name="other_id_number" type="string" required="yes">
+	<cfargument name="other_id_suffix" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateDeaccessionCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newDeaccessionCheck_result">
+				SELECT count(*) as ct from trans
+				WHERE  
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+					and transaction_type = 'deaccession'
+			</cfquery>
+			<cfif updateDeaccessionCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
+			</cfif>
+			<cfquery name="updateDeaccessionTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccessionTrans_result">
+				UPDATE trans SET
+					collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
+					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(trans_date,'yyyy-mm-dd')#">,
+					nature_of_material = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">
+					<cfif isDefined("trans_remarks")>
+						, trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+					</cfif>
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="updateDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateDeaccession_result">
+				 UPDATE DEACCESSION SET
+					DEACC_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">,
+					DEACC_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#">,
+					DEACC_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">,
+					DEACC_REASON = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_reason#">
+					<cfif isDefined("value")>
+						, VALUE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#value#">
+					</cfif>
+					<cfif isDefined("methodoftransfer")>
+						, METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#methodoftransfer#">
+					</cfif>
+				where TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
+			</cfquery>
+			<cfloop from="1" to="#numAgents#" index="n">
+				<cfif IsDefined("trans_agent_id_" & n) >
+					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+					<cfset agent_id_ = evaluate("agent_id_" & n)>
+					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+					<cftry>
+						<cfset del_agnt_=evaluate("del_agnt_" & n)>
+					<cfcatch>
+						<cfset del_agnt_=0>
+					</cfcatch>
+					</cftry>
+					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from trans_agent 
+							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+						</cfquery>
+					<cfelse>
+						<cfif len(agent_id_) GT 0>
+							<!--- don't try to add/update a blank row --->
+							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									insert into trans_agent (
+										transaction_id,
+										agent_id,
+										trans_agent_role
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									)
+								</cfquery>
+							<cfelseif del_agnt_ is 0>
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update trans_agent set
+										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									where
+										trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
+				</cfif>
+			</cfloop>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#transaction_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>					
 						
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
