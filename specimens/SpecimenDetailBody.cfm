@@ -373,8 +373,8 @@ limitations under the License.
 				c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			ORDER by substr(formatted_publication, -4)
 		</cfquery>
-		<cfoutput query="one">
-	<cfif oneOfUs is 1>
+<cfoutput query="one">
+		<cfif oneOfUs is 1>
 		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="suppressHeader" value="true">
