@@ -127,7 +127,7 @@ limitations under the License.
 				<cfloop from="1" to="#thisNumIds#" index="nid">
 					<cftry>
 						<!--- couter does not increment backwards - may be a few empty loops in here ---->
-						<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
+						<!---<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
 						<cfcatch>
 							<cfset thisIdId =-1>
 						</cfcatch>
@@ -138,9 +138,9 @@ limitations under the License.
 							<cfset thisIdAgntId=-1>
 						</cfcatch>
 					</cftry>
-					<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
+					<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>--->
 						<!--- new identifier --->
-						<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!---	<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							insert into identification_agent
 								( IDENTIFICATION_ID,AGENT_ID,IDENTIFIER_ORDER)
 							values
@@ -150,17 +150,17 @@ limitations under the License.
 									#nid#
 								)
 						</cfquery>
-					<cfelse>
+					<cfelse>--->
 						<!--- update or delete --->
-						<cfif #thisIdId# is "DELETE">
+		<!---				<cfif #thisIdId# is "DELETE">--->
 							<!--- delete --->
-							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---					<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								delete from identification_agent
 								where identification_agent_id=#thisIdAgntId#
 							</cfquery>
-						<cfelseif thisIdId gte 0>
+						<cfelseif thisIdId gte 0>--->
 							<!--- update --->
-							<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<!---	<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update identification_agent set
 									agent_id=#thisIdId#,
 									identifier_order=#nid#
@@ -2909,7 +2909,7 @@ limitations under the License.
 	<cfreturn getEditTransactionsThread.output>
 </cffunction>	
 						
-<!---<cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getTransactionsThread"> 
 		<cfoutput>
@@ -3067,11 +3067,11 @@ limitations under the License.
 											</div>
 										</cfloop>
 									</cfif>
-								</li>--->
+								</li>
 								
-								<!--------------------  Project / Usage ------------------------------------>
+								-----------------  Project / Usage ---------------------------------
 								
-<!---			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
 									FROM
@@ -3200,7 +3200,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getTransactionsThread" />
 	<cfreturn getTransactionsThread.output>
-</cffunction>--->	
+</cffunction>	
 						
 						
 						
@@ -3536,7 +3536,7 @@ limitations under the License.
 
 
 
-<!---<cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCollectorsThread">
 		<cftry>
@@ -3566,5 +3566,5 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCollectorsThread" />
 	<cfreturn getCollectorsThread.output>
-</cffunction>--->
+</cffunction>
 </cfcomponent>
