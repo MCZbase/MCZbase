@@ -941,10 +941,10 @@ limitations under the License.
 		</cfquery>
 			<ul class="list-unstyled list-group form-row p-1 mb-0">
 				<cfif colls.recordcount gt 0>
-					<li class="list-group-item col-6">
+					<li class="list-group-item col-8">
 						<h5 class="my-0">Collector(s):&nbsp;</h5>
 						<cfloop query="colls">
-							<input name="collectors" class="data-entry-input my-2" value="#colls.collectors#"><button>Delete</button><input name="sort order" value="sort order">
+							<input name="collectors" class="data-entry-input col-5 my-2" value="#colls.collectors#"><button class="col-1 btn btn-xs btn-danger">Delete</button><input name="sort order" class="col-1 data-entry-input" value="sort order">
 						</cfloop>
 					</li>
 				</cfif>
@@ -952,7 +952,7 @@ limitations under the License.
 					<li class="list-group-item col-6">
 						<h5 class="my-0">Preparator(s):&nbsp;</h5>
 						<cfloop query="preps">
-							<input name="preparators" class="data-entry-input my-2" value="#preps.preparators#">
+							<input name="preparators" class="data-entry-input my-2" value="#preps.preparators#"><button class="col-1 btn btn-xs btn-danger">Delete</button><input name="sort order" class="col-1 data-entry-input" value="sort order">
 						</cfloop>
 					</li>
 				</cfif>
