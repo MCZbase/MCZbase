@@ -943,14 +943,14 @@ limitations under the License.
 				<cfif colls.recordcount gt 0>
 					<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
 						<cfloop query="colls">
-							<input name="collectors" class="data-entry-input" value="#colls.collectors#"><span>,</span>
+							<input name="collectors" class="data-entry-input col-6" value="#colls.collectors#"><span>,</span>
 						</cfloop>
 					</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
 						<cfloop query="preps">
-							<input name="preparators" class="data-entry-input" value="#preps.preparators#"><span>,</span>
+							<input name="preparators" class="data-entry-input col-6" value="#preps.preparators#"><span>,</span>
 						</cfloop>
 					</li>
 				</cfif>
