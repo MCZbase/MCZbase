@@ -944,7 +944,7 @@ limitations under the License.
 					<div class="row">
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
-								<div class="col-12 mt-3 px-0">
+								<div class="col-10 mt-3 px-0">
 									<cfset i = 0>
 										<label class="data-entry-label mx-2 mt-2 mb-0">Collectors</label>
 										<input name="collectors" class="m-2 col-12 data-entry-input" value="#colls.collectors#">
