@@ -947,9 +947,9 @@ limitations under the License.
 							<cfloop query="colls">
 								<div class="col-12">
 									<cfset i = 0>
-									<input name="collectors" class="data-entry-input col-6 my-2" value="#colls.collectors#">
-									<button class="col-2 btn btn-xs btn-danger float-left">Delete</button>
-									<input name="sort order" class="col-2 data-entry-input" value="#i#">
+									<input name="collectors" class="data-entry-input float-left col-6 my-2" value="#colls.collectors#">
+									<button class="col-1 btn btn-xs btn-danger float-left my-2">Delete</button>
+									<input name="sort order" class="col-1 float-left data-entry-input my-2" value="#i#">
 								</div>
 							</cfloop>
 							<cfset i = i++>
@@ -960,9 +960,9 @@ limitations under the License.
 							<h5 class="my-0">Preparator(s):&nbsp;</h5>
 							<cfloop query="preps">
 								<div class="col-12">
-									<input name="preparators" class="data-entry-input col-6 my-2" value="#preps.preparators#">
-									<button class="col-1 btn btn-xs btn-danger">Delete</button>
-									<input name="sort order" class="col-1 data-entry-input" value="sort order">
+									<input name="preparators" class="data-entry-input float-left col-6 my-2" value="#preps.preparators#">
+									<button class="btn btn-xs btn-danger col-1 float-left my-2">Delete</button>
+									<input name="sort order" class="data-entry-input col-1 float-left my-2" value="sort order">
 								</div>
 							</cfloop>
 						</cfif>
