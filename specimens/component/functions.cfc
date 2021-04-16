@@ -947,7 +947,7 @@ limitations under the License.
 								<div class="col-12 px-0">
 									<cfset i = 0>
 										<label class="">Collectors</label>
-										<input name="collectors" class="float-left col-6 my-2" value="#colls.collectors#">
+										<input name="collectors" class="" value="#colls.collectors#">
 
 										<label class="">Sort Order</label>
 										<input name="sort order" class="" value="#i#">
