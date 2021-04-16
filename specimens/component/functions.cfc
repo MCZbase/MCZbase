@@ -943,7 +943,6 @@ limitations under the License.
 				<div class="col-12 px-0">
 					<div class="row mx-0">
 						<cfif colls.recordcount gt 0>
-							<h5 class="my-0 mt-3">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
 								<div class="col-12 px-0">
 									<cfset i = 0>
