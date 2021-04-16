@@ -939,9 +939,11 @@ limitations under the License.
 			ORDER BY
 				coll_order
 		</cfquery>
-			<ul class="list-unstyled list-group form-row p-1 mb-0">
+			<div class="container-fluid">
+				<div class="col-12">
+					<ul class="list-unstyled list-group form-row p-1 mb-0 col-8">
 				<cfif colls.recordcount gt 0>
-					<li class="list-group-item col-8">
+					<li class="list-group-item col-6">
 						<h5 class="my-0">Collector(s):&nbsp;</h5>
 						<cfloop query="colls">
 							<cfset i = 0>
@@ -959,6 +961,8 @@ limitations under the License.
 					</li>
 				</cfif>
 			</ul>
+				</div>
+			</div>
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
