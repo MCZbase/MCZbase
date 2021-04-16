@@ -939,13 +939,13 @@ limitations under the License.
 			ORDER BY
 				coll_order
 		</cfquery>
-			<div class="container-fluid">
-				<div class="col-12">
+			<div class="container-fluid px-0">
+				<div class="col-12 px-0">
 					<div class="row mx-0">
 						<cfif colls.recordcount gt 0>
 							<h5 class="my-0 mt-3">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
-								<div class="">
+								<div class="col-12 px-0">
 									<cfset i = 0>
 									<input name="collectors" class="data-entry-input float-left col-6 my-2" value="#colls.collectors#">
 									<button class="col-1 btn btn-xs btn-danger float-left m-2">Delete</button>
@@ -960,7 +960,7 @@ limitations under the License.
 						<cfif preps.recordcount gt 0>
 							<h5 class="my-0">Preparator(s):&nbsp;</h5>
 							<cfloop query="preps">
-								<div class="">
+								<div class="col-12 px-0">
 									<input name="preparators" class="data-entry-input float-left col-6 my-2" value="#preps.preparators#">
 									<button class="btn btn-xs btn-danger col-1 float-left m-2">Delete</button>
 									<button class="btn btn-xs btn-primary col-1 float-left m-2">Save</button>
