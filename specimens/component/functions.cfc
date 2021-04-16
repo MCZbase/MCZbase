@@ -941,26 +941,26 @@ limitations under the License.
 		</cfquery>
 			<div class="container-fluid">
 				<div class="col-12">
-					<ul class="list-unstyled list-group form-row p-1 mb-0 col-8">
+				<ul class="list-unstyled list-group form-row p-1 mb-0 col-8">
 				<cfif colls.recordcount gt 0>
-					<li class="list-group-item col-6">
-						<h5 class="my-0">Collector(s):&nbsp;</h5>
-						<cfloop query="colls">
+					<h5 class="my-0">Collector(s):&nbsp;</h5>
+					<cfloop query="colls">
+						<li class="list-group-item col-6">
 							<cfset i = 0>
 							<input name="collectors" class="data-entry-input col-5 my-2" value="#colls.collectors#"><button class="col-1 btn btn-xs btn-danger">Delete</button><input name="sort order" class="col-1 data-entry-input" value="#i#">
-						</cfloop>
-							<cfset i = i++>
-					</li>
+						</li>
+					</cfloop>
+					<cfset i = i++>
 				</cfif>
 				<cfif preps.recordcount gt 0>
-					<li class="list-group-item col-6">
-						<h5 class="my-0">Preparator(s):&nbsp;</h5>
+					<h5 class="my-0">Preparator(s):&nbsp;</h5>
 						<cfloop query="preps">
+						<li class="list-group-item col-6">
 							<input name="preparators" class="data-entry-input my-2" value="#preps.preparators#"><button class="col-1 btn btn-xs btn-danger">Delete</button><input name="sort order" class="col-1 data-entry-input" value="sort order">
+						</li>
 						</cfloop>
-					</li>
 				</cfif>
-			</ul>
+				</ul>
 				</div>
 			</div>
 		</cfoutput>
