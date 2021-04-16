@@ -951,8 +951,8 @@ limitations under the License.
 
 										<label class="data-entry-label m-md-2">Sort Order</label>
 										<input name="sort order" class="m-md-2 col-2 data-entry-input" value="#i#">
-									<button class="col-6 btn btn-xs btn-danger float-left m-md-2">Delete</button>
-									<button class="col-6 btn btn-xs btn-primary  m-md-2 float-left">Save</button>
+									<button class="col-5 pr-2 btn btn-xs btn-danger float-left m-md-2">Delete</button>
+									<button class="col-5 btn btn-xs btn-primary  m-md-2 float-left">Save</button>
 								</div>
 							</cfloop>
 							<cfset i = i++>
