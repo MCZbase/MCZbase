@@ -946,13 +946,13 @@ limitations under the License.
 							<cfloop query="colls">
 								<div class="col-12 mt-3 px-0">
 									<cfset i = 0>
-										<label class="data-entry-label m-2">Collectors</label>
-										<input name="collectors" class="m-2 data-entry-input" value="#colls.collectors#">
+										<label class="data-entry-label m-md-2">Collectors</label>
+										<input name="collectors" class="m-md-2 col-12 data-entry-input" value="#colls.collectors#">
 
-										<label class="data-entry-label m-2">Sort Order</label>
-										<input name="sort order" class="m-2 col-2 data-entry-input" value="#i#">
-									<button class="col-6 btn btn-xs btn-danger m-2">Delete</button>
-									<button class="col-6 btn btn-xs btn-primary  m-2">Save</button>
+										<label class="data-entry-label m-md-2">Sort Order</label>
+										<input name="sort order" class="m-md-2 col-2 data-entry-input" value="#i#">
+									<button class="col-6 btn btn-xs btn-danger m-md-2">Delete</button>
+									<button class="col-6 btn btn-xs btn-primary  m-md-2">Save</button>
 								</div>
 							</cfloop>
 							<cfset i = i++>
