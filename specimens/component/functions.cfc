@@ -939,9 +939,9 @@ limitations under the License.
 			ORDER BY
 				coll_order
 		</cfquery>
-			<div class="container-fluid px-0">
-				<div class="col-12 px-0">
-					<div class="row mx-0">
+			<div class="container-fluid">
+				<div class="col-12">
+					<div class="row">
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
 								<div class="col-12 mt-3 px-0">
