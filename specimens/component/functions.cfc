@@ -944,10 +944,10 @@ limitations under the License.
 					<div class="row">
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
-								<div class="col-10 mt-3 px-0">
+								<div class="col-12 mt-3 px-0">
 									<cfset i = 0>
 										<label class="data-entry-label mx-2 mt-2 mb-0">Collectors</label>
-										<input name="collectors" class="m-2 col-12 data-entry-input" value="#colls.collectors#">
+										<input name="collectors" class="m-2 col-11 data-entry-input" value="#colls.collectors#">
 
 										<label class="data-entry-label mx-2 mt-2 mb-0">Sort Order</label>
 										<input name="sort order" class="m-2 col-2 data-entry-input" value="#i#">
