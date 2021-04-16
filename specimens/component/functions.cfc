@@ -943,9 +943,9 @@ limitations under the License.
 				<div class="col-12">
 					<div class="row mx-0">
 						<cfif colls.recordcount gt 0>
-							<h5 class="my-0">Collector(s):&nbsp;</h5>
+							<h5 class="my-0 mt-3">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
-								<div class="col-12">
+								<div class="col-12 px-">
 									<cfset i = 0>
 									<input name="collectors" class="data-entry-input float-left col-6 my-2" value="#colls.collectors#">
 									<button class="col-1 btn btn-xs btn-danger float-left m-2">Delete</button>
@@ -956,7 +956,7 @@ limitations under the License.
 							<cfset i = i++>
 						</cfif>
 					</div>
-					<div class="row">
+					<div class="row mx-0">
 						<cfif preps.recordcount gt 0>
 							<h5 class="my-0">Preparator(s):&nbsp;</h5>
 							<cfloop query="preps">
