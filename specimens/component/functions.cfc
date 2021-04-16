@@ -941,16 +941,16 @@ limitations under the License.
 		</cfquery>
 			<div class="container-fluid">
 				<div class="col-12">
-					<div class="row">
+					<div class="row mx-0">
 						<cfif colls.recordcount gt 0>
 							<h5 class="my-0">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
 								<div class="col-12">
 									<cfset i = 0>
 									<input name="collectors" class="data-entry-input float-left col-6 my-2" value="#colls.collectors#">
-									<button class="col-1 btn btn-xs btn-danger float-left my-2">Delete</button>
-									<button class="col-1 btn btn-xs btn-primary float-left my-2">Save</button>
-									<input name="sort order" class="col-1 float-left data-entry-input my-2" value="#i#">
+									<button class="col-1 btn btn-xs btn-danger float-left m-2">Delete</button>
+									<button class="col-1 btn btn-xs btn-primary float-left m-2">Save</button>
+									<input name="sort order" class="col-1 float-left data-entry-input m-2" value="#i#">
 								</div>
 							</cfloop>
 							<cfset i = i++>
@@ -962,9 +962,9 @@ limitations under the License.
 							<cfloop query="preps">
 								<div class="col-12">
 									<input name="preparators" class="data-entry-input float-left col-6 my-2" value="#preps.preparators#">
-									<button class="btn btn-xs btn-danger col-1 float-left my-2">Delete</button>
-									<button class="btn btn-xs btn-primary col-1 float-left my-2">Save</button>
-									<input name="sort order" class="data-entry-input col-1 float-left my-2" value="sort order">
+									<button class="btn btn-xs btn-danger col-1 float-left m-2">Delete</button>
+									<button class="btn btn-xs btn-primary col-1 float-left m-2">Save</button>
+									<input name="sort order" class="data-entry-input col-1 float-left m-2" value="sort order">
 								</div>
 							</cfloop>
 						</cfif>
