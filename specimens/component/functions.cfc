@@ -944,15 +944,15 @@ limitations under the License.
 					<div class="row mx-0">
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
-								<div class="col-12 px-0">
+								<div class="col-12 mt-3 px-0">
 									<cfset i = 0>
 										<label class="">Collectors</label>
-										<input name="collectors" class="" value="#colls.collectors#">
+										<input name="collectors" class="m-2" value="#colls.collectors#">
 
 										<label class="">Sort Order</label>
-										<input name="sort order" class="" value="#i#">
-									<button class="col-1 btn btn-xs btn-danger float-left m-2">Delete</button>
-									<button class="col-1 btn btn-xs btn-primary float-left m-2">Save</button>
+										<input name="sort order" class="m-2" value="#i#">
+									<button class="col-1 btn btn-xs btn-danger m-2">Delete</button>
+									<button class="col-1 btn btn-xs btn-primary  m-2">Save</button>
 								</div>
 							</cfloop>
 							<cfset i = i++>
