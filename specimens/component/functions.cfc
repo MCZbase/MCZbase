@@ -944,7 +944,7 @@ limitations under the License.
 					<li class="list-group-item col-6">
 						<h5 class="my-0">Collector(s):&nbsp;</h5>
 						<cfloop query="colls">
-							<input name="collectors" class="data-entry-input my-2" value="#colls.collectors#">
+							<input name="collectors" class="data-entry-input my-2" value="#colls.collectors#"><button>Delete</button><input name="sort order" value="sort order">
 						</cfloop>
 					</li>
 				</cfif>
