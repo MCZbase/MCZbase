@@ -944,7 +944,7 @@ limitations under the License.
 					<li class="list-group-item col-6">
 						<h5 class="my-0">Collector(s):&nbsp;</h5>
 						<cfloop query="colls">
-							<input name="collectors" class="data-entry-input" value="#colls.collectors#"><span>,</span>
+							<input name="collectors" class="data-entry-input" value="#colls.collectors#">
 						</cfloop>
 					</li>
 				</cfif>
@@ -952,7 +952,7 @@ limitations under the License.
 					<li class="list-group-item col-6">
 						<h5 class="my-0">Preparator(s):&nbsp;</h5>
 						<cfloop query="preps">
-							<input name="preparators" class="data-entry-input" value="#preps.preparators#"><span>,</span>
+							<input name="preparators" class="data-entry-input" value="#preps.preparators#">
 						</cfloop>
 					</li>
 				</cfif>
