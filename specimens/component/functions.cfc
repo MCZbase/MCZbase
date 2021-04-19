@@ -422,15 +422,45 @@ limitations under the License.
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
 
+<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
+	@param collection_object_id the collecton object to which the identification history pertains
+	@param number_of_ids the number of determinations in the identification history
+--->
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="number_of_ids" type="string" required="yes">
 
 	<cfoutput>
+		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+		<cftry>
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg disable
+			</cfquery>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") >
+				<cfset queryError=cfcatch.queryError>
+			<cfelse>
+				<cfset queryError = ''>
+			</cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfcontent reset="yes">
+			<cfheader statusCode="500" statusText="#message#">
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+			<cfabort>
+		</cfcatch>
+		</cftry>
 		<cftransaction>
+			<!--- perform the updates on the arbitary number of identifications --->
 			<cftry>
-				<cfquery datasource="uam_god">
-					alter trigger tr_stored_as_fg disable
-				</cfquery>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
 					<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
 					<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
@@ -578,13 +608,34 @@ limitations under the License.
 					</div>
 				</div>
 			</cfcatch>
-			<cffinally>
-				<cfquery datasource="uam_god">
-					alter trigger tr_stored_as_fg enable
-				</cfquery>
-			</cffinally>
 			</cftry>
 		</cftransaction>
+		<cftry>
+			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg enable
+			</cfquery>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") >
+				<cfset queryError=cfcatch.queryError>
+			<cfelse>
+				<cfset queryError = ''>
+			</cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfcontent reset="yes">
+			<cfheader statusCode="500" statusText="#message#">
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfcatch>
+		</cftry>
 	</cfoutput>
 </cffunction>
 
