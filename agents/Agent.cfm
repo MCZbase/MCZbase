@@ -92,7 +92,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 						<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
 					</cfif>
-					<ul class="mt-3">
+					<ul class="mt-3 list-unstyled">
 						<li>#agent_type#</li>
 						<cfif len(agentguid) GT 0>
 							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
