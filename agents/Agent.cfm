@@ -138,7 +138,7 @@ limitations under the License.
 								<h2 class="h3">Postal Addresses</h2>
 								<cfloop query="getAgentAddr">
 									<h3 class="h4">#addr_type# address</h3>
-									<div>#formatted_addr#<div>
+									<div>#formatted_addr#</div>
 								</cfloop>
 							</div>
 						</cfif>
