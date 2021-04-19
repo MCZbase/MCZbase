@@ -264,7 +264,7 @@ limitations under the License.
 														dataType : "json",
 														data: $("##editIdentificationsForm").serialize(),
 														success: function (result) {
-															if (if typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 																$('##saveIdentificationsResultDiv').html('Saved');
 																$('##saveIdentificationsResultDiv').addClass('text-success');
 																$('##saveIdentificationsResultDiv').removeClass('text-warning');
