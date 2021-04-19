@@ -1213,15 +1213,15 @@ limitations under the License.
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
 								<div class="col-12 mt-3 px-0">
+									<div class="form-row border rounded mt-3 pt-3">
 									<cfset i = 0>
 										<label class="data-entry-label mx-2 mt-2 mb-0">Collector</label>
-										<input name="collectors" class="mx-2 mt-0 mb-2 col-11 col-md-6 data-entry-input" value="#colls.collectors#">
+										<input name="collectors" class="mx-2 mt-0 mb-2 col-8 col-md-6 data-entry-input" value="#colls.collectors#">
 										<label class="data-entry-label mx-2 mt-2 mb-0">Sort Order</label>
 										<input name="sort order" class="mx-2 mt-0 mb-2 col-2 data-entry-input" value="#i#">
-										<button class="col-5 col-md-2 btn btn-xs btn-primary m-2 float-left">Save</button>
-										<button class="col-5 mr-3 col-md-2 mr-md-5 btn btn-xs btn-danger float-left my-2 ml-2">Delete</button>
-								
-								</div>
+										<button class="mr-3 mr-md-5 btn btn-xs btn-danger float-left mb-2 ml-2">Delete</button>
+									</div>
+										<button class="btn btn-xs btn-primary m-2 float-left">Save</button>
 							</cfloop>
 							<cfset i = i++>
 						</cfif>
