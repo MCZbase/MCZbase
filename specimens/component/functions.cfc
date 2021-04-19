@@ -103,7 +103,7 @@ limitations under the License.
 												WHERE
 													cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 												ORDER BY 
-													accepted_id_fg, sort_order ASC
+													accepted_id_fg DESC, sort_order ASC
 											</cfquery>
 											<cfset i = 1>
 											<cfset sortCount=getIds.recordcount - 1>
