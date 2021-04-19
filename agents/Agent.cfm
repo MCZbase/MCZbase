@@ -85,14 +85,14 @@ limitations under the License.
 		<cfoutput>
 			<div class="container">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 mt-3">
 				<cfloop query="getAgent">
 					<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 					<h2>#preferred_agent_name# #edited_marker#</h2>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 						<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
 					</cfif>
-					<ul>
+					<ul class="mt-3">
 						<li>#agent_type#</li>
 						<cfif len(agentguid) GT 0>
 							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
