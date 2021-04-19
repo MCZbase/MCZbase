@@ -182,7 +182,7 @@ limitations under the License.
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
-														<button id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="btn btn-xs btn-secondary col-2 px-0 mt-3 float-right">Add Identifier</button> 
+														<button id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="btn btn-xs btn-secondary px-2 mt-3 float-right">Add Identifier</button> 
 													</div>
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
