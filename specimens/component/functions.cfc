@@ -1215,8 +1215,7 @@ limitations under the License.
 								<div class="col-12 mt-3 px-0">
 									<div class="form-row border rounded mt-3 pt-3">
 									<cfset i = 0>
-									
-										<label class="data-entry-label mx-2 mt-2 mb-0 col-1 w-auto">Collector</label>
+										<label class="data-entry-label mx-2 pr-0 mt-2 mb-0 col-1 w-auto">Collector</label>
 										<input name="collectors" class="mx-2 mt-0 mb-2 col-12 col-md-5 data-entry-input" value="#colls.collectors#">
 										<label class="data-entry-label mx-2 mt-2 mb-0 col-1 w-auto text-right">Sort Order</label>
 										<input name="sort order" class="mx-2 mt-0 mb-2 col-1 data-entry-input" value="#i#">
