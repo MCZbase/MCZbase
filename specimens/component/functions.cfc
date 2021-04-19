@@ -1216,11 +1216,11 @@ limitations under the License.
 									<div class="form-row border rounded mt-3 pt-3">
 									<cfset i = 0>
 									
-										<label class="data-entry-label mx-2 mt-2 mb-0">Collector</label>
+										<label class="data-entry-label mx-2 mt-2 mb-0 col-1 w-auto">Collector</label>
 										<input name="collectors" class="mx-2 mt-0 mb-2 col-8 col-md-6 data-entry-input" value="#colls.collectors#">
-										<label class="data-entry-label mx-2 mt-2 mb-0">Sort Order</label>
+										<label class="data-entry-label mx-2 mt-2 mb-0 col-2 w-auto text-right">Sort Order</label>
 										<input name="sort order" class="mx-2 mt-0 mb-2 col-2 data-entry-input" value="#i#">
-										<button class="mr-3 mr-md-5 btn btn-xs btn-danger float-left mb-2 ml-2">Delete</button>
+										<button class="mr-3 mr-md-5 btn btn-xs btn-danger float-left mb-2 ml-4">Delete</button>
 									</div>
 										<button class="btn btn-xs btn-primary m-2 float-left">Save</button>
 										<button class="btn btn-xs btn-secondary m-2 float-left">Add Collector</button>
