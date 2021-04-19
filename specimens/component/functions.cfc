@@ -502,10 +502,10 @@ limitations under the License.
 	<cfreturn getIdentificationThread.output>
 </cffunction>
 
-<!---THIS? getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
+<!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. 
+ @return html for editing other ids for the specified cataloged item. 
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -569,30 +569,30 @@ limitations under the License.
 					<div class="col-12 mt-2">
 						<h1 class="h3">Edit Existing Identifiers</h1>
 						<form name="ids" method="post" action="Specimen.cfm">
-						<div class="mb-4">
-							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<input type="hidden" name="Action" value="saveCatEdits">
-							Catalog&nbsp;Number:
-							<select name="collection_id" size="1" class="reqdClr">
-								<cfset thisCollId=#getIDs.collection_id#>
-								<cfloop query="ctcoll_cde">
-									<option 
-										<cfif #thisCollId# is #collection_id#> selected </cfif>
-									value="#collection_id#">#institution_acronym# #collection_cde#</option>
-								</cfloop>
-							</select>
-							<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-							<input type="submit" value="Save" class="btn btn-xs btn-primary">
-						</div>
-					</form>
+							<div class="mb-4">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<input type="hidden" name="Action" value="saveCatEdits">
+								Catalog&nbsp;Number:
+								<select name="collection_id" size="1" class="reqdClr">
+									<cfset thisCollId=#getIDs.collection_id#>
+									<cfloop query="ctcoll_cde">
+										<option 
+											<cfif #thisCollId# is #collection_id#> selected </cfif>
+										value="#collection_id#">#institution_acronym# #collection_cde#</option>
+									</cfloop>
+								</select>
+								<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
+								<input type="submit" value="Save" class="btn btn-xs btn-primary">
+							</div>
+						</form>
 						<cfset i=1>
 						<cfloop query="oids">
 							<cfif len(#other_id_type#) gt 0>
 								<form name="oids#i#" method="post" action="Specimen.cfm">
-										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-										<input type="hidden" name="Action">
-										<cfset thisType = #oids.other_id_type#>
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+									<input type="hidden" name="Action">
+									<cfset thisType = #oids.other_id_type#>
 									<div class="row mx-0">
 										<div class="form-group col-2 pl-0 pr-1">
 											<label class="data-entry-label">Other ID Type</label>
@@ -614,7 +614,7 @@ limitations under the License.
 										</div>
 										<div class="form-group col-2 px-1">
 											<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12"  name="other_id_suffix">
+											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
 										</div>
 										<div class="form-group col-2 px-1 mt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
@@ -722,7 +722,7 @@ limitations under the License.
 		<cftry>
 			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newIdentificationCheck_result">
 				SELECT count(*) as ct from identification
-				WHERE  
+				WHERE
 					IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#identification_id#'>
 			</cfquery>
 			<cfif updateIdentificationCheck.ct NEQ 1>
@@ -1383,7 +1383,7 @@ limitations under the License.
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
 			from identification
-			where identification_id  =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+			where identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 		</cfquery>
 		<cfif theResult.recordcount eq 0>
 			<cfset theResult=queryNew("status, message")>
@@ -1426,14 +1426,14 @@ limitations under the License.
 									taxonomy cited_taxa,
 									formatted_publication
 								where
-									citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
+									citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
 									citation.publication_id = formatted_publication.publication_id AND
 									format_style='short' and
 									citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								order by
 									substr(formatted_publication, - 4)
 						</cfquery>
-						<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 								FROM
@@ -1482,7 +1482,7 @@ limitations under the License.
 							<cfif publicationMedia.recordcount gt 0>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
-									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 											media_label,
 											label_value
@@ -1491,7 +1491,7 @@ limitations under the License.
 										where
 											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 											media_label,
 											label_value
@@ -1571,14 +1571,14 @@ limitations under the License.
 								taxonomy cited_taxa,
 								formatted_publication
 							where
-								citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
+								citation.cited_taxon_name_id = cited_taxa.taxon_name_id AND
 								citation.publication_id = formatted_publication.publication_id AND
 								format_style='short' and
 								citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							order by
 								substr(formatted_publication, - 4)
 						</cfquery>
-						<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 							FROM
@@ -1610,7 +1610,7 @@ limitations under the License.
 									<span class="font-weight-lessbold">#type_status#</span> of 
 										<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 										<cfif find("(ms)", #type_status#) NEQ 0>
-										<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
+										<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name. Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
 											<cfif find(" ", #cited_name#) NEQ 0>
 											&nbsp;ssp. nov.
 											<cfelse>
@@ -1627,7 +1627,7 @@ limitations under the License.
 							<cfif publicationMedia.recordcount gt 0>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,mime_type)>
-									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 												media_label,
 												label_value
@@ -1636,7 +1636,7 @@ limitations under the License.
 										where
 												media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 												media_label,
 												label_value
@@ -1705,21 +1705,21 @@ limitations under the License.
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
-					 rel.biol_indiv_relationship as biol_indiv_relationship,
-					 collection as related_collection,
-					 rel.related_coll_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
+					rel.biol_indiv_relationship as biol_indiv_relationship,
+					collection as related_collection,
+					rel.related_coll_object_id as related_coll_object_id,
+					rcat.cat_num as related_cat_num,
 					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 				FROM
-					 biol_indiv_relations rel
-					 left join cataloged_item rcat
+					biol_indiv_relations rel
+					left join cataloged_item rcat
 						 on rel.related_coll_object_id = rcat.collection_object_id
-					 left join collection
+					left join collection
 						 on collection.collection_id = rcat.collection_id
-					 left join ctbiol_relations ctrel
-					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					left join ctbiol_relations ctrel
+						on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					  and ctrel.rel_type <> 'functional'
+					and ctrel.rel_type <> 'functional'
 				UNION
 				SELECT
 					 ctrel.inverse_relation as biol_indiv_relationship,
@@ -1730,15 +1730,15 @@ limitations under the License.
 				FROM
 					 biol_indiv_relations irel
 					 left join ctbiol_relations ctrel
-					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+						on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 					 left join cataloged_item rcat
-					  on irel.collection_object_id = rcat.collection_object_id
+						on irel.collection_object_id = rcat.collection_object_id
 					 left join collection
 					 on collection.collection_id = rcat.collection_id
 				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					 and ctrel.rel_type <> 'functional'
 				)
-			</cfquery>    
+			</cfquery>
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
@@ -1784,8 +1784,8 @@ limitations under the License.
 					<cfif
 						len(total_length.attribute_units) gt 0 OR
 						len(tail_length.attribute_units) gt 0 OR
-						len(hf.attribute_units) gt 0  OR
-						len(efn.attribute_units) gt 0  OR
+						len(hf.attribute_units) gt 0 OR
+						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
 						<!---semi-standard measurements --->
 						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
@@ -1974,7 +1974,7 @@ limitations under the License.
 						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 							to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-							decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
+							decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
 						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
 					)
@@ -2080,7 +2080,7 @@ limitations under the License.
 				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
 				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-				collecting_event.locality_id = locality.locality_id  AND
+				collecting_event.locality_id = locality.locality_id AND
 				locality.locality_id = accepted_lat_long.locality_id (+) AND
 				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
 				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
@@ -2088,7 +2088,7 @@ limitations under the License.
 				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
 				coll_object.entered_person_id = enteredPerson.agent_id AND
 				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-				cataloged_item.accn_id =  accn.transaction_id  AND
+				cataloged_item.accn_id = accn.transaction_id AND
 				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2232,9 +2232,9 @@ limitations under the License.
 				 left join collection
 					 on collection.collection_id = rcat.collection_id
 				 left join ctbiol_relations ctrel
-				  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-				  and ctrel.rel_type <> 'functional'
+					and ctrel.rel_type <> 'functional'
 			UNION
 			SELECT
 				 ctrel.inverse_relation as biol_indiv_relationship,
@@ -2245,9 +2245,9 @@ limitations under the License.
 			FROM
 				 biol_indiv_relations irel
 				 left join ctbiol_relations ctrel
-				  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 				 left join cataloged_item rcat
-				  on irel.collection_object_id = rcat.collection_object_id
+					on irel.collection_object_id = rcat.collection_object_id
 				 left join collection
 				 on collection.collection_id = rcat.collection_id
 			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2335,9 +2335,9 @@ limitations under the License.
 					 left join collection
 						 on collection.collection_id = rcat.collection_id
 					 left join ctbiol_relations ctrel
-					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+						on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					  and ctrel.rel_type <> 'functional'
+						and ctrel.rel_type <> 'functional'
 				UNION
 				SELECT
 					 ctrel.inverse_relation as biol_indiv_relationship,
@@ -2348,15 +2348,15 @@ limitations under the License.
 				FROM
 					 biol_indiv_relations irel
 					 left join ctbiol_relations ctrel
-					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+						on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 					 left join cataloged_item rcat
-					  on irel.collection_object_id = rcat.collection_object_id
+						on irel.collection_object_id = rcat.collection_object_id
 					 left join collection
 					 on collection.collection_id = rcat.collection_id
 				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					 and ctrel.rel_type <> 'functional'
 				)
-			</cfquery>    
+			</cfquery>
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
@@ -2397,8 +2397,8 @@ limitations under the License.
 					<cfif
 						len(total_length.attribute_units) gt 0 OR
 						len(tail_length.attribute_units) gt 0 OR
-						len(hf.attribute_units) gt 0  OR
-						len(efn.attribute_units) gt 0  OR
+						len(hf.attribute_units) gt 0 OR
+						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
 						<!---semi-standard measurements --->
 						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
@@ -2595,7 +2595,7 @@ limitations under the License.
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					identification.accepted_id_fg = 1 AND
 					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-					collecting_event.locality_id = locality.locality_id  AND
+					collecting_event.locality_id = locality.locality_id AND
 					locality.locality_id = accepted_lat_long.locality_id (+) AND
 					accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
 					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
@@ -2603,7 +2603,7 @@ limitations under the License.
 					coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
 					coll_object.entered_person_id = enteredPerson.agent_id AND
 					coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-					cataloged_item.accn_id =  accn.transaction_id  AND
+					cataloged_item.accn_id = accn.transaction_id AND
 					accn.transaction_id = trans.transaction_id(+) AND
 					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2646,7 +2646,7 @@ limitations under the License.
 										</cfloop>
 									</cfif>
 								</li>
-								<!--------------------  Project / Usage ------------------------------------>	
+								<!-------------------- Project / Usage ------------------------------------>	
 								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
@@ -2881,7 +2881,7 @@ limitations under the License.
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					identification.accepted_id_fg = 1 AND
 					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-					collecting_event.locality_id = locality.locality_id  AND
+					collecting_event.locality_id = locality.locality_id AND
 					locality.locality_id = accepted_lat_long.locality_id (+) AND
 					accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
 					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
@@ -2889,7 +2889,7 @@ limitations under the License.
 					coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
 					coll_object.entered_person_id = enteredPerson.agent_id AND
 					coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-					cataloged_item.accn_id =  accn.transaction_id  AND
+					cataloged_item.accn_id = accn.transaction_id AND
 					accn.transaction_id = trans.transaction_id(+) AND
 					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2935,7 +2935,7 @@ limitations under the License.
 									</cfif>
 								</li>
 								
-								-----------------  Project / Usage ---------------------------------
+								----------------- Project / Usage ---------------------------------
 								
 			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
@@ -3163,7 +3163,7 @@ limitations under the License.
 						'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
 						'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 							to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-							decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
+							decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
 						'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
 							to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
 					)
@@ -3269,7 +3269,7 @@ limitations under the License.
 				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
 				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-				collecting_event.locality_id = locality.locality_id  AND
+				collecting_event.locality_id = locality.locality_id AND
 				locality.locality_id = accepted_lat_long.locality_id (+) AND
 				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
 				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
@@ -3277,7 +3277,7 @@ limitations under the License.
 				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
 				coll_object.entered_person_id = enteredPerson.agent_id AND
 				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-				cataloged_item.accn_id =  accn.transaction_id  AND
+				cataloged_item.accn_id = accn.transaction_id AND
 				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
