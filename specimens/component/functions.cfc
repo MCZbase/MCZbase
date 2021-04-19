@@ -1221,10 +1221,10 @@ limitations under the License.
 										<input name="sort order" class="mx-2 mt-0 mb-2 col-1 data-entry-input" value="#i#">
 										<button class="mr-3 mr-md-5 btn btn-xs btn-danger float-left mb-2 ml-4">Delete</button>
 									</div>
-										<button class="btn btn-xs btn-primary m-2 float-left">Save</button>
-										<button class="btn btn-xs btn-secondary m-2 float-left">Add Collector</button>
 							</cfloop>
 							<cfset i = i++>
+							<button class="btn btn-xs btn-primary m-2 float-left">Save</button>
+							<button class="btn btn-xs btn-secondary m-2 float-left">Add Collector</button>
 						</cfif>
 					</div>
 					<div class="row">
