@@ -259,10 +259,14 @@ limitations under the License.
 														dataType : "json",
 														data: $("##editIdentificationsForm").serialize(),
 														success: function (result) {
-															$('##saveIdentificationsResultDiv').html('Saved');
-															$('##saveIdentificationsResultDiv').addClass('text-success');
-															$('##saveIdentificationsResultDiv').removeClass('text-warning');
-															$('##saveIdentificationsResultDiv').removeClass('text-danger');
+															if (result.DATA.STATUS[0]=='1') { 
+																$('##saveIdentificationsResultDiv').html('Saved');
+																$('##saveIdentificationsResultDiv').addClass('text-success');
+																$('##saveIdentificationsResultDiv').removeClass('text-warning');
+																$('##saveIdentificationsResultDiv').removeClass('text-danger');
+															} else {
+																messageDialog('Error updating identification history: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
+															}
 														},
 														error: function(jqXHR,textStatus,error){
 															handleFail(jqXHR,textStatus,error,"saving changes to identification history");
@@ -588,6 +592,12 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<cftransaction action="commit">
+				<cfset data=queryNew("status, message, id")>
+				<cfset t = queryaddrow(data,1)>
+				<cfset t = QuerySetCell(data, "status", "1", 1)>
+				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
+				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+				#serializeJSON(data)#
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") >
