@@ -75,6 +75,8 @@ limitations under the License.
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<form name="editIdentificationsForm" id="editIdentificationsForm">
 									<input type="hidden" name="method" value="updateIdentifications">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<h1 class="h3 px-1"> Edit Existing Determinations <a href="javascript:void(0);" onClick="getMCZDocs('identification')"><i class="fa fa-info-circle"></i></a> </h1>
 									<div class="row mx-0">
@@ -597,7 +599,7 @@ limitations under the License.
 				<cfset t = QuerySetCell(data, "status", "1", 1)>
 				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
 				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
-				#serializeJSON(data)#
+				<cfreturn data>
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") >
