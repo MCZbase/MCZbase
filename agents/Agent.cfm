@@ -85,7 +85,7 @@ limitations under the License.
 		<cfoutput>
 			<div class="container">
 				<div class="row">
-					<div class="col-12 mt-3">
+					<div id="agentDiv" class="col-12 mt-3">
 				<cfloop query="getAgent">
 					<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 					<h2>#preferred_agent_name# #edited_marker#</h2>
