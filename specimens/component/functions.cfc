@@ -1213,7 +1213,7 @@ limitations under the License.
 						<cfif colls.recordcount gt 0>
 							<cfloop query="colls">
 								<div class="col-12 mt-3 px-0">
-									<div class="form-row border rounded mt-3 pt-3">
+									<div class="form-row border rounded mt-3 pt-2">
 									<cfset i = 0>
 										<label class="data-entry-label mx-2 pr-0 mt-2 mb-0 col-1 w-auto">Collector</label>
 										<input name="collectors" class="mx-2 mt-0 mb-2 col-12 col-md-5 data-entry-input" value="#colls.collectors#">
