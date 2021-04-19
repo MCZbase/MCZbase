@@ -1223,8 +1223,8 @@ limitations under the License.
 									</div>
 							</cfloop>
 							<cfset i = i++>
-							<button class="btn btn-xs btn-primary m-2 float-left">Save</button>
-							<button class="btn btn-xs btn-secondary m-2 float-left">Add Collector</button>
+							<button class="btn btn-xs btn-primary mx-2 mt-3 float-left">Save</button>
+							<button class="btn btn-xs btn-secondary mx-2 mt-3 float-left">Add Collector</button>
 						</cfif>
 					</div>
 					<div class="row">
