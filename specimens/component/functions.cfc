@@ -103,7 +103,7 @@ limitations under the License.
 												WHERE
 													cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 												ORDER BY 
-													accepted_id_fg, sort_order DESC
+													accepted_id_fg, sort_order ASC
 											</cfquery>
 											<cfset i = 1>
 											<cfset sortCount=getIds.recordcount - 1>
@@ -130,6 +130,7 @@ limitations under the License.
 															<label for="scientific_name_#i#" class="data-entry-label">Scientific Name</label>
 															<input type="text" name="scientific_name_#i#" id="scientific_name_#i#" class="data-entry-input" readonly="true" value="#scientific_name#">
 														</div>
+														<!--- TODO: make flippedAccepted() js function available --->
 														<div class="col-12 col-md-4">
 															<label for="accepted_id_fg_#i#" class="data-entry-label">Accepted</label>
 															<cfif #accepted_id_fg# is 0>
@@ -149,7 +150,9 @@ limitations under the License.
 																</cfif>
 															</select>
 															<cfif #ACCEPTED_ID_FG# is 0>
-															<span class="infoLink text-dander" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+																<span class="infoLink text-danger" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
+															<cfelse>
+																<span>Current Identification</span>
 															</cfif>
 														</div>
 													</div>
