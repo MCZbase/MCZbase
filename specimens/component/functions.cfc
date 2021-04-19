@@ -264,16 +264,25 @@ limitations under the License.
 														dataType : "json",
 														data: $("##editIdentificationsForm").serialize(),
 														success: function (result) {
-															if (result.DATA.STATUS[0]=='1') { 
+															if (if typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
 																$('##saveIdentificationsResultDiv').html('Saved');
 																$('##saveIdentificationsResultDiv').addClass('text-success');
 																$('##saveIdentificationsResultDiv').removeClass('text-warning');
 																$('##saveIdentificationsResultDiv').removeClass('text-danger');
 															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																$('##saveIdentificationsResultDiv').html('Error');
+																$('##saveIdentificationsResultDiv').addClass('text-danger');
+																$('##saveIdentificationsResultDiv').removeClass('text-warning');
+																$('##saveIdentificationsResultDiv').removeClass('text-success');
 																messageDialog('Error updating identification history: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
 															}
 														},
 														error: function(jqXHR,textStatus,error){
+															$('##saveIdentificationsResultDiv').html('Error');
+															$('##saveIdentificationsResultDiv').addClass('text-danger');
+															$('##saveIdentificationsResultDiv').removeClass('text-warning');
+															$('##saveIdentificationsResultDiv').removeClass('text-success');
 															handleFail(jqXHR,textStatus,error,"saving changes to identification history");
 														}
 													});
