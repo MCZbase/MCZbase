@@ -3843,18 +3843,18 @@ limitations under the License.
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		 <tr>
 			 <td>
-		Name: <input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
+		<label class="pl-2">Name:</label> <input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
 		onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
 		 onKeyPress="return noenter(event);">
 		
 		<input type="hidden" name="newagent_id">
 		<input type="hidden" name="oldagent_id" value="#agent_id#">
-         Role:  <input type="hidden" name="oldRole" value="#getColls.collector_role#">
+         <label class="pl-2">Role:</label> <input type="hidden" name="oldRole" value="#getColls.collector_role#">
                   	<select name="collector_role" size="1"  class="reqdClr">
 						<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
 						<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
 					</select>
-		Order:  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+		<label class="pl-2">Order:</label>  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
 					<select name="coll_order" size="1" class="reqdClr">
 						<option>number</option>
 	<!---			<cfset thisLoop =#getColls.recordcount# +1>--->
