@@ -2438,7 +2438,7 @@ limitations under the License.
 						<li class="list-group-item col-3 px-0">
 							<input class="data-entry-input float-left" value="#getLoc.began_date#">
 						</li>
-						<li class="list-group-item col-1 px-0">
+						<li class="list-group-item col-2 px-0">
 							<span class="d-inline-block text-center"> - </span>
 						</li>
 						<li class="list-group-item col-3 px-0">
