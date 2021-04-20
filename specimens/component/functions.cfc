@@ -2413,7 +2413,7 @@ limitations under the License.
 						<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
 					</cfif>
 				</ul>
-		
+		<div class="px-3">
                     <h4>Higher Geography</h4>
 	           		<input type="button" value="Change" class="btn btn-xs btn-secondary" id="changeGeogButton">
 			 			<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
@@ -2421,7 +2421,7 @@ limitations under the License.
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 						<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
 						</cfif>
-			</div>
+				</div></div>
 			<div class="col-12 float-left px-0">
 				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
 					<cfif len(getLoc.spec_locality) gt 0>
