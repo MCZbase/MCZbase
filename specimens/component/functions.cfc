@@ -2764,6 +2764,9 @@ limitations under the License.
 	<cfthread name="getEditTransactionsThread"> 
 		<cfoutput>
 		<cftry>
+			<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection, collection_id from collection order by collection
+</cfquery>
 	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id,
