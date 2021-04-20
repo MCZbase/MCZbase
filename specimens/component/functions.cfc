@@ -1259,11 +1259,7 @@ limitations under the License.
 			</tr>
 		</tbody>
 	</table>
-		<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	INSERT INTO collector (
-		collection_object_id, agent_id, collector_role,coll_order)
-	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
-	</cfquery>
+
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
