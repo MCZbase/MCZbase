@@ -2817,26 +2817,21 @@ limitations under the License.
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		</cfif>
-		<table border="1">
-			<tr>
-				<td>
-					<label for="accn_number">Accession</label>
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+				<label for="accn_number">Accession</label>
 					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
-				</td>
-     			<td>
 					<div id="g_num"> Accession Valid<br/>
-						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
+						<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-secondary">
 					</div>
-					<div id="b_num">
+					<div id="b_num" class="px-2">
 						TAB to see if valid accession<br/> - nothing happens if invalid -
 					</div>
-					
-				</td>
-                <td>
                  <a href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
-                </td>
-			</tr>
-		</table>	
+				</div>
+			</div>
+		</div>
 	</form>
 	<table border width="100%">
 	<tr>
