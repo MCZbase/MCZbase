@@ -2820,17 +2820,18 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<label for="accn_number" class="data-entry-label">Accession</label>
+					<div class="form-row">
 					<div class="col-12 col-sm-3">
+					<label for="accn_number" class="data-entry-label">Accession</label>
 						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
 						<span class="smaller d-block">TAB to see if accession is valid</span>
-						
 					</div>
-					<div class="col-12 col-sm-3"> <a class="btn btn-xs btn-secondary" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
+					<div class="col-12 col-sm-3"> 
+						<a class="btn btn-xs btn-secondary" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
 					<div id="g_num"> 
 						<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
 					</div>
-                
+					</div>
 				</div>
 			</div>
 		</div>
