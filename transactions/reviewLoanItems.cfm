@@ -559,7 +559,7 @@ limitations under the License.
 									{ name: 'custom_id', type: 'string' }
 								],
 							updaterow: function (rowid, rowdata, commit) {
-								var data = "method=updateBorrowItem";
+								var data = "method=updateLoanItem";
 								data = data + "&transaction_id=" + rowdata.transaction_id;
 								data = data + "&partId=" + rowdata.partId;
 								data = data + "&=condition" + rowdata.condtion;
@@ -568,14 +568,14 @@ limitations under the License.
 								data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
 								$.ajax({
 									dataType: 'json',
-									url: '/transactions/component/borrowFunctions.cfc',
+									url: '/transactions/component/itemsFunctions.cfc',
 									data: data,
 										success: function (data, status, xhr) {
 										commit(true);
 									},
 									error: function (jqXHR,textStatus,error) {
 										commit(false);
-										handleFail(jqXHR,textStatus,error,"saving borrow item");
+										handleFail(jqXHR,textStatus,error,"saving loan item");
 									}
 								});
 							},
@@ -658,7 +658,7 @@ limitations under the License.
 								initrowdetails: initRowDetails
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
-								gridLoaded('searchResultsGrid','borrow item');
+								gridLoaded('searchResultsGrid','loan item');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								// Create a content div, add it to the detail row, and make it into a dialog.
