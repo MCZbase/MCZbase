@@ -2821,10 +2821,11 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12">
 					<div class="form-row">
-					<div class="col-12 col-sm-3">
+					<div class="col-12 col-sm-3 mb-3">
 					<label for="accn_number" class="data-entry-label">Accession</label>
 						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
-						<span class="smaller d-block">TAB to see if accession is valid</span>
+						<span class="small d-block">TAB to see if accession is valid</span>
+						<p>Validation message placeholder</p>
 					</div>
 					<div class="col-12 col-sm-3 mt-3"> 
 						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
