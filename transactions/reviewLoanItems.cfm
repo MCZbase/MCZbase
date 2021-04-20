@@ -344,177 +344,183 @@ limitations under the License.
 			<cfelse>
 				<cfset partCount = prtItemCnt.c>
 			</cfif>
-			<section class="row">
-				<h2 class="h3">
-					Review items in loan
-					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a>.
-				</h2>
-				<div class="row">
-					<div class="col-12 col-xl-6">
-						<p>There are #partCount# items from #catCount# specimens in this loan.</p>
+			<section class="row mx-0 border rounded my-2 pt-2" title="Review Loan Items" >
+				<div class="col-12">
+					<h2 class="h3">
+						Review items in loan
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a>.
+					</h2>
+					<div class="form-row">
+						<div class="col-12 col-xl-6">
+							<p>There are #partCount# items from #catCount# specimens in this loan.</p>
+						</div>
+						<div class="col-12 col-xl-6">
+							<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
+						</div>
 					</div>
-					<div class="col-12 col-xl-6">
-						<h3 class="h4">Countries of Origin</h3>
-						<cfset sep="">
-						<cfloop query=ctSovereignNation>
-							<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-							<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
-							<cfset sep="; ">
-						</cfloop>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-xl-6">
-						<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
-					</div>
-					<div class="col-12 col-xl-6">
-						<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
-						<br>Change disposition of all these items to:
-						<input type="hidden" name="Action" value="BulkUpdateDisp">
-							<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-							<select name="coll_obj_disposition" size="1">
-								<cfloop query="ctDisp">
-									<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-								</cfloop>				
-							</select>
-							<input type="submit" value="Update Disposition" class="savBtn"
-							   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-						</form>
-					</div>
-				</div>
-			   <cfif aboutLoan.collection EQ 'Cryogenic'>
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12">
-							<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
-								<br>Change preservation method of all these items to:
-								<input type="hidden" name="Action" value="BulkUpdatePres">
+							<h3 class="h4">Countries of Origin</h3>
+							<cfset sep="">
+							<cfloop query=ctSovereignNation>
+								<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+								<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+								<cfset sep="; ">
+							</cfloop>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-xl-6">
+							<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
+							<br>Change disposition of all these items to:
+							<input type="hidden" name="Action" value="BulkUpdateDisp">
 								<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-								<select name="part_preserve_method" size="1">
-									<cfloop query="ctPreserveMethod">
-										<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+								<select name="coll_obj_disposition" size="1">
+									<cfloop query="ctDisp">
+										<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 									</cfloop>				
 								</select>
-								<input type="submit" value="Update Preservation method" class="savBtn"
+								<input type="submit" value="Update Disposition" class="savBtn"
 								   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 							</form>
 						</div>
-					<div>
-			   </cfif>
-				<div class="row">
-					<div class="col-12 col-xl-6">
-						View 
-						<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-							or <a href="loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+						<div class="col-12">
+				   		<cfif aboutLoan.collection EQ 'Cryogenic'>
+								<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
+									<br>Change preservation method of all these items to:
+									<input type="hidden" name="Action" value="BulkUpdatePres">
+									<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+									<select name="part_preserve_method" size="1">
+										<cfloop query="ctPreserveMethod">
+											<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+										</cfloop>				
+									</select>
+									<input type="submit" value="Update Preservation method" class="savBtn"
+									   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
+								</form>
+				   		</cfif>
+						</div>
+					<div class="row">
+						<div class="col-12 col-xl-6">
+							View 
+							<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
+								or <a href="loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+						</div>
 					</div>
 				</div>
+				<div class="col-12">
 
-				<table border id="t" class="sortable">
-					<tr>
-						<th>
-							CN
-						</th>
-						<th>
-							#session.CustomOtherIdentifier#
-						</th>
-						<th>
-							Scientific Name
-						</th>
-						<th>
-							Item
-						</th>
-						<th>
-							Condition
-						</th>
-						<th>
-							Subsample?
-						</th>
-						
-						<th>
-							Item Instructions
-						</th>
-						<th>
-							Item Remarks
-						</th>
-						<cfif aboutLoan.collection EQ 'Cryogenic'>
+					<table border id="t" class="sortable">
+						<tr>
 							<th>
-								Preserve Method
+								CN
 							</th>
-						</cfif>
-						<th>
-							Disposition
-						</th>
-						
-						<th>
-							Encumbrance
-						</th>
-						<th>&nbsp;
+							<th>
+								#session.CustomOtherIdentifier#
+							</th>
+							<th>
+								Scientific Name
+							</th>
+							<th>
+								Item
+							</th>
+							<th>
+								Condition
+							</th>
+							<th>
+								Subsample?
+							</th>
 							
-						</th>
-					</tr>
-				
-					<cfset i=1>
-					<cfloop query="getPartLoanRequests">
-						<tr id="rowNum#partID#">
-							<td>
-								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
-							</td>
-							<td>
-								#CustomID#&nbsp;
-							</td>	
-							<td>
-								<em>#scientific_name#</em>&nbsp;
-							</td>
-							<td>
-								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
-							</td>
-							<td>
-								<textarea name="condition#partID#" 
-									rows="2" cols="20"
-									id="condition#partID#"
-									onchange="this.className='red';updateCondition('#partID#')">#condition#</textarea>
-									<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
-							</td>
-							<td>
-								<cfif len(#sampled_from_obj_id#) gt 0>
-									yes
-								<cfelse>
-									no
-								</cfif>
-								<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
-							</td>	
-							<td valign="top">
-								<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20" onchange="this.className='red';updateInstructions('#partID#')">#Item_Instructions#</textarea>
-							</td>
-							<td valign="top">
-								<textarea name="loan_Item_Remarks#partID#" id="loan_Item_Remarks#partID#" rows="2" cols="20"
-									onchange="this.className='red';updateLoanItemRemarks('#partID#')">#loan_Item_Remarks#</textarea>
-							</td>
+							<th>
+								Item Instructions
+							</th>
+							<th>
+								Item Remarks
+							</th>
 							<cfif aboutLoan.collection EQ 'Cryogenic'>
-								<td>
-									#preserve_method#
-								</td>
+								<th>
+									Preserve Method
+								</th>
 							</cfif>
-							<td>
-								<cfset thisDisp = #coll_obj_disposition#>
-								<select name="coll_obj_disposition#partID#" id="coll_obj_disposition#partID#" size="1" onchange="this.className='red';updateDispn('#partID#')">
-									<cfloop query="ctDisp">
-										<option 
-											<cfif #ctDisp.coll_obj_disposition# is "#thisDisp#"> selected </cfif>
-											value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-									</cfloop>				
-								</select>
-							</td>
-							<td>
-								#Encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
-							</td>
-							<td>
-								<img src="/images/del.gif" class="likeLink" onclick="remPartFromLoan(#partID#);" />
-							</td>
+							<th>
+								Disposition
+							</th>
+							
+							<th>
+								Encumbrance
+							</th>
+							<th>&nbsp;
+								
+							</th>
 						</tr>
-						<cfset i=#i#+1>
-					</cfloop>
-				</table>
-			<br><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
+					
+						<cfset i=1>
+						<cfloop query="getPartLoanRequests">
+							<tr id="rowNum#partID#">
+								<td>
+									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
+								</td>
+								<td>
+									#CustomID#&nbsp;
+								</td>	
+								<td>
+									<em>#scientific_name#</em>&nbsp;
+								</td>
+								<td>
+									<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#part_name# (#preserve_method#)</a>
+								</td>
+								<td>
+									<textarea name="condition#partID#" 
+										rows="2" cols="20"
+										id="condition#partID#"
+										onchange="this.className='red';updateCondition('#partID#')">#condition#</textarea>
+										<span class="infoLink" onClick="chgCondition('#partID#')">History</span>
+								</td>
+								<td>
+									<cfif len(#sampled_from_obj_id#) gt 0>
+										yes
+									<cfelse>
+										no
+									</cfif>
+									<input type="hidden" name="isSubsample#partID#" id="isSubsample#partID#" value="#sampled_from_obj_id#" />
+								</td>	
+								<td valign="top">
+									<textarea name="item_instructions#partID#" id="item_instructions#partID#" rows="2" cols="20" onchange="this.className='red';updateInstructions('#partID#')">#Item_Instructions#</textarea>
+								</td>
+								<td valign="top">
+									<textarea name="loan_Item_Remarks#partID#" id="loan_Item_Remarks#partID#" rows="2" cols="20"
+										onchange="this.className='red';updateLoanItemRemarks('#partID#')">#loan_Item_Remarks#</textarea>
+								</td>
+								<cfif aboutLoan.collection EQ 'Cryogenic'>
+									<td>
+										#preserve_method#
+									</td>
+								</cfif>
+								<td>
+									<cfset thisDisp = #coll_obj_disposition#>
+									<select name="coll_obj_disposition#partID#" id="coll_obj_disposition#partID#" size="1" onchange="this.className='red';updateDispn('#partID#')">
+										<cfloop query="ctDisp">
+											<option 
+												<cfif #ctDisp.coll_obj_disposition# is "#thisDisp#"> selected </cfif>
+												value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+										</cfloop>				
+									</select>
+								</td>
+								<td>
+									#Encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
+								</td>
+								<td>
+									<img src="/images/del.gif" class="likeLink" onclick="remPartFromLoan(#partID#);" />
+								</td>
+							</tr>
+							<cfset i=#i#+1>
+						</cfloop>
+					</table>
+				</div>
+				<div class="col-12">
+					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
+				</div>
+			</section>
 		</cfoutput>
 	</main>
 </cfif>
