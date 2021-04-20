@@ -2976,7 +2976,7 @@ limitations under the License.
 					<div class="col-12 col-sm-3 mt-3"> 
 						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
 					</div>
-					<div class="col-12 px-0 mb-2">
+					<div class="col-12 px-0 mb-3">
 						<div id="g_num"> 
 							<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
 						</div>
