@@ -2415,7 +2415,7 @@ limitations under the License.
 				</ul>
 		<div class="px-3">
                     <h4>Higher Geography</h4>
-	           		<input type="button" value="Change" class="btn btn-xs btn-secondary" id="changeGeogButton">
+	           		<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 			 			<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
 			 				style="display:none">
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
