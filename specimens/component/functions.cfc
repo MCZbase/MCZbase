@@ -2853,7 +2853,7 @@ limitations under the License.
 		
 	</tr>
 
-	<cfoutput query="getItems" group="collection_object_id">
+	<cfoutput query="getItems">
 	<tr>
 		<td>#collection# #cat_num#</td>
 		<td style="width: 200px;">#scientific_name#</td>
