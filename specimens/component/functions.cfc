@@ -2988,7 +2988,7 @@ limitations under the License.
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-	<table class="table table-responsive">
+				<table class="table table-responsive">
 	<thead>
 		<tr>
 			<th>Cat Num</th>
@@ -3027,10 +3027,9 @@ limitations under the License.
 	</tr>
 
 </table>
-    </div>
-			
-						
-			<ul class="list-group list-group-flush pl-0">
+    		</div>
+			<div class="col-12">		
+				<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#getItems.accn_number#</a>
@@ -3152,6 +3151,9 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</ul>
+			</div>
+		</div>
+	</div>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
