@@ -1185,44 +1185,39 @@ limitations under the License.
 
 	<cfset i=1>
         <h3> Agent as Collector or Preparator</h3>
-<table>
-
-<cfloop query="getColls">
-	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		 <tr>
-			 <td>
-				<label class="px-2">Name: </label><input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
-				onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
-				 onKeyPress="return noenter(event);">
-
-				<input type="hidden" name="newagent_id">
-				<input type="hidden" name="oldagent_id" value="#agent_id#">
-				<label for="collector_role" class="px-2">Role: </label> <input type="hidden" name="oldRole" value="#getColls.collector_role#">
-				<select name="collector_role" size="1"  class="reqdClr">
-					<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-					<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-				</select>
-				<label class="px-2" for="coll_order">Order: </label><input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-				<select name="coll_order" size="1" class="reqdClr">
-						<cfset thisLoop =#getColls.recordcount# +1>
-						<cfloop from="1" index="c" to="#thisLoop#">
-							<option 
-								<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
-
-						</cfloop>
-				</select>
-              <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
-              <input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">	
-			</td>
-		</tr>
-	</form>
-	<cfset i = #i#+1>
-</cfloop>
-</table>
+	<table>
+		<cfloop query="getColls">
+			<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+				<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+				 <tr>
+					 <td>
+						<label class="px-2">Name: </label><input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
+						onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
+						 onKeyPress="return noenter(event);">
+						<input type="hidden" name="newagent_id">
+						<input type="hidden" name="oldagent_id" value="#agent_id#">
+						<label for="collector_role" class="px-2">Role: </label> <input type="hidden" name="oldRole" value="#getColls.collector_role#">
+						<select name="collector_role" size="1"  class="reqdClr">
+							<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
+							<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
+						</select>
+						<label class="px-2" for="coll_order">Order: </label><input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+						<select name="coll_order" size="1" class="reqdClr">
+							<cfset thisLoop =#getColls.recordcount# +1>
+							<cfloop from="1" index="c" to="#thisLoop#">
+								<option <cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
+							</cfloop>
+						</select>
+					  <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
+					  <input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">	
+					</td>
+				</tr>
+			</form>
+			<cfset i = #i#+1>
+		</cfloop>
+	</table>
 <br>
 	<table class="newRec mt-2">
-
 		<thead>
 			<tr>
 				<th class="p-2">Add an Agent to this record:</th>
@@ -1259,8 +1254,7 @@ limitations under the License.
 			</tr>
 		</tbody>
 	</table>
-
-		</cfoutput>
+</cfoutput>
 		<cfcatch>
 			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
