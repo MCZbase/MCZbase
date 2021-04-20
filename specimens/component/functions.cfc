@@ -2965,7 +2965,7 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
+					<h1 class="h3 my-1">Add this cataloged item (listed below) to accession:</h1>
 					<div class="form-row">
 					<div class="col-12 col-sm-3 mb-0">
 					<label for="accn_number" class="data-entry-label">Accession</label>
