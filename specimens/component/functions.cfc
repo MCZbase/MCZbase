@@ -2373,36 +2373,36 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 			</div>
-			<div class="col-7 px-0 float-left">
+			<div class="col-6 px-0 float-left">
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 					<cfif len(getLoc.continent_ocean) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.continent_ocean#"></li>
+						<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.continent_ocean#"></li>
 					</cfif>
 					<cfif len(getLoc.sea) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.sea#"></li>
+						<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.sea#"></li>
 					</cfif>
 					<cfif len(getLoc.country) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.country#"></li>
+						<li class="list-group-item col-4 px-0"><em>Country:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.country#"></li>
 					</cfif>
 					<cfif len(getLoc.state_prov) gt 0>
-						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.state_prov#"></li>
+						<li class="list-group-item col-4 px-0"><em>State:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.state_prov#"></li>
 					</cfif>
 					<cfif len(getLoc.feature) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.feature#"></li>
+						<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.feature#"></li>
 					</cfif>
 					<cfif len(getLoc.county) gt 0>
-						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.county#"></li>
+						<li class="list-group-item col-4 px-0"><em>County:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.county#"></li>
 					</cfif>
 
 					<cfif len(getLoc.island_group) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0"><input class="data-entry-input" value="#getLoc.island_group#"></li>
+						<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.island_group#"></li>
 					</cfif>
 					<cfif len(getLoc.island) gt 0>
 						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
