@@ -2758,7 +2758,7 @@ limitations under the License.
 	<cfthread action="join" name="getAttributesThread" />
 	<cfreturn getAttributesThread.output>
 </cffunction>
-					
+				
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> 
@@ -2780,7 +2780,6 @@ limitations under the License.
 		trans.institution_acronym transInst,
 		trans.transaction_id,
 		collection.collection,
-		collection.collection_id,
 		a_coll.collection accnColln
 	FROM
 		cataloged_item,
@@ -2828,9 +2827,14 @@ limitations under the License.
 		<table border="1">
 			<tr>
 				<td>
+					<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection, collection_id from collection order by collection
+					</cfquery>	
 					<label for="collection_id">Collection</label>
 					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
+						<cfloop query="ctcoll">
 							<option value="#collection_id#">#collection#</option>
+						</cfloop>
 					</select>
 				</td>
 				<td>
