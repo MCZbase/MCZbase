@@ -1213,7 +1213,7 @@ limitations under the License.
 		<!---		</cfloop>--->
 					</select>
               <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
-              <input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');">	
+              <input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">	
 			</td>
 		</tr>
 	</form>
@@ -1252,8 +1252,7 @@ limitations under the License.
 				</cfloop>
 			</select>
 			
-		<input type="submit" value="Create" class="insBtn"
-   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
+		<input type="submit" value="Create" class="btn btn-xs btn-primary">
          
         </form></td>
 	</tr>
