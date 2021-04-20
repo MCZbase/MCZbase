@@ -1238,7 +1238,7 @@ limitations under the License.
 						onKeyPress="return noenter(event);">--->
 						<input type="hidden" name="newagent_id">
 						<cfset idnum=1>
-						<cfloop query="determiners">
+						<cfloop query="getAgent">
 							<div id="IdTr_#i#_#idnum#">
 								<div class="col-12">
 									<label for="name_#i#_#idnum#">
