@@ -2811,7 +2811,7 @@ limitations under the License.
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
     <div>
-	<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
+	
 	<form name="addItems" method="post" action="Specimen.cfm">
 		<input type="hidden" name="Action" value="addItems">
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
@@ -2820,6 +2820,7 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
+					<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
 					<div class="form-row">
 					<div class="col-12 col-sm-3 mb-0">
 					<label for="accn_number" class="data-entry-label">Accession</label>
