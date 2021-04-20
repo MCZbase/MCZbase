@@ -2165,7 +2165,7 @@ limitations under the License.
 	<cfthread name="getEditLocalityThread"> 
 		<cfoutput>
 		<cftry>
-			<div class="col-5 pl-0 pr-3 mb-2 float-right">
+			<div class="col-6 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 				<cfoutput>
 				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
