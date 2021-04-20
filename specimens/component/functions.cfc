@@ -2824,10 +2824,10 @@ limitations under the License.
 					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
 				</td>
      			<td>
-					<div id="g_num" class="noShow" style="font-size: 13px;padding:3px;text-align: center;"> Accession Valid<br/>
+					<div id="g_num"> Accession Valid<br/>
 						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
 					</div>
-					<div id="b_num" style="font-size: 13px;padding:3px;">
+					<div id="b_num">
 						TAB to see if valid accession<br/> - nothing happens if invalid -
 					</div>
 					
@@ -2838,7 +2838,7 @@ limitations under the License.
 			</tr>
 		</table>	
 	</form>
-	<table border width="100%" style="font-size: 15px;">
+	<table border width="100%">
 	<tr>
 		<td>Cat Num</td>
 		<td>Scientific Name</td>
@@ -2851,7 +2851,7 @@ limitations under the License.
 	</tr>
 
 	<tr>
-		<td>#collection# #cat_num#</td>
+		<td>#getItems.collection# #getItems.cat_num#</td>
 		<td style="width: 200px;">#scientific_name#</td>
 		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
 		<td style="width: 200px;">
