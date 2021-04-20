@@ -2435,7 +2435,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
 						<li class="list-group-item col-4 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input w-25 float-left" value="#getLoc.began_date#"><span class="w-25"> - </span> <input class="data-entry-input w-25 float-left" value="#getLoc.ended_date#"></li>
+						<li class="list-group-item col-8 px-0"><input class="data-entry-input w-25 float-left" value="#getLoc.began_date#"><span class="d-inline-block w-25"> - </span> <input class="data-entry-input w-25 float-left" value="#getLoc.ended_date#"></li>
 					</cfif>
 					<cfif len(getLoc.verbatim_date) gt 0>
 						<li class="list-group-item col-4 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
