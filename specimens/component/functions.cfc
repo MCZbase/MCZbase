@@ -3004,12 +3004,12 @@ limitations under the License.
 		<tr>
 			<td>#one.collection# #one.cat_num#</td>
 			<td>#one.scientific_name#</td>
-			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+			<td><a href="Specimens.cfm?Accn_trans_id=#one.transaction_id#" target="_top">#one.accnColln# #one.Accn_number#</a></td>
 			<td>
 			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
-				from getItems 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+				from one
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 				order by coll_order
 			</cfquery>
 			<cfset colls = "">
