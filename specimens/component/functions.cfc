@@ -3034,9 +3034,9 @@ limitations under the License.
 			<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accession#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.accn_id#</a>
 										<cfelse>
-										#one.Accession#
+										#getItems.Accession#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
