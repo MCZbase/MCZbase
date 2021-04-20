@@ -366,7 +366,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-xl-6">
 						<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
-					<div>
+					</div>
 					<div class="col-12 col-xl-6">
 						<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
 						<br>Change disposition of all these items to:
@@ -381,7 +381,7 @@ limitations under the License.
 							   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 						</form>
 					</div>
-				<div>
+				</div>
 			   <cfif aboutLoan.collection EQ 'Cryogenic'>
 					<div class="row">
 						<div class="col-12">
