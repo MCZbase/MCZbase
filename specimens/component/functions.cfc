@@ -2903,6 +2903,7 @@ limitations under the License.
 		collecting_method,
 		collecting_source,
 		specimen_part.derived_from_cat_item,
+		trans.transaction_id,
 		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM
 		cataloged_item,
