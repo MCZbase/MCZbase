@@ -3002,8 +3002,8 @@ limitations under the License.
 	</thead>
 	<tbody>
 		<tr>
-			<td>#getItems.collection# #getItems.cat_num#</td>
-			<td>#getItems.scientific_name#</td>
+			<td>#one.collection# #one.cat_num#</td>
+			<td>#one.scientific_name#</td>
 			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
 			<td>
 			<cfquery name="getAgent" dbtype="query">
