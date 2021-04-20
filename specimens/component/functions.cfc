@@ -1220,10 +1220,10 @@ limitations under the License.
 </cfloop>
 </table>
 <br>
-	<table class="newRec">
+	<table class="newRec mt-2">
 		<thead>
 			<tr>
-				<th class="px-2">Add an Agent to this record:</th>
+				<th class="p-2">Add an Agent to this record:</th>
 			</tr>
 		</thead>
 		<tbody>
