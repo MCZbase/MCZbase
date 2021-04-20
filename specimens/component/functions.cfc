@@ -2415,7 +2415,7 @@ limitations under the License.
 				</ul>
 		
                     <h4>Higher Geography</h4>
-	           		<input type="button" value="Change" class="btn btn-xs btn-secondary" id="changeGeogButton" onclick="document.getElementById('saveGeogChangeButton').style.display='';document.getElementById('getLoc.higher_geog').className='red';GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;">
+	           		<input type="button" value="Change" class="btn btn-xs btn-secondary" id="changeGeogButton" onclick="document.getElementById('saveGeogChangeButton').style.display='';document.getElementById('getLoc.higher_geog').className='red';GeogPick('getLoc.geog_auth_rec_id','getLoc.higher_geog','geog'); return false;">
 			 			<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
 			 				style="display:none">
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
