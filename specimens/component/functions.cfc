@@ -1162,89 +1162,104 @@ limitations under the License.
 	<cfthread name="getEditCollectorsThread"> 
 		<cftry>
 		<cfoutput>
-				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-		<div class="error"> Improper call. Aborting..... </div>
-		<cfabort>
-	</cfif>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-		<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
-			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				collector.coll_order,
-				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
-				else
-					preferred_agent_name.agent_name
-				end collectors
-			FROM
-				collector,
-				preferred_agent_name
-			WHERE
-				collector.collector_role='c' and
-				collector.agent_id=preferred_agent_name.agent_id and
-				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			ORDER BY
-				coll_order
-		</cfquery>
-		<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				collector.coll_order,
-				case when
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
-				else
-					preferred_agent_name.agent_name
-				end preparators
-			FROM
-				collector,
-				preferred_agent_name
-			WHERE
-				collector.collector_role='p' and
-				collector.agent_id=preferred_agent_name.agent_id and
-				collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			ORDER BY
-				coll_order
-		</cfquery>
-			<div class="container-fluid">
-				<div class="col-12">
-					<div class="row">
-						<cfif colls.recordcount gt 0>
-							<cfloop query="colls">
-								<div class="col-12 mt-3 px-0">
-									<div class="form-row border rounded mt-3 pt-2">
-									<cfset i = 0>
-										<label class="data-entry-label mx-2 pr-0 mt-2 mb-0 col-1 w-auto">Collector</label>
-										<input name="collectors" class="mx-2 mt-0 mb-2 col-12 col-md-5 data-entry-input" value="#colls.collectors#">
-										<label class="data-entry-label mx-2 mt-2 mb-0 col-1 w-auto text-right">Sort Order</label>
-										<input name="sort order" class="mx-2 mt-0 mb-2 col-1 data-entry-input" value="#i#">
-										<button class="mr-3 mr-md-5 btn btn-xs btn-danger float-left mb-2 ml-4">Delete</button>
-									</div>
-							</cfloop>
-							<cfset i = i++>
-							<button class="btn btn-xs btn-primary mr-2 mt-3 float-left">Save</button>
-							<button class="btn btn-xs btn-secondary mx-2 mt-3 float-left">Add Collector</button>
-						</cfif>
-					</div>
-					<div class="row">
-						<cfif preps.recordcount gt 0>
-							<cfloop query="preps">
-								<div class="col-12 mt-3 px-0">
-									<cfset i = 0>
-										<label class="data-entry-label mx-2 mt-2 mb-0">Collector</label>
-										<input name="collectors" class="mx-2 mt-0 mb-2 col-11 col-md-6 data-entry-input" value="#colls.collectors#">
-										<label class="data-entry-label mx-2 mt-2 mb-0">Sort Order</label>
-										<input name="sort order" class="mx-2 mt-0 mb-2 col-2 data-entry-input" value="#i#">
-										<button class="col-5 col-md-2 btn btn-xs btn-primary m-2 float-left">Save</button>
-										<button class="col-5 mr-3 col-md-2 mr-md-5 btn btn-xs btn-danger float-left my-2 ml-2">Delete</button>
-								</div>
-							</cfloop>
-							<cfset i = i++>
-						</cfif>
-					</div>
-				</div>
-			</div>
+				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					agent_name, 
+					collector_role,
+					coll_order,
+					collector.agent_id,
+					institution_acronym
+				FROM
+					collector, 
+					preferred_agent_name,
+					cataloged_item,
+					collection
+				WHERE
+					collector.collection_object_id = cataloged_item.collection_object_id and
+					cataloged_item.collection_id=collection.collection_id AND
+					collector.agent_id = preferred_agent_name.agent_id AND
+					collector.collection_object_id = #collection_object_id#
+				ORDER BY 
+					collector_role, coll_order
+			</cfquery>
+
+	<cfset i=1>
+        <h3> Agent as Collector or Preparator</h3>
+<table>
+<cfloop query="getColls">
+	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+		 <tr>
+			 <td>
+		Name: <input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
+		onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
+		 onKeyPress="return noenter(event);">
+		
+		<input type="hidden" name="newagent_id">
+		<input type="hidden" name="oldagent_id" value="#agent_id#">
+         Role:  <input type="hidden" name="oldRole" value="#getColls.collector_role#">
+                  	<select name="collector_role" size="1"  class="reqdClr">
+						<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
+						<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
+					</select>
+		Order:  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+					<select name="coll_order" size="1" class="reqdClr">
+						<option>number</option>
+	<!---			<cfset thisLoop =#getColls.recordcount# +1>--->
+		<!---		<cfloop from="1" index="c" to="#thisLoop#">--->
+	<!---				<option 
+						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>--->
+					
+		<!---		</cfloop>--->
+					</select>
+              <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
+              <input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');">	
+			</td>
+		</tr>
+	</form>
+	<cfset i = #i#+1>
+</cfloop>
+</table>
+<br>
+<table class="newRec">
+	<tr>
+		<td><strong>Add an Agent:</strong></td>
+	</tr>
+	<tr>
+		<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+	<input type="hidden" name="Action" value="newColl">
+		
+		Name: <input type="text" name="name" class="reqdClr"
+		onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
+		 onKeyPress="return noenter(event);">
+		<input type="hidden" name="newagent_id">
+		
+	
+         Role: 
+          <select name="collector_role" size="1" class="reqdClr">
+					<option value="c">collector</option>
+					<option value="p">preparator</option>
+					
+				</select>
+		Order: 
+			<select name="coll_order" size="1" class="reqdClr">
+				<cfset thisLoop = #getColls.recordcount# +1>
+				<cfloop from="1" index="c" to="#thisLoop#">
+					<option <cfif #c# is #thisLoop#> selected </cfif>
+						value="#c#">#c#</option>
+					
+				</cfloop>
+			</select>
+			
+		<input type="submit" value="Create" class="insBtn"
+   onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
+         
+        </form></td>
+	</tr>
+</table>
+<p>
+
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
