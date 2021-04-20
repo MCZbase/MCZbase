@@ -2841,13 +2841,13 @@ limitations under the License.
 	<table border width="100%">
 	<tr>
 		<thead>
-		<th>Cat Num</th>
-		<th>Scientific Name</th>
-		<th>Accn</th>
-		<th>Collectors</th>
-		<th>Geog</th>
-		<th>Spec Loc</th>
-		<th>Date</th>
+			<th>Cat Num</th>
+			<th>Scientific Name</th>
+			<th>Accn</th>
+			<th>Collectors</th>
+			<th>Geog</th>
+			<th>Spec Loc</th>
+			<th>Date</th>
 		</thead>
 	</tr>
 
