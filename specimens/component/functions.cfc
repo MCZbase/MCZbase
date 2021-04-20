@@ -2986,8 +2986,8 @@ limitations under the License.
 		</div>
 	</form>
 	<div class="container">
-		<div class="row">
-			<div class="col-12">
+		<div class="row mx-0">
+			<div class="col-12 px-0">
 				<table class="table table-responsive">
 	<thead>
 		<tr>
