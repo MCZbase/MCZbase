@@ -1229,19 +1229,19 @@ limitations under the License.
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="Action" value="newColl">
 		
-		Name: <input type="text" name="name" class="reqdClr"
+		<label class="px-2">Name: </label><input type="text" name="name" class="reqdClr"
 		onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
 		 onKeyPress="return noenter(event);">
 		<input type="hidden" name="newagent_id">
 		
 	
-			<label class="">Role: </label>
+		<label class="px-2">Role: </label>
           <select name="collector_role" size="1" class="reqdClr">
 					<option value="c">collector</option>
 					<option value="p">preparator</option>
 					
 				</select>
-			<label class="">Order: </label>
+		<label class="px-2">Order: </label>
 			<select name="coll_order" size="1" class="reqdClr">
 				<cfset thisLoop = #getColls.recordcount# +1>
 				<cfloop from="1" index="c" to="#thisLoop#">
