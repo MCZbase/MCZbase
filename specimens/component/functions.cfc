@@ -2439,7 +2439,7 @@ limitations under the License.
 							<input class="data-entry-input float-left" value="#getLoc.began_date#">
 						</li>
 						<li class="list-group-item col-1 px-0">
-							<span class="d-inline-block"> - </span>
+							<span class="d-inline-block text-center"> - </span>
 						</li>
 						<li class="list-group-item col-3 px-0">
 							<input class="data-entry-input float-left" value="#getLoc.ended_date#">
