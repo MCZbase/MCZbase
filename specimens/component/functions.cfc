@@ -2840,14 +2840,15 @@ limitations under the License.
 	</form>
 	<table border width="100%">
 	<tr>
-		<td>Cat Num</td>
-		<td>Scientific Name</td>
-		<td>Accn</td>
-		<td>Collectors</td>
-		<td>Geog</td>
-		<td>Spec Loc</td>
-		<td>Date</td>
-		
+		<thead>
+		<th>Cat Num</th>
+		<th>Scientific Name</th>
+		<th>Accn</th>
+		<th>Collectors</th>
+		<th>Geog</th>
+		<th>Spec Loc</th>
+		<th>Date</th>
+		</thead>
 	</tr>
 
 	<tr>
