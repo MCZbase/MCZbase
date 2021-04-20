@@ -2377,42 +2377,52 @@ limitations under the License.
 				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 					<cfif len(getLoc.continent_ocean) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.continent_ocean#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
 					</cfif>
 					<cfif len(getLoc.sea) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.sea#"></li>
+						<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
 					</cfif>
 					<cfif len(getLoc.country) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.country#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.country#</li>
 					</cfif>
 					<cfif len(getLoc.state_prov) gt 0>
 						<li class="list-group-item col-4 px-0"><em>State:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.state_prov#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
 					</cfif>
 					<cfif len(getLoc.feature) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.feature#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
 					</cfif>
 					<cfif len(getLoc.county) gt 0>
 						<li class="list-group-item col-4 px-0"><em>County:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.county#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.county#</li>
 					</cfif>
 
 					<cfif len(getLoc.island_group) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.island_group#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
 					</cfif>
 					<cfif len(getLoc.island) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.island#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.island#</li>
 					</cfif>
 					<cfif len(getLoc.quad) gt 0>
 						<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.quad#"></li>
+						<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
 					</cfif>
 				</ul>
+		
+                    <h4 style="margin-bottom:.5em;">Higher Geography</h4>
+	            	<input type="text" name="higher_geog" id="higher_geog" value="#higher_geog#" size="90" class="readClr" readonly="yes" >
+					<input type="button" value="Change" class="picBtn" id="changeGeogButton" onclick="document.getElementById('saveGeogChangeButton').style.display='';document.getElementById('higher_geog').className='red';GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;">
+			 			<input type="submit" value="Save" class="savBtn" id="saveGeogChangeButton"
+			 				style="display:none">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+						<input type="button" value="Edit" class="lnkBtn"
+							onClick="document.location='Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+						</cfif>
 			</div>
 			<div class="col-12 float-left px-0">
 				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
