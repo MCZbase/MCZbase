@@ -2826,8 +2826,8 @@ limitations under the License.
 						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
 						<span class="smaller d-block">TAB to see if accession is valid</span>
 					</div>
-					<div class="col-12 col-sm-3"> 
-						<a class="btn btn-xs btn-secondary" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
+					<div class="col-12 col-sm-3 mt-3"> 
+						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
 					<div id="g_num"> 
 						<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
 					</div>
