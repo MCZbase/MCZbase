@@ -2761,7 +2761,6 @@ limitations under the License.
 					
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="collection_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> 
 		<cfoutput>
 		<cftry>
@@ -2781,6 +2780,7 @@ limitations under the License.
 		trans.institution_acronym transInst,
 		trans.transaction_id,
 		collection.collection,
+		collection.collection_id,
 		a_coll.collection accnColln
 	FROM
 		cataloged_item,
