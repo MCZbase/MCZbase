@@ -1234,23 +1234,9 @@ limitations under the License.
 						<input type="hidden" name="Action" value="newColl">
 
 						<label class="px-2">Name: </label>
-						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
-						onKeyPress="return noenter(event);">
+<!---						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
+						onKeyPress="return noenter(event);">--->
 						<input type="hidden" name="newagent_id">
-							<script>
-								makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-							</script>
-<cfif #Action# is "newColl">
-<cfoutput>
-
-	<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	INSERT INTO collector (
-		collection_object_id, agent_id, collector_role,coll_order)
-	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
-	</cfquery>
-	<cflocation url="editColls.cfm?collection_object_id=#collection_object_id#">
-</cfoutput>	
-</cfif>
 
 						<label class="px-2">Role: </label>
 						<select name="collector_role" size="1" class="reqdClr">
