@@ -2826,7 +2826,7 @@ limitations under the License.
 						<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-secondary">
 					</div>
 					<div id="b_num" class="px-2">
-						TAB to see if valid accession<br/> - nothing happens if invalid -
+						<span class="smaller">TAB to see if accession is valid</span>
 					</div>
                  <a href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
 				</div>
