@@ -2792,6 +2792,9 @@ limitations under the License.
 		identification,
 		collection,
 		collection a_coll
+		<cfif (not isdefined("collection_object_id")) or (isdefined("collection_object_id") and listlen(collection_object_id) gt 1)>
+			,#session.SpecSrchTab#
+		</cfif>
 	WHERE
 		cataloged_item.accn_id = accn.transaction_id AND
 		accn.transaction_id = trans.transaction_id AND
@@ -2809,7 +2812,7 @@ limitations under the License.
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		<cfelse>
-	none
+			#session.SpecSrchTab#.collection_object_id
 		</cfif>
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
@@ -2863,7 +2866,7 @@ limitations under the License.
 		<td>Date</td>
 		
 	</tr>
-	</cfoutput>
+
 	<cfoutput query="getItems" group="collection_object_id">
 	<tr>
 		<td>#collection# #cat_num#</td>
