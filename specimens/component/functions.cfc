@@ -2813,13 +2813,13 @@ limitations under the License.
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		<cfelse>
-			#session.SpecSrchTab#.collection_object_id
+			no collection object id specified
 		</cfif>
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
     <div class="basic_wide_box" style="width: 75em;">
 	Add all the items listed below to accession:
-	<form name="addItems" method="post" action="addAccn.cfm">
+	<form name="addItems" method="post" action="Specimen.cfm">
 		<input type="hidden" name="Action" value="addItems">
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -2827,15 +2827,7 @@ limitations under the License.
 		<table border="1">
 			<tr>
 				<td>
-<!---					<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection, collection_id from collection order by collection
-					</cfquery>	
-					<label for="collection_id">Collection</label>
-					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
-						<cfloop query="ctcoll">
-							<option value="#collection_id#">#collection#</option>
-						</cfloop>
-					</select>--->
+
 				</td>
 				<td>
 					<label for="accn_number">Accession</label>
@@ -2877,7 +2869,7 @@ limitations under the License.
 		<td style="width: 200px;">#scientific_name#</td>
 		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
 		<td style="width: 200px;">
-			<cfquery name="getAgent" dbtype="query">
+<!---			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
 				from getItems 
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
@@ -2891,7 +2883,7 @@ limitations under the License.
 				  	<cfset colls = "#colls#, #getAgent.agent_name#">
 				</cfif>
 			</cfloop>
-		#colls#</td>
+		#colls#---></td>
 		<td>#higher_geog#</td>
 		<td>#spec_locality#</td>
 		<td style="width:100px;">#verbatim_date#</td>
