@@ -2335,6 +2335,7 @@ limitations under the License.
 						max_depth,
 						depth_units,
 						collecting_method,
+						geog_auth_rec.higher_geog,
 						collecting_source,
 						specimen_part.derived_from_cat_item,
 						decode(trans.transaction_id, null, 0, 1) vpdaccn
