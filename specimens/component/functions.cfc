@@ -3540,6 +3540,7 @@ limitations under the License.
 <cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCollectorsThread">
+		<cfoutput> 
 		<cftry>
 			<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
@@ -3561,7 +3562,7 @@ limitations under the License.
 				ORDER BY 
 					collector_role, coll_order
 			</cfquery>
-<cfoutput> 
+
 	<cfset i=1>
         <h3> Agent as Collector or Preparator</h3>
 <table>
