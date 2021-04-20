@@ -2839,9 +2839,12 @@ limitations under the License.
 			</div>
 		</div>
 	</form>
-	<table border width="100%">
-	<tr>
-		<thead>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+	<table class="table table-responsive">
+	<thead>
+		<tr>
 			<th>Cat Num</th>
 			<th>Scientific Name</th>
 			<th>Accn</th>
@@ -2849,14 +2852,14 @@ limitations under the License.
 			<th>Geog</th>
 			<th>Spec Loc</th>
 			<th>Date</th>
-		</thead>
-	</tr>
-
-	<tr>
-		<td>#getItems.collection# #getItems.cat_num#</td>
-		<td style="width: 200px;">#getItems.scientific_name#</td>
-		<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
-		<td style="width: 200px;">
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>#getItems.collection# #getItems.cat_num#</td>
+			<td>#getItems.scientific_name#</td>
+			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+			<td>
 <!---			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
 				from getItems 
@@ -2874,7 +2877,7 @@ limitations under the License.
 		#colls#---></td>
 		<td>#getItems.higher_geog#</td>
 		<td>#getItems.spec_locality#</td>
-		<td style="width:100px;">#getItems.verbatim_date#</td>
+		<td>#getItems.verbatim_date#</td>
 	</tr>
 
 </table>
