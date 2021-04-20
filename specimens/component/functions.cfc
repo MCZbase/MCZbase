@@ -2903,7 +2903,6 @@ limitations under the License.
 		collecting_method,
 		collecting_source,
 		specimen_part.derived_from_cat_item,
-		trans.transaction_id,
 		decode(trans.transaction_id, null, 0, 1) vpdaccn
 	FROM
 		cataloged_item,
@@ -3003,14 +3002,14 @@ limitations under the License.
 	</thead>
 	<tbody>
 		<tr>
-			<td>#one.collection# #one.cat_num#</td>
-			<td>#one.scientific_name#</td>
-			<td><a href="Specimens.cfm?Accn_trans_id=#one.transaction_id#" target="_top">#one.accnColln# #one.Accn_number#</a></td>
+			<td>#getItems.collection# #one.cat_num#</td>
+			<td>#getItems.scientific_name#</td>
+			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
 			<td>
 			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
-				from one
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+				from getItems 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 				order by coll_order
 			</cfquery>
 			<cfset colls = "">
