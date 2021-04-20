@@ -269,7 +269,7 @@ limitations under the License.
 
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="partId" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
@@ -333,7 +333,7 @@ limitations under the License.
 			encumbrance,
 			decode(encumbrance,null,null,MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id)) as encumbering_agent_name,
 			loan_number,
-			specimen_part.collection_object_id as partId,
+			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
 			sovereign_nation
 		from 

@@ -539,7 +539,7 @@ limitations under the License.
 							datafields:
 								[
 									{ name: 'transaction_id', type: 'string' },
-									{ name: 'partId', type: 'string' },
+									{ name: 'part_id', type: 'string' },
 									{ name: 'catalog_number', type: 'string' },
 									{ name: 'scientific_name', type: 'string' },
 									{ name: 'collection', type: 'string' },
@@ -561,7 +561,7 @@ limitations under the License.
 							updaterow: function (rowid, rowdata, commit) {
 								var data = "method=updateLoanItem";
 								data = data + "&transaction_id=" + rowdata.transaction_id;
-								data = data + "&partId=" + rowdata.partId;
+								data = data + "&part_id=" + rowdata.part_id;
 								data = data + "&=condition" + rowdata.condtion;
 								data = data + "&=item_instructions" + rowdata.item_instructions;
 								data = data + "&=coll_obj_dispoistion" + rowdata.coll_obj_dispolition;
@@ -631,7 +631,7 @@ limitations under the License.
 								},
 								columns: [
 									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
-									{text: 'partID', datafield: 'partId', width: 80, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+									{text: 'partID', datafield: 'part_id', width: 80, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
 									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: false, editable: false  },
 									{text: 'Collection Code', datafield: 'collection_cde', width:80, hideable: true, hidden: true, editable: false  },
