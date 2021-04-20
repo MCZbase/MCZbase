@@ -3836,7 +3836,7 @@ limitations under the License.
 			</cfquery>
 
 	<cfset i=1>
-        <h3> Agent as Collector or Preparator</h3>
+        <h1 class="h3"> Agent(s) listed as  as Collector or Preparator</h1>
 <table>
 <cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
