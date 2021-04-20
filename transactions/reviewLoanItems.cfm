@@ -380,8 +380,7 @@ limitations under the License.
 										<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 									</cfloop>				
 								</select>
-								<input type="submit" value="Update Disposition" class="savBtn"
-								   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
+								<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
 							</form>
 						</div>
 						<div class="col-12 col-xl-6">
@@ -395,8 +394,7 @@ limitations under the License.
 											<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 										</cfloop>				
 									</select>
-									<input type="submit" value="Update Preservation method" class="savBtn"
-									   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
+									<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 								</form>
 				   		</cfif>
 						</div>
