@@ -2853,7 +2853,7 @@ limitations under the License.
 	<tr>
 		<td>#getItems.collection# #getItems.cat_num#</td>
 		<td style="width: 200px;">#getItems.scientific_name#</td>
-		<td><a href="Specimens.cfm?Accn_trans_id=#getItem.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+		<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
 		<td style="width: 200px;">
 <!---			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
