@@ -2827,7 +2827,7 @@ limitations under the License.
 		<table border="1">
 			<tr>
 				<td>
-					<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---					<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collection, collection_id from collection order by collection
 					</cfquery>	
 					<label for="collection_id">Collection</label>
@@ -2835,7 +2835,7 @@ limitations under the License.
 						<cfloop query="ctcoll">
 							<option value="#collection_id#">#collection#</option>
 						</cfloop>
-					</select>
+					</select>--->
 				</td>
 				<td>
 					<label for="accn_number">Accession</label>
