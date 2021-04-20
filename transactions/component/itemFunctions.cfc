@@ -333,7 +333,7 @@ limitations under the License.
 			encumbrance,
 			decode(encumbrance,null,null,MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id)) as encumbering_agent_name,
 			loan_number,
-			specimen_part.collection_object_id as partID,
+			specimen_part.collection_object_id as partId,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
 			sovereign_nation
 		from 
