@@ -2829,7 +2829,7 @@ limitations under the License.
 				<td>
 					<label for="collection_id">Collection</label>
 					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
-						<cfloop query="gtItems">
+						<cfloop query="getItems">
 							<option value="#collection_id#">#collection#</option>
 						</cfloop>
 					</select>
