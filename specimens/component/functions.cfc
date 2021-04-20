@@ -1184,7 +1184,7 @@ limitations under the License.
 			</cfquery>
 
 	<cfset i=1>
-        <h3 class="px-3"> Agent as Collector or Preparator</h3>
+        <h3> Agent as Collector or Preparator</h3>
 <table>
 <cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
@@ -1223,7 +1223,7 @@ limitations under the License.
 	<table class="newRec">
 		<thead>
 			<tr>
-				<th>Add an Agent to this record:</th>
+				<th class="px-3">Add an Agent to this record:</th>
 			</tr>
 		</thead>
 		<tbody>
