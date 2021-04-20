@@ -267,5 +267,106 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="partId" type="numeric" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="item_instructions" type="string" required="yes">
+	<cfargument name="loan_item_remarks" type="string" required="yes">
+	<cfargument name="coll_obj_disposition" type="numeric" required="yes">
+
+	<cftry>
+		<cftransaction>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partId#">
+			</cfquery>
+			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE loan_item SET
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cfif len(#item_instructions#) gt 0>
+						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
+					<cfelse>
+						,item_instructions = null
+					</cfif>
+					<cfif len(#loan_item_remarks#) gt 0>
+						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
+					<cfelse>
+						,loan_item_remarks = null
+					</cfif>
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partId#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+		</cftransaction>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+</cffunction>
+
+<cffunction name="getLoanItemsData" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+		select 
+			loan.transaction_id,
+			cat_num, 
+			collection,
+			collection.collection_cde,
+			part_name,
+			preserve_method,
+			condition,
+			sampled_from_obj_id,
+			item_descr,
+			item_instructions,
+			loan_item_remarks,
+			coll_obj_disposition,
+			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+			Encumbrance,
+			MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id) as agent_name,
+			loan_number,
+			specimen_part.collection_object_id as partID,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID		 			 
+		from 
+			loan
+			left join loan_item on loan.transaction_id = loan_item.transaction_id
+			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			left join coll_object_encumbrance on coll_object.collection_object_id = coll_object_encumbrance.collection_object_id
+			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			left join collection on cataloged_item.collection_id=collection.collection_id 
+		WHERE
+			loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+		ORDER BY cat_num
+		</cfquery>
+		<cfset rows = getLoanItemsQuery_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="getLoanItemsQuery">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(getLoanItemsQuery.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#getLoanItemsQuery[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
 
 </cfcomponent>
