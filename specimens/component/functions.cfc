@@ -1236,13 +1236,13 @@ limitations under the License.
 		<input type="hidden" name="newagent_id">
 		
 	
-         Role: 
+			<label class="">Role: </label>
           <select name="collector_role" size="1" class="reqdClr">
 					<option value="c">collector</option>
 					<option value="p">preparator</option>
 					
 				</select>
-		Order: 
+			<label class="">Order: </label>
 			<select name="coll_order" size="1" class="reqdClr">
 				<cfset thisLoop = #getColls.recordcount# +1>
 				<cfloop from="1" index="c" to="#thisLoop#">
