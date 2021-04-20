@@ -2824,81 +2824,7 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
-    <div>
-	
-	<form name="addItems" method="post" action="Specimen.cfm">
-		<input type="hidden" name="Action" value="addItems">
-		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		</cfif>
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
-					<div class="form-row">
-					<div class="col-12 col-sm-3 mb-0">
-					<label for="accn_number" class="data-entry-label">Accession</label>
-						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
-						<span class="small d-block mb-1">TAB to see if accession is valid</span>
-						<p>Validation message placeholder</p>
-					</div>
-					<div class="col-12 col-sm-3 mt-3"> 
-						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
-					</div>
-					<div class="col-12 px-0 mb-5">
-						<div id="g_num"> 
-							<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-	<table class="table table-responsive">
-	<thead>
-		<tr>
-			<th>Cat Num</th>
-			<th>Scientific Name</th>
-			<th>Accn</th>
-			<th>Collectors</th>
-			<th>Geog</th>
-			<th>Spec Loc</th>
-			<th>Date</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>#getItems.collection# #getItems.cat_num#</td>
-			<td>#getItems.scientific_name#</td>
-			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
-			<td>
-<!---			<cfquery name="getAgent" dbtype="query">
-				select agent_name, coll_order 
-				from getItems 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
-				order by coll_order
-			</cfquery>
-			<cfset colls = "">
-			<cfloop query="getAgent">
-				<cfif len(#colls#) is 0>
-					<cfset colls = #getAgent.agent_name#>
-				  <cfelse>
-				  	<cfset colls = "#colls#, #getAgent.agent_name#">
-				</cfif>
-			</cfloop>
-		#colls#---></td>
-		<td>#getItems.higher_geog#</td>
-		<td>#getItems.spec_locality#</td>
-		<td>#getItems.verbatim_date#</td>
-	</tr>
-
-</table>
-    </div>
-			
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 				<cfset oneOfUs = 1>
 				<cfelse>
 				<cfset oneOfUs = 0>
@@ -3030,6 +2956,81 @@ limitations under the License.
 						media_relations.media_relationship like '% accn' and
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+    <div>
+	
+	<form name="addItems" method="post" action="Specimen.cfm">
+		<input type="hidden" name="Action" value="addItems">
+		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
+			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+		</cfif>
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
+					<div class="form-row">
+					<div class="col-12 col-sm-3 mb-0">
+					<label for="accn_number" class="data-entry-label">Accession</label>
+						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
+						<span class="small d-block mb-1">TAB to see if accession is valid</span>
+						<p>Validation message placeholder</p>
+					</div>
+					<div class="col-12 col-sm-3 mt-3"> 
+						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
+					</div>
+					<div class="col-12 px-0 mb-5">
+						<div id="g_num"> 
+							<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+	<table class="table table-responsive">
+	<thead>
+		<tr>
+			<th>Cat Num</th>
+			<th>Scientific Name</th>
+			<th>Accn</th>
+			<th>Collectors</th>
+			<th>Geog</th>
+			<th>Spec Loc</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>#getItems.collection# #getItems.cat_num#</td>
+			<td>#getItems.scientific_name#</td>
+			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+			<td>
+<!---			<cfquery name="getAgent" dbtype="query">
+				select agent_name, coll_order 
+				from getItems 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
+				order by coll_order
+			</cfquery>
+			<cfset colls = "">
+			<cfloop query="getAgent">
+				<cfif len(#colls#) is 0>
+					<cfset colls = #getAgent.agent_name#>
+				  <cfelse>
+				  	<cfset colls = "#colls#, #getAgent.agent_name#">
+				</cfif>
+			</cfloop>
+		#colls#---></td>
+		<td>#getItems.higher_geog#</td>
+		<td>#getItems.spec_locality#</td>
+		<td>#getItems.verbatim_date#</td>
+	</tr>
+
+</table>
+    </div>
+			
+						
 			<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
