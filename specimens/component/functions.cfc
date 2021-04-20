@@ -3565,7 +3565,7 @@ limitations under the License.
 	<cfset i=1>
         <h3> Agent as Collector or Preparator</h3>
 <table>
-<cfloop query="getColls">
+<cfoutput query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="Action" value="">
@@ -3607,7 +3607,7 @@ limitations under the License.
 		</td></tr>
 	</form>
 	<cfset i = #i#+1>
-</cfloop>
+</cfoutput>
 </table>
 <br>
 <table class="newRec">
