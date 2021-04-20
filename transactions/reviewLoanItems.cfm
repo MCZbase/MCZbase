@@ -568,7 +568,7 @@ limitations under the License.
 								data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
 								$.ajax({
 									dataType: 'json',
-									url: '/transactions/component/itemsFunctions.cfc',
+									url: '/transactions/component/itemFunctions.cfc',
 									data: data,
 										success: function (data, status, xhr) {
 										commit(true);
