@@ -2810,11 +2810,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_object_id = 
-		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		<cfelse>
-			no collection object id specified
-		</cfif>
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
     <div class="basic_wide_box" style="width: 75em;">
@@ -2827,15 +2823,9 @@ limitations under the License.
 		<table border="1">
 			<tr>
 				<td>
-
-				</td>
-				<td>
 					<label for="accn_number">Accession</label>
 					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
 				</td>
-				<!---<td>
-				<input type="button" id="a_lkup" value="lookup" class="lnkBtn" onclick="findAccession();">
-				</td>--->
      			<td>
 					<div id="g_num" class="noShow" style="font-size: 13px;padding:3px;text-align: center;"> Accession Valid<br/>
 						<input type="submit" id="s_btn" value="Add Items" class="savBtn">
