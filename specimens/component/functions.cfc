@@ -3028,7 +3028,7 @@ limitations under the License.
 
 </table>
     		</div>
-			<div class="col-12 bg-light border rounded p-3 mt-4">		
+			<div class="col-12 bg-light border rounded p-3 mt-3">		
 				<ul class="list-group list-group-flush pl-0">
 					<h2 class="h3">List of Transactions <span class="small">(with links to edit page)</span></h2>
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
