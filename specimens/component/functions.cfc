@@ -2165,6 +2165,7 @@ limitations under the License.
 	<cfthread name="getEditLocalityThread"> 
 		<cfoutput>
 		<cftry>
+			<div class="row mx-0">
 			<div class="col-6 pl-0 pr-3 mb-2 float-right">
 				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 				<cfoutput>
@@ -2415,8 +2416,9 @@ limitations under the License.
 					</cfif>
 				</ul>
 			</div>
+			</div>
 			<div class="col-12 float-left">
-				<div class="px-3">
+				<div class="py-3">
                     <h4>Higher Geography</h4>
 					<input type="text" value="#getLoc.higher_geog#">
 	           		<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
