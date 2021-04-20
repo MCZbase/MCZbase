@@ -1234,9 +1234,34 @@ limitations under the License.
 						<input type="hidden" name="Action" value="newColl">
 
 						<label class="px-2">Name: </label>
-						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
-						onKeyPress="return noenter(event);">
+<!---						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
+						onKeyPress="return noenter(event);">--->
 						<input type="hidden" name="newagent_id">
+						<cfset idnum=1>
+						<cfloop query="determiners">
+							<div id="IdTr_#i#_#idnum#">
+								<div class="col-12">
+									<label for="name_#i#_#idnum#">
+									Identified By
+									<h5 id="name_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+									</label>
+									<div class="col-12 px-0">
+										<div class="input-group">
+											<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="name_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+											<input type="text" name="name_#i#_#idnum#" id="name_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
+										</div>
+										<input type="hidden" name="name_#i#_#idnum#_id" id="name_#i#_#idnum#_id" value="#agent_id#" >
+										<input type="hidden" name="coll_agent_id_#i#_#idnum#" id="coll_agent_id_#i#_#idnum#" value="#new_agent_id#">
+									</div>
+								</div>
+								<script>
+									makeRichAgentPicker("name_#i#_#idnum#", "name_#i#_#idnum#_id", "name_#i#_#idnum#_icon", "name_#i#_#idnum#_view", #agent_id#);
+								</script>
+							</div>
+							<cfset idnum=idnum+1>
+						</cfloop>
+						
+						
 
 						<label class="px-2">Role: </label>
 						<select name="collector_role" size="1" class="reqdClr">
@@ -3855,12 +3880,12 @@ limitations under the License.
 		<label class="pl-2">Order:</label>  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
 					<select name="coll_order" size="1" class="reqdClr">
 						<option>number</option>
-	<!---			<cfset thisLoop =#getColls.recordcount# +1>--->
-		<!---		<cfloop from="1" index="c" to="#thisLoop#">--->
-	<!---				<option 
-						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>--->
+				<cfset thisLoop =#getColls.recordcount# +1>
+				<cfloop from="1" index="c" to="#thisLoop#">
+					<option 
+						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
 					
-		<!---		</cfloop>--->
+				</cfloop>
 					</select>
               <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
               <input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');">	
