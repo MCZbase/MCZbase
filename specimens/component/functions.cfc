@@ -2822,9 +2822,9 @@ limitations under the License.
 				<div class="col-12">
 				<label for="accn_number">Accession</label>
 					<input type="text" name="accn_number" id="accn_number" onchange="findAccession();">
+					<span class="smaller d-block">TAB to see if accession is valid</span>
 					<div id="g_num"> 
 						<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
-						<span class="smaller d-block">TAB to see if accession is valid</span>
 					</div>
                  <a class="btn btn-xs btn-secondary" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
 				</div>
