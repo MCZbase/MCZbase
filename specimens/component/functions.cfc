@@ -2810,7 +2810,7 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
-    <div class="basic_wide_box" style="width: 75em;">
+    <div>
 	<h1 class="h3">Add this cataloged item (listed below) to accession:</h1>
 	<form name="addItems" method="post" action="Specimen.cfm">
 		<input type="hidden" name="Action" value="addItems">
