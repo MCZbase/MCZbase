@@ -998,6 +998,7 @@ limitations under the License.
 		enteredPerson.agent_name EnteredBy,
 		editedPerson.agent_name EditedBy,
 		accn.transaction_id Accession,
+		accn.accn_number,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		locality.locality_remarks,
@@ -1066,9 +1067,9 @@ limitations under the License.
 			<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accession#</a>
+										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accn_number#</a>
 										<cfelse>
-										#one.Accession#
+										#one.accn_number#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
