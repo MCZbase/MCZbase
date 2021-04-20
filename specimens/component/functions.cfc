@@ -2825,11 +2825,11 @@ limitations under the License.
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-				<cfset oneOfUs = 1>
-				<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -2938,7 +2938,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+		<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -2957,7 +2957,6 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
     <div>
-	
 	<form name="addItems" method="post" action="Specimen.cfm">
 		<input type="hidden" name="Action" value="addItems">
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
@@ -3007,7 +3006,7 @@ limitations under the License.
 			<td>#getItems.scientific_name#</td>
 			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
 			<td>
-<!---			<cfquery name="getAgent" dbtype="query">
+			<cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
 				from getItems 
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
@@ -3021,7 +3020,7 @@ limitations under the License.
 				  	<cfset colls = "#colls#, #getAgent.agent_name#">
 				</cfif>
 			</cfloop>
-		#colls#---></td>
+		#colls#</td>
 		<td>#getItems.higher_geog#</td>
 		<td>#getItems.spec_locality#</td>
 		<td>#getItems.verbatim_date#</td>
