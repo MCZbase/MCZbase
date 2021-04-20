@@ -346,7 +346,7 @@ limitations under the License.
 			</cfif>
 			<section class="row">
 				<h2 class="h3">Review items in loan</h2>
-				<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
+				<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a>.
 				<p>There are #partCount# items from #catCount# specimens in this loan.</p>
 				<div>
 					<h3 class="h4">Countries of Origin</h3>

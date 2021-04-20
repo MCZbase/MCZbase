@@ -267,7 +267,7 @@ limitations under the License.
 		
 			<section class="row">
 				<h2 class="h3">Review items in deaccession</h2>
-				<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
+				<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a>.
 				<br>There are #partCount# items from #catCount# specimens in this deaccession.
 				<br>
 				<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
