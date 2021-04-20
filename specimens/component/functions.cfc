@@ -2987,7 +2987,7 @@ limitations under the License.
 	</form>
 	<div class="container">
 		<div class="row">
-			<div class="col-12 bg-light border p-3">
+			<div class="col-12">
 				<table class="table table-responsive">
 	<thead>
 		<tr>
@@ -3028,7 +3028,7 @@ limitations under the License.
 
 </table>
     		</div>
-			<div class="col-12">		
+			<div class="col-12 bg-light border p-3">		
 				<ul class="list-group list-group-flush pl-0">
 					<h2 class="h3 mt-4">List of Transactions (with links to edit page)</h2>
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
