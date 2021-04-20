@@ -2761,6 +2761,7 @@ limitations under the License.
 					
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfargument name="collection_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> 
 		<cfoutput>
 		<cftry>
@@ -2780,7 +2781,6 @@ limitations under the License.
 		trans.institution_acronym transInst,
 		trans.transaction_id,
 		collection.collection,
-		a_coll.collection_id collection_id,
 		a_coll.collection accnColln
 	FROM
 		cataloged_item,
@@ -2830,9 +2830,7 @@ limitations under the License.
 				<td>
 					<label for="collection_id">Collection</label>
 					<select name="collection_id" id="collection_id" size="1" onchange="findAccession();">
-						<cfloop query="getItems">
 							<option value="#collection_id#">#collection#</option>
-						</cfloop>
 					</select>
 				</td>
 				<td>
