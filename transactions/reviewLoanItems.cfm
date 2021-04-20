@@ -361,7 +361,7 @@ limitations under the License.
 							<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
 							<cfset sep="; ">
 						</cfloop>
-					<div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-xl-6">
