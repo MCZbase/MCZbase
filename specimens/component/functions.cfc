@@ -2780,6 +2780,7 @@ limitations under the License.
 		trans.institution_acronym transInst,
 		trans.transaction_id,
 		collection.collection,
+		a_coll.collection_id collection_id,
 		a_coll.collection accnColln
 	FROM
 		cataloged_item,
