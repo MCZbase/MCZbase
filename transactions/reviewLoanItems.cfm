@@ -384,7 +384,7 @@ limitations under the License.
 								   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 							</form>
 						</div>
-						<div class="col-12">
+						<div class="col-12 col-xl-6">
 				   		<cfif aboutLoan.collection EQ 'Cryogenic'>
 								<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
 									<br>Change preservation method of all these items to:
@@ -400,11 +400,12 @@ limitations under the License.
 								</form>
 				   		</cfif>
 						</div>
-					<div class="row">
-						<div class="col-12 col-xl-6">
+					</div>
+					<div class="form-row">
+						<div class="col-12">
 							View 
 							<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-								or <a href="loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+							or <a href="loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
 						</div>
 					</div>
 				</div>
