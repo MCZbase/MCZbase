@@ -2850,7 +2850,6 @@ limitations under the License.
 		
 	</tr>
 
-	<cfoutput query="getItems">
 	<tr>
 		<td>#collection# #cat_num#</td>
 		<td style="width: 200px;">#scientific_name#</td>
@@ -2875,7 +2874,7 @@ limitations under the License.
 		<td>#spec_locality#</td>
 		<td style="width:100px;">#verbatim_date#</td>
 	</tr>
-</cfoutput>
+
 </table>
     </div>
 			<cfcatch>
