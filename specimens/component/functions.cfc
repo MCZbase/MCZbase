@@ -2758,15 +2758,15 @@ limitations under the License.
 	<cfthread action="join" name="getAttributesThread" />
 	<cfreturn getAttributesThread.output>
 </cffunction>
-						
+				<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection, collection_id from collection order by collection
+</cfquery>					
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditTransactionsThread"> 
 		<cfoutput>
 		<cftry>
-			<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select collection, collection_id from collection order by collection
-</cfquery>
+
 	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id,
