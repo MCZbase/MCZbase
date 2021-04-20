@@ -3565,7 +3565,7 @@ limitations under the License.
 	<cfset i=1>
         <h3> Agent as Collector or Preparator</h3>
 <table>
-<cfoutput query="getColls">
+<cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="Action" value="">
@@ -3586,12 +3586,13 @@ limitations under the License.
 		Order: 
 			 <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
 			<select name="coll_order" size="1" class="reqdClr">
-				<cfset thisLoop =#getColls.recordcount# +1>
-				<cfloop from="1" index="c" to="#thisLoop#">
-					<option 
-						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
+				<option>number</option>
+	<!---			<cfset thisLoop =#getColls.recordcount# +1>--->
+		<!---		<cfloop from="1" index="c" to="#thisLoop#">--->
+	<!---				<option 
+						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>--->
 					
-				</cfloop>
+		<!---		</cfloop>--->
 			</select>
 		
               <input type="button" 
@@ -3607,7 +3608,7 @@ limitations under the License.
 		</td></tr>
 	</form>
 	<cfset i = #i#+1>
-</cfoutput>
+</cfloop>
 </table>
 <br>
 <table class="newRec">
