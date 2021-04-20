@@ -408,6 +408,276 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 mb-3">
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+								<h1 class="h4">Loan Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
+									<div id="columnPickDialog">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div id="columnPick" class="px-1"></div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div id="columnPick1" class="px-1"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+								</div>
+								<div class="row mt-0 mx-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
+					<script>
+						$(document).ready(function() {
+							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+							$('##resultCount').html('');
+							$('##resultLink').html('');
+						});
+	
+						function gridLoaded(gridId, searchType) { 
+							$("##overlay").hide();
+							var now = new Date();
+							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+							var filename = searchType + '_results_' + nowstring + '.csv';
+							// display the number of rows found
+							var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+							var rowcount = datainformation.rowscount;
+							var items = "."
+							if (rowcount > 0) {
+								items = ". Click on a cell to edit. ";
+							}
+							if (rowcount == 1) {
+								$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
+							} else { 
+								$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
+							}
+							// set maximum page size
+							if (rowcount > 100) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
+							} else if (rowcount > 50) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
+							} else { 
+								$('##' + gridId).jqxGrid({ pageable: false });
+							}
+							// add a control to show/hide columns
+							var columns = $('##' + gridId).jqxGrid('columns').records;
+							var columnListSource = [];
+							for (i = 0; i < columns.length; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource.push(listRow);
+								}
+							} 
+							$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							$("##columnPickDialog").dialog({ 
+								height: 'auto', 
+								title: 'Show/Hide Columns',
+								autoOpen: false,
+								modal: true, 
+								reszable: true, 
+								buttons: { 
+									Ok: function(){ $(this).dialog("close"); }
+								},
+								open: function (event, ui) { 
+									var maxZIndex = getMaxZIndex();
+									// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+									$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+								} 
+							});
+							$("##columnPickDialogButton").html(
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+							);
+							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+							var maxZIndex = getMaxZIndex();
+							$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						};
+	
+						// Cell renderers
+						var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							var result = "";
+							var itemid = rowData['itemId'];
+							if (itemid) {
+								result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+							} else { 
+								result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+							}
+							return result;
+						};
+	
+						var search = {
+							datatype: "json",
+							datafields:
+								[
+									{ name: 'transaction_id', type: 'string' },
+									{ name: 'partId', type: 'string' },
+									{ name: 'catalog_number', type: 'string' },
+									{ name: 'scientific_name', type: 'string' },
+									{ name: 'collection', type: 'string' },
+									{ name: 'collection_cde', type: 'string' },
+									{ name: 'part_name', type: 'string' },
+									{ name: 'preserve_method', type: 'string' },
+									{ name: 'condition', type: 'string' },
+									{ name: 'sampled_from_obj_id', type: 'string' },
+									{ name: 'item_descr', type: 'string' },
+									{ name: 'item_instructions', type: 'string' },
+									{ name: 'loan_item_remarks', type: 'string' },
+									{ name: 'coll_obj_disposition', type: 'string' },
+									{ name: 'encumbrance', type: 'string' },
+									{ name: 'encumbering_agent', type: 'string' },
+									{ name: 'sovereign_nation', type: 'string' },
+									{ name: 'loan_number', type: 'string' },
+									{ name: 'custom_id', type: 'string' }
+								],
+							updaterow: function (rowid, rowdata, commit) {
+								var data = "method=updateBorrowItem";
+								data = data + "&transaction_id=" + rowdata.transaction_id;
+								data = data + "&partId=" + rowdata.partId;
+								data = data + "&=condition" + rowdata.condtion;
+								data = data + "&=item_instructions" + rowdata.item_instructions;
+								data = data + "&=coll_obj_dispoistion" + rowdata.coll_obj_dispolition;
+								data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
+								$.ajax({
+									dataType: 'json',
+									url: '/transactions/component/borrowFunctions.cfc',
+									data: data,
+										success: function (data, status, xhr) {
+										commit(true);
+									},
+									error: function (jqXHR,textStatus,error) {
+										commit(false);
+										handleFail(jqXHR,textStatus,error,"saving borrow item");
+									}
+								});
+							},
+							root: 'loanItemRecord',
+							id: 'itemId',
+							url: '/transactions/component/itemFunctions.cfc?method=getLoanItemsData&transaction_id=#transaction_id#',
+							timeout: 30000, // units not specified, miliseconds? 
+							loadError: function(jqXHR, textStatus, error) { 
+								handleFail(jqXHR,textStatus,error,"loading loan items");
+							},
+							async: true
+						};
+	
+						function reloadGrid() { 
+							var dataAdapter = new $.jqx.dataAdapter(search);
+							$("##searchResultsGrid").jqxGrid({ source: dataAdapter });
+						};
+	
+						function loadGrid() { 
+		
+							var dataAdapter = new $.jqx.dataAdapter(search);
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							};
+							$("##searchResultsGrid").jqxGrid({
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								sortable: true,
+								pageable: true,
+								editable: true,
+								pagesize: 50,
+								pagesizeoptions: ['5','50','100'],
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
+								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false, // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'singlerow',
+								altrows: true,
+								showtoolbar: false,
+								ready: function () {
+									$("##searchResultsGrid").jqxGrid('selectrow', 0);
+								},
+								columns: [
+									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
+									{text: 'partID', datafield: 'partId', width: 80, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
+									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
+									{text: 'Collection', datafield: 'collection', width:170, hideable: true, hidden: false, editable: false  },
+									{text: 'Collection Code', datafield: 'collection_cde', width:80, hideable: true, hidden: true, editable: false  },
+									{text: 'Catalog Number', datafield: 'catalog_number', width:170, hideable: true, hidden: false, editable: false },
+									{text: 'Scientific Name', datafield: 'scientific_name', width:200, hideable: true, hidden: false, editable: false },
+									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
+									{text: 'Preserve Method', datafield: 'preserve_method', width:110, hideable: true, hidden: false, editable: false },
+									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: false, editable: false },
+									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:180, hideable: false, hidden: false, editable: false },
+									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Country of Origin', datafield: 'sovereign_nation', width:200, hideable: true, hidden: false, editable: false },
+									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
+									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: false, editable: false },
+									{text: 'Custom ID', datafield: 'custom)id', hideable: true, hidden: false, editable: false }
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight: 1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##searchResultsGrid").on("bindingcomplete", function(event) {
+								gridLoaded('searchResultsGrid','borrow item');
+							});
+							$('##searchResultsGrid').on('rowexpand', function (event) {
+								// Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##searchResultsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+							});
+						};
+						$(document).ready(function() {
+							loadGrid();
+						});
+					</script>
 
 					<table border id="t" class="sortable">
 						<tr>

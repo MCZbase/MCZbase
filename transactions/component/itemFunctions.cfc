@@ -318,7 +318,7 @@ limitations under the License.
 		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
 		select 
 			loan.transaction_id,
-			cat_num, 
+			cat_num as catalog_number, 
 			collection,
 			collection.collection_cde,
 			part_name,
@@ -330,11 +330,12 @@ limitations under the License.
 			loan_item_remarks,
 			coll_obj_disposition,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
-			Encumbrance,
-			MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id) as agent_name,
+			encumbrance,
+			decode(encumbrance,null,null,MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id)) as encumbering_agent_name,
 			loan_number,
 			specimen_part.collection_object_id as partID,
-			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID		 			 
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
+			sovereign_nation
 		from 
 			loan
 			left join loan_item on loan.transaction_id = loan_item.transaction_id
@@ -344,6 +345,8 @@ limitations under the License.
 			left join coll_object_encumbrance on coll_object.collection_object_id = coll_object_encumbrance.collection_object_id
 			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 			left join collection on cataloged_item.collection_id=collection.collection_id 
+			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			left join locality on collecting_event.locality_id = locality.locality_id
 		WHERE
 			loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 		ORDER BY cat_num
