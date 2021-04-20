@@ -1186,6 +1186,7 @@ limitations under the License.
 	<cfset i=1>
         <h3> Agent as Collector or Preparator</h3>
 <table>
+
 <cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -1221,6 +1222,11 @@ limitations under the License.
 </table>
 <br>
 	<table class="newRec mt-2">
+	<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	INSERT INTO collector (
+		collection_object_id, agent_id, collector_role,coll_order)
+	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
+	</cfquery>
 		<thead>
 			<tr>
 				<th class="p-2">Add an Agent to this record:</th>
@@ -1234,8 +1240,8 @@ limitations under the License.
 						<input type="hidden" name="Action" value="newColl">
 
 						<label class="px-2">Name: </label>
-<!---						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
-						onKeyPress="return noenter(event);">--->
+						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
+						onKeyPress="return noenter(event);">
 						<input type="hidden" name="newagent_id">
 
 						<label class="px-2">Role: </label>
