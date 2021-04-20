@@ -3030,7 +3030,7 @@ limitations under the License.
     		</div>
 			<div class="col-12 bg-light border rounded p-3 mt-4">		
 				<ul class="list-group list-group-flush pl-0">
-					<h2 class="h3">List of Transactions (with links to edit page)</h2>
+					<h2 class="h3">List of Transactions <span class="small">(with links to edit page)</span></h2>
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#getItems.accn_number#</a>
