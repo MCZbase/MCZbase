@@ -29,6 +29,7 @@ limitations under the License.
 <cfif not isdefined("transaction_id")>
 	<cfthrow message="No transaction specified.">
 </cfif>
+<cfif not isdefined("action")><cfset action="nothing"></cfif>
 
 <!-------------------------------------------------------------------------------->
 <cfif #Action# is "delete">
