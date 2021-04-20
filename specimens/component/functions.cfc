@@ -1222,11 +1222,7 @@ limitations under the License.
 </table>
 <br>
 	<table class="newRec mt-2">
-	<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	INSERT INTO collector (
-		collection_object_id, agent_id, collector_role,coll_order)
-	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
-	</cfquery>
+
 		<thead>
 			<tr>
 				<th class="p-2">Add an Agent to this record:</th>
@@ -1263,6 +1259,11 @@ limitations under the License.
 			</tr>
 		</tbody>
 	</table>
+		<cfquery name="newColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	INSERT INTO collector (
+		collection_object_id, agent_id, collector_role,coll_order)
+	VALUES (#collection_object_id#, #newagent_id#,'#collector_role#',#coll_order#)
+	</cfquery>
 		</cfoutput>
 		<cfcatch>
 			<cfoutput>
