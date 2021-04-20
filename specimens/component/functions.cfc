@@ -3568,44 +3568,33 @@ limitations under the License.
 <cfloop query="getColls">
 	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-	<input type="hidden" name="Action" value="">
-		 <tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	><td>
+		 <tr>
+			 <td>
 		Name: <input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
 		onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
 		 onKeyPress="return noenter(event);">
 		
 		<input type="hidden" name="newagent_id">
 		<input type="hidden" name="oldagent_id" value="#agent_id#">
-		
-                  Role: 
-				  <input type="hidden" name="oldRole" value="#getColls.collector_role#">
-                  <select name="collector_role" size="1"  class="reqdClr">
-					<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-					<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-				</select>
-		Order: 
-			 <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-			<select name="coll_order" size="1" class="reqdClr">
-				<option>number</option>
+         Role:  <input type="hidden" name="oldRole" value="#getColls.collector_role#">
+                  	<select name="collector_role" size="1"  class="reqdClr">
+						<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
+						<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
+					</select>
+		Order:  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+					<select name="coll_order" size="1" class="reqdClr">
+						<option>number</option>
 	<!---			<cfset thisLoop =#getColls.recordcount# +1>--->
 		<!---		<cfloop from="1" index="c" to="#thisLoop#">--->
 	<!---				<option 
 						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>--->
 					
 		<!---		</cfloop>--->
-			</select>
-		
-              <input type="button" 
-	value="Save" 
-	class="savBtn"
-   	onmouseover="this.className='savBtn btnhov'" 
-   	onmouseout="this.className='savBtn'"
-	onclick="colls#i#.Action.value='saveEdits';submit();">	
-
-                 <input type="button" value="Delete" class="delBtn"
-					onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">	
-   
-		</td></tr>
+					</select>
+              <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
+              <input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');">	
+			</td>
+		</tr>
 	</form>
 	<cfset i = #i#+1>
 </cfloop>
