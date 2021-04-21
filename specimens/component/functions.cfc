@@ -2471,6 +2471,7 @@ limitations under the License.
 					</div>
 		<div class="row mx-0">
 					<div class="col-6 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
+			</div>
 							<div class="col-6 px-0 float-left">
 						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 							<cfif len(getLoc.continent_ocean) gt 0>
