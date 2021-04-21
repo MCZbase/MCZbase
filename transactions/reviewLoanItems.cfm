@@ -525,7 +525,7 @@ limitations under the License.
 						var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var result = "";
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/guid/' + rowData['GUID'] + '">'+value+'</a></span>';
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + rowData['GUID'] + '">'+value+'</a></span>';
 							return result;
 						};
 						var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
