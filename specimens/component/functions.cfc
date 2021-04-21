@@ -2655,7 +2655,7 @@ limitations under the License.
                 <cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
-					value="#stripQuotes(l.spec_locality)#"
+					value="#l.spec_locality#"
 					size="75"
 					required="true"
 					message="Specific Locality is required."></td>
@@ -2677,7 +2677,7 @@ limitations under the License.
                 <cfinput type="text"
 					name="verbatim_locality"
 					id="verbatim_locality"
-					value="#stripQuotes(l.verbatim_locality)#"
+					value="#l.verbatim_locality#"
 					size="75"
 					required="true"
 					message="Verbatim Locality is required."></td>
@@ -2689,7 +2689,7 @@ limitations under the License.
                 <cfinput type="text"
 					name="verbatim_date"
 					id="verbatim_date"
-					value="#stripQuotes(l.verbatim_date)#"
+					value="#l.verbatim_date#"
 					size="75"
 					required="true"
 					message="Verbatim Date is a required text field."></td>
@@ -2701,13 +2701,13 @@ limitations under the License.
                       <cfinput type="text"
 					name="collecting_time"
 					id="collecting_time"
-					value="#stripQuotes(l.collecting_time)#"
+					value="#l.collecting_time#"
 					size="20"></td>
                     <td><label for="ich field number"> Ich. Field Number </label>
                       <cfinput type="text"
 					name="ich_field_number"
 					id="ich_field_number"
-					value="#stripQuotes(l.fish_field_number)#"
+					value="#l.fish_field_number#"
 					size="20"></td>
                 </table>
             </tr>
@@ -2753,7 +2753,7 @@ limitations under the License.
                 <input type="text"
 					name="coll_event_remarks"
 						id="coll_event_remarks"
-					value="#stripQuotes(l.COLL_EVENT_REMARKS)#"
+					value="#l.COLL_EVENT_REMARKS#"
 					size="75"></td>
             </tr>
             <tr>
@@ -2771,7 +2771,7 @@ limitations under the License.
                 <input type="text"
 					name="collecting_method"
 					id="collecting_method"
-					value="#stripQuotes(l.COLLECTING_METHOD)#"
+					value="#l.COLLECTING_METHOD#"
 					size="75"></td>
             </tr>
             <tr>
@@ -2779,7 +2779,7 @@ limitations under the License.
                 <input type="text"
 					name="habitat_desc"
 					id="habitat_desc"
-					value="#stripQuotes(l.habitat_desc)#"
+					value="#l.habitat_desc#"
 					size="75"></td>
             </tr>
             <tr>
@@ -2838,7 +2838,7 @@ limitations under the License.
             </tr>
             <tr>
               <td><label for="locality_remarks">Locality Remarks</label>
-                <input type="text" name="locality_remarks" id="locality_remarks" value="#stripQuotes(l.LOCALITY_REMARKS)#"  size="75"></td>
+                <input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75"></td>
             </tr>
             <tr>
               <td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
@@ -3140,7 +3140,7 @@ limitations under the License.
                 <cfinput type="text"
 					name="verbatimCoordinates"
 					id="verbatimCoordinates"
-					value="#stripQuotes(l.verbatimCoordinates)#"
+					value="#l.verbatimCoordinates#"
 					size="80"
 					></td>
             </tr>
@@ -3151,14 +3151,14 @@ limitations under the License.
                 <cfinput type="text"
 					name="verbatimLatitude"
 					id="verbatimLatitude"
-					value="#stripQuotes(l.verbatimLatitude)#"
+					value="#l.verbatimLatitude#"
 					size="36"
 					></td>
               <td><label>Verbatim Longitude</label>
                 <cfinput type="text"
 					name="verbatimLongitude"
 					id="verbatimLongitude"
-					value="#stripQuotes(l.verbatimLongitude)#"
+					value="#l.verbatimLongitude#"
 					size="36"
 					></td>
             </tr>
@@ -3169,14 +3169,14 @@ limitations under the License.
                 <cfinput type="text"
 					name="verbatimCoordinateSystem"
 					id="verbatimCoordinateSystem"
-					value="#stripQuotes(l.verbatimCoordinateSystem)#"
+					value="#l.verbatimCoordinateSystem#"
 					size="39"
 					></td>
               <td><label>Verbatim SRS (e.g., datum)</label>
                 <cfinput type="text"
 					name="verbatimSRS"
 					id="verbatimSRS"
-					value="#stripQuotes(l.verbatimSRS)#"
+					value="#l.verbatimSRS#"
 					size="33"
 					></td>
             </tr>
