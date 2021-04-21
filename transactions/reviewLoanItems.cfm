@@ -483,7 +483,7 @@ limitations under the License.
 							// add a control to show/hide columns
 							var columns = $('##' + gridId).jqxGrid('columns').records;
 							var columnListSource = [];
-							for (i = 0; i < columns.length; i++) {
+							for (i = 1; i < columns.length; i++) {
 								var text = columns[i].text;
 								var datafield = columns[i].datafield;
 								var hideable = columns[i].hideable;
@@ -650,7 +650,7 @@ limitations under the License.
 								},
 								columns: [
 									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
-									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
+									{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: true, editable: false },
 									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: true, editable: false  },
 									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
 									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
