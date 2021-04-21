@@ -2668,6 +2668,9 @@ limitations under the License.
 						</cfif>
 						</label>
 							</li>
+								<li class="list-group-item col-12 col-md-3 px-0">
+						<label for="verbatim_locality">Verbatim Locality</label>
+			</li>
 				<li class="list-group-item col-12 col-md-9 px-0">
 						<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 							</li>
