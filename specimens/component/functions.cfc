@@ -2650,14 +2650,14 @@ limitations under the License.
 							<label for="sovereign_nation">Sovereign Nation</label>
 						</li>
 						<li class="list-group-item col-12 col-md-10 px-0">
-							<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
+							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
 								<cfloop query="ctSovereignNation">
 									<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
 								</cfloop>
 							</select>
 						</li>
-						<!---		<li class="list-group-item col-12 col-md-2 px-0">---> 
-						<!---						<label for="verbatim_locality">
+						<li class="list-group-item col-12 col-md-2 px-0">
+							<label for="verbatim_locality">
 						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
@@ -2666,9 +2666,6 @@ limitations under the License.
 							(shared with #cecount.ct# specimens)
 						</cfif>
 						</label>
-							</li>--->
-						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="verbatim_locality" class="px-2">Verbatim Locality</label>
 						</li>
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
