@@ -281,7 +281,7 @@ limitations under the License.
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partId#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE loan_item SET
