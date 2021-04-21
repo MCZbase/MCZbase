@@ -2788,17 +2788,17 @@ limitations under the License.
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
 							</cfloop>
 					</select></li>
-					<li class="list-group-item col-12 col-md-1 py-1 px-0">
+					<li class="list-group-item col-12 col-md-12 py-1 px-0">
 						<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
 					</li>
-						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+						<li class="list-group-item col-12 col-md-12 pb-1 px-0">
 						<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
 					</li>
-					<li class="list-group-item col-12 col-md-12 py-1 px-0" style="border-bottom: 1px solid gray !important;">
+					<li class=" col-12 col-md-12 py-1 px-0" style="border-bottom: 1px solid gray !important;">
 						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a>
 						</label>
 					</li>
-					<li class="list-group-item col-12 col-md-12 pb-1 px-0" style="border-bottom: 1px solid gray !important;">
+					<li class=" col-12 col-md-12 pb-1 px-0" style="border-bottom: 1px solid gray !important;">
 						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 							<div class="redMessage"> 
