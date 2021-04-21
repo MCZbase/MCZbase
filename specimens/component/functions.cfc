@@ -2699,25 +2699,25 @@ limitations under the License.
 							<cfinput type="text" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="began_date" class="px-2">Began Date/Time</label>
+							<label for="began_date" class="px-2 data-entry-label">Began Date/Time</label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 px-0">
 							<input type="text" class="data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="ended_date" class="px-2"> Ended Date/Time </label>
+							<label for="ended_date" class="px-2 data-entry-label"> Ended Date/Time </label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 px-0">
 							<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="coll_event_remarks" class="px-2"> Collecting Event Remarks </label>
+							<label for="coll_event_remarks" class="px-2 data-entry-label"> Collecting Event Remarks </label>
 						</li>
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="collecting_source" class="px-2"> Collecting Source </label>
+							<label for="collecting_source" class="px-2 data-entry-label"> Collecting Source </label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
@@ -2729,19 +2729,19 @@ limitations under the License.
 							</select>
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="collecting_method" class="data-entry-label"> Collecting Method </label>
+							<label for="collecting_method" class="data-entry-label px-2"> Collecting Method </label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="habitat_desc" class="data-entry-label"> Habitat </label>
+							<label for="habitat_desc" class="data-entry-label px-2"> Habitat </label>
 						</li>
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
 						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="minimum_elevation" class="data-entry-label"> Min. Elevation </label>
+							<label for="minimum_elevation" class="data-entry-label px-2"> Min. Elevation </label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
