@@ -2123,8 +2123,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditLocalityThread"> <cfoutput>
 			<cftry>
-				<div class="row mx-0">
-					<div class="col-6 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/> <cfoutput>
+		 <cfoutput>
 							<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 								<div class="error"> Improper call. Aborting..... </div>
 								<cfabort>
@@ -2470,7 +2469,48 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					</div>
-
+		<div class="row mx-0">
+					<div class="col-6 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
+							<div class="col-6 px-0 float-left">
+						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+							<cfif len(getLoc.continent_ocean) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
+							</cfif>
+							<cfif len(getLoc.sea) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
+								<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
+							</cfif>
+							<cfif len(getLoc.country) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Country:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.country#</li>
+							</cfif>
+							<cfif len(getLoc.state_prov) gt 0>
+								<li class="list-group-item col-4 px-0"><em>State:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
+							</cfif>
+							<cfif len(getLoc.feature) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
+							</cfif>
+							<cfif len(getLoc.county) gt 0>
+								<li class="list-group-item col-4 px-0"><em>County:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.county#</li>
+							</cfif>
+							<cfif len(getLoc.island_group) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
+							</cfif>
+							<cfif len(getLoc.island) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island#</li>
+							</cfif>
+							<cfif len(getLoc.quad) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
+							</cfif>
+						</ul>
+					</div>
 				<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 						<cfif len(getLoc.spec_locality) gt 0>
@@ -2572,46 +2612,7 @@ limitations under the License.
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					<div class="col-6 px-0 float-left">
-						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-							<cfif len(getLoc.continent_ocean) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
-							</cfif>
-							<cfif len(getLoc.sea) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
-								<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
-							</cfif>
-							<cfif len(getLoc.country) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Country:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.country#</li>
-							</cfif>
-							<cfif len(getLoc.state_prov) gt 0>
-								<li class="list-group-item col-4 px-0"><em>State:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
-							</cfif>
-							<cfif len(getLoc.feature) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
-							</cfif>
-							<cfif len(getLoc.county) gt 0>
-								<li class="list-group-item col-4 px-0"><em>County:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.county#</li>
-							</cfif>
-							<cfif len(getLoc.island_group) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
-							</cfif>
-							<cfif len(getLoc.island) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Island:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.island#</li>
-							</cfif>
-							<cfif len(getLoc.quad) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
-							</cfif>
-						</ul>
-					</div>
+				
 				</div>
 				<div class="col-12 float-left">
 					<div class="py-3">
