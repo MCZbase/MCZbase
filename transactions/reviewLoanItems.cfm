@@ -645,7 +645,7 @@ limitations under the License.
 									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
 									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
 									{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: true, editable: false  },
-									{text: '#session.custom_other_identifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false }
+									{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false }
 									{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: false, editable: false },
 									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
