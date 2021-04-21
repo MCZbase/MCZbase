@@ -340,7 +340,7 @@ limitations under the License.
 			part_name,
 			preserve_method,
 			condition,
-			decode(sampled_from_obj_id,null,'no','yes') as sampled_from_obj_id,
+			decode(sampled_from_obj_id,null,'no ',MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_obj_id,
 			item_descr,
 			item_instructions,
 			loan_item_remarks,
