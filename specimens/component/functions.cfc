@@ -42,16 +42,15 @@ limitations under the License.
 		<cfset temp = queryaddrow(result,1)>
 		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
 		<cfset temp = QuerySetCell(result, "message", "success", 1)>
-	<cfcatch>
-		<cfset result = querynew("PART_ID,MESSAGE")>
-		<cfset temp = queryaddrow(result,1)>
-		<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
-		<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
-	</cfcatch>
+		<cfcatch>
+			<cfset result = querynew("PART_ID,MESSAGE")>
+			<cfset temp = queryaddrow(result,1)>
+			<cfset temp = QuerySetCell(result, "part_id", "#part_id#", 1)>
+			<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
+		</cfcatch>
 	</cftry>
 	<cfreturn result>
 </cffunction>
-			
 
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
@@ -59,9 +58,8 @@ limitations under the License.
  @return html for editing identifications for the specified cataloged item. 
 --->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">	
-	<cfthread name="getEditIdentsThread">
-		<cfoutput>
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditIdentsThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
@@ -69,7 +67,7 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<div class="container-fluid">				
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mt-2">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
@@ -151,7 +149,7 @@ limitations under the License.
 															</select>
 															<cfif #ACCEPTED_ID_FG# is 0>
 																<span class="infoLink text-danger" onclick="document.getElementById('accepted_id_fg_#i#').value='DELETE';flippedAccepted('#i#');">Delete</span>
-															<cfelse>
+																<cfelse>
 																<span>Current Identification</span>
 															</cfif>
 														</div>
@@ -177,12 +175,12 @@ limitations under the License.
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-																	</script>
+																	</script> 
 																</div>
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
-														<button id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="btn btn-xs btn-secondary px-2 mt-3 float-right">Add Identifier</button> 
+														<button id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="btn btn-xs btn-secondary px-2 mt-3 float-right">Add Identifier</button>
 													</div>
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
@@ -224,7 +222,7 @@ limitations under the License.
 																		<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
 																	</cfloop>
 																</select>
-															<cfelse>
+																<cfelse>
 																<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
 															</cfif>
 														</div>
@@ -232,7 +230,7 @@ limitations under the License.
 															<cfif #accepted_id_fg# is 0>
 																<label for="storedas_#i#" class="d-inline-block mt-1">Stored As</label>
 																<input type="checkbox" class="data-entry-checkbox" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-															<cfelse>
+																<cfelse>
 																<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
 															</cfif>
 														</div>
@@ -243,7 +241,7 @@ limitations under the License.
 															//makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
 															makePublicationAutocompleteMeta("publication_#i#", "publication_id_#i#");
 														});
-													</script>
+													</script> 
 												</div>
 												<cfset i = #i#+1>
 											</cfloop>
@@ -287,24 +285,22 @@ limitations under the License.
 														}
 													});
 												};
-											</script>
+											</script> 
 										</div>
 									</div>
 								</form>
 							</div>
 							<div class="col-12 col-lg-12 float-left px-0">
-							<div id="accordion1">
-								<div class="card">
-									<div class="card-header pt-1" id="headingOnex">
-									<h1 class="my-0 px-1 pb-1">
-										<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">
-											<span class="h4">Add New Determination</span> 
-										</button>
-									</h1>
-									</div>
-									<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
-										<div class="card-body">
-											<script>
+								<div id="accordion1">
+									<div class="card">
+										<div class="card-header pt-1" id="headingOnex">
+											<h1 class="my-0 px-1 pb-1">
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"> <span class="h4">Add New Determination</span> </button>
+											</h1>
+										</div>
+										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+											<div class="card-body"> 
+												<script>
 										function idFormulaChanged(newFormula,baseId) { 
 											if(newFormula.includes("B")) {
 												$('##' + baseId).show();
@@ -317,100 +313,100 @@ limitations under the License.
 											}
 										}
 									</script>
-											<form name="newIDForm" id="newIDForm">
-											<input type="hidden" name="Action" value="createNew">
-											<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-											<div class="px-3 mt-0 pt-2 pb-3">
-												<div class="row mt-2">
-													<div class="col-12 col-md-3">
-														<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-														<cfif not isdefined("taxa_formula")>
-															<cfset taxa_formula='A'>
-														</cfif>
-														<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
-															<cfset selected_value = "#taxa_formula#">
-															<cfloop query="ctFormula">
-																<cfif selected_value EQ ctFormula.taxa_formula>
-																	<cfset selected = "selected='selected'">
-																	<cfelse>
-																	<cfset selected ="">
+												<form name="newIDForm" id="newIDForm">
+													<input type="hidden" name="Action" value="createNew">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+													<div class="px-3 mt-0 pt-2 pb-3">
+														<div class="row mt-2">
+															<div class="col-12 col-md-3">
+																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
+																<cfif not isdefined("taxa_formula")>
+																	<cfset taxa_formula='A'>
 																</cfif>
-																<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-12 col-md-6">
-														<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-														<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
-														<input type="hidden" name="taxona_id" id="taxona_id">
-													</div>
-													<div class="col-12 col-md-3 d-none">
-														<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-														<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-														<input type="hidden" name="taxonb_id" id="taxonb_id">
-													</div>
-		<!---											<div class="col-12 col-md-6">
+																<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
+																	<cfset selected_value = "#taxa_formula#">
+																	<cfloop query="ctFormula">
+																		<cfif selected_value EQ ctFormula.taxa_formula>
+																			<cfset selected = "selected='selected'">
+																			<cfelse>
+																			<cfset selected ="">
+																		</cfif>
+																		<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+																	</cfloop>
+																</select>
+															</div>
+															<div class="col-12 col-md-6">
+																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
+																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
+																<input type="hidden" name="taxona_id" id="taxona_id">
+															</div>
+															<div class="col-12 col-md-3 d-none">
+																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
+																<input type="hidden" name="taxonb_id" id="taxonb_id">
+															</div>
+															<!---											<div class="col-12 col-md-6">
 														<label for="user_id" class="data-entry-label" >Identification</label>
 														<input type="text" name="user_id" id="user_id" class="data-entry-input">
-													</div>--->
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-4 pr-0">
-														<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
-														Identified By
-														<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-														</label>
-														<div class="input-group">
-															<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-															<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
-															<input type="hidden" name="newIdBy_id" id="newIdBy_id">
+													</div>---> 
 														</div>
-														<!--- TODO: Add determiners ---> 
-													</div>
-													<div class="col-12 col-md-4 pr-0">
-														<label for="made_date" class="data-entry-label" >Date Identified</label>
-														<input type="text" name="made_date" id="made_date" class="data-entry-input">
-													</div>
-													<div class="col-12 col-md-4">
-														<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-														<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-															<cfloop query="ctnature">
-																<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-															</cfloop>
-														</select>
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-6 pr-0">
-														<label for="identification_publication" class="data-entry-label" >Sensu</label>
-														<input type="hidden" name="new_publication_id" id="new_publication_id">
-														<input type="text" id="newPub" class="data-entry-input">
-													</div>
-													<div class="col-12 col-md-6">
-														<label for="identification_remarks" class="data-entry-label" >Remarks</label>
-														<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-													</div>
-												</div>
-												<div class="row mt-2">
-													<div class="col-12 col-md-12">
-														<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-													</div>
-												</div>
-												<script>
+														<div class="row mt-2">
+															<div class="col-12 col-md-4 pr-0">
+																<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
+																Identified By
+																<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+																</label>
+																<div class="input-group">
+																	<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+																	<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
+																	<input type="hidden" name="newIdBy_id" id="newIdBy_id">
+																</div>
+																<!--- TODO: Add determiners ---> 
+															</div>
+															<div class="col-12 col-md-4 pr-0">
+																<label for="made_date" class="data-entry-label" >Date Identified</label>
+																<input type="text" name="made_date" id="made_date" class="data-entry-input">
+															</div>
+															<div class="col-12 col-md-4">
+																<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+																	<cfloop query="ctnature">
+																		<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+																	</cfloop>
+																</select>
+															</div>
+														</div>
+														<div class="row mt-2">
+															<div class="col-12 col-md-6 pr-0">
+																<label for="identification_publication" class="data-entry-label" >Sensu</label>
+																<input type="hidden" name="new_publication_id" id="new_publication_id">
+																<input type="text" id="newPub" class="data-entry-input">
+															</div>
+															<div class="col-12 col-md-6">
+																<label for="identification_remarks" class="data-entry-label" >Remarks</label>
+																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
+															</div>
+														</div>
+														<div class="row mt-2">
+															<div class="col-12 col-md-12">
+																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+															</div>
+														</div>
+														<script>
 													$(document).ready(function() {
 														makeScientificNameAutocompleteMeta("taxona", "taxona_id");
 														makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
 														makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
 														makePublicationAutocompleteMeta("newPub", "new_publication_id");
 													});
-												</script>
+												</script> 
+													</div>
+												</form>
 											</div>
-										</form>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 						</div>
 					</div>
 				</div>
@@ -434,8 +430,7 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput>
-	</cfthread>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
@@ -447,34 +442,33 @@ limitations under the License.
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="number_of_ids" type="string" required="yes">
-
-	<cfoutput>
+	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 		<cftry>
 			<cfquery datasource="uam_god">
 				alter trigger tr_stored_as_fg disable
 			</cfquery>
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-			<cfelse>
-				<cfset queryError = ''>
-			</cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfcontent reset="yes">
-			<cfheader statusCode="500" statusText="#message#">
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<cfabort>
-		</cfcatch>
+				<cfabort>
+			</cfcatch>
 		</cftry>
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of identifications --->
@@ -490,7 +484,7 @@ limitations under the License.
 					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
 					<cfif #isdefined("storedas_" & n)#>
 						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
-					<cfelse>
+						<cfelse>
 						<cfset thisStoredAs = 0>
 					</cfif>
 					<cfif thisAcceptedIdFg is 1>
@@ -517,7 +511,7 @@ limitations under the License.
 							SET STORED_AS_FG=1 
 							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-					<cfelse>
+						<cfelse>
 						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE identification 
 							SET STORED_AS_FG=0 
@@ -537,7 +531,7 @@ limitations under the License.
 							DELETE FROM identification 
 							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-					<cfelse>
+						<cfelse>
 						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE identification SET
 								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
@@ -559,15 +553,15 @@ limitations under the License.
 							<cftry>
 								<!--- couter does not increment backwards - may be a few empty loops in here ---->
 								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-							<cfcatch>
-								<cfset thisIdId =-1>
-							</cfcatch>
+								<cfcatch>
+									<cfset thisIdId =-1>
+								</cfcatch>
 							</cftry>
 							<cftry>
 								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-							<cfcatch>
-								<cfset thisIdAgntId=-1>
-							</cfcatch>
+								<cfcatch>
+									<cfset thisIdAgntId=-1>
+								</cfcatch>
 							</cftry>
 							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
 								<!--- new determiner --->
@@ -583,7 +577,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
 									)
 								</cfquery>
-							<cfelse>
+								<cfelse>
 								<!--- update or delete --->
 								<cfif #thisIdId# is "DELETE">
 									<!--- delete --->
@@ -591,7 +585,7 @@ limitations under the License.
 										DELETE FROM identification_agent
 										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
 									</cfquery>
-								<cfelseif thisIdId gte 0>
+									<cfelseif thisIdId gte 0>
 									<!--- update --->
 									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										UPDATE identification_agent sET
@@ -612,11 +606,38 @@ limitations under the License.
 				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
 				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
 				<cfreturn data>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cftransaction>
+		<cftry>
+			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg enable
+			</cfquery>
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
-				<cfelse>
+					<cfelse>
 					<cfset queryError = ''>
 				</cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -632,37 +653,9 @@ limitations under the License.
 					</div>
 				</div>
 			</cfcatch>
-			</cftry>
-		</cftransaction>
-		<cftry>
-			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg enable
-			</cfquery>
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-			<cfelse>
-				<cfset queryError = ''>
-			</cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfcontent reset="yes">
-			<cfheader statusCode="500" statusText="#message#">
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
-		</cfcatch>
 		</cftry>
 	</cfoutput>
 </cffunction>
-
 
 <!-----------------------------------------------------------------------------------------------------------------> 
 <!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
@@ -756,11 +749,11 @@ limitations under the License.
 							</form>
 						</div>
 					</cfloop>
-					<!--- theResult --->
+					<!--- theResult ---> 
 				</div>
 			</cfoutput>
 			<cfcatch>
-			<cfoutput>
+				<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 				</cfoutput>
 			</cfcatch>
@@ -777,7 +770,7 @@ limitations under the License.
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditOtherIDsThread"> 
+	<cfthread name="getEditOtherIDsThread">
 		<cftry>
 			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
@@ -832,149 +825,144 @@ limitations under the License.
 				from collection
 			</cfquery>
 			<cfoutput>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12 mt-2">
-						<h1 class="h3">Edit Existing Identifiers</h1>
-						<form name="ids" method="post" action="Specimen.cfm">
-							<div class="mb-4">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<input type="hidden" name="Action" value="saveCatEdits">
-								Catalog&nbsp;Number:
-								<select name="collection_id" size="1" class="reqdClr">
-									<cfset thisCollId=#getIDs.collection_id#>
-									<cfloop query="ctcoll_cde">
-										<option 
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mt-2">
+							<h1 class="h3">Edit Existing Identifiers</h1>
+							<form name="ids" method="post" action="Specimen.cfm">
+								<div class="mb-4">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="Action" value="saveCatEdits">
+									Catalog&nbsp;Number:
+									<select name="collection_id" size="1" class="reqdClr">
+										<cfset thisCollId=#getIDs.collection_id#>
+										<cfloop query="ctcoll_cde">
+											<option 
 											<cfif #thisCollId# is #collection_id#> selected </cfif>
 										value="#collection_id#">#institution_acronym# #collection_cde#</option>
-									</cfloop>
-								</select>
-								<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-								<input type="submit" value="Save" class="btn btn-xs btn-primary">
-							</div>
-						</form>
-						<cfset i=1>
-						<cfloop query="oids">
-							<cfif len(#other_id_type#) gt 0>
-								<form name="oids#i#" method="post" action="Specimen.cfm">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-									<input type="hidden" name="Action">
-									<cfset thisType = #oids.other_id_type#>
-									<div class="row mx-0">
-										<div class="form-group col-2 pl-0 pr-1">
-											<label class="data-entry-label">Other ID Type</label>
-											<select name="other_id_type" class="data-entry-select" style="" size="1">				
-												<cfloop query="ctType">					
-													<option 
-														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-												</cfloop>			
-											</select>
-										</div>
-										<div class="form-group col-2 px-1">
-											<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-											<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
-										</div>
-										<div class="form-group col-2 px-1">
-											<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
-										</div>
-										<div class="form-group col-2 px-1">
-											<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-											<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
-										</div>
-										<div class="form-group col-2 px-1 mt-3">
-											<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-											<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-										</div>
-									</div>
-								</form>
-							<cfset i=#i#+1>
-							</cfif>
-						</cfloop>
-					</div>
-					<div class="col-12 mt-4">
-						<div id="accordion2">
-							<div class="card">
-								<div class="card-header pt-1" id="headingTwo">
-									<h1 class="my-0 px-1 pb-1">
-										<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-											<span class="h4">Add New Identifier</span>
-										</button>
-									</h1>
+										</cfloop>
+									</select>
+									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
+									<input type="submit" value="Save" class="btn btn-xs btn-primary">
 								</div>
-								<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-									<div class="card-body">
-										<form name="newOID" method="post" action="Specimens.cfm">
-											<div class="row mx-0">
-												<div class="form-group col-3 pl-0 pr-1">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<input type="hidden" name="Action" value="newOID">
-													<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-													<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+							</form>
+							<cfset i=1>
+							<cfloop query="oids">
+								<cfif len(#other_id_type#) gt 0>
+									<form name="oids#i#" method="post" action="Specimen.cfm">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+										<input type="hidden" name="Action">
+										<cfset thisType = #oids.other_id_type#>
+										<div class="row mx-0">
+											<div class="form-group col-2 pl-0 pr-1">
+												<label class="data-entry-label">Other ID Type</label>
+												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
-															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
 													</cfloop>
-													</select>
-												</div>
-												<div class="form-group col-2 px-1">
-													<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-													<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-												</div>
-												<div class="form-group col-2 px-1">
-													<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-													<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-												</div>
-												<div class="form-group col-2 px-1">
-													<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
-													<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">		
-												</div>
-												<div class="form-group col-1 px-1 mt-3">
-													<input type="submit" value="Create New Identifier" class="btn btn-xs btn-primary">	
-												</div>
+												</select>
 											</div>
-										</form>
+											<div class="form-group col-2 px-1">
+												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
+												<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
+											</div>
+											<div class="form-group col-2 px-1">
+												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
+											</div>
+											<div class="form-group col-2 px-1">
+												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
+											</div>
+											<div class="form-group col-2 px-1 mt-3">
+												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+											</div>
+										</div>
+									</form>
+									<cfset i=#i#+1>
+								</cfif>
+							</cfloop>
+						</div>
+						<div class="col-12 mt-4">
+							<div id="accordion2">
+								<div class="card">
+									<div class="card-header pt-1" id="headingTwo">
+										<h1 class="my-0 px-1 pb-1">
+											<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
+										</h1>
+									</div>
+									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+										<div class="card-body">
+											<form name="newOID" method="post" action="Specimens.cfm">
+												<div class="row mx-0">
+													<div class="form-group col-3 pl-0 pr-1">
+														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+														<input type="hidden" name="Action" value="newOID">
+														<label class="data-entry-label" id="other_id_type">Other ID Type</label>
+														<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+															<cfloop query="ctType">
+																<option 
+															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="form-group col-2 px-1">
+														<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+													</div>
+													<div class="form-group col-2 px-1">
+														<label class="data-entry-label" id="other_id_number">Other ID Number</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+													</div>
+													<div class="form-group col-2 px-1">
+														<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
+													</div>
+													<div class="form-group col-1 px-1 mt-3">
+														<input type="submit" value="Create New Identifier" class="btn btn-xs btn-primary">
+													</div>
+												</div>
+											</form>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				</div>
-			</cfoutput>
-				<!-------------------------------------------------------->
-
-
-		<cfcatch>
-			<cfoutput>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			</cfoutput> 
+			<!-------------------------------------------------------->
+			
+			<cfcatch>
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-		</cfcatch>
+				</cfoutput>
+			</cfcatch>
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-
-
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -984,7 +972,6 @@ limitations under the License.
 	<cfargument name="made_date" type="string" required="no">
 	<cfargument name="nature_of_id" type="string" required="yes">
 	<cfargument name="stored_as_fg" type="string" required="yes">
-
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
@@ -1016,16 +1003,16 @@ limitations under the License.
 					<cfset agent_id_ = evaluate("agent_id_" & n)>
 					<cftry>
 						<cfset del_agnt_=evaluate("del_agnt_" & n)>
-					<cfcatch>
-						<cfset del_agnt_=0>
-					</cfcatch>
+						<cfcatch>
+							<cfset del_agnt_=0>
+						</cfcatch>
 					</cftry>
 					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and identification_agent_id_ gt 0>
 						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							delete from identification_agent 
 							where identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
 						</cfquery>
-					<cfelse>
+						<cfelse>
 						<cfif len(agent_id_) GT 0>
 							<!--- don't try to add/update a blank row --->
 							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
@@ -1042,7 +1029,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_agent_id_#">
 									)
 								</cfquery>
-							<cfelseif del_agnt_ is 0>
+								<cfelseif del_agnt_ is 0>
 								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									update identification_agent set
 										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
@@ -1055,37 +1042,37 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</cfloop>
-
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
 			<cfset row["id"] = "#identification_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-			<cfabort>
-		</cfcatch>
+				</cfoutput>
+				<cfabort>
+			</cfcatch>
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-
-
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
@@ -1127,8 +1114,8 @@ limitations under the License.
 													<li class="list-group-item">#other_id_type#:
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
-														<cfelse>
-															#display_value#
+															<cfelse>
+#display_value#
 														</cfif>
 													</li>
 												</cfloop>
@@ -1154,14 +1141,11 @@ limitations under the License.
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
 </cffunction>
-		
-
-		
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditCollectorsThread"> 
+	<cfthread name="getEditCollectorsThread">
 		<cftry>
-		<cfoutput>
+			<cfoutput>
 				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					agent_name, 
@@ -1182,109 +1166,104 @@ limitations under the License.
 				ORDER BY 
 					collector_role, coll_order
 			</cfquery>
-
-	<cfset i=1>
-        <h3> Agent as Collector or Preparator</h3>
-	<table>
-		<cfloop query="getColls">
-			<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-				<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-				 <tr>
-					 <td>
-						<label class="px-2">Name: </label><input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
+				<cfset i=1>
+				<h3> Agent as Collector or Preparator</h3>
+				<table>
+					<cfloop query="getColls">
+						<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+							<tr>
+								<td><label class="px-2">Name: </label>
+									<input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
 						onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
 						 onKeyPress="return noenter(event);">
-						<input type="hidden" name="newagent_id">
-						<input type="hidden" name="oldagent_id" value="#agent_id#">
-						<label for="collector_role" class="px-2">Role: </label> <input type="hidden" name="oldRole" value="#getColls.collector_role#">
-						<select name="collector_role" size="1"  class="reqdClr">
-							<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-							<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-						</select>
-						<label class="px-2" for="coll_order">Order: </label><input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-						<select name="coll_order" size="1" class="reqdClr">
-							<cfset thisLoop =#getColls.recordcount# +1>
-							<cfloop from="1" index="c" to="#thisLoop#">
-								<option <cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
-							</cfloop>
-						</select>
-					  <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
-					  <input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');">	
-					</td>
-				</tr>
-			</form>
-			<cfset i = #i#+1>
-		</cfloop>
-	</table>
-<br>
-	<table class="newRec mt-4">
-		<thead>
-			<tr>
-				<th class="p-2">Add an Agent to this record:</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>
-					<form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<input type="hidden" name="Action" value="newColl">
-
-						<label class="px-2">Name: </label>
-						<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
+									<input type="hidden" name="newagent_id">
+									<input type="hidden" name="oldagent_id" value="#agent_id#">
+									<label for="collector_role" class="px-2">Role: </label>
+									<input type="hidden" name="oldRole" value="#getColls.collector_role#">
+									<select name="collector_role" size="1"  class="reqdClr">
+										<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
+										<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
+									</select>
+									<label class="px-2" for="coll_order">Order: </label>
+									<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+									<select name="coll_order" size="1" class="reqdClr">
+										<cfset thisLoop =#getColls.recordcount# +1>
+										<cfloop from="1" index="c" to="#thisLoop#">
+											<option <cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
+										</cfloop>
+									</select>
+									<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
+									<input type="button" value="Delete" class="btn btn-xs btn-danger" onClick="colls#i#.Action.value='deleteColl';confirmDelete('colls#i#');"></td>
+							</tr>
+						</form>
+						<cfset i = #i#+1>
+					</cfloop>
+				</table>
+				<br>
+				<table class="newRec mt-4">
+					<thead>
+						<tr>
+							<th class="p-2">Add an Agent to this record:</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="Action" value="newColl">
+									<label class="px-2">Name: </label>
+									<input type="text" name="name" class="reqdClr" onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
 						onKeyPress="return noenter(event);">
-						<input type="hidden" name="newagent_id">
-
-						<label class="px-2">Role: </label>
-						<select name="collector_role" size="1" class="reqdClr">
-							<option value="c">collector</option>
-							<option value="p">preparator</option>
-						</select>
-						<label class="px-2">Order: </label>
-							<select name="coll_order" size="1" class="reqdClr">
-								<cfset thisLoop = #getColls.recordcount# +1>
-								<cfloop from="1" index="c" to="#thisLoop#">
-									<option <cfif #c# is #thisLoop#> selected </cfif>
+									<input type="hidden" name="newagent_id">
+									<label class="px-2">Role: </label>
+									<select name="collector_role" size="1" class="reqdClr">
+										<option value="c">collector</option>
+										<option value="p">preparator</option>
+									</select>
+									<label class="px-2">Order: </label>
+									<select name="coll_order" size="1" class="reqdClr">
+										<cfset thisLoop = #getColls.recordcount# +1>
+										<cfloop from="1" index="c" to="#thisLoop#">
+											<option <cfif #c# is #thisLoop#> selected </cfif>
 										value="#c#">#c#</option>
-								</cfloop>
-							</select>
-						<input type="submit" value="Create" class="btn btn-xs btn-primary">
-					</form>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</cfoutput>
-		<cfcatch>
-			<cfoutput>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+										</cfloop>
+									</select>
+									<input type="submit" value="Create" class="btn btn-xs btn-primary">
+								</form></td>
+						</tr>
+					</tbody>
+				</table>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-		</cfcatch>
+				</cfoutput>
+			</cfcatch>
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getEditCollectorsThread" />
 	<cfreturn getEditCollectorsThread.output>
 </cffunction>
-		
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditPartsThread"> 
+	<cfthread name="getEditPartsThread">
 		<cftry>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -1352,37 +1331,37 @@ limitations under the License.
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
-		<cfoutput>
-		<form>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12 mt-3">
-						<table class="table border-bottom mb-0">
-				<thead>
-					<tr class="bg-light">
-						<th><span>Part Name</span></th>
-						<th><span>Condition</span></th>
-						<th><span>Disposition</span></th>
-						<th><span>##</span></th>
-						<th><span>Container</span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<cfset i=1>
-					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><input class="data-entry-input" value="#part_name#"></td>
-						<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
-						<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
-						<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
-						<td><input class="data-entry-input" value="#label#"></td>
-					</tr>
-					<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
-						</tr>
-					</cfif>
-					<cfquery name="patt" dbtype="query">
+			<cfoutput>
+				<form>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 mt-3">
+								<table class="table border-bottom mb-0">
+									<thead>
+										<tr class="bg-light">
+											<th><span>Part Name</span></th>
+											<th><span>Condition</span></th>
+											<th><span>Disposition</span></th>
+											<th><span>##</span></th>
+											<th><span>Container</span></th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfset i=1>
+										<cfloop query="mPart">
+											<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+												<td><input class="data-entry-input" value="#part_name#"></td>
+												<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
+												<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
+												<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
+												<td><input class="data-entry-input" value="#label#"></td>
+											</tr>
+											<cfif len(part_remarks) gt 0>
+												<tr class="small">
+													<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+												</tr>
+											</cfif>
+											<cfquery name="patt" dbtype="query">
 						select
 							attribute_type,
 							attribute_value,
@@ -1403,79 +1382,72 @@ limitations under the License.
 							attribute_remark,
 							agent_name
 					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr>
-							<td colspan="5">
-								<cfloop query="patt">
-									<div class="small pl-3" style="line-height: .9rem;">
-										#attribute_type#=#attribute_value#
-									<cfif len(attribute_units) gt 0>
-										#attribute_units#
-									</cfif>
-									<cfif len(determined_date) gt 0>
-										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
-									</cfif>
-									<cfif len(agent_name) gt 0>
-										determined by=#agent_name#
-									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										remark=#attribute_remark#
-									</cfif>
-									</div>
-								</cfloop>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
+											<cfif patt.recordcount gt 0>
+												<tr>
+													<td colspan="5"><cfloop query="patt">
+															<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+																<cfif len(attribute_units) gt 0>
+#attribute_units#
+																</cfif>
+																<cfif len(determined_date) gt 0>
+																	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+																</cfif>
+																<cfif len(agent_name) gt 0>
+																	determined by=#agent_name#
+																</cfif>
+																<cfif len(attribute_remark) gt 0>
+																	remark=#attribute_remark#
+																</cfif>
+															</div>
+														</cfloop></td>
+												</tr>
+											</cfif>
+											<cfquery name="sPart" dbtype="query">
 						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					</cfquery>
-					<cfloop query="sPart">
-						<tr>
-							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
-							<td>#label#</td>
-						</tr>
-						<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5">
-								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> #part_remarks#
-								</span>
-							</td>
-						</tr>
-						</cfif>
-					</cfloop>
-				</cfloop>
-				</tbody>
-			</table>
-					</div>
-				</div>
-			</div>
-		</form>
-		</cfoutput>
-		<cfcatch>
-			<cfoutput>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+											<cfloop query="sPart">
+												<tr>
+													<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+													<td>#part_condition#</td>
+													<td>#part_disposition#</td>
+													<td>#lot_count#</td>
+													<td>#label#</td>
+												</tr>
+												<cfif len(part_remarks) gt 0>
+													<tr class="small">
+														<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span> #part_remarks# </span></td>
+													</tr>
+												</cfif>
+											</cfloop>
+										</cfloop>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 			</cfoutput>
-		</cfcatch>
+			<cfcatch>
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfoutput>
+			</cfcatch>
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getEditPartsThread" />
@@ -1564,19 +1536,21 @@ limitations under the License.
 				<tbody>
 					<cfset i=1>
 					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><input class="data-entry-input" value="#part_name#"></td>
-						<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
-						<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
-						<td><input class="data-entry-input" size="3" value="#lot_count#"></td>
-						<td><input class="data-entry-input" value="#label#"></td>
-					</tr>
-					<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> <input class="data-entry-input" value="#part_remarks#"></span></td>
+						<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+							<td><input class="data-entry-input" value="#part_name#"></td>
+							<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
+							<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
+							<td><input class="data-entry-input" size="3" value="#lot_count#"></td>
+							<td><input class="data-entry-input" value="#label#"></td>
 						</tr>
-					</cfif>
-					<cfquery name="patt" dbtype="query">
+						<cfif len(part_remarks) gt 0>
+							<tr class="small">
+								<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span>
+									<input class="data-entry-input" value="#part_remarks#">
+									</span></td>
+							</tr>
+						</cfif>
+						<cfquery name="patt" dbtype="query">
 						select
 							attribute_type,
 							attribute_value,
@@ -1597,51 +1571,49 @@ limitations under the License.
 							attribute_remark,
 							agent_name
 					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr>
-							<td colspan="5">
-								<cfloop query="patt">
-									<div class="small pl-3" style="line-height: .9rem;">
-										<input class="data-entry-input" value="#attribute_type#=#attribute_value#">
-									<cfif len(attribute_units) gt 0>
-										<input class="data-entry-input" value="#attribute_units#">
-									</cfif>
-									<cfif len(determined_date) gt 0>
-										<input class="data-entry-input" value="determined date=#dateformat(determined_date,'yyyy-mm-dd')#">
-									</cfif>
-									<cfif len(agent_name) gt 0>
-										<input class="data-entry-input" value="determined by=#agent_name#">
-									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										<input class="data-entry-input" value="remark=#attribute_remark#">
-									</cfif>
-									</div>
-								</cfloop>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
+						<cfif patt.recordcount gt 0>
+							<tr>
+								<td colspan="5"><cfloop query="patt">
+										<div class="small pl-3" style="line-height: .9rem;">
+											<input class="data-entry-input" value="#attribute_type#=#attribute_value#">
+											<cfif len(attribute_units) gt 0>
+												<input class="data-entry-input" value="#attribute_units#">
+											</cfif>
+											<cfif len(determined_date) gt 0>
+												<input class="data-entry-input" value="determined date=#dateformat(determined_date,'yyyy-mm-dd')#">
+											</cfif>
+											<cfif len(agent_name) gt 0>
+												<input class="data-entry-input" value="determined by=#agent_name#">
+											</cfif>
+											<cfif len(attribute_remark) gt 0>
+												<input class="data-entry-input" value="remark=#attribute_remark#">
+											</cfif>
+										</div>
+									</cfloop></td>
+							</tr>
+						</cfif>
+						<cfquery name="sPart" dbtype="query">
 						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					</cfquery>
-					<cfloop query="sPart">
-						<tr>
-							<td><span class="d-inline-block pl-3"><input class="data-entry-input" value="#part_name#"> <span class="font-italic">subsample</span></span></td>
-							<td><input class="data-entry-input" value="#part_condition#"></td>
-							<td><input class="data-entry-input" value="#part_disposition#"></td>
-							<td><input class="data-entry-input" value="#lot_count#"></td>
-							<td><input class="data-entry-input" value="#label#"></td>
-						</tr>
-						<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5">
-								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> <input class="data-entry-input" value="#part_remarks#">
-								</span>
-							</td>
-						</tr>
-						</cfif>
+						<cfloop query="sPart">
+							<tr>
+								<td><span class="d-inline-block pl-3">
+									<input class="data-entry-input" value="#part_name#">
+									<span class="font-italic">subsample</span></span></td>
+								<td><input class="data-entry-input" value="#part_condition#"></td>
+								<td><input class="data-entry-input" value="#part_disposition#"></td>
+								<td><input class="data-entry-input" value="#lot_count#"></td>
+								<td><input class="data-entry-input" value="#label#"></td>
+							</tr>
+							<cfif len(part_remarks) gt 0>
+								<tr class="small">
+									<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span>
+										<input class="data-entry-input" value="#part_remarks#">
+										</span></td>
+								</tr>
+							</cfif>
+						</cfloop>
 					</cfloop>
-				</cfloop>
 				</tbody>
 			</table>
 			<cfcatch>
@@ -1654,7 +1626,6 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
-
 <cffunction name="getIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
@@ -1684,12 +1655,11 @@ limitations under the License.
 	</cfif>
 </cffunction>
 <cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">	
-	<cfthread name="getEditCitationsThread">
-		<cfoutput>
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditCitationsThread"> <cfoutput>
 			<cftry>
-					<div id="citationsDialog">
-						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<div id="citationsDialog">
+					<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									citation.type_status,
 									citation.occurs_page_number,
@@ -1712,7 +1682,7 @@ limitations under the License.
 								order by
 									substr(formatted_publication, - 4)
 						</cfquery>
-						<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 								FROM
@@ -1728,40 +1698,36 @@ limitations under the License.
 									c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								ORDER by substr(formatted_publication, -4)
 						</cfquery>
-							<cfset i = 1>
-							<cfloop query="citations" group="formatted_publication">
-								<div class="d-block py-1 px-2 w-100 float-left">
-									<span class="d-inline"></span>
-									<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
-									<cfif len(occurs_page_number) gt 0>
-										Page
-										<cfif len(citation_page_uri) gt 0>
-											<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-										<cfelse>
-										#occurs_page_number#,
-										</cfif>
-									</cfif>
-									<span class="font-weight-lessbold">#type_status#</span> of 
-										<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-										<cfif find("(ms)", #type_status#) NEQ 0>
-											<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
-											<cfif find(" ", #cited_name#) NEQ 0>
-											&nbsp;ssp. nov.
-											<cfelse>
-											&nbsp;sp. nov.
-											</cfif>
-										</cfif>
-										<span class="small font-italic">
-											<cfif len(citation_remarks) gt 0></cfif>
-											#CITATION_REMARKS#
-										</span>
-								</div>
-								<cfset i = i + 1>
-							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
-								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,mime_type)>
-									<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfset i = 1>
+					<cfloop query="citations" group="formatted_publication">
+						<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
+							<cfif len(occurs_page_number) gt 0>
+								Page
+								<cfif len(citation_page_uri) gt 0>
+									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+									<cfelse>
+#occurs_page_number#,
+								</cfif>
+							</cfif>
+							<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+							<cfif find("(ms)", #type_status#) NEQ 0>
+								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
+								<cfif find(" ", #cited_name#) NEQ 0>
+									&nbsp;ssp. nov.
+									<cfelse>
+									&nbsp;sp. nov.
+								</cfif>
+							</cfif>
+							<span class="small font-italic">
+							<cfif len(citation_remarks) gt 0>
+							</cfif>
+#CITATION_REMARKS# 							</span> </div>
+						<cfset i = i + 1>
+					</cfloop>
+					<cfif publicationMedia.recordcount gt 0>
+						<cfloop query="publicationMedia">
+							<cfset puri=getMediaPreview(preview_uri,mime_type)>
+							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 											media_label,
 											label_value
@@ -1770,7 +1736,7 @@ limitations under the License.
 										where
 											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 											media_label,
 											label_value
@@ -1779,7 +1745,7 @@ limitations under the License.
 										where
 											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="desc" dbtype="query">
+							<cfquery name="desc" dbtype="query">
 										select 
 											label_value 
 										from 
@@ -1787,23 +1753,17 @@ limitations under the License.
 										where 
 											media_label='description'
 									</cfquery>
-									<cfset alt="Media Preview Image">
-									<cfif desc.recordcount is 1>
-										<cfset alt=desc.label_value>
-									</cfif>
-									<div class="col-2 m-2 float-left d-inline">
-										<cfset mt = #mime_type#>
-										<cfset muri = #media_uri#>
-										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
-										</a>
-										<span class="d-block smaller text-center" style="line-height:.7rem;">
-											<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
-										</span>
-									</div>
-								</cfloop>
-							</cfif>	
-					</div>
+							<cfset alt="Media Preview Image">
+							<cfif desc.recordcount is 1>
+								<cfset alt=desc.label_value>
+							</cfif>
+							<div class="col-2 m-2 float-left d-inline">
+								<cfset mt = #mime_type#>
+								<cfset muri = #media_uri#>
+								<a href="#media_uri#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100"> </a> <span class="d-block smaller text-center" style="line-height:.7rem;"> <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> </span> </div>
+						</cfloop>
+					</cfif>
+				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
@@ -1824,17 +1784,16 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput>
-	</cfthread>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditCitationsThread" />
 	<cfreturn getEditCitationsThread.output>
-</cffunction>					
+</cffunction>
 <cffunction name="getCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getCitationsThread">
 		<cftry>
-					<div id="citationsDialog">
-						<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<div id="citationsDialog">
+				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								citation.type_status,
 								citation.occurs_page_number,
@@ -1857,7 +1816,7 @@ limitations under the License.
 							order by
 								substr(formatted_publication, - 4)
 						</cfquery>
-						<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="publicationMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 							FROM
@@ -1873,40 +1832,36 @@ limitations under the License.
 								c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							ORDER by substr(formatted_publication, -4)
 						</cfquery>
-							<cfset i = 1>
-							<cfloop query="citations" group="formatted_publication">
-								<div class="d-block py-1 px-2 w-100 float-left">
-									<span class="d-inline"></span>
-									<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
-									<cfif len(occurs_page_number) gt 0>
-										Page
-										<cfif len(citation_page_uri) gt 0>
-											<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-										<cfelse>
-										#occurs_page_number#,
-										</cfif>
-									</cfif>
-									<span class="font-weight-lessbold">#type_status#</span> of 
-										<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-										<cfif find("(ms)", #type_status#) NEQ 0>
-										<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name. Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
-											<cfif find(" ", #cited_name#) NEQ 0>
-											&nbsp;ssp. nov.
-											<cfelse>
-											&nbsp;sp. nov.
-											</cfif>
-										</cfif>
-										<span class="small font-italic">
-											<cfif len(citation_remarks) gt 0></cfif>
-											#CITATION_REMARKS#
-										</span>
-								</div>
-								<cfset i = i + 1>
-							</cfloop>
-							<cfif publicationMedia.recordcount gt 0>
-								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,mime_type)>
-									<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfset i = 1>
+				<cfloop query="citations" group="formatted_publication">
+					<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
+						<cfif len(occurs_page_number) gt 0>
+							Page
+							<cfif len(citation_page_uri) gt 0>
+								<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+								<cfelse>
+								#occurs_page_number#,
+							</cfif>
+						</cfif>
+						<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+						<cfif find("(ms)", #type_status#) NEQ 0>
+							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name. Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
+							<cfif find(" ", #cited_name#) NEQ 0>
+								&nbsp;ssp. nov.
+								<cfelse>
+								&nbsp;sp. nov.
+							</cfif>
+						</cfif>
+						<span class="small font-italic">
+						<cfif len(citation_remarks) gt 0>
+						</cfif>
+						#CITATION_REMARKS# </span> </div>
+					<cfset i = i + 1>
+				</cfloop>
+				<cfif publicationMedia.recordcount gt 0>
+					<cfloop query="publicationMedia">
+						<cfset puri=getMediaPreview(preview_uri,mime_type)>
+						<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 												media_label,
 												label_value
@@ -1915,7 +1870,7 @@ limitations under the License.
 										where
 												media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select
 												media_label,
 												label_value
@@ -1924,7 +1879,7 @@ limitations under the License.
 										where
 												media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 									</cfquery>
-									<cfquery name="desc" dbtype="query">
+						<cfquery name="desc" dbtype="query">
 										select 
 												label_value 
 										from 
@@ -1932,23 +1887,17 @@ limitations under the License.
 										where 
 												media_label='description'
 									</cfquery>
-									<cfset alt="Media Preview Image">
-									<cfif desc.recordcount is 1>
-										<cfset alt=desc.label_value>
-									</cfif>
-									<div class="col-2 m-2 float-left d-inline">
-										<cfset mt = #mime_type#>
-										<cfset muri = #media_uri#>
-										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
-										</a>
-										<span class="d-block smaller text-center" style="line-height:.7rem;">
-											<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
-										</span>
-									</div>
-								</cfloop>
-							</cfif>	
-					</div>
+						<cfset alt="Media Preview Image">
+						<cfif desc.recordcount is 1>
+							<cfset alt=desc.label_value>
+						</cfif>
+						<div class="col-2 m-2 float-left d-inline">
+							<cfset mt = #mime_type#>
+							<cfset muri = #media_uri#>
+							<a href="#media_uri#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100"> </a> <span class="d-block smaller text-center" style="line-height:.7rem;"> <a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> </span> </div>
+					</cfloop>
+				</cfif>
+			</div>
 			<cfcatch>
 				<cfoutput>
 					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
@@ -1958,13 +1907,12 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCitationsThread" />
 	<cfreturn getCitationsThread.output>
-</cffunction>							
+</cffunction>
 <cffunction name="getEditAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditAttributesThread"> 
-		<cfoutput>
-		<cftry>
-			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getEditAttributesThread"> <cfoutput>
+			<cftry>
+				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -1980,7 +1928,7 @@ limitations under the License.
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
@@ -2018,170 +1966,176 @@ limitations under the License.
 					 and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<cfquery name="sex" dbtype="query">
+				<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
-			<form class="row mx-0">
-			<ul class="col-12">
-				<cfloop query="sex">
-				<li class="list-group-item float-left col-12 col-md-2"> <label>Sex:</label><input class="data-entry-input" value="#attribute_value#"></li>
-					<cfif len(attributeDeterminer) gt 0>
-					<li class="list-group-item float-left col-12 col-md-3"><label>Determiner:</label> <input class="data-entry-input" value="#attributeDeterminer#"></li>
-						<cfif len(determined_date) gt 0>
-						<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Date:</label> <input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#"></li>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Method:</label> <input class="data-entry-input" value="#determination_method#"></li>
-						</cfif>
-						
-					</cfif>
-					<cfif len(attribute_remark) gt 0>
-						<li class="list-group-item float-left col-12 col-md-3"><label class="data-entry-label">Remark:</label> <input class="data-entry-input" value="#attribute_remark#"></li>
-					</cfif>
-		
-				</cfloop>
-				</ul>
-				<ul class="col-12">
-					<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> </cfquery>
-				<cfif #code.collection_cde# is "Mamm">
-					<cfquery name="total_length" dbtype="query">
+				<form class="row mx-0">
+					<ul class="col-12">
+						<cfloop query="sex">
+							<li class="list-group-item float-left col-12 col-md-2">
+								<label>Sex:</label>
+								<input class="data-entry-input" value="#attribute_value#">
+							</li>
+							<cfif len(attributeDeterminer) gt 0>
+								<li class="list-group-item float-left col-12 col-md-3">
+									<label>Determiner:</label>
+									<input class="data-entry-input" value="#attributeDeterminer#">
+								</li>
+								<cfif len(determined_date) gt 0>
+									<li class="list-group-item float-left col-12 col-md-2">
+										<label class="data-entry-label">Date:</label>
+										<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+									</li>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<li class="list-group-item float-left col-12 col-md-2">
+										<label class="data-entry-label">Method:</label>
+										<input class="data-entry-input" value="#determination_method#">
+									</li>
+								</cfif>
+							</cfif>
+							<cfif len(attribute_remark) gt 0>
+								<li class="list-group-item float-left col-12 col-md-3">
+									<label class="data-entry-label">Remark:</label>
+									<input class="data-entry-input" value="#attribute_remark#">
+								</li>
+							</cfif>
+						</cfloop>
+					</ul>
+					<ul class="col-12">
+						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+</cfquery>
+						<cfif #code.collection_cde# is "Mamm">
+							<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
-					<cfquery name="tail_length" dbtype="query">
+							<cfquery name="tail_length" dbtype="query">
 						select * from attribute where attribute_type = 'tail length'
 					</cfquery>
-					<cfquery name="hf" dbtype="query">
+							<cfquery name="hf" dbtype="query">
 						select * from attribute where attribute_type = 'hind foot with claw'
 					</cfquery>
-					<cfquery name="efn" dbtype="query">
+							<cfquery name="efn" dbtype="query">
 						select * from attribute where attribute_type = 'ear from notch'
 					</cfquery>
-					<cfquery name="weight" dbtype="query">
+							<cfquery name="weight" dbtype="query">
 						select * from attribute where attribute_type = 'weight'
 					</cfquery>
-					<cfif
+							<cfif
 						len(total_length.attribute_units) gt 0 OR
 						len(tail_length.attribute_units) gt 0 OR
 						len(hf.attribute_units) gt 0 OR
 						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
-						<!---semi-standard measurements --->
-						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
-						
-					<thead>
-						<tr>
-							<th>total length</th>
-							<th>tail length</th>
-							<th>hind foot</th>
-							<th>efn</th>
-							<th>weight</th>
-						</tr>
-					</thead>
-					<tbody>						
-						<tr>
-							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
-						</tr>
-					</tbody>
-					</table>
-						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = "#attributeDeterminer#">
-							<cfif len(determined_date) gt 0>
-								<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								<!---semi-standard measurements ---> 
+								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+								<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+									<thead>
+										<tr>
+											<th>total length</th>
+											<th>tail length</th>
+											<th>hind foot</th>
+											<th>efn</th>
+											<th>weight</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+											<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+											<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+											<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+											<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+										</tr>
+									</tbody>
+								</table>
+								<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+									<cfset determination = "#attributeDeterminer#">
+									<cfif len(determined_date) gt 0>
+										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+									</cfif>
+									<cfif len(determination_method) gt 0>
+										<cfset determination = '#determination#, #determination_method#'>
+									</cfif>
+#determination#
+								</cfif>
 							</cfif>
-							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#, #determination_method#'>
-							</cfif>
-							#determination#
-						</cfif>
-					</cfif>
-					<cfquery name="theRest" dbtype="query">
+							<cfquery name="theRest" dbtype="query">
 						select * from attribute 
 						where attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
 					</cfquery>
-					<cfelse>
-					<!--- not Mamm --->
-					<cfquery name="theRest" dbtype="query">
+							<cfelse>
+							<!--- not Mamm --->
+							<cfquery name="theRest" dbtype="query">
 						select * from attribute where attribute_type NOT IN ('sex')
 					</cfquery>
-				</cfif>
-				<cfloop query="theRest">
-					<li class="list-group-item">#attribute_type#: #attribute_value#
-						<cfif len(attribute_units) gt 0>
-							, #attribute_units#
 						</cfif>
-						<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
-						</cfif>
-							#determination#
-						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							, Remark: #attribute_remark#
-						</cfif>
-					</li>
-				</cfloop>
-			</ul>
-					</form>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						<cfloop query="theRest">
+							<li class="list-group-item">#attribute_type#: #attribute_value#
+								<cfif len(attribute_units) gt 0>
+									, #attribute_units#
+								</cfif>
+								<cfif len(attributeDeterminer) gt 0>
+									<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+									<cfif len(determined_date) gt 0>
+										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+									</cfif>
+									<cfif len(determination_method) gt 0>
+										<cfset determination = '#determination#, #determination_method#'>
+									</cfif>
+#determination#
+								</cfif>
+								<cfif len(attribute_remark) gt 0>
+									, Remark: #attribute_remark#
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
+				</form>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
-</cffunction>		
+</cffunction>
 <cffunction name="getEditLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditLocalityThread"> 
-		<cfoutput>
-		<cftry>
-			<div class="row mx-0">
-			<div class="col-6 pl-0 pr-3 mb-2 float-right">
-				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-				<cfoutput>
-				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-					<div class="error"> Improper call. Aborting..... </div>
-					<cfabort>
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
-				<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-				</cfif>--->
-				</cfoutput> 
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getEditLocalityThread"> <cfoutput>
+			<cftry>
+				<div class="row mx-0">
+					<div class="col-6 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/> <cfoutput>
+							<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+								<div class="error"> Improper call. Aborting..... </div>
+								<cfabort>
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<cfset oneOfUs = 1>
+								<cfelse>
+								<cfset oneOfUs = 0>
+							</cfif>
+						</cfoutput>
+						<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -2374,120 +2328,158 @@ limitations under the License.
 						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
-			</div>
-			<div class="col-6 px-0 float-left">
-				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(getLoc.continent_ocean) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
-					</cfif>
-					<cfif len(getLoc.sea) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
-					</cfif>
-					<cfif len(getLoc.country) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.country#</li>
-					</cfif>
-					<cfif len(getLoc.state_prov) gt 0>
-						<li class="list-group-item col-4 px-0"><em>State:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
-					</cfif>
-					<cfif len(getLoc.feature) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
-					</cfif>
-					<cfif len(getLoc.county) gt 0>
-						<li class="list-group-item col-4 px-0"><em>County:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.county#</li>
-					</cfif>
-
-					<cfif len(getLoc.island_group) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
-					</cfif>
-					<cfif len(getLoc.island) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.island#</li>
-					</cfif>
-					<cfif len(getLoc.quad) gt 0>
-						<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
-					</cfif>
-				</ul>
-			</div>
-			</div>
-			<div class="col-12 float-left">
-				<div class="py-3">
-                    <h4>Higher Geography</h4>
-					<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8">
-	           		<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-			 		<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
+					</div>
+					<div class="col-6 px-0 float-left">
+						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+							<cfif len(getLoc.continent_ocean) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
+							</cfif>
+							<cfif len(getLoc.sea) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
+								<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
+							</cfif>
+							<cfif len(getLoc.country) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Country:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.country#</li>
+							</cfif>
+							<cfif len(getLoc.state_prov) gt 0>
+								<li class="list-group-item col-4 px-0"><em>State:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
+							</cfif>
+							<cfif len(getLoc.feature) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
+							</cfif>
+							<cfif len(getLoc.county) gt 0>
+								<li class="list-group-item col-4 px-0"><em>County:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.county#</li>
+							</cfif>
+							<cfif len(getLoc.island_group) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
+							</cfif>
+							<cfif len(getLoc.island) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island#</li>
+							</cfif>
+							<cfif len(getLoc.quad) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
+							</cfif>
+						</ul>
+					</div>
+				</div>
+				<div class="col-12 float-left">
+					<div class="py-3">
+						<h4>Higher Geography</h4>
+						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8">
+						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
 			 				style="display:none">
-					<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-						<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
-					</cfif>
-				</div>				
-			</div>
-			<div class="col-12 float-left px-0">
-				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
-					<cfif len(getLoc.spec_locality) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0 last"><input class="data-entry-input" value="#getLoc.spec_locality#"></li>
-					</cfif>
-					<cfif len(getLoc.verbatim_locality) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0 "><input class="data-entry-input" value="#getLoc.verbatim_locality#"></li>
-					</cfif>
-					<cfif len(getLoc.collecting_source) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.collecting_source#"></li>
-					</cfif>
-					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0">
-							<input class="data-entry-input" value="#getLoc.began_date#">
-						</li>
-					</cfif>
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Began Date</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0">
-							<input class="data-entry-input float-left" value="#getLoc.began_date#">
-						</li>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Ended Date</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0">
-							<input class="data-entry-input float-left" value="#getLoc.ended_date#">
-						</li>
-					</cfif>
-					<cfif len(getLoc.verbatim_date) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.verbatim_date#"></li>
-					</cfif>
-					<cfif len(getLoc.verbatimcoordinates) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.verbatimcoordinates#"></li>
-					</cfif>
-					<cfif len(getLoc.collecting_method) gt 0>
-						<li class="list-group-item  col-12 col-md-4 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-8 px-0"><input class="data-entry-input" value="#getLoc.collecting_method#"></li>
-					</cfif>
-					<cfif len(getLoc.coll_event_remarks) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.coll_event_remarks#"></li>
-					</cfif>
-					<cfif len(getLoc.habitat_desc) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.habitat_desc#"></li>
-					</cfif>
-					<cfif len(getLoc.habitat) gt 0>
-						<li class="list-group-item col-12 col-md-4 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-12 col-md-8 px-0"><input class="data-entry-input" value="#getLoc.habitat#"></li>
-					</cfif>
-				</ul>
-			</div>
-			
-      <cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+							<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
+						</cfif>
+					</div>
+				</div>
+				<div class="col-12 float-left px-0">
+					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
+						<cfif len(getLoc.spec_locality) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Specific Locality:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0 last">
+								<input class="data-entry-input" value="#getLoc.spec_locality#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_locality) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Verbatim Locality:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0 ">
+								<input class="data-entry-input" value="#getLoc.verbatim_locality#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.collecting_source) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Collecting Source:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.collecting_source#">
+							</li>
+						</cfif>
+						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">On Date:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.began_date#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Began Date</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input float-left" value="#getLoc.began_date#">
+							</li>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Ended Date</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input float-left" value="#getLoc.ended_date#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_date) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Verbatim Date:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.verbatim_date#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.verbatimcoordinates) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Verbatim Coordinates:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.verbatimcoordinates#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.collecting_method) gt 0>
+							<li class="list-group-item  col-12 col-md-4 px-0">
+								<h5 class="my-0">Collecting Method:</h5>
+							</li>
+							<li class="list-group-item col-8 px-0">
+								<input class="data-entry-input" value="#getLoc.collecting_method#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.coll_event_remarks) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Collecting Event Remarks:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.coll_event_remarks#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.habitat_desc) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0">
+								<h5 class="my-0">Habitat Description:</h5>
+							</li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.habitat_desc#">
+							</li>
+						</cfif>
+						<cfif len(getLoc.habitat) gt 0>
+							<li class="list-group-item col-12 col-md-4 px-0"><em>Microhabitat:</em></li>
+							<li class="list-group-item col-12 col-md-8 px-0">
+								<input class="data-entry-input" value="#getLoc.habitat#">
+							</li>
+						</cfif>
+					</ul>
+				</div>
+				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select distinct
 			collection_object_id,
 			collecting_event_id,
@@ -2558,7 +2550,7 @@ limitations under the License.
 		where
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
-      <cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			GEOLOGY_ATTRIBUTE_ID,
 			GEOLOGY_ATTRIBUTE,
@@ -2583,343 +2575,341 @@ limitations under the License.
 			GEO_ATT_DETERMINED_METHOD,
 			GEO_ATT_REMARK
 	</cfquery>
-      <cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select orig_elev_units from ctorig_elev_units
 	</cfquery>
-      <cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select depth_units from ctdepth_units
 	</cfquery>
-      <cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select datum from ctdatum
      </cfquery>
-      <cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select georefMethod from ctgeorefmethod
 	</cfquery>
-      <cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select VerificationStatus from ctVerificationStatus order by VerificationStatus
 	</cfquery>
-      <cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
      </cfquery>
-      <cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select e_or_w from ctew
      </cfquery>
-      <cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select n_or_s from ctns
      </cfquery>
-      <cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
       </cfquery>
-      <cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select COLLECTING_SOURCE from ctcollecting_source
       </cfquery>
-      <cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select geology_attribute from ctgeology_attribute order by geology_attribute
 	  </cfquery>
-      <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
       </cfquery>
-
-      <cfquery name="cecount" datasource="uam_god">
+				<cfquery name="cecount" datasource="uam_god">
          select count(collection_object_id) ct from cataloged_item
          where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
       </cfquery>
-      <cfquery name="loccount" datasource="uam_god">
+				<cfquery name="loccount" datasource="uam_god">
          select count(ci.collection_object_id) ct from cataloged_item ci
              left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
          where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
       </cfquery>
-      <cfform name="loc" method="post" action="specLocality.cfm">
-        <input type="hidden" name="action" value="saveChange">
-        <input type="hidden" name="nothing" id="nothing">
-        <input type="hidden" name="collection_object_id" value="#collection_object_id#">
-        <table>
-        <tr>
-        <td valign="top"><!--- left half of page --->
-
-          <table>
-            <tr>
-              <td><label for="higher_geog"> Higher Geography
-                  <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-                    &nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
-                  </cfif>
-                </label>
-                <input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
-					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;"></td>
-            </tr>
-            <tr>
-              <td><label for="spec_locality"> Specific Locality
-                  &nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
-                  <cfif loccount.ct eq 1>(unique to this specimen)<cfelse>(shared with #loccount.ct# specimens)</cfif>
-                  </label>
-                <cfinput type="text"
+				<cfform name="loc" method="post" action="specLocality.cfm">
+					<input type="hidden" name="action" value="saveChange">
+					<input type="hidden" name="nothing" id="nothing">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<label for="higher_geog"> Higher Geography
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+							&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
+						</cfif>
+					</label>
+					<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
+					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
+					<label for="spec_locality"> Specific Locality
+						&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
+						<cfif loccount.ct eq 1>
+							(unique to this specimen)
+							<cfelse>
+							(shared with #loccount.ct# specimens)
+						</cfif>
+					</label>
+					<cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
 					value="#l.spec_locality#"
 					size="75"
 					required="true"
-					message="Specific Locality is required."></td>
-            </tr>
-            <tr>
-               <td>
-               <label for="sovereign_nation">Sovereign Nation</label>
-   		       <select name="sovereign_nation" id="sovereign_nation" size="1">
-                   <cfloop query="ctSovereignNation">
-               	    <option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-                   </cfloop>
-               </td>
-            </tr>
-            <tr>
-              <td><label for="verbatim_locality"> Verbatim Locality
+					message="Specific Locality is required.">
+					<label for="sovereign_nation">Sovereign Nation</label>
+					<select name="sovereign_nation" id="sovereign_nation" size="1">
+						<cfloop query="ctSovereignNation">
+							<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+						</cfloop>
+						<label for="verbatim_locality">
+						
+						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
-                  <cfif cecount.ct eq 1>(unique to this specimen)<cfelse>(shared with #cecount.ct# specimens)</cfif>
- </label>
-                <cfinput type="text"
+						<cfif cecount.ct eq 1>
+							
+							(unique to this specimen)
+							
+							<cfelse>
+							
+							(shared with #cecount.ct# specimens)
+						
+						</cfif>
+						</label>
+						<cfinput type="text"
 					name="verbatim_locality"
 					id="verbatim_locality"
 					value="#l.verbatim_locality#"
 					size="75"
 					required="true"
-					message="Verbatim Locality is required."></td>
-            </tr>
-   </table>
-          <table>
-            <tr>
-              <td><label for="verbatim_date"> Verbatim Date </label>
-                <cfinput type="text"
+					message="Verbatim Locality is required.">
+						<label for="verbatim_date">
+						
+						 Verbatim Date 
+						
+						</label>
+						<cfinput type="text"
 					name="verbatim_date"
 					id="verbatim_date"
 					value="#l.verbatim_date#"
 					size="75"
 					required="true"
-					message="Verbatim Date is a required text field."></td>
-            </tr>
-            <tr>
-              <td><table>
-
-                    <td><label for="collecting time"> Collecting Time </label>
-                      <cfinput type="text"
+					message="Verbatim Date is a required text field.">
+						<label for="collecting time">
+						
+						 Collecting Time 
+						
+						</label>
+						<cfinput type="text"
 					name="collecting_time"
 					id="collecting_time"
 					value="#l.collecting_time#"
-					size="20"></td>
-                    <td><label for="ich field number"> Ich. Field Number </label>
-                      <cfinput type="text"
+					size="20">
+						<label for="ich field number">
+						
+						 Ich. Field Number 
+						
+						</label>
+						<cfinput type="text"
 					name="ich_field_number"
 					id="ich_field_number"
 					value="#l.fish_field_number#"
-					size="20"></td>
-                </table>
-            </tr>
-            <tr>
-              <td><table>
-
-                    <td><label for="startDayofYear"> Start Day of Year</label>
-                      <cfinput type="text"
+					size="20">
+						<label for="startDayofYear">
+						
+						 Start Day of Year
+						
+						</label>
+						<cfinput type="text"
 					name="startDayofYear"
 					id="startDayofYear"
 					value="#l.startdayofyear#"
-					size="20"></td>
-                    <td><label for="endDayofYear"> End Day of Year </label>
-                      <cfinput type="text"
+					size="20">
+						<label for="endDayofYear">
+						
+						 End Day of Year 
+						
+						</label>
+						<cfinput type="text"
 					name="endDayofYear"
 					id="endDayofYear"
 					value="#l.enddayofyear#"
-					size="20"></td>
-                </table>
-            </tr>
-            <tr>
-              <td><table>
-
-                    <td><label for="began_date"> Began Date/Time</a></label>
-                      <input type="text"
+					size="20">
+						<label for="began_date">
+						
+						 Began Date/Time</a>
+						</label>
+						<input type="text"
 								name="began_date"
 								id="began_date"
 								value="#l.began_date#"
 								class="reqdClr"
-                                style="vertical-align:top;"></td>
-                    <td><label for="ended_date"> Ended Date/Time </label>
-                      <input type="text"
+                                style="vertical-align:top;">
+						<label for="ended_date">
+						
+						 Ended Date/Time 
+						
+						</label>
+						<input type="text"
 								name="ended_date"
 								id="ended_date"
 								value="#l.ended_date#"
 								class="reqdClr"
-                                style="vertical-align:top;"></td>
-                  </tr>
-                </table></td>
-            </tr>
-            <tr>
-              <td><label for="coll_event_remarks"> Collecting Event Remarks </label>
-                <input type="text"
+                                style="vertical-align:top;">
+						<label for="coll_event_remarks">
+						
+						 Collecting Event Remarks 
+						
+						</label>
+						<input type="text"
 					name="coll_event_remarks"
 						id="coll_event_remarks"
 					value="#l.COLL_EVENT_REMARKS#"
-					size="75"></td>
-            </tr>
-            <tr>
-              <td><label for="collecting_source"> Collecting Source </label>
-                <select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
-                  <option value=""></option>
-                  <cfloop query="ctcollecting_source">
-                    <option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
+					size="75">
+						<label for="collecting_source">
+						
+						 Collecting Source 
+						
+						</label>
+						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
+						<option value=""></option>
+						<cfloop query="ctcollecting_source">
+							<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
 						value="#ctcollecting_source.COLLECTING_SOURCE#">#ctcollecting_source.COLLECTING_SOURCE#</option>
-                  </cfloop>
-                </select></td>
-            </tr>
-
-              <td><label for="collecting_method"> Collecting Method </label>
-                <input type="text"
+						</cfloop>
+					</select>
+					<label for="collecting_method"> Collecting Method </label>
+					<input type="text"
 					name="collecting_method"
 					id="collecting_method"
 					value="#l.COLLECTING_METHOD#"
-					size="75"></td>
-            </tr>
-            <tr>
-              <td><label for="habitat_desc"> Habitat </label>
-                <input type="text"
+					size="75">
+					<label for="habitat_desc"> Habitat </label>
+					<input type="text"
 					name="habitat_desc"
 					id="habitat_desc"
 					value="#l.habitat_desc#"
-					size="75"></td>
-            </tr>
-            <tr>
-              <td><table>
-                  <tr>
-                    <td style="width: 110px;"><label for="minimum_elevation"> Min. Elevation </label>
-                      <cfinput
+					size="75">
+					<label for="minimum_elevation"> Min. Elevation </label>
+					<cfinput
 								type="text"
 								name="minimum_elevation"
 								id="minimum_elevation"
 								value="#l.MINIMUM_ELEVATION#"
 								size="10"
 								validate="numeric"
-								message="Minimum Elevation is a number."></td>
-                    <td style="width: 110px;"><label for="maximum_elevation"> Max. Elevation </label>
-                      <cfinput type="text"
+								message="Minimum Elevation is a number.">
+					<label for="maximum_elevation"> Max. Elevation </label>
+					<cfinput type="text"
 								id="maximum_elevation"
 								name="maximum_elevation"
 								value="#l.MAXIMUM_ELEVATION#"
 								size="10"
 								validate="numeric"
-								message="Maximum Elevation is a number."></td>
-                    <td style="width: 100px;"><label for="orig_elev_units"> Elevation Units </label>
-                      <select name="orig_elev_units" id="orig_elev_units" size="1">
-                        <option value=""></option>
-                        <cfloop query="ctElevUnit">
-                          <option <cfif #ctelevunit.orig_elev_units# is "#l.orig_elev_units#"> selected </cfif>
+								message="Maximum Elevation is a number.">
+					<label for="orig_elev_units"> Elevation Units </label>
+					<select name="orig_elev_units" id="orig_elev_units" size="1">
+						<option value=""></option>
+						<cfloop query="ctElevUnit">
+							<option <cfif #ctelevunit.orig_elev_units# is "#l.orig_elev_units#"> selected </cfif>
 									value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-                        </cfloop>
-                      </select></td>
-                  </tr>
-                </table></td>
-            </tr>
-            <tr>
-              <td><table>
-                  <tr>
-                    <td style="width:110px;"><label for="min_depth"> Min. Depth </label>
-                      <cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="10"
+						</cfloop>
+					</select>
+					<label for="min_depth"> Min. Depth </label>
+					<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="10"
 								validate="numeric"
-								message="Minimum Depth is a number."></td>
-                    <td style="width:110px;"><label for="max_depth"  > Max. Depth </label>
-                      <cfinput type="text" id="max_depth" name="max_depth"
+								message="Minimum Depth is a number.">
+					<label for="max_depth"  > Max. Depth </label>
+					<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="10"
 								validate="numeric"
-								message="Maximum Depth is a number."></td>
-                    <td style="width:100px;"><label for="depth_units" > Depth Units </label>
-                      <select name="depth_units" id="depth_units" size="1">
-                        <option value=""></option>
-                        <cfloop query="ctdepthUnit">
-                          <option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
+								message="Maximum Depth is a number.">
+					<label for="depth_units" > Depth Units </label>
+					<select name="depth_units" id="depth_units" size="1">
+						<option value=""></option>
+						<cfloop query="ctdepthUnit">
+							<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
-                        </cfloop>
-                      </select></td>
-                  </tr>
-                </table></td>
-            </tr>
-            <tr>
-              <td><label for="locality_remarks">Locality Remarks</label>
-                <input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75"></td>
-            </tr>
-            <tr>
-              <td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
-                <input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
-                <cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
-                  <div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
-                    Please review this locality and update accordingly. </div>
-                  <cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
-                  <div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
-                </cfif></td>
-            </tr>
-          </table></td>
-        <td valign="top">
-        <table>
-        <tr>
-          <td><label for="ORIG_LAT_LONG_UNITS"> Original Coordinate Units </label>
-            <cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
-            <select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
-              <option value="">Not Georeferenced</option>
-              <cfloop query="ctunits">
-                <option
+						</cfloop>
+					</select>
+					</tr>
+					</table>
+					</td>
+					</tr>
+					<tr>
+						<td><label for="locality_remarks">Locality Remarks</label>
+							<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75"></td>
+					</tr>
+					<tr>
+						<td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
+							<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
+							<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
+								<div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
+									Please review this locality and update accordingly. </div>
+								<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
+								<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
+							</cfif></td>
+					</tr>
+					</table>
+					</td>
+					<td valign="top">
+					<table>
+					<tr>
+						<td><label for="ORIG_LAT_LONG_UNITS"> Original Coordinate Units </label>
+							<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
+							<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
+								<option value="">Not Georeferenced</option>
+								<cfloop query="ctunits">
+									<option
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
-              </cfloop>
-            </select></td>
-        </tr>
-        <table>
-          <table id="llMeta" style="display:none;">
-            <tr>
-              <td><label for="coordinate_determiner"> Coordinate Determiner </label>
-                <input type="text"
+								</cfloop>
+							</select></td>
+					</tr>
+					<table>
+					<table id="llMeta" style="display:none;">
+						<tr>
+							<td><label for="coordinate_determiner"> Coordinate Determiner </label>
+								<input type="text"
 					name="coordinate_determiner"
 					id="coordinate_determiner"
 					class="reqdClr" value="#l.coordinate_determiner#" size="40"
 					 onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;"
 					 onKeyPress="return noenter(event);">
-                <input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#"></td>
-              <td><label for="DETERMINED_DATE"> Determined Date </label>
-                <input type="text" name="determined_date" id="determined_date"
+								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#"></td>
+							<td><label for="DETERMINED_DATE"> Determined Date </label>
+								<input type="text" name="determined_date" id="determined_date"
 					value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr"></td>
-            </tr>
-            <tr>
-              <td><label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
-                <input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
-                <select name="MAX_ERROR_UNITS" size="1">
-                  <option value=""></option>
-                  <cfloop query="cterror">
-                    <option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
+						</tr>
+						<tr>
+							<td><label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
+								<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
+								<select name="MAX_ERROR_UNITS" size="1">
+									<option value=""></option>
+									<cfloop query="cterror">
+										<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
 								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
-                  </cfloop>
-                </select></td>
-              <td><label for="DATUM"> Datum </label>
-                <cfset thisDatum = #l.DATUM#>
-                <select name="DATUM" id="DATUM" size="1" class="reqdClr">
-                  <option value=""></option>
-                  <cfloop query="ctdatum">
-                    <option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
+									</cfloop>
+								</select></td>
+							<td><label for="DATUM"> Datum </label>
+								<cfset thisDatum = #l.DATUM#>
+								<select name="DATUM" id="DATUM" size="1" class="reqdClr">
+									<option value=""></option>
+									<cfloop query="ctdatum">
+										<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
-                  </cfloop>
-                </select></td>
-            </tr>
-            <tr>
-              <td><label for="georefMethod"> Georeference Method </label>
-                <cfset thisGeoMeth = #l.georefMethod#>
-                <select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
-                  <cfloop query="ctGeorefMethod">
-                    <option
+									</cfloop>
+								</select></td>
+						</tr>
+						<tr>
+							<td><label for="georefMethod"> Georeference Method </label>
+								<cfset thisGeoMeth = #l.georefMethod#>
+								<select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
+									<cfloop query="ctGeorefMethod">
+										<option
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 							value="#georefMethod#">#georefMethod#</option>
-                  </cfloop>
-                </select></td>
-              <td><label for="extent"> Extent </label>
-                <input type="text" name="extent" id="extent" value="#l.extent#" size="7"></td>
-            </tr>
-            <tr>
-              <td><label for="GpsAccuracy"> GPS Accuracy </label>
-                <input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7"></td>
-			</tr>
-			<tr>
-              <td><label for="VerificationStatus"> Verification Status </label>
-                <cfset thisVerificationStatus = #l.VerificationStatus#>
-                <select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
+									</cfloop>
+								</select></td>
+							<td><label for="extent"> Extent </label>
+								<input type="text" name="extent" id="extent" value="#l.extent#" size="7"></td>
+						</tr>
+						<tr>
+							<td><label for="GpsAccuracy"> GPS Accuracy </label>
+								<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7"></td>
+						</tr>
+						<tr>
+							<td><label for="VerificationStatus"> Verification Status </label>
+								<cfset thisVerificationStatus = #l.VerificationStatus#>
+								<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
 									{document.getElementById('verified_by').style.display = 'block';
 									document.getElementById('verified_byLBL').style.display = 'block';
@@ -2929,445 +2919,352 @@ limitations under the License.
 									document.getElementById('verified_by').style.display = 'none';
 									document.getElementById('verified_byLBL').style.display = 'none';
 									document.getElementById('verified_by').className = '';}">
-                  <cfloop query="ctVerificationStatus">
-                    <option
+									<cfloop query="ctVerificationStatus">
+										<option
 							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 								value="#VerificationStatus#">#VerificationStatus#</option>
-                  </cfloop>
-                </select></td>
-				<td>
-					<cfset thisVerifiedBy = #l.verifiedby#>
-					<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
-					<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
-						Verified by
-					</label>
-					<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" size="25"
+									</cfloop>
+								</select></td>
+							<td><cfset thisVerifiedBy = #l.verifiedby#>
+								<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
+								<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
+								<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" size="25"
 						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
 		 				onKeyPress="return noenter(event);">
-		 			<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
-				</td>
-            </tr>
-            <tr>
-              <td colspan="2"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
-                <input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
+								<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#"></td>
+						</tr>
+						<tr>
+							<td colspan="2"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
+								<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
 					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></td>
-            </tr>
-            <tr>
-              <td colspan="3"><label for="LAT_LONG_REMARKS"> Remarks </label>
-                <input type="text"
+						</tr>
+						<tr>
+							<td colspan="3"><label for="LAT_LONG_REMARKS"> Remarks </label>
+								<input type="text"
 					name="LAT_LONG_REMARKS"
 					id="LAT_LONG_REMARKS"
 					value="#encodeForHTML(l.LAT_LONG_REMARKS)#"
 					size="90"></td>
-            </tr>
-          </table>
-          <table id="decdeg" style="display:none;">
-            <tr>
-              <td><label for="dec_lat">Decimal Latitude</label>
-                <cfinput
+						</tr>
+					</table>
+					<table id="decdeg" style="display:none;">
+						<tr>
+							<td><label for="dec_lat">Decimal Latitude</label>
+								<cfinput
 					type="text"
 					name="dec_lat"
 					id="dec_lat"
 					value="#l.dec_lat#"
 					class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="dec_long">Decimal Longitude</label>
-                <cfinput
+							<td><label for="dec_long">Decimal Longitude</label>
+								<cfinput
 					type="text"
 					name="DEC_LONG"
 					value="#l.DEC_LONG#"
 					id="dec_long"
 					class="reqdClr"
 					validate="numeric"></td>
-            </tr>
-          </table>
-          <table id="dms" style="display:none;">
-            <tr>
-              <td><label for="lat_deg">Lat. Deg.</label>
-                <cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
+						</tr>
+					</table>
+					<table id="dms" style="display:none;">
+						<tr>
+							<td><label for="lat_deg">Lat. Deg.</label>
+								<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="lat_min">Lat. Min.</label>
-                <cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr"
+							<td><label for="lat_min">Lat. Min.</label>
+								<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="lat_sec">Lat. Sec.</label>
-                <cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr"
+							<td><label for="lat_sec">Lat. Sec.</label>
+								<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="lat_dir">Lat. Dir.</label>
-                <select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
-                  <option value=""></option>
-                  <option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-                  <option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-                </select></td>
-            </tr>
-            <tr>
-              <td><label for="long_deg">Long. Deg.</label>
-                <cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
+							<td><label for="lat_dir">Lat. Dir.</label>
+								<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
+									<option value=""></option>
+									<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+									<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+								</select></td>
+						</tr>
+						<tr>
+							<td><label for="long_deg">Long. Deg.</label>
+								<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="long_min">Long. Min.</label>
-                <cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
+							<td><label for="long_min">Long. Min.</label>
+								<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="long_sec">Long. Sec.</label>
-                <cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
+							<td><label for="long_sec">Long. Sec.</label>
+								<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
 					validate="numeric"></td>
-              <td><label for="long_dir">Long. Dir.</label>
-                <select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
-                  <option value=""></option>
-                  <option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-                  <option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-                </select></td>
-            </tr>
-          </table>
-          <table id="ddm" style="display:none;">
-              <tr>
-
-              <td>
-
-              <label for="dmlat_deg">
-            Lat. Deg.
-              <label>
-
-            <input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
-              </td>
-
-              <td>
-
-              <label for="dec_lat_min">
-            Lat. Dec. Min.
-              <label>
-
-            <cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
+							<td><label for="long_dir">Long. Dir.</label>
+								<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
+									<option value=""></option>
+									<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
+									<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
+								</select></td>
+						</tr>
+					</table>
+					<table id="ddm" style="display:none;">
+						<tr>
+						
+						<td>
+						
+						<label for="dmlat_deg">
+						
+						Lat. Deg.
+						<label>
+						
+						<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
+						</td>
+						
+						<td>
+						
+						<label for="dec_lat_min">
+						
+						Lat. Dec. Min.
+						<label>
+						
+						<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              <td>
-
-              <label for="dmlat_dir">
-            Lat. Dir.
-              <label>
-
-            <select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
-              <option value=""></option>
-              <option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-              <option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-            </select>
-              </td>
-
-              </tr>
-
-              <tr>
-
-              <td>
-
-              <label for="dmlong_deg">
-            Long. Deg.
-              <label>
-
-            <cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
+						</td>
+						
+						<td>
+						
+						<label for="dmlat_dir">
+						
+						Lat. Dir.
+						<label>
+						
+						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
+							<option value=""></option>
+							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+						</select>
+						</td>
+						
+						</tr>
+						
+						<tr>
+							<td>
+							<label for="dmlong_deg">
+							Long. Deg.
+							<label>
+							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              <td>
-
-              <label for="dec_long_min">
-            Long. Dec. Min.
-              <label>
-
-            <cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
+							</td>
+							<td>
+							<label for="dec_long_min">
+							Long. Dec. Min.
+							<label>
+							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              <td>
-
-              <label for="dmlong_dir">
-            Long. Dir.
-              <label>
-
-            <select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
-              <option value=""></option>
-              <option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-              <option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-            </select>
-              </td>
-
-              </tr>
-
-          </table>
-          <table id="utm" style="display:none;">
-              <tr>
-
-              <td>
-
-              <label for="utm_zone">
-            UTM Zone
-              <label>
-
-            <cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr"
+							</td>
+							<td><label for="dmlong_dir">
+								Long. Dir.
+								<label>
+								<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
+									<option value=""></option>
+									<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
+									<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
+								</select>
+								<label for="utm_zone">
+								UTM Zone
+								<label>
+								<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              <td>
-
-              <label for="utm_ew">
-            UTM East/West
-              <label>
-
-            <cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
+								<label for="utm_ew">
+								UTM East/West
+								<label>
+								<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              <td>
-
-              <label for="utm_ns">
-            UTM North/South
-              <label>
-
-            <cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr"
+								<label for="utm_ns">
+								UTM North/South
+								<label>
+								<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr"
 					validate="numeric">
-              </td>
-
-              </tr>
-
-              </td>
-
-          </table>
-          <table>
-
-                   <tr>
-              <td><label>Verbatim Coordinates (summary)</label>
-                <cfinput type="text"
+								<label>Verbatim Coordinates (summary)</label>
+								<cfinput type="text"
 					name="verbatimCoordinates"
 					id="verbatimCoordinates"
 					value="#l.verbatimCoordinates#"
 					size="80"
-					></td>
-            </tr>
-          </table>
-          <table>
-            <tr>
-              <td style="padding-right: 1em;"><label>Verbatim Latitude</label>
-                <cfinput type="text"
+					>
+								<label>Verbatim Latitude</label>
+								<cfinput type="text"
 					name="verbatimLatitude"
 					id="verbatimLatitude"
 					value="#l.verbatimLatitude#"
 					size="36"
-					></td>
-              <td><label>Verbatim Longitude</label>
-                <cfinput type="text"
+					>
+								<label>Verbatim Longitude</label>
+								<cfinput type="text"
 					name="verbatimLongitude"
 					id="verbatimLongitude"
 					value="#l.verbatimLongitude#"
 					size="36"
-					></td>
-            </tr>
-          </table>
-          <table>
-            <tr>
-              <td style="padding-right: 1em;"><label>Verbatim Coordinate System (e.g., decimal degrees)</label>
-                <cfinput type="text"
+					>
+								<label>Verbatim Coordinate System (e.g., decimal degrees)</label>
+								<cfinput type="text"
 					name="verbatimCoordinateSystem"
 					id="verbatimCoordinateSystem"
 					value="#l.verbatimCoordinateSystem#"
 					size="39"
-					></td>
-              <td><label>Verbatim SRS (e.g., datum)</label>
-                <cfinput type="text"
+					>
+								<label>Verbatim SRS (e.g., datum)</label>
+								<cfinput type="text"
 					name="verbatimSRS"
 					id="verbatimSRS"
 					value="#l.verbatimSRS#"
 					size="33"
-					></td>
-            </tr>
-          </table>
- <!---         <table id="vc">
-              <tr>
-
-              <td colspan="2">
-              <label for="verbatimCoordinates">
-            Verbatim Coordinates
-              <label>
-
-            <cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
-              </td>
-
-              <td >
-              <label for="verbatimLatitude">
-            Verbatim Latitude
-              <label>
-
-            <cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
-              </td>
-
-              <td >
-              <label for="verbatimLongitude">
-            Verbatim Longitude
-              <label>
-
-            <cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
-              </td>
-
-              </tr>
-
-              <tr>
-
-              <td >
-              <label for="verbatimCoordinateSystem">
-            Verbatim Coordinate System
-              <label>
-
-            <cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
-              </td>
-
-              <td >
-              <label for="verbatimSRS">
-            Verbatim SRS
-              <label>
-
-            <cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
-              </td>
-
-              </tr>
-
-          </table>--->
-            <label for="gTab">
-          Geology
-            <label>
-
-          <table id="gTab" border="1" cellpadding="0" cellspacing="0">
-            <tr>
-              <td>Attribute</td>
-              <td>Value</td>
-              <td>Determiner</td>
-              <td>Date</td>
-              <td>Method</td>
-              <td>Remark</td>
-              <td></td>
-            </tr>
-            <cfloop query="g">
-              <tr>
-                <td><cfset thisAttribute=g.geology_attribute>
-                  <select name="geology_attribute__#geology_attribute_id#"
+					>
+								<label for="verbatimCoordinates">
+								Verbatim Coordinates
+								<label>
+								<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
+								<label for="verbatimLatitude">
+								Verbatim Latitude
+								<label>
+								<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
+								<label for="verbatimLongitude">
+								Verbatim Longitude
+								<label>
+								<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
+								<label for="verbatimCoordinateSystem">
+								Verbatim Coordinate System
+								<label>
+								<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
+								<label for="verbatimSRS">
+								Verbatim SRS
+								<label>
+								<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
+								<label for="gTab">
+								Geology
+								<label>
+								<table id="gTab" border="1" cellpadding="0" cellspacing="0">
+									<tr>
+										<td>Attribute</td>
+										<td>Value</td>
+										<td>Determiner</td>
+										<td>Date</td>
+										<td>Method</td>
+										<td>Remark</td>
+										<td></td>
+									</tr>
+									<cfloop query="g">
+										<tr>
+											<td><cfset thisAttribute=g.geology_attribute>
+												<select name="geology_attribute__#geology_attribute_id#"
 				id="geology_attribute__#geology_attribute_id#" size="1" class="reqdClr" onchange="populateGeology(this.id)">
-                    <option value="">DELETE THIS ROW</option>
-                    <cfloop query="ctgeology_attribute">
-                      <option
+													<option value="">DELETE THIS ROW</option>
+													<cfloop query="ctgeology_attribute">
+														<option
 					<cfif thisAttribute is geology_attribute> selected="selected" </cfif>
 						value="#geology_attribute#">#geology_attribute#</option>
-                    </cfloop>
-                  </select></td>
-                <td><select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
+													</cfloop>
+												</select></td>
+											<td><select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
 				name="geo_att_value__#geology_attribute_id#">
-                    <option value="#geo_att_value#">#geo_att_value#</option>
-                  </select></td>
-                <td><input type="text" id="geo_att_determiner__#geology_attribute_id#"
+													<option value="#geo_att_value#">#geo_att_value#</option>
+												</select></td>
+											<td><input type="text" id="geo_att_determiner__#geology_attribute_id#"
 				name="geo_att_determiner__#geology_attribute_id#" value="#geo_att_determiner#"
 				size="15"
 				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
-                  <input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
+												<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
 				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#"></td>
-                <td><input type="text" id="geo_att_determined_date__#geology_attribute_id#"
+											<td><input type="text" id="geo_att_determined_date__#geology_attribute_id#"
 				name="geo_att_determined_date__#geology_attribute_id#"
 				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
 				size="10"></td>
-                <td><input type="text" id="geo_att_determined_method__#geology_attribute_id#"
+											<td><input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10"></td>
-                <td><input type="text" id="geo_att_remark__#geology_attribute_id#"
+											<td><input type="text" id="geo_att_remark__#geology_attribute_id#"
 				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
 				size="10"></td>
-                <td><img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';"></td>
-              </tr>
-            </cfloop>
-            <tr class="newRec">
-              <td colspan="6">New Geology Attribute</td>
-            </tr>
-            <tr  class="newRec">
-              <td><select name="geology_attribute"  onchange="populateGeology(this.id)"
+											<td><img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';"></td>
+										</tr>
+									</cfloop>
+									<tr class="newRec">
+										<td colspan="6">New Geology Attribute</td>
+									</tr>
+									<tr  class="newRec">
+										<td><select name="geology_attribute"  onchange="populateGeology(this.id)"
 				id="geology_attribute" size="1" class="reqdClr">
-                  <option value=""></option>
-                  <cfloop query="ctgeology_attribute">
-                    <option value="#geology_attribute#">#geology_attribute#</option>
-                  </cfloop>
-                </select></td>
-              <td><select id="geo_att_value" class="reqdClr"  name="geo_att_value">
-                </select></td>
-              <td><input type="text" id="geo_att_determiner"
+												<option value=""></option>
+												<cfloop query="ctgeology_attribute">
+													<option value="#geology_attribute#">#geology_attribute#</option>
+												</cfloop>
+											</select></td>
+										<td><select id="geo_att_value" class="reqdClr"  name="geo_att_value">
+											</select></td>
+										<td><input type="text" id="geo_att_determiner"
 				name="geo_att_determiner"
 				size="15"
 				onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
-                <input type="hidden" name="geo_att_determiner_id"
+											<input type="hidden" name="geo_att_determiner_id"
 				id="geo_att_determiner_id"></td>
-              <td><input type="text" id="geo_att_determined_date"
+										<td><input type="text" id="geo_att_determined_date"
 				name="geo_att_determined_date"
 				size="10"></td>
-              <td><input type="text" id="geo_att_determined_method"
+										<td><input type="text" id="geo_att_determined_method"
 				name="geo_att_determined_method"
 				size="10"></td>
-              <td><input type="text" id="geo_att_remark"
+										<td><input type="text" id="geo_att_remark"
 				name="geo_att_remark"
 				size="10"></td>
-            </tr>
-          </table>
-            </td>
-
-            </tr>
-
-          <tr>
-            <td colspan="2" align="center">
-            <cfif loccount.ct eq 1 and cecount.ct eq 1>
-                <input type="submit" value="Save Changes" class="savBtn"
+									</tr>
+								</table></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><cfif loccount.ct eq 1 and cecount.ct eq 1>
+									<input type="submit" value="Save Changes" class="savBtn"
    				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
-            <cfelse>
-                <span>
-                <input type="submit" value="Split and Save Changes" class="savBtn"
+									<cfelse>
+									<span>
+									<input type="submit" value="Split and Save Changes" class="savBtn"
    				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
-                A new locality and collecting event will be created with these values and changes will apply to this record only.
-                </span>
-            </cfif>
-            </td>
-          </tr>
-        </table>
-      </cfform>
-      <script>
+									A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
+								</cfif></td>
+						</tr>
+					</table>
+				</cfform>
+				<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
-
-			<input class="btn btn-xs btn-primary" value="Split and Save Changes">
-			<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
+				<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
-</cffunction>							
+</cffunction>
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditRelationsThread"> 
-		<cfoutput>
-		<cftry>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getEditRelationsThread"> <cfoutput>
+			<cftry>
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
@@ -3405,56 +3302,49 @@ limitations under the License.
 				 and ctrel.rel_type <> 'functional'
 			)
 		</cfquery>
-			<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<ul class="list-group list-group-flush float-left">
-					<cfloop query="relns">
-						<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
-							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-								(Remark: #biol_indiv_relation_remarks#)
-							</cfif>
-						</li>
-					</cfloop>
-					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<li class="pb-1 list-group-item">
-							<a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
-						</li>
-					</cfif>
-				</ul>
-			</cfif>
-
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
+				<cfif len(relns.biol_indiv_relationship) gt 0 >
+					<ul class="list-group list-group-flush float-left">
+						<cfloop query="relns">
+							<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+									(Remark: #biol_indiv_relation_remarks#)
+								</cfif>
+							</li>
+						</cfloop>
+						<cfif len(relns.biol_indiv_relationship) gt 0>
+							<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
+						</cfif>
+					</ul>
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditRelationsThread" />
 	<cfreturn getEditRelationsThread.output>
-</cffunction>		
-						
+</cffunction>
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getAttributesThread"> 
-		<cfoutput>
-		<cftry>
-			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getAttributesThread"> <cfoutput>
+			<cftry>
+				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -3470,7 +3360,7 @@ limitations under the License.
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
@@ -3508,28 +3398,27 @@ limitations under the License.
 					 and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<cfquery name="sex" dbtype="query">
+				<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
-			<ul class="list-group">
-				<cfloop query="sex">
-				<li class="list-group-item"> sex: #attribute_value#,
-					<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "#attributeDeterminer#">
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
-						</cfif>
-						#determination#
-					</cfif>
-					<cfif len(attribute_remark) gt 0>
-						, Remark: #attribute_remark#
-					</cfif>
-				</li>
-			</cfloop>
-				
+				<ul class="list-group">
+					<cfloop query="sex">
+						<li class="list-group-item"> sex: #attribute_value#,
+							<cfif len(attributeDeterminer) gt 0>
+								<cfset determination = "#attributeDeterminer#">
+								<cfif len(determined_date) gt 0>
+									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<cfset determination = '#determination#, #determination_method#'>
+								</cfif>
+#determination#
+							</cfif>
+							<cfif len(attribute_remark) gt 0>
+								, Remark: #attribute_remark#
+							</cfif>
+						</li>
+					</cfloop>
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
 					</cfquery>
@@ -3551,24 +3440,24 @@ limitations under the License.
 						len(hf.attribute_units) gt 0 OR
 						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
-						<!---semi-standard measurements --->
+						<!---semi-standard measurements ---> 
 						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
 						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
-						<tr>
-							<td><font size="-1">total length</font></td>
-							<td><font size="-1">tail length</font></td>
-							<td><font size="-1">hind foot</font></td>
-							<td><font size="-1">efn</font></td>
-							<td><font size="-1">weight</font></td>
-						</tr>
-						<tr>
-							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
-						</tr>
-					</table>
+							<tr>
+								<td><font size="-1">total length</font></td>
+								<td><font size="-1">tail length</font></td>
+								<td><font size="-1">hind foot</font></td>
+								<td><font size="-1">efn</font></td>
+								<td><font size="-1">weight</font></td>
+							</tr>
+							<tr>
+								<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+								<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+								<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+								<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+								<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+							</tr>
+						</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
 							<cfset determination = "#attributeDeterminer#">
 							<cfif len(determined_date) gt 0>
@@ -3577,76 +3466,70 @@ limitations under the License.
 							<cfif len(determination_method) gt 0>
 								<cfset determination = '#determination#, #determination_method#'>
 							</cfif>
-							#determination#
+#determination#
 						</cfif>
-				
-					<cfquery name="theRest" dbtype="query">
+						<cfquery name="theRest" dbtype="query">
 						select * from attribute 
 						where attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
 					</cfquery>
-					<cfelse>
-					<!--- not Mamm --->
-					<cfquery name="theRest" dbtype="query">
+						<cfelse>
+						<!--- not Mamm --->
+						<cfquery name="theRest" dbtype="query">
 						select * from attribute where attribute_type NOT IN ('sex')
 					</cfquery>
-				</cfif>
-				<cfloop query="theRest">
-					<li class="list-group-item">#attribute_type#: #attribute_value#
-						<cfif len(attribute_units) gt 0>
-							, #attribute_units#
-						</cfif>
-						<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
-						</cfif>
-							#determination#
-						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							, Remark: #attribute_remark#
-						</cfif>
-					</li>
-				</cfloop>
-			</ul>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</cfif>
+					<cfloop query="theRest">
+						<li class="list-group-item">#attribute_type#: #attribute_value#
+							<cfif len(attribute_units) gt 0>
+								, #attribute_units#
+							</cfif>
+							<cfif len(attributeDeterminer) gt 0>
+								<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+								<cfif len(determined_date) gt 0>
+									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<cfset determination = '#determination#, #determination_method#'>
+								</cfif>
+#determination#
+							</cfif>
+							<cfif len(attribute_remark) gt 0>
+								, Remark: #attribute_remark#
+							</cfif>
+						</li>
+					</cfloop>
+				</ul>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getAttributesThread" />
 	<cfreturn getAttributesThread.output>
 </cffunction>
-				
 <cffunction name="getEditTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditTransactionsThread"> 
-		<cfoutput>
-		<cftry>
-
-	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getEditTransactionsThread"> <cfoutput>
+			<cftry>
+				<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id,
 		cataloged_item.cat_num,
@@ -3691,12 +3574,12 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY cataloged_item.collection_object_id
 	</cfquery>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-			<cfset oneOfUs = 1>
-		<cfelse>
-			<cfset oneOfUs = 0>
-		</cfif>
-		<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfset oneOfUs = 1>
+					<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -3805,7 +3688,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-		<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 					SELECT 
 						media.media_id,
 						media.media_uri,
@@ -3823,101 +3706,94 @@ limitations under the License.
 						media_relations.media_relationship like '% accn' and
 						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-    <div>
-	<form name="addItems" method="post" action="Specimen.cfm">
-		<input type="hidden" name="Action" value="addItems">
-		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		</cfif>
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1 class="h3 my-1">Add this cataloged item (listed below) to accession:</h1>
-					<div class="form-row">
-					<div class="col-12 col-sm-3 mb-0">
-					<label for="accn_number" class="data-entry-label">Accession</label>
-						<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
-						<span class="small d-block mb-1">TAB to see if accession is valid</span>
-						<p>Validation message placeholder</p>
-					</div>
-					<div class="col-12 col-sm-3 mt-3"> 
-						<a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
-					</div>
-					<div class="col-12 px-0 mb-3">
-						<div id="g_num"> 
-							<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
+				<div>
+				<form name="addItems" method="post" action="Specimen.cfm">
+					<input type="hidden" name="Action" value="addItems">
+					<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					</cfif>
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h1 class="h3 my-1">Add this cataloged item (listed below) to accession:</h1>
+								<div class="form-row">
+									<div class="col-12 col-sm-3 mb-0">
+										<label for="accn_number" class="data-entry-label">Accession</label>
+										<input type="text" name="accn_number"  class="data-entry-input" id="accn_number" onchange="findAccession();">
+										<span class="small d-block mb-1">TAB to see if accession is valid</span>
+										<p>Validation message placeholder</p>
+									</div>
+									<div class="col-12 col-sm-3 mt-3"> <a class="btn btn-xs btn-secondary text-dark" href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a></div>
+								</div>
+								<div class="col-12 px-0 mb-3">
+									<div id="g_num">
+										<input type="submit" id="s_btn" value="Add Items" class="btn btn-xs btn-primary">
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-	<div class="container">
-		<div class="row mx-0">
-			<div class="col-12 px-0">
-				<table class="table table-responsive">
-	<thead>
-		<tr>
-			<th>Cat Num</th>
-			<th>Scientific Name</th>
-			<th>Accn</th>
-			<th>Collector(s)</th>
-			<th>Geog</th>
-			<th>Spec Loc</th>
-			<th>Date</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>#getItems.collection# #one.cat_num#</td>
-			<td>#getItems.scientific_name#</td>
-			<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
-			<td>
-			<cfquery name="getAgent" dbtype="query">
+				</form>
+				<div class="container">
+					<div class="row mx-0">
+						<div class="col-12 px-0">
+							<table class="table table-responsive">
+								<thead>
+									<tr>
+										<th>Cat Num</th>
+										<th>Scientific Name</th>
+										<th>Accn</th>
+										<th>Collector(s)</th>
+										<th>Geog</th>
+										<th>Spec Loc</th>
+										<th>Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>#getItems.collection# #one.cat_num#</td>
+										<td>#getItems.scientific_name#</td>
+										<td><a href="Specimens.cfm?Accn_trans_id=#getItems.transaction_id#" target="_top">#getItems.accnColln# #getItems.Accn_number#</a></td>
+										<td><cfquery name="getAgent" dbtype="query">
 				select agent_name, coll_order 
 				from getItems 
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 				order by coll_order
 			</cfquery>
-			<cfset colls = "">
-			<cfloop query="getAgent">
-				<cfif len(#colls#) is 0>
-					<cfset colls = #getAgent.agent_name#>
-				  <cfelse>
-				  	<cfset colls = "#colls#, #getAgent.agent_name#">
-				</cfif>
-			</cfloop>
-		#colls#</td>
-		<td>#getItems.higher_geog#</td>
-		<td>#getItems.spec_locality#</td>
-		<td>#getItems.verbatim_date#</td>
-	</tr>
-
-</table>
-    		</div>
-			<div class="col-12 bg-light border rounded p-3 mt-4">		
-				<ul class="list-group list-group-flush pl-0">
-					<h2 class="h3 my-1">List of Transactions <span class="small">&ndash; with links to edit page(s)</span></h2>
-								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
+											<cfset colls = "">
+											<cfloop query="getAgent">
+												<cfif len(#colls#) is 0>
+													<cfset colls = #getAgent.agent_name#>
+													<cfelse>
+													<cfset colls = "#colls#, #getAgent.agent_name#">
+												</cfif>
+											</cfloop>
+#colls# 											</td>
+										<td>#getItems.higher_geog#</td>
+										<td>#getItems.spec_locality#</td>
+										<td>#getItems.verbatim_date#</td>
+									</tr>
+							</table>
+						</div>
+						<div class="col-12 bg-light border rounded p-3 mt-4">
+							<ul class="list-group list-group-flush pl-0">
+								<h2 class="h3 my-1">List of Transactions <span class="small">&ndash; with links to edit page(s)</span></h2>
+								<li class="list-group-item">
+									<h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#getItems.accn_number#</a>
 										<cfelse>
-										#getItems.accn_number#
+#getItems.accn_number#
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
-											<div class="m-2 d-inline"> 
+											<div class="m-2 d-inline">
 												<cfset mt = #media_type#>
-												<a href="/media/#media_id#" target="_blank">
-													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-												</a>
-												<span class="small d-block">#media_type# (#mime_type#)</span>
-												<span class="small d-block">#descr#</span> 
-											</div>
+												<a href="/media/#media_id#" target="_blank"> <img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details </a> <span class="small d-block">#media_type# (#mime_type#)</span> <span class="small d-block">#descr#</span> </div>
 										</cfloop>
 									</cfif>
 								</li>
-								<!--------------------  Project / Usage ------------------------------------>	
+								<!--------------------  Project / Usage ------------------------------------>
 								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
@@ -3982,11 +3858,13 @@ limitations under the License.
 								</cfquery>
 								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 									<cfloop query="isProj">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+										<li class="list-group-item">
+											<h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
 											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
 									</cfloop>
 									<cfloop query="isLoan">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
+										<li class="list-group-item">
+											<h5 class="mb-0 d-inline-block">Used By Project:</h5>
 											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
 									</cfloop>
 									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
@@ -4019,47 +3897,43 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</ul>
-			</div>
-		</div>
-	</div>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
 					</div>
 				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditTransactionsThread" />
 	<cfreturn getEditTransactionsThread.output>
-</cffunction>	
-						
+</cffunction>
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getTransactionsThread"> 
-		<cfoutput>
-		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-				<cfset oneOfUs = 1>
-				<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getTransactionsThread"> <cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfset oneOfUs = 1>
+					<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
 					cataloged_item.cat_num,
@@ -4187,31 +4061,24 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif oneOfUs is 1 and vpdaccn is 1>
-
-							<ul class="list-group list-group-flush pl-0">
-								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
-									<cfif oneOfUs is 1>
-										<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
-										<cfelse>
-										#accession#
-									</cfif>
-									<cfif accnMedia.recordcount gt 0>
-										<cfloop query="accnMedia">
-											<div class="m-2 d-inline"> 
-												<cfset mt = #media_type#>
-												<a href="/media/#media_id#" target="_blank">
-													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-												</a>
-												<span class="small d-block">#media_type# (#mime_type#)</span>
-												<span class="small d-block">#descr#</span> 
-											</div>
-										</cfloop>
-									</cfif>
-								</li>
-								
-								----------------- Project / Usage ---------------------------------
-								
-			<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<ul class="list-group list-group-flush pl-0">
+						<li class="list-group-item">
+							<h5 class="mb-0 d-inline-block">Accession:</h5>
+							<cfif oneOfUs is 1>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+								<cfelse>
+#accession#
+							</cfif>
+							<cfif accnMedia.recordcount gt 0>
+								<cfloop query="accnMedia">
+									<div class="m-2 d-inline">
+										<cfset mt = #media_type#>
+										<a href="/media/#media_id#" target="_blank"> <img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details </a> <span class="small d-block">#media_type# (#mime_type#)</span> <span class="small d-block">#descr#</span> </div>
+								</cfloop>
+							</cfif>
+						</li>
+						----------------- Project / Usage ---------------------------------
+						<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id project_id 
 									FROM
@@ -4220,7 +4087,7 @@ limitations under the License.
 										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 									GROUP BY project_name, project.project_id
 								</cfquery>
-								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id 
 									FROM 
@@ -4236,7 +4103,7 @@ limitations under the License.
 									GROUP BY 
 										project_name, project.project_id
 								</cfquery>
-								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										loan_item.collection_object_id 
 									FROM 
@@ -4245,7 +4112,7 @@ limitations under the License.
 										loan_item.collection_object_id=specimen_part.collection_object_id AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										distinct loan_number, loan_type, loan_status, loan.transaction_id 
 									FROM
@@ -4255,7 +4122,7 @@ limitations under the License.
 										loan_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										deacc_item.collection_object_id 
 									FROM
@@ -4263,7 +4130,7 @@ limitations under the License.
 									WHERE
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										distinct deacc_number, deacc_type, deaccession.transaction_id 
 									FROM
@@ -4273,98 +4140,90 @@ limitations under the License.
 										deacc_number is not null AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
-									<cfloop query="isProj">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
-									</cfloop>
-									<cfloop query="isLoan">
-										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
-											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
-									</cfloop>
-									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-0 d-inline-block">Loan History:</h5>
-											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
+							<cfloop query="isProj">
+								<li class="list-group-item">
+									<h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+									<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
+							</cfloop>
+							<cfloop query="isLoan">
+								<li class="list-group-item">
+									<h5 class="mb-0 d-inline-block">Used By Project:</h5>
+									<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
+							</cfloop>
+							<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
+								<li class="list-group-item">
+									<h5 class="mb-0 d-inline-block">Loan History:</h5>
+									<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="loanList">
-													<ul class="d-block">
-														<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</li>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+										<cfloop query="loanList">
+											<ul class="d-block">
+												<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+											</ul>
+										</cfloop>
 									</cfif>
-									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
-										<li class="list-group-item">
-											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
-											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+								</li>
+							</cfif>
+							<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+								<li class="list-group-item">
+									<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
+									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<cfloop query="deaccessionList">
-													<ul class="d-block">
-														<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
-													</ul>
-												</cfloop>
-											</cfif>
-										</li>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+										<cfloop query="deaccessionList">
+											<ul class="d-block">
+												<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+											</ul>
+										</cfloop>
 									</cfif>
-								</cfif>
-							</ul>
-			
+								</li>
+							</cfif>
+						</cfif>
+					</ul>
 				</cfif>
-			
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getTransactionsThread" />
 	<cfreturn getTransactionsThread.output>
-</cffunction>	
-						
-						
-						
+</cffunction>
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getLocalityThread"> 
-		<cfoutput>
-		<cftry>
-			<div class="col-5 pl-0 pr-3 mb-2 float-right">
-				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
-				<cfoutput>
-				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-					<div class="error"> Improper call. Aborting..... </div>
-					<cfabort>
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
-				<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-				</cfif>--->
-				</cfoutput> 
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getLocalityThread"> <cfoutput>
+			<cftry>
+				<div class="col-5 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/> <cfoutput>
+						<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+							<div class="error"> Improper call. Aborting..... </div>
+							<cfabort>
+						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<cfset oneOfUs = 1>
+							<cfelse>
+							<cfset oneOfUs = 0>
+						</cfif>
+						<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
+				</cfif>---> 
+					</cfoutput>
+					<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id as collection_object_id,
 				cataloged_item.cat_num,
@@ -4556,132 +4415,147 @@ limitations under the License.
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-			</div>
-			<div class="col-7 px-0 float-left">
-				<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(getLoc.continent_ocean) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
+				</div>
+				<div class="col-7 px-0 float-left">
+					<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+						<cfif len(getLoc.continent_ocean) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
+						</cfif>
+						<cfif len(getLoc.sea) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.sea#</li>
+						</cfif>
+						<cfif len(getLoc.country) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.country#</li>
+						</cfif>
+						<cfif len(getLoc.state_prov) gt 0>
+							<li class="list-group-item col-5 px-0"><em>State:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.state_prov#</li>
+						</cfif>
+						<cfif len(getLoc.feature) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.feature#</li>
+						</cfif>
+						<cfif len(getLoc.county) gt 0>
+							<li class="list-group-item col-5 px-0"><em>County:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.county#</li>
+						</cfif>
+						<cfif len(getLoc.island_group) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
+						</cfif>
+						<cfif len(getLoc.island) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.island#</li>
+						</cfif>
+						<cfif len(getLoc.quad) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
+						</cfif>
+					</ul>
+				</div>
+				<div class="col-12 float-left px-0">
+					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+						<cfif len(getLoc.spec_locality) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Specific Locality:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_locality) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Verbatim Locality:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
+						</cfif>
+						<cfif len(getLoc.collecting_source) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Collecting Source:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
+						</cfif>
+						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">On Date:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
+						</cfif>
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Began Date - Ended Date:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.began_date# - #getLoc.ended_date#</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_date) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Verbatim Date:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
+						</cfif>
+						<cfif len(getLoc.verbatimcoordinates) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Verbatim Coordinates:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
+						</cfif>
+						<cfif len(getLoc.collecting_method) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Collecting Method:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
+						</cfif>
+						<cfif len(getLoc.coll_event_remarks) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Collecting Event Remarks:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
+						</cfif>
+						<cfif len(getLoc.habitat_desc) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Habitat Description:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
+						</cfif>
+						<cfif len(getLoc.habitat) gt 0>
+							<li class="list-group-item col-5 px-0">
+								<h5 class="my-0">Microhabitat:</h5>
+							</li>
+							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
+						</cfif>
+					</ul>
+				</div>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
 					</cfif>
-					<cfif len(getLoc.sea) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.sea#</li>
-					</cfif>
-					<cfif len(getLoc.country) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.country#</li>
-					</cfif>
-					<cfif len(getLoc.state_prov) gt 0>
-						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.state_prov#</li>
-					</cfif>
-					<cfif len(getLoc.feature) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.feature#</li>
-					</cfif>
-					<cfif len(getLoc.county) gt 0>
-						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.county#</li>
-					</cfif>
-
-					<cfif len(getLoc.island_group) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
-					</cfif>
-					<cfif len(getLoc.island) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.island#</li>
-					</cfif>
-					<cfif len(getLoc.quad) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
-					</cfif>
-				</ul>
-			</div>
-			<div class="col-12 float-left px-0">
-				<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
-					<cfif len(getLoc.spec_locality) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
-					</cfif>
-					<cfif len(getLoc.verbatim_locality) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
-					</cfif>
-					<cfif len(getLoc.collecting_source) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
-					</cfif>
-					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
-					</cfif>
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.began_date# - #getLoc.ended_date#</li>
-					</cfif>
-					<cfif len(getLoc.verbatim_date) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
-					</cfif>
-					<cfif len(getLoc.verbatimcoordinates) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
-					</cfif>
-					<cfif len(getLoc.collecting_method) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
-					</cfif>
-					<cfif len(getLoc.coll_event_remarks) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
-					</cfif>
-					<cfif len(getLoc.habitat_desc) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
-					</cfif>
-					<cfif len(getLoc.habitat) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
-					</cfif>
-				</ul>
-			</div>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getLocalityThread" />
 	<cfreturn getLocalityThread.output>
 </cffunction>
-
-
-
 <cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getCollectorsThread">
-		<cfoutput> 
-		<cftry>
-			<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfthread name="getCollectorsThread"> <cfoutput>
+			<cftry>
+				<cfquery name="getColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					agent_name, 
 					collector_role,
@@ -4701,94 +4575,82 @@ limitations under the License.
 				ORDER BY 
 					collector_role, coll_order
 			</cfquery>
-
-	<cfset i=1>
-        <h1 class="h3"> Agent(s) listed as  as Collector or Preparator</h1>
-<table>
-<cfloop query="getColls">
-	<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		 <tr>
-			 <td>
-		<label class="pl-2">Name:</label> <input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
+				<cfset i=1>
+				<h1 class="h3"> Agent(s) listed as  as Collector or Preparator</h1>
+				<table>
+					<cfloop query="getColls">
+						<form name="colls#i#" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+							<tr>
+								<td><label class="pl-2">Name:</label>
+									<input type="text" name="Name" value="#getColls.agent_name#" class="reqdClr" 
 		onchange="getAgent('newagent_id','Name','colls#i#',this.value); return false;"
 		 onKeyPress="return noenter(event);">
-		
-		<input type="hidden" name="newagent_id">
-		<input type="hidden" name="oldagent_id" value="#agent_id#">
-         <label class="pl-2">Role:</label> <input type="hidden" name="oldRole" value="#getColls.collector_role#">
-                  	<select name="collector_role" size="1"  class="reqdClr">
-						<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
-						<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
-					</select>
-		<label class="pl-2">Order:</label>  <input type="hidden" name="oldOrder" value="#getColls.coll_order#">
-					<select name="coll_order" size="1" class="reqdClr">
-						<option>number</option>
-				<cfset thisLoop =#getColls.recordcount# +1>
-				<cfloop from="1" index="c" to="#thisLoop#">
-					<option 
+									<input type="hidden" name="newagent_id">
+									<input type="hidden" name="oldagent_id" value="#agent_id#">
+									<label class="pl-2">Role:</label>
+									<input type="hidden" name="oldRole" value="#getColls.collector_role#">
+									<select name="collector_role" size="1"  class="reqdClr">
+										<option <cfif #getColls.collector_role# is 'c'> selected </cfif>value="c">collector</option>
+										<option <cfif #getColls.collector_role# is 'p'> selected </cfif>value="p">preparator</option>
+									</select>
+									<label class="pl-2">Order:</label>
+									<input type="hidden" name="oldOrder" value="#getColls.coll_order#">
+									<select name="coll_order" size="1" class="reqdClr">
+										<option>number</option>
+										<cfset thisLoop =#getColls.recordcount# +1>
+										<cfloop from="1" index="c" to="#thisLoop#">
+											<option 
 						<cfif #c# is #getColls.coll_order#> selected </cfif>value="#c#">#c#</option>
-					
-				</cfloop>
-					</select>
-              <input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">	
-              <input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');">	
-			</td>
-		</tr>
-	</form>
-	<cfset i = #i#+1>
-</cfloop>
-</table>
-<br>
-<table class="newRec">
-	<tr>
-		<td><strong>Add an Agent:</strong></td>
-	</tr>
-	<tr>
-		<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
-	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-	<input type="hidden" name="Action" value="newColl">
-		
-		Name: <input type="text" name="name" class="reqdClr"
+										</cfloop>
+									</select>
+									<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="colls#i#.Action.value='saveEdits';submit();">
+									<input type="button" value="Delete" class="delBtn" onClick="colls#i#.edit.value='deleteColl';confirmDelete('colls#i#');"></td>
+							</tr>
+						</form>
+						<cfset i = #i#+1>
+					</cfloop>
+				</table>
+				<br>
+				<table class="newRec">
+					<tr>
+						<td><strong>Add an Agent:</strong></td>
+					</tr>
+					<tr>
+						<td><form name="newColl" method="post" action="editColls.cfm"  onSubmit="return gotAgentId(this.newagent_id.value)">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<input type="hidden" name="Action" value="newColl">
+								Name:
+								<input type="text" name="name" class="reqdClr"
 		onchange="getAgent('newagent_id','name','newColl',this.value); return false;"
 		 onKeyPress="return noenter(event);">
-		<input type="hidden" name="newagent_id">
-		
-	
-         Role: 
-          <select name="collector_role" size="1" class="reqdClr">
-					<option value="c">collector</option>
-					<option value="p">preparator</option>
-					
-				</select>
-		Order: 
-			<select name="coll_order" size="1" class="reqdClr">
-				<cfset thisLoop = #getColls.recordcount# +1>
-				<cfloop from="1" index="c" to="#thisLoop#">
-					<option <cfif #c# is #thisLoop#> selected </cfif>
+								<input type="hidden" name="newagent_id">
+								Role:
+								<select name="collector_role" size="1" class="reqdClr">
+									<option value="c">collector</option>
+									<option value="p">preparator</option>
+								</select>
+								Order:
+								<select name="coll_order" size="1" class="reqdClr">
+									<cfset thisLoop = #getColls.recordcount# +1>
+									<cfloop from="1" index="c" to="#thisLoop#">
+										<option <cfif #c# is #thisLoop#> selected </cfif>
 						value="#c#">#c#</option>
-					
-				</cfloop>
-			</select>
-			
-		<input type="submit" value="Create" class="insBtn"
+									</cfloop>
+								</select>
+								<input type="submit" value="Create" class="insBtn"
    onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
-         
-        </form></td>
-	</tr>
-</table>
-<p>
-
-
-
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-					</cfoutput> 
-	</cfthread>
+							</form></td>
+					</tr>
+				</table>
+				<p>
+				<cfcatch>
+					<cfoutput>
+						<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+					</cfoutput>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getCollectorsThread" />
 	<cfreturn getCollectorsThread.output>
 </cffunction>
