@@ -2765,23 +2765,23 @@ limitations under the License.
 							</select>
 						</li>
 						<li class="list-group-item col-12 col-md-1 py-1 px-0">
-							<label for="min_depth"> Min. Depth </label>
+							<label for="min_depth" class="data-entry-label px-2"> Min. Depth </label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
-							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
+							<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
 						<li class="list-group-item col-12 col-md-1 py-1 px-0">
-							<label for="max_depth"   class="data-entry-label px-2"> Max. Depth </label>
+							<label for="max_depth" class="data-entry-label px-2"> Max. Depth </label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
-								value="#l.max_depth#" size="3" validate="numeric" message="Maximum Depth is a number.">
+								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input" message="Maximum Depth is a number.">
 						</li>
-							<li class="list-group-item col-12 col-md-1 py-1 px-0">
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
 						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
-								</li>
-								<li class="list-group-item col-12 col-md-3 pb-1 px-0">
-						<select name="depth_units" id="depth_units" size="1">
+						</li>
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+						<select name="depth_units" id="depth_units" class="data-entry-select" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
 								<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
