@@ -446,6 +446,9 @@ limitations under the License.
 					</div>
 					<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 					<script>
+						function removeLoanItem(item_collection_object_id, transaction_id) { 
+							alert("TODO: Implement. [" + item_collection_object_id + "][" + transaction_id + "]" );
+						};
 						$(document).ready(function() {
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
@@ -462,7 +465,7 @@ limitations under the License.
 							var rowcount = datainformation.rowscount;
 							var items = "."
 							if (rowcount > 0) {
-								items = ". Click on a cell to edit. ";
+								items = ". Click on conditions, instructions, remarks, or disposition cell to edit. ";
 							}
 							if (rowcount == 1) {
 								$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
@@ -539,9 +542,9 @@ limitations under the License.
 						var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var result = "";
-							var itemid = rowData['itemId'];
+							var itemid = rowData['part_id'];
 							if (itemid) {
-								result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="deleteBorrowItem" type="button" value="Delete" onclick="deleteBorrowItem(' + itemid+ ');" class="btn btn-xs btn-danger">Delete</a></span>';
+								result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ','#transaction_id#');" class="btn btn-xs btn-warning">Remove</a></span>';
 							} else { 
 								result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 							}
@@ -663,10 +666,11 @@ limitations under the License.
 									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, columntype: 'dropdownlist',
-										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }	); }
+										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 									},
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
+									{text: 'Remove', datafield: 'part_id', width: 60, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
