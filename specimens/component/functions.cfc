@@ -2630,7 +2630,10 @@ limitations under the License.
 								Please georeference this locality or enter a value for NoGeorefBecause. 
 							</div>
 						</cfif>
-							</li>	
+							</li>
+										</ul>
+								<h1 class="h3">Collecting Event</h1>
+						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 						<li class="col-12 col-md-12 px-0 py-1 mt-2">
 							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
@@ -2640,9 +2643,7 @@ limitations under the License.
 						</cfif>
 						</label>
 						</li>
-								</ul>
-								<h1 class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">Collecting Event</h1>
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
+				
 						<li class="list-group-item col-12 col-md-12 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
