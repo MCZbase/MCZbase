@@ -2640,6 +2640,9 @@ limitations under the License.
 						</cfif>
 						</label>
 						</li>
+								</ul>
+								<h1 class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">Collecting Event</h1>
+						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 						<li class="list-group-item col-12 col-md-12 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
