@@ -39,7 +39,7 @@ limitations under the License.
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName#">
+		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>

@@ -297,14 +297,14 @@ limitations under the License.
 						,loan_item_remarks = null
 					</cfif>
 				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partId#"> AND
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		</cftransaction>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfset function_called = "#GetFunctionCalledName#">
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
@@ -368,7 +368,7 @@ limitations under the License.
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName#">
+		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
