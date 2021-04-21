@@ -2699,22 +2699,9 @@ limitations under the License.
 					<label for="habitat_desc"> Habitat </label>
 					<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 					<label for="minimum_elevation"> Min. Elevation </label>
-					<cfinput
-								type="text"
-								name="minimum_elevation"
-								id="minimum_elevation"
-								value="#l.MINIMUM_ELEVATION#"
-								size="10"
-								validate="numeric"
-								message="Minimum Elevation is a number.">
+					<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 					<label for="maximum_elevation"> Max. Elevation </label>
-					<cfinput type="text"
-								id="maximum_elevation"
-								name="maximum_elevation"
-								value="#l.MAXIMUM_ELEVATION#"
-								size="10"
-								validate="numeric"
-								message="Maximum Elevation is a number.">
+					<cfinput type="text" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 					<label for="orig_elev_units"> Elevation Units </label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1">
 						<option value=""></option>
