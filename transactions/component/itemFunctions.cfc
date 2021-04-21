@@ -323,6 +323,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
+	<cfreturn theResult>
 </cffunction>
 
 <cffunction name="getLoanItemsData" access="remote" returntype="any" returnformat="json">
