@@ -2135,6 +2135,147 @@ limitations under the License.
 								<cfset oneOfUs = 0>
 							</cfif>
 						</cfoutput>
+													<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select distinct
+			collection_object_id,
+			collecting_event_id,
+			LOCALITY_ID,
+            nvl(sovereign_nation,'[unknown]') as sovereign_nation,
+			geog_auth_rec_id,
+			MAXIMUM_ELEVATION,
+			MINIMUM_ELEVATION,
+			ORIG_ELEV_UNITS,
+			SPEC_LOCALITY,
+			LOCALITY_REMARKS,
+			DEPTH_UNITS,
+			MIN_DEPTH,
+			MAX_DEPTH,
+			NOGEOREFBECAUSE,
+			LAT_LONG_ID,
+			LAT_DEG,
+			DEC_LAT_MIN,
+			LAT_MIN,
+			LAT_SEC,
+			LAT_DIR,
+			LONG_DEG,
+			DEC_LONG_MIN,
+			LONG_MIN,
+			LONG_SEC,
+			LONG_DIR,
+			DEC_LAT,
+			DEC_LONG,
+			UTM_ZONE,
+			UTM_EW,
+			UTM_NS,
+			DATUM,
+			ORIG_LAT_LONG_UNITS,
+			DETERMINED_BY_AGENT_ID,
+			coordinate_determiner,
+			DETERMINED_DATE,
+			LAT_LONG_REMARKS,
+			MAX_ERROR_DISTANCE,
+			MAX_ERROR_UNITS,
+			ACCEPTED_LAT_LONG_FG,
+			EXTENT,
+			GPSACCURACY,
+			GEOREFMETHOD,
+			VERIFICATIONSTATUS,
+			LAT_LONG_REF_SOURCE,
+			HIGHER_GEOG,
+			BEGAN_DATE,
+			ENDED_DATE,
+			VERBATIM_DATE,
+			VERBATIM_LOCALITY,
+			COLL_EVENT_REMARKS,
+			COLLECTING_SOURCE,
+			COLLECTING_METHOD,
+			HABITAT_DESC,
+			COLLECTING_TIME,
+			FISH_FIELD_NUMBER,
+			VERBATIMCOORDINATES,
+		    VERBATIMLATITUDE,
+		    VERBATIMLONGITUDE,
+		    VERBATIMCOORDINATESYSTEM,
+		    VERBATIMSRS,
+		    STARTDAYOFYEAR,
+		    ENDDAYOFYEAR,
+		    VERIFIED_BY_AGENT_ID,
+		    VERIFIEDBY
+		from
+			spec_with_loc
+		where
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+	</cfquery>
+				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			GEOLOGY_ATTRIBUTE_ID,
+			GEOLOGY_ATTRIBUTE,
+			GEO_ATT_VALUE,
+			GEO_ATT_DETERMINER_ID,
+			geo_att_determiner,
+			GEO_ATT_DETERMINED_DATE,
+			GEO_ATT_DETERMINED_METHOD,
+			GEO_ATT_REMARK
+		from
+			spec_with_loc
+		where
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+			GEOLOGY_ATTRIBUTE is not null
+		group by
+			GEOLOGY_ATTRIBUTE_ID,
+			GEOLOGY_ATTRIBUTE,
+			GEO_ATT_VALUE,
+			GEO_ATT_DETERMINER_ID,
+			geo_att_determiner,
+			GEO_ATT_DETERMINED_DATE,
+			GEO_ATT_DETERMINED_METHOD,
+			GEO_ATT_REMARK
+	</cfquery>
+				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select orig_elev_units from ctorig_elev_units
+	</cfquery>
+				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select depth_units from ctdepth_units
+	</cfquery>
+				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select datum from ctdatum
+     </cfquery>
+				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select georefMethod from ctgeorefmethod
+	</cfquery>
+				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select VerificationStatus from ctVerificationStatus order by VerificationStatus
+	</cfquery>
+				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
+     </cfquery>
+				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select e_or_w from ctew
+     </cfquery>
+				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select n_or_s from ctns
+     </cfquery>
+				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
+      </cfquery>
+				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select COLLECTING_SOURCE from ctcollecting_source
+      </cfquery>
+				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select geology_attribute from ctgeology_attribute order by geology_attribute
+	  </cfquery>
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
+      </cfquery>
+				<cfquery name="cecount" datasource="uam_god">
+         select count(collection_object_id) ct from cataloged_item
+         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
+      </cfquery>
+				<cfquery name="loccount" datasource="uam_god">
+         select count(ci.collection_object_id) ct from cataloged_item ci
+             left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
+      </cfquery>
 						<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
@@ -2479,147 +2620,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
-				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select distinct
-			collection_object_id,
-			collecting_event_id,
-			LOCALITY_ID,
-            nvl(sovereign_nation,'[unknown]') as sovereign_nation,
-			geog_auth_rec_id,
-			MAXIMUM_ELEVATION,
-			MINIMUM_ELEVATION,
-			ORIG_ELEV_UNITS,
-			SPEC_LOCALITY,
-			LOCALITY_REMARKS,
-			DEPTH_UNITS,
-			MIN_DEPTH,
-			MAX_DEPTH,
-			NOGEOREFBECAUSE,
-			LAT_LONG_ID,
-			LAT_DEG,
-			DEC_LAT_MIN,
-			LAT_MIN,
-			LAT_SEC,
-			LAT_DIR,
-			LONG_DEG,
-			DEC_LONG_MIN,
-			LONG_MIN,
-			LONG_SEC,
-			LONG_DIR,
-			DEC_LAT,
-			DEC_LONG,
-			UTM_ZONE,
-			UTM_EW,
-			UTM_NS,
-			DATUM,
-			ORIG_LAT_LONG_UNITS,
-			DETERMINED_BY_AGENT_ID,
-			coordinate_determiner,
-			DETERMINED_DATE,
-			LAT_LONG_REMARKS,
-			MAX_ERROR_DISTANCE,
-			MAX_ERROR_UNITS,
-			ACCEPTED_LAT_LONG_FG,
-			EXTENT,
-			GPSACCURACY,
-			GEOREFMETHOD,
-			VERIFICATIONSTATUS,
-			LAT_LONG_REF_SOURCE,
-			HIGHER_GEOG,
-			BEGAN_DATE,
-			ENDED_DATE,
-			VERBATIM_DATE,
-			VERBATIM_LOCALITY,
-			COLL_EVENT_REMARKS,
-			COLLECTING_SOURCE,
-			COLLECTING_METHOD,
-			HABITAT_DESC,
-			COLLECTING_TIME,
-			FISH_FIELD_NUMBER,
-			VERBATIMCOORDINATES,
-		    VERBATIMLATITUDE,
-		    VERBATIMLONGITUDE,
-		    VERBATIMCOORDINATESYSTEM,
-		    VERBATIMSRS,
-		    STARTDAYOFYEAR,
-		    ENDDAYOFYEAR,
-		    VERIFIED_BY_AGENT_ID,
-		    VERIFIEDBY
-		from
-			spec_with_loc
-		where
-			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	</cfquery>
-				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
-			GEOLOGY_ATTRIBUTE_ID,
-			GEOLOGY_ATTRIBUTE,
-			GEO_ATT_VALUE,
-			GEO_ATT_DETERMINER_ID,
-			geo_att_determiner,
-			GEO_ATT_DETERMINED_DATE,
-			GEO_ATT_DETERMINED_METHOD,
-			GEO_ATT_REMARK
-		from
-			spec_with_loc
-		where
-			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
-			GEOLOGY_ATTRIBUTE is not null
-		group by
-			GEOLOGY_ATTRIBUTE_ID,
-			GEOLOGY_ATTRIBUTE,
-			GEO_ATT_VALUE,
-			GEO_ATT_DETERMINER_ID,
-			geo_att_determiner,
-			GEO_ATT_DETERMINED_DATE,
-			GEO_ATT_DETERMINED_METHOD,
-			GEO_ATT_REMARK
-	</cfquery>
-				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select orig_elev_units from ctorig_elev_units
-	</cfquery>
-				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select depth_units from ctdepth_units
-	</cfquery>
-				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select datum from ctdatum
-     </cfquery>
-				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select georefMethod from ctgeorefmethod
-	</cfquery>
-				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select VerificationStatus from ctVerificationStatus order by VerificationStatus
-	</cfquery>
-				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
-     </cfquery>
-				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select e_or_w from ctew
-     </cfquery>
-				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select n_or_s from ctns
-     </cfquery>
-				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-      </cfquery>
-				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select COLLECTING_SOURCE from ctcollecting_source
-      </cfquery>
-				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select geology_attribute from ctgeology_attribute order by geology_attribute
-	  </cfquery>
-				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
-      </cfquery>
-				<cfquery name="cecount" datasource="uam_god">
-         select count(collection_object_id) ct from cataloged_item
-         where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
-      </cfquery>
-				<cfquery name="loccount" datasource="uam_god">
-         select count(ci.collection_object_id) ct from cataloged_item ci
-             left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-         where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
-      </cfquery>
+
 				<cfform name="loc" method="post" action="specLocality.cfm">
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
