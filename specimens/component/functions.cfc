@@ -1217,7 +1217,7 @@ limitations under the License.
 		</cfloop>
 	</table>
 <br>
-	<table class="newRec mt-2">
+	<table class="newRec mt-4">
 		<thead>
 			<tr>
 				<th class="p-2">Add an Agent to this record:</th>
