@@ -2798,8 +2798,8 @@ limitations under the License.
 						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a>
 						</label>
 					</li>
-					<li class=" col-12 col-md-12 pb-1 px-0" style="border-bottom: 2px solid gray !important;">
-						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
+					<li class=" col-12 col-md-12 pb-2 px-0" style="border-bottom: 2px solid gray !important;">
+						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#" class="data-entry-input">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 							<div class="redMessage"> 
 								NoGeorefBecause should be NULL for localities with georeferences.
