@@ -340,7 +340,7 @@ limitations under the License.
 			part_name,
 			preserve_method,
 			condition,
-			sampled_from_obj_id,
+			decode(sampled_from_obj_id,null,'no','yes') as sampled_from_obj_id,
 			item_descr,
 			item_instructions,
 			loan_item_remarks,

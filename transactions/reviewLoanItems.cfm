@@ -669,7 +669,7 @@ limitations under the License.
 									},
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
-									{text: 'Part', datafield: 'part_id', width: 60, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+									{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
