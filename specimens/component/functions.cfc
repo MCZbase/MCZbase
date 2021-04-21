@@ -2629,20 +2629,14 @@ limitations under the License.
 
 					<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
-					<li class="list-group-item col-12 col-md-4 px-0">
-						<label for="higher_geog"> Higher Geography
-							<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-								&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
-							</cfif>
-						</label>
-					</li>
+
 					<li class="list-group-item col-12 col-md-8 px-0">
 						<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
 						   onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
 					</li>
-					<li class="list-group-item col-12 col-md-4 px-0">
+					<li class="list-group-item col-12 col-md-12 px-0">
 						<label for="spec_locality"> Specific Locality
-							&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
+							&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 							<cfif loccount.ct eq 1>
 								(unique to this specimen)
 								<cfelse>
@@ -2650,151 +2644,49 @@ limitations under the License.
 							</cfif>
 						</label>
 					</li>
-					<li class="list-group-item col-12 col-md-8 px-0">
-						<cfinput type="text"
-					name="spec_locality"
-					id="spec_locality"
-					value="#l.spec_locality#"
-					size="75"
-					required="true"
-							 message="Specific Locality is required.">
+					<li class="list-group-item col-12 col-md-12 px-0">
+						<cfinput type="text" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 					</li>
-					<label for="sovereign_nation">Sovereign Nation</label>
-					<select name="sovereign_nation" id="sovereign_nation" size="1">
-						<cfloop query="ctSovereignNation">
-							<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-						</cfloop>
+					<li class="list-group-item col-12 col-md-3 px-0">
+						<label for="sovereign_nation">Sovereign Nation</label>
+					</li>
+					<li class="list-group-item col-12 col-md-9 px-0">
+						<select name="sovereign_nation" id="sovereign_nation" size="1">
+							<cfloop query="ctSovereignNation">
+								<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+							</cfloop>
+						</selected>
+					</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
 						<label for="verbatim_locality">
-						
-						
 						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
-							
-							
 							(unique to this specimen)
-							
-							
 							<cfelse>
-							
-							
 							(shared with #cecount.ct# specimens)
-						
-						
 						</cfif>
 						</label>
-						<cfinput type="text"
-					name="verbatim_locality"
-					id="verbatim_locality"
-					value="#l.verbatim_locality#"
-					size="75"
-					required="true"
-					message="Verbatim Locality is required.">
-						<label for="verbatim_date">
-						
-						
-						 Verbatim Date 
-						
-						
-						</label>
-						<cfinput type="text"
-					name="verbatim_date"
-					id="verbatim_date"
-					value="#l.verbatim_date#"
-					size="75"
-					required="true"
-					message="Verbatim Date is a required text field.">
-						<label for="collecting time">
-						
-						
-						 Collecting Time 
-						
-						
-						</label>
-						<cfinput type="text"
-					name="collecting_time"
-					id="collecting_time"
-					value="#l.collecting_time#"
-					size="20">
-						<label for="ich field number">
-						
-						
-						 Ich. Field Number 
-						
-						
-						</label>
-						<cfinput type="text"
-					name="ich_field_number"
-					id="ich_field_number"
-					value="#l.fish_field_number#"
-					size="20">
-						<label for="startDayofYear">
-						
-						
-						 Start Day of Year
-						
-						
-						</label>
-						<cfinput type="text"
-					name="startDayofYear"
-					id="startDayofYear"
-					value="#l.startdayofyear#"
-					size="20">
-						<label for="endDayofYear">
-						
-						
-						 End Day of Year 
-						
-						
-						</label>
-						<cfinput type="text"
-					name="endDayofYear"
-					id="endDayofYear"
-					value="#l.enddayofyear#"
-					size="20">
-						<label for="began_date">
-						
-						
-						 Began Date/Time</a>
-						</label>
-						<input type="text"
-								name="began_date"
-								id="began_date"
-								value="#l.began_date#"
-								class="reqdClr"
-                                style="vertical-align:top;">
-						<label for="ended_date">
-						
-						
-						 Ended Date/Time 
-						
-						
-						</label>
-						<input type="text"
-								name="ended_date"
-								id="ended_date"
-								value="#l.ended_date#"
-								class="reqdClr"
-                                style="vertical-align:top;">
-						<label for="coll_event_remarks">
-						
-						
-						 Collecting Event Remarks 
-						
-						
-						</label>
-						<input type="text"
-					name="coll_event_remarks"
-						id="coll_event_remarks"
-					value="#l.COLL_EVENT_REMARKS#"
-					size="75">
-						<label for="collecting_source">
-						
-						
-						 Collecting Source 
-						
-						
-						</label>
+							</li>
+				<li class="list-group-item col-12 col-md-9 px-0">
+						<cfinput type="text" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
+						<label for="verbatim_date">Verbatim Date</label>
+						<cfinput type="text" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
+						<label for="collecting time">Collecting Time</label>
+						<cfinput type="text" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
+						<label for="ich field number"> Ich. Field Number </label>
+						<cfinput type="text" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
+						<label for="startDayofYear"> Start Day of Year</label>
+						<cfinput type="text" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
+						<label for="endDayofYear"> End Day of Year </label>
+						<cfinput type="text" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
+						<label for="began_date">Began Date/Time</label>
+						<input type="text" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
+						<label for="ended_date"> Ended Date/Time  </label>
+						<input type="text" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
+						<label for="coll_event_remarks">  Collecting Event Remarks  </label>
+						<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
+						<label for="collecting_source"> Collecting Source  </label>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
 						<option value=""></option>
 						<cfloop query="ctcollecting_source">
@@ -2803,17 +2695,9 @@ limitations under the License.
 						</cfloop>
 					</select>
 					<label for="collecting_method"> Collecting Method </label>
-					<input type="text"
-					name="collecting_method"
-					id="collecting_method"
-					value="#l.COLLECTING_METHOD#"
-					size="75">
+					<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 					<label for="habitat_desc"> Habitat </label>
-					<input type="text"
-					name="habitat_desc"
-					id="habitat_desc"
-					value="#l.habitat_desc#"
-					size="75">
+					<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 					<label for="minimum_elevation"> Min. Elevation </label>
 					<cfinput
 								type="text"
