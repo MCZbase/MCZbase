@@ -2643,7 +2643,7 @@ limitations under the License.
 								</cfif>
 							</label>
 						</li>
-						<li class="list-group-item col-12 pb-2 col-md-12 px-0">
+						<li class="list-group-item col-12 pb-1 col-md-12 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
@@ -2656,7 +2656,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class="col-12 col-md-12 px-0">
+						<li class="col-12 col-md-12 px-0 py-1">
 							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
 							(unique to this specimen)
@@ -2665,7 +2665,7 @@ limitations under the License.
 						</cfif>
 						</label>
 						</li>
-						<li class="list-group-item col-12 col-md-12 px-0">
+						<li class="list-group-item col-12 col-md-12 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
 						<li class="list-group-item col-12 col-md-1 px-0">
