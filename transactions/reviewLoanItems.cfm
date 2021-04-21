@@ -522,6 +522,12 @@ limitations under the License.
 						};
 	
 						// Cell renderers
+						var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							var result = "";
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/guid/' + rowData['GUID'] + '">'+value+'</a></span>';
+							return result;
+						};
 						var deleteCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var result = "";
@@ -556,15 +562,17 @@ limitations under the License.
 									{ name: 'encumbering_agent', type: 'string' },
 									{ name: 'sovereign_nation', type: 'string' },
 									{ name: 'loan_number', type: 'string' },
+									{ name: 'guid', type: 'string' },
+									{ name: 'collection_object_id', type: 'string' },
 									{ name: 'custom_id', type: 'string' }
 								],
 							updaterow: function (rowid, rowdata, commit) {
 								var data = "method=updateLoanItem";
 								data = data + "&transaction_id=" + rowdata.transaction_id;
 								data = data + "&part_id=" + rowdata.part_id;
-								data = data + "&=condition" + rowdata.condtion;
-								data = data + "&=item_instructions" + rowdata.item_instructions;
-								data = data + "&=coll_obj_dispoistion" + rowdata.coll_obj_dispolition;
+								data = data + "&condition=" + rowdata.condtion;
+								data = data + "&item_instructions=" + rowdata.item_instructions;
+								data = data + "&coll_obj_dispoistion=" + rowdata.coll_obj_dispolition;
 								data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
 								$.ajax({
 									dataType: 'json',
@@ -635,7 +643,8 @@ limitations under the License.
 									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
 									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: false, editable: false  },
 									{text: 'Collection Code', datafield: 'collection_cde', width:80, hideable: true, hidden: true, editable: false  },
-									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false },
+									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
+									{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: true, editable: false  },
 									{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: false, editable: false },
 									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
@@ -648,7 +657,7 @@ limitations under the License.
 									{text: 'Country of Origin', datafield: 'sovereign_nation', width:150, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: false, editable: false },
-									{text: 'Custom ID', datafield: 'custom)id', hideable: true, hidden: false, editable: false }
+									{text: 'Custom ID', datafield: 'custom_id', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {

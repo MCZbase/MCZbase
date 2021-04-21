@@ -335,6 +335,8 @@ limitations under the License.
 			loan_number,
 			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
+			cataloged_item.collection_object_id as collection_object_id,
+			'MCZ:' || collection.collection_cde || ':' || cat_num as guid,
 			sovereign_nation
 		from 
 			loan
