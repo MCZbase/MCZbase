@@ -650,7 +650,6 @@ limitations under the License.
 								},
 								columns: [
 									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
-									{text: 'partID', datafield: 'part_id', width: 80, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
 									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: true, editable: false  },
 									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
@@ -670,7 +669,7 @@ limitations under the License.
 									},
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
-									{text: 'Remove', datafield: 'part_id', width: 60, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
+									{text: 'Part', datafield: 'part_id', width: 60, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
