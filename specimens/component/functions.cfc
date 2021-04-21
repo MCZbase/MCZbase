@@ -2630,10 +2630,6 @@ limitations under the License.
 					<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 
-					<li class="list-group-item col-12 col-md-8 px-0">
-						<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
-						   onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
-					</li>
 					<li class="list-group-item col-12 col-md-12 px-0">
 						<label for="spec_locality"> Specific Locality
 							&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
@@ -2650,15 +2646,15 @@ limitations under the License.
 					<li class="list-group-item col-12 col-md-2 px-0">
 						<label for="sovereign_nation">Sovereign Nation</label>
 					</li>
-					<li class="list-group-item col-12 col-md-9 px-0">
+					<li class="list-group-item col-12 col-md-10 px-0">
 						<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
 							<cfloop query="ctSovereignNation">
 								<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
 							</cfloop>
 						</selected>
 					</li>
-			<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="verbatim_locality">
+			<li class="list-group-item col-12 col-md-2 px-0">
+<!---						<label for="verbatim_locality">
 						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
@@ -2667,49 +2663,72 @@ limitations under the License.
 							(shared with #cecount.ct# specimens)
 						</cfif>
 						</label>
-							</li>
-								<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="verbatim_locality">Verbatim Locality</label>
-			</li>
-				<li class="list-group-item col-12 col-md-9 px-0">
-						<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
-							</li>
-					<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="verbatim_date">Verbatim Date</label>
-			</li>
-			<li class="list-group-item col-12 col-md-9 px-0">
-						<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
-							</li>
-					<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="collecting time">Collecting Time</label></li>
-			<li class="list-group-item col-12 col-md-9 px-0">
-						<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
-							</li>
-					<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="ich field number"> Ich. Field Number </label>
-			</li>	<li class="list-group-item col-12 col-md-9 px-0">
-						<cfinput type="text" class="data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#"></li>
+							</li>--->
 			<li class="list-group-item col-12 col-md-3 px-0">
-						<label for="startDayofYear"> Start Day of Year</label>
+				<label for="verbatim_locality">Verbatim Locality</label>
 			</li>
 			<li class="list-group-item col-12 col-md-9 px-0">
-						<cfinput type="text" class="data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#"></li>
-						<label for="endDayofYear"> End Day of Year </label>
-						<cfinput type="text" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
-						<label for="began_date">Began Date/Time</label>
-						<input type="text" class="data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
-						<label for="ended_date"> Ended Date/Time  </label>
-						<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
-						<label for="coll_event_remarks">  Collecting Event Remarks  </label>
-						<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
-						<label for="collecting_source"> Collecting Source  </label>
-						<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
-						<option value=""></option>
-						<cfloop query="ctcollecting_source">
-							<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
+				<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="verbatim_date">Verbatim Date</label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="collecting time">Collecting Time</label></li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="ich field number"> Ich. Field Number </label>
+			</li>	
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<cfinput type="text" class="data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="startDayofYear"> Start Day of Year</label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<cfinput type="text" class="data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="endDayofYear"> End Day of Year </label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<cfinput type="text" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="began_date">Began Date/Time</label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<input type="text" class="data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="ended_date"> Ended Date/Time  </label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="coll_event_remarks">  Collecting Event Remarks  </label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
+			</li>
+			<li class="list-group-item col-12 col-md-3 px-0">
+				<label for="collecting_source"> Collecting Source  </label>
+			</li>
+			<li class="list-group-item col-12 col-md-9 px-0">
+				<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
+					<option value=""></option>
+					<cfloop query="ctcollecting_source">
+						<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
 						value="#ctcollecting_source.COLLECTING_SOURCE#">#ctcollecting_source.COLLECTING_SOURCE#</option>
-						</cfloop>
-					</select>
+					</cfloop>
+				</select>
+			</li>
 					<label for="collecting_method"> Collecting Method </label>
 					<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 					<label for="habitat_desc"> Habitat </label>
