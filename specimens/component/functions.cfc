@@ -2632,7 +2632,7 @@ limitations under the License.
 						</cfif>
 							</li>
 										</ul>
-				<h1 class="h3">Collecting Event</h1>
+				<h1 class="h3 mt-3">Collecting Event</h1>
 			<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 						<li class="col-12 col-md-12 px-0 py-1 mt-2">
 							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
@@ -2720,7 +2720,7 @@ limitations under the License.
 							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
 					</ul>
-					<h1 class="h3">Coordinates</h1>
+					<h1 class="h3 mt-3">Coordinates</h1>
 	<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 							<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
