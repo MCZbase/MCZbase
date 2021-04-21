@@ -125,7 +125,7 @@ limitations under the License.
 		DELETE FROM loan_item where collection_object_id = #partID#
 		and transaction_id = #transaction_id#
 	</cfquery>
-		<cflocation url="a_loanItemReview.cfm?transaction_id=#transaction_id#">
+		<cflocation url="/transactions/reviewLoanItems.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------->
@@ -393,7 +393,7 @@ limitations under the License.
 						<div class="col-12">
 							View 
 							<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-							or <a href="loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+							or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
 						</div>
 					</div>
 				</div>
