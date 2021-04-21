@@ -425,6 +425,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					<div id="itemConditionHistoryDialog"></div>
 					<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 					<script>
 						function removeLoanItem(item_collection_object_id, transaction_id) { 
@@ -530,6 +531,14 @@ limitations under the License.
 								result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 							}
 							return result;
+						};
+						var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							return 'History';
+						};
+						var historyButtonClick = function(row) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							var itemid = rowData['part_id'];
+							openItemConditionHistoryDialog(itemid,'itemConditionHistoryDialog');
 						};
 	
 						var search = {
@@ -643,6 +652,7 @@ limitations under the License.
 									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
 									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
 									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: true, editable: false, cellsrenderer: historyCellRenderer },
 									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, columntype: 'dropdownlist',
