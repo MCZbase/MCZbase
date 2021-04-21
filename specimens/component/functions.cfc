@@ -2729,15 +2729,34 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</li>
-					<label for="collecting_method"> Collecting Method </label>
+								<li class="list-group-item col-12 col-md-3 px-0">
+					<label for="collecting_method" class="data-entry-label"> Collecting Method </label>
+								</li>
+					<li class="list-group-item col-12 col-md-9 px-0">			
 					<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
-					<label for="habitat_desc"> Habitat </label>
+								</li>
+						<li class="list-group-item col-12 col-md-3 px-0">			
+					<label for="habitat_desc" class="data-entry-label"> Habitat </label>
+								</li>
+						<li class="list-group-item col-12 col-md-9 px-0">			
 					<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
-					<label for="minimum_elevation"> Min. Elevation </label>
+								</li>
+								<li class="list-group-item col-12 col-md-3 px-0">	
+					<label for="minimum_elevation" class="data-entry-label"> Min. Elevation </label>
+								</li>
+								<li class="list-group-item col-12 col-md-9 px-0">	
 					<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
-					<label for="maximum_elevation"> Max. Elevation </label>
+						</li>
+								<li class="list-group-item col-12 col-md-3 px-0">			
+					<label for="maximum_elevation"  class="data-entry-label"> Max. Elevation </label>
+								</li>
+							<li class="list-group-item col-12 col-md-9 px-0">	
 					<cfinput type="text" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
-					<label for="orig_elev_units"> Elevation Units </label>
+						</li>
+								<li class="list-group-item col-12 col-md-3 px-0">
+					<label for="orig_elev_units" class="data-entry-label"> Elevation Units </label>
+								</li>
+								<li class="list-group-item col-12 col-md-9 px-0">
 					<select name="orig_elev_units" id="orig_elev_units" size="1">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
@@ -2749,12 +2768,12 @@ limitations under the License.
 					<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" size="10"
 								validate="numeric"
 								message="Minimum Depth is a number.">
-					<label for="max_depth"  > Max. Depth </label>
+					<label for="max_depth"   class="data-entry-label"> Max. Depth </label>
 					<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="10"
 								validate="numeric"
 								message="Maximum Depth is a number.">
-					<label for="depth_units" > Depth Units </label>
+					<label for="depth_units"  class="data-entry-label"> Depth Units </label>
 					<select name="depth_units" id="depth_units" size="1">
 						<option value=""></option>
 						<cfloop query="ctdepthUnit">
@@ -2762,30 +2781,24 @@ limitations under the License.
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
 						</cfloop>
 					</select>
-					</tr>
-					</table>
-					</td>
-					</tr>
-					<tr>
-						<td><label for="locality_remarks">Locality Remarks</label>
-							<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#"  size="75"></td>
-					</tr>
-					<tr>
-						<td><label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
-							<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#"  size="75">
+				
+					<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
+							<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
+					<label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
+							<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
 							<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 								<div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
 									Please review this locality and update accordingly. </div>
 								<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
 								<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
-							</cfif></td>
+							</cfif>
 					</tr>
 					</table>
 					</td>
 					<td valign="top">
 					<table>
 					<tr>
-						<td><label for="ORIG_LAT_LONG_UNITS"> Original Coordinate Units </label>
+						<td><label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
 							<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 							<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 								<option value="">Not Georeferenced</option>
@@ -2793,20 +2806,12 @@ limitations under the License.
 									<option
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 								</cfloop>
-							</select></td>
-					</tr>
-					<table>
-					<table id="llMeta" style="display:none;">
-						<tr>
-							<td><label for="coordinate_determiner"> Coordinate Determiner </label>
-								<input type="text"
-					name="coordinate_determiner"
-					id="coordinate_determiner"
-					class="reqdClr" value="#l.coordinate_determiner#" size="40"
-					 onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;"
-					 onKeyPress="return noenter(event);">
-								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#"></td>
-							<td><label for="DETERMINED_DATE"> Determined Date </label>
+							</select>
+					<div id="llMeta">
+					<label for="coordinate_determiner"> Coordinate Determiner </label>
+								<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
+								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
+							<label for="DETERMINED_DATE"> Determined Date </label>
 								<input type="text" name="determined_date" id="determined_date"
 					value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr"></td>
 						</tr>
@@ -2828,10 +2833,7 @@ limitations under the License.
 										<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
 									</cfloop>
-								</select></td>
-						</tr>
-						<tr>
-							<td><label for="georefMethod"> Georeference Method </label>
+								</select><label for="georefMethod"> Georeference Method </label>
 								<cfset thisGeoMeth = #l.georefMethod#>
 								<select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
 									<cfloop query="ctGeorefMethod">
@@ -2839,16 +2841,9 @@ limitations under the License.
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 							value="#georefMethod#">#georefMethod#</option>
 									</cfloop>
-								</select></td>
-							<td><label for="extent"> Extent </label>
-								<input type="text" name="extent" id="extent" value="#l.extent#" size="7"></td>
-						</tr>
-						<tr>
-							<td><label for="GpsAccuracy"> GPS Accuracy </label>
-								<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7"></td>
-						</tr>
-						<tr>
-							<td><label for="VerificationStatus"> Verification Status </label>
+								</select><label for="extent"> Extent </label>
+								<input type="text" name="extent" id="extent" value="#l.extent#" size="7"><label for="GpsAccuracy"> GPS Accuracy </label>
+								<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7"><label for="VerificationStatus"> Verification Status </label>
 								<cfset thisVerificationStatus = #l.VerificationStatus#>
 								<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
@@ -2865,8 +2860,8 @@ limitations under the License.
 							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 								value="#VerificationStatus#">#VerificationStatus#</option>
 									</cfloop>
-								</select></td>
-							<td><cfset thisVerifiedBy = #l.verifiedby#>
+								</select>
+							<cfset thisVerifiedBy = #l.verifiedby#>
 								<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
 								<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
 								<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" size="25"
@@ -2875,228 +2870,105 @@ limitations under the License.
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
 		 				onKeyPress="return noenter(event);">
-								<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#"></td>
-						</tr>
-						<tr>
-							<td colspan="2"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
+								<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#"><label for="LAT_LONG_REF_SOURCE"> Reference </label>
 								<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
-					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></td>
-						</tr>
-						<tr>
-							<td colspan="3"><label for="LAT_LONG_REMARKS"> Remarks </label>
-								<input type="text"
-					name="LAT_LONG_REMARKS"
-					id="LAT_LONG_REMARKS"
-					value="#encodeForHTML(l.LAT_LONG_REMARKS)#"
-					size="90"></td>
-						</tr>
-					</table>
-					<table id="decdeg" style="display:none;">
-						<tr>
-							<td><label for="dec_lat">Decimal Latitude</label>
-								<cfinput
-					type="text"
-					name="dec_lat"
-					id="dec_lat"
-					value="#l.dec_lat#"
-					class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="dec_long">Decimal Longitude</label>
-								<cfinput
-					type="text"
-					name="DEC_LONG"
-					value="#l.DEC_LONG#"
-					id="dec_long"
-					class="reqdClr"
-					validate="numeric"></td>
-						</tr>
-					</table>
-					<table id="dms" style="display:none;">
-						<tr>
-							<td><label for="lat_deg">Lat. Deg.</label>
-								<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="lat_min">Lat. Min.</label>
-								<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="lat_sec">Lat. Sec.</label>
-								<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="lat_dir">Lat. Dir.</label>
-								<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
-									<option value=""></option>
-									<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-									<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-								</select></td>
-						</tr>
-						<tr>
-							<td><label for="long_deg">Long. Deg.</label>
-								<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="long_min">Long. Min.</label>
-								<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="long_sec">Long. Sec.</label>
-								<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
-					validate="numeric"></td>
-							<td><label for="long_dir">Long. Dir.</label>
-								<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
-									<option value=""></option>
-									<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-									<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-								</select></td>
-						</tr>
-					</table>
-					<table id="ddm" style="display:none;">
-						<tr>
-						
-						<td>
-						
-						<label for="dmlat_deg">
-						
-						Lat. Deg.
-						<label>
-						
+					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /><label for="LAT_LONG_REMARKS"> Remarks </label>
+								<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#">
+					<div id="decdeg">
+					 <label for="dec_lat">Decimal Latitude</label>
+					 <cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr" validate="numeric">
+					<label for="dec_long">Decimal Longitude</label>
+					<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr" validate="numeric">
+					<div id="dms">
+					<label for="lat_deg">Lat. Deg.</label>
+					<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
+					validate="numeric">
+					<label for="lat_min">Lat. Min.</label>
+					<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr" validate="numeric">
+					<label for="lat_sec">Lat. Sec.</label>
+					<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr" validate="numeric">
+					<label for="lat_dir">Lat. Dir.</label>
+					<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
+						<option value=""></option>
+						<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+						<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+					</select>
+					<label for="long_deg">Long. Deg.</label>
+					<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
+					validate="numeric">
+					<label for="long_min">Long. Min.</label>
+					<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
+					validate="numeric">
+					<label for="long_sec">Long. Sec.</label>
+					<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
+					validate="numeric">
+					<label for="long_dir">Long. Dir.</label>
+					<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
+						<option value=""></option>
+						<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
+						<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
+					</select>
+					<div id="ddm">
+						<label for="dmlat_deg">	Lat. Deg.<label>
 						<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
-						</td>
-						
-						<td>
-						
-						<label for="dec_lat_min">
-						
-						Lat. Dec. Min.
-						<label>
-						
+						<label for="dec_lat_min">Lat. Dec. Min.	<label>
 						<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
 					validate="numeric">
-						</td>
-						
-						<td>
-						
-						<label for="dmlat_dir">
-						
-						Lat. Dir.
-						<label>
-						
+						<label for="dmlat_dir">	Lat. Dir.<label>
 						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
 						</select>
-						</td>
-						
-						</tr>
-						
-						<tr>
-							<td>
-							<label for="dmlong_deg">
-							Long. Deg.
-							<label>
+						<label for="dmlong_deg">Long. Deg.<label>
 							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
 					validate="numeric">
-							</td>
-							<td>
-							<label for="dec_long_min">
-							Long. Dec. Min.
-							<label>
-							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
+						<label for="dec_long_min">Long. Dec. Min.<label>
+						<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
 					validate="numeric">
-							</td>
-							<td><label for="dmlong_dir">
-								Long. Dir.
-								<label>
+						<label for="dmlong_dir">Long. Dir.	<label>
 								<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
 									<option value=""></option>
 									<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 									<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 								</select>
-								<label for="utm_zone">
-								UTM Zone
-								<label>
-								<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr"
+					<label for="utm_zone">UTM Zone<label>
+					<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr" validate="numeric">
+					<label for="utm_ew">UTM East/West<label>
+					<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
 					validate="numeric">
-								<label for="utm_ew">
-								UTM East/West
-								<label>
-								<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
-					validate="numeric">
-								<label for="utm_ns">
-								UTM North/South
-								<label>
-								<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr"
-					validate="numeric">
-								<label>Verbatim Coordinates (summary)</label>
-								<cfinput type="text"
-					name="verbatimCoordinates"
-					id="verbatimCoordinates"
-					value="#l.verbatimCoordinates#"
-					size="80"
-					>
-								<label>Verbatim Latitude</label>
-								<cfinput type="text"
-					name="verbatimLatitude"
-					id="verbatimLatitude"
-					value="#l.verbatimLatitude#"
-					size="36"
-					>
-								<label>Verbatim Longitude</label>
-								<cfinput type="text"
-					name="verbatimLongitude"
-					id="verbatimLongitude"
-					value="#l.verbatimLongitude#"
-					size="36"
-					>
-								<label>Verbatim Coordinate System (e.g., decimal degrees)</label>
-								<cfinput type="text"
-					name="verbatimCoordinateSystem"
-					id="verbatimCoordinateSystem"
-					value="#l.verbatimCoordinateSystem#"
-					size="39"
-					>
-								<label>Verbatim SRS (e.g., datum)</label>
-								<cfinput type="text"
-					name="verbatimSRS"
-					id="verbatimSRS"
-					value="#l.verbatimSRS#"
-					size="33"
-					>
-								<label for="verbatimCoordinates">
-								Verbatim Coordinates
-								<label>
-								<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
-								<label for="verbatimLatitude">
-								Verbatim Latitude
-								<label>
-								<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
-								<label for="verbatimLongitude">
-								Verbatim Longitude
-								<label>
-								<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
-								<label for="verbatimCoordinateSystem">
-								Verbatim Coordinate System
-								<label>
-								<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
-								<label for="verbatimSRS">
-								Verbatim SRS
-								<label>
-								<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
-								<label for="gTab">
-								Geology
-								<label>
-								<table id="gTab" border="1" cellpadding="0" cellspacing="0">
-									<thead>
-										<tr>
-											<th>Attribute</th>
-											<th>Value</th>
-											<th>Determiner</th>
-											<th>Date</th>
-											<th>Method</th>
-											<th>Remark</th>
-										</tr>
-									</thead>
+					<label for="utm_ns">UTM North/South<label>
+					<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr" validate="numeric">
+					<label>Verbatim Coordinates (summary)</label>
+					<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#">
+					<label>Verbatim Latitude</label>
+					<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#">
+					<label>Verbatim Longitude</label>
+					<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#">
+					<label>Verbatim Coordinate System (e.g., decimal degrees)</label>
+					<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#">
+					<label>Verbatim SRS (e.g., datum)</label>
+					<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#"	>
+					<label for="verbatimCoordinates">Verbatim Coordinates<label>
+					<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
+					<label for="verbatimLatitude">Verbatim Latitude<label>
+					<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
+					<label for="verbatimLongitude">Verbatim Longitude<label>
+					<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
+					<label for="verbatimCoordinateSystem">Verbatim Coordinate System<label>
+					<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
+					<label for="verbatimSRS">Verbatim SRS<label>
+					<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
+					<label for="gTab">Geology<label>
+								<div id="gTab" border="1" cellpadding="0" cellspacing="0">		
+										Attribute
+											Value
+											Determiner
+										Date
+										Method
+										Remark
 									<cfloop query="g">
-										<tr>
-											<td><cfset thisAttribute=g.geology_attribute>
+						<cfset thisAttribute=g.geology_attribute>
 												<select name="geology_attribute__#geology_attribute_id#"
 				id="geology_attribute__#geology_attribute_id#" size="1" class="reqdClr" onchange="populateGeology(this.id)">
 													<option value="">DELETE THIS ROW</option>
@@ -3105,63 +2977,43 @@ limitations under the License.
 					<cfif thisAttribute is geology_attribute> selected="selected" </cfif>
 						value="#geology_attribute#">#geology_attribute#</option>
 													</cfloop>
-												</select></td>
-											<td><select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
+												</select><select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
 				name="geo_att_value__#geology_attribute_id#">
 													<option value="#geo_att_value#">#geo_att_value#</option>
-												</select></td>
-											<td><input type="text" id="geo_att_determiner__#geology_attribute_id#"
+												</select><input type="text" id="geo_att_determiner__#geology_attribute_id#"
 				name="geo_att_determiner__#geology_attribute_id#" value="#geo_att_determiner#"
 				size="15"
 				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
 												<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
-				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#"></td>
-											<td><input type="text" id="geo_att_determined_date__#geology_attribute_id#"
+				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#"><input type="text" id="geo_att_determined_date__#geology_attribute_id#"
 				name="geo_att_determined_date__#geology_attribute_id#"
 				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
-				size="10"></td>
-											<td><input type="text" id="geo_att_determined_method__#geology_attribute_id#"
+				size="10"><input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
-				size="10"></td>
-											<td><input type="text" id="geo_att_remark__#geology_attribute_id#"
+				size="10"><input type="text" id="geo_att_remark__#geology_attribute_id#"
 				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
-				size="10"></td>
-											<td><img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';"></td>
-										</tr>
+				size="10"><img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
 									</cfloop>
-									<tr class="newRec">
-										<td colspan="6">New Geology Attribute</td>
-									</tr>
-									<tr  class="newRec">
-										<td><select name="geology_attribute"  onchange="populateGeology(this.id)"
+									New Geology Attribute
+									<select name="geology_attribute"  onchange="populateGeology(this.id)"
 				id="geology_attribute" size="1" class="reqdClr">
 												<option value=""></option>
 												<cfloop query="ctgeology_attribute">
 													<option value="#geology_attribute#">#geology_attribute#</option>
 												</cfloop>
-											</select></td>
-										<td><select id="geo_att_value" class="reqdClr"  name="geo_att_value">
-											</select></td>
-										<td><input type="text" id="geo_att_determiner"
+											</select><select id="geo_att_value" class="reqdClr"  name="geo_att_value">
+											</select><input type="text" id="geo_att_determiner"
 				name="geo_att_determiner"
 				size="15"
 				onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
 											<input type="hidden" name="geo_att_determiner_id"
-				id="geo_att_determiner_id"></td>
-										<td><input type="text" id="geo_att_determined_date"
+				id="geo_att_determiner_id"><input type="text" id="geo_att_determined_date"
 				name="geo_att_determined_date"
-				size="10"></td>
-										<td><input type="text" id="geo_att_determined_method"
+				size="10"><input type="text" id="geo_att_determined_method"
 				name="geo_att_determined_method"
-				size="10"></td>
-										<td><input type="text" id="geo_att_remark"
+				size="10"><input type="text" id="geo_att_remark"
 				name="geo_att_remark"
-				size="10"></td>
-									</tr>
-								</table></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><cfif loccount.ct eq 1 and cecount.ct eq 1>
+				size="10"><cfif loccount.ct eq 1 and cecount.ct eq 1>
 									<input type="submit" value="Save Changes" class="savBtn"
    				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
 									<cfelse>
@@ -3169,9 +3021,7 @@ limitations under the License.
 									<input type="submit" value="Split and Save Changes" class="savBtn"
    				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
 									A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
-								</cfif></td>
-						</tr>
-					</table>
+								</cfif>
 				</cfform>
 				<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
@@ -3180,6 +3030,7 @@ limitations under the License.
 				</div>
 				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
 				<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
+						</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
