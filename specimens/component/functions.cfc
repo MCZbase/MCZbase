@@ -2618,7 +2618,7 @@ limitations under the License.
 						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a>
 						</label>
 					</li>
-					<li class=" col-12 col-md-12 pb-2 px-0" style="border-bottom: 2px solid gray !important;">
+					<li class=" col-12 col-md-12 pb-2 px-0">
 						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#" class="data-entry-input">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 							<div class="redMessage"> 
@@ -2632,8 +2632,8 @@ limitations under the License.
 						</cfif>
 							</li>
 										</ul>
-								<h1 class="h3">Collecting Event</h1>
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
+				<h1 class="h3">Collecting Event</h1>
+			<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 						<li class="col-12 col-md-12 px-0 py-1 mt-2">
 							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
@@ -2719,8 +2719,9 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-10 pb-1 px-0">
 							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
-					
-
+					</ul>
+					<h1 class="h3">Coordinates</h1>
+	<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 							<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
 							</li>
