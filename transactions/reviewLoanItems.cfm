@@ -645,7 +645,7 @@ limitations under the License.
 									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
 									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
 									{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: true, editable: false  },
-									{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false }
+									{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false },
 									{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: false, editable: false },
 									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
@@ -657,7 +657,7 @@ limitations under the License.
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
-									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false },
+									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
