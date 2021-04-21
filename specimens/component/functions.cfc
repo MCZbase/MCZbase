@@ -2420,7 +2420,7 @@ limitations under the License.
 			<div class="col-12 float-left">
 				<div class="py-3">
                     <h4>Higher Geography</h4>
-					<input type="text" value="#getLoc.higher_geog#">
+					<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8">
 	           		<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 			 		<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
 			 				style="display:none">
