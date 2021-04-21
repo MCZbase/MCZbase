@@ -2276,7 +2276,7 @@ limitations under the License.
              left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
          where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
       </cfquery>
-						<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -2625,13 +2625,19 @@ limitations under the License.
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					<label for="higher_geog"> Higher Geography
+							<div class="col-12 float-left px-0">
+					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
+					<li class="list-group-item col-12 col-md-4 px-0">
+						<label for="higher_geog"> Higher Geography
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
 							&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
 						</cfif>
-					</label>
-					<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
-					onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
+						</label></li>
+					<li class="list-group-item col-12 col-md-8 px-0">
+						<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
+						   onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
+					</li>
+<li class="list-group-item col-12 col-md-4 px-0">
 					<label for="spec_locality"> Specific Locality
 						&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
 						<cfif loccount.ct eq 1>
@@ -2639,14 +2645,15 @@ limitations under the License.
 							<cfelse>
 							(shared with #loccount.ct# specimens)
 						</cfif>
-					</label>
+							</label></li>
+		<li class="list-group-item col-12 col-md-8 px-0">
 					<cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
 					value="#l.spec_locality#"
 					size="75"
 					required="true"
-					message="Specific Locality is required.">
+							 message="Specific Locality is required."></li>
 					<label for="sovereign_nation">Sovereign Nation</label>
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
 						<cfloop query="ctSovereignNation">
@@ -3235,6 +3242,7 @@ limitations under the License.
 				<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
+									</ul></div>
 				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
 				<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
 				<cfcatch>
