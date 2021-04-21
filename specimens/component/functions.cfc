@@ -2647,7 +2647,7 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="sovereign_nation">Sovereign Nation</label>
+							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
 						</li>
 						<li class="list-group-item col-12 pb-2 col-md-10 px-0">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
