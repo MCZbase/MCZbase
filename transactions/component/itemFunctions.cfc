@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function addPartToDeacc add a part to a deaccession --->
 <cffunction name="addPartToDeacc" access="remote" returntype="any" returnformat="json">
