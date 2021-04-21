@@ -2656,10 +2656,8 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="verbatim_locality">
-						 Verbatim Locality
-                  &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+						<li class="list-group-item col-12 col-md-12 px-0">
+							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
 							(unique to this specimen)
 							<cfelse>
@@ -2667,25 +2665,25 @@ limitations under the License.
 						</cfif>
 						</label>
 						</li>
-						<li class="list-group-item col-12 col-md-10 px-0">
+						<li class="list-group-item col-12 col-md-12 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="verbatim_date" class="px-2">Verbatim Date</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="collecting time" class="px-2">Collecting Time</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="ich field number" class="px-2"> Ich. Field Number </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
