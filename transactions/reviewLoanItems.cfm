@@ -570,9 +570,9 @@ limitations under the License.
 								var data = "method=updateLoanItem";
 								data = data + "&transaction_id=" + rowdata.transaction_id;
 								data = data + "&part_id=" + rowdata.part_id;
-								data = data + "&condition=" + rowdata.condtion;
+								data = data + "&condition=" + rowdata.condition;
 								data = data + "&item_instructions=" + rowdata.item_instructions;
-								data = data + "&coll_obj_dispoistion=" + rowdata.coll_obj_dispolition;
+								data = data + "&coll_obj_disposition=" + rowdata.coll_obj_disposition;
 								data = data + "&loan_item_remarks=" + rowdata.loan_item_remarks;
 								$.ajax({
 									dataType: 'json',
@@ -641,10 +641,11 @@ limitations under the License.
 									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
 									{text: 'partID', datafield: 'part_id', width: 80, hideable: true, hidden: true, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Loan Number', datafield: 'loan_mumber', hideable: true, hidden: true, editable: false },
-									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: false, editable: false  },
-									{text: 'Collection Code', datafield: 'collection_cde', width:80, hideable: true, hidden: true, editable: false  },
+									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: true, editable: false  },
+									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
 									{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
 									{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: true, editable: false  },
+									{text: '#session.custom_other_identifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false }
 									{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: false, editable: false },
 									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
@@ -654,10 +655,9 @@ limitations under the License.
 									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true },
-									{text: 'Country of Origin', datafield: 'sovereign_nation', width:150, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
-									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: false, editable: false },
-									{text: 'Custom ID', datafield: 'custom_id', hideable: true, hidden: false, editable: false }
+									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
+									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false },
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
