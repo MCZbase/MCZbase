@@ -2681,28 +2681,28 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
 						</li>
 						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="ich field number" class="px-2"> Ich. Field Number </label>
+							<label for="ich field number" class="px-2 data-entry-label"> Ich. Field Number </label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 px-0">
-							<cfinput type="text" class="data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
+							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="startDayofYear" class="px-2"> Start Day of Year</label>
+							<label for="startDayofYear" class="px-2 data-entry-label"> Start Day of Year</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
-							<cfinput type="text" class="data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
+						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="endDayofYear" class="px-2"> End Day of Year </label>
+							<label for="endDayofYear" class="px-2 data-entry-label"> End Day of Year </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
-							<cfinput type="text" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
+						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+							<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="began_date" class="px-2 data-entry-label">Began Date/Time</label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 px-0">
-							<input type="text" class="data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
+							<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="ended_date" class="px-2 data-entry-label"> Ended Date/Time </label>
