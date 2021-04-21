@@ -2618,15 +2618,12 @@ limitations under the License.
 				<div class="col-12 float-left">
 					<div class="py-3">
 						<h4>Higher Geography <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-								&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
+								&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</a>
 							</cfif></h4>
-						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr">
+						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
 						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
 						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
 			 				style="display:none">
-						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-							<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
-						</cfif>
 					</div>
 				</div>
 					<div class="col-12 float-left px-0">
