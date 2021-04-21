@@ -2633,7 +2633,7 @@ limitations under the License.
 						
 						<div class="col-12 float-left px-0">
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
-						<li class="list-group-item col-12 col-md-12 px-0">
+						<li class="col-12 col-md-12 px-0">
 							<label for="spec_locality"> Specific Locality
 								&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 								<cfif loccount.ct eq 1>
