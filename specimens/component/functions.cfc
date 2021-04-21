@@ -2687,7 +2687,7 @@ limitations under the License.
 							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="startDayofYear" class="px-2 data-entry-label"> Start Day of Year</label>
+							<label for="startDayofYear" class="px-2 pt-1 data-entry-label"> Start Day of Year</label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
