@@ -659,7 +659,7 @@ limitations under the License.
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
 									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
 									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
-									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true } 
+									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, columntype: 'dropdownlist',
