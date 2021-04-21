@@ -2716,10 +2716,10 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="collecting_source" class="px-2"> Collecting Source </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-4 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
 							<option value=""></option>
 							<cfloop query="ctcollecting_source">
@@ -2728,10 +2728,10 @@ limitations under the License.
 							</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="collecting_method" class="data-entry-label"> Collecting Method </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-4 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
