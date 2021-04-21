@@ -302,36 +302,14 @@ limitations under the License.
 	<main class="container-fluid" id="content">
 		<cfoutput>
 			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select l.loan_number, c.collection_cde, c.collection
+				select l.loan_number, c.collection_cde, c.collection,
+					l.loan_type, l.loan_status, 
+					l.return_due_date, l.closed_date
 				from collection c 
 					left join trans t on c.collection_id = t.collection_id 
 					left join loan l on t.transaction_id = l.transaction_id
 				where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 			</cfquery>
-			<cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
-				<cfset fileName = "/download/ArctosLoanData_#getPartLoanRequests.loan_number#.csv">
-				<cfset ac=getPartLoanRequests.columnlist>
-				<cfset header=#trim(ac)#>
-				<cffile action="write" file="#Application.webDirectory##fileName#" addnewline="yes" output="#header#">
-				<cfloop query="getPartLoanRequests">
-					<cfset oneLine = "">
-					<cfloop list="#ac#" index="c">
-						<cfset thisData = evaluate(c)>
-						<cfif len(oneLine) is 0>
-							<cfset oneLine = '"#thisData#"'>
-						<cfelse>
-							<cfset oneLine = '#oneLine#,"#thisData#"'>
-						</cfif>
-					</cfloop>
-					<cfset oneLine = trim(oneLine)>
-					<cffile action="append" file="#Application.webDirectory##fileName#" addnewline="yes" output="#oneLine#">
-				</cfloop>
-				<section class="row">
-					<h2 class="h3">Download items</h2>
-					<a href="#Application.ServerRootUrl#/#fileName#">Right-click to save your download.</a>
-				</section>
-				<cfabort>
-			</cfif>
 
 			<!--- count cataloged items and parts in the loan --->
 			<cfquery name="catCnt" dbtype="query">
@@ -363,7 +341,10 @@ limitations under the License.
 							<p>There are #partCount# items from #catCount# specimens in this loan.</p>
 						</div>
 						<div class="col-12 col-xl-6">
-							<a href="a_loanItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
+							#aboutLoan.loan_type#
+							#aboutLoan.loan_status#
+							<cfif aboutLoan.return_due_date NEQ ''>Due Date: #aboutLoan.return_due_date#</cfif>
+							<cfif aboutLoan.closed_date NEQ ''>Closed Date: #aboutLoan.closed_date#</cfif>
 						</div>
 					</div>
 					<div class="form-row">
