@@ -2649,7 +2649,7 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="sovereign_nation">Sovereign Nation</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-10 px-0">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
 								<cfloop query="ctSovereignNation">
 									<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
