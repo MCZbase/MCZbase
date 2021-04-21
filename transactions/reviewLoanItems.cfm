@@ -25,6 +25,14 @@ limitations under the License.
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
+<!--- set up a json source for a jqxDropDownList --->
+<cfset ctDispSource = "[">
+<cfset sep="">
+<cfloop query="ctDisp">
+	<cfset ctDispSource = "#ctDispSource##sep#'#ctDisp.coll_obj_disposition#'">
+	<cfset sep=",">
+</cfloop>
+<cfset ctDispSource = "#ctDispSource#]">
 
 <cfif not isdefined("transaction_id")>
 	<cfthrow message="No transaction specified.">
@@ -291,7 +299,7 @@ limitations under the License.
 		where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 	</cfquery>
 	<!--- handle legacy loans with cataloged items as the item --->
-	<main class="container" id="content">
+	<main class="container-fluid" id="content">
 		<cfoutput>
 			<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select l.loan_number, c.collection_cde, c.collection
@@ -650,8 +658,10 @@ limitations under the License.
 									{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
 									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
-									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:180, hideable: false, hidden: false, editable: false },
-									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
+									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true, columntype: dropdownlist,
+										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }); }
+									},
 									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true },
