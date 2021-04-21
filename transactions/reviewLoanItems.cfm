@@ -578,7 +578,7 @@ limitations under the License.
 									dataType: 'json',
 									url: '/transactions/component/itemFunctions.cfc',
 									data: data,
-										success: function (data, status, xhr) {
+									success: function (data, status, xhr) {
 										commit(true);
 									},
 									error: function (jqXHR,textStatus,error) {

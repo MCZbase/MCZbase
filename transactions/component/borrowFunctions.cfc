@@ -159,7 +159,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "borrow_item deleted.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "borrow_item updated.", 1)>
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>

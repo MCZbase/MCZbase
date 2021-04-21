@@ -276,14 +276,17 @@ limitations under the License.
 	<cfargument name="loan_item_remarks" type="string" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
 
-	<cftry>
-		<cftransaction>
-			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cftransaction>
+		<cftry>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
-			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfif upDisp_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+			</cfif>
+			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upItem_result">
 				UPDATE loan_item SET
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					<cfif len(#item_instructions#) gt 0>
@@ -300,8 +303,18 @@ limitations under the License.
 					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-		</cftransaction>
+			<cfif upItem_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upItem_result.sql#">
+			</cfif>
+			<cfif upItem_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item updated.", 1)>
+			</cfif>
+			<cftransaction action="commit">
 		<cfcatch>
+			<cftransaction action="rollback">
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
@@ -309,6 +322,7 @@ limitations under the License.
 			<cfabort>
 		</cfcatch>
 		</cftry>
+	</cftransaction>
 </cffunction>
 
 <cffunction name="getLoanItemsData" access="remote" returntype="any" returnformat="json">
