@@ -2669,13 +2669,13 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
 						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="verbatim_date" class="px-2">Verbatim Date</label>
+							<label for="verbatim_date" class="px-2 data-entry-label">Verbatim Date</label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
 						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="collecting time" class="px-2">Collecting Time</label>
+							<label for="collecting time" class="px-2 data-entry-label">Collecting Time</label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
@@ -2693,7 +2693,7 @@ limitations under the License.
 							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="endDayofYear" class="px-2 data-entry-label"> End Day of Year </label>
+							<label for="endDayofYear" class="px-2 pt-1 data-entry-label"> End Day of Year </label>
 						</li>
 						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
@@ -2771,7 +2771,7 @@ limitations under the License.
 							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
 						<li class="list-group-item col-12 col-md-1 py-1 px-0">
-							<label for="max_depth"   class="data-entry-label"> Max. Depth </label>
+							<label for="max_depth"   class="data-entry-label px-2"> Max. Depth </label>
 						</li>
 						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
@@ -2792,10 +2792,13 @@ limitations under the License.
 						<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
 					</li>
 						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
-						<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
+						<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
 					</li>
 					<li class="list-group-item col-12 col-md-1 py-1 px-0">
-						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
+						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a>
+						</label>
+					</li>
+					<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 							<div class="redMessage"> 
@@ -2807,7 +2810,7 @@ limitations under the License.
 								Please georeference this locality or enter a value for NoGeorefBecause. 
 							</div>
 						</cfif>
-							
+							</li>	
 							<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
 							</li>
