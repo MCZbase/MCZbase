@@ -2529,7 +2529,7 @@ limitations under the License.
 			 				style="display:none">
 					</div>
 				</div>
-				<div class="col-12 float-left px-0">
+		<!---		<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 						<cfif len(getLoc.spec_locality) gt 0>
 							<li class="list-group-item col-12 col-md-4 px-0">
@@ -2625,7 +2625,7 @@ limitations under the License.
 							</li>
 						</cfif>
 					</ul>
-				</div>
+				</div>--->
 
 					<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
@@ -2646,14 +2646,14 @@ limitations under the License.
 					<li class="list-group-item col-12 col-md-2 px-0">
 						<label for="sovereign_nation">Sovereign Nation</label>
 					</li>
-					<li class="list-group-item col-12 col-md-10 px-0">
+					<li class="list-group-item col-12 col-md-4 px-0">
 						<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
 							<cfloop query="ctSovereignNation">
 								<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
 							</cfloop>
-						</selected>
+						</select>
 					</li>
-			<li class="list-group-item col-12 col-md-2 px-0">
+	<!---		<li class="list-group-item col-12 col-md-2 px-0">--->
 <!---						<label for="verbatim_locality">
 						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
@@ -2664,21 +2664,21 @@ limitations under the License.
 						</cfif>
 						</label>
 							</li>--->
-			<li class="list-group-item col-12 col-md-3 px-0">
+			<li class="list-group-item col-12 col-md-2 px-0">
 				<label for="verbatim_locality">Verbatim Locality</label>
 			</li>
-			<li class="list-group-item col-12 col-md-9 px-0">
+			<li class="list-group-item col-12 col-md-4 px-0">
 				<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 			</li>
-			<li class="list-group-item col-12 col-md-3 px-0">
+			<li class="list-group-item col-12 col-md-2 px-0">
 				<label for="verbatim_date">Verbatim Date</label>
 			</li>
-			<li class="list-group-item col-12 col-md-9 px-0">
+			<li class="list-group-item col-12 col-md-4 px-0">
 				<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 			</li>
-			<li class="list-group-item col-12 col-md-3 px-0">
+			<li class="list-group-item col-12 col-md-2 px-0">
 				<label for="collecting time">Collecting Time</label></li>
-			<li class="list-group-item col-12 col-md-9 px-0">
+			<li class="list-group-item col-12 col-md-10 px-0">
 				<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
 			</li>
 			<li class="list-group-item col-12 col-md-3 px-0">
