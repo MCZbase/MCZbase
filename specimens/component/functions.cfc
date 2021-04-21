@@ -2135,7 +2135,7 @@ limitations under the License.
 								<cfset oneOfUs = 0>
 							</cfif>
 						</cfoutput>
-													<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     	select distinct
 			collection_object_id,
 			collecting_event_id,
@@ -2206,7 +2206,7 @@ limitations under the License.
 		where
 			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
-				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			GEOLOGY_ATTRIBUTE_ID,
 			GEOLOGY_ATTRIBUTE,
@@ -2231,52 +2231,52 @@ limitations under the License.
 			GEO_ATT_DETERMINED_METHOD,
 			GEO_ATT_REMARK
 	</cfquery>
-				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select orig_elev_units from ctorig_elev_units
 	</cfquery>
-				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select depth_units from ctdepth_units
 	</cfquery>
-				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select datum from ctdatum
-     </cfquery>
-				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select georefMethod from ctgeorefmethod
 	</cfquery>
-				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select VerificationStatus from ctVerificationStatus order by VerificationStatus
 	</cfquery>
-				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
-     </cfquery>
-				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select e_or_w from ctew
-     </cfquery>
-				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select n_or_s from ctns
-     </cfquery>
-				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-      </cfquery>
-				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select COLLECTING_SOURCE from ctcollecting_source
-      </cfquery>
-				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select geology_attribute from ctgeology_attribute order by geology_attribute
-	  </cfquery>
-				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	</cfquery>
+	<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
-      </cfquery>
-				<cfquery name="cecount" datasource="uam_god">
+     </cfquery>
+	<cfquery name="cecount" datasource="uam_god">
          select count(collection_object_id) ct from cataloged_item
          where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
-      </cfquery>
-				<cfquery name="loccount" datasource="uam_god">
+    </cfquery>
+	<cfquery name="loccount" datasource="uam_god">
          select count(ci.collection_object_id) ct from cataloged_item ci
              left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
          where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
-      </cfquery>
-				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    </cfquery>
+	<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -2470,59 +2470,7 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					</div>
-					<div class="col-6 px-0 float-left">
-						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
-							<cfif len(getLoc.continent_ocean) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
-							</cfif>
-							<cfif len(getLoc.sea) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
-								<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
-							</cfif>
-							<cfif len(getLoc.country) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Country:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.country#</li>
-							</cfif>
-							<cfif len(getLoc.state_prov) gt 0>
-								<li class="list-group-item col-4 px-0"><em>State:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
-							</cfif>
-							<cfif len(getLoc.feature) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
-							</cfif>
-							<cfif len(getLoc.county) gt 0>
-								<li class="list-group-item col-4 px-0"><em>County:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.county#</li>
-							</cfif>
-							<cfif len(getLoc.island_group) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
-							</cfif>
-							<cfif len(getLoc.island) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Island:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.island#</li>
-							</cfif>
-							<cfif len(getLoc.quad) gt 0>
-								<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
-								<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
-							</cfif>
-						</ul>
-					</div>
-				</div>
-				<div class="col-12 float-left">
-					<div class="py-3">
-						<h4>Higher Geography</h4>
-						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8">
-						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
-			 				style="display:none">
-						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-							<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
-						</cfif>
-					</div>
-				</div>
+
 				<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 						<cfif len(getLoc.spec_locality) gt 0>
@@ -2620,40 +2568,95 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
-
 				<cfform name="loc" method="post" action="specLocality.cfm">
 					<input type="hidden" name="action" value="saveChange">
 					<input type="hidden" name="nothing" id="nothing">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-							<div class="col-12 float-left px-0">
+					<div class="col-6 px-0 float-left">
+						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+							<cfif len(getLoc.continent_ocean) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
+							</cfif>
+							<cfif len(getLoc.sea) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Sea:</em></li>
+								<li class="list-group-item col-8 px-0">value="#getLoc.sea#</li>
+							</cfif>
+							<cfif len(getLoc.country) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Country:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.country#</li>
+							</cfif>
+							<cfif len(getLoc.state_prov) gt 0>
+								<li class="list-group-item col-4 px-0"><em>State:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.state_prov#</li>
+							</cfif>
+							<cfif len(getLoc.feature) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Feature:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.feature#</li>
+							</cfif>
+							<cfif len(getLoc.county) gt 0>
+								<li class="list-group-item col-4 px-0"><em>County:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.county#</li>
+							</cfif>
+							<cfif len(getLoc.island_group) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
+							</cfif>
+							<cfif len(getLoc.island) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Island:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.island#</li>
+							</cfif>
+							<cfif len(getLoc.quad) gt 0>
+								<li class="list-group-item col-4 px-0"><em>Quad:</em></li>
+								<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
+							</cfif>
+						</ul>
+					</div>
+				</div>
+				<div class="col-12 float-left">
+					<div class="py-3">
+						<h4>Higher Geography</h4>
+						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8">
+						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
+			 				style="display:none">
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+							<input type="button" value="Edit"  class="btn btn-xs btn-secondary">
+						</cfif>
+					</div>
+				</div>
+					<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 					<li class="list-group-item col-12 col-md-4 px-0">
 						<label for="higher_geog"> Higher Geography
-						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-							&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
-						</cfif>
-						</label></li>
+							<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+								&nbsp;&nbsp; <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank"> Edit Higher Geography</a>
+							</cfif>
+						</label>
+					</li>
 					<li class="list-group-item col-12 col-md-8 px-0">
 						<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
 						   onchange="getGeog('nothing','higher_geog','loc',this.value); return false;">
 					</li>
-<li class="list-group-item col-12 col-md-4 px-0">
-					<label for="spec_locality"> Specific Locality
-						&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
-						<cfif loccount.ct eq 1>
-							(unique to this specimen)
-							<cfelse>
-							(shared with #loccount.ct# specimens)
-						</cfif>
-							</label></li>
-		<li class="list-group-item col-12 col-md-8 px-0">
-					<cfinput type="text"
+					<li class="list-group-item col-12 col-md-4 px-0">
+						<label for="spec_locality"> Specific Locality
+							&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
+							<cfif loccount.ct eq 1>
+								(unique to this specimen)
+								<cfelse>
+								(shared with #loccount.ct# specimens)
+							</cfif>
+						</label>
+					</li>
+					<li class="list-group-item col-12 col-md-8 px-0">
+						<cfinput type="text"
 					name="spec_locality"
 					id="spec_locality"
 					value="#l.spec_locality#"
 					size="75"
 					required="true"
-							 message="Specific Locality is required."></li>
+							 message="Specific Locality is required.">
+					</li>
 					<label for="sovereign_nation">Sovereign Nation</label>
 					<select name="sovereign_nation" id="sovereign_nation" size="1">
 						<cfloop query="ctSovereignNation">
@@ -2661,15 +2664,20 @@ limitations under the License.
 						</cfloop>
 						<label for="verbatim_locality">
 						
+						
 						 Verbatim Locality
                   &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
 							
+							
 							(unique to this specimen)
+							
 							
 							<cfelse>
 							
+							
 							(shared with #cecount.ct# specimens)
+						
 						
 						</cfif>
 						</label>
@@ -2682,7 +2690,9 @@ limitations under the License.
 					message="Verbatim Locality is required.">
 						<label for="verbatim_date">
 						
+						
 						 Verbatim Date 
+						
 						
 						</label>
 						<cfinput type="text"
@@ -2694,7 +2704,9 @@ limitations under the License.
 					message="Verbatim Date is a required text field.">
 						<label for="collecting time">
 						
+						
 						 Collecting Time 
+						
 						
 						</label>
 						<cfinput type="text"
@@ -2704,7 +2716,9 @@ limitations under the License.
 					size="20">
 						<label for="ich field number">
 						
+						
 						 Ich. Field Number 
+						
 						
 						</label>
 						<cfinput type="text"
@@ -2714,7 +2728,9 @@ limitations under the License.
 					size="20">
 						<label for="startDayofYear">
 						
+						
 						 Start Day of Year
+						
 						
 						</label>
 						<cfinput type="text"
@@ -2724,7 +2740,9 @@ limitations under the License.
 					size="20">
 						<label for="endDayofYear">
 						
+						
 						 End Day of Year 
+						
 						
 						</label>
 						<cfinput type="text"
@@ -2733,6 +2751,7 @@ limitations under the License.
 					value="#l.enddayofyear#"
 					size="20">
 						<label for="began_date">
+						
 						
 						 Began Date/Time</a>
 						</label>
@@ -2744,7 +2763,9 @@ limitations under the License.
                                 style="vertical-align:top;">
 						<label for="ended_date">
 						
+						
 						 Ended Date/Time 
+						
 						
 						</label>
 						<input type="text"
@@ -2755,7 +2776,9 @@ limitations under the License.
                                 style="vertical-align:top;">
 						<label for="coll_event_remarks">
 						
+						
 						 Collecting Event Remarks 
+						
 						
 						</label>
 						<input type="text"
@@ -2765,7 +2788,9 @@ limitations under the License.
 					size="75">
 						<label for="collecting_source">
 						
+						
 						 Collecting Source 
+						
 						
 						</label>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr">
@@ -3151,15 +3176,16 @@ limitations under the License.
 								Geology
 								<label>
 								<table id="gTab" border="1" cellpadding="0" cellspacing="0">
-									<tr>
-										<td>Attribute</td>
-										<td>Value</td>
-										<td>Determiner</td>
-										<td>Date</td>
-										<td>Method</td>
-										<td>Remark</td>
-										<td></td>
-									</tr>
+									<thead>
+										<tr>
+											<th>Attribute</th>
+											<th>Value</th>
+											<th>Determiner</th>
+											<th>Date</th>
+											<th>Method</th>
+											<th>Remark</th>
+										</tr>
+									</thead>
 									<cfloop query="g">
 										<tr>
 											<td><cfset thisAttribute=g.geology_attribute>
@@ -3242,7 +3268,8 @@ limitations under the License.
 				<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 	</script>
-									</ul></div>
+				</ul>
+				</div>
 				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
 				<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
 				<cfcatch>
