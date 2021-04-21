@@ -273,7 +273,7 @@ limitations under the License.
 	<cfargument name="condition" type="string" required="yes">
 	<cfargument name="item_instructions" type="string" required="yes">
 	<cfargument name="loan_item_remarks" type="string" required="yes">
-	<cfargument name="coll_obj_disposition" type="numeric" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
 
 	<cftry>
 		<cftransaction>
