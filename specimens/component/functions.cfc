@@ -2647,7 +2647,7 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
-							<label for="sovereign_nation" class="data-entry-label pt-2">Sovereign Nation</label>
+							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
 						</li>
 						<li class="list-group-item col-12 pb-1 col-md-10 px-0">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
@@ -2656,7 +2656,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-12 px-0">
+						<li class="col-12 col-md-12 px-0">
 							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
 							(unique to this specimen)
