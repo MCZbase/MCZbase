@@ -334,17 +334,17 @@ limitations under the License.
 				<div class="col-12">
 					<h2 class="h3">
 						Review items in loan
-						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a>.
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
 					</h2>
 					<div class="form-row">
 						<div class="col-12 col-xl-6">
 							<p>There are #partCount# items from #catCount# specimens in this loan.</p>
 						</div>
 						<div class="col-12 col-xl-6">
-							#aboutLoan.loan_type#
-							#aboutLoan.loan_status#
-							<cfif aboutLoan.return_due_date NEQ ''>Due Date: #aboutLoan.return_due_date#</cfif>
-							<cfif aboutLoan.closed_date NEQ ''>Closed Date: #aboutLoan.closed_date#</cfif>
+							<strong>Type:</strong> #aboutLoan.loan_type#
+							<strong>Status:</strong> #aboutLoan.loan_status#
+							<cfif aboutLoan.return_due_date NEQ ''><strong>Due Date:</strong> #dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</cfif>
+							<cfif aboutLoan.closed_date NEQ ''><strong>Closed Date:</strong> #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</cfif>
 						</div>
 					</div>
 					<div class="form-row">
@@ -353,7 +353,7 @@ limitations under the License.
 							<cfset sep="">
 							<cfloop query=ctSovereignNation>
 								<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-								<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+								<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
 								<cfset sep="; ">
 							</cfloop>
 						</div>
