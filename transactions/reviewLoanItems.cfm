@@ -21,6 +21,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
+<script type='text/javascript' src='/specimens/js/specimens.js'></script>
 
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
