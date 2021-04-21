@@ -2716,10 +2716,10 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="collecting_source" class="px-2"> Collecting Source </label>
 						</li>
-						<li class="list-group-item col-12 col-md-10 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
 							<option value=""></option>
 							<cfloop query="ctcollecting_source">
@@ -2728,34 +2728,34 @@ limitations under the License.
 							</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="collecting_method" class="data-entry-label"> Collecting Method </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
 						<li class="list-group-item col-12 col-md-2 px-0">
 							<label for="habitat_desc" class="data-entry-label"> Habitat </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="minimum_elevation" class="data-entry-label"> Min. Elevation </label>
 						</li>
-						<li class="list-group-item col-12 col-md-9 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="maximum_elevation"  class="data-entry-label"> Max. Elevation </label>
 						</li>
-						<li class="list-group-item col-12 col-md-9 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="orig_elev_units" class="data-entry-label"> Elevation Units </label>
 						</li>
-						<li class="list-group-item col-12 col-md-9 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
@@ -2764,27 +2764,30 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="min_depth"> Min. Depth </label>
 						</li>
-						<li class="list-group-item col-12 col-md-9 px-0">
+						<li class="list-group-item col-12 col-md-3 px-0">
 							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-1 px-0">
 							<label for="max_depth"   class="data-entry-label"> Max. Depth </label>
 						</li>
+						<li class="list-group-item col-12 col-md-3 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
-								value="#l.max_depth#" size="10"
-								validate="numeric"
-								message="Maximum Depth is a number.">
+								value="#l.max_depth#" size="3" validate="numeric" message="Maximum Depth is a number.">
+						</li>
+							<li class="list-group-item col-12 col-md-1 px-0">
 						<label for="depth_units"  class="data-entry-label"> Depth Units </label>
+								</li>
+								<li class="list-group-item col-12 col-md-3 px-0">
 						<select name="depth_units" id="depth_units" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
 								<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
 							</cfloop>
-						</select>
+					</select></li>
 						<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
 						<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
 						<label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
