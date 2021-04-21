@@ -2646,7 +2646,7 @@ limitations under the License.
 						<li class="col-12 pb-1 col-md-12 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0" style="border-bottom: 2px solid black !important;">
+						<li class="list-group-item col-12 col-md-2 px-0" style="border-bottom: 2px solid gray !important;">
 							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
 						</li>
 						<li class="list-group-item col-12 pb-2 col-md-10 px-0" style="border-bottom: 2px solid gray !important;">
@@ -2794,11 +2794,11 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
 					</li>
-					<li class="list-group-item col-12 col-md-1 py-1 px-0">
+					<li class="list-group-item col-12 col-md-12 py-1 px-0" style="border-bottom: 1px solid gray !important;">
 						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a>
 						</label>
 					</li>
-					<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+					<li class="list-group-item col-12 col-md-12 pb-1 px-0" style="border-bottom: 1px solid gray !important;">
 						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
 							<div class="redMessage"> 
