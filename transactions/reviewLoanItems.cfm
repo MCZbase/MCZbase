@@ -544,7 +544,7 @@ limitations under the License.
 							var result = "";
 							var itemid = rowData['part_id'];
 							if (itemid) {
-								result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ','#transaction_id#');" class="btn btn-xs btn-warning">Remove</a></span>';
+								result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ',#transaction_id#);" class="btn btn-xs btn-warning">Remove</a></span>';
 							} else { 
 								result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 							}
