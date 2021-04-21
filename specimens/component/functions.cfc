@@ -2549,10 +2549,10 @@ limitations under the License.
 						<li class="col-12 pb-1 col-md-12 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
-						<li class=" col-12 col-md-2 px-0" style="border-bottom: 2px solid gray !important;">
+						<li class=" col-12 col-md-2 px-0">
 							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
 						</li>
-						<li class="col-12 pb-2 col-md-10 px-0" style="border-bottom: 2px solid gray !important;">
+						<li class="col-12 pb-2 col-md-10 px-0 mb-2" style="border-bottom: 2px solid gray !important;">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
 								<cfloop query="ctSovereignNation">
 									<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
