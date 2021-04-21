@@ -2470,7 +2470,13 @@ limitations under the License.
 					</cfquery>
 					</div>
 		<div class="row mx-0">
-					<div class="col-6 pl-0 pr-3 mb-2 float-right"> <img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
+					<div class="col-6 pl-0 pr-3 mb-2 float-right"> 
+	<cfform name="loc" method="post" action="specLocality.cfm">
+					<input type="hidden" name="action" value="saveChange">
+					<input type="hidden" name="nothing" id="nothing">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+				
+<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 			</div>
 							<div class="col-6 px-0 float-left">
 						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
@@ -2512,6 +2518,17 @@ limitations under the License.
 							</cfif>
 						</ul>
 					</div>
+							<div class="col-12 float-left">
+					<div class="py-3">
+						<h4>Higher Geography <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+								&nbsp;&nbsp; <button onclick="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
+							</cfif></h4>
+						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
+						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
+						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
+			 				style="display:none">
+					</div>
+				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 						<cfif len(getLoc.spec_locality) gt 0>
@@ -2609,23 +2626,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
-				<cfform name="loc" method="post" action="specLocality.cfm">
-					<input type="hidden" name="action" value="saveChange">
-					<input type="hidden" name="nothing" id="nothing">
-					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-				
-				</div>
-				<div class="col-12 float-left">
-					<div class="py-3">
-						<h4>Higher Geography <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-								&nbsp;&nbsp; <button onclick="Locality.cfm?Action=editGeog&geog_auth_rec_id=#l.geog_auth_rec_id#" class="btn btn-xs btn-secondary" target="_blank"> Edit Shared Higher Geography</button>
-							</cfif></h4>
-						<input type="text" value="#getLoc.higher_geog#" class="col-12 col-sm-8 reqdClr disabled">
-						<input type="button" value="Change" class="btn btn-xs btn-secondary mr-2" id="changeGeogButton">
-						<input type="submit" value="Save" class="btn btn-xs btn-secondary" id="saveGeogChangeButton"
-			 				style="display:none">
-					</div>
-				</div>
+
 					<div class="col-12 float-left px-0">
 					<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 					<li class="list-group-item col-12 col-md-4 px-0">
