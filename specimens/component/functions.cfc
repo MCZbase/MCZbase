@@ -2716,10 +2716,10 @@ limitations under the License.
 						<li class="list-group-item col-12 col-md-10 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-2 py-1 px-0">
 							<label for="collecting_source" class="px-2 data-entry-label"> Collecting Source </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
 							<option value=""></option>
 							<cfloop query="ctcollecting_source">
@@ -2728,34 +2728,34 @@ limitations under the License.
 							</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-2 py-1 px-0">
 							<label for="collecting_method" class="data-entry-label px-2"> Collecting Method </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="list-group-item col-12 col-md-2 py-1 px-0">
 							<label for="habitat_desc" class="data-entry-label px-2"> Habitat </label>
 						</li>
-						<li class="list-group-item col-12 col-md-10 px-0">
-							<input type="text" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
+						<li class="list-group-item col-12 col-md-10 pb-1 px-0">
+							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
 							<label for="minimum_elevation" class="data-entry-label px-2"> Min. Elevation </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 							<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="maximum_elevation"  class="data-entry-label"> Max. Elevation </label>
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
+							<label for="maximum_elevation"  class="data-entry-label px-2"> Max. Elevation </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
-							<cfinput type="text" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+							<cfinput type="text" class="data-entry-label px-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
-							<label for="orig_elev_units" class="data-entry-label"> Elevation Units </label>
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
+							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
@@ -2764,23 +2764,23 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
 							<label for="min_depth"> Min. Depth </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 							<cfinput type="text" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="list-group-item col-12 col-md-1 py-1 px-0">
 							<label for="max_depth"   class="data-entry-label"> Max. Depth </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="3" validate="numeric" message="Maximum Depth is a number.">
 						</li>
-							<li class="list-group-item col-12 col-md-1 px-0">
-						<label for="depth_units"  class="data-entry-label"> Depth Units </label>
+							<li class="list-group-item col-12 col-md-1 py-1 px-0">
+						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
 								</li>
-								<li class="list-group-item col-12 col-md-3 px-0">
+								<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<select name="depth_units" id="depth_units" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
@@ -2788,23 +2788,30 @@ limitations under the License.
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
 							</cfloop>
 					</select></li>
-						<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
+					<li class="list-group-item col-12 col-md-1 py-1 px-0">
+						<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
+					</li>
+						<li class="list-group-item col-12 col-md-3 pb-1 px-0">
 						<input type="text" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
-						<label for="NoGeorefBecause"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
+					</li>
+					<li class="list-group-item col-12 col-md-1 py-1 px-0">
+						<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a></label>
 						<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#">
 						<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
-							<div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
-								Please review this locality and update accordingly. </div>
-							<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
-							<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
+							<div class="redMessage"> 
+								NoGeorefBecause should be NULL for localities with georeferences.
+								Please review this locality and update accordingly. 
+							</div>
+						<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
+							<div class="redMessage"> 
+								Please georeference this locality or enter a value for NoGeorefBecause. 
+							</div>
 						</cfif>
-						</tr>
-						</table>
-						</td>
-						<td valign="top">
-						<table>
-						<tr>
-							<td><label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
+							
+							<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
+							</li>
+								<li class="list-group-item col-12 col-md-9 pb-1 px-0">
 								<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 								<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 									<option value="">Not Georeferenced</option>
@@ -2813,16 +2820,15 @@ limitations under the License.
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 									</cfloop>
 								</select>
+					</li>
 								<div id="llMeta">
 								<label for="coordinate_determiner"> Coordinate Determiner </label>
 								<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
 								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
 								<label for="DETERMINED_DATE"> Determined Date </label>
 								<input type="text" name="determined_date" id="determined_date"
-					value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr"></td>
-						</tr>
-						<tr>
-						<td><label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
+					value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr">
+					<label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
 							<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
 							<select name="MAX_ERROR_UNITS" size="1">
 								<option value=""></option>
@@ -2830,8 +2836,7 @@ limitations under the License.
 									<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
 								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
 								</cfloop>
-							</select></td>
-						<td>
+							</select>
 						<label for="DATUM"> Datum </label>
 						<cfset thisDatum = #l.DATUM#>
 						<select name="DATUM" id="DATUM" size="1" class="reqdClr">
