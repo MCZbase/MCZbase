@@ -696,9 +696,6 @@ limitations under the License.
 					</script>
 
 				</div>
-				<div class="col-12">
-					<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
-				</div>
 			</section>
 		</cfoutput>
 	</main>
