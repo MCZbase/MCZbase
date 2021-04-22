@@ -333,6 +333,10 @@ limitations under the License.
 			</cfif>
 			<section class="row mx-0 border rounded my-2 pt-2" title="Review Loan Items" >
 				<div class="col-12">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 mb-3">
+								<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
 					<h2 class="h3">
 						Review items in loan
 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
@@ -394,6 +398,10 @@ limitations under the License.
 							View 
 							<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
 							or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+						</div>
+					</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
