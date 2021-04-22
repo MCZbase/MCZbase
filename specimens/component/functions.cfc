@@ -3184,7 +3184,9 @@ function showLLFormat(orig_units) {
 							<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
 						</li>
 							</ul>
-				
+				      <script>
+		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
+	</script>
 						</div>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
