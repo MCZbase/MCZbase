@@ -2533,6 +2533,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 float-left px-0">
 						<h1 class="h3">Specific Locality</h1>
+							
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 							<li class="col-12 col-md-12 px-0 py-1">
 								<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
@@ -2832,11 +2833,11 @@ limitations under the License.
 						<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-entry-input">
 						</li>
-				
-					<li class="col-12 col-md-3 py-1 px-0">
+				</ul>
+
+					<div class="col-12 col-md-3 py-1 px-0 bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 							<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label px-2 text-right"> Select Original Coordinate Units <span class="small d-block">so the appropriate format appears</span> </label>
-						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+									<li class="col-12 col-md-9 pb-2 px-0">
 							<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 							<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 								<option value="">Not Georeferenced</option>
@@ -2845,7 +2846,7 @@ limitations under the License.
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
 								</cfloop>
 							</select>
-						</li>
+						</div>
 						<ul id="decdeg" class="list-unstyled bg-light col-12 row mx-0 px-3 pt-3 pb-2 mb-0 border">
 							<li class="col-12 col-md-3 py-1 px-0">
 								<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
