@@ -344,7 +344,7 @@ limitations under the License.
 											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
 										</h1>
 										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
-										<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> &bull;</h2>
+										<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 									</div>
@@ -386,9 +386,9 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div class="col-12 col-xl-6">
-											View 
+											<div class="my-2 py-1">View 
 											<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-											or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+											or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a></div>
 									</div>
 								</div>
 								</div>
