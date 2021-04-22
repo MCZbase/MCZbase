@@ -3064,10 +3064,6 @@ limitations under the License.
 						</li>
 							</ul>
 						<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						
-						
-							
-						
 						<cfloop query="g">
 							<cfset thisAttribute=g.geology_attribute>
 							<select name="geology_attribute__#geology_attribute_id#"
@@ -3101,7 +3097,7 @@ limitations under the License.
 				size="10">
 							<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
 						</cfloop>
-						New Geology Attribute
+					<h1 class="h3">New Geology Attribute</h1>
 					<li class="col-12 col-md-2 py-1 px-0">
 						<label for="geology_attribute" class="data-entry-label px-2 text-right"> Attribute</label>
 					</li>
