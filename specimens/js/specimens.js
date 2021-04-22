@@ -287,6 +287,42 @@ function loadRelations(collection_object_id,targetDivId) {
 	});
 }
 
+function showLLFormat(orig_units) {
+		//alert(orig_units);
+		var llMeta = document.getElementById('llMeta');
+		var decdeg = document.getElementById('decdeg');
+		var utm = document.getElementById('utm');
+		var ddm = document.getElementById('ddm');
+		var dms = document.getElementById('dms');
+		llMeta.style.display='none';
+		decdeg.style.display='none';
+		utm.style.display='none';
+		ddm.style.display='none';
+		dms.style.display='none';
+		//alert('everything off');
+		if (orig_units.length > 0) {
+			//alert('got soemthing');
+			llMeta.style.display='';
+			if (orig_units == 'decimal degrees') {
+				decdeg.style.display='';
+			}
+			else if (orig_units == 'UTM') {
+				//alert(utm.style.display);
+				utm.style.display='';
+				//alert(utm.style.display);
+			}
+			else if (orig_units == 'degrees dec. minutes') {
+				ddm.style.display='';
+			}
+			else if (orig_units == 'deg. min. sec.') {
+				dms.style.display='';
+			}
+			else {
+				alert('I have no idea what to do with ' + orig_units);
+			}
+		}
+	}
+
 function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Other IDs for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
