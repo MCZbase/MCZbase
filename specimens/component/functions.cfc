@@ -2834,31 +2834,31 @@ limitations under the License.
 							<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
 						</li>
 						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr"
+							<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr data-entry-input"
 							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REMARKS"> Remarks </label>
 						</li>
 						<li class="col-12 col-md-12 pb-2 px-0">
-							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#">
+							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
 						</li>
 						<div id="decdeg">
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="dec_lat">Decimal Latitude</label>
+							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="dec_long">Decimal Longitude</label>
+							<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<div id="dms">
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_deg" class="data-entry-input">Lat. Deg.</label>
+							<label for="lat_deg"  class="data-entry-label px-2 text-right">Lat. Deg.</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
@@ -2868,13 +2868,13 @@ limitations under the License.
 							<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr" validate="numeric">
+							<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr" validate="numeric">
+							<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
@@ -2890,14 +2890,14 @@ limitations under the License.
 							<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
+							<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
+							<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
@@ -2922,16 +2922,16 @@ limitations under the License.
 						Lat. Deg.
 						<label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dec_lat_min" class="data-entry-label px-2 text-right">
 						Lat. Dec. Min.
 						<label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
@@ -2949,7 +2949,7 @@ limitations under the License.
 						Long. Deg.
 						<label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
@@ -2958,7 +2958,7 @@ limitations under the License.
 						Long. Dec. Min.
 						<label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
 																	 validate="numeric">
 						</li>
@@ -2975,13 +2975,13 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr" validate="numeric">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
@@ -2989,63 +2989,63 @@ limitations under the License.
 							<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
 						</li>
 						<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
 						</li>
 						<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
+							<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="gTab" class="data-entry-label px-2 text-right"> Geology </label>
