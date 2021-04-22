@@ -2575,7 +2575,7 @@ limitations under the License.
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-1 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
@@ -2593,15 +2593,15 @@ limitations under the License.
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="max_depth" class="data-entry-label px-2"> Max. Depth </label>
 						</li>
-						<li class="col-12 col-md-3 pb-1 px-0">
+						<li class="col-12 col-md-2 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input" message="Maximum Depth is a number.">
 						</li>
 						<li class="col-12 col-md-1 py-1 px-0">
 						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
-						<select name="depth_units" id="depth_units" class="data-entry-select" size="1">
+						<li class=" col-12 col-md-2 pb-1 px-0">
+						<select name="depth_units" id="depth_units" class="" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
 								<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
