@@ -331,7 +331,7 @@ limitations under the License.
 			<cfelse>
 				<cfset partCount = prtItemCnt.c>
 			</cfif>
-			<section class="row border rounded my-2 pt-2" title="Review Loan Items" >
+			<section class="row my-2 pt-2" title="Review Loan Items" >
 				<div class="col-12">
 					<div class="container-fluid">
 						<div class="row">
