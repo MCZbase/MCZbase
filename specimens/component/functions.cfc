@@ -3114,20 +3114,20 @@ limitations under the License.
 						<label for="geo_att_value" class="data-entry-label px-2 text-right"> Value</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">	
-						<select id="geo_att_value" class="reqdClr data-entry-select"  name="geo_att_value"><option>value</option></select>
+						<select id="geo_att_value" class="reqdClr data-entry-select" name="geo_att_value"><option>value</option></select>
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 						<label for="geo_att_determiner" class="data-entry-label px-2 text-right"> Determiner</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">		
-						<input type="text" id="geo_att_determiner" name="geo_att_determiner" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
+						<input type="text" id="geo_att_determiner" name="geo_att_determiner"  class="data-entry-input" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
 						<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 						<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">	
-						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date">
+						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date" class="data-entry-input">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 							<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
