@@ -2846,16 +2846,16 @@ limitations under the License.
 						</li>
 		
 						<ul id="decdeg" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<li class="col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-3 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-3 py-1 px-0">
 							<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
 						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						</ul>
