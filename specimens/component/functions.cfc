@@ -2550,7 +2550,7 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class=" col-12 col-md-2 px-0 py-1">
-							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
+							<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
 						</li>
 						<li class="col-12 pb-2 col-md-10 px-0 pb-1">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
@@ -2561,13 +2561,13 @@ limitations under the License.
 						</li>
 					
 						<li class=" col-12 col-md-2 py-1 px-0">
-							<label for="minimum_elevation" class="data-entry-label px-2"> Min. Elevation </label>
+							<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
 						</li>
 						<li class=" col-12 col-md-2 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
-							<label for="maximum_elevation"  class="data-entry-label px-2"> Max. Elevation </label>
+							<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
 						</li>
 						<li class=" col-12 col-md-2 pb-1 px-0">
 							<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
