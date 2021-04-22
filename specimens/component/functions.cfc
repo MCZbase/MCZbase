@@ -2843,8 +2843,8 @@ limitations under the License.
 						<li class="col-12 col-md-12 pb-2 px-0">
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
 						</li>
-		</ul>
-						<ul id="decdeg" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
+		
+						<div id="decdeg" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
@@ -2857,8 +2857,8 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-		</ul>
-						<ul id="dms" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
+		</div>
+						<div id="dms" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
 						</li>
@@ -2919,8 +2919,8 @@ limitations under the License.
 								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 							</select>
 						</li>
-							</ul>
-						<ul id="ddm" class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0 ">
+							</div>
+						<div id="ddm" class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
@@ -2978,8 +2978,8 @@ limitations under the License.
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 					</select></li>
-						</ul>
-						<ul class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0">
+						</div>
+						<div class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
