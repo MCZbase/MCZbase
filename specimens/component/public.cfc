@@ -1511,7 +1511,7 @@ limitations under the License.
 						<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
 					</cfif>
 					<cfif len(getLoc.habitat) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
+						<li class="list-group-item col-5 px-0">Microhabitat:</li>
 						<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
 					</cfif>
 				</ul>
