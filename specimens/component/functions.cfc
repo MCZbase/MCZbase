@@ -2647,20 +2647,20 @@ limitations under the License.
 						<li class="col-12 col-md-12 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="col-12 col-md-1 py-1 px-0">
-							<label for="verbatim_date" class="px-2 data-entry-label">Verbatim Date</label>
+						<li class="col-12 col-md-2 py-2 px-0">
+							<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
 						</li>
 						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
-						<li class="col-12 col-md-1 py-1 px-0">
-							<label for="collecting time" class="px-2 data-entry-label">Collecting Time</label>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="collecting time" class="px-2 data-entry-label text-right">Collecting Time</label>
 						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
-							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#l.collecting_time#">
 						</li>
-						<li class="col-12 col-md-1 py-1 px-0">
-							<label for="ich field number" class="px-2 data-entry-label"> Ich. Field Number </label>
+						<li class="col-12 col-md-1 py-2 px-0">
+							<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
 						</li>
 						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
@@ -2672,7 +2672,7 @@ limitations under the License.
 							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="endDayofYear" class="px-2 data-entry-label"> End Day of Year </label>
+							<label for="endDayofYear" class="px-2 data-entry-label text-right"> End Day of Year </label>
 						</li>
 						<li class="col-12 col-md-4 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
@@ -2689,16 +2689,16 @@ limitations under the License.
 						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
 						</li>
-						<li class="col-12 col-md-2 px-0">
-							<label for="coll_event_remarks" class="px-2 pt-1 data-entry-label"> Collecting Event Remarks </label>
+						<li class="col-12 col-md-3 py-1 px-0">
+							<label for="coll_event_remarks" class="px-2 pt-1 data-entry-label text-right"> Collecting Event Remarks </label>
 						</li>
-						<li class="col-12 col-md-10 pb-1 px-0">
+						<li class="col-12 col-md-9 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="collecting_source" class="px-2 data-entry-label"> Collecting Source </label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
 							<option value=""></option>
 							<cfloop query="ctcollecting_source">
