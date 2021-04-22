@@ -2647,10 +2647,10 @@ limitations under the License.
 						<li class="col-12 col-md-12 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="col-12 col-md-2 py-2 px-0">
+						<li class="col-12 col-md-1 py-2 px-0">
 							<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
 						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
@@ -2659,10 +2659,10 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#l.collecting_time#">
 						</li>
-						<li class="col-12 col-md-1 py-2 px-0">
+						<li class="col-12 col-md-2 py-2 px-0">
 							<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
 						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
