@@ -2909,7 +2909,7 @@ limitations under the License.
 						<li class="col-12 col-md-1 pb-2 px-0">
 							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
 																	   validate="numeric">
-						<li class="col-12 col-md-2 py-1 px-0"></li>
+						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
 						</li>
 						<li class="col-12 col-md-1 pb-2 px-0">
