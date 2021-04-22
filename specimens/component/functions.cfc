@@ -2844,7 +2844,7 @@ limitations under the License.
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
 						</li>
 		
-						<div id="decdeg" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
+						<div id="decdeg" class="">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
@@ -2858,7 +2858,7 @@ limitations under the License.
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 		</div>
-						<div id="dms" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
+						<div id="dms" class="">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
 						</li>
@@ -2920,7 +2920,7 @@ limitations under the License.
 							</select>
 						</li>
 							</div>
-						<div id="ddm" class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0 ">
+						<div id="ddm" class="">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
