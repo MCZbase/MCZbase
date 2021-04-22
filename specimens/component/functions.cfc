@@ -2844,7 +2844,7 @@ limitations under the License.
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
 						</li>
 		
-						<div id="decdeg" class="">
+						<div id="decdeg" class="d-inline">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
@@ -2857,8 +2857,8 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-		</div>
-						<div id="dms" class="">
+						</div>
+						<div id="dms" class="d-inline">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
 						</li>
@@ -2908,7 +2908,7 @@ limitations under the License.
 						</li>
 						<li class="col-12 col-md-1 pb-2 px-0">
 							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
-																	   validate="numeric">
+																		   validate="numeric"> </li>	
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
 						</li>
@@ -2919,8 +2919,8 @@ limitations under the License.
 								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 							</select>
 						</li>
-							</div>
-						<div id="ddm" class="">
+						</div>
+						<div id="ddm" class="d-inline">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
@@ -2943,7 +2943,7 @@ limitations under the License.
 						Lat. Dir.
 						<label>
 						</li>
-							<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
@@ -2972,14 +2972,14 @@ limitations under the License.
 						Long. Dir.
 						<label>
 						</li>
-							<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 					</select></li>
 						</div>
-						<div class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0">
+						<div class="d-inline">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
@@ -2999,7 +2999,7 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-							<li class="col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
@@ -3041,11 +3041,15 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
 						</li>
+						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
+							</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
 						</li>
+						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
+							</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
 						</li>
@@ -3058,7 +3062,8 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="gTab" class="data-entry-label px-2 text-right"> Geology </label>
 						</li>
-						<div id="gTab" border="1" cellpadding="0" cellspacing="0">
+							</ul>
+						<div id="gTab" class="d-inline">
 						Attribute
 						Value
 						Determiner
@@ -3106,36 +3111,23 @@ limitations under the License.
 								<option value="#geology_attribute#">#geology_attribute#</option>
 							</cfloop>
 						</select>
-						<select id="geo_att_value" class="reqdClr"  name="geo_att_value">
-						</select>
-						<input type="text" id="geo_att_determiner"
-				name="geo_att_determiner"
-				size="15"
-				onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
-						<input type="hidden" name="geo_att_determiner_id"
-				id="geo_att_determiner_id">
-						<input type="text" id="geo_att_determined_date"
-				name="geo_att_determined_date"
-				size="10">
-						<input type="text" id="geo_att_determined_method"
-				name="geo_att_determined_method"
-				size="10">
-						<input type="text" id="geo_att_remark"
-				name="geo_att_remark"
-				size="10">
+						<select id="geo_att_value" class="reqdClr data-entry-select"  name="geo_att_value"> </select>
+						<input type="text" id="geo_att_determiner" name="geo_att_determiner" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
+						<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date">
+						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method">
+						<input type="text" id="geo_att_remark" name="geo_att_remark">
 						<cfif loccount.ct eq 1 and cecount.ct eq 1>
-							<input type="submit" value="Save Changes" class="savBtn"
-   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+							<input type="submit" value="Save Changes" class="savBtn">
 							<cfelse>
 							<span>
-							<input type="submit" value="Split and Save Changes" class="savBtn"
-   				    onmouseover="this.className='savBtn btnhov';this.focus();" onmouseout="this.className='savBtn'">
+							<input type="submit" value="Split and Save Changes" class="savBtn">
 							A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
 						</cfif>
 					</cfform>
 					<script>
-		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
-	</script>
+					showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
+					</script>
 					</ul>
 				</div>
 				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
