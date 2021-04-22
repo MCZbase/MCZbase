@@ -343,16 +343,12 @@ limitations under the License.
 											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
 											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
 										</h1>
-									</div>
-									<div class="col-12 col-xl-6 pt-3">
 										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span></h2>
 										<h2 class="h4 d-inline font-weight-normal">Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span></h2>
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''>Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span></cfif></h2>
 									</div>
-								</div>
-								<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
-									<div class="col-12 col-xl-6">
+									<div class="col-12 col-xl-6 pt-3">
 										<h3 class="h4">Countries of Origin</h3>
 										<cfset sep="">
 										<cfloop query=ctSovereignNation>
@@ -362,45 +358,40 @@ limitations under the License.
 										</cfloop>
 									</div>
 								</div>
-							<div class="form-row">
-						<div class="col-12 col-xl-6">
-							<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
-							<br>Change disposition of all these items to:
-							<input type="hidden" name="Action" value="BulkUpdateDisp">
-								<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-								<select name="coll_obj_disposition" size="1">
-									<cfloop query="ctDisp">
-										<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-									</cfloop>				
-								</select>
-								<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
-							</form>
-						</div>
-						<div class="col-12 col-xl-6">
-				   		<cfif aboutLoan.collection EQ 'Cryogenic'>
-								<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
-									<br>Change preservation method of all these items to:
-									<input type="hidden" name="Action" value="BulkUpdatePres">
-									<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-									<select name="part_preserve_method" size="1">
-										<cfloop query="ctPreserveMethod">
-											<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-										</cfloop>				
-									</select>
-									<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
-								</form>
-				   		</cfif>
-						</div>
-					</div>
-							<div class="form-row">
-						<div class="col-12">
-							View 
-							<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-							or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
-						</div>
-					</div>
+								<div class="row mb-0 pb-0 px-2 mx-0">
+									<div class="col-12 col-xl-6">
+										<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
+										<br>Change disposition of all these items to:
+										<input type="hidden" name="Action" value="BulkUpdateDisp">
+											<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+											<select name="coll_obj_disposition" size="1">
+												<cfloop query="ctDisp">
+													<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+												</cfloop>				
+											</select>
+											<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
+										</form>
+										<cfif aboutLoan.collection EQ 'Cryogenic'>
+												<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
+													<br>Change preservation method of all these items to:
+													<input type="hidden" name="Action" value="BulkUpdatePres">
+													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+													<select name="part_preserve_method" size="1">
+														<cfloop query="ctPreserveMethod">
+															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+														</cfloop>				
+													</select>
+													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
+												</form>
+										</cfif>
+									</div>
+									<div class="col-12 col-xl-6">
+											View 
+											<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
+											or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a>
+									</div>
 								</div>
-							</div>
+								</div>
 						</div>
 					</div>
 				</div>
