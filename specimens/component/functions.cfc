@@ -2818,9 +2818,9 @@ limitations under the License.
 							<cfset thisVerifiedBy = #l.verifiedby#>
 							<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
 							<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label></li>
-			<li class="col-12 col-md-2 pb-2 px-0">
+			<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" 
-						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"
+						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr data-entry-input" style="display:block"
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
