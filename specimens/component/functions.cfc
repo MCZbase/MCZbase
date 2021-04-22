@@ -3082,25 +3082,19 @@ limitations under the License.
 							</select>
 							<input type="text" id="geo_att_determiner__#geology_attribute_id#"
 				name="geo_att_determiner__#geology_attribute_id#" value="#geo_att_determiner#"
-				size="15"
 				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
 							<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
 				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#">
-							<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
-				name="geo_att_determined_date__#geology_attribute_id#"
-				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
-				size="10">
+						
 							<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10">
-							<input type="text" id="geo_att_remark__#geology_attribute_id#"
-				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
-				size="10">
+						
 							<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
 						</cfloop>
-					<h1 class="h3">New Geology Attribute</h1>
+				
 					<li class="col-12 col-md-2 py-1 px-0">
-						<label for="geology_attribute" class="data-entry-label px-2 text-right"> Attribute</label>
+						<label for="geology_attribute" class="data-entry-label px-2 text-right">Geology Attribute</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">
 						<select name="geology_attribute" onchange="populateGeology(this.id)" id="geology_attribute" class="reqdClr data-entry-select">
@@ -3120,14 +3114,20 @@ limitations under the License.
 						<label for="geo_att_determiner" class="data-entry-label px-2 text-right"> Determiner</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">		
-						<input type="text" id="geo_att_determiner" name="geo_att_determiner" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
-						<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+						<input type="text" id="geo_att_determiner__#geology_attribute_id#"
+				name="geo_att_determiner__#geology_attribute_id#" value="#geo_att_determiner#"
+				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
+							<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
+				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 						<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">	
-						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date">
+							<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
+				name="geo_att_determined_date__#geology_attribute_id#"
+				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
+				class="data-entry-input">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 							<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
@@ -3136,7 +3136,8 @@ limitations under the License.
 						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
-							<label for="geo_att_remark" class="data-entry-label px-2 text-right"> Remark</label>
+						<input type="text" id="geo_att_remark__#geology_attribute_id#" name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
+				size="10">
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">
 						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
