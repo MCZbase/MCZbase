@@ -73,7 +73,7 @@ limitations under the License.
 				AND lower(collection.collection) = <cfqueryparam value='#lcase(cc)#' cfsqltype="CF_SQL_VARCHAR" >
 		</cfquery>
 	</cfif>
-	<cfif cresult.recordcount lt 0>
+	<cfif cresult.recordcount EQ 0>
 		<!--- Record for this GUID was not found ---> 
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
