@@ -2644,61 +2644,61 @@ limitations under the License.
 						</label>
 						</li>
 				
-						<li class="list-group-item col-12 col-md-12 pb-1 px-0">
+						<li class="col-12 col-md-12 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 px-0">
 							<label for="verbatim_date" class="px-2 data-entry-label">Verbatim Date</label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 px-0">
 							<label for="collecting time" class="px-2 data-entry-label">Collecting Time</label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 px-0">
 							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
 						</li>
-						<li class="list-group-item col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 px-0">
 							<label for="ich field number" class="px-2 data-entry-label"> Ich. Field Number </label>
 						</li>
-						<li class="list-group-item col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 px-0">
 							<label for="startDayofYear" class="px-2 pt-1 data-entry-label"> Start Day of Year</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-1 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 px-0">
 							<label for="endDayofYear" class="px-2 pt-1 data-entry-label"> End Day of Year </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-1 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 px-0">
 							<label for="began_date" class="px-2 data-entry-label">Began Date/Time</label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="col-12 col-md-4 px-0">
 							<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 px-0">
 							<label for="ended_date" class="px-2 data-entry-label"> Ended Date/Time </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 px-0">
+						<li class="col-12 col-md-4 px-0">
 							<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
 						</li>
-						<li class="list-group-item col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 px-0">
 							<label for="coll_event_remarks" class="px-2 data-entry-label"> Collecting Event Remarks </label>
 						</li>
-						<li class="list-group-item col-12 col-md-10 px-0">
+						<li class="col-12 col-md-10 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
 						</li>
-						<li class="list-group-item col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="collecting_source" class="px-2 data-entry-label"> Collecting Source </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-1 px-0">
 							<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
 							<option value=""></option>
 							<cfloop query="ctcollecting_source">
@@ -2707,25 +2707,25 @@ limitations under the License.
 							</cfloop>
 							</select>
 						</li>
-						<li class="list-group-item col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="collecting_method" class="data-entry-label px-2"> Collecting Method </label>
 						</li>
-						<li class="list-group-item col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-1 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
-						<li class="list-group-item col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="habitat_desc" class="data-entry-label px-2"> Habitat </label>
 						</li>
-						<li class="list-group-item col-12 col-md-10 pb-1 px-0">
+						<li class="col-12 col-md-10 pb-1 px-0">
 							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
 					</ul>
 					<h1 class="h3 mt-3">Coordinates</h1>
 	<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-							<li class="list-group-item col-12 col-md-3 pb-1 px-0">
+							<li class="col-12 col-md-3 pb-1 px-0">
 						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label"> Original Coordinate Units </label>
 							</li>
-								<li class="list-group-item col-12 col-md-9 pb-1 px-0">
+								<li class="col-12 col-md-9 pb-1 px-0">
 								<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 								<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 									<option value="">Not Georeferenced</option>
@@ -2735,15 +2735,23 @@ limitations under the License.
 									</cfloop>
 								</select>
 					</li>
+					<li class="col-12 col-md-2 pb-1 px-0">
 								<div id="llMeta">
-								<label for="coordinate_determiner"> Coordinate Determiner </label>
+									<label for="coordinate_determiner"> Coordinate Determiner </label>
+							</li>
+							<li class="col-12 col-md-10 pb-1 px-0">
 								<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
 								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
 								<label for="DETERMINED_DATE"> Determined Date </label>
 								<input type="text" name="determined_date" id="determined_date"
-					value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr">
+									   value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr"></li>
+				<li class="col-12 col-md-2 pb-1 px-0">
 					<label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
+					</li>
+					<li class="col-12 col-md-10 pb-1 px-0">
 							<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
+					</li>
+						<li class="col-12 col-md-2 pb-1 px-0">
 							<select name="MAX_ERROR_UNITS" size="1">
 								<option value=""></option>
 								<cfloop query="cterror">
@@ -2751,6 +2759,7 @@ limitations under the License.
 								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
 								</cfloop>
 							</select>
+					</li>
 						<label for="DATUM"> Datum </label>
 						<cfset thisDatum = #l.DATUM#>
 						<select name="DATUM" id="DATUM" size="1" class="reqdClr">
