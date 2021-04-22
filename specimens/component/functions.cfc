@@ -2915,7 +2915,47 @@ limitations under the License.
 				</ul>
 		
 		
-		
+						<script>
+function showLLFormat(orig_units) {
+		//alert(orig_units);
+		var llMeta = document.getElementById('llMeta');
+		var decdeg = document.getElementById('decdeg');
+		var utm = document.getElementById('utm');
+		var ddm = document.getElementById('ddm');
+		var dms = document.getElementById('dms');
+		llMeta.style.display='none';
+		decdeg.style.display='none';
+		utm.style.display='none';
+		ddm.style.display='none';
+		dms.style.display='none';
+		//alert('everything off');
+		if (orig_units.length > 0) {
+			//alert('got soemthing');
+			llMeta.style.display='';
+			if (orig_units == 'decimal degrees') {
+				decdeg.style.display='';
+			}
+			else if (orig_units == 'UTM') {
+				//alert(utm.style.display);
+				utm.style.display='';
+				//alert(utm.style.display);
+			}
+			else if (orig_units == 'degrees dec. minutes') {
+				ddm.style.display='';
+			}
+			else if (orig_units == 'deg. min. sec.') {
+				dms.style.display='';
+			}
+			else if (orig_units == 'unknown') {
+				
+			}
+			else {
+				alert('I have no idea what to do with ' + orig_units);
+			}
+		}
+	}
+		</script>
+	
 		
 		<!-- ORIGINAL UNITS -->
 					<div class="col-12 col-md-12 py-1 px-0  row mx-0 px-3 pt-3 pb-2 mb-0 border">
@@ -3159,46 +3199,6 @@ limitations under the License.
 					</cfif>
 					</cfform>
 		
-					<script>
-function showLLFormat(orig_units) {
-		//alert(orig_units);
-		var llMeta = document.getElementById('llMeta');
-		var decdeg = document.getElementById('decdeg');
-		var utm = document.getElementById('utm');
-		var ddm = document.getElementById('ddm');
-		var dms = document.getElementById('dms');
-		llMeta.style.display='none';
-		decdeg.style.display='none';
-		utm.style.display='none';
-		ddm.style.display='none';
-		dms.style.display='none';
-		//alert('everything off');
-		if (orig_units.length > 0) {
-			//alert('got soemthing');
-			llMeta.style.display='';
-			if (orig_units == 'decimal degrees') {
-				decdeg.style.display='';
-			}
-			else if (orig_units == 'UTM') {
-				//alert(utm.style.display);
-				utm.style.display='';
-				//alert(utm.style.display);
-			}
-			else if (orig_units == 'degrees dec. minutes') {
-				ddm.style.display='';
-			}
-			else if (orig_units == 'deg. min. sec.') {
-				dms.style.display='';
-			}
-			else if (orig_units == 'unknown') {
-				
-			}
-			else {
-				alert('I have no idea what to do with ' + orig_units);
-			}
-		}
-	}
-		</script>
 
 			
 				</div>
