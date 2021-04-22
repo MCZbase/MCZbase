@@ -2841,10 +2841,10 @@ limitations under the License.
 							<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
 						</li>
 						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
+							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-entry-input">
 						</li>
 		
-						<div id="decdeg" class="d-inline">
+						<div id="decdeg" class="d-inline-block">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
