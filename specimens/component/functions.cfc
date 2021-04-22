@@ -3147,10 +3147,10 @@ limitations under the License.
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
 					<cfelse>
-						<span class="mt-3">
+						<div class="mt-3">
 						<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
-							A new locality and collecting event will be created with these values and changes will apply to this record only. 
-						</span>
+							<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
+						</div>
 					</cfif>
 					</cfform>
 					<script>
