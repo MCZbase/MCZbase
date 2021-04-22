@@ -1508,7 +1508,7 @@ limitations under the License.
 					</cfif>
 					<cfif len(getLoc.habitat_desc) gt 0>
 						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
+						<li class="list-group-item col-7 px-0"><h5 class="my-0">#getLoc.habitat_desc#</h5></li>
 					</cfif>
 					<cfif len(getLoc.habitat) gt 0>
 						<li class="list-group-item col-5 px-0">Microhabitat:</li>
