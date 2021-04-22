@@ -2635,7 +2635,7 @@ limitations under the License.
 				<h1 class="h3 mt-3">Collecting Event</h1>
 			<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 						<li class="col-12 col-md-12 px-0 py-1 mt-2">
-							<label for="verbatim_locality"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+							<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
 						<cfif cecount.ct eq 1>
 							(unique to this specimen)
 							<cfelse>
@@ -2644,49 +2644,49 @@ limitations under the License.
 						</label>
 						</li>
 				
-						<li class="col-12 col-md-12 pb-1 px-0">
+						<li class="col-12 col-md-12 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 py-1 px-0">
 							<label for="verbatim_date" class="px-2 data-entry-label">Verbatim Date</label>
 						</li>
-						<li class="col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
 						</li>
-						<li class="col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 py-1 px-0">
 							<label for="collecting time" class="px-2 data-entry-label">Collecting Time</label>
 						</li>
-						<li class="col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="collecting_time"	id="collecting_time" value="#l.collecting_time#">
 						</li>
-						<li class="col-12 col-md-1 px-0">
+						<li class="col-12 col-md-1 py-1 px-0">
 							<label for="ich field number" class="px-2 data-entry-label"> Ich. Field Number </label>
 						</li>
-						<li class="col-12 col-md-3 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
 						</li>
-						<li class="col-12 col-md-2 px-0">
-							<label for="startDayofYear" class="px-2 pt-1 data-entry-label"> Start Day of Year</label>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="startDayofYear" class="px-2 data-entry-label"> Start Day of Year</label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
 						</li>
-						<li class="col-12 col-md-2 px-0">
-							<label for="endDayofYear" class="px-2 pt-1 data-entry-label"> End Day of Year </label>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="endDayofYear" class="px-2 data-entry-label"> End Day of Year </label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
 						</li>
-						<li class="col-12 col-md-2 px-0">
-							<label for="began_date" class="px-2 pt-1 data-entry-label">Began Date/Time</label>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="began_date" class="px-2 data-entry-label">Began Date/Time</label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
 						</li>
-						<li class="col-12 col-md-2 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="ended_date" class="px-2 pt-1 data-entry-label"> Ended Date/Time </label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
 						</li>
 						<li class="col-12 col-md-2 px-0">
