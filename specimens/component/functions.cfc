@@ -3085,7 +3085,10 @@ limitations under the License.
 				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
 							<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
 				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#">
-						
+							<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
+				name="geo_att_determined_date__#geology_attribute_id#"
+				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
+				size="10">
 							<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10">
@@ -3124,10 +3127,7 @@ limitations under the License.
 						<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">	
-							<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
-				name="geo_att_determined_date__#geology_attribute_id#"
-				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
-				class="data-entry-input">
+						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
 							<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
