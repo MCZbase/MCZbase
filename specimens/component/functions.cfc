@@ -2782,11 +2782,11 @@ limitations under the License.
 							value="#georefMethod#">#georefMethod#</option>
 							</cfloop>
 						</select></li>
-				<li class="col-12 col-md-2 py-1 px-0">
+				<li class="col-12 col-md-1 py-1 px-0">
 					<label for="extent" class="data-entry-label px-2 text-right"> Extent </label></li>
 				<li class="col-12 col-md-2 pb-2 px-0">
 					<input type="text" name="extent" id="extent" value="#l.extent#" class="data-entry-input"></li>
-				<li class="col-12 col-md-2 py-1 px-0">
+				<li class="col-12 col-md-1 py-1 px-0">
 					<label for="GpsAccuracy" class="data-entry-label px-2 text-right"> GPS Accuracy </label></li>
 				<li class="col-12 col-md-2 pb-2 px-0">
 					<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" class="data-entry-input"></li>
