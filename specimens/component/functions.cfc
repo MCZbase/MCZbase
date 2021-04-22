@@ -2946,9 +2946,6 @@ function showLLFormat(orig_units) {
 			else if (orig_units == 'deg. min. sec.') {
 				dms.style.display='';
 			}
-			else if (orig_units == 'unknown') {
-				
-			}
 			else {
 				alert('I have no idea what to do with ' + orig_units);
 			}
