@@ -2733,9 +2733,10 @@ limitations under the License.
 						</li>
 						<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
-								<li class="col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-2 py-1 px-0">
 							<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
-									<label for="DETERMINED_DATE" class="data-entry-label px-2"> Determined Date </label></li>
+							<label for="DETERMINED_DATE" class="data-entry-label px-2"> Determined Date </label>
+						</li>
 						<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" name="determined_date" id="determined_date"
 									   value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr">
@@ -2794,8 +2795,9 @@ limitations under the License.
 							<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" class="data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label></li>
-							<li class="col-12 col-md-3 pb-2 px-0">
+							<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label>
+						</li>
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfset thisVerificationStatus = #l.VerificationStatus#>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr  data-entry-select"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
@@ -2813,92 +2815,102 @@ limitations under the License.
 								value="#VerificationStatus#">#VerificationStatus#</option>
 								</cfloop>
 							</select>
-		</li>
-		<li class="col-12 col-md-3 py-1 px-0">
+						</li>
+						<li class="col-12 col-md-3 py-1 px-0">
 							<cfset thisVerifiedBy = #l.verifiedby#>
 							<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
-							<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label></li>
-			<li class="col-12 col-md-4 pb-2 px-0">
+							<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
+						</li>
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" 
 						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr data-entry-input" style="display:block"
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
 				onKeyPress="return noenter(event);">
-							<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#"></li>
+							<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
 						</li>
-		<li class="col-12 col-md-5 pb-2 px-0">
-						<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr"
-							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></li>
+						<li class="col-12 col-md-10 pb-2 px-0">
+							<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr"
+							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
+						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REMARKS"> Remarks </label>
 						</li>
-		<li class="col-12 col-md-2 pb-2 px-0">
-						<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#"></li>
-		
+						<li class="col-12 col-md-12 pb-2 px-0">
+							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#">
+						</li>
 						<div id="decdeg">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat">Decimal Latitude</label>
-						</li>	<li class="col-12 col-md-2 pb-2 px-0">
-						<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr" validate="numeric"></li>
+						</li>
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
+						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_long">Decimal Longitude</label>
-						</li>	<li class="col-12 col-md-2 pb-2 px-0">
-						<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr" validate="numeric"></li>
+						</li>
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
+						</li>
 						<div id="dms">
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_deg">Lat. Deg.</label>
-						</li>	<li class="col-12 col-md-2 pb-2 px-0">
-						<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
-								 validate="numeric"></li>
+							<label for="lat_deg" class="data-entry-input">Lat. Deg.</label>
+						</li>
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
+								 validate="numeric">
+						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_min">Lat. Min.</label>
+							<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_sec">Lat. Sec.</label>
+							<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_dir">Lat. Dir.</label>
+							<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
 						</li>
-								<li class="col-12 col-md-9 pb-2 px-0">
-						<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
-							<option value=""></option>
-							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-		</select></li>
+						<li class="col-12 col-md-9 pb-2 px-0">
+							<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
+								<option value=""></option>
+								<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+								<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+							</select>
+						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_deg">Long. Deg.</label>
+							<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_min">Long. Min.</label>
+							<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_sec">Long. Sec.</label>
+							<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
+							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
 																	   validate="numeric">
 						<li class="col-12 col-md-2 py-1 px-0"></li>
-						<label for="long_dir">Long. Dir.</label>
+						<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
+							<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr data-entry-select">
 								<option value=""></option>
 								<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
@@ -2906,7 +2918,7 @@ limitations under the License.
 						</li>
 						<div id="ddm">
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlat_deg">
+						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
 						<label>
 						</li>
@@ -2914,7 +2926,7 @@ limitations under the License.
 							<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dec_lat_min">
+						<label for="dec_lat_min" class="data-entry-label px-2 text-right">
 						Lat. Dec. Min.
 						<label>
 						</li>
@@ -2923,120 +2935,120 @@ limitations under the License.
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlat_dir">
+						<label for="dmlat_dir" class="data-entry-label px-2 text-right">
 						Lat. Dir.
 						<label>
 						</li>
-						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
+						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
 						</select>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlong_deg">
+						<label for="dmlong_deg" class="data-entry-label px-2 text-right">
 						Long. Deg.
 						<label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
+							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dec_long_min">
+						<label for="dec_long_min" class="data-entry-label px-2 text-right">
 						Long. Dec. Min.
 						<label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
+							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
 																	 validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlong_dir">
+						<label for="dmlong_dir" class="data-entry-label px-2 text-right">
 						Long. Dir.
 						<label>
 						</li>
-						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
+						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 						</select>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_zone"> UTM Zone </label>
+							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_ew"> UTM East/West </label>
+							<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
+							<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_ns"> UTM North/South </label>
+							<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr" validate="numeric">
+							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-						<label>Verbatim Coordinates (summary)</label>
+						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label>Verbatim Latitude</label>
+							<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label>Verbatim Longitude</label>
+							<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label>Verbatim Coordinate System (e.g., decimal degrees)</label>
+							<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label>Verbatim SRS (e.g., datum)</label>
+							<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimCoordinates"> Verbatim Coordinates </label>
+							<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimLatitude"> Verbatim Latitude </label>
+							<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
 						</li>
-						<label for="verbatimLongitude"> Verbatim Longitude </label>
+						<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
 						</li>
-						<label for="verbatimCoordinateSystem"> Verbatim Coordinate System </label>
+						<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimSRS"> Verbatim SRS </label>
+							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="gTab"> Geology </label>
+							<label for="gTab" class="data-entry-label px-2 text-right"> Geology </label>
 						</li>
 						<div id="gTab" border="1" cellpadding="0" cellspacing="0">
 						Attribute
