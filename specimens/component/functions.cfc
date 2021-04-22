@@ -2552,7 +2552,7 @@ limitations under the License.
 						<li class=" col-12 col-md-2 px-0 py-1">
 							<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
 						</li>
-						<li class="col-12 pb-2 col-md-10 px-0 pb-1">
+						<li class="col-12  col-md-10 px-0 pb-2">
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
 								<cfloop query="ctSovereignNation">
 									<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
@@ -2563,13 +2563,13 @@ limitations under the License.
 						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
 						</li>
-						<li class=" col-12 col-md-2 pb-1 px-0">
-							<cfinput type="text" class="px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
+						<li class=" col-12 col-md-2 pb-2 px-0">
+							<cfinput type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
 						</li>
-						<li class=" col-12 col-md-2 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
