@@ -3141,7 +3141,7 @@ limitations under the License.
 					<li class="col-12 col-md-2 pb-2 px-0">
 						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
 					</li>
-						
+					</ul>	
 					
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
@@ -3155,10 +3155,8 @@ limitations under the License.
 					<script>
 						showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 					</script>
-					</ul>
+					
 				</div>
-				<input class="btn btn-xs btn-primary" value="Split and Save Changes">
-				<p class="small">A new locality and collecting event will be created with these values and changes will apply to this record only.</p>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
