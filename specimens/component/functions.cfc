@@ -2841,8 +2841,7 @@ limitations under the License.
 		<!-- ORIGINAL UNITS -->
 					<div class="col-12 col-md-12 py-1 px-0  row mx-0 px-3 pt-3 pb-2 mb-0 border">
 							<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label px-2 text-left"> Select Original Coordinate Units <span class="small d-block">so the appropriate format appears</span> </label>
-			<br/>
-							<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
+						<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 							<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 								<option value="">Not Georeferenced</option>
 								<cfloop query="ctunits">
