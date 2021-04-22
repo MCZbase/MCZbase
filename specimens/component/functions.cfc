@@ -2546,7 +2546,7 @@ limitations under the License.
 								</cfif>
 							</label>
 						</li>
-						<li class="col-12 pb-1 col-md-12 px-0">
+						<li class="col-12 pb-1 col-md-12 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class=" col-12 col-md-2 px-0 py-1">
@@ -2584,23 +2584,23 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</li>
-						<li class=" col-12 col-md-1 py-1 px-0">
-							<label for="min_depth" class="data-entry-label px-2"> Min. Depth </label>
+						<li class=" col-12 col-md-2 py-1 px-0">
+							<label for="min_depth" class="data-entry-label px-2 text-right"> Min. Depth </label>
 						</li>
-						<li class="col-12 col-md-3 pb-1 px-0">
+						<li class="col-12 col-md-2 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
-						<li class=" col-12 col-md-1 py-1 px-0">
+						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="max_depth" class="data-entry-label px-2"> Max. Depth </label>
 						</li>
-						<li class="col-12 col-md-3 pb-1 px-0">
+						<li class="col-12 col-md-2 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
 						</li>
-						<li class="col-12 col-md-1 py-1 px-0">
-						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
+						<li class="col-12 col-md-2 py-1 px-0">
+						<label for="depth_units"  class="data-entry-label px-2 text-right"> Depth Units </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-1 px-0">
 						<select name="depth_units" id="depth_units" class="" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
