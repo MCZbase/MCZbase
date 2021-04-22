@@ -341,7 +341,7 @@ limitations under the License.
 										<h1 class="h3">
 											Review items in loan
 											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
-											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
+											<p class="font-weight-normal pb-2">There are #partCount# items from #catCount# specimens in this loan.</p>
 										</h1>
 										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
 										<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
