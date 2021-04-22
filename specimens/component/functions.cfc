@@ -2647,7 +2647,7 @@ limitations under the License.
 						<li class="col-12 col-md-12 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
 						</li>
-						<li class="col-12 col-md-1 py-2 px-0">
+						<li class="col-12 col-md-2 py-2 px-0">
 							<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
