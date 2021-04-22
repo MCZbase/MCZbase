@@ -2564,13 +2564,13 @@ limitations under the License.
 							<label for="minimum_elevation" class="data-entry-label px-2"> Min. Elevation </label>
 						</li>
 						<li class=" col-12 col-md-3 pb-1 px-0">
-							<cfinput type="text" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
+							<cfinput type="text" class="data-entry-input px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="maximum_elevation"  class="data-entry-label px-2"> Max. Elevation </label>
 						</li>
 						<li class=" col-12 col-md-3 pb-1 px-0">
-							<cfinput type="text" class="data-entry-label px-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
+							<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
@@ -2593,9 +2593,9 @@ limitations under the License.
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="max_depth" class="data-entry-label px-2"> Max. Depth </label>
 						</li>
-						<li class="col-12 col-md-2 pb-1 px-0">
+						<li class="col-12 col-md-3 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
-								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input" message="Maximum Depth is a number.">
+								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
 						</li>
 						<li class="col-12 col-md-1 py-1 px-0">
 						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
