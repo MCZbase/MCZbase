@@ -338,31 +338,30 @@ limitations under the License.
 							<div class="col-12 mb-3">
 								<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
 									<div class="col-12 col-xl-6">
-										<h2 class="h3">
+										<h1 class="h3">
 											Review items in loan
 											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
 											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
-										</h2>
+										</h1>
 									</div>
 									<div class="col-12 col-xl-6">
-										<h4 class="d-inline">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span></h4>
-										<h4 class="d-inline">Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span></h4>
-										<h4 class="d-inline"><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h4>
-										<h4 class="d-inline"><cfif aboutLoan.closed_date NEQ ''>Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span></cfif></h4>
+										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span></h2>
+										<h2 class="h4 d-inline font-weight-normal">Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span></h2>
+										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
+										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''>Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span></cfif></h2>
 									</div>
 								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-12">
-									<h3 class="h4">Countries of Origin</h3>
-									<cfset sep="">
-									<cfloop query=ctSovereignNation>
-										<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
-										<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
-										<cfset sep="; ">
-									</cfloop>
+								<div class="row mt-1 mb-0 pb-0 px-2 mx-0">
+									<div class="col-12 col-xl-6">
+										<h3 class="h4">Countries of Origin</h3>
+										<cfset sep="">
+										<cfloop query=ctSovereignNation>
+											<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
+											<span>#sep##encodeforHtml(sovereign_nation)#&nbsp;(#ct#)</span>
+											<cfset sep="; ">
+										</cfloop>
+									</div>
 								</div>
-							</div>
 							<div class="form-row">
 						<div class="col-12 col-xl-6">
 							<form name="BulkUpdateDisp" method="post" action="a_loanItemReview.cfm">
