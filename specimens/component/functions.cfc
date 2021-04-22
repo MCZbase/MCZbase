@@ -2684,13 +2684,13 @@ limitations under the License.
 							<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="ended_date" class="px-2 pt-1 data-entry-label text-right"> Ended Date/Time </label>
+							<label for="ended_date" class="px-2  data-entry-label text-right"> Ended Date/Time </label>
 						</li>
 						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
 						</li>
 						<li class="col-12 col-md-3 py-1 px-0">
-							<label for="coll_event_remarks" class="px-2 pt-1 data-entry-label text-right"> Collecting Event Remarks </label>
+							<label for="coll_event_remarks" class="px-2  data-entry-label text-right"> Collecting Event Remarks </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
@@ -2714,7 +2714,7 @@ limitations under the License.
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="habitat_desc" class="data-entry-label px-2"> Habitat </label>
+							<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
 						</li>
 						<li class="col-12 col-md-10 pb-1 px-0">
 							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
