@@ -344,7 +344,7 @@ limitations under the License.
 											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
 										</h1>
 									</div>
-									<div class="col-12 col-xl-6">
+									<div class="col-12 col-xl-6 pt-2">
 										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span></h2>
 										<h2 class="h4 d-inline font-weight-normal">Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span></h2>
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
