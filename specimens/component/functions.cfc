@@ -2721,11 +2721,11 @@ limitations under the License.
 						</li>
 					</ul>
 					<h1 class="h3 mt-3">Coordinates</h1>
-	<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-							<li class="col-12 col-md-3 pb-1 px-0">
-						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label text-right"> Original Coordinate Units </label>
+	<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+							<li class="col-12 col-md-3 py-1 px-0">
+						<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label px-2 text-right"> Original Coordinate Units </label>
 							</li>
-								<li class="col-12 col-md-9 pb-1 px-0">
+								<li class="col-12 col-md-9 pb-2 px-0">
 								<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
 								<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
 									<option value="">Not Georeferenced</option>
@@ -2735,20 +2735,20 @@ limitations under the License.
 									</cfloop>
 								</select>
 					</li>
-					<li class="col-12 col-md-2 pb-1 px-0">
+					<li class="col-12 col-md-2 py-1 px-0">
 								<div id="llMeta">
 									<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
 							</li>
-							<li class="col-12 col-md-10 pb-1 px-0">
+							<li class="col-12 col-md-10 pb-2 px-0">
 								<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
 								<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
 								<label for="DETERMINED_DATE"> Determined Date </label>
 								<input type="text" name="determined_date" id="determined_date"
 									   value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr"></li>
-				<li class="col-12 col-md-2 pb-1 px-0">
-					<label for="MAX_ERROR_DISTANCE"> Maximum Error </label>
+				<li class="col-12 col-md-2 py-1 px-0">
+					<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
 					</li>
-					<li class="col-12 col-md-10 pb-1 px-0">
+					<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
 					</li>
 						<li class="col-12 col-md-2 pb-1 px-0">
