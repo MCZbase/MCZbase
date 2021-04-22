@@ -2564,7 +2564,7 @@ limitations under the License.
 							<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
 						</li>
 						<li class=" col-12 col-md-2 pb-1 px-0">
-							<cfinput type="text" class="data-entry-input px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
+							<cfinput type="text" class="px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
