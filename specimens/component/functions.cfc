@@ -2824,13 +2824,13 @@ limitations under the License.
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
-				onKeyPress="return noenter(event);"></li>
-							<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+				onKeyPress="return noenter(event);">
+							<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#"></li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="LAT_LONG_REF_SOURCE"> Reference </label>
+							<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
 						</li>
-		<li class="col-12 col-md-10 pb-2 px-0">
-						<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
+		<li class="col-12 col-md-5 pb-2 px-0">
+						<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr"
 							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REMARKS"> Remarks </label>
