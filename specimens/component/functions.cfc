@@ -3153,9 +3153,7 @@ limitations under the License.
 						</div>
 					</cfif>
 					</cfform>
-					<script>
-						showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
-					</script>
+		
 					
 			
 				</div>
