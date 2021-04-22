@@ -2856,6 +2856,7 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
+		</div>
 						<div id="dms">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_deg"  class="data-entry-label px-2 text-right">Lat. Deg.</label>
@@ -2867,43 +2868,44 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
 								<option value=""></option>
 								<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 								<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
 							</select>
-						</li>
+							</li>
+						
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
 																	   validate="numeric">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
 						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
 																	   validate="numeric">
 						<li class="col-12 col-md-2 py-1 px-0"></li>
@@ -2916,6 +2918,7 @@ limitations under the License.
 								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 							</select>
 						</li>
+							</div>
 						<div id="ddm">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
@@ -2972,6 +2975,7 @@ limitations under the License.
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 						</select>
+						</div>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
