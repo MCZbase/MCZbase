@@ -2710,13 +2710,13 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="collecting_method" class="data-entry-label px-2 text-right"> Collecting Method </label>
 						</li>
-						<li class="col-12 col-md-4 pb-1 px-0">
+						<li class="col-12 col-md-4 pb-2 px-0">
 							<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
 						</li>
-						<li class="col-12 col-md-10 pb-1 px-0">
+						<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 						</li>
 					</ul>
