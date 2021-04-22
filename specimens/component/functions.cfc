@@ -2758,7 +2758,7 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="DATUM" class="data-entry-label px-2 text-right"> Datum </label>
 						</li>
-						<li class="col-12 col-md-3 py-1 px-0">
+						<li class="col-12 col-md-3 pb-2 px-0">
 							<cfset thisDatum = #l.DATUM#>
 							<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
 								<option value=""></option>
@@ -2795,7 +2795,7 @@ limitations under the License.
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label></li>
-							<li class="col-12 col-md-2 pb-2 px-0">
+							<li class="col-12 col-md-3 pb-2 px-0">
 							<cfset thisVerificationStatus = #l.VerificationStatus#>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr  data-entry-select"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
@@ -2814,7 +2814,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 		</li>
-		<li class="col-12 col-md-2 py-1 px-0">
+		<li class="col-12 col-md-3 py-1 px-0">
 							<cfset thisVerifiedBy = #l.verifiedby#>
 							<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
 							<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label></li>
@@ -2829,8 +2829,9 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REF_SOURCE"> Reference </label>
 						</li>
+		<li class="col-12 col-md-10 pb-2 px-0">
 						<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
-					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
+							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" /></li>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REMARKS"> Remarks </label>
 						</li>
