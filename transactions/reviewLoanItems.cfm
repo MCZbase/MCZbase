@@ -343,10 +343,10 @@ limitations under the License.
 											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
 											<p class="font-weight-normal">There are #partCount# items from #catCount# specimens in this loan.</p>
 										</h1>
-										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> &bull;</h2>
-										<h2 class="h4 d-inline font-weight-normal">Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> &bull;</h2>
-										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span> &bull;</cfif></h2>
-										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''>Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> &bull;</cfif></h2>
+										<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
+										<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> &bull;</h2>
+										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
+										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 									</div>
 									<div class="col-12 col-xl-6 pt-3">
 										<h3 class="h4">Countries of Origin</h3>
@@ -364,7 +364,7 @@ limitations under the License.
 										<br>Change disposition of all these items to:
 										<input type="hidden" name="Action" value="BulkUpdateDisp">
 											<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-											<select name="coll_obj_disposition" size="1">
+											<select name="coll_obj_disposition" class="data-entry-select col-3 d-inline" size="1">
 												<cfloop query="ctDisp">
 													<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 												</cfloop>				
@@ -376,7 +376,7 @@ limitations under the License.
 													<br>Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
 													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<select name="part_preserve_method" size="1">
+													<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
 														<cfloop query="ctPreserveMethod">
 															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 														</cfloop>				
