@@ -349,7 +349,7 @@ limitations under the License.
 										<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 									</div>
 									<div class="col-12 col-xl-6 pt-3">
-										<h3 class="h4">Countries of Origin</h3>
+										<h3 class="h4 mb-1">Countries of Origin</h3>
 										<cfset sep="">
 										<cfloop query=ctSovereignNation>
 											<cfif len(sovereign_nation) eq 0><cfset sovereign_nation = '[no value set]'></cfif>
