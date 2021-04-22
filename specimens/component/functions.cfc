@@ -2881,7 +2881,7 @@ limitations under the License.
 						<li class="col-12 col-md-1 py-1 px-0">
 							<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
 						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-1 pb-2 px-0">
 							<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
 								<option value=""></option>
 								<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
@@ -2912,7 +2912,7 @@ limitations under the License.
 						<li class="col-12 col-md-1 py-1 px-0"></li>
 						<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
 						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-1 pb-2 px-0">
 							<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr data-entry-select">
 								<option value=""></option>
 								<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
