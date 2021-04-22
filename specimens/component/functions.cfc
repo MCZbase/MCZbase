@@ -3143,7 +3143,7 @@ limitations under the License.
 						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
 					</li>
 					</ul>	
-					
+						</div>
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
 					<cfelse>
@@ -3157,7 +3157,7 @@ limitations under the License.
 						showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 					</script>
 					
-				</div>
+			
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
