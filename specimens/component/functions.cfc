@@ -2536,7 +2536,7 @@ limitations under the License.
 						<div class="col-12 float-left px-0">
 							<h1 class="h3">Specific Locality</h1>
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-						<li class="col-12 col-md-12 px-0">
+						<li class="col-12 col-md-12 px-0 py-2">
 							<label for="spec_locality"> Specific Locality
 								&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 								<cfif loccount.ct eq 1>
@@ -2546,7 +2546,7 @@ limitations under the License.
 								</cfif>
 							</label>
 						</li>
-						<li class="col-12 pb-1 col-md-12 pb-1 px-0">
+						<li class="col-12 pb-1 col-md-12 pb-2 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
 						<li class=" col-12 col-md-2 px-0 py-1">
@@ -2573,7 +2573,7 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
-							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
+							<label for="orig_elev_units" class="data-entry-label px-2 text-right"> Elevation Units </label>
 						</li>
 						<li class=" col-12 col-md-2 pb-1 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
@@ -2591,7 +2591,7 @@ limitations under the License.
 							<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
 						</li>
 						<li class=" col-12 col-md-2 py-1 px-0">
-							<label for="max_depth" class="data-entry-label px-2"> Max. Depth </label>
+							<label for="max_depth" class="data-entry-label px-2 text-right"> Max. Depth </label>
 						</li>
 						<li class="col-12 col-md-2 pb-1 px-0">
 						<cfinput type="text" id="max_depth" name="max_depth"
