@@ -3019,7 +3019,7 @@ function showLLFormat(orig_units) {
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 					</select></li>
 						</ul>
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+						<ul id="utm" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
@@ -3039,6 +3039,8 @@ function showLLFormat(orig_units) {
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 						</li>
+					</ul>
+						<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 						</li>
