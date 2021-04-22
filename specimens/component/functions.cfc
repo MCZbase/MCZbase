@@ -3092,7 +3092,9 @@ limitations under the License.
 							<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10">
-						
+							<input type="text" id="geo_att_remark__#geology_attribute_id#"
+				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
+				size="10">
 							<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
 						</cfloop>
 				
@@ -3136,8 +3138,7 @@ limitations under the License.
 						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 					</li>
 					<li class="col-12 col-md-2 py-1 px-0">
-						<input type="text" id="geo_att_remark__#geology_attribute_id#" name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
-				size="10">
+							<label for="geo_att_remark" class="data-entry-label px-2 text-right"> Remark</label>
 					</li>
 					<li class="col-12 col-md-2 pb-2 px-0">
 						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
