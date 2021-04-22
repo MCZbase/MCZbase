@@ -2560,22 +2560,22 @@ limitations under the License.
 							</select>
 						</li>
 					
-						<li class=" col-12 col-md-1 py-1 px-0">
+						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="minimum_elevation" class="data-entry-label px-2"> Min. Elevation </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-1 px-0">
 							<cfinput type="text" class="data-entry-input px-2 mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
 						</li>
-						<li class=" col-12 col-md-1 py-1 px-0">
+						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="maximum_elevation"  class="data-entry-label px-2"> Max. Elevation </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-1 px-0">
 							<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
 						</li>
-						<li class=" col-12 col-md-1 py-1 px-0">
+						<li class=" col-12 col-md-2 py-1 px-0">
 							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
 						</li>
-						<li class=" col-12 col-md-3 pb-1 px-0">
+						<li class=" col-12 col-md-2 pb-1 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
