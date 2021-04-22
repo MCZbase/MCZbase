@@ -2751,7 +2751,7 @@ limitations under the License.
 					<li class="col-12 col-md-2 pb-2 px-0">
 							<input type="text" class="data-entry-input" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
 					</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+						<li class="col-12 col-md-1 pb-2 px-0 mx-1">
 							<select name="MAX_ERROR_UNITS" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="cterror">
@@ -2761,8 +2761,8 @@ limitations under the License.
 							</select>
 					</li>
 							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="DATUM"> Datum </label></li>
-							<li class="col-12 col-md-2 py-1 px-0">
+								<label for="DATUM" class="data-entry-label px-2 text-right"> Datum </label></li>
+							<li class="col-12 col-md-3 py-1 px-0">
 						<cfset thisDatum = #l.DATUM#>
 						<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
 							<option value=""></option>
@@ -2772,8 +2772,8 @@ limitations under the License.
 							</cfloop>
 							</select></li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="georefMethod"> Georeference Method </label></li>
-						<li class="col-12 col-md-2 pb-2 px-0">
+							<label for="georefMethod" class="data-entry-label px-2 text-right"> Georeference Method </label></li>
+						<li class="col-12 col-md-3 pb-2 px-0">
 						<cfset thisGeoMeth = #l.georefMethod#>
 						<select name="georefMethod" id="georefMethod" size="1" class="reqdClr data-entry-select">
 							<cfloop query="ctGeorefMethod">
@@ -2783,12 +2783,15 @@ limitations under the License.
 							</cfloop>
 						</select></li>
 				<li class="col-12 col-md-2 py-1 px-0">
-					<label for="extent"> Extent </label></li>
+					<label for="extent" class="data-entry-label px-2 text-right"> Extent </label></li>
 				<li class="col-12 col-md-2 pb-2 px-0">
-					<input type="text" name="extent" id="extent" value="#l.extent#" size="7"></li>
-						<label for="GpsAccuracy"> GPS Accuracy </label>
-						<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7">
-						<label for="VerificationStatus"> Verification Status </label>
+					<input type="text" name="extent" id="extent" value="#l.extent#" class="data-entry-input"></li>
+				<li class="col-12 col-md-2 py-1 px-0">
+					<label for="GpsAccuracy" class="data-entry-label px-2 text-right"> GPS Accuracy </label></li>
+				<li class="col-12 col-md-2 pb-2 px-0">
+					<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" class="data-entry-input"></li>
+				<li class="col-12 col-md-2 py-1 px-0">
+						<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label>
 						<cfset thisVerificationStatus = #l.VerificationStatus#>
 						<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
