@@ -3066,12 +3066,7 @@ limitations under the License.
 						<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 						
 						
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Determiner</label></li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Date</label>
-						</li>
-						
+							
 						
 						<cfloop query="g">
 							<cfset thisAttribute=g.geology_attribute>
