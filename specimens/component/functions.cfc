@@ -2826,13 +2826,13 @@ limitations under the License.
 							<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr data-entry-input"
 							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
 						</li>
-				<h1 class="h3 mt-3">Coordinate Metadata</h1>
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
 						</li>
 						<li class="col-12 col-md-10 pb-2 px-0">
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-entry-input">
 						</li>
+				
 					<li class="col-12 col-md-3 py-1 px-0">
 							<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label px-2 text-right"> Original Coordinate Units </label>
 						</li>
@@ -3147,8 +3147,8 @@ limitations under the License.
 					<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
 					<cfelse>
-						<span>
-						<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
+						<span class="mt-3">
+						<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
 							A new locality and collecting event will be created with these values and changes will apply to this record only. 
 						</span>
 					</cfif>
