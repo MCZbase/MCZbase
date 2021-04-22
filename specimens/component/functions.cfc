@@ -2996,10 +2996,10 @@ limitations under the License.
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
 						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
 						</li>
+							<li class="col-12 col-md-2 py-1 px-0">
 						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
 						</li>
 						<li class="col-12 col-md-2 pb-2 px-0">
