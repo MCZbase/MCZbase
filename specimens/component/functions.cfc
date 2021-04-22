@@ -3064,12 +3064,15 @@ limitations under the License.
 						</li>
 							</ul>
 						<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						Attribute
-						Value
-						Determiner
-						Date
-						Method
-						Remark
+						
+						
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Determiner</label></li>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Date</label>
+						</li>
+						
+						
 						<cfloop query="g">
 							<cfset thisAttribute=g.geology_attribute>
 							<select name="geology_attribute__#geology_attribute_id#"
@@ -3104,29 +3107,61 @@ limitations under the License.
 							<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
 						</cfloop>
 						New Geology Attribute
-						<select name="geology_attribute"  onchange="populateGeology(this.id)"
-				id="geology_attribute" size="1" class="reqdClr">
+					<li class="col-12 col-md-2 py-1 px-0">
+						<label for="geology_attribute" class="data-entry-label px-2 text-right"> Attribute</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">
+						<select name="geology_attribute" onchange="populateGeology(this.id)" id="geology_attribute" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctgeology_attribute">
 								<option value="#geology_attribute#">#geology_attribute#</option>
 							</cfloop>
 						</select>
-						<select id="geo_att_value" class="reqdClr data-entry-select"  name="geo_att_value"> </select>
+					</li>
+					<li class="col-12 col-md-2 py-1 px-0">
+						<label for="geo_att_value" class="data-entry-label px-2 text-right"> Value</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">	
+						<select id="geo_att_value" class="reqdClr data-entry-select"  name="geo_att_value"><option>value</option></select>
+					</li>
+					<li class="col-12 col-md-2 py-1 px-0">
+						<label for="geo_att_determiner" class="data-entry-label px-2 text-right"> Determiner</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">		
 						<input type="text" id="geo_att_determiner" name="geo_att_determiner" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
 						<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+					</li>
+					<li class="col-12 col-md-2 py-1 px-0">
+						<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">	
 						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date">
-						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method">
-						<input type="text" id="geo_att_remark" name="geo_att_remark">
-						<cfif loccount.ct eq 1 and cecount.ct eq 1>
-							<input type="submit" value="Save Changes" class="savBtn">
-							<cfelse>
-							<span>
-							<input type="submit" value="Split and Save Changes" class="savBtn">
-							A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
-						</cfif>
+					</li>
+					<li class="col-12 col-md-2 py-1 px-0">
+							<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">	
+						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
+					</li>
+					<li class="col-12 col-md-2 py-1 px-0">
+							<label for="geo_att_remark" class="data-entry-label px-2 text-right"> Remark</label>
+					</li>
+					<li class="col-12 col-md-2 pb-2 px-0">
+						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
+					</li>
+						
+					
+					<cfif loccount.ct eq 1 and cecount.ct eq 1>
+							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
+					<cfelse>
+						<span>
+						<input type="submit" value="Split and Save Changes" class="btn btn-xs btn-primary">
+							A new locality and collecting event will be created with these values and changes will apply to this record only. 
+						</span>
+					</cfif>
 					</cfform>
 					<script>
-					showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
+						showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
 					</script>
 					</ul>
 				</div>
