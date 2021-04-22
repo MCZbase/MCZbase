@@ -2838,12 +2838,13 @@ limitations under the License.
 							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="LAT_LONG_REMARKS"> Remarks </label>
+							<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
 						</li>
 						<li class="col-12 col-md-12 pb-2 px-0">
 							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-enty-input">
 						</li>
-						<div id="decdeg">
+		</ul>
+						<ul id="decdeg" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
 						</li>
@@ -2856,8 +2857,8 @@ limitations under the License.
 						<li class="col-12 col-md-2 pb-2 px-0">
 							<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
 						</li>
-		</div>
-						<div id="dms">
+		</ul>
+						<ul id="dms" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="lat_deg"  class="data-entry-label px-2 text-right">Lat. Deg.</label>
 						</li>
@@ -2918,8 +2919,8 @@ limitations under the License.
 								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 							</select>
 						</li>
-							</div>
-						<div id="ddm">
+							</ul>
+						<ul id="ddm" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
@@ -2942,11 +2943,12 @@ limitations under the License.
 						Lat. Dir.
 						<label>
 						</li>
+							<li class="col-12 col-md-2 pb-2 px-0">
 						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-						</select>
+							</select></li>
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlong_deg" class="data-entry-label px-2 text-right">
 						Long. Deg.
@@ -2970,12 +2972,14 @@ limitations under the License.
 						Long. Dir.
 						<label>
 						</li>
+							<li class="col-12 col-md-2 pb-2 px-0">
 						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-						</select>
-						</div>
+					</select></li>
+						</ul>
+						<ul class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0">
 						<li class="col-12 col-md-2 py-1 px-0">
 							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
 						</li>
