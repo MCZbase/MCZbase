@@ -2712,7 +2712,7 @@ limitations under the License.
 								<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 							</li>
 						</ul>
-						<h1 class="h3 mt-3">Coordinate Metadata</h1>
+						<h1 class="h3 mt-3">Coordinates and Coordinate Metadata</h1>
 						<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
 			
 					 
@@ -2834,7 +2834,7 @@ limitations under the License.
 						</li>
 				
 					<li class="col-12 col-md-3 py-1 px-0">
-							<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label px-2 text-right"> Original Coordinate Units </label>
+							<label for="ORIG_LAT_LONG_UNITS"  class="data-entry-label px-2 text-right"> Select Original Coordinate Units <span class="small">so the appropriate format appears</span> </label>
 						</li>
 						<li class="col-12 col-md-9 pb-2 px-0">
 							<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
