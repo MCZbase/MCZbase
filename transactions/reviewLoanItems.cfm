@@ -340,16 +340,16 @@ limitations under the License.
 					<h2 class="h3">
 						Review items in loan
 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
+						<p>There are #partCount# items from #catCount# specimens in this loan.</p>
 					</h2>
 					<div class="form-row">
 						<div class="col-12 col-xl-6">
-							<p>There are #partCount# items from #catCount# specimens in this loan.</p>
-						</div>
-						<div class="col-12 col-xl-6">
-							<strong>Type:</strong> #aboutLoan.loan_type#
-							<strong>Status:</strong> #aboutLoan.loan_status#
-							<cfif aboutLoan.return_due_date NEQ ''><strong>Due Date:</strong> #dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</cfif>
-							<cfif aboutLoan.closed_date NEQ ''><strong>Closed Date:</strong> #dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</cfif>
+							<ul class="list-unstyled">	
+								<li>Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span></li>
+								<li>Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span></li>
+							<li><cfif aboutLoan.return_due_date NEQ ''>Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></li>
+							<cfif aboutLoan.closed_date NEQ ''>Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span></cfif>
+							</ul>
 						</div>
 					</div>
 					<div class="form-row">
