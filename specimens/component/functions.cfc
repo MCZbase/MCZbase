@@ -2819,127 +2819,156 @@ limitations under the License.
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
 		 				onKeyPress="return noenter(event);">
 						<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="LAT_LONG_REF_SOURCE"> Reference </label>
+							</li>
 						<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" size="90" class="reqdClr"
 					value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
-						<label for="LAT_LONG_REMARKS"> Remarks </label>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="LAT_LONG_REMARKS"> Remarks </label></li>
 						<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#">
 						<div id="decdeg">
-						<label for="dec_lat">Decimal Latitude</label>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="dec_lat">Decimal Latitude</label></li>
 						<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr" validate="numeric">
-						<label for="dec_long">Decimal Longitude</label>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="dec_long">Decimal Longitude</label></li>
 						<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr" validate="numeric">
 						<div id="dms">
-						<label for="lat_deg">Lat. Deg.</label>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_deg">Lat. Deg.</label></li>
 						<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr"
-					validate="numeric">
-						<label for="lat_min">Lat. Min.</label>
-						<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr" validate="numeric">
-						<label for="lat_sec">Lat. Sec.</label>
-						<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr" validate="numeric">
-						<label for="lat_dir">Lat. Dir.</label>
+					validate="numeric">	<li class="col-12 col-md-2 py-1 px-0">
+							<label for="lat_min">Lat. Min.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr" validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_sec">Lat. Sec.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr" validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_dir">Lat. Dir.</label></li>
 						<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
 						</select>
-						<label for="long_deg">Long. Deg.</label>
-						<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
-					validate="numeric">
-						<label for="long_min">Long. Min.</label>
-						<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
-					validate="numeric">
-						<label for="long_sec">Long. Sec.</label>
-						<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
-					validate="numeric">
-						<label for="long_dir">Long. Dir.</label>
-						<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_deg">Long. Deg.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr"
+																	   validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_min">Long. Min.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr"
+																	   validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_sec">Long. Sec.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr"
+																	   validate="numeric">	<li class="col-12 col-md-2 py-1 px-0"></li>
+							<label for="long_dir">Long. Dir.</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><select name="LONG_DIR" size="1" id="long_dir" class="reqdClr">
 							<option value=""></option>
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-						</select>
+		</select></li>
 						<div id="ddm">
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg">
 						Lat. Deg.
-						<label>
-						<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr">
+							<label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dec_lat_min">
 						Lat. Dec. Min.
-						<label>
-						<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
-					validate="numeric">
+							<label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr"
+																	   validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_dir">
 						Lat. Dir.
-						<label>
+							<label></li>
 						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr">
 							<option value=""></option>
 							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
 							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
 						</select>
+										<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlong_deg">
 						Long. Deg.
-						<label>
-						<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
-					validate="numeric">
+							<label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr"
+																	   validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dec_long_min">
 						Long. Dec. Min.
-						<label>
-						<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
-					validate="numeric">
+							<label></li>
+					<li class="col-12 col-md-9 pb-2 px-0">	<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr"
+																	 validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlong_dir">
 						Long. Dir.
-						<label>
+							<label></li>
 						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr">
 							<option value=""></option>
 							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
 							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
 						</select>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="utm_zone">
 						UTM Zone
-						<label>
-						<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr" validate="numeric">
+							</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr" validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="utm_ew">
 						UTM East/West
-						<label>
-						<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
-					validate="numeric">
+									</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr"
+																	   validate="numeric"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="utm_ns">
 						UTM North/South
-						<label>
-						<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr" validate="numeric">
-						<label>Verbatim Coordinates (summary)</label>
-						<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#">
-						<label>Verbatim Latitude</label>
-						<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#">
-						<label>Verbatim Longitude</label>
-						<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#">
-						<label>Verbatim Coordinate System (e.g., decimal degrees)</label>
-						<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#">
-						<label>Verbatim SRS (e.g., datum)</label>
-						<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#"	>
+							</label></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr" validate="numeric"></li>
+							<label>Verbatim Coordinates (summary)</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label>Verbatim Latitude</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label>Verbatim Longitude</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label>Verbatim Coordinate System (e.g., decimal degrees)</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label>Verbatim SRS (e.g., datum)</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="verbatimCoordinates">
 						Verbatim Coordinates
-						<label>
-						<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates">
+									</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="verbatimLatitude">
 						Verbatim Latitude
-						<label>
-						<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4">
+									</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" size="4"></li>
 						<label for="verbatimLongitude">
 						Verbatim Longitude
-						<label>
-						<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4">
+						</label>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" size="4"></li>
 						<label for="verbatimCoordinateSystem">
 						Verbatim Coordinate System
-						<label>
-						<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem">
+						</label>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="verbatimSRS">
 						Verbatim SRS
-						<label>
-						<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS">
+									</label></li>
+						<li class="col-12 col-md-9 pb-2 px-0"><cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS"></li>
+								<li class="col-12 col-md-2 py-1 px-0">
 						<label for="gTab">
 						Geology
-						<label>
+									</label></li>
 						<div id="gTab" border="1" cellpadding="0" cellspacing="0">
 						Attribute
 						Value
