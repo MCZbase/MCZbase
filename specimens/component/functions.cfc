@@ -2549,7 +2549,7 @@ limitations under the License.
 						<li class="col-12 pb-1 col-md-12 px-0">
 							<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
 						</li>
-						<li class=" col-12 col-md-2 px-0 mb-3">
+						<li class=" col-12 col-md-2 px-0 my-2">
 							<label for="sovereign_nation" class="data-entry-label pt-1">Sovereign Nation</label>
 						</li>
 						<li class="col-12 pb-2 col-md-10 px-0 mb-3">
