@@ -2575,7 +2575,7 @@ limitations under the License.
 						<li class=" col-12 col-md-1 py-1 px-0">
 							<label for="orig_elev_units" class="data-entry-label px-2"> Elevation Units </label>
 						</li>
-						<li class=" col-12 col-md-2 pb-1 px-0">
+						<li class=" col-12 col-md-3 pb-1 px-0">
 							<select name="orig_elev_units" id="orig_elev_units" size="1">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
@@ -2600,7 +2600,7 @@ limitations under the License.
 						<li class="col-12 col-md-1 py-1 px-0">
 						<label for="depth_units"  class="data-entry-label px-2"> Depth Units </label>
 						</li>
-						<li class=" col-12 col-md-2 pb-1 px-0">
+						<li class=" col-12 col-md-3 pb-1 px-0">
 						<select name="depth_units" id="depth_units" class="" size="1">
 							<option value=""></option>
 							<cfloop query="ctdepthUnit">
