@@ -2748,11 +2748,11 @@ limitations under the License.
 				<li class="col-12 col-md-2 py-1 px-0">
 					<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
 					</li>
-					<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
+					<li class="col-12 col-md-2 pb-2 px-0">
+							<input type="text" class="data-entry-input" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
 					</li>
-						<li class="col-12 col-md-2 pb-1 px-0">
-							<select name="MAX_ERROR_UNITS" size="1">
+						<li class="col-12 col-md-2 pb-2 px-0">
+							<select name="MAX_ERROR_UNITS" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="cterror">
 									<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
@@ -2760,26 +2760,32 @@ limitations under the License.
 								</cfloop>
 							</select>
 					</li>
-						<label for="DATUM"> Datum </label>
+							<li class="col-12 col-md-2 py-1 px-0">
+								<label for="DATUM"> Datum </label></li>
+							<li class="col-12 col-md-2 py-1 px-0">
 						<cfset thisDatum = #l.DATUM#>
-						<select name="DATUM" id="DATUM" size="1" class="reqdClr">
+						<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctdatum">
 								<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
 							</cfloop>
-						</select>
-						<label for="georefMethod"> Georeference Method </label>
+							</select></li>
+						<li class="col-12 col-md-2 py-1 px-0">
+							<label for="georefMethod"> Georeference Method </label></li>
+						<li class="col-12 col-md-2 pb-2 px-0">
 						<cfset thisGeoMeth = #l.georefMethod#>
-						<select name="georefMethod" id="georefMethod" size="1" class="reqdClr" style="width: 300px">
+						<select name="georefMethod" id="georefMethod" size="1" class="reqdClr data-entry-select">
 							<cfloop query="ctGeorefMethod">
 								<option
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 							value="#georefMethod#">#georefMethod#</option>
 							</cfloop>
-						</select>
-						<label for="extent"> Extent </label>
-						<input type="text" name="extent" id="extent" value="#l.extent#" size="7">
+						</select></li>
+				<li class="col-12 col-md-2 py-1 px-0">
+					<label for="extent"> Extent </label></li>
+				<li class="col-12 col-md-2 pb-2 px-0">
+					<input type="text" name="extent" id="extent" value="#l.extent#" size="7"></li>
 						<label for="GpsAccuracy"> GPS Accuracy </label>
 						<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" size="7">
 						<label for="VerificationStatus"> Verification Status </label>
