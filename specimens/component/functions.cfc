@@ -2920,13 +2920,13 @@ limitations under the License.
 							</select>
 						</li>
 							</ul>
-						<ul id="ddm" class="list-unstyled  row mx-0 px-3 pt-2 pb-2 mb-0 ">
+						<ul id="ddm" class="list-unstyled row mx-0 px-3 pt-2 pb-2 mb-0 ">
 						<li class="col-12 col-md-2 py-1 px-0">
 						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
 						Lat. Deg.
 						<label>
 						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
+						<li class="col-12 col-md-2 pb-2 px-0">
 							<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr data-entry-input">
 						</li>
 						<li class="col-12 col-md-2 py-1 px-0">
