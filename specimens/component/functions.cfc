@@ -209,7 +209,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="row mt-2">
-														<div class="col-12 col-md-6 pr-0">
+														<div class="col-12 col-md-12 pr-0">
 															<label for="identification_remarks_#i#" class="data-entry-label">Remarks:</label>
 															<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#" class="data-entry-input" value="#encodeForHtml(identification_remarks)#" >
 														</div>
@@ -1969,6 +1969,7 @@ limitations under the License.
 				<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
+					<cfif len(attribute_value) gt 0>
 				<form class="row mx-0">
 					<ul class="col-12">
 						<cfloop query="sex">
@@ -2095,6 +2096,9 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</form>
+					<cfelse>
+						There are no attributes for #guid#
+					</cfif>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
