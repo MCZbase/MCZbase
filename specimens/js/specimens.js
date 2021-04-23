@@ -331,7 +331,7 @@ function addIdentAgentToForm (id,name,formid) {
 	if (typeof name == "undefined") {
 		name = "";
 	 }
-	jQuery.getJSON("/transactions/component/functions.cfc",
+	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
 			method : "getAgentIdentifiers",
 			id : id,
@@ -366,7 +366,7 @@ function addIdentAgentToForm (id,name,formid) {
 			d+='</script>';
 			d+='</div>';
 			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable').append(d);
+			jQuery('#newID').append(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
