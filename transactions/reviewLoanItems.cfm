@@ -560,7 +560,7 @@ limitations under the License.
 									{ name: 'loan_item_remarks', type: 'string' },
 									{ name: 'coll_obj_disposition', type: 'string' },
 									{ name: 'encumbrance', type: 'string' },
-									{ name: 'encumbering_agent', type: 'string' },
+									{ name: 'encumbering_agent_name', type: 'string' },
 									{ name: 'location', type: 'string' },
 									{ name: 'short_location', type: 'string' },
 									{ name: 'stored_as_name', type: 'string' },
@@ -667,7 +667,7 @@ limitations under the License.
 										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 									},
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
-									{text: 'Encumbered By', datafield: 'encumbering_agent', width:100, hideable: true, hidden: true, editable: false },
+									{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: true, editable: false },
 									{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
