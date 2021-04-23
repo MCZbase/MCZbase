@@ -333,7 +333,7 @@ function addIdentAgentToForm (id,name,formid) {
 	 }
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
-			method : "getIdent_agent",
+			method : "getAgentIdentifiers",
 			id : id,
 			returnformat : "json",
 			queryformat : 'column'
