@@ -172,14 +172,14 @@ limitations under the License.
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
 																		</div>
+																				<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 																	</script> 
 																</div>
-																	<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" onclick="" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+															
 																<cfset idnum=idnum+1>
-																
 															</cfloop>
 														</div>
 													</div>
