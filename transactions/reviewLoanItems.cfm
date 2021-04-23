@@ -537,6 +537,7 @@ limitations under the License.
 						var editableCellClass = function (row, columnfield, value) {
 							return 'bg-light';
 						};
+						var editableCellStyle = { border-width: "1px 1px 1px 1px;", border-color: "black" };
 						var historyButtonClick = function(row) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var itemid = rowData['part_id'];
@@ -672,14 +673,20 @@ limitations under the License.
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
 									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
 									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
-									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
+									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true, 
+										cellclassname: editableCellClass, style: editableCellStyle
+									},
 									{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: true, editable: false, 
 										cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
 									},
-									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
-									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
+									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true, 
+										cellclassname: editableCellClass, style: editableCellStyle
+									},
+									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true, 
+										cellclassname: editableCellClass, style: editableCellStyle
+									},
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, 
-										cellclassname: editableCellClass,
+										cellclassname: editableCellClass, style: ediableCellStyle,
 										columntype: 'dropdownlist',
 										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 									},
