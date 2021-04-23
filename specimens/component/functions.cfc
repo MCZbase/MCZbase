@@ -180,7 +180,7 @@ limitations under the License.
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
-																<div id="newID"></div>
+																<div id="newID" class="row"></div>
 																<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 													<script>	
 														$(document).ready(function(){
