@@ -694,7 +694,7 @@ limitations under the License.
 					</div>
 				</div>
 <style>
-	.card-body:empty {background:lime;}					
+	##otherIDsDialog:empty {background:lime;}					
 </style>
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
