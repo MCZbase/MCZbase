@@ -694,7 +694,7 @@ limitations under the License.
 					</div>
 				</div>
 <script>
-	if ($('.card-body').children().length == 0) {
+	if ($('.card-body').children().length == 7) {
 		document.getElementById("citationsPane").style.display = "none";
 	}
 </script>
