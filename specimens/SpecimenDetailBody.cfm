@@ -695,7 +695,7 @@ limitations under the License.
 				</div>
 <script>
         function checkifEmpty() {
-            if ($('#citationsCardBody').is(':empty')) {
+            if ($('##citationsCardBody').is(':empty')) {
                 document.querySelector('.editButton').textContent = true;
             }
             else {
