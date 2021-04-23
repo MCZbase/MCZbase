@@ -346,8 +346,11 @@ limitations under the License.
 			loan_item_remarks,
 			coll_obj_disposition,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
-			encumbrance,
-			decode(encumbrance,null,null,MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id)) as encumbering_agent_name,
+			MCZBASE.concateencumbrances(cataloged_item.collection_object_id) as encumbrance,
+			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
+			MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_art.collection_object_id)) as location,
+			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_art.collection_object_id)) as short_location,
+			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
 			loan_number,
 			specimen_part.collection_object_id as part_id,
 			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
@@ -360,8 +363,6 @@ limitations under the License.
 			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
 			left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
-			left join coll_object_encumbrance on coll_object.collection_object_id = coll_object_encumbrance.collection_object_id
-			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 			left join collection on cataloged_item.collection_id=collection.collection_id 
 			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 			left join locality on collecting_event.locality_id = locality.locality_id
