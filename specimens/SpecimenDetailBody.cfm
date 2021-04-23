@@ -685,7 +685,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-							<div class="card-body mb-2 float-left" id="citationsCardBody">
+							<div class="card-body py-0 mb-2 float-left" id="citationsCardBody">
 								<cfset block = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 
@@ -694,10 +694,10 @@ limitations under the License.
 					</div>
 				</div>
 <style>
-.card-body:not(:empty) {
+##citationsDialog:not(:empty) {
   display: block;
 }
-	.card-body:empty {
+##citationsDialog:empty {
   background:lime;
 }
 </style>
