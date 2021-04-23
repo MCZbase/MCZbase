@@ -664,12 +664,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-<style>
-.card-body div:not(:empty):before {
-  display: block;
-  content: attr(data-label);
-}
-</style>
+
 <!----------------------------- Citations new ----------------------------------> 
 			
 				<div class="accordion" id="accordionCitations">
@@ -698,7 +693,11 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			
+<style>
+.card-body div:not(:empty) {
+  display: block;
+}
+</style>
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
