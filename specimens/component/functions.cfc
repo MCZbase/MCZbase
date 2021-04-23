@@ -155,7 +155,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div class="row mt-2">
-														<div class="col-6 px-0">
+														<div class="col-12 px-0">
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
@@ -164,7 +164,7 @@ limitations under the License.
 																		Identified By
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 																		</label>
-																		<div class="col-12 px-0">
+																		<div class="col-6 px-0">
 																			<div class="input-group">
 																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
@@ -177,11 +177,21 @@ limitations under the License.
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 																	</script> 
 																</div>
+																	<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" onclick="" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 																<cfset idnum=idnum+1>
+																
 															</cfloop>
 														</div>
-																<div id="newID" class="row"></div>
-																<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+													</div>
+													<div id="newID" class="row"></div>
+													<script>
+														function addIdentAgentToForm(agent_id,agent_name) { 
+															// add trans_agent record
+															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
+															// trigger save needed
+															handleChange();
+														}
+													</script>		
 													<script>	
 														$(document).ready(function(){
 															$(".addIDName").click(function(){$("##newID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#">Identified By<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div></div></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button addIDName float-right remIDName"><i class="fas fa-times"></i></button></div>');
@@ -189,7 +199,7 @@ limitations under the License.
 															$("##newID").on('click','.remIDName',function(){$(this).parent().remove()});
 														});
 													</script>
-													</div>
+												
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
 															<label for="made_date_#i#" class="data-entry-label">ID Date</label>
