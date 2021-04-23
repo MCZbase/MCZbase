@@ -884,7 +884,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="Action" value="saveCatEdits">
 									Catalog&nbsp;Number:
-									<select name="collection_id" size="1" class="reqdClr">
+									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
 										<cfset thisCollId=#getIDs.collection_id#>
 										<cfloop query="ctcoll_cde">
 											<option 
@@ -907,7 +907,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
 												<label class="data-entry-label">Other ID Type</label>
-												<select name="other_id_type" class="data-entry-select mb-3 mb-md-0" style="" size="1">
+												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
 														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
