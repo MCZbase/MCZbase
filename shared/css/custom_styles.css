@@ -1791,7 +1791,6 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 #agentDiv ul {
 	font-size: 0.95rem;
 }
-div#attributesDialog_div:empty {display:none;}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
