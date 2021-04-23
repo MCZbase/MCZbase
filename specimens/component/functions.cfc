@@ -165,13 +165,13 @@ limitations under the License.
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 																		</label>
 																		<div class="col-6 px-0">
-																			<div class="input-group">
+																			<div class="input-group float-left">
 																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																					<a aria-label="Add another Identifier"  style="max-width: 22px;" class="btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
+																			<a aria-label="Add another Identifier"  style="max-width: 22px;" class="float-left btn btn-xs btn-primary addIDName col rounded px-1 mx-1 mt-3" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 																		</div>
 																		
 																	</div>
