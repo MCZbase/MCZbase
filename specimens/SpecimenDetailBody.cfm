@@ -696,10 +696,10 @@ limitations under the License.
 <script>
         function checkifEmpty() {
             if ($('##citationsCardBody').is(':empty')) {
-                document.querySelector('.editButton').textContent = true;
+                document.querySelector('.card').textContent = true;
             }
             else {
-                document.querySelector('.editButton').textContent = false;
+                document.querySelector('.card').textContent = false;
             }              
         };
     </script>
