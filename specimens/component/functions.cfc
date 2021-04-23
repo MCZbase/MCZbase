@@ -905,7 +905,7 @@ limitations under the License.
 										<input type="hidden" name="Action">
 										<cfset thisType = #oids.other_id_type#>
 										<div class="row mx-0">
-											<div class="form-group col-12 col-md-2 pl-0 pr-1">
+											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
 												<label class="data-entry-label">Other ID Type</label>
 												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
@@ -915,19 +915,19 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="form-group col-12 col-md-2 px-1">
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
 												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
 												<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
 											</div>
-											<div class="form-group col-12 col-md-3 px-1">
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
 												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
 												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
 											</div>
-											<div class="form-group col-12 col-md-2 px-1">
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
 												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
 												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
 											</div>
-											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1 mt-0 mt-md-3">
 												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
 												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
 											</div>
