@@ -1790,9 +1790,7 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 }
 #agentDiv ul {
 	font-size: 0.95rem;
-}
-
-div.card-body:before:empty {background:lime;}					
+}				
 
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
