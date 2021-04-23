@@ -200,8 +200,6 @@ limitations under the License.
 															handleChange();
 														}
 													</script>		
-					
-													
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
 															<label for="made_date_#i#" class="data-entry-label">ID Date</label>
@@ -930,7 +928,7 @@ limitations under the License.
 												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
 											</div>
 											<div class="form-group col-2 px-1 mt-3">
-												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+												<input type="button" value="Save Changes" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
 												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
 											</div>
 										</div>
@@ -948,7 +946,7 @@ limitations under the License.
 										</h1>
 									</div>
 									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-										<div class="card-body">
+										<div class="card-body mt-2">
 											<form name="newOID" method="post" action="Specimens.cfm">
 												<div class="row mx-0">
 													<div class="form-group col-3 pl-0 pr-1">
