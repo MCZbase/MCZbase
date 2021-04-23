@@ -535,9 +535,9 @@ limitations under the License.
 							return 'History';
 						};
 						var editableCellClass = function (row, columnfield, value) {
-							return 'bg-light';
+							return 'bg-light editable-cell';
 						};
-						var editableCellStyle = { borderWidth: "1px 1px 1px 1px", borderColor: "black" };
+						var editableCellStyle = { headerBackgroundColor: "##ffc10782", headerColor: "black"  };
 						var historyButtonClick = function(row) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var itemid = rowData['part_id'];
