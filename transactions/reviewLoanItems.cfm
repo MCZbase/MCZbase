@@ -534,7 +534,7 @@ limitations under the License.
 						var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							return 'History';
 						};
-						var editableCellClass function (row, columnfield, value) {
+						var editableCellClass = function (row, columnfield, value) {
 							return 'bg-light';
 						};
 						var historyButtonClick = function(row) {
