@@ -919,7 +919,7 @@ limitations under the License.
 												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
 												<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
 											</div>
-											<div class="form-group col-2 px-1">
+											<div class="form-group col-3 px-1">
 												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
 												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
 											</div>
