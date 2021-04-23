@@ -695,7 +695,7 @@ limitations under the License.
 				</div>
 <script>
 	if ($('.card-body').children().length == 7) {
-		document.getElementById("citationsPane").style.background = "lime";
+		document.getElementById("partsCardBody").style.background = "lime";
 	}
 </script>
 <!------------------------------------ other identifiers ---------------------------------->
