@@ -686,7 +686,7 @@ limitations under the License.
 										cellclassname: editableCellClass, style: editableCellStyle
 									},
 									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, 
-										cellclassname: editableCellClass, style: ediableCellStyle,
+										cellclassname: editableCellClass, style: editableCellStyle,
 										columntype: 'dropdownlist',
 										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 									},
