@@ -667,7 +667,7 @@ limitations under the License.
 <style>
 .card-body div:not(:empty):before {
   display: block;
-  content: 'display:none';
+  content: attr(data-label);
 }
 </style>
 <!----------------------------- Citations new ----------------------------------> 
