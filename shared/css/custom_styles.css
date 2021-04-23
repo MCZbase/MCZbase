@@ -169,8 +169,8 @@ h6, .h6 {
 }
 /* Editable cells in a jqx-grid */
 .editable-cell {
-	border-width: 1px 1px 1px 1px;
-	border-color: black;
+	border-width: 1px 1px 1px 1px !important;
+	border-color: black !important;
 }
 p {
 	margin-bottom: .75rem;
