@@ -371,7 +371,8 @@ limitations under the License.
 											</select>
 											<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
 										</form>
-										<cfif aboutLoan.collection EQ 'Cryogenic'>
+										<div class="col-12 col-xl-6">
+											<cfif aboutLoan.collection EQ 'Cryogenic'>
 												<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
 													<br>Change preservation method of all these items to:
 													<input type="hidden" name="Action" value="BulkUpdatePres">
@@ -383,12 +384,8 @@ limitations under the License.
 													</select>
 													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
 												</form>
-										</cfif>
-									</div>
-									<div class="col-12 col-xl-6">
-											<div class="my-2 py-1">View 
-											<a href="/findContainer.cfm?loan_trans_id=#transaction_id#">Part Locations</a>
-											or <a href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#">Print Freezer Locations</a></div>
+											</cfif>
+										</div>
 									</div>
 								</div>
 								</div>
@@ -415,6 +412,8 @@ limitations under the License.
 									</div>
 									<div id="columnPickDialogButton"></div>
 									<div id="resultDownloadButtonContainer"></div>
+									<div id="locationButtonContainer"></div>
+									<div id="freezerLocationButtonContainer"></div>
 								</div>
 								<div class="row mt-0 mx-0">
 									<!--- Grid Related code is below along with search handlers --->
@@ -511,6 +510,8 @@ limitations under the License.
 							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+							$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
+							$('##freezerocationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#" target="_blank" >Print Freezer Locations</a>');
 						};
 	
 						// Cell renderers
