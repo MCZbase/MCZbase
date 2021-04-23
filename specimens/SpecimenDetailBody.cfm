@@ -681,7 +681,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right editButton" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
 							</cfif>
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
@@ -693,16 +693,14 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-<script>
-        function checkifEmpty() {
-            if ($('##citationsCardBody').is(':empty')) {
-                document.querySelector('.card').textContent = true;
-            }
-            else {
-                document.querySelector('.card').textContent = false;
-            }              
-        };
-    </script>
+<style>
+.card-body:not(:empty) {
+  display: block;
+}
+	.card-body:empty {
+  background:lime;
+}
+</style>
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
