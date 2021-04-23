@@ -264,7 +264,7 @@ limitations under the License.
 												<cfset i = #i#+1>
 											</cfloop>
 											<div class="col-12 mt-2">
-												<input type="button" value="Save Changes" aria-label="Save Changes" class="btn btn-xs btn-primary"
+												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editIdentificationsForm')[0])) { editIdentificationsSubmit();  } ">
 												<output id="saveIdentificationsResultDiv" class="text-danger">&nbsp;</output>
 											</div>

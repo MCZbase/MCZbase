@@ -688,14 +688,11 @@ limitations under the License.
 							<div class="card-body py-0 mb-2 float-left" id="citationsCardBody">
 								<cfset block = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
-
 							</div>
 						</div>
 					</div>
 				</div>
-<style>
-	##otherIDsDialog:empty {background:lime;}					
-</style>
+
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
