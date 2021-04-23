@@ -537,7 +537,7 @@ limitations under the License.
 						var editableCellClass = function (row, columnfield, value) {
 							return 'bg-light';
 						};
-						var editableCellStyle = { border-width: "1px 1px 1px 1px", border-color: "black" };
+						var editableCellStyle = { borderWidth: "1px 1px 1px 1px", borderColor: "black" };
 						var historyButtonClick = function(row) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var itemid = rowData['part_id'];
