@@ -693,14 +693,11 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-<style>
-##citationsDialog:not(:empty) {
-  display: block;
-}
-##citationsDialog:empty {
-  background:lime;
-}
-</style>
+<script>
+	if ($('.card-body').children().length == 0) {
+		document.getElementById("citationsPane").style.display = "none";
+	}
+</script>
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
