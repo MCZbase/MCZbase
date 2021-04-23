@@ -534,6 +534,9 @@ limitations under the License.
 						var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							return 'History';
 						};
+						var editableCellClass function (row, columnfield, value) {
+							return 'bg-light';
+						};
 						var historyButtonClick = function(row) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var itemid = rowData['part_id'];
@@ -648,6 +651,7 @@ limitations under the License.
 								},
 								columns: [
 									{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
+									{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: true, editable: false },
 									{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: true, editable: false  },
 									{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
@@ -668,18 +672,19 @@ limitations under the License.
 									{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
 									{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
 									{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
-									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true },
+									{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
 									{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: true, editable: false, 
 										cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
 									},
-									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true },
-									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true },
-									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, columntype: 'dropdownlist',
+									{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
+									{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
+									{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, 
+										cellclassname: editableCellClass,
+										columntype: 'dropdownlist',
 										initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 									},
 									{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
 									{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: true, editable: false },
-									{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
 									{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
 								],
 								rowdetails: true,
