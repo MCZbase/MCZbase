@@ -693,11 +693,9 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-<script>
-	if ($('.card-body').children().length == 7) {
-		document.getElementById("partsCardBody").style.background = "lime";
-	}
-</script>
+<style>
+	.card-body:empty {background:lime;}					
+</style>
 <!------------------------------------ other identifiers ---------------------------------->
 				<div class="accordion" id="accordionOtherID">
 					<div class="card mb-2 bg-light">
