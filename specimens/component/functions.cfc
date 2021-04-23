@@ -454,6 +454,38 @@ limitations under the License.
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
 
+							
+<cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getAgentIdentsThread"> <cfoutput>
+		<cftry>
+		<p>Hello</p>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+		</cfoutput> </cfthread>
+	<cfthread action="join" name="getAgentIdentsThread" />
+	<cfreturn getAgentIdentsThread.output>
+</cffunction>
 <!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
