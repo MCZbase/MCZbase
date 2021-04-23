@@ -511,7 +511,6 @@ limitations under the License.
 							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 							$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
-							$('##freezerLocationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#" target="_blank" >Print Freezer Locations</a>');
 						};
 	
 						// Cell renderers
