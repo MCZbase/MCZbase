@@ -371,24 +371,24 @@ limitations under the License.
 											</select>
 											<input type="submit" value="Update Dispositions" class="btn btn-xs btn-primary" >
 										</form>
-										<div class="col-12 col-xl-6">
-											<cfif aboutLoan.collection EQ 'Cryogenic'>
-												<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
-													<br>Change preservation method of all these items to:
-													<input type="hidden" name="Action" value="BulkUpdatePres">
-													<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-													<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
-														<cfloop query="ctPreserveMethod">
-															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-														</cfloop>				
-													</select>
-													<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
-												</form>
-											</cfif>
-										</div>
+									</div>
+									<div class="col-12 col-xl-6">
+										<cfif aboutLoan.collection EQ 'Cryogenic'>
+											<form name="BulkUpdatePres" method="post" action="a_loanItemReview.cfm">
+												<br>Change preservation method of all these items to:
+												<input type="hidden" name="Action" value="BulkUpdatePres">
+												<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+												<select name="part_preserve_method" class="data-entry-select col-3 d-inline" size="1">
+													<cfloop query="ctPreserveMethod">
+														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+													</cfloop>				
+												</select>
+												<input type="submit" value="Update Preservation methods" class="btn btn-xs btn-primary"> 
+											</form>
+										</cfif>
 									</div>
 								</div>
-								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -510,8 +510,8 @@ limitations under the License.
 							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
-							$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
-							$('##freezerocationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#" target="_blank" >Print Freezer Locations</a>');
+							$('##locationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-1" aria-label="View part locations in storage heirarchy" href="/findContainer.cfm?loan_trans_id=#transaction_id#" target="_blank" >View Part Locations</a>');
+							$('##freezerLocationButtonContainer').html('<a id="locationbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="View part locations in storage heirarchy" href="/loanFreezerLocn.cfm?transaction_id=#transaction_id#" target="_blank" >Print Freezer Locations</a>');
 						};
 	
 						// Cell renderers
