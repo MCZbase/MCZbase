@@ -346,7 +346,7 @@ limitations under the License.
 			loan_item_remarks,
 			coll_obj_disposition,
 			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
-			MCZBASE.concateencumbrances(cataloged_item.collection_object_id) as encumbrance,
+			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
 			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
 			MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
 			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
