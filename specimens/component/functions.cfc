@@ -180,7 +180,15 @@ limitations under the License.
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
+																<a aria-label="Add another set of search criteria"  style="max-width: 22px;" class="btn btn-xs btn-primary addSciName col loginButtons rounded px-1 mr-auto m-1" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i></a>
 														<button id="addIdentifier_#i#" onclick="addIdentifier('#i#','#idnum#')" class="btn btn-xs btn-secondary px-2 mt-3 float-right">Add Identifier</button>
+													<script>	
+														$(document).ready(function(){
+															$(".addSciName").click(function(){$("##customSciName").append('<div class="row mt-2 bg-light pt-2 pb-0"><label for="sci_name" class="data-entry-label col-sm-3 text-center text-md-right px-0">Scientific Name</label><div class="col-12 col-lg-8"><input type="text" class="data-entry-input" name="sci_name" placeholder="Scientific Name"></div><label for="ID_made_by" class="data-entry-label col-sm-3 text-center text-md-right px-0">ID Made By</label><div class="col-12 col-lg-8"><input type="text" class="data-entry-input" name="made_by" placeholder="ID Made By"></div><div class="col-12 row mx-0 px-0"><label for="nature_of_id" class="data-entry-label col-lg-3 text-center text-xl-right px-0">Nature of ID</label><div class="col-12 col-lg-4 pr-xl-0"><select class="data-entry-select" required=""><option value="">Expert ID</option><option value="1">Field ID</option><option value="2">Non-Expert ID</option><option value="3">Curatorial ID</option></select></div><div class="col-12 col-lg-4"><input type="text" name="date_of_id" class="data-entry-input" placeholder="Date of ID"></div></div><label for="id_remark" class="data-entry-label col-sm-3 text-center text-md-right px-0">ID Remark</label><div class="col-12 col-sm-8"><textarea type="text" name="ID_remark" class="data-entry-textarea" placeholder="ID Remark"/></textarea></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button addSciName float-right remSciName"><i class="fas fa-times"></i></button></div>');
+															});
+															$("##customSciName").on('click','.remSciName',function(){$(this).parent().remove()});
+														});
+													</script>
 													</div>
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
