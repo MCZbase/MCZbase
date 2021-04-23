@@ -188,7 +188,7 @@ limitations under the License.
 													<script>
 														function addIdentAgentToForm(agent_id,agent_name) { 
 															// add trans_agent record
-															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
+															getAgentIdentifiers(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
 															// trigger save needed
 															handleChange();
 														}
