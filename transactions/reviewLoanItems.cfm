@@ -263,7 +263,7 @@ limitations under the License.
 			</cfquery>
 		<cfelse>
 			<!--- Obtain list of preserve_method values that apply to all of collection for material in this loan--->
-			<cfset insersect = "">
+			<cfset intersect = "">
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct preserve_method from (
 					<cfloop query="getCollections" >
@@ -271,7 +271,7 @@ limitations under the License.
 						select preserve_method 
 						from ctspecimen_preserv_method
 						where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#betCollections.collection_cde#">
-						<cfset insersect = "INTERSECT">
+						<cfset intersect = "INTERSECT">
 					</cfloop>
 				)
 			</cfquery>
