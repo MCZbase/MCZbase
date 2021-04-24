@@ -293,7 +293,7 @@ limitations under the License.
 					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
 					<cfloop query="getCollections" >
 						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
-					<cfloop>
+					</cfloop>
 				</cfif>
 	
 				<!--- count cataloged items and parts in the loan --->
