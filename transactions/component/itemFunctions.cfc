@@ -397,4 +397,140 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+
+<!--- obtain an html block to populate dialog for removing loan items from a loan --->
+<cffunction name="getRemoveLoanItemDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="part_id" type="string" required="yes">
+
+	<cfthread name="getRemoveLoanItemHtmlThread">
+		<cftry>
+			<cfoutput>
+	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is "on loan">
+		<!--- see if it's a subsample --->
+		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select SAMPLED_FROM_OBJ_ID from specimen_part where collection_object_id = #partID#
+		</cfquery>
+		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
+					You cannot remove this item from a loan while it's disposition is "on loan." 
+			<br />Use the form below if you'd like to change the disposition and remove the item 
+			from the loan, or to delete the item from the database completely.
+			
+			<form name="cC" method="post" action="a_loanItemReview.cfm">
+				<input type="hidden" name="action" />
+				<input type="hidden" name="transaction_id" value="#transaction_id#" />
+				<input type="hidden" name="item_instructions" value="#item_instructions#" />
+				<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
+				<input type="hidden" name="partID" value="#partID#" />
+				<input type="hidden" name="spRedirAction" value="delete" />
+				Change disposition to: <select name="coll_obj_disposition" size="1">
+					<cfloop query="ctDisp">
+						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+					</cfloop>				
+				</select>
+				<p />
+				<input type="button" 
+					class="delBtn"
+					onmouseover="this.className='delBtn btnhov'"
+					onmouseout="this.className='delBtn'"
+					value="Remove Item from Loan" 
+					onclick="cC.action.value='saveDisp'; submit();" />
+				
+				<p /><input type="button" 
+					class="delBtn"
+					onmouseover="this.className='delBtn btnhov'"
+					onmouseout="this.className='delBtn'"
+					value="Delete Subsample From Database" 
+					onclick="cC.action.value='killSS'; submit();"/>
+					<p /><input type="button" 
+					class="qutBtn"
+					onmouseover="this.className='qutBtn btnhov'"
+					onmouseout="this.className='qutBtn'"
+					value="Discard Changes" 
+					onclick="cC.action.value='nothing'; submit();"/>
+			</form>
+			<cfabort>
+			<cfabort>
+		<cfelse>
+			You cannot remove this item from a loan while it's disposition is "on loan." 
+			<br />Use the form below if you'd like to change the disposition and remove the item 
+			from the loan.
+			
+			<form name="cC" method="post" action="a_loanItemReview.cfm">
+				<input type="hidden" name="action" />
+				<input type="hidden" name="transaction_id" value="#transaction_id#" />
+				<input type="hidden" name="item_instructions" value="#item_instructions#" />
+				<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
+				<input type="hidden" name="partID" id="partID" value="#partID#" />
+				<input type="hidden" name="spRedirAction" value="delete" />
+				<br />Change disposition to: <select name="coll_obj_disposition" size="1">
+					<cfloop query="ctDisp">
+						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+					</cfloop>				
+				</select>
+				<br /><input type="button" 
+					class="delBtn"
+					onmouseover="this.className='delBtn btnhov'"
+					onmouseout="this.className='delBtn'"
+					value="Remove Item from Loan" 
+					onclick="cC.action.value='saveDisp'; submit();" />
+				<br /><input type="button" 
+					class="qutBtn"
+					onmouseover="this.className='qutBtn btnhov'"
+					onmouseout="this.className='qutBtn'"
+					value="Discard Changes" 
+					onclick="cC.action.value='nothing'; submit();"/>
+			</form>
+			<cfabort>
+		</cfif>
+	</cfif>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
+	<cfreturn getRemoveLoanItemHtmlThread.output>
+</cffunction>
+
+<!--- delete an entry from the loan item table. 
+	@param transaction_id the transaction_id of the loan from which to remove the loan item.
+	@param partID the collection_object_id of the part to be removed as as an item from the specified loan.
+	@return a json structure including status: 1 or an http 500 with an error message
+--->
+<cffunction name="removePartFromLoan" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="partID" type="numeric" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleLoanItem_result">
+				DELETE FROM loan_item 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif deleLoanItem_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item removed from loan.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
 </cfcomponent>
