@@ -39,7 +39,7 @@ limitations under the License.
 	<cfthrow message="No transaction specified.">
 </cfif>
 
-<!-------------------------------------------------------------------------------->
+<!---
 <cfif #Action# is "delete">
 	<!--- TODO: Move to a backing function/dialog --->
 	<cfoutput>
@@ -166,7 +166,7 @@ limitations under the License.
 	</cfoutput>
 
 </cfif>
-<!-------------------------------------------------------------------------------->
+---->
 
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
