@@ -168,6 +168,7 @@ limitations under the License.
 </cfif>
 ---->
 
+<cfif NOT isdefined("action")><cfset action=""></cfif>
 <cfswitch expression="#action#">
 	<cfcase value="BulkUpdateDisp">
 		<cfoutput>
