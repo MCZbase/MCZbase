@@ -270,7 +270,7 @@ limitations under the License.
 						<cfif len(intersect) GT 0>#intersect#</cfif>
 						select preserve_method 
 						from ctspecimen_preserv_method
-						where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#betCollections.collection_cde#">
+						where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getCollections.collection_cde#">
 						<cfset intersect = "INTERSECT">
 					</cfloop>
 				)
