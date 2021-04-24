@@ -229,51 +229,18 @@ limitations under the License.
 	</cfcase>
 	<!-------------------------------------------------------------------------------->
 	<cfdefaultcase>
-		<cfquery name="getPartLoanRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
-				cat_num, 
-				cataloged_item.collection_object_id,
-				collection,
-				collection.collection_cde,
-				part_name,
-				preserve_method,
-				condition,
-				sampled_from_obj_id,
-				item_descr,
-				item_instructions,
-				loan_item_remarks,
-				coll_obj_disposition,
-				scientific_name,
-				Encumbrance,
-				agent_name,
-				loan_number,
-				specimen_part.collection_object_id as partID,
-				concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID		 			 
+		<cfquery name="getCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollections_result">
+			select count(*) as ct, collection.collection_cde 
 			from 
-				loan_item, 
-				loan,
-				specimen_part, 
-				coll_object,
-				cataloged_item,
-				coll_object_encumbrance,
-				encumbrance,
-				agent_name,
-				identification,
-				collection
+				loan_item
+				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+				left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+				left join collection on cataloged_item.collection_id=collection.collection_id
 			WHERE
-				loan_item.collection_object_id = specimen_part.collection_object_id AND
-				loan.transaction_id = loan_item.transaction_id AND
-				specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
-				specimen_part.collection_object_id = coll_object.collection_object_id AND
-				coll_object.collection_object_id = coll_object_encumbrance.collection_object_id (+) and
-				coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id (+) AND
-				encumbrance.encumbering_agent_id = agent_name.agent_id (+) AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
-				identification.accepted_id_fg = 1 AND
-				cataloged_item.collection_id=collection.collection_id AND
-				loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-			ORDER BY cat_num
+				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+			GROUP BY collection.collection_cde
 		</cfquery>
+		<cfset collectionCount = getCollections.recordcount>
 		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT count(*) as ct, sovereign_nation
 			FROM loan_item 
@@ -282,17 +249,33 @@ limitations under the License.
 				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 				left join locality on collecting_event.locality_id = locality.locality_id
 			WHERE 
-				loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 			GROUP BY sovereign_nation
 		</cfquery>
-		<!--- Obtain list of preserve_method values for the collection that this loan is from --->
-		<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select ct.preserve_method, c.collection_cde 
-			from ctspecimen_preserv_method ct 
-				left join collection c on ct.collection_cde = c.collection_cde
-				left join trans t on c.collection_id = t.collection_id 
-			where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-		</cfquery>
+		<cfif collectionCount EQ 1>
+			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct ct.preserve_method
+				from ctspecimen_preserv_method ct 
+					left join collection c on ct.collection_cde = c.collection_cde
+					left join trans t on c.collection_id = t.collection_id 
+				where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
+			</cfquery>
+		<cfelse>
+			<!--- Obtain list of preserve_method values that apply to all of collection for material in this loan--->
+			<cfset insersect = "">
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct preserve_method from (
+					<cfloop query="getCollections" >
+						<cfif len(intersect) GT 0>#intersect#</cfif>
+						select preserve_method 
+						from ctspecimen_preserv_method
+						where collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#betCollections.collection_cde#">
+						<cfset insersect = "INTERSECT">
+					</cfloop>
+				)
+			</cfquery>
+		</cfif>
 		<!--- handle legacy loans with cataloged items as the item --->
 		<main class="container-fluid" id="content">
 			<cfoutput>
@@ -303,28 +286,41 @@ limitations under the License.
 					from collection c 
 						left join trans t on c.collection_id = t.collection_id 
 						left join loan l on t.transaction_id = l.transaction_id
-					where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
+				<cfset multipleCollectionsText = "">
+				<cfif collectionCount GT 1>
+					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
+					<cfloop query="getCollections" >
+						<cfset multipleCollectionsText = "#multipleCollectionsText# #getCollections.collection_cde# (#getCollections.ct#) " >
+					<cfloop>
+				</cfif>
 	
 				<!--- count cataloged items and parts in the loan --->
-				<cfquery name="catCnt" dbtype="query">
-					select count(distinct(collection_object_id)) c 
-					from getPartLoanRequests
+				<cfquery name="catCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(distinct(derived_from_cat_item)) c 
+					from loan_item
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
 				<cfif catCnt.c eq ''>
 					<cfset catCount = 'no'>
 				<cfelse>
 					<cfset catCount = catCnt.c>
 				</cfif>
-				<cfquery name="prtItemCnt" dbtype="query">
-					select count(distinct(partID)) c 
-					from getPartLoanRequests
+				<cfquery name="prtItemCnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(distinct(collection_object_id)) c 
+					from loan_item
+					where
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
 				<cfif prtItemCnt.c eq ''>
 					<cfset partCount = 'no'>
 				<cfelse>
 					<cfset partCount = prtItemCnt.c>
 				</cfif>
+
 				<section class="row my-2 pt-2" title="Review Loan Items" >
 					<div class="col-12">
 						<div class="container-fluid">
@@ -336,6 +332,9 @@ limitations under the License.
 												Review items in loan
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#encodeForHtml(aboutLoan.loan_number)#</a>.
 												<p class="font-weight-normal mb-1 pb-0">There are #partCount# items from #catCount# specimens in this loan.</p>
+												<cfif collectionCount GT 1 >
+													<p class="font-weight-normal mb-1 pb-0">#multipleCollectionsText#</p>
+												</cfif>
 											</h1>
 											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
 											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
