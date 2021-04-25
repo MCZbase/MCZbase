@@ -406,84 +406,99 @@ limitations under the License.
 	<cfthread name="getRemoveLoanItemHtmlThread">
 		<cftry>
 			<cfoutput>
-	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is "on loan">
-		<!--- see if it's a subsample --->
-		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select SAMPLED_FROM_OBJ_ID from specimen_part where collection_object_id = #partID#
-		</cfquery>
-		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
-					You cannot remove this item from a loan while it's disposition is "on loan." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the loan, or to delete the item from the database completely.
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select coll_obj_disposition from ctcoll_obj_disp 
+						where coll_obj_disposition <> 'on loan'
+				</cfquery>
+				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT coll_obj_disposition 
+					from coll_object 
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<cfset onLoan=false>
+				<cfif lookupDisp.coll_obj_disposition is "on loan">
+					<cfset onLoan=true>
+				</cfif>
+				<!--- see if it's a subsample --->
+				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select SAMPLED_FROM_OBJ_ID 
+					from specimen_part 
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
+					<cfif onLoan>
+						<h2 class="h3">This item currently has a dispostion of "on loan."</h2>
+						<p>You must change the disposition to remove the item from the loan, 
+						or as this is a subsample, you may delete the item from the database completely.</p>
+					<cfelse>
+						<h2 class="h3">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
+						<p>You may change the disposition and remove the item from the loan, 
+						or, as this is a subsample, you may delete the item from the database completely.</p>
+					</cfif>
 			
-			<form name="cC" method="post" action="a_loanItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="item_instructions" value="#item_instructions#" />
-				<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
-				<input type="hidden" name="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
-				</select>
-				<p />
-				<input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Loan" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				
-				<p /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Delete Subsample From Database" 
-					onclick="cC.action.value='killSS'; submit();"/>
-					<p /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
-			<cfabort>
-			<cfabort>
-		<cfelse>
-			You cannot remove this item from a loan while it's disposition is "on loan." 
-			<br />Use the form below if you'd like to change the disposition and remove the item 
-			from the loan.
-			
-			<form name="cC" method="post" action="a_loanItemReview.cfm">
-				<input type="hidden" name="action" />
-				<input type="hidden" name="transaction_id" value="#transaction_id#" />
-				<input type="hidden" name="item_instructions" value="#item_instructions#" />
-				<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
-				<input type="hidden" name="partID" id="partID" value="#partID#" />
-				<input type="hidden" name="spRedirAction" value="delete" />
-				<br />Change disposition to: <select name="coll_obj_disposition" size="1">
-					<cfloop query="ctDisp">
-						<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-					</cfloop>				
-				</select>
-				<br /><input type="button" 
-					class="delBtn"
-					onmouseover="this.className='delBtn btnhov'"
-					onmouseout="this.className='delBtn'"
-					value="Remove Item from Loan" 
-					onclick="cC.action.value='saveDisp'; submit();" />
-				<br /><input type="button" 
-					class="qutBtn"
-					onmouseover="this.className='qutBtn btnhov'"
-					onmouseout="this.className='qutBtn'"
-					value="Discard Changes" 
-					onclick="cC.action.value='nothing'; submit();"/>
-			</form>
-			<cfabort>
-		</cfif>
-	</cfif>
+					<form name="cC" method="post" action="a_loanItemReview.cfm">
+						<input type="hidden" name="action" />
+						<input type="hidden" name="transaction_id" value="#transaction_id#" />
+						<input type="hidden" name="item_instructions" value="#item_instructions#" />
+						<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
+						<input type="hidden" name="partID" value="#partID#" />
+						<input type="hidden" name="spRedirAction" value="delete" />
+						Change disposition to:
+						<select name="coll_obj_disposition" size="1">
+							<cfloop query="ctDisp">
+								<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+							</cfloop>				
+						</select>
+						<p />
+						<input type="button" 
+							class="btn btn-xs btn-warning"
+							value="Remove Item from Loan" 
+							onclick="cC.action.value='saveDisp'; submit();" />
+						<p />
+						<input type="button" 
+							class="btn btn-xs btn-danger"
+							value="Delete Subsample From Database" 
+							onclick="cC.action.value='killSS'; submit();"/>
+						<p />
+						<input type="button" 
+							class="btn btn-xs"
+							value="Discard Changes" 
+							onclick="cC.action.value='nothing'; submit();"/>
+					</form>
+				<cfelse>
+					<cfif onLoan>
+						<h2 class="h3">This item currently has a dispostion of "on loan"</h2>
+						<p>You must change the disposition to remove the item from the loan</p>
+					<cfelse>
+						<h2 class="h3">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
+						<p>You may change the disposition and remove the item from this loan</p>
+					</cfif> 
+					<form name="cC" method="post" action="a_loanItemReview.cfm">
+						<input type="hidden" name="action" />
+						<input type="hidden" name="transaction_id" value="#transaction_id#" />
+						<input type="hidden" name="item_instructions" value="#item_instructions#" />
+						<input type="hidden" name="loan_item_remarks" value="#loan_item_remarks#" />
+						<input type="hidden" name="partID" id="partID" value="#partID#" />
+						<input type="hidden" name="spRedirAction" value="delete" />
+						Change disposition to:
+						<select name="coll_obj_disposition" size="1">
+							<cfloop query="ctDisp">
+								<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+							</cfloop>				
+						</select>
+						<br />
+						<input type="button" 
+							class="btn btn-xs btn-warning"
+							value="Remove Item from Loan" 
+							onclick="cC.action.value='saveDisp'; submit();" />
+						<br />
+						<input type="button" 
+							class="btn btn-xs"
+							value="Discard Changes" 
+							onclick="cC.action.value='nothing'; submit();"/>
+					</form>
+				</cfif>
+			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
