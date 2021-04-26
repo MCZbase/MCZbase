@@ -242,7 +242,7 @@ limitations under the License.
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
-<cfoutput>
+
 
 		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -383,6 +383,7 @@ limitations under the License.
 			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
+		</cfoutput>
 			<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
