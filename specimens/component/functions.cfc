@@ -714,7 +714,6 @@ limitations under the License.
 --->
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
 		<cftry>
 			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -812,6 +811,7 @@ limitations under the License.
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
 </cffunction>
+
 
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
