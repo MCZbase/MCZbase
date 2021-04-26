@@ -2019,7 +2019,7 @@ limitations under the License.
 				<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
-					<cfif len(attribute_value) gt 0>
+					<cfif len(attributes.attribute_value) gt 0>
 				<form class="row mx-0">
 					<ul class="col-12">
 						<cfloop query="sex">
@@ -2120,7 +2120,8 @@ limitations under the License.
 					</cfquery>
 							<cfelse>
 							<!--- not Mamm --->
-							<cfquery name="theRest" dbtype="query">
+							
+					<cfquery name="theRest" dbtype="query">
 						select * from attribute where attribute_type NOT IN ('sex')
 					</cfquery>
 						</cfif>
@@ -2169,7 +2170,8 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+		</cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
