@@ -478,7 +478,6 @@ limitations under the License.
 			</cfquery>
 			<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-				
 				<div class="accordion" id="accordionMedia">
 					<div class="card bg-light">
 						<div class="card-header mb-2" id="headingMedia">
