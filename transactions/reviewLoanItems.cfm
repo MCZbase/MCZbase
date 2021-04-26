@@ -334,10 +334,11 @@ limitations under the License.
 							</div>
 						</div>
 						<div id="itemConditionHistoryDialog"></div>
+						<div id="removeItemDialog"></div>
 						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 						<script>
-							function removeLoanItem(item_collection_object_id, transaction_id) { 
-								alert("TODO: Implement. [" + item_collection_object_id + "][" + transaction_id + "]" );
+							function removeLoanItem(item_collection_object_id) { 
+								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog');
 							};
 							$(document).ready(function() {
 								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
@@ -435,7 +436,7 @@ limitations under the License.
 								var result = "";
 								var itemid = rowData['part_id'];
 								if (itemid) {
-									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ',#transaction_id#);" class="btn btn-xs btn-warning">Remove</a></span>';
+									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
 								} else { 
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 								}
