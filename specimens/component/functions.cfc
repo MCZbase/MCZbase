@@ -2148,7 +2148,7 @@ limitations under the License.
 					</ul>
 				</form>
 					<cfelse>
-						There are no attributes for #guid#
+						There are no attributes for this record.
 					</cfif>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
