@@ -28,29 +28,28 @@ limitations under the License.
 	<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getMediaThread">
-				<cfoutput>
+			<cfoutput>
 				<cftry>
-				
-						<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct
-					media.media_id,
-					media.media_uri,
-					media.mime_type,
-					media.media_type,
-					media.preview_uri,
-					media_relations.media_relationship
-				 from
-					 media,
-					 media_relations,
-					 media_labels
-				 where
-					 media.media_id=media_relations.media_id and
-					 media.media_id=media_labels.media_id (+) and
-					 media_relations.media_relationship like '%cataloged_item' and
-					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
-				order by media.media_type
-			</cfquery>
+					<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct
+							media.media_id,
+							media.media_uri,
+							media.mime_type,
+							media.media_type,
+							media.preview_uri,
+							media_relations.media_relationship
+						 from
+							 media,
+							 media_relations,
+							 media_labels
+						 where
+							 media.media_id=media_relations.media_id and
+							 media.media_id=media_labels.media_id (+) and
+							 media_relations.media_relationship like '%cataloged_item' and
+							 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+							 AND MCZBASE.is_media_encumbered(media.media_id) < 1
+						order by media.media_type
+					</cfquery>
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
 								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
@@ -169,7 +168,7 @@ limitations under the License.
 										<!--/div---> 
 									</span>
 								</div>
-								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select p.barcode from
 									container c,
 									container p,
@@ -182,10 +181,9 @@ limitations under the License.
 									coll_obj_cont_hist.container_id=c.container_id and
 									c.parent_container_id=p.container_id and
 									cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-								</cfquery>
+								</cfquery>--->
 							
 		<cfcatch>
-		<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
 				<cfelse>
@@ -204,7 +202,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					</cfoutput>
+			
 				</cfcatch>
 			</cftry>
 		</cfoutput>
