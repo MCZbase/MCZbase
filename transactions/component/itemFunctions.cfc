@@ -338,14 +338,13 @@ limitations under the License.
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
-			<cfif upDisp_result.recordcount NEQ 1>
-				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
-			</cfif>
-			<cfif upItem_result.recordcount eq 1>
+			<cfif upDisp_result.recordcount eq 1>
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated.", 1)>
+			<cfelse>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -444,7 +443,6 @@ limitations under the License.
 			<cfoutput>
 				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select coll_obj_disposition from ctcoll_obj_disp 
-						where coll_obj_disposition <> 'on loan'
 				</cfquery>
 				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT coll_obj_disposition 
