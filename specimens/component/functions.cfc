@@ -2059,19 +2059,19 @@ limitations under the License.
 </cfquery>
 						<cfif #code.collection_cde# is "Mamm">
 							<cfquery name="total_length" dbtype="query">
-						select * from attribute where attribute_type = 'total length'
+						select * from attribute1 where attribute_type = 'total length'
 					</cfquery>
 							<cfquery name="tail_length" dbtype="query">
-						select * from attribute where attribute_type = 'tail length'
+						select * from attribute1 where attribute_type = 'tail length'
 					</cfquery>
 							<cfquery name="hf" dbtype="query">
-						select * from attribute where attribute_type = 'hind foot with claw'
+						select * from attribute1 where attribute_type = 'hind foot with claw'
 					</cfquery>
 							<cfquery name="efn" dbtype="query">
-						select * from attribute where attribute_type = 'ear from notch'
+						select * from attribute1 where attribute_type = 'ear from notch'
 					</cfquery>
 							<cfquery name="weight" dbtype="query">
-						select * from attribute where attribute_type = 'weight'
+						select * from attribute1 where attribute_type = 'weight'
 					</cfquery>
 							<cfif
 						len(total_length.attribute_units) gt 0 OR
@@ -2113,7 +2113,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfquery name="theRest" dbtype="query">
-						select * from attribute 
+						select * from attribute1 
 						where attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
