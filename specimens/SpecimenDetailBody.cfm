@@ -384,6 +384,7 @@ limitations under the License.
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 	</cfif>
 		</cfoutput>
+	<cfoutput>
 			<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
@@ -795,11 +796,12 @@ limitations under the License.
 				</cfif>
 			</div>
 			<!--- end of column 3 --->
-			
+			<cfoutput query="one">
 			<cfif oneOfUs is 1>
 				</form>
 						
 			</cfif>
+			</cfoutput>
 		</div>
 	</div>
 	</cfoutput>
