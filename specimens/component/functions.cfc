@@ -1962,7 +1962,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> <cfoutput>
 			<cftry>
-				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -2017,9 +2017,9 @@ limitations under the License.
 				)
 			</cfquery>
 				<cfquery name="sex" dbtype="query">
-				select * from attributes where attribute_type = 'sex'
+				select * from attribute1 where attribute_type = 'sex'
 			</cfquery>
-					<cfif len(attribute.attribute_value) gt 0>
+					<cfif len(attribute_value) gt 0>
 				<form class="row mx-0">
 					<ul class="col-12">
 						<cfloop query="sex">
