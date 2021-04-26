@@ -72,6 +72,26 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId) {
 		}
 	});
 }
+
+function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		data : {
+			method : "updateLoanItemDisposition",
+			transaction_id: transaction_id,
+			part_id: part_id,
+			coll_obj_disposition: new_disposition
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for a borrow");
+		},
+		dataType: "html"
+	});
+};
+
 function remPartFromLoan( partID ) {
 	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
 	var dispnFld = eval(s);
