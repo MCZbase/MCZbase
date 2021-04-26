@@ -242,6 +242,7 @@ limitations under the License.
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
+
 		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				collector.coll_order,
@@ -628,9 +629,9 @@ limitations under the License.
 							</cfif>
 							</div>
 						</div>
-				
+					</div>
 			
-		
+												</div>
 							</cfif>
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
