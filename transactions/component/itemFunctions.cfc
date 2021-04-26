@@ -459,7 +459,7 @@ limitations under the License.
 				<div id="updateStatus"></div>
 				<script>
 					function updateDisp(new_disposition) { 
-						updateLoanItemDisposition(#partID#, #transaction_id#, new_disposition,'updateStatus');
+						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
 					}
 				</script>
 				<!--- see if it's a subsample --->
