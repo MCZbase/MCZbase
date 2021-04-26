@@ -28,9 +28,9 @@ limitations under the License.
 	<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getMediaThread">
-			
+				<cfoutput>
 				<cftry>
-					<cfoutput>
+				
 						<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
@@ -183,9 +183,9 @@ limitations under the License.
 									c.parent_container_id=p.container_id and
 									cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								</cfquery>
-									</cfoutput>
+							
 		<cfcatch>
-			<cfoutput>
+		
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
 				<cfelse>
@@ -204,10 +204,9 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-							</cfoutput>
-			</cfcatch>
+				</cfcatch>
 			</cftry>
-	
+		</cfoutput>
 		</cfthread>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
