@@ -478,6 +478,34 @@ limitations under the License.
 			</cfquery>
 			<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+								<!--- ---------------------------------- tranactions  ----------------------------------- --->
+					
+				<div class="accordion" id="accordionTransactions">
+					<div class="card mb-2 bg-light">
+						<div id="transactionsDialog"></div>
+						<script>
+							function reloadTransactions() { 
+								// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
+								loadTransactions(#collection_object_id#,'transactionsCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingTransactions">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##TransactionsPane">Transactions</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Edit</button>
+							</cfif>
+						</div>
+						<div id="TransactionsPane" class="collapse show" aria-labelledby="headingTransactions" data-parent="##accordionTransactions">
+							<div class="card-body mb-2 float-left" id="transactionsCardBody">
+								<cfset block = getTransactionsHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+					
 				<div class="accordion" id="accordionMedia">
 					<div class="card bg-light">
 						<div class="card-header mb-2" id="headingMedia">
