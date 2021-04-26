@@ -61,9 +61,9 @@ limitations under the License.
 </cffunction>
 	
 	
-<cffunction name="getIdentifications2HTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getIdentifications2Thread">
+		<cfthread name="getIdentificationsThread">
 			<cfoutput>
 				<cftry>
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -258,8 +258,8 @@ limitations under the License.
 			</cftry>
 			</cfoutput>
 		</cfthread>
-		<cfthread action="join" name="getIdentifications2Thread" />
-	<cfreturn getIdentifications2Thread.output>
+		<cfthread action="join" name="getIdentificationsThread" />
+	<cfreturn getIdentificationsThread.output>
 </cffunction>
 
 <!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
