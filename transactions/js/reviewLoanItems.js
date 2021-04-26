@@ -89,7 +89,7 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 			$("#"+targetDiv).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"obtaining restrictions and agreed benefits for a borrow");
+			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
 		},
 		dataType: "html"
 	});
