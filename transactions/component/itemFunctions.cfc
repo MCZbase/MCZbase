@@ -565,13 +565,13 @@ limitations under the License.
 --->
 <cffunction name="removePartFromLoan" access="remote" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfargument name="partID" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
 
 	<cftransaction>
 		<cftry>
 			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleLoanItem_result">
 				DELETE FROM loan_item 
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfif deleLoanItem_result.recordcount eq 1>
