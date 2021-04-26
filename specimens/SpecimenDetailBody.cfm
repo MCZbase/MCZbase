@@ -242,7 +242,6 @@ limitations under the License.
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
-
 		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				collector.coll_order,
@@ -373,7 +372,7 @@ limitations under the License.
 			ORDER by substr(formatted_publication, -4)
 		</cfquery>
 <cfoutput query="one">
-		<cfif oneOfUs is 1>
+	<cfif oneOfUs is 1>
 		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="suppressHeader" value="true">
@@ -520,42 +519,42 @@ limitations under the License.
 							</cfquery>
 								<cfif media.recordcount gt 0>
 								<div class="mt-2">
-												<cfquery name="wrlCount" dbtype="query">
-													select * from media where mime_type = 'model/vrml'
-												</cfquery>
-												<cfif wrlCount.recordcount gt 0>
-													<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-												</cfif>
-												<cfquery name="pdfCount" dbtype="query">
-													select * from media where mime_type = 'application/pdf'
-												</cfquery>
-												<cfif pdfCount.recordcount gt 0>
-													<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
-												</cfif>
-												<cfif oneOfUs is 1>
-													<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														SELECT 
-															count(*) c
-														FROM
-															ctattribute_type
-														WHERE 
-															attribute_type='image confirmed' and
-															collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.collection_cde#">
-													</cfquery>
-													<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
-													<cfquery name="isConf"  dbtype="query">
-														SELECT 
-															count(*) c
-														FROM
-															attribute
-														WHERE 
-															attribute_type='image confirmed'
-													 </cfquery>
-													<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-														<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
-													</CFIF>
-												</cfif>
-											</div>
+									<cfquery name="wrlCount" dbtype="query">
+										select * from media where mime_type = 'model/vrml'
+									</cfquery>
+									<cfif wrlCount.recordcount gt 0>
+										<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+									</cfif>
+									<cfquery name="pdfCount" dbtype="query">
+										select * from media where mime_type = 'application/pdf'
+									</cfquery>
+									<cfif pdfCount.recordcount gt 0>
+										<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
+									</cfif>
+									<cfif oneOfUs is 1>
+										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT 
+												count(*) c
+											FROM
+												ctattribute_type
+											WHERE 
+												attribute_type='image confirmed' and
+												collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.collection_cde#">
+										</cfquery>
+										<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
+										<cfquery name="isConf"  dbtype="query">
+											SELECT 
+												count(*) c
+											FROM
+												attribute
+											WHERE 
+												attribute_type='image confirmed'
+										 </cfquery>
+										<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+											<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
+										</CFIF>
+									</cfif>
+								</div>
 								<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
@@ -565,9 +564,9 @@ limitations under the License.
 												<a href="#aForThisHref#" target="_blank" class="w-100">
 												<img src="#mediaS2.media_uri#" class="w-100 mb-2">
 												</a>
-											<cfelse>
+										<cfelse>
 
-											</cfif>
+										</cfif>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
 											<cfset mt=media.mime_type>
@@ -625,14 +624,14 @@ limitations under the License.
 									c.parent_container_id=p.container_id and
 									cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								</cfquery>
-								</div>
+						</div>
 							</cfif>
 							</div>
 						</div>
-					</div>
+				
 			
 		
-		</cfif>
+							</cfif>
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
