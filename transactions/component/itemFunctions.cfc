@@ -380,7 +380,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated to #col_obj_dispoistion#.", 1)>
 			<cfelse>
 				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
 			</cfif>
@@ -501,6 +501,16 @@ limitations under the License.
 						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
 					}
 				</script>
+				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+					select 
+						item_descr
+					from 
+						loan_item
+					WHERE
+						loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+						AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
 				<!--- see if it's a subsample --->
 				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select SAMPLED_FROM_OBJ_ID 
@@ -509,20 +519,20 @@ limitations under the License.
 				</cfquery>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<cfif onLoan>
-						<h2 class="h3">This subsample currently has a dispostion of "on loan."</h2>
+						<h3 class="h4">This subsample currently has a dispostion of "on loan."</h3>
 						<p>You must change the disposition to remove the item from the loan, 
 						or as this is a subsample, you may delete the item from the database completely.</p>
 					<cfelse>
-						<h2 class="h3">This subsample currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
+						<h3 class="h4">This subsample currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h3>
 						<p>You may change the disposition and remove the item from the loan, 
 						or, as this is a subsample, you may delete the item from the database completely.</p>
 					</cfif>
 				<cfelse>
 					<cfif onLoan>
-						<h2 class="h3">This item currently has a dispostion of "on loan"</h2>
+						<h3 class="h4">This item currently has a dispostion of "on loan"</h3>
 						<p>You must change the disposition to remove the item from the loan</p>
 					<cfelse>
-						<h2 class="h3">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
+						<h3 class="h4">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h3>
 						<p>You may change the disposition and remove the item from this loan</p>
 					</cfif> 
 				</cfif> 

@@ -89,6 +89,7 @@ function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targ
 			queryformat : 'column'
 		},
 		success: function (result) {
+			if (typeof result == 'string') { result = JSON.parse(result); } 
 			if (result.DATA.STATUS[0]==1) {
 				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
 			} else { 
@@ -115,6 +116,7 @@ function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) {
 			queryformat : 'column'
 		},
 		success: function (result) {
+			if (typeof result == 'string') { result = JSON.parse(result); } 
 			if (result.DATA.STATUS[0]==1) {
 				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
 			} else { 
