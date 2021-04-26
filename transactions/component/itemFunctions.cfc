@@ -481,7 +481,7 @@ limitations under the License.
 			
 					<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
 					<form name="cC" method="post" action="">
-						<select name="coll_obj_disposition" size="1" class="data-entry-select" onSelect="updateDisp(this.value);" id="updateDispositionSelect" >
+						<select name="coll_obj_disposition" size="1" class="data-entry-select" onchange="updateDisp(this.value);" id="updateDispositionSelect" >
 							<cfloop query="ctDisp">
 								<cfset selected = "">
 								<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>
@@ -510,7 +510,7 @@ limitations under the License.
 					</cfif> 
 					<form name="cC" method="post" action="">
 						<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
-						<select name="coll_obj_disposition" id="updateDispositionSelect" size="1" class="data-entry-select" onSelect="updateDisp(this.value);" >
+						<select name="coll_obj_disposition" id="updateDispositionSelect" size="1" class="data-entry-select" onchange="updateDisp(this.value);" >
 							<cfloop query="ctDisp">
 								<cfset selected = "">
 								<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>

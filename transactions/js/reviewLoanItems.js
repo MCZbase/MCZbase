@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function openRemoveLoanItemDialog(part_id, transaction_id, dialogId) { 
+function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) { 
 	var title = "Remove Part from Loan.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
@@ -45,6 +45,9 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId) {
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		},
 		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
 			$("#"+dialogId+"_div").html("");
 			$("#"+dialogId).empty();
 			try {

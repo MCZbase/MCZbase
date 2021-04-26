@@ -338,7 +338,7 @@ limitations under the License.
 						<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 						<script>
 							function removeLoanItem(item_collection_object_id) { 
-								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog');
+								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
 							};
 							$(document).ready(function() {
 								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
