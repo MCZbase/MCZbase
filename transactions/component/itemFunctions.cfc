@@ -268,6 +268,17 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
+ This is the backing function for the editable loan items grid. 
+ @param transaction_id the transaction the loan item is in
+ @param part_id the part participating in the loan item, loan item is a weak enity, it is keyed off of transaction_id and part_id 
+   (as collection_object_id of the collection object for the part).
+ @param condition the new value of the coll_object.condition to save.
+ @param item_instructions the new value of the loan_item.item_instructions to save.
+ @param loan_item_remarks the new value of the loan_item.item_remarks to save.
+ @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
+ @return a json structurre with status:1, or a http 500 response.
+--->
 <cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="part_id" type="numeric" required="yes">
@@ -278,9 +289,19 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+				select * from loan_item
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif confirmItem.recordcount EQ 0>
+				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			</cfif>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
 				UPDATE coll_object 
-				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif upDisp_result.recordcount NEQ 1>
@@ -326,6 +347,14 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+
+<!--- function updateLoanItemDisposition to update the disposition of an item in a loan.
+ @param transaction_id the transaction the loan item is in
+ @param part_id the part participating in the loan item, loan item is a weak enity, it is keyed off of transaction_id and part_id 
+   (as collection_object_id of the collection object for the part).
+ @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
+ @return a json structure with status:1, or a http 500 response.
+--->
 <cffunction name="updateLoanItemDisposition" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="part_id" type="numeric" required="yes">
@@ -333,6 +362,15 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+				select * from loan_item
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif confirmItem.recordcount EQ 0>
+				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			</cfif>
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
 				UPDATE coll_object 
 				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
@@ -360,7 +398,10 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-
+<!--- function getLoanItemsData return a json structure containing data to display in a grid listing the items in a loan.
+ @param transaction_id the transaction_id of the loan for which to return loan items 
+ @return a json structure suitable for populating a jqxgrid or an http 500 on an error.
+--->
 <cffunction name="getLoanItemsData" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 
@@ -468,36 +509,14 @@ limitations under the License.
 				</cfquery>
 				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					<cfif onLoan>
-						<h2 class="h3">This item currently has a dispostion of "on loan."</h2>
+						<h2 class="h3">This subsample currently has a dispostion of "on loan."</h2>
 						<p>You must change the disposition to remove the item from the loan, 
 						or as this is a subsample, you may delete the item from the database completely.</p>
 					<cfelse>
-						<h2 class="h3">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
+						<h2 class="h3">This subsample currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
 						<p>You may change the disposition and remove the item from the loan, 
 						or, as this is a subsample, you may delete the item from the database completely.</p>
 					</cfif>
-			
-					<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
-					<form name="cC" method="post" action="">
-						<select name="coll_obj_disposition" size="1" class="data-entry-select" onchange="updateDisp(this.value);" id="updateDispositionSelect" >
-							<cfloop query="ctDisp">
-								<cfset selected = "">
-								<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>
-								<option value="#coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
-							</cfloop>				
-						</select>
-						<p />
-						<input type="button" 
-							class="btn btn-xs btn-warning"
-							value="Remove Item from Loan" 
-							onclick="cC.action.value='saveDisp'; submit();" />
-						<p />
-						<input type="button" 
-							class="btn btn-xs btn-danger"
-							value="Delete Subsample From Database" 
-							onclick="cC.action.value='killSS'; submit();"/>
-						<p />
-					</form>
 				<cfelse>
 					<cfif onLoan>
 						<h2 class="h3">This item currently has a dispostion of "on loan"</h2>
@@ -506,27 +525,25 @@ limitations under the License.
 						<h2 class="h3">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h2>
 						<p>You may change the disposition and remove the item from this loan</p>
 					</cfif> 
-					<form name="cC" method="post" action="">
-						<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
-						<select name="coll_obj_disposition" id="updateDispositionSelect" size="1" class="data-entry-select" onchange="updateDisp(this.value);" >
-							<cfloop query="ctDisp">
-								<cfset selected = "">
-								<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>
-								<option value="#coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
-							</cfloop>				
-						</select>
-						<br />
-						<input type="button" 
-							class="btn btn-xs btn-warning"
-							value="Remove Item from Loan" 
-							onclick="cC.action.value='saveDisp'; submit();" />
-						<br />
-						<input type="button" 
-							class="btn btn-xs"
-							value="Discard Changes" 
-							onclick="cC.action.value='nothing'; submit();"/>
-					</form>
+				</cfif> 
+				<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
+				<select name="coll_obj_disposition" size="1" class="data-entry-select" onchange="updateDisp(this.value);" id="updateDispositionSelect" >
+					<cfloop query="ctDisp">
+						<cfset selected = "">
+						<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>
+						<option value="#coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+					</cfloop>				
+				</select>
+				<p />
+				<button class="btn btn-xs btn-warning" value="Remove Item from Loan" 
+					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus'); ">Remove Item from Loan</button>
+				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
+					<p />
+					<button class="btn btn-xs btn-danger"
+						value="Delete Subsample From Database" 
+						onclick="alert('not yet implemented');">Delete Subsample From Database</button> <!--- cC.action.value='killSS'; submit();"/> --->
 				</cfif>
+				<p />
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
