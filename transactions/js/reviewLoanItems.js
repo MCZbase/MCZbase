@@ -61,7 +61,7 @@ function openRemoveLoanItemDialog(part_id, transaction_id, dialogId) {
 		data: {
 			method: 'getRemoveLoanItemDialogContent',
 			returnformat: "plain",
-			partId: part_id,
+			part_id: part_id,
 			transaction_id: transaction_id
 		},
 		success: function(data) {
