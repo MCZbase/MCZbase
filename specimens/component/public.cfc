@@ -185,7 +185,7 @@ limitations under the License.
 								</cfquery>
 							
 		<cfcatch>
-		
+		<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
 				<cfelse>
@@ -204,6 +204,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+					</cfoutput>
 				</cfcatch>
 			</cftry>
 		</cfoutput>
