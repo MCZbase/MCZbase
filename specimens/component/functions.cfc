@@ -2017,9 +2017,9 @@ limitations under the License.
 				)
 			</cfquery>
 				<cfquery name="sex" dbtype="query">
-				select * from attribute where attribute_type = 'sex'
+				select * from attributes where attribute_type = 'sex'
 			</cfquery>
-					<cfif len(attributes.attribute_value) gt 0>
+					<cfif len(attribute.attribute_value) gt 0>
 				<form class="row mx-0">
 					<ul class="col-12">
 						<cfloop query="sex">
