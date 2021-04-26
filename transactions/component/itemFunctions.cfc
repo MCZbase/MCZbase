@@ -380,7 +380,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated to #col_obj_dispoistion#.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated to #coll_obj_disposition#.", 1)>
 			<cfelse>
 				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
 			</cfif>
