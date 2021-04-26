@@ -355,7 +355,7 @@ limitations under the License.
  @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
  @return a json structure with status:1, or a http 500 response.
 --->
-<cffunction name="updateLoanItemDisposition" access="remote" returnformat="json">
+<cffunction name="updateLoanItemDisposition" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="coll_obj_disposition" type="string" required="yes">
@@ -563,7 +563,7 @@ limitations under the License.
 	@param partID the collection_object_id of the part to be removed as as an item from the specified loan.
 	@return a json structure including status: 1 or an http 500 with an error message
 --->
-<cffunction name="removePartFromLoan" access="remote" returnformat="json">
+<cffunction name="removePartFromLoan" access="remote">
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	<cfargument name="part_id" type="numeric" required="yes">
 
