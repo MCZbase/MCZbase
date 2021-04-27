@@ -72,7 +72,7 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-
+<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
@@ -125,7 +125,6 @@ limitations under the License.
 											</div>
 										</cfloop>
 									</span>
-								</div>
 								</div>
 					</cfoutput>
 						</cfif>
