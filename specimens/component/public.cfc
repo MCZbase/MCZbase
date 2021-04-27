@@ -26,9 +26,7 @@ limitations under the License.
 		<cfoutput>
 		<cfthread name="getMediaThread">
 				<cftry>
-				<cfquery name="cat_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from cataloged_item where cataloged_item.collection_object_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-				</cfquery>
+
 				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						media.media_id,
@@ -73,44 +71,8 @@ limitations under the License.
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 						order by media.media_type
 					</cfquery>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<cfset oneOfUs = 1>
-					<cfelse>
-						<cfset oneOfUs = 0>
-					</cfif>
 					<cfoutput>
-							<cfif media.recordcount gt 0>
-								<div class="mt-2">
-									<cfquery name="wrlCount" dbtype="query">
-										select * from media where mime_type = 'model/vrml'
-									</cfquery>
-									<cfif wrlCount.recordcount gt 0>
-										<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-									</cfif>
-									<cfquery name="pdfCount" dbtype="query">
-										select * from media where mime_type = 'application/pdf'
-									</cfquery>
-									<cfif pdfCount.recordcount gt 0>
-										<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
-									</cfif>
-					
-									<cfif oneOfUs is 1>
-										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT count(*) c FROM ctattribute_type where ctattribute_type.COLLECTION_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_code.collection_cde#">
-										</cfquery>
-										<cfquery name="isConf"  dbtype="query">
-											SELECT 
-												count(*) c
-											FROM
-												attribute
-											WHERE 
-												attribute_type='image confirmed'
-										 </cfquery>
-										<cfif isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-											<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
-										</cfif>
-									</cfif>
-								</div>
+
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
