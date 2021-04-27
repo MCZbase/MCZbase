@@ -604,4 +604,102 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- obtain an html block to populate dialog for adding an item to a loan 
+@param collection_object_id the collection object id of the cataloged item parts of which to list in dialog to add to loan
+@param guid the guid of the cataloged item parts of which to list in dialog to add to loan, takes priority over collection_object_id.
+@param transaction_id the id of the loan to which to add items.
+@return an block of html suitable for populating a dialog for adding parts from a cataloged item to a loan.
+--->
+<cffunction name="getAddLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="guid" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAddLoanItemHtmlThread">
+		<cftry>
+			<cfif (not isdefined("collection_object_id") OR len(collection_object_id) EQ 0) AND (NOT isdefined("guid") OR len(guid) EQ 0)>
+				<cfthrow message="Unable to look up cataloged item.  Either guid or collection_object_id must have a value.">
+			</cfif>
+			<cfoutput>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select coll_obj_disposition from ctcoll_obj_disp 
+				</cfquery>
+				<cfif isdefined("guid") AND len(guid) GT 0>
+					<cfquery name="lookupCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection_object_id 
+						from flat
+						where guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
+					</cfquery>
+					<cfset collection_object_id = lookupCollObjId.collection_object_id>
+				</cfif>
+				<cfquery name="lookupCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						guid, 
+						mczbase.get_numparts(collection_object_id) as num_parts,
+						mczbase.GET_SCIENTIFIC_NAME_AUTHS(collection_object_id) as current_ident,
+						collectors,
+						verbatim_date,
+						higher_geog,
+						spec_locality,
+						typestatusplain
+					FROM cataloged_item 
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+					WHERE
+						<cfif 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<h2 class="h3">Add items to loan</h2>
+				<div>
+					<div>
+						<ul>
+							<cfloop query="lookupCatalogedItem">
+								<li>#guid#</li>
+								<li>#current_ident#</li>
+								<li>#type_status_plain#</li>
+								<li>#higher_geog#</li>
+								<li>#spec_locality#</li>
+								<li>#collectors#</li>
+								<li>#verbatim_date#</li>
+							</cfloop>
+						</ul>
+					</div>
+					<cfquery name="lookupParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							specimen_part.collection_object_id as part_id,
+							part_name, part_modifier, preserve_method,
+							coll_obj_disposition, lot_count, lot_count_modifier,
+							condition
+						FROM cataloged_item
+							left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<div>
+						<h2 class="h3">Parts/Preparations to add</h2>
+						<cfloop query="lookupParts">
+							#part_id#
+							#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier# 
+							#coll_obj_disposition#
+							#condition#
+							<label>Remark</label>
+							<label>Instructions</label>
+							<label>Subsample</label>
+							<button>Add</button>
+						</cfloop>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAddLoanItemHtmlThread" />
+	<cfreturn getAddLoanItemHtmlThread.output>
+</cffunction>
 </cfcomponent>
