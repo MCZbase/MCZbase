@@ -48,9 +48,9 @@ limitations under the License.
 				<cfquery name="ctmedia" dbtype="query">
 					select count(*) as ct from mediaS2 group by media_relationship order by media_id
 				</cfquery>
-				<cfoutput>
+			
 				<cfif mediaS2.recordcount gt 1>
-					<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
+					<cfoutput><a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							media.media_id,
@@ -72,33 +72,37 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 				<cfif media.recordcount gt 0>
+					<cfoutput>
 						<div class="mt-2">
+					</cfoutput>
 							<cfquery name="wrlCount" dbtype="query">
 								select * from media where mime_type = 'model/vrml'
 							</cfquery>
 							<cfif wrlCount.recordcount gt 0>
+							<cfoutput>
 								<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+								</cfoutput>
 							</cfif>
 							<cfquery name="pdfCount" dbtype="query">
 								select * from media where mime_type = 'application/pdf'
 							</cfquery>
 							<cfif pdfCount.recordcount gt 0>
-								<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
+								<cfoutput><span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span></cfoutput>
 							</cfif>
-						</div>
-						<span class="form-row col-12 px-0 mx-0"> 
+						<cfoutput></div>
+						<span class="form-row col-12 px-0 mx-0"></cfoutput>
 						<cfif #mediaS2.media_uri# contains "specimen_images">
 							<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS2.media_id#" >
-							<a href="#aForThisHref#" target="_blank" class="w-100">
+							<cfoutput><a href="#aForThisHref#" target="_blank" class="w-100">
 							<img src="#mediaS2.media_uri#" class="w-100 mb-2">
-							</a>
+								</a></cfoutput>
 						<cfelse>
 
 						</cfif>
 				
-						</span>
+								<cfoutput></span></cfoutput>
 				</cfif>
-							</cfoutput>
+						
 		<cfcatch>
 			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
