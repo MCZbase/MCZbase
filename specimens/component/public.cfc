@@ -21,10 +21,6 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
-<!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
- @return html for viewing identifications for the specified cataloged item. 
---->
 <!---	<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getMediaThread">
@@ -61,6 +57,10 @@ limitations under the License.
 </cffunction>--->
 	
 	
+<!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
+ @return html for viewing identifications for the specified cataloged item. 
+--->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getIdentificationsThread">
