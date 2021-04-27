@@ -45,6 +45,9 @@ limitations under the License.
 						 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
+			<cfquery name="ctmedia" dbtype="query">
+				select count(*) as ct from mediaS2 group by media_relationship order by media_id
+			</cfquery>
 				<cfif mediaS2.recordcount gt 1>
 					<cfoutput><a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
