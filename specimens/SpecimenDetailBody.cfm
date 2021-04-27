@@ -328,8 +328,8 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 <cfoutput>
-
-<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+	<cfif mediaS1.recordcount gt 1>
+		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 <!-----------------------------Media----------------------------------> 
 				<div class="accordion" id="accordionMedia">
 					<div class="card mb-2 bg-light">
@@ -358,7 +358,8 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-</div>
+		</div>
+	</cfif>
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS1.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
