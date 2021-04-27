@@ -79,7 +79,7 @@ function loadIdentifications(collection_object_id,targetDivId) {
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getIdentificationsHTML",
-			collection_object_id: collection_object_id,
+			collection_object_id: collection_object_id
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
