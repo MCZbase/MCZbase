@@ -96,14 +96,7 @@ limitations under the License.
 					
 									<cfif oneOfUs is 1>
 										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT 
-												count(*) c
-											FROM
-												cat_code, ctattribute_type
-											WHERE 
-												cat_code.
-												attribute_type='image confirmed' and
-												collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+											SELECT count(*) c FROM ctattribute_type where ctattribute_type.COLLECTION_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_code.collection_cde#">
 										</cfquery>
 										<cfquery name="isConf"  dbtype="query">
 											SELECT 
