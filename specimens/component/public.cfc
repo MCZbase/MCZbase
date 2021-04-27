@@ -106,9 +106,9 @@ limitations under the License.
 											WHERE 
 												attribute_type='image confirmed'
 										 </cfquery>
-										<cfif isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+<!---										<cfif isConf.c is "" and hasConfirmedImageAttr.c gt 0>
 											<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
-										</cfif>
+										</cfif>--->
 									</cfif>
 								</div>
 									<span class="form-row col-12 px-0 mx-0"> 
