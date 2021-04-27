@@ -326,10 +326,7 @@ limitations under the License.
 			</cfquery>
 <cfoutput>
 		<form name="editLinks" method="post" action="Specimens.cfm">
-			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-			<input type="hidden" name="suppressHeader" value="true">
-			<input type="hidden" name="action" value="nothing">
-			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 			</div>
