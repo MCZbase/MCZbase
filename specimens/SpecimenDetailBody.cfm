@@ -232,6 +232,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
+	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
@@ -252,6 +253,76 @@ limitations under the License.
 					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
+			</cfquery>
+			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					specimen_part.collection_object_id part_id,
+					Case
+						when #oneOfus#= 1
+						then pc.label
+						else null
+					End label,
+					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+					sampled_from_obj_id,
+					coll_object.COLL_OBJ_DISPOSITION part_disposition,
+					coll_object.CONDITION part_condition,
+					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+					coll_object_remarks part_remarks,
+					attribute_type,
+					attribute_value,
+					attribute_units,
+					determined_date,
+					attribute_remark,
+					agent_name
+				from
+					specimen_part,
+					coll_object,
+					coll_object_remark,
+					coll_obj_cont_hist,
+					container oc,
+					container pc,
+					specimen_part_attribute,
+					preferred_agent_name
+				where
+					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+					specimen_part.collection_object_id=coll_object.collection_object_id and
+					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+					coll_obj_cont_hist.container_id=oc.container_id and
+					oc.parent_container_id=pc.container_id (+) and
+					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+			</cfquery>
+			<cfquery name="parts" dbtype="query">
+					select  
+							part_id,
+							label,
+							part_name,
+							sampled_from_obj_id,
+							part_disposition,
+							part_condition,
+							lot_count,
+							part_remarks
+					from
+							rparts
+					group by
+							part_id,
+							label,
+							part_name,
+							sampled_from_obj_id,
+							part_disposition,
+							part_condition,
+							lot_count,
+							part_remarks
+					order by
+							part_name
+			</cfquery>
+			<cfquery name="mPart" dbtype="query">
+				select * from parts where sampled_from_obj_id is null order by part_name
+			</cfquery>
+			<cfset ctPart.ct=''>
+			<cfquery name="ctPart" dbtype="query">
+				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 <cfoutput>
 		<form name="editLinks" method="post" action="Specimens.cfm">
@@ -366,7 +437,7 @@ limitations under the License.
 						<div class="card-header" id="headingParts">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
-								<!---<span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>--->
+								<span class="text-success small ml-4">(count: #ctPart.ct# parts)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
