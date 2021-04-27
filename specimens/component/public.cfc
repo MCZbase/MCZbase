@@ -70,6 +70,11 @@ limitations under the License.
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 						order by media.media_type
 					</cfquery>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<cfset oneOfUs = 1>
+					<cfelse>
+						<cfset oneOfUs = 0>
+					</cfif>
 					<cfoutput>
 							<cfif media.recordcount gt 0>
 								<div class="mt-2">
@@ -85,11 +90,7 @@ limitations under the License.
 									<cfif pdfCount.recordcount gt 0>
 										<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
 									</cfif>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<cfset oneOfUs = 1>
-											<cfelse>
-											<cfset oneOfUs = 0>
-										</cfif>
+					
 									<cfif oneOfUs is 1>
 										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
