@@ -634,9 +634,9 @@ limitations under the License.
 				</cfif>
 				<cfquery name="lookupCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
-						guid, 
-						mczbase.get_numparts(collection_object_id) as num_parts,
-						mczbase.GET_SCIENTIFIC_NAME_AUTHS(collection_object_id) as current_ident,
+						flat.guid, 
+						mczbase.get_numparts(cataloged_item.collection_object_id) as num_parts,
+						mczbase.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) as current_ident,
 						collectors,
 						verbatim_date,
 						higher_geog,
