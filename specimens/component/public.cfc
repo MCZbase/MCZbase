@@ -96,8 +96,9 @@ limitations under the License.
 					</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
+			
 		</cfthread>
+					</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
