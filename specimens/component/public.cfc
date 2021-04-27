@@ -26,7 +26,7 @@ limitations under the License.
 		<cfoutput>
 		<cfthread name="getMediaThread">
 				<cftry>
-				<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						media.media_id,
 						media.media_uri,
@@ -46,10 +46,10 @@ limitations under the License.
 					order by media.media_type
 				</cfquery>
 			<cfquery name="ctmedia" dbtype="query">
-				select count(*) as ct from mediaS2 group by media_relationship order by media_id
+				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
-				<cfif ctmedia.recordcount gt 1>
-					<cfoutput><a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a></cfoutput>
+				<cfif ctmedia.recordcount gt 0>
+					<cfoutput><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							media.media_id,
