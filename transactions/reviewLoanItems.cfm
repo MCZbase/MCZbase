@@ -260,8 +260,14 @@ limitations under the License.
 											<span>
 												<label class="data-entry-label" for="guid">Cataloged item (GUIDs in the form MCZ:Dept:number)</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+												<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
 												<button id="addloanitembutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Add an item to loan by catalog number" 
-													onclick=" openAddLoanItemDialog($('##guid').value(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+													onclick=" openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+												<script>
+													$(document).ready(function() {
+														makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+													};
+												</script>
 											</span>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
