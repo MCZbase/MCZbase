@@ -2122,7 +2122,7 @@ limitations under the License.
 							<!--- not Mamm --->
 							
 					<cfquery name="theRest" dbtype="query">
-						select * from attribute where attribute_type NOT IN ('sex')
+						select * from attribute1 where attribute_type NOT IN ('sex')
 					</cfquery>
 						</cfif>
 						<cfloop query="theRest">
