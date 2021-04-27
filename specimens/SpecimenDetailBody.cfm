@@ -329,9 +329,37 @@ limitations under the License.
 			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
 			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-			</div>
-		</div>
-	</div>
+			
+
+
+<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+<!-----------------------------Media----------------------------------> 
+				<div class="accordion" id="accordionMedia">
+					<div class="card mb-2 bg-light">
+						<div id="mediaDialog">
+						</div>
+						<script>
+							function reloadMedia() { 
+								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+								loadMedia(#collection_object_id#,'mediaCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingMedia">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##mediaPane">Media</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+							</cfif>
+						</div>
+						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div class="card-body pb-0 mb-2 float-left" id="mediaCardBody">
+								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
 </div>
 <!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
