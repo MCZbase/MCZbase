@@ -645,7 +645,7 @@ limitations under the License.
 					FROM cataloged_item 
 						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 					WHERE
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
 				<h2 class="h3">Add items to loan</h2>
 				<div>
