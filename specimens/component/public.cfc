@@ -95,45 +95,45 @@ limitations under the License.
 
 						</cfif>
 						<cfloop query="media">
-											<!---div class="thumbs"--->
-											<cfset mt=media.mime_type>
-											<cfset altText = media.media_descriptor>
-											<cfset puri=getMediaPreview(preview_uri,mime_type)>
-											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT
-													media_label,
-													label_value
-												FROM
-													media_labels
-												WHERE
-													media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-											</cfquery>
-											<cfquery name="desc" dbtype="query">
-												select label_value from labels where media_label='description'
-											</cfquery>
-											<cfset description="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset description=desc.label_value>
-											</cfif>
-											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-												<!---for media images -- remove absolute url after demo / test db issue?--->
-												<cfset one_thumb = "<div class='imgsize'>">
-												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfelse>
-												<!---for DRS from library--->
-												<cfset one_thumb = "<div class='imgsize'>">
-												<cfset aForImHref = media_uri>
-												<cfset aForDetHref = "/media/#media_id#">
-											</cfif>
-											#one_thumb# <a href="#aForImHref#" target="_blank"> 
-											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
-											<p class="smaller">
-												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span>
-											</p>
-											</div>
-										</cfloop>
+							<!---div class="thumbs"--->
+							<cfset mt=media.mime_type>
+							<cfset altText = media.media_descriptor>
+							<cfset puri=getMediaPreview(preview_uri,mime_type)>
+							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									media_label,
+									label_value
+								FROM
+									media_labels
+								WHERE
+									media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfquery name="desc" dbtype="query">
+								select label_value from labels where media_label='description'
+							</cfquery>
+							<cfset description="Media Preview Image">
+							<cfif desc.recordcount is 1>
+								<cfset description=desc.label_value>
+							</cfif>
+							<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+								<!---for media images -- remove absolute url after demo / test db issue?--->
+								<cfset one_thumb = "<div class='imgsize'>">
+								<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+								<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+								<cfelse>
+								<!---for DRS from library--->
+								<cfset one_thumb = "<div class='imgsize'>">
+								<cfset aForImHref = media_uri>
+								<cfset aForDetHref = "/media/#media_id#">
+							</cfif>
+							#one_thumb# <a href="#aForImHref#" target="_blank"> 
+							<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
+							<p class="smaller">
+								<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+								<span class="">#description#</span>
+							</p>
+							</div>
+						</cfloop>
 						</span>
 				</cfif>
 		<cfcatch>

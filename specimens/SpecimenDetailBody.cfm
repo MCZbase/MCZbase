@@ -234,7 +234,7 @@ limitations under the License.
 </cfquery>
 	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
-			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -325,12 +325,6 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 <cfoutput>
-		<form name="editLinks" method="post" action="Specimens.cfm">
-			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
-			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
-			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-			
-
 
 <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 <!-----------------------------Media----------------------------------> 
