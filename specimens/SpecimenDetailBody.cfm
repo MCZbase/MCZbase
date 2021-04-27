@@ -48,7 +48,7 @@ limitations under the License.
 			<input type="hidden" name="suppressHeader" value="true">
 			<input type="hidden" name="action" value="nothing">
 			<input type="hidden" name="Srch" value="Part">
-			<input type="hidden" name="collection_cde" value="#one.collection_cde#">
+			<input type="hidden" name="collection_cde" value="#collection_cde#">
 			<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
 
 			</div>
