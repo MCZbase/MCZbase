@@ -27,7 +27,7 @@ limitations under the License.
 		<cfthread name="getMediaThread">
 				<cftry>
 				<cfquery name="cat_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from cataloged_item where collection_object_id where cataloged_item.collection_object_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					select * from cataloged_item where cataloged_item.collection_object_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
 				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
