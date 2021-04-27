@@ -254,6 +254,9 @@ limitations under the License.
 					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 				order by media.media_type
 			</cfquery>
+			<cfquery name="ctmedia" dbtype="query">
+				select count(*) as ct from mediaS2 group by media_relationship order by media_id
+			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
