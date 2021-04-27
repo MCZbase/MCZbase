@@ -360,7 +360,7 @@ limitations under the License.
 				</div>
 </div>
 <!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+		<div class="col-12 col-sm-12 px-0 <cfif mediaS1.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 
 <!----------------------------- identifications ----------------------------------> 
