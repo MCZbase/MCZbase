@@ -23,6 +23,7 @@ limitations under the License.
 
 	<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfoutput>
 		<cfthread name="getMediaThread">
 				<cftry>
 				<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -73,6 +74,7 @@ limitations under the License.
 					<cfoutput>
 						<div class="mt-2">#media_type#</div>
 					</cfoutput>
+						</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
