@@ -232,6 +232,27 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
+		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
+			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct
+					media.media_id,
+					media.media_uri,
+					media.mime_type,
+					media.media_type,
+					media.preview_uri,
+					media_relations.media_relationship
+				 from
+					 media,
+					 media_relations,
+					 media_labels
+				 where
+					 media.media_id=media_relations.media_id and
+					 media.media_id=media_labels.media_id (+) and
+					 media_relations.media_relationship like '%cataloged_item' and
+					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
+				order by media.media_type
+			</cfquery>
 <cfoutput>
 		<form name="editLinks" method="post" action="Specimens.cfm">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
