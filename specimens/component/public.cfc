@@ -95,7 +95,7 @@ limitations under the License.
 									</cfif>
 					
 									<cfif oneOfUs is 1>
-										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---										<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT count(*) c FROM ctattribute_type where ctattribute_type.COLLECTION_CDE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cat_code.collection_cde#">
 										</cfquery>
 										<cfquery name="isConf"  dbtype="query">
@@ -105,7 +105,7 @@ limitations under the License.
 												attribute
 											WHERE 
 												attribute_type='image confirmed'
-										 </cfquery>
+										 </cfquery>--->
 <!---										<cfif isConf.c is "" and hasConfirmedImageAttr.c gt 0>
 											<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
 										</cfif>--->
