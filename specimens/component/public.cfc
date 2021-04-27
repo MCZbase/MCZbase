@@ -48,7 +48,7 @@ limitations under the License.
 			<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS2 group by media_relationship order by media_id
 			</cfquery>
-				<cfif mediaS2.recordcount gt 1>
+
 					<cfoutput><a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
@@ -73,7 +73,7 @@ limitations under the License.
 					<cfoutput>
 						<div class="mt-2">#media_type#</div>
 					</cfoutput>
-						</cfif>
+					
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
