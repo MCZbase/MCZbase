@@ -99,7 +99,7 @@ limitations under the License.
 												ctattribute_type
 											WHERE 
 												attribute_type='image confirmed' and
-												collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.collection_cde#">
+												collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 										</cfquery>
 										<cfquery name="isConf"  dbtype="query">
 											SELECT 
