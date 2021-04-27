@@ -43,7 +43,6 @@ limitations under the License.
 						 media.media_id=media_labels.media_id (+) and
 						 media_relations.media_relationship like '%cataloged_item' and
 						 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-						 AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					order by media.media_type
 				</cfquery>
 				<cfquery name="ctmedia" dbtype="query">
@@ -69,11 +68,9 @@ limitations under the License.
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-						AND 
-							MCZBASE.is_media_encumbered(media.media_id) < 1
 						order by media.media_type
 					</cfquery>
-			<cfif media.recordcount gt 0>
+				<cfif media.recordcount gt 0>
 						<div class="mt-2">
 							<cfquery name="wrlCount" dbtype="query">
 								select * from media where mime_type = 'model/vrml'
@@ -138,7 +135,6 @@ limitations under the License.
 											</div>
 										</cfloop>
 						</span>
-					</div>
 				</cfif>
 		<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
