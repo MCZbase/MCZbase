@@ -641,7 +641,7 @@ limitations under the License.
 						verbatim_date,
 						higher_geog,
 						spec_locality,
-						typestatusplain
+						typestatusplain as type_status_plain
 					FROM cataloged_item 
 						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 					WHERE
