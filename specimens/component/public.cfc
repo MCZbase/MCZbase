@@ -483,7 +483,6 @@ limitations under the License.
 	<cfthread name="getPartsThread">
 	<cfoutput>
 		<cftry>
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
 		<cfset isClicky = "likeLink">
