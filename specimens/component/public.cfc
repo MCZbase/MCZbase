@@ -71,7 +71,115 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-						<div class="mt-2">#media.media_type#</div>
+														<cfif media.recordcount gt 0>
+								<div class="mt-2">
+												<cfquery name="wrlCount" dbtype="query">
+													select * from media where mime_type = 'model/vrml'
+												</cfquery>
+												<cfif wrlCount.recordcount gt 0>
+													<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+												</cfif>
+												<cfquery name="pdfCount" dbtype="query">
+													select * from media where mime_type = 'application/pdf'
+												</cfquery>
+												<cfif pdfCount.recordcount gt 0>
+													<span class="small">For best results, open PDF files in the most recent version of Adobe Reader.</span>
+												</cfif>
+												<cfif oneOfUs is 1>
+													<cfquery name="hasConfirmedImageAttr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														SELECT 
+															count(*) c
+														FROM
+															ctattribute_type
+														WHERE 
+															attribute_type='image confirmed' and
+															collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.collection_cde#">
+													</cfquery>
+													<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
+													<cfquery name="isConf"  dbtype="query">
+														SELECT 
+															count(*) c
+														FROM
+															attribute
+														WHERE 
+															attribute_type='image confirmed'
+													 </cfquery>
+													<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+														<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
+													</CFIF>
+												</cfif>
+											</div>
+								<div>
+									<span class="form-row col-12 px-0 mx-0"> 
+										<!---div class="feature image using media_uri"--->
+										<!--- to-do: Create checkbox for featured media on create media page--->
+										<cfif #mediaS2.media_uri# contains "specimen_images">
+												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS2.media_id#" >
+												<a href="#aForThisHref#" target="_blank" class="w-100">
+												<img src="#mediaS2.media_uri#" class="w-100 mb-2">
+												</a>
+											<cfelse>
+
+											</cfif>
+										<cfloop query="media">
+											<!---div class="thumbs"--->
+											<cfset mt=media.mime_type>
+											<cfset altText = media.media_descriptor>
+											<cfset puri=getMediaPreview(preview_uri,mime_type)>
+											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													media_label,
+													label_value
+												FROM
+													media_labels
+												WHERE
+													media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+											</cfquery>
+											<cfquery name="desc" dbtype="query">
+												select label_value from labels where media_label='description'
+											</cfquery>
+											<cfset description="Media Preview Image">
+											<cfif desc.recordcount is 1>
+												<cfset description=desc.label_value>
+											</cfif>
+											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<!---for media images -- remove absolute url after demo / test db issue?--->
+												<cfset one_thumb = "<div class='imgsize'>">
+												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfelse>
+												<!---for DRS from library--->
+												<cfset one_thumb = "<div class='imgsize'>">
+												<cfset aForImHref = media_uri>
+												<cfset aForDetHref = "/media/#media_id#">
+											</cfif>
+											#one_thumb# <a href="#aForImHref#" target="_blank"> 
+											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
+											<p class="smaller">
+												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+												<span class="">#description#</span>
+											</p>
+											</div>
+										</cfloop>
+										<!--/div---> 
+									</span>
+								</div>
+								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select p.barcode from
+									container c,
+									container p,
+									coll_obj_cont_hist,
+									specimen_part,
+									cataloged_item
+									where
+									cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+									specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
+									coll_obj_cont_hist.container_id=c.container_id and
+									c.parent_container_id=p.container_id and
+									cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								</cfquery>
+								</div>
+							</cfif>
 					</cfoutput>
 						</cfif>
 			<cfcatch>
