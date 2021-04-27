@@ -99,6 +99,7 @@ limitations under the License.
 				</cfif>
 							</cfoutput>
 		<cfcatch>
+			<cfoutput>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
 				<cfelse>
@@ -117,11 +118,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-			
+			</cfoutput>
 				</cfcatch>
 			</cftry>
-			</cfoutput>
-		</cfthread>
+			</cfthread>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
