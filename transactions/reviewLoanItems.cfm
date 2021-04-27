@@ -266,7 +266,7 @@ limitations under the License.
 												<script>
 													$(document).ready(function() {
 														makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-													};
+													}
 												</script>
 											</span>
 										</div>
