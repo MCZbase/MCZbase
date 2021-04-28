@@ -86,7 +86,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
-					specimen_part.collection_object_id part_id
+					specimen_part.collection_object_id part_id,
 					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count
 		
 				from
