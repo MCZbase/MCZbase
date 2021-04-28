@@ -408,13 +408,11 @@ limitations under the License.
 														}
 													</script>
 														<div class="row mx-0 mt-0 pt-2 pb-1">
-															<div class="col-12 col-md-9 px-1">
+															<div class="col-12 col-md-6 px-1">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
-														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-7 px-1">
+															<div class="col-12 col-md-6 px-1">
 																<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 																	<cfloop query="ctnature">
