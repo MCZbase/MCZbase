@@ -50,7 +50,9 @@ limitations under the License.
 		coll_object.flags,
 		coll_object_remark.coll_object_remarks,
 		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy
+		editedPerson.agent_name EditedBy,
+		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
 		cataloged_item,
 		collection,
