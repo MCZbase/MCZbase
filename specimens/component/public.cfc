@@ -25,8 +25,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfoutput>
 		<cfthread name="getMediaThread">
-				<cftry>
-
+			<cftry>
 				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						media.media_id,
@@ -36,14 +35,14 @@ limitations under the License.
 						media.preview_uri,
 						media_relations.media_relationship
 					 from
-						 media,
-						 media_relations,
-						 media_labels
+						media,
+						media_relations,
+						media_labels
 					 where
-						 media.media_id=media_relations.media_id and
-						 media.media_id=media_labels.media_id (+) and
-						 media_relations.media_relationship like '%cataloged_item' and
-						 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+						media.media_id=media_relations.media_id and
+						media.media_id=media_labels.media_id (+) and
+						media_relations.media_relationship like '%cataloged_item' and
+						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
 			<cfquery name="ctmedia" dbtype="query">
