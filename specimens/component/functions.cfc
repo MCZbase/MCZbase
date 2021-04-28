@@ -312,7 +312,7 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
 											<h1 class="my-0 px-1 pb-1">
-												<a class="btn btn-link w-100 h4 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </a>
+												<button class="btn btn-link w-100 h4 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
 											</h1>
 										</div>
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
@@ -333,7 +333,7 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class=" px-0 mt-0 pt-2 pb-3">
+													<div class=" px-2 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
 															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
