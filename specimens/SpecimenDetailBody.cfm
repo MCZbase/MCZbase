@@ -47,6 +47,7 @@ limitations under the License.
 		collection.collection_cde,
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
+		coll_object.flags,
 		coll_object_remark.coll_object_remarks,
 		enteredPerson.agent_name EnteredBy,
 		editedPerson.agent_name EditedBy
