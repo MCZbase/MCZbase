@@ -39,13 +39,14 @@ limitations under the License.
 	</cfif>
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
-<!--- This query feeds the counts in the card-header and the metadata EnteredBy--->
 <cfinclude template="/specimens/component/public.cfc">
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		collection.collection_cde,
+		coll_object.coll_object_entered_date,
+		coll_object.last_edit_date,
 		coll_object_remark.coll_object_remarks,
 		enteredPerson.agent_name EnteredBy,
 		editedPerson.agent_name EditedBy
