@@ -312,7 +312,7 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
+												<button class="btn btn-link w-100 text-left" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
 											</h1>
 										</div>
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
@@ -363,30 +363,30 @@ limitations under the License.
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
 															</div>
 														</div>
-														<div class="row mt-2">
-															<div class="col-12 col-md-7 pr-0 float-left">
-																<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
-																Identified By
-																<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-																</label>
-																<div class="input-group">
-																	<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="newIdBy_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-																	<input type="text" name="newIdBy" id="newIdBy" class="form-control rounded-right data-entry-input form-control-sm">
-																	<input type="hidden" name="newIdBy_id" id="newIdBy_id">
-																</div>
+													<div class="row mt-2">
+														<div class="col-12 px-0">
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
-																	<div class="col-12 col-2 px-0 float-left">
-																		<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#">
-																		<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																		<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
+																	<div class="col-12">
+																		<label for="IdBy_#i#_#idnum#">
+																		Identified By
+																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+																		</label>
+																		<div class="col-12 px-0">
+																			<div class="input-group col-6 px-0 float-left">
+																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
+																			</div>
+																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
+																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
+																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-2 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
+																		</div>
 																	</div>
+																	<script>
+																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
+																	</script> 
 																</div>
-																<script>
-																	makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-																</script> 
-															</div>
 												<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.--->
 													<script>	
 														$(document).ready(function(){
@@ -398,7 +398,16 @@ limitations under the License.
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
-															</div>
+													</div>
+													<div id="newID" class="row"></div>
+													<script>
+														function addIdentAgentToForm(agent_id,agent_name) { 
+															// add trans_agent record
+															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
+															// trigger save needed
+															handleChange();
+														}
+													</script>
 															<div class="col-12 col-md-9">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
