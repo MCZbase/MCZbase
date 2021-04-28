@@ -100,10 +100,9 @@ limitations under the License.
 			<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct 
 				from 
-					media_relations, 
-					cataloged_item 
+					media_relations
 				where 
-					media_relations.related_primary_key = cataloged_item.collection_object_id AND media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
