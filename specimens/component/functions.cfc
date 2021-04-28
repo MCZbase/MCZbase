@@ -260,7 +260,7 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div id="">New Identification</div>
+												<div id="postedIdentification">New Identification</div>
 												<cfset i = #i#+1>
 											</cfloop>
 											<div class="col-12 mt-2">
@@ -481,262 +481,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
-
-							
-<cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getAgentIdentsThread"> <cfoutput>
-		<cftry>
-		<p>Hello</p>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-				<cfabort>
-			</cfcatch>
-		</cftry>
-		</cfoutput> </cfthread>
-	<cfthread action="join" name="getAgentIdentsThread" />
-	<cfreturn getAgentIdentsThread.output>
-</cffunction>
-<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
-	@param collection_object_id the collecton object to which the identification history pertains
-	@param number_of_ids the number of determinations in the identification history
---->
-<cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="number_of_ids" type="string" required="yes">
-	<cfoutput> 
-		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-		<cftry>
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg disable
-			</cfquery>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-				<cfabort>
-			</cfcatch>
-		</cftry>
-		<cftransaction>
-			<!--- perform the updates on the arbitary number of identifications --->
-			<cftry>
-				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
-					<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
-					<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
-					<cfset thisIdRemark = #evaluate("IDENTIFICATION_REMARKS_" & n)#>
-					<cfset thisMadeDate = #evaluate("MADE_DATE_" & n)#>
-					<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
-					<cfset thisNumIds = #evaluate("NUMBER_OF_DETERMINERS_" & n)#>
-					<cfset thisPubId = #evaluate("publication_id_" & n)#>
-					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
-					<cfif #isdefined("storedas_" & n)#>
-						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
-						<cfelse>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisAcceptedIdFg is 1>
-						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=1, sort_order = null 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisStoredAs is 1>
-						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=1 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-					</cfif>
-					<cfif thisAcceptedIdFg is "DELETE">
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification_agent
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification_taxonomy 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
-						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification SET
-								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
-								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
-								identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(thisIdRemark)#">
-								<cfif len(thisPubId) gt 0>
-									,publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPubId#">
-								<cfelse>
-									,publication_id = NULL
-								</cfif>
-								<cfif len(thisSortOrder) gt 0>
-									,sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisSortOrder#">
-								<cfelse>
-									,sort_order = NULL
-								</cfif>
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfloop from="1" to="#thisNumIds#" index="nid">
-							<cftry>
-								<!--- couter does not increment backwards - may be a few empty loops in here ---->
-								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-								<cfcatch>
-									<cfset thisIdId =-1>
-								</cfcatch>
-							</cftry>
-							<cftry>
-								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-								<cfcatch>
-									<cfset thisIdAgntId=-1>
-								</cfcatch>
-							</cftry>
-							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
-								<!--- new determiner --->
-								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									INSERT INTO identification_agent
-									( 
-										IDENTIFICATION_ID,
-										AGENT_ID,
-										IDENTIFIER_ORDER 
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-									)
-								</cfquery>
-								<cfelse>
-								<!--- update or delete --->
-								<cfif #thisIdId# is "DELETE">
-									<!--- delete --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										DELETE FROM identification_agent
-										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-									<cfelseif thisIdId gte 0>
-									<!--- update --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										UPDATE identification_agent sET
-											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-										 WHERE
-										 	identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-								</cfif>
-							</cfif>
-						</cfloop>
-					</cfif>
-				</cfloop>
-				<cftransaction action="commit">
-				<cfset data=queryNew("status, message, id")>
-				<cfset t = queryaddrow(data,1)>
-				<cfset t = QuerySetCell(data, "status", "1", 1)>
-				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
-				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
-				<cfreturn data>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
-			</cftry>
-		</cftransaction>
-		<cftry>
-			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg enable
-			</cfquery>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-</cffunction>
-
-<!-----------------------------------------------------------------------------------------------------------------> 
 <!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
  @return html for editing the identification 
@@ -840,7 +584,258 @@ limitations under the License.
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
 </cffunction>
+<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
+	@param collection_object_id the collecton object to which the identification history pertains
+	@param number_of_ids the number of determinations in the identification history
+--->
+<cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="number_of_ids" type="string" required="yes">
 
+	<cfoutput>
+		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+		<cftry>
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg disable
+			</cfquery>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") >
+				<cfset queryError=cfcatch.queryError>
+			<cfelse>
+				<cfset queryError = ''>
+			</cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfcontent reset="yes">
+			<cfheader statusCode="500" statusText="#message#">
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+		<cftransaction>
+			<!--- perform the updates on the arbitary number of identifications --->
+			<cftry>
+				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+					<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
+					<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
+					<cfset thisIdRemark = #evaluate("IDENTIFICATION_REMARKS_" & n)#>
+					<cfset thisMadeDate = #evaluate("MADE_DATE_" & n)#>
+					<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
+					<cfset thisNumIds = #evaluate("NUMBER_OF_DETERMINERS_" & n)#>
+					<cfset thisPubId = #evaluate("publication_id_" & n)#>
+					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
+					<cfif #isdefined("storedas_" & n)#>
+						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
+					<cfelse>
+						<cfset thisStoredAs = 0>
+					</cfif>
+					<cfif thisAcceptedIdFg is 1>
+						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification 
+							SET ACCEPTED_ID_FG=0 
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification 
+							SET ACCEPTED_ID_FG=1, sort_order = null 
+							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+						<cfset thisStoredAs = 0>
+					</cfif>
+					<cfif thisStoredAs is 1>
+						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification 
+							SET STORED_AS_FG=0 
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
+						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification 
+							SET STORED_AS_FG=1 
+							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification 
+							SET STORED_AS_FG=0 
+							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+					</cfif>
+					<cfif thisAcceptedIdFg is "DELETE">
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							DELETE FROM identification_agent
+							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							DELETE FROM identification_taxonomy 
+							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							DELETE FROM identification 
+							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+					<cfelse>
+						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification SET
+								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
+								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
+								identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(thisIdRemark)#">
+								<cfif len(thisPubId) gt 0>
+									,publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPubId#">
+								<cfelse>
+									,publication_id = NULL
+								</cfif>
+								<cfif len(thisSortOrder) gt 0>
+									,sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisSortOrder#">
+								<cfelse>
+									,sort_order = NULL
+								</cfif>
+							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
+						<cfloop from="1" to="#thisNumIds#" index="nid">
+							<cftry>
+								<!--- couter does not increment backwards - may be a few empty loops in here ---->
+								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
+							<cfcatch>
+								<cfset thisIdId =-1>
+							</cfcatch>
+							</cftry>
+							<cftry>
+								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
+							<cfcatch>
+								<cfset thisIdAgntId=-1>
+							</cfcatch>
+							</cftry>
+							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
+								<!--- new determiner --->
+								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									INSERT INTO identification_agent
+									( 
+										IDENTIFICATION_ID,
+										AGENT_ID,
+										IDENTIFIER_ORDER 
+									) VALUES (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
+									)
+								</cfquery>
+							<cfelse>
+								<!--- update or delete --->
+								<cfif #thisIdId# is "DELETE">
+									<!--- delete --->
+									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										DELETE FROM identification_agent
+										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
+									</cfquery>
+								<cfelseif thisIdId gte 0>
+									<!--- update --->
+									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										UPDATE identification_agent sET
+											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
+											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
+										 WHERE
+										 	identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
+									</cfquery>
+								</cfif>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</cfloop>
+				<cftransaction action="commit">
+				<cfset data=queryNew("status, message, id")>
+				<cfset t = queryaddrow(data,1)>
+				<cfset t = QuerySetCell(data, "status", "1", 1)>
+				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
+				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+				<cfreturn data>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
+		<cftry>
+			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg enable
+			</cfquery>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") >
+				<cfset queryError=cfcatch.queryError>
+			<cfelse>
+				<cfset queryError = ''>
+			</cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfcontent reset="yes">
+			<cfheader statusCode="500" statusText="#message#">
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
+
+<cffunction name="getIdentificationTable" returntype="query" access="remote">
+	<cfargument name="identification_id" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
+			from identification
+			where identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>
+		<cfcatch>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+		<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
 
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
@@ -1340,6 +1335,38 @@ limitations under the License.
 	<cfthread action="join" name="getEditCollectorsThread" />
 	<cfreturn getEditCollectorsThread.output>
 </cffunction>
+							
+<cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getAgentIdentsThread"> <cfoutput>
+		<cftry>
+		<p>Hello</p>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+		</cfoutput> </cfthread>
+	<cfthread action="join" name="getAgentIdentsThread" />
+	<cfreturn getAgentIdentsThread.output>
+</cffunction>
 <cffunction name="getEditPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread">
@@ -1705,34 +1732,7 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
-<cffunction name="getIdentificationTable" returntype="query" access="remote">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfset r=1>
-	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, identifications_id, collection_object_id, made_date, nature_of_id, accepted_id_fg,identification_remarks, taxa_formula, scientific_name, publication_id, sort_order, stored_as_fg
-			from identification
-			where identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-		</cfquery>
-		<cfif theResult.recordcount eq 0>
-			<cfset theResult=queryNew("status, message")>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
-		</cfif>
-		<cfcatch>
-			<cfset theResult=queryNew("status, message")>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-		</cfcatch>
-	</cftry>
-	<cfif isDefined("asTable") AND asTable eq "true">
-		<cfreturn resulthtml>
-		<cfelse>
-		<cfreturn theResult>
-	</cfif>
-</cffunction>
+
 <cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> <cfoutput>
