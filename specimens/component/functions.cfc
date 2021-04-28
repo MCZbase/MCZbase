@@ -311,9 +311,9 @@ limitations under the License.
 								<div id="accordion1">
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
-											<h3 class="my-0 px-1 pb-1">
-												<a class="btn btn-link w-100 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </a>
-											</h3>
+											<h1 class="my-0 px-1 pb-1">
+												<a class="btn btn-link w-100 h4 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </a>
+											</h1>
 										</div>
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
 											<div class="card-body"> 
@@ -335,7 +335,7 @@ limitations under the License.
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 													<div class=" px-3 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
-															<div class="col-12 col-md-2">
+															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 																<cfif not isdefined("taxa_formula")>
 																	<cfset taxa_formula='A'>
@@ -352,12 +352,12 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-															<div class="col-12 col-md-10">
+															<div class="col-12 col-md-9">
 																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 																<input type="hidden" name="taxona_id" id="taxona_id">
 															</div>
-															<div class="col-12 col-md-10 d-none">
+															<div class="col-12 col-md-9 d-none">
 																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
