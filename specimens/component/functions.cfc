@@ -334,7 +334,7 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class="px-3 mt-0 pt-2 pb-3">
+													<div class="px-3 mt-0 pt-2 pb-1">
 														<div class="row mt-2">
 															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
