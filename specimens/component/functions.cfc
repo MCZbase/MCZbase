@@ -334,7 +334,7 @@ limitations under the License.
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-4">
+															<div class="col-12 col-md-4 px-0">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 																<cfif not isdefined("taxa_formula")>
 																	<cfset taxa_formula='A'>
@@ -351,14 +351,12 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-														</div>
-														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-9">
+															<div class="col-12 col-md-8 pr-0 pl-1">
 																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 																<input type="hidden" name="taxona_id" id="taxona_id">
 															</div>
-															<div class="col-12 col-md-9 d-none">
+															<div class="col-12 col-md-8 d-none">
 																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
