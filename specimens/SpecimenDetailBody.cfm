@@ -59,7 +59,7 @@ limitations under the License.
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 		cataloged_item.collection_object_id = coll_object.collection_object_id AND
-		coll_object.collection_object_id = coll_object_remark.collection_object_remark AND
+		coll_object.collection_object_id = coll_object_remark.collection_object_id AND
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
