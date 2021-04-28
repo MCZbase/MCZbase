@@ -45,7 +45,9 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
-
+			<cfquery name="ctmedia" dbtype="query">
+				select count(*) as ct from mediaS1 group by media_relationship order by media_id
+			</cfquery>
 				<cfif ctmedia.recordcount gt 0>
 					<cfoutput><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -83,7 +85,9 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
-										
+											<cfquery name="ctmedia" dbtype="query">
+												select count(*) as ct from media group by media_relationship order by media_id
+											</cfquery>
 											<cfset mt=media.mime_type>
 											<cfset altText = media.media_descriptor>
 											<cfset puri=getMediaPreview(preview_uri,mime_type)>
