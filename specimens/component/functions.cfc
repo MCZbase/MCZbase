@@ -333,8 +333,8 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-4 px-0">
+														<div class="row mx-0 mt-0 pt-2 pb-1">
+															<div class="col-12 col-md-4 px-1">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 																<cfif not isdefined("taxa_formula")>
 																	<cfset taxa_formula='A'>
@@ -351,18 +351,18 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-															<div class="col-12 col-md-8 pr-0 pl-1">
+															<div class="col-12 col-md-8 px-1">
 																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 																<input type="hidden" name="taxona_id" id="taxona_id">
 															</div>
-															<div class="col-12 col-md-8 d-none">
+															<div class="col-12 col-md-8 px-1 d-none">
 																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
 															</div>
 														</div>
-														<div class="row mx-0 mt-0 pt-2 pb-3">
+														<div class="row mx-0 mt-0 py-1">
 															<div class="col-12 px-0">
 															<cfset idnum=1>
 															<cfloop query="determiners">
@@ -408,13 +408,13 @@ limitations under the License.
 														}
 													</script>
 														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-9 px-0">
+															<div class="col-12 col-md-9 px-1">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
 														</div>
-														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-7 px-0">
+														<div class="row mx-0 mt-0 py-1">
+															<div class="col-12 col-md-7 px-1">
 																<label for="nature_of_id" class="data-entry-label mt-2" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 																	<cfloop query="ctnature">
@@ -423,21 +423,21 @@ limitations under the License.
 																</select>
 															</div>
 														</div>
-														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-12">
+														<div class="row mx-0 mt-0 py-1">
+															<div class="col-12 col-md-12 px-1">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
 																<input type="text" id="newPub" class="data-entry-input">
 															</div>
 														</div>
-														<div class="row mx-0 mt-0 pt-2 pb-3">
-															<div class="col-12 col-md-12">
+														<div class="row mx-0 mt-0 py-1">
+															<div class="col-12 col-md-12 px-1">
 																<label for="identification_remarks" class="data-entry-label mt-2" >Remarks</label>
 																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 															</div>
 														</div>
-														<div class="row mx-0 mt-2">
-															<div class="col-12 col-md-12">
+														<div class="row mx-0 mt-0 py-1">
+															<div class="col-12 col-md-12 px-1">
 																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 															</div>
 														</div>
