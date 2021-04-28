@@ -95,7 +95,7 @@ limitations under the License.
 
 			<cfset ctPart.ct=''>
 			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from rparts group by lot_count order by part_name
+				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
 	<cfif ctmedia.recordcount gt 0>
