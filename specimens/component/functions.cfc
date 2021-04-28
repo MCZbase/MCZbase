@@ -121,7 +121,7 @@ limitations under the License.
 												<cfset thisIdentification_id = #identification_id#>
 												<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 												<input type="hidden" name="number_of_determiners_#i#" id="number_of_determiners_#i#" value="#determiners.recordcount#">
-												<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-3">
+												<div class="col-12 border bg-light px-3 rounded mt-0 mb-2 pt-2 pb-1">
 													<div class="row mt-2">
 														<div class="col-12 col-md-6 pr-0"> 
 															<!--- TODO: A/B pickers --->
@@ -173,7 +173,6 @@ limitations under the License.
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
 																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-3 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add another identifier</a>
 																		</div>
-																<!---		<i class="fa fa-plus"></i>--->
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
@@ -199,7 +198,7 @@ limitations under the License.
 															// trigger save needed
 															handleChange();
 														}
-													</script>		
+													</script>
 													<div class="row mt-2">
 														<div class="col-12 col-md-3">
 															<label for="made_date_#i#" class="data-entry-label">ID Date</label>
@@ -312,9 +311,9 @@ limitations under the License.
 								<div id="accordion1">
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
-											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"> <span class="h4">Add New Determination</span> </button>
-											</h1>
+											<h3 class="my-0 px-1 pb-1">
+												<a class="btn btn-link w-100 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"> <span class="h4">Add New Determination</span> </a>
+											</h3>
 										</div>
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
 											<div class="card-body"> 
@@ -334,7 +333,7 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class="px-3 mt-0 pt-2 pb-1">
+													<div class="px-3 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
 															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
