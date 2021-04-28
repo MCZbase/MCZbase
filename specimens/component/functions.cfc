@@ -364,7 +364,7 @@ limitations under the License.
 															</div>
 														</div>
 														<div class="row mt-2">
-															<div class="col-12 col-md-7 pr-0">
+															<div class="col-12 col-md-7 pr-0 float-left">
 																<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
 																Identified By
 																<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
@@ -377,7 +377,7 @@ limitations under the License.
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
-																	<div class="col-12 col-2 px-0">
+																	<div class="col-12 col-2 px-0 float-left">
 																		<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#">
 																		<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
 																		<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
