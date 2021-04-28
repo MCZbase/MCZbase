@@ -48,7 +48,7 @@ limitations under the License.
 		collection.collection_cde,
 		coll_object_remark.coll_object_remarks,
 		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
+		editedPerson.agent_name EditedBy
 	FROM
 		cataloged_item,
 		collection,
