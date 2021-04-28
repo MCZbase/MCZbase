@@ -102,7 +102,7 @@ limitations under the License.
 				from 
 					media_relations
 				where 
-					media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
