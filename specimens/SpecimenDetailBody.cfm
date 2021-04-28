@@ -98,7 +98,18 @@ limitations under the License.
 				order by media.media_type
 			</cfquery>
 			<cfquery name="ctmedia" dbtype="query">
-				select count(*) as ct from mediaS1 group by media_relationship order by media_id
+				select count(*) as ct 
+				from 
+					mediaS1, 
+					media_relations, 
+					cataloged_item 
+				where 
+					media_relations.related_primary_key = cataloged_item.collection_object_id AND
+					mediaS1.media_id = cataloged_item.media_id
+				group by 
+					media_relationship 
+				order by 
+					media_id
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
