@@ -103,7 +103,7 @@ limitations under the License.
 					media_relations, 
 					cataloged_item 
 				where 
-					media_relations.related_primary_key = cataloged_item.collection_object_id AND
+					media_relations.related_primary_key = cataloged_item.collection_object_id
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
