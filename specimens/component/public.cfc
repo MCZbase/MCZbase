@@ -83,9 +83,7 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
-											<cfquery name="ctmedia" dbtype="query">
-												select count(*) as ct from media group by media_relationship order by media_id
-											</cfquery>
+										
 											<cfset mt=media.mime_type>
 											<cfset altText = media.media_descriptor>
 											<cfset puri=getMediaPreview(preview_uri,mime_type)>

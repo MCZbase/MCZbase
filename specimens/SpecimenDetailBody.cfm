@@ -77,26 +77,6 @@ limitations under the License.
 </cfquery>
 	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
-			<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct
-					media.media_id,
-					media.media_uri,
-					media.mime_type,
-					media.media_type,
-					media.preview_uri,
-					media_relations.media_relationship
-				 from
-					 media,
-					 media_relations,
-					 media_labels
-				 where
-					 media.media_id=media_relations.media_id and
-					 media.media_id=media_labels.media_id (+) and
-					 media_relations.media_relationship like '%cataloged_item' and
-					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
-				order by media.media_type
-			</cfquery>
 			<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) as ct 
 				from 
@@ -175,7 +155,7 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 <cfoutput>
-	<cfif mediaS1.recordcount gt 0>
+	<cfif ctmedia.recordcount gt 0>
 		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 <!-----------------------------Media----------------------------------> 
 				<div class="accordion" id="accordionMedia">
