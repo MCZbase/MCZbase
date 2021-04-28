@@ -40,6 +40,7 @@ limitations under the License.
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
+<!--- query one is needed for the counts on media and part headers and metadata block--->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
@@ -99,6 +100,7 @@ limitations under the License.
 			<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
+				<cfoutput>#ctmedia.ct#</cfoutput>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
