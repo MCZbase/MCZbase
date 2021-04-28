@@ -44,8 +44,8 @@ limitations under the License.
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
-		collection.collection_cde
-
+		collection.collection_cde,
+		coll_object_remark.coll_object_remarks
 	FROM
 		cataloged_item,
 		collection,
