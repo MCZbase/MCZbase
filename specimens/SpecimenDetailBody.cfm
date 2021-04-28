@@ -92,7 +92,6 @@ limitations under the License.
 				from
 					specimen_part
 				where
-					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
