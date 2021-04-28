@@ -368,7 +368,7 @@ limitations under the License.
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
 																	<div class="col-12 px-0">
-																		<label for="IdBy_#i#_#idnum#">
+																		<label for="IdBy_#i#_#idnum#" class="data-entry-label">
 																		Identified By
 																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
 																		</label>
