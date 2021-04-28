@@ -71,7 +71,6 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
@@ -83,8 +82,12 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>
+										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
+											<cfquery name="ctmedia" dbtype="query">
+												select count(*) as ct from media group by media_relationship order by media_id
+											</cfquery>
 											<cfset mt=media.mime_type>
 											<cfset altText = media.media_descriptor>
 											<cfset puri=getMediaPreview(preview_uri,mime_type)>
@@ -122,10 +125,10 @@ limitations under the License.
 												<span class="">#description#</span>
 											</p>
 											</div>
+													<cfset i=i+1>
 										</cfloop>
 									</span>
-							
-					</cfoutput>
+							</cfoutput>
 						</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
