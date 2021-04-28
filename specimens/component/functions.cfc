@@ -316,7 +316,7 @@ limitations under the License.
 												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"> <span class="h4">Add New Determination</span> </button>
 											</h1>
 										</div>
-										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
 											<div class="card-body"> 
 												<script>
 										function idFormulaChanged(newFormula,baseId) { 
