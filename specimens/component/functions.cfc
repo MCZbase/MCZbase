@@ -51,7 +51,6 @@ limitations under the License.
 	</cftry>
 	<cfreturn result>
 </cffunction>
-
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -69,7 +68,7 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 mt-2">
+						<div class="col-12">
 							<div class="col-12 col-lg-12 float-left mb-4 px-0">
 								<form name="editIdentificationsForm" id="editIdentificationsForm">
 									<input type="hidden" name="method" value="updateIdentifications">
@@ -481,109 +480,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
-<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
- @param identification-id the identification.identification_id to edit.
- @return html for editing the identification 
---->
-<cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfthread name="getIdentificationThread">
-		<cftry>
-			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
-					identification.scientific_name, identification.made_date, identification.nature_of_id, 
-					identification.stored_as_fg, identification.identification_remarks, identification.accepted_id_fg, 
-					identification.taxa_formula, identification.sort_order, taxonomy.full_taxon_name, taxonomy.author_text, 
-					identification_agent.agent_id, concatidagent(identification.identification_id) agent_name
-				FROM 
-					identification
-					left join identification_taxonomy on identification.identification_id=identification_taxonomy.identification_id 
-					left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and 
-					left join identification_agent on identification_agent.identification_id = identification.identification_id and
-				WHERE 	
-					identification.identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-				ORDER BY 
-					made_date
-			</cfquery>
-			<cfoutput>
-				<div id="identificationHTML">
-					<cfloop query="theResult">
-						<div class="identifcationExistingForm">
-							<form>
-								<div class="container pl-1">
-									<div class="col-md-6 col-sm-12 float-left">
-										<div class="form-group">
-											<label for="scientific_name">Scientific Name:</label>
-											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;" onKeyPress="return noenter(event);">
-											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
-										</div>
-										<div class="form-group w-25 mb-3 float-left">
-											<label for="taxa_formula">Formula:</label>
-											<select class="border custom-select form-control input-sm" id="select">
-												<option value="" disabled="" selected="">#taxa_formula#</option>
-												<!--- TODO: Shouldn't this be from a code table? --->
-												<option value="A">A</option>
-												<option value="B">B</option>
-												<option value="sp.">sp.</option>
-											</select>
-										</div>
-										<div class="form-group w-50 mb-3 ml-3 float-left">
-											<label for="made_date">Made Date:</label>
-											<input type="text" class="form-control ml-0 input-sm" id="made_date" value="#dateformat(made_date,'yyyy-mm-dd')#&nbsp;">
-										</div>
-									</div>
-									<div class="col-md-6 col-sm-12 float-left">
-										<div class="form-group"> 
-											<!--- TODO: Fix this, should be an agent picker --->
-											<label for="determinedby">Determined By:</label>
-											<input type="text" class="form-control-sm" id="determinedby" value="#encodeForHTML(agent_name)#">
-										</div>
-										<div class="form-group">
-											<label for="nature_of_id">Nature of ID:</label>
-											<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr custom-select form-control">
-												<option value="#nature_of_id#">#nature_of_id#</option>
-												<!--- TODO: Wrong query name, should reference a code table query. --->
-												<cfloop query="theResult">
-													<option value="theResult.nature_of_id">#nature_of_id#</option>
-												</cfloop>
-											</select>
-										</div>
-									</div>
-									<div class="col-md-12 col-sm-12 float-left">
-										<div class="form-group">
-											<label for="full_taxon_name">Full Taxon Name:</label>
-											<input type="text" class="form-control-sm" id="full_taxon_name" value="#encodeForHTML(full_taxon_name)#">
-										</div>
-										<div class="form-group">
-											<label for="identification_remarks">Identification Remarks:</label>
-											<textarea type="text" class="form-control" id="identification_remarks" value="#encodeForHTML(identification_remarks)#"></textarea>
-										</div>
-										<div class="form-check">
-											<input type="checkbox" class="form-check-input" id="materialUnchecked">
-											<label class="mt-2 form-check-label" for="materialUnchecked">Stored as #encodeForHTML(scientific_name)#</label>
-										</div>
-										<div class="form-group float-right">
-											<button type="button" value="Create New Identification" class="btn btn-primary ml-2"
-												 onClick="$('.dialog').dialog('open'); loadNewIdentificationForm(identification_id,'newIdentificationForm');">Create New Identification</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getIdentificationThread" />
-	<cfreturn getIdentificationThread.output>
-</cffunction>
 <!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
@@ -806,6 +702,110 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
+ @param identification-id the identification.identification_id to edit.
+ @return html for editing the identification 
+--->
+<cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="identification_id" type="string" required="yes">
+	<cfthread name="getIdentificationThread">
+		<cftry>
+			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 1 as status, identification.identification_id, identification.collection_object_id, 
+					identification.scientific_name, identification.made_date, identification.nature_of_id, 
+					identification.stored_as_fg, identification.identification_remarks, identification.accepted_id_fg, 
+					identification.taxa_formula, identification.sort_order, taxonomy.full_taxon_name, taxonomy.author_text, 
+					identification_agent.agent_id, concatidagent(identification.identification_id) agent_name
+				FROM 
+					identification
+					left join identification_taxonomy on identification.identification_id=identification_taxonomy.identification_id 
+					left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and 
+					left join identification_agent on identification_agent.identification_id = identification.identification_id and
+				WHERE 	
+					identification.identification_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+				ORDER BY 
+					made_date
+			</cfquery>
+			<cfoutput>
+				<div id="identificationHTML">
+					<cfloop query="theResult">
+						<div class="identifcationExistingForm">
+							<form>
+								<div class="container pl-1">
+									<div class="col-md-6 col-sm-12 float-left">
+										<div class="form-group">
+											<label for="scientific_name">Scientific Name:</label>
+											<input type="text" name="taxona" id="taxona" class="reqdClr form-control form-control-sm" value="#encodeForHTML(scientific_name)#" size="1" onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;" onKeyPress="return noenter(event);">
+											<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
+										</div>
+										<div class="form-group w-25 mb-3 float-left">
+											<label for="taxa_formula">Formula:</label>
+											<select class="border custom-select form-control input-sm" id="select">
+												<option value="" disabled="" selected="">#taxa_formula#</option>
+												<!--- TODO: Shouldn't this be from a code table? --->
+												<option value="A">A</option>
+												<option value="B">B</option>
+												<option value="sp.">sp.</option>
+											</select>
+										</div>
+										<div class="form-group w-50 mb-3 ml-3 float-left">
+											<label for="made_date">Made Date:</label>
+											<input type="text" class="form-control ml-0 input-sm" id="made_date" value="#dateformat(made_date,'yyyy-mm-dd')#&nbsp;">
+										</div>
+									</div>
+									<div class="col-md-6 col-sm-12 float-left">
+										<div class="form-group"> 
+											<!--- TODO: Fix this, should be an agent picker --->
+											<label for="determinedby">Determined By:</label>
+											<input type="text" class="form-control-sm" id="determinedby" value="#encodeForHTML(agent_name)#">
+										</div>
+										<div class="form-group">
+											<label for="nature_of_id">Nature of ID:</label>
+											<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr custom-select form-control">
+												<option value="#nature_of_id#">#nature_of_id#</option>
+												<!--- TODO: Wrong query name, should reference a code table query. --->
+												<cfloop query="theResult">
+													<option value="theResult.nature_of_id">#nature_of_id#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-12 col-sm-12 float-left">
+										<div class="form-group">
+											<label for="full_taxon_name">Full Taxon Name:</label>
+											<input type="text" class="form-control-sm" id="full_taxon_name" value="#encodeForHTML(full_taxon_name)#">
+										</div>
+										<div class="form-group">
+											<label for="identification_remarks">Identification Remarks:</label>
+											<textarea type="text" class="form-control" id="identification_remarks" value="#encodeForHTML(identification_remarks)#"></textarea>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" id="materialUnchecked">
+											<label class="mt-2 form-check-label" for="materialUnchecked">Stored as #encodeForHTML(scientific_name)#</label>
+										</div>
+										<div class="form-group float-right">
+											<button type="button" value="Create New Identification" class="btn btn-primary ml-2"
+												 onClick="$('.dialog').dialog('open'); loadNewIdentificationForm(identification_id,'newIdentificationForm');">Create New Identification</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</cfloop>
+					<!--- theResult ---> 
+				</div>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getIdentificationThread" />
+	<cfreturn getIdentificationThread.output>
+</cffunction>
+
 
 
 <cffunction name="getIdentificationTable" returntype="query" access="remote">

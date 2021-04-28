@@ -387,6 +387,7 @@ limitations under the License.
 							<div class="card-body pb-0 mb-2 float-left" id="identificationsCardBody">
 								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
+									<div id="identificationHTML"></div>
 							</div>
 						</div>
 					</div>
