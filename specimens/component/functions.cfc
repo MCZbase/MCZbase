@@ -334,8 +334,7 @@ limitations under the License.
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 														<div class="row mx-0 mt-0 pt-2 pb-3">
-														<div class="row mt-2">
-															<div class="col-12 col-md-3">
+															<div class="col-12 col-md-4">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 																<cfif not isdefined("taxa_formula")>
 																	<cfset taxa_formula='A'>
@@ -352,6 +351,8 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
+														</div>
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 															<div class="col-12 col-md-9">
 																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
@@ -363,8 +364,8 @@ limitations under the License.
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
 															</div>
 														</div>
-													<div class="row mt-2">
-														<div class="col-12 px-0">
+														<div class="row mx-0 mt-0 pt-2 pb-3">
+															<div class="col-12 px-0">
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
@@ -397,10 +398,10 @@ limitations under the License.
 																</script>
 																<cfset idnum=idnum+1>
 															</cfloop>
+															</div>
 														</div>
-													</div>
-													<div id="newID" class="row"></div>
-													<script>
+														<div id="newID" class="row"></div>
+															<script>
 														function addIdentAgentToForm(agent_id,agent_name) { 
 															// add trans_agent record
 															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
@@ -408,10 +409,13 @@ limitations under the License.
 															handleChange();
 														}
 													</script>
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 															<div class="col-12 col-md-9 px-0">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
+														</div>
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 															<div class="col-12 col-md-7 px-0">
 																<label for="nature_of_id" class="data-entry-label mt-2" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
@@ -421,18 +425,20 @@ limitations under the License.
 																</select>
 															</div>
 														</div>
-														<div class="row mx-0 mt-2">
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 															<div class="col-12 col-md-12">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
 																<input type="text" id="newPub" class="data-entry-input">
 															</div>
+														</div>
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 															<div class="col-12 col-md-12">
 																<label for="identification_remarks" class="data-entry-label mt-2" >Remarks</label>
 																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 															</div>
 														</div>
-														<div class="row mt-2">
+														<div class="row mx-0 mt-2">
 															<div class="col-12 col-md-12">
 																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
 															</div>
