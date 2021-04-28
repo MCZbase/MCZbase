@@ -39,13 +39,16 @@ limitations under the License.
 	</cfif>
 </cfoutput> 
 <!--- Include the template that contains functions used to load portions of this page --->
+<!--- This query feeds the counts in the card-header and the metadata EnteredBy--->
 <cfinclude template="/specimens/component/public.cfc">
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
 		collection.collection_cde,
-		coll_object_remark.coll_object_remarks
+		coll_object_remark.coll_object_remarks,
+		enteredPerson.agent_name EnteredBy,
+		editedPerson.agent_name EditedBy,
 	FROM
 		cataloged_item,
 		collection,
@@ -53,13 +56,17 @@ limitations under the License.
 		collecting_event,
 		coll_object,
 		coll_object_remark,
-		specimen_part
+		specimen_part,
+		preferred_agent_name enteredPerson,
+		preferred_agent_name editedPerson
 	WHERE
 		cataloged_item.collection_id = collection.collection_id AND
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 		cataloged_item.collection_object_id = coll_object.collection_object_id AND
 		coll_object.collection_object_id = coll_object_remark.collection_object_id AND
+		coll_object.entered_person_id = enteredPerson.agent_id AND
+		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
