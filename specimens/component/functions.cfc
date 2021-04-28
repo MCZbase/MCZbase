@@ -318,22 +318,22 @@ limitations under the License.
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
 											<div class="card-body"> 
 												<script>
-										function idFormulaChanged(newFormula,baseId) { 
-											if(newFormula.includes("B")) {
-												$('##' + baseId).show();
-												$('##'+baseId+'_label').show();
-											} else { 
-												$('##' + baseId).hide();
-												$('##'+baseId+'_label').hide();
-												$('##' + baseId).val("");
-												$('##'+baseID+'_id').val("");
-											}
-										}
-									</script>
+													function idFormulaChanged(newFormula,baseId) { 
+														if(newFormula.includes("B")) {
+															$('##' + baseId).show();
+															$('##'+baseId+'_label').show();
+														} else { 
+															$('##' + baseId).hide();
+															$('##'+baseId+'_label').hide();
+															$('##' + baseId).val("");
+															$('##'+baseID+'_id').val("");
+														}
+													}
+												</script>
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class=" px-2 mt-0 pt-2 pb-3">
+														<div class="row mx-0 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
 															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
@@ -380,7 +380,7 @@ limitations under the License.
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-2 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
+																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-6 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
 																		</div>
 																	</div>
 																	<script>
@@ -388,13 +388,13 @@ limitations under the License.
 																	</script> 
 																</div>
 												<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.--->
-													<script>	
-														$(document).ready(function(){
-															$(".addIDName").click(function(){$("##newID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-6 px-0 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
-															});
-															$("##newID").on('click','.remIDName',function(){$(this).parent().remove()});
-														});
-													</script>
+																<script>	
+																	$(document).ready(function(){
+																		$(".addIDName").click(function(){$("##newID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-6 px-0 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
+																		});
+																		$("##newID").on('click','.remIDName',function(){$(this).parent().remove()});
+																	});
+																</script>
 																<cfset idnum=idnum+1>
 															</cfloop>
 														</div>
@@ -408,11 +408,11 @@ limitations under the License.
 															handleChange();
 														}
 													</script>
-															<div class="col-12 col-md-9">
+															<div class="col-12 col-md-9 px-0">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
-															<div class="col-12 col-md-7">
+															<div class="col-12 col-md-7 px-0">
 																<label for="nature_of_id" class="data-entry-label mt-2" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 																	<cfloop query="ctnature">
@@ -421,7 +421,7 @@ limitations under the License.
 																</select>
 															</div>
 														</div>
-														<div class="row mt-2">
+														<div class="row mx-0 mt-2">
 															<div class="col-12 col-md-12">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
@@ -438,14 +438,13 @@ limitations under the License.
 															</div>
 														</div>
 														<script>
-													$(document).ready(function() {
-														makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-														makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-														makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-														makePublicationAutocompleteMeta("newPub", "new_publication_id");
-													});
-												</script> 
-													</div>
+															$(document).ready(function() {
+																makeScientificNameAutocompleteMeta("taxona", "taxona_id");
+																makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
+																makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
+																makePublicationAutocompleteMeta("newPub", "new_publication_id");
+															});
+														</script> 
 												</form>
 											</div>
 										</div>
