@@ -90,7 +90,6 @@ function loadIdentifications(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
 function updateIdentifications(identification_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -117,6 +116,7 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
+
 
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
