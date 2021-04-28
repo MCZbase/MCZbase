@@ -307,12 +307,12 @@ limitations under the License.
 									</div>
 								</form>
 							</div>
-							<div class="col-12 col-lg-12 float-left px-0">
+							<div class="col-12 col-lg-7 float-left px-0">
 								<div id="accordion1">
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
 											<h3 class="my-0 px-1 pb-1">
-												<a class="btn btn-link w-100 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"> <span class="h4">Add New Determination</span> </a>
+												<a class="btn btn-link w-100 text-left collapse" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </a>
 											</h3>
 										</div>
 										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
@@ -333,9 +333,9 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class="px-3 mt-0 pt-2 pb-3">
+													<div class=" px-3 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
-															<div class="col-12 col-md-3">
+															<div class="col-12 col-md-2">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
 																<cfif not isdefined("taxa_formula")>
 																	<cfset taxa_formula='A'>
@@ -352,23 +352,19 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</div>
-															<div class="col-12 col-md-6">
+															<div class="col-12 col-md-10">
 																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
 																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
 																<input type="hidden" name="taxona_id" id="taxona_id">
 															</div>
-															<div class="col-12 col-md-3 d-none">
+															<div class="col-12 col-md-10 d-none">
 																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
 																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
 																<input type="hidden" name="taxonb_id" id="taxonb_id">
 															</div>
-															<!---											<div class="col-12 col-md-6">
-														<label for="user_id" class="data-entry-label" >Identification</label>
-														<input type="text" name="user_id" id="user_id" class="data-entry-input">
-													</div>---> 
 														</div>
 														<div class="row mt-2">
-															<div class="col-12 col-md-4 pr-0">
+															<div class="col-12 col-md-6 pr-0">
 																<label for="newIdBy" id="newIdBy_label" class="data-entry-label mb-0">
 																Identified By
 																<h5 id="newIdBy_view" class="d-inline p-0 m-0">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
@@ -380,11 +376,11 @@ limitations under the License.
 																</div>
 																<!--- TODO: Add determiners ---> 
 															</div>
-															<div class="col-12 col-md-4 pr-0">
+															<div class="col-12 col-md-6 pr-0">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
-															<div class="col-12 col-md-4">
+															<div class="col-12 col-md-7">
 																<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 																	<cfloop query="ctnature">
@@ -394,12 +390,12 @@ limitations under the License.
 															</div>
 														</div>
 														<div class="row mt-2">
-															<div class="col-12 col-md-6 pr-0">
+															<div class="col-12 col-md-12 pr-0">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
 																<input type="text" id="newPub" class="data-entry-input">
 															</div>
-															<div class="col-12 col-md-6">
+															<div class="col-12 col-md-12">
 																<label for="identification_remarks" class="data-entry-label" >Remarks</label>
 																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 															</div>
