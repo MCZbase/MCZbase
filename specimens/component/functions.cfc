@@ -333,7 +333,7 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-													<div class=" px-3 mt-0 pt-2 pb-3">
+													<div class=" px-0 mt-0 pt-2 pb-3">
 														<div class="row mt-2">
 															<div class="col-12 col-md-3">
 																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
@@ -376,12 +376,12 @@ limitations under the License.
 																</div>
 																<!--- TODO: Add determiners ---> 
 															</div>
-															<div class="col-12 col-md-6 pr-0">
+															<div class="col-12 col-md-6">
 																<label for="made_date" class="data-entry-label" >Date Identified</label>
 																<input type="text" name="made_date" id="made_date" class="data-entry-input">
 															</div>
 															<div class="col-12 col-md-7">
-																<label for="nature_of_id" class="data-entry-label" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+																<label for="nature_of_id" class="data-entry-label mt-2" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
 																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
 																	<cfloop query="ctnature">
 																		<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
@@ -390,13 +390,13 @@ limitations under the License.
 															</div>
 														</div>
 														<div class="row mt-2">
-															<div class="col-12 col-md-12 pr-0">
+															<div class="col-12 col-md-12">
 																<label for="identification_publication" class="data-entry-label" >Sensu</label>
 																<input type="hidden" name="new_publication_id" id="new_publication_id">
 																<input type="text" id="newPub" class="data-entry-input">
 															</div>
 															<div class="col-12 col-md-12">
-																<label for="identification_remarks" class="data-entry-label" >Remarks</label>
+																<label for="identification_remarks" class="data-entry-label mt-2" >Remarks</label>
 																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 															</div>
 														</div>
