@@ -328,7 +328,12 @@ limitations under the License.
 						<cfif find(',',anyName) GT 0>
 							AND upper(agent_name.agent_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(anyName)#" list="yes"> )
 						<cfelse>
-							AND upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
+							AND (
+								upper(agent_name.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%"> OR
+								upper(person.last_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%"> OR
+								upper(person.middle_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%"> OR
+								upper(person.first_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(anyName)#%">
+								)
 						</cfif>
 					</cfif>
 				</cfif>
