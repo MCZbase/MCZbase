@@ -376,6 +376,9 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{ name: 'agent_remarks', type: 'string' },
 							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'emails', type: 'string' },
+							</cfif>
 							{ name: 'abbreviation', type: 'string' },
 							{ name: 'preferred', type: 'string' },
 							{ name: 'acronym', type: 'string' },
@@ -481,6 +484,9 @@ limitations under the License.
 							{text: 'last_plus_initials', datafield: 'last_plus_initials', width:100, hideable: true, hidden: true },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'EmailAddresses', datafield: 'emails', width:100, hideable: true, hidden: true },
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
