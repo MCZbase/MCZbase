@@ -19,197 +19,115 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 */
-function updateCondition (partID) {
-var s = "document.getElementById('condition" + partID + "').value";
-	var condition = eval(s);
-	var transaction_id = document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "updateCondition",
-			part_id : partID,
-			condition : condition,
-			returnformat : "json",
-			queryformat : 'column'
+function openRemoveLoanItemDialog(part_id, transaction_id, dialogId, callback) { 
+	var title = "Remove Part from Loan.";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		minWidth: 550,
+		minHeight: 200,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close');
+				//$("#"+dialogId).dialog('close');
+			}
 		},
-		success_updateCondition
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"updating part condition for a loan");
-	});
-}
-function success_updateCondition (r) {
-	var result=r.DATA;
-	var partID = result.PART_ID;
-	var message = result.MESSAGE;
-	//alert(partID);
-	//alert(message);
-	if (message == 'success') {
-		var ins = "document.getElementById('condition" + partID + "')";
-		var condition = eval(ins);
-		condition.className = '';
-	} else {
-		alert('An error occured: \n' + message);
-	}
-}
-function updateLoanItemRemarks ( partID ) {
-	var s = "document.getElementById('loan_Item_Remarks" + partID + "').value";
-	var loan_Item_Remarks = eval(s);
-	var transaction_id = document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "updateLoanItemRemarks",
-			part_id : partID,
-			transaction_id : transaction_id,
-			loan_item_remarks : loan_Item_Remarks,
-			returnformat : "json",
-			queryformat : 'column'
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		},
-		success_updateLoanItemRemarks
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"updating item remarks for a loan item");
-	});
-}
-function success_updateLoanItemRemarks (r) {
-	var result=r.DATA;
-	var partID = result.PART_ID;
-	var message = result.MESSAGE;
-	//alert(partID);
-	//alert(message);
-	if (message == 'success') {
-		var ins = "document.getElementById('loan_Item_Remarks" + partID + "')";
-		var loan_Item_Remarks = eval(ins);
-		loan_Item_Remarks.className = '';
-	} else {
-		alert('An error occured: \n' + message);
-	}
-}
-function updateInstructions ( partID ) {
-	var s = "document.getElementById('item_instructions" + partID + "').value";
-	var item_instructions = eval(s);
-	var transaction_id = document.getElementById('transaction_id').value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "updateInstructions",
-			part_id : partID,
-			transaction_id : transaction_id,
-			item_instructions : item_instructions,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		success_updateInstructions
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"updating instructions for a loan item");
-	});
-}
-function success_updateInstructions (r) {
-	var result=r.DATA;
-	var partID = result.PART_ID;
-	var message = result.MESSAGE;
-	if (message == 'success') {
-		var ins = "document.getElementById('item_instructions" + partID + "')";
-		var item_instructions = eval(ins);
-		item_instructions.className = '';
-	} else {
-		alert('An error occured: \n' + message);
-	}
-}
-function remPartFromLoan( partID ) {
-	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-	var dispnFld = eval(s);
-	var thisDispn = dispnFld.value;
-	var isS = "document.getElementById('isSubsample" + partID + "')";
-	var isSslFld = eval(isS);
-	varisSslVal = isSslFld.value;
-	var transaction_id = document.getElementById('transaction_id').value;
-	if (varisSslVal > 0) {
-		var m = "Would you like to DELETE this subsample? \n OK: permanently remove from database \n Cancel: remove from loan";
-		var answer = confirm (m);
-		if (answer) {
-			jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "del_remPartFromLoan",
-					part_id : partID,
-					transaction_id : transaction_id,
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				success_remPartFromLoan
-			).fail(function(jqXHR,textStatus,error){
-				handleFail(jqXHR,textStatus,error,"deleting subsampled loan item");
-			});
-		} else {
-			if (thisDispn == 'on loan') {
-				alert('The part cannot be removed because the disposition is "on loan".');
-			} else {
-				jQuery.getJSON("/component/functions.cfc",
-					{
-						method : "remPartFromLoan",
-						part_id : partID,
-						transaction_id : transaction_id,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					success_remPartFromLoan
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"removing subsampled item from loan");
-				});
+		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).empty();
+			try {
+				$("#"+dialogId).dialog('destroy');
+			} catch (err) {
+				console.log(err);
 			}
 		}
-	} else if (thisDispn == 'on loan') {
-		alert('That part cannot be removed because the disposition is "on loan".');
-	} else {
-		jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "remPartFromLoan",
-				part_id : partID,
-				transaction_id : transaction_id,
-				returnformat : "json",
-				queryformat : 'column'
-			},
-			success_remPartFromLoan
-		).fail(function(jqXHR,textStatus,error){
-			handleFail(jqXHR,textStatus,error,"removing item from loan")
-		});
-	}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		type: "get",
+		data: {
+			method: 'getRemoveLoanItemDialogContent',
+			returnformat: "plain",
+			part_id: part_id,
+			transaction_id: transaction_id
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening remove loan item dialog");
+		}
+	});
 }
-function success_remPartFromLoan (r) {
-	var result=r.DATA;
-	var partID = result.PART_ID;
-	var message = result.MESSAGE;
-	if (message == 'success') {
-		var tr = "document.getElementById('rowNum" + partID + "')";
-		var theRow = eval(tr);
-		theRow.style.display='none';
-	} else {
-		alert('An error occured: \n' + message);
-	}
-}
-function updateDispn( partID ) {
-	var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-	var dispnFld = eval(s);
-	var thisDispn = dispnFld.value;
-	jQuery.getJSON("/component/functions.cfc",
-		{
-			method : "updatePartDisposition",
-			part_id : partID,
-			disposition : thisDispn,
+
+function updateLoanItemDisposition(part_id, transaction_id, new_disposition,targetDiv) { 
+	$("#"+targetDiv).html("Saving...");
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		data : {
+			method : "updateLoanItemDisposition",
+			transaction_id: transaction_id,
+			part_id: part_id,
+			coll_obj_disposition: new_disposition,
 			returnformat : "json",
 			queryformat : 'column'
 		},
-		success_updateDispn
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"updating item disposition for loan")
+		success: function (result) {
+			if (typeof result == 'string') { result = JSON.parse(result); } 
+			if (result.DATA.STATUS[0]==1) {
+				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
+			} else { 
+				$("#"+targetDiv).html("Error");
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$("#"+targetDiv).html("Error");
+			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
+		},
+		dataType: "html"
 	});
-}
-function success_updateDispn (r) {
-	var result=r.DATA;
-	var partID = result.PART_ID;
-	var status = result.STATUS;
-	var disposition = result.DISPOSITION;
-	if (status == 'success') {
-		var s = "document.getElementById('coll_obj_disposition" + partID + "')";
-		var dispnFld = eval(s);
-		dispnFld.className='';
-	} else {
-		alert('An error occured:\n' + disposition);
-	}
-}
+};
+
+function removeLoanItemFromLoan(part_id, transaction_id,targetDiv) { 
+	$("#"+targetDiv).html("Saving...");
+	jQuery.ajax({
+		url: "/transactions/component/itemFunctions.cfc",
+		data : {
+			method : "removePartFromLoan",
+			transaction_id: transaction_id,
+			part_id: part_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		success: function (result) {
+			if (typeof result == 'string') { result = JSON.parse(result); } 
+			if (result.DATA.STATUS[0]==1) {
+				$("#"+targetDiv).html(result.DATA.MESSAGE[0]);
+			} else { 
+				$("#"+targetDiv).html("Error");
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			$("#"+targetDiv).html("Error");
+			handleFail(jqXHR,textStatus,error,"updating the disposition for a loan item");
+		},
+		dataType: "html"
+	});
+};
+

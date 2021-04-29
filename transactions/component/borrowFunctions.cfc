@@ -39,7 +39,7 @@ limitations under the License.
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName#">
+		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
@@ -159,7 +159,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "borrow_item deleted.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "borrow_item updated.", 1)>
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>

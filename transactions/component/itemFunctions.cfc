@@ -19,6 +19,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function addPartToDeacc add a part to a deaccession --->
 <cffunction name="addPartToDeacc" access="remote" returntype="any" returnformat="json">
@@ -267,5 +268,437 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<!--- function updateLoanItem to update the condition, instructions, remarks, and disposition of an item in a loan.
+ This is the backing function for the editable loan items grid. 
+ @param transaction_id the transaction the loan item is in
+ @param part_id the part participating in the loan item, loan item is a weak enity, it is keyed off of transaction_id and part_id 
+   (as collection_object_id of the collection object for the part).
+ @param condition the new value of the coll_object.condition to save.
+ @param item_instructions the new value of the loan_item.item_instructions to save.
+ @param loan_item_remarks the new value of the loan_item.item_remarks to save.
+ @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
+ @return a json structurre with status:1, or a http 500 response.
+--->
+<cffunction name="updateLoanItem" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="condition" type="string" required="yes">
+	<cfargument name="item_instructions" type="string" required="yes">
+	<cfargument name="loan_item_remarks" type="string" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
 
+	<cftransaction>
+		<cftry>
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+				select * from loan_item
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif confirmItem.recordcount EQ 0>
+				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			</cfif>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">,
+					condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+			</cfquery>
+			<cfif upDisp_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+			</cfif>
+			<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upItem_result">
+				UPDATE loan_item SET
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cfif len(#item_instructions#) gt 0>
+						,item_instructions = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#item_instructions#">
+					<cfelse>
+						,item_instructions = null
+					</cfif>
+					<cfif len(#loan_item_remarks#) gt 0>
+						,loan_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_item_remarks#">
+					<cfelse>
+						,loan_item_remarks = null
+					</cfif>
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif upItem_result.recordcount NEQ 1>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upItem_result.sql#">
+			</cfif>
+			<cfif upItem_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item updated.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
+
+<!--- function updateLoanItemDisposition to update the disposition of an item in a loan.
+ @param transaction_id the transaction the loan item is in
+ @param part_id the part participating in the loan item, loan item is a weak enity, it is keyed off of transaction_id and part_id 
+   (as collection_object_id of the collection object for the part).
+ @param coll_object_disposition the new value of the coll_object.coll_object_disposition to save.
+ @return a json structure with status:1, or a http 500 response.
+--->
+<cffunction name="updateLoanItemDisposition" access="remote">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="coll_obj_disposition" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="confirmItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmItem_result">
+				select * from loan_item
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#"> AND
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif confirmItem.recordcount EQ 0>
+				<cfthrow message="specified collection object is not a loan item in the specified transaction">
+			</cfif>
+			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upDisp_result">
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+			</cfquery>
+			<cfif upDisp_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item disposition updated to #coll_obj_disposition#.", 1)>
+			<cfelse>
+				<cfthrow message="Record not updated. #transaction_id# #part_id# #upDisp_result.sql#">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
+<!--- function getLoanItemsData return a json structure containing data to display in a grid listing the items in a loan.
+ @param transaction_id the transaction_id of the loan for which to return loan items 
+ @return a json structure suitable for populating a jqxgrid or an http 500 on an error.
+--->
+<cffunction name="getLoanItemsData" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+		select 
+			loan.transaction_id,
+			cat_num as catalog_number, 
+			collection,
+			collection.collection_cde,
+			part_name,
+			preserve_method,
+			condition,
+			decode(sampled_from_obj_id,null,'no ','of ' || MCZbase.get_part_prep(sampled_from_obj_id)) as sampled_from_obj_id,
+			item_descr,
+			item_instructions,
+			loan_item_remarks,
+			coll_obj_disposition,
+			MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+			MCZBASE.CONCATENCUMBRANCES(cataloged_item.collection_object_id) as encumbrance,
+			MCZBASE.CONCATENCUMBAGENTS(cataloged_item.collection_object_id) as encumbering_agent_name,
+			MCZBASE.concatlocation(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as location,
+			MCZBASE.get_storage_parentage(MCZBASE.get_current_container_id(specimen_part.collection_object_id)) as short_location,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'room') as location_room,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'fixture') as location_fixture,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'tank') as location_tank,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'freezer') as location_freezer,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'cryovat') as location_cryovat,
+			MCZBASE.get_storage_parentatrank(MCZBASE.get_current_container_id(specimen_part.collection_object_id),'compartment') as location_compartment,
+			mczbase.get_stored_as_id(cataloged_item.collection_object_id) as stored_as_name,
+			loan_number,
+			specimen_part.collection_object_id as part_id,
+			concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS customid,
+			cataloged_item.collection_object_id as collection_object_id,
+			'MCZ:' || collection.collection_cde || ':' || cat_num as guid,
+			sovereign_nation
+		from 
+			loan
+			left join loan_item on loan.transaction_id = loan_item.transaction_id
+			left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+			left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id 
+			left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id 
+			left join collection on cataloged_item.collection_id=collection.collection_id 
+			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+			left join locality on collecting_event.locality_id = locality.locality_id
+		WHERE
+			loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+		ORDER BY cat_num
+		</cfquery>
+		<cfset rows = getLoanItemsQuery_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="getLoanItemsQuery">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(getLoanItemsQuery.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#getLoanItemsQuery[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+
+<!--- obtain an html block to populate dialog for removing loan items from a loan --->
+<cffunction name="getRemoveLoanItemDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="part_id" type="string" required="yes">
+
+	<cfthread name="getRemoveLoanItemHtmlThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select coll_obj_disposition from ctcoll_obj_disp 
+				</cfquery>
+				<cfquery name="lookupDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT coll_obj_disposition 
+					from coll_object 
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<cfset currentDisposition = lookupDisp.coll_obj_disposition>
+				<cfset onLoan=false>
+				<cfif currentDisposition is "on loan">
+					<cfset onLoan=true>
+				</cfif>
+				<div id="updateStatus"></div>
+				<script>
+					function updateDisp(new_disposition) { 
+						updateLoanItemDisposition(#part_id#, #transaction_id#, new_disposition,'updateStatus');
+					}
+				</script>
+				<cfquery name="getLoanItemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+					select 
+						item_descr
+					from 
+						loan_item
+					WHERE
+						loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+						AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
+				<!--- see if it's a subsample --->
+				<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select SAMPLED_FROM_OBJ_ID 
+					from specimen_part 
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
+					<cfif onLoan>
+						<h3 class="h4">This subsample currently has a dispostion of "on loan."</h3>
+						<p>You must change the disposition to remove the item from the loan, 
+						or as this is a subsample, you may delete the item from the database completely.</p>
+					<cfelse>
+						<h3 class="h4">This subsample currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h3>
+						<p>You may change the disposition and remove the item from the loan, 
+						or, as this is a subsample, you may delete the item from the database completely.</p>
+					</cfif>
+				<cfelse>
+					<cfif onLoan>
+						<h3 class="h4">This item currently has a dispostion of "on loan"</h3>
+						<p>You must change the disposition to remove the item from the loan</p>
+					<cfelse>
+						<h3 class="h4">This item currently has a dispostion of "#lookupDisp.coll_obj_disposition#"</h3>
+						<p>You may change the disposition and remove the item from this loan</p>
+					</cfif> 
+				</cfif> 
+				<label for="updateDispositionSelect" class="data-entry-label">Change disposition to:</label>
+				<select name="coll_obj_disposition" size="1" class="data-entry-select" onchange="updateDisp(this.value);" id="updateDispositionSelect" >
+					<cfloop query="ctDisp">
+						<cfset selected = "">
+						<cfif ctDisp.coll_obj_disposition EQ currentDisposition><cfset selected="selected='selected'"></cfif>
+						<option value="#coll_obj_disposition#" #selected#>#ctDisp.coll_obj_disposition#</option>
+					</cfloop>				
+				</select>
+				<p />
+				<button class="btn btn-xs btn-warning" value="Remove Item from Loan" 
+					onclick="removeLoanItemFromLoan(#part_id#, #transaction_id#,'updateStatus'); ">Remove Item from Loan</button>
+				<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
+					<p />
+					<button class="btn btn-xs btn-danger"
+						value="Delete Subsample From Database" 
+						onclick="alert('not yet implemented');">Delete Subsample From Database</button> <!--- cC.action.value='killSS'; submit();"/> --->
+				</cfif>
+				<p />
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRemoveLoanItemHtmlThread" />
+	<cfreturn getRemoveLoanItemHtmlThread.output>
+</cffunction>
+
+<!--- delete an entry from the loan item table. 
+	@param transaction_id the transaction_id of the loan from which to remove the loan item.
+	@param partID the collection_object_id of the part to be removed as as an item from the specified loan.
+	@return a json structure including status: 1 or an http 500 with an error message
+--->
+<cffunction name="removePartFromLoan" access="remote">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleLoanItem_result">
+				DELETE FROM loan_item 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif deleLoanItem_result.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "loan item removed from loan.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
+<!--- obtain an html block to populate dialog for adding an item to a loan 
+@param collection_object_id the collection object id of the cataloged item parts of which to list in dialog to add to loan
+@param guid the guid of the cataloged item parts of which to list in dialog to add to loan, takes priority over collection_object_id.
+@param transaction_id the id of the loan to which to add items.
+@return an block of html suitable for populating a dialog for adding parts from a cataloged item to a loan.
+--->
+<cffunction name="getAddLoanItemDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="guid" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAddLoanItemHtmlThread">
+		<cftry>
+			<cfif (not isdefined("collection_object_id") OR len(collection_object_id) EQ 0) AND (NOT isdefined("guid") OR len(guid) EQ 0)>
+				<cfthrow message="Unable to look up cataloged item.  Either guid or collection_object_id must have a value.">
+			</cfif>
+			<cfoutput>
+				<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select coll_obj_disposition from ctcoll_obj_disp 
+				</cfquery>
+				<cfif isdefined("guid") AND len(guid) GT 0>
+					<cfquery name="lookupCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collection_object_id 
+						from flat
+						where guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
+					</cfquery>
+					<cfset collection_object_id = lookupCollObjId.collection_object_id>
+				</cfif>
+				<cfquery name="lookupCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						flat.guid, 
+						mczbase.get_numparts(cataloged_item.collection_object_id) as num_parts,
+						mczbase.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) as current_ident,
+						collectors,
+						verbatim_date,
+						higher_geog,
+						spec_locality,
+						typestatusplain as type_status_plain
+					FROM cataloged_item 
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<h2 class="h3">Add items to loan</h2>
+				<div>
+					<div>
+						<ul>
+							<cfloop query="lookupCatalogedItem">
+								<li>#guid#</li>
+								<li>#current_ident#</li>
+								<li>#type_status_plain#</li>
+								<li>#higher_geog#</li>
+								<li>#spec_locality#</li>
+								<li>#collectors#</li>
+								<li>#verbatim_date#</li>
+							</cfloop>
+						</ul>
+					</div>
+					<cfquery name="lookupParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							specimen_part.collection_object_id as part_id,
+							part_name, part_modifier, preserve_method,
+							coll_obj_disposition, lot_count, lot_count_modifier,
+							condition
+						FROM cataloged_item
+							left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+							left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						WHERE
+							cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<div>
+						<h2 class="h3">Parts/Preparations to add</h2>
+						<cfloop query="lookupParts">
+							#part_id#
+							#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier# 
+							#coll_obj_disposition#
+							#condition#
+							<label>Remark</label>
+							<label>Instructions</label>
+							<label>Subsample</label>
+							<button>Add</button>
+						</cfloop>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAddLoanItemHtmlThread" />
+	<cfreturn getAddLoanItemHtmlThread.output>
+</cffunction>
 </cfcomponent>
