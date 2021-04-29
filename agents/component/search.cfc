@@ -138,6 +138,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					MCZBASE.GET_EMAILADDRESSES(agent.agent_id) as emails,
+					MCZBASE.GET_NONEMAILEADDRESSES(agent.agent_id) as phones,
 				</cfif>
 				person.prefix,
 				person.first_name,
