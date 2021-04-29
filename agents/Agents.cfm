@@ -86,6 +86,12 @@ limitations under the License.
 	<cfif not isdefined("address")> 
 		<cfset address="">
 	</cfif>
+	<cfif not isdefined("email")> 
+		<cfset email="">
+	</cfif>
+	<cfif not isdefined("phone")> 
+		<cfset phone="">
+	</cfif>
 	<cfif not isdefined("edited")> 
 		<cfset edited="">
 	</cfif>
@@ -172,7 +178,7 @@ limitations under the License.
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -182,7 +188,7 @@ limitations under the License.
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -192,7 +198,7 @@ limitations under the License.
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -219,13 +225,21 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-5">
+										<div class="col-12 col-md-3">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-5">
-											<label for="address" class="data-entry-label" id="address_label">Address</label>
+										<div class="col-12 col-md-3">
+											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="email" class="data-entry-label" id="email_label">Email</label>
+											<input type="text" id="email" name="email" class="data-entry-input" value="#email#" aria-labelledby="email_label" >
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
+											<input type="text" id="phone" name="phone" class="data-entry-input" value="#phone#" aria-labelledby="phone_label" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
@@ -362,6 +376,10 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{ name: 'agent_remarks', type: 'string' },
 							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'emails', type: 'string' },
+								{ name: 'phones', type: 'string' },
+							</cfif>
 							{ name: 'abbreviation', type: 'string' },
 							{ name: 'preferred', type: 'string' },
 							{ name: 'acronym', type: 'string' },
@@ -467,6 +485,10 @@ limitations under the License.
 							{text: 'last_plus_initials', datafield: 'last_plus_initials', width:100, hideable: true, hidden: true },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'EmailAddresses', datafield: 'emails', width:150, hideable: true, hidden: true },
+								{text: 'PhoneNumbers', datafield: 'phones', width:120, hideable: true, hidden: true },
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },

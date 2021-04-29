@@ -266,8 +266,10 @@ limitations under the License.
 			</cfif>
 		
 			<section class="row">
-				<h2 class="h3">Review items in deaccession</h2>
-				<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a></b>.
+				<h2 class="h3">
+					Review items in deaccession
+					<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#transaction_id#">#aboutDeacc.deacc_number#</a>
+				</h2>
 				<br>There are #partCount# items from #catCount# specimens in this deaccession.
 				<br>
 				<a href="a_deaccItemReview.cfm?action=nothing&transaction_id=#transaction_id#&Ijustwannadownload=yep">Download (csv)</a>
@@ -284,19 +286,19 @@ limitations under the License.
 					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
 			</form>
 		 	<cfif aboutDeacc.collection EQ 'Cryogenic'>
-			<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
-				<br>Change preservation method of all these items to:
-				<input type="hidden" name="Action" value="BulkUpdatePres">
-					<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
-					<select name="part_preserve_method" size="1">
-						<cfloop query="ctPreserveMethod">
-							<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-						</cfloop>				
-					</select>
-				<input type="submit" value="Update Preservation method" class="savBtn"
-		   onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
-			</form>
-		        </cfif>
+				<form name="BulkUpdatePres" method="post" action="a_deaccItemReview.cfm">
+					<br>Change preservation method of all these items to:
+					<input type="hidden" name="Action" value="BulkUpdatePres">
+						<input type="hidden" name="transaction_id" value="#transaction_id#" id="transaction_id">
+						<select name="part_preserve_method" size="1">
+							<cfloop query="ctPreserveMethod">
+								<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+							</cfloop>				
+						</select>
+					<input type="submit" value="Update Preservation method" class="savBtn"
+						onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">	
+				</form>
+			</cfif>
 			<p>Edit part counts (particularly for subsamples) in the cataloged item.</p>
 		<table class="partname" id="t" class="sortable">
 			<tr>

@@ -36,6 +36,8 @@ limitations under the License.
 	<cfargument name="anyName" type="string" required="no">
 	<cfargument name="agent_id" type="string" required="no">
 	<cfargument name="address" type="string" required="no">
+	<cfargument name="email" type="string" required="no">
+	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 
 	<!--- TODO: allow relaxation of this criterion --->
@@ -133,6 +135,10 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					agent_remarks,
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					MCZBASE.GET_EMAILADDRESSES(agent.agent_id) as emails,
+					MCZBASE.GET_NONEMAILEADDRESSES(agent.agent_id) as phones,
 				</cfif>
 				person.prefix,
 				person.first_name,
@@ -342,6 +348,20 @@ limitations under the License.
 					<cfif isdefined("address") AND len(#address#) gt 0>
 						AND agent.agent_id IN (
 							select agent_id from addr where upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(address)#%">
+						)
+					</cfif>
+					<cfif isdefined("email") AND len(#email#) gt 0>
+						AND agent.agent_id IN (
+							select agent_id from electronic_address 
+							where upper(address) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(email)#%">
+								and address_type = 'email'
+						)
+					</cfif>
+					<cfif isdefined("phone") AND len(#phone#) gt 0>
+						AND agent.agent_id IN (
+							select agent_id from electronic_address 
+							where upper(address) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phone)#%">
+								and address_type <> 'email'
 						)
 					</cfif>
 				</cfif>

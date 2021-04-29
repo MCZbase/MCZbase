@@ -4706,4 +4706,94 @@ function showLLFormat(orig_units) {
 	<cfthread action="join" name="getCollectorsThread" />
 	<cfreturn getCollectorsThread.output>
 </cffunction>
+
+<!--- obtain an html rendering of the condition history of a specimen part suitable for display in a dialog 
+ @param collection_object_id the collection_object_id of the part for which to obtain the condition history
+ @return html block listing condition history for the specified part
+--->
+<cffunction name="getPartConditionHistoryHTML" returntype="string" access="remote" returnformat="plain">
+   <cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getPartCondHist">
+		<cfoutput>
+			<cftry>
+				<!---- lookup cataloged item for collection object or part we are getting the condition history of ---->
+				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						'cataloged item' part_name,
+						cat_num,
+						collection.collection,
+						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name
+					FROM
+						cataloged_item
+						left join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					UNION
+					SELECT
+						part_name,
+						cat_num,
+						collection.collection,
+						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name
+					FROM
+						cataloged_item
+						left join collection on cataloged_item.collection_id = collection.collection_id
+						left join specimen_part on  cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+					WHERE
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+
+				<div>
+					<strong>Condition History of #itemDetails.collection# #itemDetails.cat_num#
+						(<i>#itemDetails.scientific_name#</i>) #itemDetails.part_name#
+					</strong>
+				</div>
+
+				<!--- lookup part history --->
+				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						object_condition_id,
+						determined_agent_id,
+						agent_name,
+						determined_date,
+						condition
+					FROM
+						object_condition,preferred_agent_name
+					where 
+						determined_agent_id = agent_id and
+						collection_object_id = #collection_object_id#
+					group by
+						object_condition_id,
+						determined_agent_id,
+						agent_name,
+						determined_date,
+						condition
+					order by 
+						determined_date DESC
+				</cfquery>
+
+				<table class="table table-responsive border table-striped table-sm">
+					<tr>
+						<td><strong>Determined By</strong></td>
+						<td><strong>Date</strong></td>
+						<td><strong>Condition</strong></td>
+					</tr>
+					<cfloop query="cond">
+						<tr>
+							<td>#encodeForHtml(agent_name)#</td>
+							<td>#dateformat(determined_date,"yyyy-mm-dd")#</td>
+							<td>#condition#</td>
+						</tr>
+					</cfloop>
+				</table>
+   		<cfcatch>
+       		Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#
+		   </cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPartCondHist" />
+	<cfreturn getPartCondHist.output>
+</cffunction>
+
 </cfcomponent>

@@ -167,6 +167,11 @@ h6, .h6 {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
+/* Editable cells in a jqx-grid */
+.editable-cell {
+	border-width: 1px 1px 1px 1px !important;
+	border-color: black !important;
+}
 p {
 	margin-bottom: .75rem;
 	line-height: normal;
