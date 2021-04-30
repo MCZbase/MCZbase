@@ -373,6 +373,7 @@ limitations under the License.
 							</cfif>
 							{ name: 'birth_date', type: 'string' },
 							{ name: 'death_date', type: 'string' },
+							{ name: 'collections_scope', type: 'string' },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{ name: 'agent_remarks', type: 'string' },
 							</cfif>
@@ -470,6 +471,7 @@ limitations under the License.
 							{text: 'Type', datafield: 'agent_type', width: 150, hidable: true, hidden: false },
 							{text: 'Birth', datafield: 'birth_date', width:100, hideable: true, hidden: false },
 							{text: 'Death', datafield: 'death_date', width:100, hideable: true, hidden: false },
+							{text: 'Collections Scope', datafield: 'collections_scope', width:180, hideable: true, hidden: true },
 							{text: 'preferred', datafield: 'preferred', width:100, hideable: true, hidden: true },
 							{text: 'abbreviation', datafield: 'abbreviation', width:100, hideable: true, hidden: true },
 							{text: 'acronym', datafield: 'acronym', width:100, hideable: true, hidden: true },
