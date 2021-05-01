@@ -335,7 +335,7 @@ limitations under the License.
 			</cfswitch>
 		<cfelse>
 			<h2>Create new Agent.</h2>
-		<cfif>
+		</cfif>
 		<!--- TODO: Implement--->
 	</cfoutput>
 </cfcase>
