@@ -242,7 +242,7 @@ limitations under the License.
 </cfcase>
 <cfcase value="newAgent">
 	<cfoutput>
-		<cfif isdefined("agent_type") and len(agent_type) GT 0)>
+		<cfif isdefined("agent_type") and len(agent_type) GT 0>
 			<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
 			<cfswitch expression="#agent_type#">
 				<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
