@@ -214,7 +214,13 @@ limitations under the License.
 								<div>
 									<h2 class="h3">Collector of</h2>
 									<ul>
+									<cfset earlyeststart = "">
+									<cfset latestend = "">
 									<cfloop query="getAgentCollScope">
+										<cfif len(earlyeststart) EQ 0><cfset earlyeststart = getAgentCollScope.startyear></cfif>
+										<cfif len(latestend) EQ 0><cfset latestend = getAgentCollScope.endyear></cfif>
+										<cfif compare(getAgentCollScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentCollScope.startyear></cfif>
+										<cfif compare(getAgentCollScope.endyear,latestend) GT 0><cfset latestend=getAgentCollScope.endyear></cfif>
 										<cfif getAgentCollScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif getAgentCollScope.startyear IS getAgentCollScope.endyear>
 											<cfif len(getAgentCollScope.startyear) EQ 0>
@@ -229,6 +235,11 @@ limitations under the License.
 										<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 									</cfloop>
 									</ul>
+									<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
+										<cfif LSParseNumber(earlyeststart) +100 LT LSParseNumber(latestend)>
+											<h3 class="h3">Range of years collected is greater that 100.</h3>
+										</cfif>
+									</cfif>
 								</div>
 							</cfif>
 						</cfloop>
