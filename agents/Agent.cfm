@@ -182,7 +182,8 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
-								select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear from (
+								select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
+								from (
 									select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
@@ -192,7 +193,7 @@ limitations under the License.
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									group by flat.collection_cde, flat.collection_id
 									union
-									select count(*), flat.collection_cde, flat.collection_id 0, 0
+									select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
 										left join flat on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
