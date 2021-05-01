@@ -215,7 +215,18 @@ limitations under the License.
 									<h2 class="h3">Collector of</h2>
 									<ul>
 									<cfloop query="getAgentCollScope">
-										<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# records</a>) in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#</li>
+										<cfif getAgentCollScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif getAgentCollScope.startyear IS getAgentCollScope.endyear>
+											<cfif len(getAgentCollScope.startyear EQ 0>
+												<cfset yearbit=" none known to year">
+											<cfelse>
+												<cfset yearbit=" in year #getAgentCollScope.startyear#">
+											</cfif>
+										<cfelse>
+											<cfset yearbit=" in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#">
+										</cfif>
+										
+										<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 									</cfloop>
 									</ul>
 								</div>
