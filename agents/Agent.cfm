@@ -265,7 +265,7 @@ limitations under the License.
 						<option value=""></option>
 						<cfloop query="ctsuffix">
 							<option value="#suffix#">#suffix#</option>
-						</cfoutput>
+						</cfloop>
 			    	</select>
 					<label for="pref_name">Preferred Name</label>
 					<input type="text" name="pref_name" id="pref_name">
