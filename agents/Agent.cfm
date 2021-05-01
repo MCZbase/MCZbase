@@ -187,7 +187,8 @@ limitations under the License.
 									select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
-										left join flat on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> as flat
+											on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
 									where collector.COLLECTOR_ROLE = 'c'
 										and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -196,7 +197,8 @@ limitations under the License.
 									select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
-										left join flat on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> as flat
+											on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
 									where collector.COLLECTOR_ROLE = 'c'
 										and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
