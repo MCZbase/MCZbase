@@ -217,7 +217,7 @@ limitations under the License.
 									<cfloop query="getAgentCollScope">
 										<cfif getAgentCollScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif getAgentCollScope.startyear IS getAgentCollScope.endyear>
-											<cfif len(getAgentCollScope.startyear EQ 0>
+											<cfif len(getAgentCollScope.startyear) EQ 0>
 												<cfset yearbit=" none known to year">
 											<cfelse>
 												<cfset yearbit=" in year #getAgentCollScope.startyear#">
