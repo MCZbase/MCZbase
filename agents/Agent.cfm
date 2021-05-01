@@ -245,6 +245,7 @@ limitations under the License.
 		<cfif isdefined("agent_type") and len(agent_type) GT 0>
 			<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
 			<cfswitch expression="#agent_type#">
+				<cfcase value="person">
 				<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
 					<input type="hidden" name="Action" value="insertPerson">
 					<label for="prefix">Prefix</label>
@@ -332,6 +333,10 @@ limitations under the License.
 						<input type="submit" value="Add Person" class="savBtn">
 					</div>
 				</form>
+				</cfcase>
+				<cfdefaultcase>
+					<h2>Type Not implemented yet.</h2>
+				</cfdefaultcase>
 			</cfswitch>
 		<cfelse>
 			<h2>Create new Agent.</h2>
