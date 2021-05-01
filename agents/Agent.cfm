@@ -211,16 +211,14 @@ limitations under the License.
 									<h2 class="h3">Not a collector of any material in MCZbase</h2>
 								</div>
 							<cfelse>
-								<cfloop query="getAgentCollScope">
-									<div>
-										<h2 class="h3">Collector of</h2>
-										<ul>
-										<cfloop query="getAgentCollScope">
-											<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# records</a>) in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#</li>
-										</cfloop>
-										</ul>
-									</div>
-								</cfloop>
+								<div>
+									<h2 class="h3">Collector of</h2>
+									<ul>
+									<cfloop query="getAgentCollScope">
+										<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# records</a>) in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#</li>
+									</cfloop>
+									</ul>
+								</div>
 							</cfif>
 						</cfloop>
 					</div>
