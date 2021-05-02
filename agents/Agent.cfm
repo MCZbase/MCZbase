@@ -217,8 +217,8 @@ limitations under the License.
 									<cfset earlyeststart = "">
 									<cfset latestend = "">
 									<cfloop query="getAgentCollScope">
-										<cfif len(earlyeststart) EQ 0><cfset earlyeststart = getAgentCollScope.startyear></cfif>
-										<cfif len(latestend) EQ 0><cfset latestend = getAgentCollScope.endyear></cfif>
+										<cfif len(earlyeststart) EQ 0 AND NOT getAgentCollScope.startyear IS "0" ><cfset earlyeststart = getAgentCollScope.startyear></cfif>
+										<cfif len(latestend) EQ 0 AND NOT getAgentCollScope.endyear IS "0"><cfset latestend = getAgentCollScope.endyear></cfif>
 										<cfif len(getAgentCollScope.startyear) GT 0 and NOT getAgentCollScope.startyear IS "0">
 											<cfif compare(getAgentCollScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentCollScope.startyear></cfif>
 										</cfif>
