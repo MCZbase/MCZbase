@@ -367,10 +367,6 @@
 		<cfset rA.type='unit'>
 		<cfset rA.values=valuelist(r.d,"|")>
 		<cfreturn rA>
-	<cfelseif #patype# EQ "subsampled by">
-		<cfset rA=structNew()>
-		<cfset rA.type='subsamp'>
-		<cfreturn rA>
 	<cfelse>
 		<cfset rA=structNew()>
 		<cfset rA.type='none'>
