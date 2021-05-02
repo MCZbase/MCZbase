@@ -219,11 +219,13 @@ limitations under the License.
 									<cfloop query="getAgentCollScope">
 										<cfif len(earlyeststart) EQ 0><cfset earlyeststart = getAgentCollScope.startyear></cfif>
 										<cfif len(latestend) EQ 0><cfset latestend = getAgentCollScope.endyear></cfif>
-										<cfif compare(getAgentCollScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentCollScope.startyear></cfif>
+										<cfif len(getAgentCollScope.startyear) GT 0 and NOT getAgentCollScope.startyear IS "0">
+											<cfif compare(getAgentCollScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentCollScope.startyear></cfif>
+										</cfif>
 										<cfif compare(getAgentCollScope.endyear,latestend) GT 0><cfset latestend=getAgentCollScope.endyear></cfif>
 										<cfif getAgentCollScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif getAgentCollScope.startyear IS getAgentCollScope.endyear>
-											<cfif len(getAgentCollScope.startyear) EQ 0>
+											<cfif len(getAgentCollScope.startyear) EQ 0 or getAgentCollScope.startyear IS "0">
 												<cfset yearbit=" none known to year">
 											<cfelse>
 												<cfset yearbit=" in year #getAgentCollScope.startyear#">
@@ -231,8 +233,9 @@ limitations under the License.
 										<cfelse>
 											<cfset yearbit=" in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#">
 										</cfif>
-										
-										<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
+										<cfif len(getAgentCollScope.collection_cde) GT 0>
+											<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
+										</cfif>
 									</cfloop>
 									</ul>
 									<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
