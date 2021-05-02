@@ -53,6 +53,28 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
+<cfquery name="ctAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select agent_type from ctagent_type order by agent_type
+</cfquery>
+<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select agent_name_type as agent_name_type from ctagent_name_type where agent_name_type != 'preferred' order by agent_name_type
+</cfquery>
+<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select addr_type from ctaddr_type
+	where addr_type <> 'temporary'
+</cfquery>
+<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select address_type from ctelectronic_addr_type
+</cfquery>
+<cfquery name="ctprefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select prefix from ctprefix order by prefix
+</cfquery>
+<cfquery name="ctsuffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select suffix from ctsuffix order by suffix
+</cfquery>
+<cfquery name="ctRelns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select AGENT_RELATIONSHIP from CTAGENT_RELATIONSHIP
+</cfquery>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
    from ctguid_type 
@@ -270,104 +292,110 @@ limitations under the License.
 	<cfoutput>
 		<cfif isdefined("agent_type") and len(agent_type) GT 0>
 			<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
-			<cfswitch expression="#agent_type#">
-				<cfcase value="person">
-				<form name="newPerson" action="editAllAgent.cfm" method="post" target="_person">
-					<input type="hidden" name="Action" value="insertPerson">
-					<label for="prefix">Prefix</label>
-					<select name="prefix" id="prefix" size="1">
-						<option value=""></option>
-						<cfloop query="ctprefix">
-							<option value="#prefix#">#prefix#</option>
-						</cfloop>
-					</select>
-					<label for="first_name">First Name</label>
-					<input type="text" name="first_name" id="first_name">
-					<label for="middle_name">Middle Name</label>
-					<input type="text" name="middle_name" id="middle_name">
-					<label for="last_name">Last Name</label>
-					<input type="text" name="last_name" id="last_name" class="reqdClr">
-					<label for="suffix">Suffix</label>
-					<select name="suffix" size="1" id="suffix">
-						<option value=""></option>
-						<cfloop query="ctsuffix">
-							<option value="#suffix#">#suffix#</option>
-						</cfloop>
-			    	</select>
-					<label for="pref_name">Preferred Name</label>
-					<input type="text" name="pref_name" id="pref_name">
-
-					<div class="detailCell">
-						<label for="agentguid">GUID for Agent</label>
-						<cfset pattern = "">
-						<cfset placeholder = "">
-						<cfset regex = "">
-						<cfset replacement = "">
-						<cfset searchlink = "" >
-						<cfset searchtext = "" >
-						<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
-							<cfif searchtext EQ "">
-								<option value=""></option>
-							</cfif>
-							<cfloop query="ctguid_type_agent">
-								<cfset sel="">
-								<cfif ctguid_type_agent.recordcount EQ 1 >
-									<cfset sel="selected='selected'">
-									<cfset placeholder = "#ctguid_type_agent.placeholder#">
-									<cfset pattern = "#ctguid_type_agent.pattern_regex#">
-									<cfset regex = "#ctguid_type_agent.resolver_regex#">
-									<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
-								</cfif>
-								<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
-							</cfloop>
-						</select>
-						<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-						<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-						<a id="agentguid_link" href="" target="_blank" class="hints"></a>
-						<script>
-							$(document).ready(function () {
-								if ($('##agentguid').val().length > 0) {
-									$('##agentguid').hide();
-								}
-								$('##agentguid_search').click(function (evt) {
-									switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
-								});
-								$('##agentguid_guid_type').change(function () {
-									// On selecting a guid_type, remove an existing guid value.
-									$('##agentguid').val("");
-									// On selecting a guid_type, change the pattern.
-									getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-								});
-								$('##agentguid').blur( function () {
-									// On loss of focus for input, validate against the regex, update link
-									getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-								});
-								$('##first_name').change(function () {
-									// On changing prefered name, update search.
-									getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-								});
-								$('##middle_name').change(function () {
-									// On changing prefered name, update search.
-									getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-								});
-								$('##last_name').change(function () {
-									// On changing prefered name, update search.
-									getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-								});
-							});
-						</script>
-						<input type="submit" value="Add Person" class="savBtn">
-					</div>
-				</form>
-				</cfcase>
-				<cfdefaultcase>
-					<h2>Type Not implemented yet.</h2>
-				</cfdefaultcase>
-			</cfswitch>
 		<cfelse>
 			<h2>Create new Agent.</h2>
-		</cfif>
-		<!--- TODO: Implement--->
+		<cfif>
+		<div>
+			<label for="agent_type">Type of Agent</label>
+			<select name="agent_type" id="agent_type" size="1">
+				<cfloop query="ctAgentType">
+					<cfif isdefined("agent_type") and len(agent_type) GT 0 and agent_type IS ctAgentType.agent_type>
+						<cfset selected = "selected='selected'">
+					<cfelse>
+						<cfset selected = "">
+					</cfif>
+					<option value="#ctAgentType.agent_type#" #selected#>#ctAgentType.agent_type#</option>
+				</cfloop>
+			</select>
+			<label for="pref_name">Preferred Name</label>
+			<input type="text" name="pref_name" id="pref_name">
+
+			<label for="agent_remarks">About this Agent</label>
+			<input type="text" name="agent_remarks" id="agent_remarks">
+			<div id="person_form">
+				<label for="prefix">Prefix</label>
+				<select name="prefix" id="prefix" size="1">
+					<option value=""></option>
+					<cfloop query="ctprefix">
+						<option value="#prefix#">#prefix#</option>
+					</cfloop>
+				</select>
+				<label for="first_name">First Name</label>
+				<input type="text" name="first_name" id="first_name">
+				<label for="middle_name">Middle Name</label>
+				<input type="text" name="middle_name" id="middle_name">
+				<label for="last_name">Last Name</label>
+				<input type="text" name="last_name" id="last_name" class="reqdClr">
+				<label for="suffix">Suffix</label>
+				<select name="suffix" size="1" id="suffix">
+					<option value=""></option>
+					<cfloop query="ctsuffix">
+						<option value="#suffix#">#suffix#</option>
+					</cfloop>
+			  	</select>
+			</div>
+			<div id="guids">
+				<label for="agentguid">GUID for Agent</label>
+				<cfset pattern = "">
+				<cfset placeholder = "">
+				<cfset regex = "">
+				<cfset replacement = "">
+				<cfset searchlink = "" >
+				<cfset searchtext = "" >
+				<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
+					<cfif searchtext EQ "">
+						<option value=""></option>
+					</cfif>
+					<cfloop query="ctguid_type_agent">
+						<cfset sel="">
+						<cfif ctguid_type_agent.recordcount EQ 1 >
+							<cfset sel="selected='selected'">
+							<cfset placeholder = "#ctguid_type_agent.placeholder#">
+							<cfset pattern = "#ctguid_type_agent.pattern_regex#">
+							<cfset regex = "#ctguid_type_agent.resolver_regex#">
+							<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+						</cfif>
+						<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
+					</cfloop>
+				</select>
+				<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
+				<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+				<a id="agentguid_link" href="" target="_blank" class="hints"></a>
+				<script>
+					$(document).ready(function () {
+						if ($('##agentguid').val().length > 0) {
+							$('##agentguid').hide();
+						}
+						$('##agentguid_search').click(function (evt) {
+							switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
+						});
+						$('##agentguid_guid_type').change(function () {
+							// On selecting a guid_type, remove an existing guid value.
+							$('##agentguid').val("");
+							// On selecting a guid_type, change the pattern.
+							getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+						});
+						$('##agentguid').blur( function () {
+							// On loss of focus for input, validate against the regex, update link
+							getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+						});
+						$('##first_name').change(function () {
+							// On changing prefered name, update search.
+							getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+						});
+						$('##middle_name').change(function () {
+							// On changing prefered name, update search.
+							getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+						});
+						$('##last_name').change(function () {
+							// On changing prefered name, update search.
+							getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+						});
+					});
+				</script>
+				<input type="submit" value="Add Person" class="savBtn">
+			</div>
+		</div>
 	</cfoutput>
 </cfcase>
 </cfswitch>
