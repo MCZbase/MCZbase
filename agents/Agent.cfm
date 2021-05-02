@@ -239,8 +239,8 @@ limitations under the License.
 									</cfloop>
 									</ul>
 									<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
-										<cfif LSParseNumber(earlyeststart) +100 LT LSParseNumber(latestend)>
-											<h3 class="h3">Range of years collected is greater that 100.</h3>
+										<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
+											<h3 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
 										</cfif>
 									</cfif>
 								</div>
