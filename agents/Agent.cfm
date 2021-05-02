@@ -294,7 +294,7 @@ limitations under the License.
 			<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
 		<cfelse>
 			<h2>Create new Agent.</h2>
-		<cfif>
+		</cfif>
 		<div>
 			<label for="agent_type">Type of Agent</label>
 			<select name="agent_type" id="agent_type" size="1">
