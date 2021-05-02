@@ -158,6 +158,7 @@ limitations under the License.
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'married') as married,
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'aka') as aka,
 				MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'acronym') as acronym,
+				MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 					MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
 				</cfif>
