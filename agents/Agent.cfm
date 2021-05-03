@@ -28,7 +28,6 @@ limitations under the License.
 <cfelse>
 	<!--- if no agent_id was given, then assume we want agent search. --->
 	<cflocation url="/agents/Agents.cfm">
-	<cfabort>
 </cfif>
 
 <cfinclude template = "/shared/_header.cfm">
@@ -83,6 +82,7 @@ limitations under the License.
 								<li><a href="#guidLink#">#agentguid#</a></li>
 							</cfif>
 						</ul>
+						<div>#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<div>#agent_remarks#</div>
 						</cfif>

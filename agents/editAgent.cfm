@@ -142,13 +142,15 @@ limitations under the License.
 									var selectedType = $('##agent_type').val();
 									if (selectedType == 'person') { 
 										$('##personRow').show();
+										$('##last_name').prop('required',true);
 									} else { 
 										$('##personRow').hide();
+										$('##last_name').removeAttr('required');
 									}
 								}
 							</script>
-							<label for="agent_type">Type of Agent</label>
-							<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); ">
+							<label for="agent_type" class="data-entry-label">Type of Agent</label>
+							<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select">
 								<cfloop query="ctAgentType">
 									<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
 										<cfset selected = "selected='selected'">
@@ -160,26 +162,37 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-8">
-							<label for="pref_name">Preferred Name</label>
-							<input type="text" name="pref_name" id="pref_name">
+							<label for="pref_name" class="data-entry-label">Preferred Name</label>
+							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
+							<!--- TODO: Add test for unique preferred name --->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<label for="agent_remarks">Public Biography</label>
-							<input type="text" name="biography" id="biography">
+							<label for="biography" class="data-entry-label">Public Biography</label>
+							<textarea name="biography" id="biography" class="w-100"></textarea>
+							<script>
+								$(document).ready(function () {
+									$('##biography').jqxEditor();
+								});
+							</script>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<label for="agent_remarks">Internal Remarks</label>
-							<input type="text" name="agent_remarks" id="agent_remarks">
+							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
+							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
+							<script>
+								$(document).ready(function () {
+									$('##agent_remarks').jqxEditor();
+								});
+							</script>
 						</div>
 					</div>
 					<div id="personRow" class="row">
 						<div class="col-12 col-md-2">
-							<label for="prefix">Prefix</label>
-							<select name="prefix" id="prefix" size="1">
+							<label for="prefix" class="data-entry-label">Prefix</label>
+							<select name="prefix" id="prefix" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctprefix">
 									<option value="#prefix#">#prefix#</option>
@@ -187,20 +200,21 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="first_name">First Name</label>
-							<input type="text" name="first_name" id="first_name">
+							<label for="first_name"class="data-entry-label">First Name</label>
+							<input type="text" name="first_name" id="first_name"class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="middle_name">Middle Name</label>
-							<input type="text" name="middle_name" id="middle_name">
+							<label for="middle_name"class="data-entry-label">Middle Name</label>
+							<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="last_name">Last Name</label>
-							<input type="text" name="last_name" id="last_name" class="reqdClr">
+							<cfif agent_type EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
+							<label for="last_name"class="data-entry-label">Last Name</label>
+							<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req#>
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="suffix">Suffix</label>
-							<select name="suffix" size="1" id="suffix">
+							<label for="suffix"class="data-entry-label">Suffix</label>
+							<select name="suffix" size="1" id="suffix" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctsuffix">
 									<option value="#suffix#">#suffix#</option>
@@ -210,14 +224,14 @@ limitations under the License.
 					</div>
 					<div id="guids" class="row">
 						<div class="col-12">
-							<label for="agentguid">GUID for Agent</label>
+							<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
 							<cfset replacement = "">
 							<cfset searchlink = "" >
 							<cfset searchtext = "" >
-							<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
+							<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
 								<cfif searchtext EQ "">
 									<option value=""></option>
 								</cfif>
