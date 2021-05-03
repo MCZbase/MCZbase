@@ -2600,8 +2600,7 @@ limitations under the License.
 									<li class="list-group-item col-8 px-0">#getLoc.quad#</li>
 								</cfif>
 							</ul>
-						</div>
-						<div class="col-12 float-left">
+					
 							<div class="py-3">
 								<h4>Higher Geography
 									<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
