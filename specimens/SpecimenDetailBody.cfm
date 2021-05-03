@@ -223,7 +223,7 @@ limitations under the License.
 						</script>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingOtherID">
-							<cfif isDefined("blockotherid")>
+							<cfif #blockotherid# is not null> 
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
 								</h3>
@@ -241,7 +241,6 @@ limitations under the License.
 						</div>
 						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 							<div class="card-body mb-2 float-left" id="otherIDsCardBody">
-							
 								#blockotherid#
 							</div>
 						</div>
