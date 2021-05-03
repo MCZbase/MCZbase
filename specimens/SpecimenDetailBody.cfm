@@ -286,6 +286,7 @@ limitations under the License.
 								loadAttributes(#collection_object_id#,'attributesCardBody');
 							}
 						</script>
+						<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingAttributes">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##AttributesPane">Attributes</a>
@@ -296,8 +297,7 @@ limitations under the License.
 						</div>
 						<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 							<div class="card-body py-2 mb-2 float-left" id="attributesCardBody">
-								<cfset block = getAttributesHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+								<cfif len(#blockattributes#) gt 60>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
@@ -361,7 +361,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
-							<div class="card-body py-2 mb-0 float-left" id="localityCardBody">
+							<div class="card-body py-2 mb-1 float-left" id="localityCardBody">
 								<cfset block = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 								<cfif len(#blockrel#) gt 60> #block# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
