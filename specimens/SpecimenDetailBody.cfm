@@ -93,7 +93,7 @@ limitations under the License.
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 
-			<cfset ctPart.ct=''>
+	
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from rparts
 			</cfquery>
