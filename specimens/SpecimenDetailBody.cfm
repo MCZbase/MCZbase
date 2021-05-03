@@ -177,7 +177,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
 							</h3>
-							<cfif isDefined(blockcit)>
+							<cfif isDefined("blockcit")>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
 							</cfif>
