@@ -512,7 +512,7 @@ limitations under the License.
 					<cfif publicationMedia.recordcount gt 0>
 						<cfloop query="publicationMedia">
 							<cfset puri=getMediaPreview(preview_uri,mime_type)>
-							<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 										media_label,
 										label_value
@@ -542,7 +542,7 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							<div class="col-2 m-2 float-left d-inline">
+							<div class="col-1 my-2 mr-2 float-left d-inline">
 								<cfset mt = #mime_type#>
 								<cfset muri = #media_uri#>
 								<a href="#media_uri#" target="_blank">
@@ -590,29 +590,6 @@ limitations under the License.
 	<cfelse>
 		<cfset oneOfUs = 0>
 	</cfif>
-	<!---		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct
-					media.media_id,
-					media.media_uri,
-					media.mime_type,
-					media.media_type,
-					media.preview_uri,
-					media_relations.media_relationship
-				from
-					 media,
-					 media_relations,
-					 media_labels
-				where
-					 media.media_id=media_relations.media_id and
-					 media.media_id=media_labels.media_id (+) and
-					 media_relations.media_relationship like '%cataloged_item' and
-					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
-				order by media.media_type
-			</cfquery>
-			<cfquery name="ctmedia" dbtype="query">
-				select count(*) as ct from mediaS2 group by media_relationship order by media_id
-			</cfquery>--->
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
