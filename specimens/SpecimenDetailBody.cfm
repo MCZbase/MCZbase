@@ -162,13 +162,6 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-<script>
-	$('##identificationsPane').on('shown.bs.collapse',function(){
-		$('##btn_pane').text('edit');
-});
-$('##identificationsPane').on('hidden.bs.collapse',function(){
-	$('##btn_pane').text('add');
-});</script>
 <!----------------------------- Citations new ----------------------------------> 
 			
 				<div class="accordion" id="accordionCitations">
@@ -184,8 +177,9 @@ $('##identificationsPane').on('hidden.bs.collapse',function(){
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
 							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
+							<cfif isDefined(block)>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
 							</cfif>
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
@@ -194,6 +188,9 @@ $('##identificationsPane').on('hidden.bs.collapse',function(){
 								#block#
 							</div>
 						</div>
+							<cfelse>
+								What
+							</cfif>
 					</div>
 				</div>
 
