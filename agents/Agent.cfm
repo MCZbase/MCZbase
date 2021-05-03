@@ -250,13 +250,13 @@ limitations under the License.
 							) 
 							group by collection_cde, collection_id
 						</cfquery>
-						<cfif getAgentCollScope.recordcount EQ 0>
+						<cfif getAgentPrepScope.recordcount EQ 0>
 							<div>
 								<h2 class="h3">Not a preparator of any material in MCZbase</h2>
 							</div>
 						<cfelse>
 							<div>
-								<h2 class="h3">Collector of</h2>
+								<h2 class="h3">Preparator of</h2>
 								<ul>
 								<cfset earlyeststart = "">
 								<cfset latestend = "">
