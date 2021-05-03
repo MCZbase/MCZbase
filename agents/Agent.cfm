@@ -273,7 +273,7 @@ limitations under the License.
 									<cfelse>
 										<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
 									</cfif>
-									<cfif len(getAgentFamilyScope.collection_cde) GT 0>
+									<cfif len(getAgentFamilyScope.family) GT 0>
 										<li>#getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 									</cfif>
 								</cfloop>
