@@ -168,28 +168,6 @@ limitations under the License.
 							<!--- TODO: Add test for unique preferred name --->
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
-							<label for="biography" class="data-entry-label">Public Biography</label>
-							<textarea name="biography" id="biography" class="w-100"></textarea>
-							<script>
-								$(document).ready(function () {
-									$('##biography').jqxEditor();
-								});
-							</script>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
-							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
-							<script>
-								$(document).ready(function () {
-									$('##agent_remarks').jqxEditor();
-								});
-							</script>
-						</div>
-					</div>
 					<div id="personRow" class="row">
 						<div class="col-12 col-md-2">
 							<label for="prefix" class="data-entry-label">Prefix</label>
@@ -286,8 +264,30 @@ limitations under the License.
 						</script>
 					</div>
 					<div class="row">
+						<div class="col-12">
+							<label for="biography" class="data-entry-label">Public Biography</label>
+							<textarea name="biography" id="biography" class="w-100"></textarea>
+							<script>
+								$(document).ready(function () {
+									$('##biography').jqxEditor();
+								});
+							</script>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
+							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
+							<script>
+								$(document).ready(function () {
+									$('##agent_remarks').jqxEditor();
+								});
+							</script>
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-12 col-md-3">
-							<input type="submit" value="Add Person" class="savBtn">
+							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
 						</div>
 					</div>
 				</form>
