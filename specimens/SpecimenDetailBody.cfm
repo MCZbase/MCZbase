@@ -223,7 +223,7 @@ limitations under the License.
 						</script>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingOtherID">
-							<cfif len(#blockotherid#) gt 100> 
+							<cfif len(#blockotherid#) gt 10> 
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
 								</h3>
