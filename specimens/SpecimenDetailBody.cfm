@@ -333,7 +333,7 @@ limitations under the License.
 						</cfif>
 						</div>
 						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-							<div class="card-body py-2 mb-2 float-left" id="relationsCardBody">
+							<div class="card-body py-2 mb-1 float-left" id="relationsCardBody">
 									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse>none</cfif>
 							</div>
 						</div>
