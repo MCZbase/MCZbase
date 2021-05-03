@@ -681,7 +681,7 @@ limitations under the License.
 			</cfquery>
 			<cfset ctPart.ct=''>
 			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from parts group by lot_count order by part_name
+				select count(*) as ct from parts
 			</cfquery>
 			<table class="table border-bottom mb-0">
 				<thead>
