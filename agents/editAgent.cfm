@@ -43,7 +43,7 @@ limitations under the License.
 	<cfif isDefined("agent_type") AND len(agent_type) GT 0>
 		<cfset curAgentType = agent_type>
 	<cfelse>
-		<cfset curAgentType = agent_type>
+		<cfset curAgentType = 'person'>
 	</cfif>
 </cfcase>
 <cfcase value="createAgent">
