@@ -380,8 +380,8 @@ limitations under the License.
 								loadCollectors(#collection_object_id#,'collectorsCardBody');
 							}
 						</script>
-						<cfset blockcoll = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
-						<cfif len(#blockcoll#) gt 5>
+						<cfset blockcollectors = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
+						<cfif len(#blockcollectors#) gt 5>
 						<div class="card-header" id="headingCollectors">
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
@@ -399,8 +399,8 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
-							<div class="card-body py-2 mb-2 float-left" id="collectorsCardBody">
-								<cfif len(#blockcoll#) gt 60> #blockcoll# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+							<div class="card-body py-2 mb-1 float-left" id="collectorsCardBody">
+								<cfif len(#blockcollectors#) gt 60> #blockcollectors# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
