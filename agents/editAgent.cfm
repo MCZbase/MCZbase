@@ -34,6 +34,15 @@ limitations under the License.
 	</cfif>
 </cfif>
 
+<!--- TODO: Temporary test for non-production deployment, remove when ready --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+<cfset Session.gitBranch = gitBranch>
 <cfif findNoCase('master',Session.gitBranch) GT 0>
 	<cfthrow message="Page not ready for production use.">
 </cfif>
