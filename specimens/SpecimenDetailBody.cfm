@@ -268,7 +268,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-							<div class="card-body py-2 w-100 mb-2 float-left" id="partsCardBody">
+							<div class="card-body py-2 w-100 mb-1 float-left" id="partsCardBody">
 								<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#blockparts#
 							</div>
