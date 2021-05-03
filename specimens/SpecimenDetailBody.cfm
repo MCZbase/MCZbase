@@ -257,9 +257,9 @@ limitations under the License.
 								loadParts(#collection_object_id#,'partsCardBody');
 							}
 						</script>
-						<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
+						
 						<div class="card-header" id="headingParts">
-						<cfif len(#blockparts#) gt 100> 
+					
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
 								<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
@@ -267,7 +267,7 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
 							</cfif>
-						<cfelse>
+			
 							<h3 class="h4 my-0 float-left collapsed text-black">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
 								<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
@@ -275,10 +275,11 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Add</button>
 							</cfif>
-						</cfif>
+						
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
+								<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#blockparts#
 							</div>
 						</div>
