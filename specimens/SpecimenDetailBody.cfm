@@ -279,7 +279,7 @@ limitations under the License.
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
-								#block#
+								#blockparts#
 							</div>
 						</div>
 					</div>
