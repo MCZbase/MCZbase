@@ -267,15 +267,6 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
 							</cfif>
-			
-							<h3 class="h4 my-0 float-left collapsed text-black">
-								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
-								<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Add</button>
-							</cfif>
-						
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
