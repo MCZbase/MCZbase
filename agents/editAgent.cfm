@@ -34,6 +34,10 @@ limitations under the License.
 	</cfif>
 </cfif>
 
+<cfif findNoCase('master',gitBranch) GT 0>
+	<cfthrow message="Page not ready for production use.">
+</cfif>
+
 <cfswitch expression="#action#">
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
