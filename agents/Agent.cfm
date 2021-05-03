@@ -185,6 +185,7 @@ limitations under the License.
 								group by flat.collection_cde, flat.collection_id, 0
 							) 
 							group by collection_cde, collection_id
+							order by ct desc
 						</cfquery>
 						<cfif getAgentCollScope.recordcount EQ 0>
 							<div>
@@ -237,7 +238,7 @@ limitations under the License.
 									where collector.COLLECTOR_ROLE = 'c'
 										and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by flat.family
+									group by flat.phylclass, flat.family
 									union
 									select count(*) ct, flat.phylclass, flat.family as family, 
 										0 as st, 0 as en
@@ -248,7 +249,7 @@ limitations under the License.
 									where collector.COLLECTOR_ROLE = 'c'
 										and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by flat.family, 0
+									group by flat.phylclass, flat.family, 0
 								) 
 								group by phylclass, family
 								order by ct desc
