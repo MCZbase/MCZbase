@@ -339,7 +339,7 @@ limitations under the License.
 										<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
 									</cfif>
 									<cfif len(getAgentPrepScope.collection_cde) GT 0>
-										<li>#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&collector_agent_id=#agent_id#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
+										<li>#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
 									</cfif>
 								</cfloop>
 								</ul>
