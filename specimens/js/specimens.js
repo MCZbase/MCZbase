@@ -620,9 +620,6 @@ function createCitationEditDialog(dialogId,title,closecallback) {
 		minHeight: 450,
 		draggable:true,
 		buttons: {
-			"Save": function() {
-				$("#"+dialogId).dialog('submit');
-			},
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
 			}
