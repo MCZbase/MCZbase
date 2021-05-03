@@ -363,7 +363,7 @@ limitations under the License.
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 							<div class="card-body py-2 mb-0 float-left" id="localityCardBody">
 								<cfset block = getLocalityHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+								<cfif len(#blockrel#) gt 60> #block# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
@@ -380,18 +380,27 @@ limitations under the License.
 								loadCollectors(#collection_object_id#,'collectorsCardBody');
 							}
 						</script>
+						<cfset blockcoll = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
+						<cfif len(#blockcoll#) gt 5>
 						<div class="card-header" id="headingCollectors">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Edit</button>
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
+								</h3>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Edit</button>
+								</cfif>
+							<cfelse>
+								<h3 class="h4 my-0 float-left collapsed text-black">
+									<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
+								</h3>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Add</button>
+								</cfif>
 							</cfif>
 						</div>
 						<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
 							<div class="card-body py-2 mb-2 float-left" id="collectorsCardBody">
-								<cfset block = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+								<cfif len(#blockcoll#) gt 60> #blockcoll# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
