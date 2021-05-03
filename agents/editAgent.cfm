@@ -208,7 +208,7 @@ limitations under the License.
 							<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<cfif agent_type EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
+							<cfif curAgentType EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
 							<label for="last_name"class="data-entry-label">Last Name</label>
 							<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req#>
 						</div>
