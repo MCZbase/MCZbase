@@ -44,7 +44,7 @@ limitations under the License.
 		<cfset curAgentType = agent_type>
 	<cfelse>
 		<cfset curAgentType = agent_type>
-	<cfif>
+	</cfif>
 </cfcase>
 <cfcase value="createAgent">
 	<cfset pageTitle = "Saving New Agent">
