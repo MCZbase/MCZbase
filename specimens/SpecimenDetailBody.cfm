@@ -202,7 +202,11 @@ limitations under the License.
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 							<div class="card-body py-2 mb-2 float-left" id="citationsCardBody">
-								#blockcit#
+								<cfif len(#blockcit#) gt 10>
+									#blockcit#
+								<cfelse>
+									<ul class="pl-0 mb-0"><li>None</li></ul>
+								</cfif>
 							</div>
 						</div>
 
