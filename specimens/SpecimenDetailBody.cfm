@@ -259,7 +259,7 @@ limitations under the License.
 						</script>
 						<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingParts">
-						<cfif len(#blockparts#) gt 10> 
+						<cfif len(#blockparts#) gt 50> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
 								<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
