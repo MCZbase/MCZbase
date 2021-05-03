@@ -147,7 +147,7 @@ limitations under the License.
 						</script>
 								<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="heading1">
-							<cfif isDefined("blockident")>
+							<cfif len(#blockident#) gt 10> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
@@ -185,7 +185,7 @@ limitations under the License.
 						</script>
 						<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingCitations">
-							<cfif isDefined("blockcit")>
+							<cfif len(#blockcit#) gt 10> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
 							</h3>
