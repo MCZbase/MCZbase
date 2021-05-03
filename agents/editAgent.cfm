@@ -131,6 +131,21 @@ limitations under the License.
 </cfcase>
 <cfcase value="newAgent">
 	<cfoutput>
+		<script>
+			function getAssembledName() {
+				var result = "";
+				if ($('##last_name').val()!="") {
+					result = $('##last_name').val();
+				}
+				if ($('##middle_name').val()!="") {
+					result = $('##middle_name').val() + " " + result;
+				}
+				if ($('##first_name').val()!="") {
+					result = $('##first_name').val() + " " + result;
+				}
+				return result;
+			}
+		</script>
 		<main class="container py-3" id="content">
 			<cfif isdefined("agent_type") and len(agent_type) GT 0>
 				<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
