@@ -163,11 +163,11 @@ limitations under the License.
 					</div>
 				</div>
 <script>
-	$('#identificationsPane').on('shown.bs.collapse',function(){
-		$('#btn_pane').text('edit');
+	$('##identificationsPane').on('shown.bs.collapse',function(){
+		$('##btn_pane').text('edit');
 });
-$('#identificationsPane').on('hidden.bs.collapse',function(){
-	$('#btn_pane').text('add');
+$('##identificationsPane').on('hidden.bs.collapse',function(){
+	$('##btn_pane').text('add');
 });</script>
 <!----------------------------- Citations new ----------------------------------> 
 			
