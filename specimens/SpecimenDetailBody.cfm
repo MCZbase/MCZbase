@@ -201,7 +201,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-							<div class="card-body py-2 mb-2 float-left" id="citationsCardBody">
+							<div class="card-body py-2 mb-1 float-left" id="citationsCardBody">
 								<cfif len(#blockcit#) gt 10>
 									#blockcit#
 								<cfelse>
@@ -384,7 +384,7 @@ limitations under the License.
 						</cfif>
 						</div>
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
-							<div class="card-body py-2 mb-1 float-left" id="localityCardBody">
+							<div class="card-body px-0 py-2 mb-1 float-left" id="localityCardBody">
 								<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
