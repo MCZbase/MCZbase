@@ -145,6 +145,7 @@ limitations under the License.
 								loadIdentifications(#collection_object_id#,'identificationsCardBody');
 							}
 						</script>
+								<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="heading1">
 							<cfif isDefined("blockident")>
 							<h3 class="h4 my-0 float-left collapsed btn-link">
@@ -164,7 +165,7 @@ limitations under the License.
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body pb-0 mb-2 float-left" id="identificationsCardBody">
-								<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+						
 								#blockident#
 									<div id="identificationHTML"></div>
 							</div>
