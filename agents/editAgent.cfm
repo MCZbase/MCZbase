@@ -440,7 +440,7 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-	<cfoutput>
+	</cfoutput>
 </cfcase>
 </cfswitch>
 
