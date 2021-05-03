@@ -215,11 +215,11 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	line-height: 1.15;
 }
 .non-field-text {
-    padding: .15rem .5rem;
-    border-radius: .2rem;
-    font-size: .875rem;
-    font-weight: 500;
-    line-height: 1.15rem;
+	padding: .15rem .5rem;
+	border-radius: .2rem;
+	font-size: .875rem;
+	font-weight: 500;
+	line-height: 1.15rem;
 }
 .text-other {
 	font-size: .875em;
@@ -268,8 +268,8 @@ BELOW: Small Form button (bootstrap override)
 	border: 1px solid #aaa;
 	padding: .15rem .5rem .22rem .5rem;
 	font-size: .875rem;
-    line-height: 1.15rem;
-    border-radius: .2rem;
+	line-height: 1.15rem;
+	border-radius: .2rem;
 }
 .btn-outline-primary {
 	background-color: white;
@@ -1260,12 +1260,12 @@ table#pairs, th, td {
 	text-align: center;
 }
 .data-entry-label {
-    width: 100%;
-    font-size: .875rem;
-    border: none;
-    padding: 0 .25rem .11rem .25rem;
-    font-weight: 450;
-    display: block;
+	width: 100%;
+	font-size: .875rem;
+	border: none;
+	padding: 0 .25rem .11rem .25rem;
+	font-weight: 450;
+	display: block;
 }
 span.data-entry-label {
 	margin-top: 2px;
@@ -1725,11 +1725,11 @@ input#readMore_check_id {
 	border-top: 3px solid #deebec;
 	cursor: pointer;
 	border-right: 1px solid #deebec;
-    border-left: 1px solid #deebec;
+	border-left: 1px solid #deebec;
 }
 button[tabindex="-1"]:focus {
-    outline: 0!important;
-    box-shadow: none;
+	outline: 0!important;
+	box-shadow: none;
 }
 .card-header {
 	padding: .9rem 0rem 0rem 0rem;
@@ -1758,45 +1758,49 @@ div[aria-hidden='false'] {
 	display:block;
 }
 a.btn-outline-primary {
-    background-color: white;
-    padding-bottom: .05rem;
-    color: #007bff;
-    text-decoration:none;
-    font-size: .785rem;
+	background-color: white;
+	padding-bottom: .05rem;
+	color: #007bff;
+	text-decoration:none;
+	font-size: .785rem;
 }
 a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
-    background-color: #007bff;
-    text-decoration:none;
-    color: white !important;
-    padding-bottom: .05rem;
-    font-size: .785rem;
+	background-color: #007bff;
+	text-decoration:none;
+	color: white !important;
+	padding-bottom: .05rem;
+	font-size: .785rem;
 }
 a.btn-danger {
-    background-color: white;
-    padding-bottom: .05rem;
-    color: #bd2130;
-    text-decoration:none;
-    font-size: .785rem;
+	background-color: white;
+	padding-bottom: .05rem;
+	color: #bd2130;
+	text-decoration:none;
+	font-size: .785rem;
 }
 a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
-    background-color: #bd2130;
-    text-decoration:none;
-    color: white !important;
-    padding-bottom: .05rem;
-    font-size: .785rem;
+	background-color: #bd2130;
+	text-decoration:none;
+	color: white !important;
+	padding-bottom: .05rem;
+	font-size: .785rem;
 }
 .jqx-grid-cell-selected-light a.btn-danger:focus, .jqx-fill-state-pressed a.btn-danger {
-    color: #bd2130 !important; 
-    text-decoration: none;
+	color: #bd2130 !important; 
+	text-decoration: none;
 }
 .jqx-fill-state-pressed a.btn-danger:hover, .jqx-fill-state-pressed a.btn-danger.hover {
-    color: #ffffff !important; 
-    text-decoration: none;
+	color: #ffffff !important; 
+	text-decoration: none;
 }
 #agentDiv ul {
 	font-size: 0.95rem;
-}				
-#citationsCardBody.card-body.py-0.mb-2.float-left {background-color: lime;display:none;}
+}
+#citationsDialog_div:empty {
+	background-color: lime;display:none;
+	
+}
+
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
