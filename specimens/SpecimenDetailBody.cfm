@@ -183,6 +183,7 @@ limitations under the License.
 								loadCitations(#collection_object_id#,'citationsCardBody');
 							}
 						</script>
+						<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingCitations">
 							<cfif isDefined("blockcit")>
 							<h3 class="h4 my-0 float-left collapsed btn-link">
@@ -202,7 +203,7 @@ limitations under the License.
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 							<div class="card-body py-0 mb-2 float-left" id="citationsCardBody">
-								<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
+								
 								#blockcit#
 							</div>
 						</div>
@@ -220,18 +221,28 @@ limitations under the License.
 								loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 							}
 						</script>
+							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingOtherID">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
+							<cfif isDefined("blockotherid")>
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
+								</h3>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
+								</cfif>
+							<cfelse>
+								<h3 class="h4 my-0 float-left collapsed text-black">
+								Other IDs
+								</h3>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Add</button>
+								</cfif>
 							</cfif>
 						</div>
 						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 							<div class="card-body mb-2 float-left" id="otherIDsCardBody">
-								<cfset block = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+							
+								#blockotherid#
 							</div>
 						</div>
 					</div>
