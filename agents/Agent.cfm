@@ -228,7 +228,7 @@ limitations under the License.
 							<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
 								select sum(ct) as ct, family, sum(st) as startyear, sum(en) as endyear 
 								from (
-									select count(*) ct, flat.family, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
+									select count(*) ct, flat.family as family, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
 										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
@@ -236,9 +236,9 @@ limitations under the License.
 									where collector.COLLECTOR_ROLE = 'c'
 										and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by flat.collection_cde, flat.collection_id
+									group by flat.family
 									union
-									select count(*) ct, flat.family, 0 as st, 0 as en
+									select count(*) ct, flat.family as family, 0 as st, 0 as en
 									from agent
 										left join collector on agent.agent_id = collector.AGENT_ID
 										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
@@ -246,7 +246,7 @@ limitations under the License.
 									where collector.COLLECTOR_ROLE = 'c'
 										and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
 										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by flat.collection_cde, flat.collection_id, 0
+									group by flat.family, 0
 								) 
 								group by family
 							</cfquery>
