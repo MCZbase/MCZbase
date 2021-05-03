@@ -316,7 +316,7 @@ limitations under the License.
 						</script>
 						<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingRelations">
-						<cfif len(#blockotherid#) gt 0> 
+						<cfif len(#blockrel#) gt 0> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##RelationsPane">Relationships</a>
 							</h3>
@@ -334,7 +334,6 @@ limitations under the License.
 						</div>
 						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 							<div class="card-body py-0 mb-0 float-left" id="relationsCardBody">
-								
 								#blockrel#
 							</div>
 						</div>
