@@ -133,7 +133,7 @@ limitations under the License.
 			<cfelse>
 				<h2>Create new Agent.</h2>
 			</cfif>
-			<section class="row border rounded my-2 px-1 pt-1 pb-2">
+			<section class="border rounded my-2 px-1 pt-1 pb-2">
 				<form id="newAgentForm">
 					<input type="hidden" name="action" value="createAgent">
 					<div class="row">
