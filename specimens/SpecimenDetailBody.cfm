@@ -381,7 +381,6 @@ limitations under the License.
 						</div>
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 							<div class="card-body py-2 mb-1 float-left" id="localityCardBody">
-								<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 								<cfif len(#blocklocality#) gt 60> #block# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
