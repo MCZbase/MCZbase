@@ -297,16 +297,16 @@ limitations under the License.
 							</cfif>
 						<cfelse>
 							<h3 class="h4 my-0 float-left collapsed">
-								<a href="##" role="button" data-toggle="collapse" data-target="##AttributesPane">Attributes</a>
+								Attributes
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Add</button>
+								<button type="button" class="btn btn-xs small py-0 float-right text-black" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Add</button>
 							</cfif>
 						</cfif>
 						</div>
 						<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-							<div class="card-body py-2 mb-2 float-left" id="attributesCardBody">
-								<cfif len(#blockattributes#) gt 500>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+							<div class="card-body py-2 mb-1 float-left" id="attributesCardBody">
+								<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
