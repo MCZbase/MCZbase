@@ -202,7 +202,6 @@ limitations under the License.
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 							<div class="card-body py-0 mb-2 float-left" id="citationsCardBody">
-								
 								#blockcit#
 							</div>
 						</div>
@@ -269,7 +268,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-							<div class="card-body w-100 mb-2 float-left" id="partsCardBody">
+							<div class="card-body py-0 w-100 mb-2 float-left" id="partsCardBody">
 								<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#blockparts#
 							</div>
@@ -315,18 +314,28 @@ limitations under the License.
 								loadRelations(#collection_object_id#,'RelationsCardBody');
 							}
 						</script>
+						<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingRelations">
+						<cfif len(#blockotherid#) gt 10> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##RelationsPane">Relationships</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</button>
 							</cfif>
+							<cfelse>
+							<h3 class="h4 my-0 float-left collapsed text-black">
+								Relationships
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Add</button>
+							</cfif>
+							</cfif>
 						</div>
 						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 							<div class="card-body mb-2 float-left" id="relationsCardBody">
-								<cfset block = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+								
+								#blockrel#
 							</div>
 						</div>
 					</div>
