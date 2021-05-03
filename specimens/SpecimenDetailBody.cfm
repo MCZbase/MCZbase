@@ -146,17 +146,26 @@ limitations under the License.
 							}
 						</script>
 						<div class="card-header" id="heading1">
+							<cfif isDefined("blockident")>
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
 							</cfif>
+							<cfelse>
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+								Identifications
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Add</button>
+							</cfif>
+							</cfif>
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body pb-0 mb-2 float-left" id="identificationsCardBody">
-								<cfset block = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
-								#block#
+								<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
+								#blockident#
 									<div id="identificationHTML"></div>
 							</div>
 						</div>
@@ -174,7 +183,6 @@ limitations under the License.
 							}
 						</script>
 						<div class="card-header" id="headingCitations">
-					
 							<cfif isDefined("blockcit")>
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
