@@ -210,25 +210,32 @@ limitations under the License.
 							<cfset replacement = "">
 							<cfset searchlink = "" >
 							<cfset searchtext = "" >
-							<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
-								<cfif searchtext EQ "">
-									<option value=""></option>
-								</cfif>
-								<cfloop query="ctguid_type_agent">
-									<cfset sel="">
-									<cfif ctguid_type_agent.recordcount EQ 1 >
-										<cfset sel="selected='selected'">
-										<cfset placeholder = "#ctguid_type_agent.placeholder#">
-										<cfset pattern = "#ctguid_type_agent.pattern_regex#">
-										<cfset regex = "#ctguid_type_agent.resolver_regex#">
-										<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+							<div class="col-6 col-xl-3 px-0 float-left">
+								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
+									<cfif searchtext EQ "">
+										<option value=""></option>
 									</cfif>
-									<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
-								</cfloop>
-							</select>
-							<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
-							<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-							<a id="agentguid_link" href="" target="_blank" class="hints"></a>
+									<cfloop query="ctguid_type_agent">
+										<cfset sel="">
+										<cfif ctguid_type_agent.recordcount EQ 1 >
+											<cfset sel="selected='selected'">
+											<cfset placeholder = "#ctguid_type_agent.placeholder#">
+											<cfset pattern = "#ctguid_type_agent.pattern_regex#">
+											<cfset regex = "#ctguid_type_agent.resolver_regex#">
+											<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+										</cfif>
+										<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
+								<a href="#searchlink#" id="agentguid_search" target="_blank" style="font-size: 86%;">#searchtext#</a>
+							</div>
+							<div class="col-12 col-xl-6 pl-0 float-left">
+								<input class="data-entry-input" name="agentguid" id="agentguid" 
+									value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+							</div>
 						</div>
 						<script>
 							$(document).ready(function () {
