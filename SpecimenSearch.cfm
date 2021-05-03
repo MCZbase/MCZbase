@@ -435,6 +435,15 @@
          	</tr>
          	<tr>
          		<td class="lbl">
+         			<span id="_family">Family:</span>
+         		</td>
+         		<td class="srch">
+         		 	<input type="text" name="family" id="family" size="50">
+         			<span class="infoLink" onclick="var e=document.getElementById('family');e.value='='+e.value;">Add = for exact match</span>
+         		</td>
+         	</tr>
+         	<tr>
+         		<td class="lbl">
          			<span id="_genus">Genus:</span>
          		</td>
          		<td class="srch">
