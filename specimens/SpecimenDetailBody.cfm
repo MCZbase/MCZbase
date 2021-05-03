@@ -201,7 +201,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-							<div class="card-body py-2 mb-0 float-left" id="citationsCardBody">
+							<div class="card-body py-2 mb-2 float-left" id="citationsCardBody">
 								#blockcit#
 							</div>
 						</div>
@@ -238,7 +238,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-							<div class="card-body py-2 mb-0 float-left" id="otherIDsCardBody">
+							<div class="card-body py-2 mb-2 float-left" id="otherIDsCardBody">
 								#blockotherid#
 							</div>
 						</div>
@@ -268,7 +268,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-							<div class="card-body py-2 w-100 mb-0 float-left" id="partsCardBody">
+							<div class="card-body py-2 w-100 mb-2 float-left" id="partsCardBody">
 								<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 								#blockparts#
 							</div>
@@ -295,7 +295,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-							<div class="card-body py-2 mb-0 float-left" id="attributesCardBody">
+							<div class="card-body py-2 mb-2 float-left" id="attributesCardBody">
 								<cfset block = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
@@ -333,8 +333,8 @@ limitations under the License.
 						</cfif>
 						</div>
 						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-							<div class="card-body py-2 mb-0 float-left" id="relationsCardBody">
-								#blockrel#
+							<div class="card-body py-2 mb-2 float-left" id="relationsCardBody">
+									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse>none</cfif>
 							</div>
 						</div>
 					</div>
@@ -389,7 +389,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
-							<div class="card-body py-2 mb-0 float-left" id="collectorsCardBody">
+							<div class="card-body py-2 mb-2 float-left" id="collectorsCardBody">
 								<cfset block = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
 								#block#
 							</div>
