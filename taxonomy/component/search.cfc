@@ -561,6 +561,7 @@ limitations under the License.
 				taxonomy.taxon_status,
 				taxonomy.TAXON_REMARKS,
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
+			ORDER BY taxonomy.scientific_name, taxonomy.author_text
 		</cfquery>
 		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables. 
 		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
@@ -581,7 +582,9 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["display_name_author"] = "#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span>">
+			<cfset row["DISPLAY_NAME_AUTHOR"] = "#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span>">
+			<cfset plain_name_author = "#search.scientific_name# #search.author_text#">
+			<cfset row["PLAIN_NAME_AUTHOR"] = "#trim(plain_name_author)#">
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
 				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">

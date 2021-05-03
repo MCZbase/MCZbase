@@ -606,6 +606,48 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	    </cfif>
     </cfif>
 </cfif>
+<cfif isdefined("family") AND len(family) gt 0>
+	<cfset mapurl = "#mapurl#&family=#family#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif family contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(family,1) is '='>
+            <cfset family = Replace(family,"=","","All")>
+            <cfloop index="familybit" list="#family#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) = '#ucase(trim(familybit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset family = Replace(family,"=","","All")>
+            <cfloop index="familybit" list="#family#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.family) like '%#ucase(trim(familybit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(family,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.family) = '#ucase(right(family,len(family)-1))#'">
+    	<cfelseif compare(family,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.family is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.family) like '%#ucase(family)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
 <cfif isdefined("any_taxa_term") AND len(any_taxa_term) gt 0>
 	<cfif isdefined("searchOnlyCurrent") AND searchOnlyCurrent EQ "Yes">
 		<cfset mapurl = "#mapurl#&any_taxa_term=#any_taxa_term#">

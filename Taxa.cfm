@@ -621,7 +621,8 @@ limitations under the License.
 
 				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+					var displayNameAuthor = rowData['DISPLAY_NAME_AUTHOR'];
+					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+displayNameAuthor+'</a></span>';
 				};
 		</script>
 		<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
@@ -707,7 +708,8 @@ limitations under the License.
 							{ name: 'TAXONID', type: 'string' },
 							{ name: 'TAXON_STATUS', type: 'string' },
 							{ name: 'TAXON_REMARKS', type: 'string' },
-							{ name: 'display_name_author', type: 'string' },
+							{ name: 'DISPLAY_NAME_AUTHOR', type: 'string' },
+							{ name: 'PLAIN_NAME_AUTHOR', type: 'string' },
 							{ name: 'COMMON_NAMES', type: 'string' },
 							{ name: 'SPECIMEN_COUNT', type: 'int' }
 						],
@@ -770,7 +772,7 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid('selectrow', 0);
 						},
 						columns: [
-							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							{ text: 'Taxon', datafield: 'PLAIN_NAME_AUTHOR', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							<cfelse>
