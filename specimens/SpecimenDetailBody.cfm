@@ -361,18 +361,28 @@ limitations under the License.
 								loadLocality(#collection_object_id#,'localityCardBody');
 							}
 						</script>
+						<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingLocality">
+							<cfif len(#blocklocality#) gt 60>
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Edit</button>
 							</cfif>
+							<cfelse>
+							<h3 class="h4 my-0 float-left collapsed">
+								<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right text-black" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Add</button>
+							</cfif>
+						</cfif>
 						</div>
 						<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 							<div class="card-body py-2 mb-1 float-left" id="localityCardBody">
-								<cfset block = getLocalityHTML(collection_object_id = "#collection_object_id#")>
-								<cfif len(#blockrel#) gt 60> #block# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+								<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
+								<cfif len(#blocklocality#) gt 60> #block# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
 					</div>
