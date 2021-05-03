@@ -98,7 +98,7 @@ limitations under the License.
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
-	<cfif ctmedia.recordcount gt 1>
+	<cfif ctmedia.recordcount gt 0>
 		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 <!-----------------------------Media----------------------------------> 
 				<div class="accordion" id="accordionMedia">
