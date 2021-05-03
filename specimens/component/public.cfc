@@ -587,12 +587,10 @@ limitations under the License.
 		<cftry>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
-		<cfset isClicky = "likeLink">
-		<cfelse>
+	<cfelse>
 		<cfset oneOfUs = 0>
-		<cfset isClicky = "">
 	</cfif>
-			<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<!---		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					media.media_id,
 					media.media_uri,
@@ -614,7 +612,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS2 group by media_relationship order by media_id
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
