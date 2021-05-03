@@ -316,7 +316,7 @@ limitations under the License.
 						</script>
 						<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingRelations">
-						<cfif len(#blockrel#) gt 0> 
+						<cfif len(#blockrel#) gt 60> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##RelationsPane">Relationships</a>
 							</h3>
@@ -330,7 +330,7 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Add</button>
 							</cfif>
-							</cfif>
+						</cfif>
 						</div>
 						<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 							<div class="card-body py-2 mb-0 float-left" id="relationsCardBody">
