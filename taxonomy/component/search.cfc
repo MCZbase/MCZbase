@@ -561,6 +561,7 @@ limitations under the License.
 				taxonomy.taxon_status,
 				taxonomy.TAXON_REMARKS,
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID)
+			ORDER BY taxonomy.scientific_name, taxonomy.author_text
 		</cfquery>
 		<!--- Track queries by adding tracking information into uam_query.query_stats by sys.SP_GET_QUERYSTATS from drops in dba_recyclebin of TaxSrch... tables. 
 		./includes/functionLib.cfm:	<cfset session.TaxSrchTab="TaxSrch" & temp>
