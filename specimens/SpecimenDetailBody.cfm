@@ -419,11 +419,36 @@ limitations under the License.
 				</div>
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 					<cfif oneOfUs is 1>
-						<div class="card mb-2">
+					<div class="accordion" id="accordionMetadata">
+					<div class="card mb-2 bg-light">
+						<div id="metadataDialog"></div>
+						<script>
+							function reloadMetadata() { 
+								// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
+								loadMetadata(#collection_object_id#,'metadataCardBody');
+							}
+						</script>
+						<cfset blockMeta = getMetadataHTML(collection_object_id = "#collection_object_id#")>
+						<div class="card-header" id="headingMetadata">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##MetadataPane">Meta Data</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Edit</button>
+							</cfif>
+						</div>
+						<div id="MetadataPane" class="collapse show" aria-labelledby="headingMetadata" data-parent="##accordionMetadata">
+							<div class="card-body mb-2 float-left" id="metadataCardBody">
+								#blockMeta#
+							</div>
+						</div>
+					</div>
+				</div>
+				<!---		<div class="card mb-2">
 							<div class="card-header pt-1 float-left w-100">
 								<h3 class="h4 my-0 mx-2 pb-1 float-left">
 								Metadata
-								</h4>
+								</h3>
 							</div>
 							<div class="card-body mb-2 float-left">
 								<ul class="list-group pl-0 pt-1">
@@ -442,7 +467,7 @@ limitations under the License.
 									</cfif>
 								</ul>
 							</div>
-						</div>
+						</div>--->
 					</cfif>
 				</cfif>
 			</div>

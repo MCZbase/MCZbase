@@ -1794,6 +1794,96 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getCollectorsThread"/>
 	<cfreturn getCollectorsThread.output>
-</cffunction>							
+</cffunction>		
+							
+<cffunction name="getMetadataHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getMetadataThread">
+	<cfoutput>
+		<cftry>
+			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+				<div class="error"> Improper call. Aborting..... </div>
+				<cfabort>
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						cataloged_item.collection_object_id as collection_object_id,
+						cataloged_item.cat_num,
+						collection.collection_cde,
+						coll_object.coll_object_entered_date,
+						coll_object.last_edit_date,
+						coll_object.flags,
+						coll_object_remark.coll_object_remarks,
+						enteredPerson.agent_name EnteredBy,
+						editedPerson.agent_name EditedBy,
+						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
+					FROM
+						cataloged_item,
+						collection,
+						identification,
+						collecting_event,
+						coll_object,
+						coll_object_remark,
+						specimen_part,
+						preferred_agent_name enteredPerson,
+						preferred_agent_name editedPerson
+					WHERE
+						cataloged_item.collection_id = collection.collection_id AND
+						cataloged_item.collection_object_id = identification.collection_object_id AND
+						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+						cataloged_item.collection_object_id = coll_object.collection_object_id AND
+						coll_object.collection_object_id = coll_object_remark.collection_object_id AND
+						coll_object.entered_person_id = enteredPerson.agent_id AND
+						coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+					<ul class="list-group pl-0 pt-1">
+						<cfif len(#one.coll_object_remarks#) gt 0>
+							<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
+						</cfif>
+						<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
+						<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
+							<li class="list-group-item"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+						</cfif>
+						<cfif len(#one.flags#) is not 0>
+							<li class="list-group-item"> Missing (flags): #one.flags# </li>
+						</cfif>
+						<cfif len(#one.encumbranceDetail#) is not 0>
+							<li class="list-group-item"> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+						</cfif>
+					</ul>
+			<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+					<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+								<div class="row">
+									<div class="alert alert-danger" role="alert">
+										<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+										<h2>Internal Server Error.</h2>
+										<p>#message#</p>
+										<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+									</div>
+								</div>
+							</div>
+				</cfcatch>
+		</cftry>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getMetadataThread"/>
+	<cfreturn getMetadataThread.output>
+</cffunction>
 							
 </cfcomponent>
