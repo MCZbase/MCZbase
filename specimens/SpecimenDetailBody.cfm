@@ -150,7 +150,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
+								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
 							</cfif>
 						</div>
 						<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -162,7 +162,13 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-
+<script>
+	$('#identificationsPane').on('shown.bs.collapse',function(){
+		$('#btn_pane').text('edit');
+});
+$('#identificationsPane').on('hidden.bs.collapse',function(){
+	$('#btn_pane').text('add');
+});</script>
 <!----------------------------- Citations new ----------------------------------> 
 			
 				<div class="accordion" id="accordionCitations">
