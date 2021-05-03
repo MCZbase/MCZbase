@@ -224,6 +224,63 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</div>
+
+							<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
+								select sum(ct) as ct, family, sum(st) as startyear, sum(en) as endyear 
+								from (
+									select count(*) ct, flat.family, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
+									from agent
+										left join collector on agent.agent_id = collector.AGENT_ID
+										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+											on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+									where collector.COLLECTOR_ROLE = 'c'
+										and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
+										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by flat.collection_cde, flat.collection_id
+									union
+									select count(*) ct, flat.family, 0 as st, 0 as en
+									from agent
+										left join collector on agent.agent_id = collector.AGENT_ID
+										left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+											on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+									where collector.COLLECTOR_ROLE = 'c'
+										and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
+										and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by flat.collection_cde, flat.collection_id, 0
+								) 
+								group by family
+							</cfquery>
+							<cfif getAgentFamilyScope.recordcount GT 0>
+								<div>
+								<h2 class="h3">Families Collected</h2>
+								<ul>
+								<cfset earlyeststart = "">
+								<cfset latestend = "">
+								<cfloop query="getAgentFamilyScope">
+									<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
+									<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
+									<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
+										<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
+									</cfif>
+									<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
+									<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
+										<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
+											<cfset yearbit=" none known to year">
+										<cfelse>
+											<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
+										</cfif>
+									<cfelse>
+										<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
+									</cfif>
+									<cfif len(getAgentFamilyScope.collection_cde) GT 0>
+										<li>#getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+									</cfif>
+								</cfloop>
+								</ul>
+							</div>
+						</cfif>
+
 						</cfif>
 						<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 							select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
