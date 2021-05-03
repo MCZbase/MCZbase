@@ -288,12 +288,21 @@ limitations under the License.
 						</script>
 						<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 						<div class="card-header" id="headingAttributes">
+						<cfif len(#blockattributes#) gt 60> 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##AttributesPane">Attributes</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Edit</button>
 							</cfif>
+						<cfelse>
+							<h3 class="h4 my-0 float-left collapsed">
+								<a href="##" role="button" data-toggle="collapse" data-target="##AttributesPane">Attributes</a>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_specimens")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Add</button>
+							</cfif>
+						</cfif>
 						</div>
 						<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 							<div class="card-body py-2 mb-2 float-left" id="attributesCardBody">
