@@ -582,7 +582,7 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["display_name_author"] = "#search.display_name# <span style='font-variant: small-caps;'>#search.author_text#</span>">
-			<cfset plain_name_author = "#search.scientific_name# #search.author_text)#">
+			<cfset plain_name_author = "#search.scientific_name# #search.author_text#">
 			<cfset row["plain_name_author"] = "#trim(plain_name_author)#">
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
