@@ -2140,7 +2140,7 @@ limitations under the License.
 			</cfquery>
 			<cfif len(attribute1.attribute_value) gt 0>
 				<form class="row mx-0">
-					<div class="bg-light border rounded p-2">
+					<div class="bg-light border rounded px-2">
 					<h1 class="h3">Edit Existing Attributes</h1>
 					<ul class="col-12 px-0">
 						<cfloop query="sex">
