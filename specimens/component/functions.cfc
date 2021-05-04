@@ -3518,8 +3518,14 @@ function showLLFormat(orig_units) {
 						</cfif>
 					</ul>
 				</cfif>
-				
-				<table class="newRec">
+<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select biol_indiv_relationship from ctbiol_relations
+</cfquery>
+<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
+	collection_object_id=#collection_object_id#
+</cfquery>
+<table class="newRec">
 	<tr>
 		<td colspan="99">
 			Add a relationship:
@@ -3566,9 +3572,7 @@ function showLLFormat(orig_units) {
 		</td>
 		<td>
 			<font size="-2">Other ID Num:<br></font>
-			<input type="text" name="oidNumber" class="reqdClr" size="8" 
-				 <!---onChange="findCatalogedItem('related_coll_object_id','catColl','newRelationship',other_id_type.value,this.value,collection.value); return false;"--->
-			>
+			<input type="text" name="oidNumber" class="reqdClr" size="8">
 		 </td>
 		<td><font size="-2">Remarks:</font>
 			<input type="text" id="" name="biol_indiv_relation_remarks" size="50" style="background-color:white;">
