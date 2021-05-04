@@ -175,13 +175,13 @@ limitations under the License.
 					<cfset divclass="no-card">
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row">
+					<div class="row mx-0">
 						<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
 						<div class="float-right col-12 ml-auto col-md-6 my-2 w-auto">
 							occurrenceId: <a class="h5" href="guid: https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mx-0">
 						<div class="col-12 col-md-6">
 							<h2 class="mt-0 px-0">
 								<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
