@@ -2777,7 +2777,7 @@ limitations under the License.
 						<h1 class="h3">Specific Locality</h1>
 							
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-							<li class="col-12 col-md-12 px-0 py-1">
+							<li class="col-12 col-md-12 px-0 pt-1">
 								<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
 									&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 									<cfif loccount.ct eq 1>
@@ -2849,19 +2849,19 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</li>
-							<li class="col-12 col-md-12 py-1 px-0">
+							<li class="col-12 col-md-12 pt-1 px-0">
 								<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
 							</li>
 							<li class="col-12 col-md-12 pb-1 px-0">
 								<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
 							</li>
-							<li class=" col-12 col-md-12 py-1 px-0">
+							<li class=" col-12 col-md-12 pt-1 px-0">
 								<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a> </label>
 							</li>
 							<li class=" col-12 col-md-12 pb-2 px-0">
 								<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#" class="data-entry-input">
 								<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
-									<div class="redMessage"> NoGeorefBecause should be NULL for localities with georeferences.
+									<div class="redMessage"> NotGeorefBecause should be NULL for localities with georeferences.
 										Please review this locality and update accordingly. </div>
 									<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
 									<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
@@ -2870,7 +2870,7 @@ limitations under the License.
 						</ul>
 						<h1 class="h3 mt-3">Collecting Event</h1>
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-							<li class="col-12 col-md-12 px-0 py-1 mt-2">
+							<li class="col-12 col-md-12 px-0 pt-1 mt-2">
 								<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
 									<cfif cecount.ct eq 1>
 										(unique to this specimen)
