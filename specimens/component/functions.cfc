@@ -3739,7 +3739,7 @@ function showLLFormat(orig_units) {
 						len(weight.attribute_units) gt 0>
 						<!---semi-standard measurements ---> 
 						<h5 class="pt-1 px-2 mb-0">Standard Measurements</h5>
-						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+						<table class="table table-responsive bg-white mt-2 mb-1 mx-0" aria-label="Standard Measurements">
 							<tr>
 								<td><font size="-1">total length</font></td>
 								<td><font size="-1">tail length</font></td>
