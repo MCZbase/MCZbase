@@ -2121,11 +2121,11 @@ limitations under the License.
 									</thead>
 									<tbody>
 										<tr class="col-12 px-0 pt-2">
-											<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#"></td>
+											<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#"></td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#"></td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#"></td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#"></td>
 										</tr>
 									</tbody>
 								</table>
