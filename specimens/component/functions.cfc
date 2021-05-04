@@ -3582,14 +3582,19 @@ function showLLFormat(orig_units) {
 									<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
 								</li>
 							</ul>
-						<div class="col-12 col-md-12 px-1 mt-2">
-							<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
 						</div>
-				<div class="col-12 col-md-12 px-1 mt-2">
-						<label class="data-entry-label">Picked Cataloged Item:</label>
-						<input type="text" id="catColl" name="catColl" class="data-entry-input" readonly="yes" size="46">
-				</div>
-		</form>
+						<div class="row mx-0 pb-2">
+							<div class="col-12 col-md-12 px-1 mt-2">
+								<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+							</div>
+						</div>
+						<div class="row mx-0 pb-2">
+							<div class="col-12 col-md-12 px-1 mt-3">
+								<label class="data-entry-label">Picked Cataloged Item:</label>
+								<input type="text" id="catColl" name="catColl" class="data-entry-input" readonly="yes" size="46">
+							</div>
+						</div>
+					</form>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
