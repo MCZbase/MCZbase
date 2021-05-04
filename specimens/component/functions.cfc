@@ -2285,14 +2285,14 @@ limitations under the License.
 						There are no attributes for this record.
 					</cfif>
 <div class="col-12 mt-4 px-1">
-	<div id="accordion2">
+	<div id="accordionAttribute">
 		<div class="card">
-			<div class="card-header pt-1" id="headingTwo">
+			<div class="card-header pt-1" id="headingAttribute">
 				<h1 class="my-0 px-1 pb-1">
-					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Attribute</span> </button>
+					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Attribute</span> </button>
 				</h1>
 			</div>
-			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+			<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
 				<div class="card-body mt-2">
 					<form name="newOID">
 						<div class="row mx-0 pb-2">
