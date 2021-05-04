@@ -3500,10 +3500,10 @@ function showLLFormat(orig_units) {
 							</tr>
 							<tr>
 								<td><input type="text" class="" value="#total_length.attribute_value#"> #total_length.attribute_units#&nbsp;</td>
-								<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-								<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-								<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-								<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#tail_length.attribute_value#"> #tail_length.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#hf.attribute_value#"> #hf.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#efn.attribute_value#"> #efn.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#weight.attribute_value#"> #weight.attribute_units#&nbsp;</td>
 							</tr>
 						</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
