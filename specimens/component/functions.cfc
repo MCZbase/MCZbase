@@ -1544,7 +1544,7 @@ limitations under the License.
 									</tbody>
 								</table>
 							</form>
-								<div class="col-12 mt-4">
+								<div class="col-12 mt-4 px-0">
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
