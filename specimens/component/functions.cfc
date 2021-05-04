@@ -1558,7 +1558,7 @@ limitations under the License.
 												<form name="newPart">
 													<input type="hidden" name="Action" value="newPart">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<table class="table table-responsive col-12 px-0 mb-2">
+													<table class="table table-responsive table-light border-0 col-12 px-0 mb-2">
 														<tr>
 															<td class=""><div align="right">Part Name: </div></td>
 															<td class="">
