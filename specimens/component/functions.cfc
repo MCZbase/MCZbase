@@ -2138,11 +2138,10 @@ limitations under the License.
 			<cfquery name="sex" dbtype="query">
 				select * from attribute1 where attribute_type = 'sex'
 			</cfquery>
-		
+			<cfif len(attribute1.attribute_value) gt 0>
 				<form class="row mx-0">
 					<div class="bg-light border rounded p-2">
 					<h1 class="h3">Edit Existing Attributes</h1>
-				<cfif len(attribute1.attribute_value) gt 0>
 					<ul class="col-12 px-0 pb-3">
 						<cfloop query="sex">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
@@ -2233,12 +2232,12 @@ limitations under the License.
 									#determination#
 								</cfif>
 							</cfif>
-							<cfquery name="theRest" dbtype="query">
-								select * from attribute1 
-								where attribute_type NOT IN (
-								'weight','sex','total length','tail length','hind foot with claw','ear from notch'
-								)
-							</cfquery>
+					<cfquery name="theRest" dbtype="query">
+						select * from attribute1 
+						where attribute_type NOT IN (
+						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
+						)
+					</cfquery>
 							<cfelse>
 							<!--- not Mamm --->
 							
@@ -2287,9 +2286,11 @@ limitations under the License.
 						</cfloop>
 						</div>
 						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
+				
+				</form>
+					<cfelse>
+				
 					</cfif>
-				</form>	
-			
 <div class="col-12 mt-4 px-1">
 	<div id="accordionAttribute">
 		<div class="card">
