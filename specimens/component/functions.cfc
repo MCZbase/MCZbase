@@ -1462,7 +1462,7 @@ limitations under the License.
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
-													<td><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> <input class="w-75" type="text" value="#part_remarks#"></span></td>
+													<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> <input class="w-75" type="text" value="#part_remarks#"></span></td>
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">
