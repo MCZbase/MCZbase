@@ -2229,8 +2229,8 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
 								</li>
 							</ul>
-						<div class="col-12 col-md-12 px-1">
-							<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+						<div class="col-12 col-md-12 px-1 mt-2">
+							<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
 						</div>
 					</form>
 				</div>
