@@ -3521,7 +3521,7 @@ function showLLFormat(orig_units) {
 					</div>
 				</div>
 				<div class="row mx-0 pb-2">
-					<div class="col-12 col-md-12 p-1">
+					<div class="col-12 col-md-12 p-2">
 						<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
 					</div>
 				</div>
