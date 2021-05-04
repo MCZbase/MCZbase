@@ -3328,44 +3328,47 @@ function showLLFormat(orig_units) {
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
-				 rel.biol_indiv_relationship as biol_indiv_relationship,
-				 collection as related_collection,
-				 rel.related_coll_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
+				rel.biol_indiv_relationship as biol_indiv_relationship,
+				collection as related_collection,
+				rel.related_coll_object_id as related_coll_object_id,
+				rcat.cat_num as related_cat_num,
 				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 			FROM
-				 biol_indiv_relations rel
-				 left join cataloged_item rcat
-					 on rel.related_coll_object_id = rcat.collection_object_id
-				 left join collection
-					 on collection.collection_id = rcat.collection_id
-				 left join ctbiol_relations ctrel
+				biol_indiv_relations rel
+				left join cataloged_item rcat
+				on rel.related_coll_object_id = rcat.collection_object_id
+				left join collection
+					on collection.collection_id = rcat.collection_id
+				left join ctbiol_relations ctrel
 					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 					and ctrel.rel_type <> 'functional'
 			UNION
 			SELECT
-				 ctrel.inverse_relation as biol_indiv_relationship,
-				 collection as related_collection,
-				 irel.collection_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
+				ctrel.inverse_relation as biol_indiv_relationship,
+				collection as related_collection,
+				irel.collection_object_id as related_coll_object_id,
+				rcat.cat_num as related_cat_num,
 				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 			FROM
-				 biol_indiv_relations irel
-				 left join ctbiol_relations ctrel
+				biol_indiv_relations irel
+				left join ctbiol_relations ctrel
 					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				 left join cataloged_item rcat
+				left join cataloged_item rcat
 					on irel.collection_object_id = rcat.collection_object_id
-				 left join collection
-				 on collection.collection_id = rcat.collection_id
+				left join collection
+				on collection.collection_id = rcat.collection_id
 			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				 and ctrel.rel_type <> 'functional'
+				and ctrel.rel_type <> 'functional'
 			)
 		</cfquery>
+			<cfquery name="sex" dbtype="query">
+				select * from attribute where attribute_type = 'sex'
+			</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
