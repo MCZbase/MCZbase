@@ -972,7 +972,7 @@ limitations under the License.
 										<div class="card-body mt-2">
 											<form name="newOID" method="post" action="Specimens.cfm">
 												<div class="row mx-0">
-													<div class="form-group col-3 pl-0 pr-1">
+													<div class="form-group col-3 pl-0 pr-2">
 														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 														<input type="hidden" name="Action" value="newOID">
 														<label class="data-entry-label" id="other_id_type">Other ID Type</label>
@@ -2201,7 +2201,7 @@ limitations under the License.
 							len(weight.attribute_units) gt 0>
 								<!---semi-standard measurements ---> 
 								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-								<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+								<table class="table table-responsive table-striped border mt-2 mb-1 mx-1" aria-label="Standard Measurements">
 									<thead>
 										<tr>
 											<th>total length</th>
