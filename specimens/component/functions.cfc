@@ -1444,6 +1444,7 @@ limitations under the License.
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from parts
 			</cfquery>
+				<cfoutput>
 			<table class="table border-bottom mb-0">
 				<thead>
 					<tr class="bg-light">
@@ -1541,6 +1542,7 @@ limitations under the License.
 				</cfloop>
 				</tbody>
 			</table>
+				</cfoutput>
 			<cfcatch>
 				<cfoutput>
 					<cfif isDefined("cfcatch.queryError") >
