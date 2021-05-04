@@ -2196,7 +2196,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header pt-1" id="headingTwo">
 				<h1 class="my-0 px-1 pb-1">
-					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
+					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Attribute</span> </button>
 				</h1>
 			</div>
 			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
