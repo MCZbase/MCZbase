@@ -1545,11 +1545,12 @@ limitations under the License.
 								</table>
 								<div class="col-12 px-1">
 									<a name="newPart"></a>
-									<h1 class="h3 px-1">Add Specimen Part</h1>
+
 									<form name="newPart">
 									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<table>
+									<h1 class="h3 px-1">Add Specimen Part</h1>
+									<table class="table table-responsive">
 									<tr>
 										<td><div align="right">Part Name: </div></td>
 										<td>
