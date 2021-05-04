@@ -3591,7 +3591,7 @@ function showLLFormat(orig_units) {
 						<div class="row mx-0 pb-2">
 							<div class="col-12 col-md-12 px-1 mt-3">
 								<label class="data-entry-label">Picked Cataloged Item:</label>
-								<input type="text" id="catColl" name="catColl" class="data-entry-input" readonly="yes" size="46">
+								<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
 							</div>
 						</div>
 					</form>
