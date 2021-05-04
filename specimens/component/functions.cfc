@@ -2191,7 +2191,7 @@ limitations under the License.
 					<cfelse>
 						There are no attributes for this record.
 					</cfif>
-<div class="col-12 mt-4">
+<div class="col-12 mt-4 px-0">
 	<div id="accordion2">
 		<div class="card">
 			<div class="card-header pt-1" id="headingTwo">
@@ -2202,7 +2202,7 @@ limitations under the License.
 			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 				<div class="card-body mt-2">
 					<form name="newOID" method="post" action="Specimens.cfm">
-						<div class="row mx-0">
+						<div class="row mx-0 pb-2">
 							<ul class="col-12 px-0 mt-2 mb-1">
 								<li class="list-group-item float-left col-12 col-md-3 px-1">
 									<label for="new_att_name" class="data-entry-label">Attribute Name</label>
