@@ -1549,10 +1549,10 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add New Identifier</span> </button>
+												<button class="btn btn-link text-left" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add New Identifier</span> </button>
 											</h1>
 										</div>
-											<div id="collapseNewPart" class="collapse" aria-labelledby="headingNewPart" data-parent="##accordionNewPart">
+											<div id="collapseNewPart" class="collapse show" aria-labelledby="headingNewPart" data-parent="##accordionNewPart">
 												<div class="card-body mt-2">
 												<a name="newPart"></a>
 												<form name="newPart">
