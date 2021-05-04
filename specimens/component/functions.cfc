@@ -3547,7 +3547,7 @@ function showLLFormat(orig_units) {
 									<form name="newRelationship" >	
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<div class="row mx-0 pb-2">
-											<ul class="col-12 px-0">
+											<ul class="col-12 px-0 mb-2">
 												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
 													<label class="data-entry-label">Relationship:</label>
 													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
