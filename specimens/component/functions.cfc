@@ -2110,7 +2110,7 @@ limitations under the License.
 							len(weight.attribute_units) gt 0>
 								<!---semi-standard measurements ---> 
 								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-								<table class="table table-responsive table-striped border mb-1 mx-2" aria-label="Standard Measurements">
+								<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="Standard Measurements">
 									<thead>
 										<tr>
 											<th>total length</th>
