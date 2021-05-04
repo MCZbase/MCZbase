@@ -2714,7 +2714,7 @@ limitations under the License.
 						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 						</div>
 						<div class="col-6 px-0 float-left">
-							<p class="font-italic">Note: Making changes to data in this form will make a new locality record for this specimen record.</p>
+							<p class="font-italic text-danger">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
 								<cfif len(getLoc.continent_ocean) gt 0>
 									<li class="list-group-item col-4 px-0"><em>Continent or Ocean:</em></li>
@@ -3461,7 +3461,7 @@ function showLLFormat(orig_units) {
 		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
-</cffunction>
+</cffunction> 
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
