@@ -3504,7 +3504,7 @@ function showLLFormat(orig_units) {
 			)
 		</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<div class="row">
+				<div class="row mx-0 mt-3">
 					<div class="col-12">
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
