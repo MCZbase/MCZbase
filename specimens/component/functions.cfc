@@ -311,10 +311,10 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header pt-1" id="headingOnex">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex">Add New Determination </button>
 											</h1>
 										</div>
-										<div id="collapseOnex" class="collapse show" aria-labelledby="headingOnex" data-parent="##accordion1">
+										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
 											<div class="card-body"> 
 												<script>
 													function idFormulaChanged(newFormula,baseId) { 
@@ -3507,7 +3507,7 @@ function showLLFormat(orig_units) {
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
-							<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+							<li class="list-group-item py-0"> <input class="" type="text" value="#biol_indiv_relationship#"> <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> <input class="" type="" value="#related_collection#"> <input class="" value="#related_cat_num#" type="text"> </a>
 								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 									(Remark: #biol_indiv_relation_remarks#)
 								</cfif>
