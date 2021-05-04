@@ -25,7 +25,7 @@ limitations under the License.
 	select media_type  from ctmedia_type
 </cfquery>
 <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select mime_type  from ctmedia_type
+	select mime_type  from ctmime_type
 </cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
