@@ -1454,7 +1454,7 @@ limitations under the License.
 			<cfoutput>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 mt-3">
+							<div class="col-12 mt-1">
 							<form>
 								<h1 class="h3 px-1">Edit Existing Parts</h1>
 								<table class="table border-bottom mb-0">
@@ -1544,7 +1544,7 @@ limitations under the License.
 									</tbody>
 								</table>
 							</form>
-								<div class="col-8 px-0">
+								<div class="col-8 px-0 mt-3">
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
