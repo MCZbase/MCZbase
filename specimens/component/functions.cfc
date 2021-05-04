@@ -2155,7 +2155,7 @@ limitations under the License.
 						</cfif>
 						
 						<cfloop query="theRest">
-							<ul class="col-12 px-2 mt-2">
+							<ul class="col-12 px-2 mt-2 mb-1">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
 								<label for="att_name" class="data-entry-label">Attribute Name</label>
 								<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
@@ -2181,7 +2181,7 @@ limitations under the License.
 								</cfif>
 							</ul>
 								<cfif len(attribute_remark) gt 0>
-									<ul class="col-12 px-2">
+									<ul class="col-12 px-2 mt-2 mb-1">
 									<li class="list-group-item float-left col-12 col-md-12">
 										<label for="att_rem" class="data-entry-label">Remarks</label>
 										<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
