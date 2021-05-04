@@ -1452,10 +1452,10 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 			<cfoutput>
-				<form>
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 mt-3">
+							<form>
 								<h1 class="h3 px-1">Edit Existing Parts</h1>
 								<table class="table border-bottom mb-0">
 									<thead>
@@ -1543,8 +1543,8 @@ limitations under the License.
 										</cfloop>
 									</tbody>
 								</table>
-							</div>
-							<div class="col-12 mt-4">
+							</form>
+								<div class="col-12 mt-4">
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
@@ -1621,9 +1621,9 @@ limitations under the License.
 										</div>
 								</div>
 							</div>
+							</div>
 						</div>
 					</div>
-				</form>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
