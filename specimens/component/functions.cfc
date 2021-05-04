@@ -3573,7 +3573,7 @@ function showLLFormat(orig_units) {
 										</cfloop>
 									</select>
 								</li>
-								<li class="list-group-item float-left col-12 col-md-4 px-1">
+								<li class="list-group-item float-left col-12 col-md-3 px-1">
 									<label class="data-entry-label">Other ID Number:</label>
 									<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
 								</li>
