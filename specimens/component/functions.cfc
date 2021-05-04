@@ -2562,7 +2562,7 @@ limitations under the License.
 						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 						</div>
 						<div class="col-6 px-0 float-left">
-							<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
 								<cfif len(getLoc.continent_ocean) gt 0>
 									<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
 									<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
