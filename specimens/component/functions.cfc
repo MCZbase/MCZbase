@@ -1552,7 +1552,7 @@ limitations under the License.
 									<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
 									<table class="table table-responsive">
 									<tr>
-										<td class="col-2"><span align="right">Part Name: </span></td>
+										<td class=""><div align="right">Part Name: </div></td>
 										<td class="col-10">
 											<input type="text" name="part_name" id="part_name" class="reqdClr"
 												onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
