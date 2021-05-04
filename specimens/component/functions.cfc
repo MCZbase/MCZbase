@@ -2109,7 +2109,7 @@ limitations under the License.
 							len(weight.attribute_units) gt 0>
 								<!---semi-standard measurements ---> 
 								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-								<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+								<table class="table table-responsive table-striped border mb-1 mx-0" aria-label="Standard Measurements">
 									<thead>
 										<tr>
 											<th>total length</th>
@@ -2120,12 +2120,12 @@ limitations under the License.
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="col-12">
-											<td><input type="text" class="col-8 float-left px-0" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-0 float-left" value="#total_length.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 float-left px-0" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-0 float-left" value="#tail_length.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-0 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-0 float-left" value="#hf.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-0 float-left" value="#efn.attribute_value#"> <input type="text" class="col-4 px-0 float-left" value="#efn.attribute_units#">&nbsp;</td>
-											<td><input type="text" class="col-8 px-0 float-left" value="#weight.attribute_value#"> <input type="text" class="col-4 px-0 float-left" value="#weight.attribute_units#">&nbsp;</td>
+										<tr class="col-12 px-0">
+											<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#">&nbsp;</td>
 										</tr>
 									</tbody>
 								</table>
