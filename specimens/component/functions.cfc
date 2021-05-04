@@ -1369,16 +1369,19 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread">
 		<cftry>
+			<cfquery name="collcode" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
 			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition
 			</cfquery>
 			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select modifier from ctnumeric_modifiers order by modifier desc
 			</cfquery>
-			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="ctPreserveMethod" dbtype="query">
 				select preserve_method
 				from ctspecimen_preserv_method
-				where collection_cde = '#getParts.collection_cde#'
+				where collection_cde = '#collcode.collection_cde#'
 				order by preserve_method
 			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
