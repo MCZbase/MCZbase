@@ -57,7 +57,7 @@ limitations under the License.
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
 						<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Find Agents</h1>
+							<h1 class="h3 text-white" id="formheading">Find Media Records</h1>
 						</div>
 						<!--- setup date pickers --->
 						<script>
@@ -74,7 +74,7 @@ limitations under the License.
 						</script>
 						<div class="col-12 px-4 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getAgents">
+								<input type="hidden" name="method" value="getMedia">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-5">
 										<label for="media_uri" class="data-entry-label" id="media_uri_label">Media URI</label>
@@ -265,7 +265,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/agents/Agents.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','agent');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
