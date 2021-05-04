@@ -2218,340 +2218,340 @@ limitations under the License.
 						<cfset oneOfUs = 0>
 					</cfif>
 				</cfoutput>
-	<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
-			collection_object_id,
-			collecting_event_id,
-			LOCALITY_ID,
-			nvl(sovereign_nation,'[unknown]') as sovereign_nation,
-			geog_auth_rec_id,
-			MAXIMUM_ELEVATION,
-			MINIMUM_ELEVATION,
-			ORIG_ELEV_UNITS,
-			SPEC_LOCALITY,
-			LOCALITY_REMARKS,
-			DEPTH_UNITS,
-			MIN_DEPTH,
-			MAX_DEPTH,
-			NOGEOREFBECAUSE,
-			LAT_LONG_ID,
-			LAT_DEG,
-			DEC_LAT_MIN,
-			LAT_MIN,
-			LAT_SEC,
-			LAT_DIR,
-			LONG_DEG,
-			DEC_LONG_MIN,
-			LONG_MIN,
-			LONG_SEC,
-			LONG_DIR,
-			DEC_LAT,
-			DEC_LONG,
-			UTM_ZONE,
-			UTM_EW,
-			UTM_NS,
-			DATUM,
-			ORIG_LAT_LONG_UNITS,
-			DETERMINED_BY_AGENT_ID,
-			coordinate_determiner,
-			DETERMINED_DATE,
-			LAT_LONG_REMARKS,
-			MAX_ERROR_DISTANCE,
-			MAX_ERROR_UNITS,
-			ACCEPTED_LAT_LONG_FG,
-			EXTENT,
-			GPSACCURACY,
-			GEOREFMETHOD,
-			VERIFICATIONSTATUS,
-			LAT_LONG_REF_SOURCE,
-			HIGHER_GEOG,
-			BEGAN_DATE,
-			ENDED_DATE,
-			VERBATIM_DATE,
-			VERBATIM_LOCALITY,
-			COLL_EVENT_REMARKS,
-			COLLECTING_SOURCE,
-			COLLECTING_METHOD,
-			HABITAT_DESC,
-			COLLECTING_TIME,
-			FISH_FIELD_NUMBER,
-			VERBATIMCOORDINATES,
-			VERBATIMLATITUDE,
-			VERBATIMLONGITUDE,
-			VERBATIMCOORDINATESYSTEM,
-			VERBATIMSRS,
-			STARTDAYOFYEAR,
-			ENDDAYOFYEAR,
-			VERIFIED_BY_AGENT_ID,
-			VERIFIEDBY
-		from
-			spec_with_loc
-		where
-			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	</cfquery>
-	<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
-			GEOLOGY_ATTRIBUTE_ID,
-			GEOLOGY_ATTRIBUTE,
-			GEO_ATT_VALUE,
-			GEO_ATT_DETERMINER_ID,
-			geo_att_determiner,
-			GEO_ATT_DETERMINED_DATE,
-			GEO_ATT_DETERMINED_METHOD,
-			GEO_ATT_REMARK
-		from
-			spec_with_loc
-		where
-			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
-			GEOLOGY_ATTRIBUTE is not null
-		group by
-			GEOLOGY_ATTRIBUTE_ID,
-			GEOLOGY_ATTRIBUTE,
-			GEO_ATT_VALUE,
-			GEO_ATT_DETERMINER_ID,
-			geo_att_determiner,
-			GEO_ATT_DETERMINED_DATE,
-			GEO_ATT_DETERMINED_METHOD,
-			GEO_ATT_REMARK
-	</cfquery>
-	<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select orig_elev_units from ctorig_elev_units
-	</cfquery>
-	<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select depth_units from ctdepth_units
-	</cfquery>
-	<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select datum from ctdatum
-	</cfquery>
-	<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select georefMethod from ctgeorefmethod
-	</cfquery>
-	<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select VerificationStatus from ctVerificationStatus order by VerificationStatus
-	</cfquery>
-	<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
-	</cfquery>
-	<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select e_or_w from ctew
-	</cfquery>
-	<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select n_or_s from ctns
-	</cfquery>
-	<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
-	</cfquery>
-	<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select COLLECTING_SOURCE from ctcollecting_source
-	</cfquery>
-	<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select geology_attribute from ctgeology_attribute order by geology_attribute
-	</cfquery>
-	<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-		select sovereign_nation from ctsovereign_nation order by sovereign_nation
-	</cfquery>
-	<cfquery name="cecount" datasource="uam_god">
-		select count(collection_object_id) ct from cataloged_item
-		where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
-	</cfquery>
-	<cfquery name="loccount" datasource="uam_god">
-		select count(ci.collection_object_id) ct from cataloged_item ci
-		left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
-		where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
-	</cfquery>
-	<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			cataloged_item.collection_object_id as collection_object_id,
-			cataloged_item.cat_num,
-			collection.collection_cde,
-			cataloged_item.accn_id,
-			collection.collection,
-			identification.scientific_name,
-			identification.identification_remarks,
-			identification.identification_id,
-			identification.made_date,
-			identification.nature_of_id,
-			collecting_event.collecting_event_id,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-			then
-					replace(began_date,substr(began_date,1,4),'8888')
-			else
-				collecting_event.began_date
-			end began_date,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-			then
-					replace(ended_date,substr(ended_date,1,4),'8888')
-			else
-				collecting_event.ended_date
-			end ended_date,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-			then
-					'Masked'
-			else
-				collecting_event.verbatim_date
-			end verbatim_date,
-			collecting_event.startDayOfYear,
-			collecting_event.endDayOfYear,
-			collecting_event.habitat_desc,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-				and collecting_event.coll_event_remarks is not null
-			then 
-				'Masked'
-			else
-				collecting_event.coll_event_remarks
-			end COLL_EVENT_REMARKS,
-			locality.locality_id,
-			locality.minimum_elevation,
-			locality.maximum_elevation,
-			locality.orig_elev_units,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-				and locality.spec_locality is not null
-			then 
-				'Masked'
-			else
-				locality.spec_locality
-			end spec_locality,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-				and accepted_lat_long.orig_lat_long_units is not null
-			then 
-				'Masked'
-			else
-				decode(accepted_lat_long.orig_lat_long_units,
-					'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-					'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-						decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-					'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-				)
-			end VerbatimLatitude,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-				and accepted_lat_long.orig_lat_long_units is not null
-			then 
-				'Masked'
-			else
-				decode(accepted_lat_long.orig_lat_long_units,
-					'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
-					'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.long_min) || '&acute; ' ||
-						decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
-					'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-						to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
-				)
-			end VerbatimLongitude,
-			locality.sovereign_nation,
-			collecting_event.verbatimcoordinates,
-			collecting_event.verbatimlatitude verblat,
-			collecting_event.verbatimlongitude verblong,
-			collecting_event.verbatimcoordinatesystem,
-			collecting_event.verbatimSRS,
-			accepted_lat_long.dec_lat,
-			accepted_lat_long.dec_long,
-			accepted_lat_long.max_error_distance,
-			accepted_lat_long.max_error_units,
-			accepted_lat_long.determined_date latLongDeterminedDate,
-			accepted_lat_long.lat_long_ref_source,
-			accepted_lat_long.lat_long_remarks,
-			accepted_lat_long.datum,
-			latLongAgnt.agent_name latLongDeterminer,
-			geog_auth_rec.geog_auth_rec_id,
-			geog_auth_rec.continent_ocean,
-			geog_auth_rec.country,
-			geog_auth_rec.state_prov,
-			geog_auth_rec.quad,
-			geog_auth_rec.county,
-			geog_auth_rec.island,
-			geog_auth_rec.island_group,
-			geog_auth_rec.sea,
-			geog_auth_rec.feature,
-			coll_object.coll_object_entered_date,
-			coll_object.last_edit_date,
-			coll_object.flags,
-			coll_object_remark.coll_object_remarks,
-			coll_object_remark.disposition_remarks,
-			coll_object_remark.associated_species,
-			coll_object_remark.habitat,
-			enteredPerson.agent_name EnteredBy,
-			editedPerson.agent_name EditedBy,
-			accn_number accession,
-			concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-			concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-				and locality.locality_remarks is not null
-			then 
-				'Masked'
-			else
-					locality.locality_remarks
-			end locality_remarks,
-			case when
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-				and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-				and verbatim_locality is not null
-			then 
-				'Masked'
-			else
-				verbatim_locality
-			end verbatim_locality,
-			collecting_time,
-			fish_field_number,
-			min_depth,
-			max_depth,
-			depth_units,
-			collecting_method,
-			geog_auth_rec.higher_geog,
-			collecting_source,
-			specimen_part.derived_from_cat_item,
-			decode(trans.transaction_id, null, 0, 1) vpdaccn
-		FROM
-			cataloged_item,
-			collection,
-			identification,
-			collecting_event,
-			locality,
-			accepted_lat_long,
-			preferred_agent_name latLongAgnt,
-			geog_auth_rec,
-			coll_object,
-			coll_object_remark,
-			preferred_agent_name enteredPerson,
-			preferred_agent_name editedPerson,
-			accn,
-			trans,
-			specimen_part
-		WHERE
-			cataloged_item.collection_id = collection.collection_id AND
-			cataloged_item.collection_object_id = identification.collection_object_id AND
-			identification.accepted_id_fg = 1 AND
-			cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-			collecting_event.locality_id = locality.locality_id AND
-			locality.locality_id = accepted_lat_long.locality_id (+) AND
-			accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-			locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-			cataloged_item.collection_object_id = coll_object.collection_object_id AND
-			coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-			coll_object.entered_person_id = enteredPerson.agent_id AND
-			coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-			cataloged_item.accn_id = accn.transaction_id AND
-			accn.transaction_id = trans.transaction_id(+) AND
-			cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-			cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
+				<cfquery name="l" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct
+						collection_object_id,
+						collecting_event_id,
+						LOCALITY_ID,
+						nvl(sovereign_nation,'[unknown]') as sovereign_nation,
+						geog_auth_rec_id,
+						MAXIMUM_ELEVATION,
+						MINIMUM_ELEVATION,
+						ORIG_ELEV_UNITS,
+						SPEC_LOCALITY,
+						LOCALITY_REMARKS,
+						DEPTH_UNITS,
+						MIN_DEPTH,
+						MAX_DEPTH,
+						NOGEOREFBECAUSE,
+						LAT_LONG_ID,
+						LAT_DEG,
+						DEC_LAT_MIN,
+						LAT_MIN,
+						LAT_SEC,
+						LAT_DIR,
+						LONG_DEG,
+						DEC_LONG_MIN,
+						LONG_MIN,
+						LONG_SEC,
+						LONG_DIR,
+						DEC_LAT,
+						DEC_LONG,
+						UTM_ZONE,
+						UTM_EW,
+						UTM_NS,
+						DATUM,
+						ORIG_LAT_LONG_UNITS,
+						DETERMINED_BY_AGENT_ID,
+						coordinate_determiner,
+						DETERMINED_DATE,
+						LAT_LONG_REMARKS,
+						MAX_ERROR_DISTANCE,
+						MAX_ERROR_UNITS,
+						ACCEPTED_LAT_LONG_FG,
+						EXTENT,
+						GPSACCURACY,
+						GEOREFMETHOD,
+						VERIFICATIONSTATUS,
+						LAT_LONG_REF_SOURCE,
+						HIGHER_GEOG,
+						BEGAN_DATE,
+						ENDED_DATE,
+						VERBATIM_DATE,
+						VERBATIM_LOCALITY,
+						COLL_EVENT_REMARKS,
+						COLLECTING_SOURCE,
+						COLLECTING_METHOD,
+						HABITAT_DESC,
+						COLLECTING_TIME,
+						FISH_FIELD_NUMBER,
+						VERBATIMCOORDINATES,
+						VERBATIMLATITUDE,
+						VERBATIMLONGITUDE,
+						VERBATIMCOORDINATESYSTEM,
+						VERBATIMSRS,
+						STARTDAYOFYEAR,
+						ENDDAYOFYEAR,
+						VERIFIED_BY_AGENT_ID,
+						VERIFIEDBY
+					from
+						spec_with_loc
+					where
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfquery name="g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						GEOLOGY_ATTRIBUTE_ID,
+						GEOLOGY_ATTRIBUTE,
+						GEO_ATT_VALUE,
+						GEO_ATT_DETERMINER_ID,
+						geo_att_determiner,
+						GEO_ATT_DETERMINED_DATE,
+						GEO_ATT_DETERMINED_METHOD,
+						GEO_ATT_REMARK
+					from
+						spec_with_loc
+					where
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> and
+						GEOLOGY_ATTRIBUTE is not null
+					group by
+						GEOLOGY_ATTRIBUTE_ID,
+						GEOLOGY_ATTRIBUTE,
+						GEO_ATT_VALUE,
+						GEO_ATT_DETERMINER_ID,
+						geo_att_determiner,
+						GEO_ATT_DETERMINED_DATE,
+						GEO_ATT_DETERMINED_METHOD,
+						GEO_ATT_REMARK
+				</cfquery>
+				<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select orig_elev_units from ctorig_elev_units
+				</cfquery>
+				<cfquery name="ctdepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select depth_units from ctdepth_units
+				</cfquery>
+				<cfquery name="ctdatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select datum from ctdatum
+				</cfquery>
+				<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select georefMethod from ctgeorefmethod
+				</cfquery>
+				<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select VerificationStatus from ctVerificationStatus order by VerificationStatus
+				</cfquery>
+				<cfquery name="cterror" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select LAT_LONG_ERROR_UNITS from ctLAT_LONG_ERROR_UNITS
+				</cfquery>
+				<cfquery name="ctew" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select e_or_w from ctew
+				</cfquery>
+				<cfquery name="ctns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select n_or_s from ctns
+				</cfquery>
+				<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select ORIG_LAT_LONG_UNITS from ctLAT_LONG_UNITS
+				</cfquery>
+				<cfquery name="ctcollecting_source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select COLLECTING_SOURCE from ctcollecting_source
+				</cfquery>
+				<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select geology_attribute from ctgeology_attribute order by geology_attribute
+				</cfquery>
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+					select sovereign_nation from ctsovereign_nation order by sovereign_nation
+				</cfquery>
+				<cfquery name="cecount" datasource="uam_god">
+					select count(collection_object_id) ct from cataloged_item
+					where collecting_event_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.collecting_event_id#">
+				</cfquery>
+				<cfquery name="loccount" datasource="uam_god">
+					select count(ci.collection_object_id) ct from cataloged_item ci
+					left join collecting_event on ci.collecting_event_id = collecting_event.collecting_event_id
+					where collecting_event.locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value = "#l.locality_id#">
+				</cfquery>
+				<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						cataloged_item.collection_object_id as collection_object_id,
+						cataloged_item.cat_num,
+						collection.collection_cde,
+						cataloged_item.accn_id,
+						collection.collection,
+						identification.scientific_name,
+						identification.identification_remarks,
+						identification.identification_id,
+						identification.made_date,
+						identification.nature_of_id,
+						collecting_event.collecting_event_id,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+						then
+								replace(began_date,substr(began_date,1,4),'8888')
+						else
+							collecting_event.began_date
+						end began_date,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+						then
+								replace(ended_date,substr(ended_date,1,4),'8888')
+						else
+							collecting_event.ended_date
+						end ended_date,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+						then
+								'Masked'
+						else
+							collecting_event.verbatim_date
+						end verbatim_date,
+						collecting_event.startDayOfYear,
+						collecting_event.endDayOfYear,
+						collecting_event.habitat_desc,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and collecting_event.coll_event_remarks is not null
+						then 
+							'Masked'
+						else
+							collecting_event.coll_event_remarks
+						end COLL_EVENT_REMARKS,
+						locality.locality_id,
+						locality.minimum_elevation,
+						locality.maximum_elevation,
+						locality.orig_elev_units,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and locality.spec_locality is not null
+						then 
+							'Masked'
+						else
+							locality.spec_locality
+						end spec_locality,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+							and accepted_lat_long.orig_lat_long_units is not null
+						then 
+							'Masked'
+						else
+							decode(accepted_lat_long.orig_lat_long_units,
+								'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
+								'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+									to_char(accepted_lat_long.lat_min) || '&acute; ' ||
+									decode(accepted_lat_long.lat_sec, null, '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
+								'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
+									to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
+							)
+						end VerbatimLatitude,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and accepted_lat_long.orig_lat_long_units is not null
+						then 
+							'Masked'
+						else
+							decode(accepted_lat_long.orig_lat_long_units,
+								'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
+								'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+									to_char(accepted_lat_long.long_min) || '&acute; ' ||
+									decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
+								'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
+									to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
+							)
+						end VerbatimLongitude,
+						locality.sovereign_nation,
+						collecting_event.verbatimcoordinates,
+						collecting_event.verbatimlatitude verblat,
+						collecting_event.verbatimlongitude verblong,
+						collecting_event.verbatimcoordinatesystem,
+						collecting_event.verbatimSRS,
+						accepted_lat_long.dec_lat,
+						accepted_lat_long.dec_long,
+						accepted_lat_long.max_error_distance,
+						accepted_lat_long.max_error_units,
+						accepted_lat_long.determined_date latLongDeterminedDate,
+						accepted_lat_long.lat_long_ref_source,
+						accepted_lat_long.lat_long_remarks,
+						accepted_lat_long.datum,
+						latLongAgnt.agent_name latLongDeterminer,
+						geog_auth_rec.geog_auth_rec_id,
+						geog_auth_rec.continent_ocean,
+						geog_auth_rec.country,
+						geog_auth_rec.state_prov,
+						geog_auth_rec.quad,
+						geog_auth_rec.county,
+						geog_auth_rec.island,
+						geog_auth_rec.island_group,
+						geog_auth_rec.sea,
+						geog_auth_rec.feature,
+						coll_object.coll_object_entered_date,
+						coll_object.last_edit_date,
+						coll_object.flags,
+						coll_object_remark.coll_object_remarks,
+						coll_object_remark.disposition_remarks,
+						coll_object_remark.associated_species,
+						coll_object_remark.habitat,
+						enteredPerson.agent_name EnteredBy,
+						editedPerson.agent_name EditedBy,
+						accn_number accession,
+						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+							and locality.locality_remarks is not null
+						then 
+							'Masked'
+						else
+								locality.locality_remarks
+						end locality_remarks,
+						case when
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and verbatim_locality is not null
+						then 
+							'Masked'
+						else
+							verbatim_locality
+						end verbatim_locality,
+						collecting_time,
+						fish_field_number,
+						min_depth,
+						max_depth,
+						depth_units,
+						collecting_method,
+						geog_auth_rec.higher_geog,
+						collecting_source,
+						specimen_part.derived_from_cat_item,
+						decode(trans.transaction_id, null, 0, 1) vpdaccn
+					FROM
+						cataloged_item,
+						collection,
+						identification,
+						collecting_event,
+						locality,
+						accepted_lat_long,
+						preferred_agent_name latLongAgnt,
+						geog_auth_rec,
+						coll_object,
+						coll_object_remark,
+						preferred_agent_name enteredPerson,
+						preferred_agent_name editedPerson,
+						accn,
+						trans,
+						specimen_part
+					WHERE
+						cataloged_item.collection_id = collection.collection_id AND
+						cataloged_item.collection_object_id = identification.collection_object_id AND
+						identification.accepted_id_fg = 1 AND
+						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+						collecting_event.locality_id = locality.locality_id AND
+						locality.locality_id = accepted_lat_long.locality_id (+) AND
+						accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
+						locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+						cataloged_item.collection_object_id = coll_object.collection_object_id AND
+						coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+						coll_object.entered_person_id = enteredPerson.agent_id AND
+						coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+						cataloged_item.accn_id = accn.transaction_id AND
+						accn.transaction_id = trans.transaction_id(+) AND
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					</cfquery>
 				<div class="row mx-0">
 					<div class="col-6 pl-0 pr-3 mb-2 float-right">
 					<cfform name="loc" method="post" action="specLocality.cfm">
@@ -3312,58 +3312,168 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-			SELECT
-				 rel.biol_indiv_relationship as biol_indiv_relationship,
-				 collection as related_collection,
-				 rel.related_coll_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
-				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				 biol_indiv_relations rel
-				 left join cataloged_item rcat
-					 on rel.related_coll_object_id = rcat.collection_object_id
-				 left join collection
+			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					attributes.attribute_type,
+					attributes.attribute_value,
+					attributes.attribute_units,
+					attributes.attribute_remark,
+					attributes.determination_method,
+					attributes.determined_date,
+					attribute_determiner.agent_name attributeDeterminer
+				FROM
+					attributes,
+					preferred_agent_name attribute_determiner
+				WHERE
+					attributes.determined_by_agent_id = attribute_determiner.agent_id and
+					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+				SELECT
+					 rel.biol_indiv_relationship as biol_indiv_relationship,
+					 collection as related_collection,
+					 rel.related_coll_object_id as related_coll_object_id,
+					 rcat.cat_num as related_cat_num,
+					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+				FROM
+					 biol_indiv_relations rel
+					 left join cataloged_item rcat
+						 on rel.related_coll_object_id = rcat.collection_object_id
+					 left join collection
+						 on collection.collection_id = rcat.collection_id
+					 left join ctbiol_relations ctrel
+					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+					  and ctrel.rel_type <> 'functional'
+				UNION
+				SELECT
+					 ctrel.inverse_relation as biol_indiv_relationship,
+					 collection as related_collection,
+					 irel.collection_object_id as related_coll_object_id,
+					 rcat.cat_num as related_cat_num,
+					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+				FROM
+					 biol_indiv_relations irel
+					 left join ctbiol_relations ctrel
+					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					 left join cataloged_item rcat
+					  on irel.collection_object_id = rcat.collection_object_id
+					 left join collection
 					 on collection.collection_id = rcat.collection_id
-				 left join ctbiol_relations ctrel
-					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-			UNION
-			SELECT
-				 ctrel.inverse_relation as biol_indiv_relationship,
-				 collection as related_collection,
-				 irel.collection_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
-				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				 biol_indiv_relations irel
-				 left join ctbiol_relations ctrel
-					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				 left join cataloged_item rcat
-					on irel.collection_object_id = rcat.collection_object_id
-				 left join collection
-				 on collection.collection_id = rcat.collection_id
-			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				 and ctrel.rel_type <> 'functional'
-			)
-		</cfquery>
-				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group list-group-flush float-left">
-						<cfloop query="relns">
-							<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
-								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-									(Remark: #biol_indiv_relation_remarks#)
-								</cfif>
-							</li>
-						</cfloop>
-						<cfif len(relns.biol_indiv_relationship) gt 0>
-							<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
+				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					 and ctrel.rel_type <> 'functional'
+				)
+			</cfquery>
+			<cfquery name="sex" dbtype="query">
+				select * from attribute where attribute_type = 'sex'
+			</cfquery>
+			<ul class="list-group">
+				<cfloop query="sex">
+				<li class="list-group-item"> sex: #attribute_value#,
+					<cfif len(attributeDeterminer) gt 0>
+						<cfset determination = "#attributeDeterminer#">
+						<cfif len(determined_date) gt 0>
+							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
-					</ul>
+						<cfif len(determination_method) gt 0>
+							<cfset determination = '#determination#, #determination_method#'>
+						</cfif>
+						#determination#
+					</cfif>
+					<cfif len(attribute_remark) gt 0>
+						, Remark: #attribute_remark#
+					</cfif>
+				</li>
+			</cfloop>
+			<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+			</cfquery>
+				<cfif #code.collection_cde# is "Mamm">
+					<cfquery name="total_length" dbtype="query">
+						select * from attribute where attribute_type = 'total length'
+					</cfquery>
+					<cfquery name="tail_length" dbtype="query">
+						select * from attribute where attribute_type = 'tail length'
+					</cfquery>
+					<cfquery name="hf" dbtype="query">
+						select * from attribute where attribute_type = 'hind foot with claw'
+					</cfquery>
+					<cfquery name="efn" dbtype="query">
+						select * from attribute where attribute_type = 'ear from notch'
+					</cfquery>
+					<cfquery name="weight" dbtype="query">
+						select * from attribute where attribute_type = 'weight'
+					</cfquery>
+					<cfif
+						len(total_length.attribute_units) gt 0 OR
+						len(tail_length.attribute_units) gt 0 OR
+						len(hf.attribute_units) gt 0  OR
+						len(efn.attribute_units) gt 0  OR
+						len(weight.attribute_units) gt 0>
+						<!---semi-standard measurements --->
+						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+						<tr>
+							<td><font size="-1">total length</font></td>
+							<td><font size="-1">tail length</font></td>
+							<td><font size="-1">hind foot</font></td>
+							<td><font size="-1">efn</font></td>
+							<td><font size="-1">weight</font></td>
+						</tr>
+						<tr>
+							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+						</tr>
+					</table>
+						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+							<cfset determination = "#attributeDeterminer#">
+							<cfif len(determined_date) gt 0>
+								<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+							</cfif>
+							<cfif len(determination_method) gt 0>
+								<cfset determination = '#determination#, #determination_method#'>
+							</cfif>
+							#determination#
+						</cfif>
+					</cfif>
+					<cfquery name="theRest" dbtype="query">
+						select * from attribute 
+						where attribute_type NOT IN (
+						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
+						)
+					</cfquery>
+					<cfelse>
+					<!--- not Mamm --->
+					<cfquery name="theRest" dbtype="query">
+						select * from attribute where attribute_type NOT IN ('sex')
+					</cfquery>
 				</cfif>
+				<cfloop query="theRest">
+					<li class="list-group-item">#attribute_type#: #attribute_value#
+						<cfif len(attribute_units) gt 0>
+							, #attribute_units#
+						</cfif>
+						<cfif len(attributeDeterminer) gt 0>
+						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+						<cfif len(determined_date) gt 0>
+							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+						</cfif>
+						<cfif len(determination_method) gt 0>
+							<cfset determination = '#determination#, #determination_method#'>
+						</cfif>
+							#determination#
+						</cfif>
+						<cfif len(attribute_remark) gt 0>
+							, Remark: #attribute_remark#
+						</cfif>
+					</li>
+				</cfloop>
+			</ul>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
