@@ -3546,7 +3546,7 @@ function showLLFormat(orig_units) {
 								<div class="card-body mt-0">
 									<form name="newRelationship" >	
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<div class="row mx-0 pb-2">
+										<div class="row mx-0 pb-0">
 											<ul class="col-12 px-0 mb-2">
 												<li class="list-group-item float-left col-12 col-md-3 px-1 py-2">
 													<label class="data-entry-label">Relationship:</label>
