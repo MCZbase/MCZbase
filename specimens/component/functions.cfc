@@ -2173,13 +2173,12 @@ limitations under the License.
 								<cfif len(attributeDeterminer) gt 0>
 									<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
 									<cfif len(determined_date) gt 0>
-										<cfset determination = '<input type="text" class="data-entry-input" id="att_det" value="#determination#">, <input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">'>
+										<cfset determination = '<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#determination#"></li> <li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>'>
 									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
 									<li class="list-group-item float-left col-12 col-md-3">
-										<label for="att_det" class="data-entry-label">Determiner</label>
 										#determination#
 									</li>
 								</cfif>
