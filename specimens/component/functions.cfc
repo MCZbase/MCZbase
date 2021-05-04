@@ -1543,14 +1543,14 @@ limitations under the License.
 										</cfloop>
 									</tbody>
 								</table>
-								<div class="col-12 px-1">
+								<div class="col-12 px-0">
 									<a name="newPart"></a>
 
 									<form name="newPart">
 									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
-									<table class="table table-responsive col-7">
+									<table class="table table-responsive col-7 px-0">
 									<tr>
 										<td class=""><div align="right">Part Name: </div></td>
 										<td class="">
