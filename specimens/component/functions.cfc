@@ -2121,7 +2121,7 @@ limitations under the License.
 									</thead>
 									<tbody>
 										<tr>
-											<td><input type="text" class="" value="#total_length.attribute_value#"> <input type="text" class="" value="#total_length.attribute_units#">&nbsp;</td>
+											<td><input type="text" class="col-9" value="#total_length.attribute_value#"> <input type="text" class="col-3" value="#total_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="" value="#tail_length.attribute_value#"> <input type="text" class="" value="#tail_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="" value="#hf.attribute_value#"> <input type="text" class="" value="#hf.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="" value="#efn.attribute_value#"> <input type="text" class="" value="#efn.attribute_units#">&nbsp;</td>
