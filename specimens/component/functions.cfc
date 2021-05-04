@@ -2081,7 +2081,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</ul>
-					<ul class="col-12">
+					<ul class="col-12 px-2">
 						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 						</cfquery>
@@ -2120,7 +2120,7 @@ limitations under the License.
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="col-12 px-0">
+										<tr class="col-12 px-0 pt-2">
 											<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#">&nbsp;</td>
