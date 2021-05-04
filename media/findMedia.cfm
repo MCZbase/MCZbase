@@ -168,6 +168,10 @@ limitations under the License.
 		</main>
 
 		<script>
+			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
+			};
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -245,7 +249,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: editIdCellRenderer },
+							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
 							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: true },
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
