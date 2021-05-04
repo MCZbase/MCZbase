@@ -1990,7 +1990,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> <cfoutput>
 			<cftry>
-				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -2006,7 +2006,7 @@ limitations under the License.
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
@@ -2044,12 +2044,12 @@ limitations under the License.
 					 and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-				<cfquery name="sex" dbtype="query">
+			<cfquery name="sex" dbtype="query">
 				select * from attribute1 where attribute_type = 'sex'
 			</cfquery>
-					<cfif len(attribute1.attribute_value) gt 0>
+			<cfif len(attribute1.attribute_value) gt 0>
 				<form class="row mx-0">
-					<ul class="col-12">
+					<ul class="col-12 px-0">
 						<cfloop query="sex">
 							<li class="list-group-item float-left col-12 col-md-2">
 								<label>Sex:</label>
@@ -2083,33 +2083,33 @@ limitations under the License.
 					</ul>
 					<ul class="col-12">
 						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-</cfquery>
+							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+						</cfquery>
 						<cfif #code.collection_cde# is "Mamm">
-							<cfquery name="total_length" dbtype="query">
-						select * from attribute1 where attribute_type = 'total length'
-					</cfquery>
-							<cfquery name="tail_length" dbtype="query">
-						select * from attribute1 where attribute_type = 'tail length'
-					</cfquery>
-							<cfquery name="hf" dbtype="query">
-						select * from attribute1 where attribute_type = 'hind foot with claw'
-					</cfquery>
-							<cfquery name="efn" dbtype="query">
-						select * from attribute1 where attribute_type = 'ear from notch'
-					</cfquery>
-							<cfquery name="weight" dbtype="query">
-						select * from attribute1 where attribute_type = 'weight'
-					</cfquery>
-							<cfif
-						len(total_length.attribute_units) gt 0 OR
-						len(tail_length.attribute_units) gt 0 OR
-						len(hf.attribute_units) gt 0 OR
-						len(efn.attribute_units) gt 0 OR
-						len(weight.attribute_units) gt 0>
+						<cfquery name="total_length" dbtype="query">
+							select * from attribute1 where attribute_type = 'total length'
+						</cfquery>
+								<cfquery name="tail_length" dbtype="query">
+							select * from attribute1 where attribute_type = 'tail length'
+						</cfquery>
+						<cfquery name="hf" dbtype="query">
+							select * from attribute1 where attribute_type = 'hind foot with claw'
+						</cfquery>
+						<cfquery name="efn" dbtype="query">
+							select * from attribute1 where attribute_type = 'ear from notch'
+						</cfquery>
+						<cfquery name="weight" dbtype="query">
+							select * from attribute1 where attribute_type = 'weight'
+						</cfquery>
+						<cfif
+							len(total_length.attribute_units) gt 0 OR
+							len(tail_length.attribute_units) gt 0 OR
+							len(hf.attribute_units) gt 0 OR
+							len(efn.attribute_units) gt 0 OR
+							len(weight.attribute_units) gt 0>
 								<!---semi-standard measurements ---> 
 								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-								<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
+								<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="Standard Measurements">
 									<thead>
 										<tr>
 											<th>total length</th>
@@ -2137,10 +2137,10 @@ limitations under the License.
 									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
-#determination#
+									#determination#
 								</cfif>
 							</cfif>
-							<cfquery name="theRest" dbtype="query">
+					<cfquery name="theRest" dbtype="query">
 						select * from attribute1 
 						where attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
