@@ -2153,8 +2153,9 @@ limitations under the License.
 						select * from attribute1 where attribute_type NOT IN ('sex')
 					</cfquery>
 						</cfif>
-						<ul class="col-12 px-2">
+						
 						<cfloop query="theRest">
+							<ul class="col-12 px-2">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
 								<label for="att_name" class="data-entry-label">Attribute Name</label>
 								<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
