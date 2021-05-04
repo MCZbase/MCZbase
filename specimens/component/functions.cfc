@@ -2142,7 +2142,7 @@ limitations under the License.
 				<form class="row mx-0">
 					<div class="bg-light border rounded p-2">
 					<h1 class="h3">Edit Existing Attributes</h1>
-					<ul class="col-12 px-0">
+					<ul class="col-12 px-0 pb-2">
 						<cfloop query="sex">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
 								<label class="data-entry-label">Sex:</label>
