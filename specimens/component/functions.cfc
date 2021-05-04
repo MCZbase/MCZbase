@@ -1550,7 +1550,7 @@ limitations under the License.
 									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
-									<table class="table table-responsive col-9">
+									<table class="table table-responsive col-7">
 									<tr>
 										<td class=""><div align="right">Part Name: </div></td>
 										<td class="">
