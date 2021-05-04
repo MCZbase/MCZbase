@@ -1440,6 +1440,7 @@ limitations under the License.
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 mt-3">
+								<h1 class="h3 px-1">Edit Existing Parts</h1>
 								<table class="table border-bottom mb-0">
 									<thead>
 										<tr class="bg-light">
