@@ -103,9 +103,6 @@ function setPartAttOptions(id,patype,collectionCDE) {
 	  			d+="</select>";
 	  			$('#v_' + id).html(d);
 				$('#u_' + id).html('');
-			} else if (data.type=='subsamp') {
-				$('#v_' + id).html('');
-				$('#u_' + id).html('');
 			} else {
 				var dv='<input type="text" name="' + valElem + '" id="' + valElem + '">';
 				$('#v_' + id).html(dv);
