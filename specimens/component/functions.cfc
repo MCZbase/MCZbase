@@ -3312,169 +3312,58 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					attributes.attribute_type,
-					attributes.attribute_value,
-					attributes.attribute_units,
-					attributes.attribute_remark,
-					attributes.determination_method,
-					attributes.determined_date,
-					attribute_determiner.agent_name attributeDeterminer
-				FROM
-					attributes,
-					preferred_agent_name attribute_determiner
-				WHERE
-					attributes.determined_by_agent_id = attribute_determiner.agent_id and
-					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-				SELECT
-					 rel.biol_indiv_relationship as biol_indiv_relationship,
-					 collection as related_collection,
-					 rel.related_coll_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					 biol_indiv_relations rel
-					 left join cataloged_item rcat
-						 on rel.related_coll_object_id = rcat.collection_object_id
-					 left join collection
-						 on collection.collection_id = rcat.collection_id
-					 left join ctbiol_relations ctrel
-					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					  and ctrel.rel_type <> 'functional'
-				UNION
-				SELECT
-					 ctrel.inverse_relation as biol_indiv_relationship,
-					 collection as related_collection,
-					 irel.collection_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
-					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					 biol_indiv_relations irel
-					 left join ctbiol_relations ctrel
-					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					 left join cataloged_item rcat
-					  on irel.collection_object_id = rcat.collection_object_id
-					 left join collection
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+			SELECT
+				 rel.biol_indiv_relationship as biol_indiv_relationship,
+				 collection as related_collection,
+				 rel.related_coll_object_id as related_coll_object_id,
+				 rcat.cat_num as related_cat_num,
+				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+			FROM
+				 biol_indiv_relations rel
+				 left join cataloged_item rcat
+					 on rel.related_coll_object_id = rcat.collection_object_id
+				 left join collection
 					 on collection.collection_id = rcat.collection_id
-				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					 and ctrel.rel_type <> 'functional'
-				)
-			</cfquery>
-			<cfquery name="sex" dbtype="query">
-				select * from attribute where attribute_type = 'sex'
-			</cfquery>
-			<ul class="list-group">
-				<cfloop query="sex">
-				<li class="list-group-item"> sex: <input class="" value="#attribute_value#">,
-					<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "#attributeDeterminer#">
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+				 left join ctbiol_relations ctrel
+					on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+					and ctrel.rel_type <> 'functional'
+			UNION
+			SELECT
+				 ctrel.inverse_relation as biol_indiv_relationship,
+				 collection as related_collection,
+				 irel.collection_object_id as related_coll_object_id,
+				 rcat.cat_num as related_cat_num,
+				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+			FROM
+				 biol_indiv_relations irel
+				 left join ctbiol_relations ctrel
+					on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+				 left join cataloged_item rcat
+					on irel.collection_object_id = rcat.collection_object_id
+				 left join collection
+				 on collection.collection_id = rcat.collection_id
+			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				 and ctrel.rel_type <> 'functional'
+			)
+		</cfquery>
+				<cfif len(relns.biol_indiv_relationship) gt 0 >
+					<ul class="list-group list-group-flush float-left">
+						<cfloop query="relns">
+							<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+									(Remark: #biol_indiv_relation_remarks#)
+								</cfif>
+							</li>
+						</cfloop>
+						<cfif len(relns.biol_indiv_relationship) gt 0>
+							<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
 						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
-						</cfif>
-						<input value="#determination#">
-					</cfif>
-					<cfif len(attribute_remark) gt 0>
-						, Remark: <input class="" value="#attribute_remark#">
-					</cfif>
-				</li>
-			</cfloop>
-			<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-			</cfquery>
-				<cfif #code.collection_cde# is "Mamm">
-					<cfquery name="total_length" dbtype="query">
-						select * from attribute where attribute_type = 'total length'
-					</cfquery>
-					<cfquery name="tail_length" dbtype="query">
-						select * from attribute where attribute_type = 'tail length'
-					</cfquery>
-					<cfquery name="hf" dbtype="query">
-						select * from attribute where attribute_type = 'hind foot with claw'
-					</cfquery>
-					<cfquery name="efn" dbtype="query">
-						select * from attribute where attribute_type = 'ear from notch'
-					</cfquery>
-					<cfquery name="weight" dbtype="query">
-						select * from attribute where attribute_type = 'weight'
-					</cfquery>
-					<cfif
-						len(total_length.attribute_units) gt 0 OR
-						len(tail_length.attribute_units) gt 0 OR
-						len(hf.attribute_units) gt 0  OR
-						len(efn.attribute_units) gt 0  OR
-						len(weight.attribute_units) gt 0>
-						<!---semi-standard measurements --->
-						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
-						<tr>
-							<td><font size="-1">total length</font></td>
-							<td><font size="-1">tail length</font></td>
-							<td><font size="-1">hind foot</font></td>
-							<td><font size="-1">efn</font></td>
-							<td><font size="-1">weight</font></td>
-						</tr>
-						<tr>
-							<td><input class="" value="#total_length.attribute_value#"> <input class="" value="#total_length.attribute_units#"> </td>
-							<td><input class="" value="#tail_length.attribute_value#"> <input class="" value="#tail_length.attribute_units#"> </td>
-							<td><input class="" value="#hf.attribute_value# #hf.attribute_units#"> </td>
-							<td><input class="" value="#efn.attribute_value# #efn.attribute_units#"> </td>
-							<td><input class="" value="#weight.attribute_value#"> <input class="" value="#weight.attribute_units"> </td>
-						</tr>
-					</table>
-						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = "#attributeDeterminer#">
-							<cfif len(determined_date) gt 0>
-								<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-							</cfif>
-							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#, #determination_method#'>
-							</cfif>
-							<input class="" value="#determination#">
-						</cfif>
-					</cfif>
-					<cfquery name="theRest" dbtype="query">
-						select * from attribute 
-						where attribute_type NOT IN (
-						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
-						)
-					</cfquery>
-					<cfelse>
-					<!--- not Mamm --->
-					<cfquery name="theRest" dbtype="query">
-						select * from attribute where attribute_type NOT IN ('sex')
-					</cfquery>
+					</ul>
 				</cfif>
-				<cfloop query="theRest">
-					<li class="list-group-item"><input class="" value="#attribute_type#">: <input class="" value="#attribute_value#">
-						<cfif len(attribute_units) gt 0>
-							, <input class="" value="#attribute_units#">
-						</cfif>
-						<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
-						</cfif>
-							<input class="" value="#determination#">
-						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							, Remark: <input class="" value="#attribute_remark#">
-						</cfif>
-					</li>
-				</cfloop>
-			</ul>
-						<input class="btn btn-xs btn-primary" value="Save" type="submit">
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
