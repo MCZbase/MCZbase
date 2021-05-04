@@ -382,7 +382,7 @@ function addIdentAgentToForm (id,name,formid) {
 }							
 
 function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Other IDs for " + guid;
+	var title = "Edit Relationships for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -394,7 +394,7 @@ function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Other IDs dialog");
+			handleFail(jqXHR,textStatus,error,"opening edit Relationships dialog");
 		},
 		dataType: "html"
 	});
