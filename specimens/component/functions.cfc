@@ -1940,31 +1940,31 @@ limitations under the License.
 					<cfloop query="publicationMedia">
 						<cfset puri=getMediaPreview(preview_uri,mime_type)>
 						<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select
-												media_label,
-												label_value
-										from
-												media_labels
-										where
-												media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
+							select
+									media_label,
+									label_value
+							from
+									media_labels
+							where
+									media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select
-												media_label,
-												label_value
-										from
-												media_labels
-										where
-												media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
+							select
+									media_label,
+									label_value
+							from
+									media_labels
+							where
+									media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
 						<cfquery name="desc" dbtype="query">
-										select 
-												label_value 
-										from 
-												labels 
-										where 
-												media_label='description'
-									</cfquery>
+							select 
+									label_value 
+							from 
+									labels 
+							where 
+									media_label='description'
+						</cfquery>
 						<cfset alt="Media Preview Image">
 						<cfif desc.recordcount is 1>
 							<cfset alt=desc.label_value>
@@ -2051,30 +2051,30 @@ limitations under the License.
 				<form class="row mx-0">
 					<ul class="col-12 px-0">
 						<cfloop query="sex">
-							<li class="list-group-item float-left col-12 col-md-2">
+							<li class="list-group-item float-left col-12 col-md-2 px-1">
 								<label>Sex:</label>
 								<input class="data-entry-input" value="#attribute_value#">
 							</li>
 							<cfif len(attributeDeterminer) gt 0>
-								<li class="list-group-item float-left col-12 col-md-3">
+								<li class="list-group-item float-left col-12 col-md-3 px-1">
 									<label>Determiner:</label>
 									<input class="data-entry-input" value="#attributeDeterminer#">
 								</li>
 								<cfif len(determined_date) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2">
+									<li class="list-group-item float-left col-12 col-md-2 px-1">
 										<label class="data-entry-label">Date:</label>
 										<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 									</li>
 								</cfif>
 								<cfif len(determination_method) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2">
+									<li class="list-group-item float-left col-12 col-md-2 px-1">
 										<label class="data-entry-label">Method:</label>
 										<input class="data-entry-input" value="#determination_method#">
 									</li>
 								</cfif>
 							</cfif>
 							<cfif len(attribute_remark) gt 0>
-								<li class="list-group-item float-left col-12 col-md-3">
+								<li class="list-group-item float-left col-12 col-md-3 px-1">
 									<label class="data-entry-label">Remark:</label>
 									<input class="data-entry-input" value="#attribute_remark#">
 								</li>
