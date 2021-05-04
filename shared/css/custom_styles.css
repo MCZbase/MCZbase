@@ -1610,7 +1610,7 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-.card-header button span.collapsed:before, .card-header button span.collapsed:before, .card-header button span.collapsed:before {
+.card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
