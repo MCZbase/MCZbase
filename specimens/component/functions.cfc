@@ -3312,22 +3312,6 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					attributes.attribute_type,
-					attributes.attribute_value,
-					attributes.attribute_units,
-					attributes.attribute_remark,
-					attributes.determination_method,
-					attributes.determined_date,
-					attribute_determiner.agent_name attributeDeterminer
-				FROM
-					attributes,
-					preferred_agent_name attribute_determiner
-				WHERE
-					attributes.determined_by_agent_id = attribute_determiner.agent_id and
-					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
@@ -3366,9 +3350,6 @@ function showLLFormat(orig_units) {
 				and ctrel.rel_type <> 'functional'
 			)
 		</cfquery>
-			<cfquery name="sex" dbtype="query">
-				select * from attribute where attribute_type = 'sex'
-			</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
@@ -3479,7 +3460,7 @@ function showLLFormat(orig_units) {
 								<cfif len(determination_method) gt 0>
 									<cfset determination = '#determination#, #determination_method#'>
 								</cfif>
-#determination#
+								#determination#
 							</cfif>
 							<cfif len(attribute_remark) gt 0>
 								, Remark: #attribute_remark#
@@ -3518,7 +3499,7 @@ function showLLFormat(orig_units) {
 								<td><font size="-1">weight</font></td>
 							</tr>
 							<tr>
-								<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#total_length.attribute_value#"> #total_length.attribute_units#&nbsp;</td>
 								<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
 								<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
 								<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
