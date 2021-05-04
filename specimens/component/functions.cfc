@@ -1544,7 +1544,7 @@ limitations under the License.
 									</tbody>
 								</table>
 							</form>
-								<div class="col-12 mt-4 px-0">
+								<div class="col-8 mt-4 px-0">
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
@@ -1559,7 +1559,7 @@ limitations under the License.
 													<input type="hidden" name="Action" value="newPart">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 													<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
-													<table class="table table-responsive col-8 px-0">
+													<table class="table table-responsive col-12 px-0">
 										<tr>
 											<td class=""><div align="right">Part Name: </div></td>
 											<td class="">
