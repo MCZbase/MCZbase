@@ -1530,7 +1530,7 @@ limitations under the License.
 								<div class="col-12 px-1">
 									<a name="newPart"></a>
 									<h1 class="h3 px-1">Add Specimen Part</h1>
-									<form name="newPart" method="post" action="editParts.cfm">
+									<form name="newPart">
 									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
