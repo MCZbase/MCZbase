@@ -2188,7 +2188,6 @@ limitations under the License.
 									</ul>
 								</cfif>
 						</cfloop>
-					</ul>
 				</form>
 					<cfelse>
 						There are no attributes for this record.
