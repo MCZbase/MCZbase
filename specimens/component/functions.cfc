@@ -2163,19 +2163,19 @@ limitations under the License.
 								<label for="att_value" class="data-entry-label">Attribute Value</label>
 								<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
 							</li>
-							<li class="list-group-item float-left col-12 col-md-1 px-1">
 								<cfif len(attribute_units) gt 0>
+								<li class="list-group-item float-left col-12 col-md-1 px-1">
 									<label for="att_units" class="data-entry-label">Units</label>
 									<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
+								</li>
 								</cfif>
-							</li>
 								<cfif len(attributeDeterminer) gt 0>
-									<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#"></li>
+									<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#"></li>
 									<cfif len(determined_date) gt 0>
-									<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>
+									<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
+										<li class="list-group-item float-left col-12 col-md-2"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
 									</cfif>
 								</cfif>
 							</ul>
