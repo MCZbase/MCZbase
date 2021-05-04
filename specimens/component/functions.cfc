@@ -2156,15 +2156,15 @@ limitations under the License.
 						<ul class="col-12 px-2">
 						<cfloop query="theRest">
 							
-							<li class="list-group-item float-left col-12 col-md-3">
+							<li class="list-group-item float-left col-12 col-md-2">
 								<label for="att_name" class="data-entry-label">Attribute Name</label>
 								<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
 							</li>
-							<li class="list-group-item float-left col-12 col-md-3">
+							<li class="list-group-item float-left col-12 col-md-2">
 								<label for="att_value" class="data-entry-label">Attribute Value</label>
 								<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
 							</li>
-							<li class="list-group-item float-left col-12 col-md-2">
+							<li class="list-group-item float-left col-12 col-md-1">
 								<cfif len(attribute_units) gt 0>
 									<label for="att_units" class="data-entry-label">Units</label>
 									<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
@@ -2173,18 +2173,18 @@ limitations under the License.
 								<cfif len(attributeDeterminer) gt 0>
 									<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
 									<cfif len(determined_date) gt 0>
-										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+										<cfset determination = '<input type="text" class="data-entry-input" id="att_det" value="#determination#">, <input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">'>
 									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
-									<li class="list-group-item float-left col-12 col-md-2">
+									<li class="list-group-item float-left col-12 col-md-3">
 										<label for="att_det" class="data-entry-label">Determiner</label>
-										<input type="text" class="data-entry-input" id="att_det" value="#determination#">
+										#determination#
 									</li>
 								</cfif>
 								<cfif len(attribute_remark) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2">
+									<li class="list-group-item float-left col-12 col-md-3">
 										<label for="att_rem" class="data-entry-label">Remarks</label>
 										<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
 									</li>
