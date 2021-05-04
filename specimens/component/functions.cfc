@@ -2714,9 +2714,10 @@ limitations under the License.
 						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 						</div>
 						<div class="col-6 px-0 float-left">
+							<p class="font-italic">Note: Making changes to data in this form will make a new locality record for this specimen record.</p>
 							<ul class="list-unstyled row mx-0 px-0 py-1 mb-0">
 								<cfif len(getLoc.continent_ocean) gt 0>
-									<li class="list-group-item col-4 px-0"><em>Continent Ocean:</em></li>
+									<li class="list-group-item col-4 px-0"><em>Continent or Ocean:</em></li>
 									<li class="list-group-item col-8 px-0">#getLoc.continent_ocean#</li>
 								</cfif>
 								<cfif len(getLoc.sea) gt 0>
@@ -2863,7 +2864,7 @@ limitations under the License.
 						<h1 class="h3 mt-3">Collecting Event</h1>
 						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 							<li class="col-12 col-md-12 px-0 py-1 mt-2">
-								<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+								<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
 									<cfif cecount.ct eq 1>
 										(unique to this specimen)
 										<cfelse>
