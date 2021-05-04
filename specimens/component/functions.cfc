@@ -900,7 +900,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 mt-2">
+						<div class="col-12 mt-2 bg-light p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
 							<form name="ids" method="post" action="Specimen.cfm">
 								<div class="mb-4">
@@ -2945,7 +2945,7 @@ limitations under the License.
 								<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
 							</li>
 							<li class="col-12 col-md-10 pb-2 px-0">
-								<input type="text" class="data-entry-label px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
+								<input type="text" class="data-entry-input px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
 							</li>
 						</ul>
 					<h1 class="h3 mt-3">Geology</h1>
