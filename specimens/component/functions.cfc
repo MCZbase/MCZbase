@@ -2191,7 +2191,7 @@ limitations under the License.
 					<cfelse>
 						There are no attributes for this record.
 					</cfif>
-<div class="col-12 mt-4 px-0">
+<div class="col-12 mt-4 px-1">
 	<div id="accordion2">
 		<div class="card">
 			<div class="card-header pt-1" id="headingTwo">
@@ -2229,6 +2229,9 @@ limitations under the License.
 									<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
 								</li>
 							</ul>
+						<div class="col-12 col-md-12 px-1">
+							<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+						</div>
 					</form>
 				</div>
 			</div>
