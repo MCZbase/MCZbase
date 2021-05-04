@@ -1543,17 +1543,17 @@ limitations under the License.
 										</cfloop>
 									</tbody>
 								</table>
-								<div class="col-9 px-1">
+								<div class="col-12 px-1">
 									<a name="newPart"></a>
 
 									<form name="newPart">
 									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
-									<table class="table table-responsive">
+									<table class="table table-responsive col-9">
 									<tr>
 										<td class=""><div align="right">Part Name: </div></td>
-										<td class="col-10">
+										<td class="">
 											<input type="text" name="part_name" id="part_name" class="reqdClr"
 												onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
 												onkeypress="return noenter(event);">
