@@ -3525,69 +3525,50 @@ function showLLFormat(orig_units) {
 	select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
 	collection_object_id=#collection_object_id#
 </cfquery>
-<table class="newRec">
-	<tr>
-		<td colspan="99">
-			Add a relationship:
-		</td>
-	</tr>
-	<tr>
+<div class="col-12">
+<h1 class="h3">Add a Relationship</h1>
+
 	<form name="newRelationship" method="post" action="editRelationship.cfm">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		<input type="hidden" name="action" value="saveNew" >
-		<input type="hidden" name="related_coll_object_id" >
-		<td>
-			<font size="-2">Relationship:<br>
-			</font>				<select name="biol_indiv_relationship" size="1" class="reqdClr">
+		<label class="data-entry-label">Relationship:</label>
+			<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
 				<cfloop query="ctReln">
 					<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
 				</cfloop>
 			</select>
-		</td>
-		<td>
 			<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select collection from collection 
 				group by collection order by collection
 			</cfquery>
-			<font size="-2">Collection:<br></font>
-			<select name="collection" size="1">
+			<label class="data-entry-label">Relationship:</label>
+			<select name="collection" size="1" class="data-entry-select">
 				<cfloop query="ctColl">
 					<option 
 						<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
 						value="#ctColl.collection#">#ctColl.collection#</option>
 				</cfloop>
 			</select>
-		</td>
-		<td>
 			<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
 			</cfquery>
-			<font size="-2">Other ID Type:<br></font>
-			<select name="other_id_type" size="1" style="width: 210px;">
+					<label class="data-entry-label">Other ID Type:</label>
+			<select name="other_id_type" size="1" class="data-entry-select">
 				<option value="catalog_number">Catalog Number</option>
 				<cfloop query="ctOtherIdType">
 					<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
 				</cfloop>
 			</select>
-		</td>
-		<td>
-			<font size="-2">Other ID Num:<br></font>
+
+			<label class="data-entry-label">Other ID Number:</label>
 			<input type="text" name="oidNumber" class="reqdClr" size="8">
-		 </td>
-		<td><font size="-2">Remarks:</font>
-			<input type="text" id="" name="biol_indiv_relation_remarks" size="50" style="background-color:white;">
-		</td>
-		<td id="saveNewCell" style="display:none;">
-			<font size="-2">&nbsp;<br></font>		
+		<label class="data-entry-label">Remarks:</label>
+			<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
+
 			<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
-		</td>
-		<td>
-				<font size="-2">Picked Cataloged Item:<br></font>
-			<input type="text" id="catColl" name="catColl" readonly="yes" size="46">
-		</td>
+			<label class="data-entry-label">Picked Cataloged Item:</label>
+			<input type="text" id="catColl" name="catColl" class="data-entry-input" readonly="yes" size="46">
 		</form>
-	</tr>
-</table>
+				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
