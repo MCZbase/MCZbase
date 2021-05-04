@@ -2170,14 +2170,13 @@ limitations under the License.
 								</cfif>
 							</li>
 								<cfif len(attributeDeterminer) gt 0>
-									<cfset determination = '<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#"></li>'>
+									<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#"></li>
 									<cfif len(determined_date) gt 0>
-									<cfset determination = '<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>'>
+									<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = '<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_det" value="#determination_method#"></li>'>
+										<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
 									</cfif>
-										#determination#
 								</cfif>
 								<cfif len(attribute_remark) gt 0>
 									<li class="list-group-item float-left col-12 col-md-12">
