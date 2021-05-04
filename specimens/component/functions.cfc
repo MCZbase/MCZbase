@@ -3312,6 +3312,22 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
+			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					attributes.attribute_type,
+					attributes.attribute_value,
+					attributes.attribute_units,
+					attributes.attribute_remark,
+					attributes.determination_method,
+					attributes.determined_date,
+					attribute_determiner.agent_name attributeDeterminer
+				FROM
+					attributes,
+					preferred_agent_name attribute_determiner
+				WHERE
+					attributes.determined_by_agent_id = attribute_determiner.agent_id and
+					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
 				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
