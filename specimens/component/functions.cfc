@@ -1558,62 +1558,62 @@ limitations under the License.
 												<form name="newPart">
 													<input type="hidden" name="Action" value="newPart">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-													<table class="table table-responsive col-12 px-0">
-										<tr>
-											<td class=""><div align="right">Part Name: </div></td>
-											<td class="">
-												<input type="text" name="part_name" id="part_name" class="reqdClr"
-													onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
-													onkeypress="return noenter(event);">
-											</td>
-										</tr>
-										<tr>
-											<td><div align="right">Preserve Method: </div></td>
-											<td>
-												<select name="preserve_method" size="1"  class="reqdClr">
-												<cfloop query="ctPreserveMethod">
-													<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-												</cfloop>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td><div align="right">Count:</div></td>
-											<td>
-												<select name="lot_count_modifier" size="1">
-													<option value=""></option>
-													<cfloop query="ctModifiers">
-														<option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
-													</cfloop>
-												</select>
-												<input type="text" name="lot_count" class="reqdClr" size="2"></td>
-										</tr>
-										<tr>
-											<td><div align="right">Disposition:</div></td>
-											<td>
-												<select name="coll_obj_disposition" size="1"  class="reqdClr">
-													<cfloop query="ctDisp">
-													<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-													</cfloop>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td><div align="right">Condition:</div></td>
-											<td><input type="text" name="condition" class="reqdClr"></td>
-										</tr>
-										<tr>
-											<td style="width: 200px;"><div align="right">Remarks:</div></td>
-											<td><input type="text" name="coll_object_remarks" size="50"></td>
-										</tr>
-										<tr>
-											<td colspan="2">
-												<div align="center">
-													<input type="submit" value="Create" class="btn btn-xs btn-primary">
-												</div>
-											</td>
-										</tr>
-									</table>
+													<table class="table table-responsive col-12 px-0 mb-2">
+														<tr>
+															<td class=""><div align="right">Part Name: </div></td>
+															<td class="">
+																<input type="text" name="part_name" id="part_name" class="reqdClr"
+																	onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
+																	onkeypress="return noenter(event);">
+															</td>
+														</tr>
+														<tr>
+															<td><div align="right">Preserve Method: </div></td>
+															<td>
+																<select name="preserve_method" size="1"  class="reqdClr">
+																<cfloop query="ctPreserveMethod">
+																	<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+																</cfloop>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td><div align="right">Count:</div></td>
+															<td>
+																<select name="lot_count_modifier" size="1">
+																	<option value=""></option>
+																	<cfloop query="ctModifiers">
+																		<option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
+																	</cfloop>
+																</select>
+																<input type="text" name="lot_count" class="reqdClr" size="2"></td>
+														</tr>
+														<tr>
+															<td><div align="right">Disposition:</div></td>
+															<td>
+																<select name="coll_obj_disposition" size="1"  class="reqdClr">
+																	<cfloop query="ctDisp">
+																	<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+																	</cfloop>
+																</select>
+															</td>
+														</tr>
+														<tr>
+															<td><div align="right">Condition:</div></td>
+															<td><input type="text" name="condition" class="reqdClr"></td>
+														</tr>
+														<tr>
+															<td style="width: 200px;"><div align="right">Remarks:</div></td>
+															<td><input type="text" name="coll_object_remarks" size="50"></td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																<div align="center">
+																	<input type="submit" value="Create" class="btn btn-xs btn-primary">
+																</div>
+															</td>
+														</tr>
+													</table>
 												</form>
 												</div>
 											</div>
