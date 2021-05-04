@@ -2185,7 +2185,6 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
 									</li>
 								</cfif>
-							</li>
 						</cfloop>
 					</ul>
 				</form>
