@@ -1547,19 +1547,19 @@ limitations under the License.
 							<div class="col-12 mt-4">
 								<div id="accordion2">
 									<div class="card">
-										<div class="card-header pt-1" id="headingTwo">
+										<div class="card-header pt-1" id="headingNewPart">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
+												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add New Identifier</span> </button>
 											</h1>
 										</div>
-											<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+											<div id="collapseNewPart" class="collapse" aria-labelledby="headingNewPart" data-parent="##accordion2">
 												<div class="card-body mt-2">
 												<a name="newPart"></a>
 												<form name="newPart">
-										<input type="hidden" name="Action" value="newPart">
-										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
-										<table class="table table-responsive col-8 px-0">
+													<input type="hidden" name="Action" value="newPart">
+													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+													<h1 class="h3 px-1 mt-4">Add Specimen Part</h1>
+													<table class="table table-responsive col-8 px-0">
 										<tr>
 											<td class=""><div align="right">Part Name: </div></td>
 											<td class="">
@@ -1615,7 +1615,7 @@ limitations under the License.
 											</td>
 										</tr>
 									</table>
-									</form>
+												</form>
 												</div>
 											</div>
 										</div>
