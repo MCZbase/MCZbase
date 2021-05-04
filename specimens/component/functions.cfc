@@ -2154,9 +2154,9 @@ limitations under the License.
 					</cfquery>
 						</cfif>
 						<cfloop query="theRest">
-							<li class="list-group-item">#attribute_type#: #attribute_value#
+							<li class="list-group-item"><input type="text" class="" value="#attribute_type#">: <input type="text" class="" value="#attribute_value#">
 								<cfif len(attribute_units) gt 0>
-									, #attribute_units#
+									, <input type="text" class="" value="#attribute_units#">
 								</cfif>
 								<cfif len(attributeDeterminer) gt 0>
 									<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
@@ -2166,10 +2166,10 @@ limitations under the License.
 									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
-#determination#
+										<input type="text" class="" value="#determination#">
 								</cfif>
 								<cfif len(attribute_remark) gt 0>
-									, Remark: #attribute_remark#
+									, Remark: <input type="text" class="" value="#attribute_remark#">
 								</cfif>
 							</li>
 						</cfloop>
