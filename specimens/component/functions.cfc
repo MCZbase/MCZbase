@@ -1369,19 +1369,10 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread">
 		<cftry>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-	<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
-					Case
-						when #oneOfus#= 1
-						then pc.label
-						else null
-					End label,
+					pc.label label,
 					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
 					sampled_from_obj_id,
 					coll_object.COLL_OBJ_DISPOSITION part_disposition,
@@ -1442,107 +1433,104 @@ limitations under the License.
 			</cfquery>
 			<cfset ctPart.ct=''>
 			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from parts
+				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
-				<cfoutput>
-			<table class="table border-bottom mb-0">
-				<thead>
-					<tr class="bg-light">
-						<th><span>Part Name</span></th>
-						<th><span>Condition</span></th>
-						<th><span>Disposition</span></th>
-						<th><span>##</span></th>
-						<th>
-							<cfif oneOfus is "1">
-								<span>Container</span>
-							</cfif>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<cfset i=1>
-					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
-						<td>#part_disposition#</td>
-						<td>#lot_count#</td>
-						<td>#label#</td>
-					</tr>
-					<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
-						</tr>
-					</cfif>
-					<cfquery name="patt" dbtype="query">
-						select
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-						from
-							rparts
-						where
-							attribute_type is not null and
-							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-						group by
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr>
-							<td colspan="5">
-								<cfloop query="patt">
-									<div class="small pl-3" style="line-height: .9rem;">
-										#attribute_type#=#attribute_value#
-									<cfif len(attribute_units) gt 0>
-										#attribute_units#
-									</cfif>
-									<cfif len(determined_date) gt 0>
-										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
-									</cfif>
-									<cfif len(agent_name) gt 0>
-										determined by=#agent_name#
-									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										remark=#attribute_remark#
-									</cfif>
-									</div>
-								</cfloop>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
+			<cfoutput>
+				<form>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 mt-3">
+								<table class="table border-bottom mb-0">
+									<thead>
+										<tr class="bg-light">
+											<th><span>Part Name</span></th>
+											<th><span>Condition</span></th>
+											<th><span>Disposition</span></th>
+											<th><span>##</span></th>
+											<th><span>Container</span></th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfset i=1>
+										<cfloop query="mPart">
+											<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+												<td><input class="data-entry-input" value="#part_name#"></td>
+												<td><input class="data-entry-input" size="7" value="#part_condition#"></td>
+												<td><input class="data-entry-input" size="7" value="#part_disposition#"></td>
+												<td><input class="data-entry-input" size="2" value="#lot_count#"></td>
+												<td><input class="data-entry-input" value="#label#"></td>
+											</tr>
+											<cfif len(part_remarks) gt 0>
+												<tr class="small">
+													<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+												</tr>
+											</cfif>
+											<cfquery name="patt" dbtype="query">
+												select
+													attribute_type,
+													attribute_value,
+													attribute_units,
+													determined_date,
+													attribute_remark,
+													agent_name
+												from
+													rparts
+												where
+													attribute_type is not null and
+													part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+												group by
+													attribute_type,
+													attribute_value,
+													attribute_units,
+													determined_date,
+													attribute_remark,
+													agent_name
+											</cfquery>
+											<cfif patt.recordcount gt 0>
+												<tr>
+													<td colspan="5"><cfloop query="patt">
+															<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+																<cfif len(attribute_units) gt 0>
+																#attribute_units#
+																</cfif>
+																<cfif len(determined_date) gt 0>
+																	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+																</cfif>
+																<cfif len(agent_name) gt 0>
+																	determined by=#agent_name#
+																</cfif>
+																<cfif len(attribute_remark) gt 0>
+																	remark=#attribute_remark#
+																</cfif>
+															</div>
+														</cfloop></td>
+												</tr>
+											</cfif>
+											<cfquery name="sPart" dbtype="query">
 						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					</cfquery>
-					<cfloop query="sPart">
-						<tr>
-							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
-							<td>#label#</td>
-						</tr>
-						<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5">
-								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> #part_remarks#
-								</span>
-							</td>
-						</tr>
-						</cfif>
-					</cfloop>
-				</cfloop>
-				</tbody>
-			</table>
-				</cfoutput>
+											<cfloop query="sPart">
+												<tr>
+													<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+													<td>#part_condition#</td>
+													<td>#part_disposition#</td>
+													<td>#lot_count#</td>
+													<td>#label#</td>
+												</tr>
+												<cfif len(part_remarks) gt 0>
+													<tr class="small">
+														<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span> #part_remarks# </span></td>
+													</tr>
+												</cfif>
+											</cfloop>
+										</cfloop>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</form>
+			</cfoutput>
 			<cfcatch>
 				<cfoutput>
 					<cfif isDefined("cfcatch.queryError") >
