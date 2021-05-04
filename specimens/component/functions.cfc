@@ -3465,7 +3465,6 @@ function showLLFormat(orig_units) {
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-				
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
@@ -3505,6 +3504,7 @@ function showLLFormat(orig_units) {
 			)
 		</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
+				<div class="row">
 					<div class="col-12">
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
@@ -3519,6 +3519,7 @@ function showLLFormat(orig_units) {
 						</cfif>
 					</ul>
 					</div>
+				</div>
 				</cfif>
 
 				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
