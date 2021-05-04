@@ -2189,7 +2189,7 @@ limitations under the License.
 									</ul>
 								</cfif>
 						</cfloop>
-						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-2 btn-xs btn-primary">
+						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
 				</form>
 					<cfelse>
 						There are no attributes for this record.
