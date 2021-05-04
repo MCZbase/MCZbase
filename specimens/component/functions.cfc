@@ -3567,29 +3567,19 @@ function showLLFormat(orig_units) {
 		<td>
 			<font size="-2">Other ID Num:<br></font>
 			<input type="text" name="oidNumber" class="reqdClr" size="8" 
-				onChange="findCatalogedItem('related_coll_object_id','catColl','newRelationship',other_id_type.value,this.value,collection.value); return false;"
-				onKeyPress="return noenter(event);">
+				 <!---onChange="findCatalogedItem('related_coll_object_id','catColl','newRelationship',other_id_type.value,this.value,collection.value); return false;"--->
+			>
 		 </td>
 		<td><font size="-2">Remarks:</font>
 			<input type="text" id="" name="biol_indiv_relation_remarks" size="50" style="background-color:white;">
 		</td>
 		<td id="saveNewCell" style="display:none;">
 			<font size="-2">&nbsp;<br></font>		
-			<input type="submit" id="theSubmit" 
-					 	value="Save" 
-						class="savBtn"
-						onmouseover="this.className='savBtn btnhov'" 
-						onmouseout="this.className='savBtn'"></td>
+			<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+		</td>
 		<td>
 				<font size="-2">Picked Cataloged Item:<br></font>
-			<input onchange="alert('c');"
-			type="text" 
-			id="catColl" 
-			name="catColl" 
-			readonly="yes" 
-			size="46" 
-			style="background-color:transparent;border:none;"
-			>
+			<input type="text" id="catColl" name="catColl" readonly="yes" size="46">
 		</td>
 		</form>
 	</tr>
