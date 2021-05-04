@@ -97,6 +97,7 @@ limitations under the License.
 												<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
 											</cfloop>
 										</select>
+									</div>
 									<div class="col-12 col-md-3">
 										<label for="mime_type" class="data-entry-label" id="mime_type_label">MIME Type</label>
 										<select id="mime_type" name="mime_type" class="data-entry-select">
@@ -126,7 +127,6 @@ limitations under the License.
 											<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 											<option value="0" #sel#>0</option>
 										</select>
-									</div>
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
