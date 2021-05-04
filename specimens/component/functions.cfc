@@ -900,7 +900,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 mt-2 bg-light p-3">
+						<div class="col-12 mt-2 bg-light border p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
 							<form name="ids" method="post" action="Specimen.cfm">
 								<div class="mb-4">
@@ -960,7 +960,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 						</div>
-						<div class="col-12 mt-4">
+						<div class="col-12 mt-4 px-0">
 							<div id="accordion2">
 								<div class="card">
 									<div class="card-header pt-1" id="headingTwo">
