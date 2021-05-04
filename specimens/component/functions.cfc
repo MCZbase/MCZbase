@@ -1463,7 +1463,7 @@ limitations under the License.
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
-													<td colspan="5"><span class="d-block"><span class="font-italic">Remarks:</span> <input class="w-100" type="text" value="#part_remarks#"></span></td>
+													<td colspan="5"><span class="d-block"><span class="font-italic pl-2">Remarks:</span> <input class="w-100" type="text" value="#part_remarks#"></span></td>
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">
@@ -1490,26 +1490,26 @@ limitations under the License.
 											<cfif patt.recordcount gt 0>
 												<tr>
 													<td colspan="5"><cfloop query="patt">
-															<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+															<div class="small pl-3" style="line-height: .9rem;"> <input type="text" class="" value="#attribute_type#">=<input class="" value="#attribute_value#">
 																<cfif len(attribute_units) gt 0>
-																#attribute_units#
+																 <input type="text" class="" value="#attribute_units#">
 																</cfif>
 																<cfif len(determined_date) gt 0>
-																	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+																	determined date= <input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
 																</cfif>
 																<cfif len(agent_name) gt 0>
-																	determined by=#agent_name#
+																	determined by= <input type="text" class="" value="#agent_name#">
 																</cfif>
 																<cfif len(attribute_remark) gt 0>
-																	remark=#attribute_remark#
+																	remark= <input type="text" class="" value="#attribute_remark#">
 																</cfif>
 															</div>
 														</cfloop></td>
 												</tr>
 											</cfif>
 											<cfquery name="sPart" dbtype="query">
-						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-					</cfquery>
+												select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+											</cfquery>
 											<cfloop query="sPart">
 												<tr>
 													<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
