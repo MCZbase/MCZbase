@@ -1369,6 +1369,18 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditPartsThread">
 		<cftry>
+			<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition
+			</cfquery>
+			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select modifier from ctnumeric_modifiers order by modifier desc
+			</cfquery>
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select preserve_method
+				from ctspecimen_preserv_method
+				where collection_cde = '#getParts.collection_cde#'
+				order by preserve_method
+			</cfquery>
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
@@ -1428,6 +1440,7 @@ limitations under the License.
 				order by
 					part_name
 			</cfquery>
+				
 			<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
@@ -1531,15 +1544,14 @@ limitations under the License.
 									<a name="newPart"></a>
 									<h1 class="h3 px-1">Add Specimen Part</h1>
 									<form name="newPart">
-<!---									<input type="hidden" name="Action" value="newPart">
+									<input type="hidden" name="Action" value="newPart">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">--->
 									<table>
 									<tr>
 										<td><div align="right">Part Name: </div></td>
 										<td>
 											<input type="text" name="part_name" id="part_name" class="reqdClr"
-												onchange="findPart(this.id,this.value,'#getParts.collection_cde#');"
+												onchange="findPart(this.id,this.value,'#parts.collection_cde#');"
 												onkeypress="return noenter(event);">
 										</td>
 									</tr>
