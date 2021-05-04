@@ -2178,11 +2178,14 @@ limitations under the License.
 										<li class="list-group-item float-left col-12 col-md-1"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
 									</cfif>
 								</cfif>
+							</ul>
 								<cfif len(attribute_remark) gt 0>
+									<ul class="col-12 px-2">
 									<li class="list-group-item float-left col-12 col-md-12">
 										<label for="att_rem" class="data-entry-label">Remarks</label>
 										<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
 									</li>
+									</ul>
 								</cfif>
 						</cfloop>
 					</ul>
