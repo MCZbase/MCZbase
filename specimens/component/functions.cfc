@@ -1378,7 +1378,7 @@ limitations under the License.
 			<cfquery name="ctModifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select modifier from ctnumeric_modifiers order by modifier desc
 			</cfquery>
-			<cfquery name="ctPreserveMethod" dbtype="query">
+			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select preserve_method
 				from ctspecimen_preserv_method
 				where collection_cde = '#collcode.collection_cde#'
