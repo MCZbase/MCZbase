@@ -1188,7 +1188,7 @@ limitations under the License.
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
 															<cfelse>
-#display_value#
+															#display_value#
 														</cfif>
 													</li>
 												</cfloop>
@@ -1334,7 +1334,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditCollectorsThread" />
 	<cfreturn getEditCollectorsThread.output>
 </cffunction>
-							
 <cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getAgentIdentsThread"> <cfoutput>
@@ -1467,32 +1466,32 @@ limitations under the License.
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">
-						select
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-						from
-							rparts
-						where
-							attribute_type is not null and
-							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-						group by
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-					</cfquery>
+												select
+													attribute_type,
+													attribute_value,
+													attribute_units,
+													determined_date,
+													attribute_remark,
+													agent_name
+												from
+													rparts
+												where
+													attribute_type is not null and
+													part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+												group by
+													attribute_type,
+													attribute_value,
+													attribute_units,
+													determined_date,
+													attribute_remark,
+													agent_name
+											</cfquery>
 											<cfif patt.recordcount gt 0>
 												<tr>
 													<td colspan="5"><cfloop query="patt">
 															<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
 																<cfif len(attribute_units) gt 0>
-#attribute_units#
+																#attribute_units#
 																</cfif>
 																<cfif len(determined_date) gt 0>
 																	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
@@ -1731,7 +1730,6 @@ limitations under the License.
 	<cfthread action="join" name="getPartsThread" />
 	<cfreturn getPartsThread.output>
 </cffunction>
-
 <cffunction name="getEditCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCitationsThread"> <cfoutput>
@@ -2193,34 +2191,50 @@ limitations under the License.
 					<cfelse>
 						There are no attributes for this record.
 					</cfif>
-				<form class="col-12 px-0">
-					<ul class="col-12 px-0 mt-2 mb-1">
-						<li class="list-group-item float-left col-12 col-md-3 px-1">
-							<label for="new_att_name" class="data-entry-label">Attribute Name</label>
-							<input type="text" class="data-entry-input" id="new_att_name" value="">
-						</li>
-						<li class="list-group-item float-left col-12 col-md-3 px-1">
-							<label for="new_att_value" class="data-entry-label">Attribute Value</label>
-							<input type="text" class="data-entry-input" id="new_att_value" value="">
-						</li>
-						<li class="list-group-item float-left col-12 col-md-2 px-1">
-							<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-							<input type="text" class="data-entry-input" id="new_att_determiner" value="">
-						</li>
-						<li class="list-group-item float-left col-12 col-md-2 px-1">
-							<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-							<input type="text" class="data-entry-input" id="new_att_det_date" value="">
-						</li>
-						<li class="list-group-item float-left col-12 col-md-2 px-1">
-							<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
-							<input type="text" class="data-entry-input" id="new_att_det_method" value="">
-						</li>
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
-							<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-							<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
-						</li>
-					</ul>
-				</form>
+<div class="col-12 mt-4">
+	<div id="accordion2">
+		<div class="card">
+			<div class="card-header pt-1" id="headingTwo">
+				<h1 class="my-0 px-1 pb-1">
+					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
+				</h1>
+			</div>
+			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+				<div class="card-body mt-2">
+					<form name="newOID" method="post" action="Specimens.cfm">
+						<div class="row mx-0">
+							<ul class="col-12 px-0 mt-2 mb-1">
+								<li class="list-group-item float-left col-12 col-md-3 px-1">
+									<label for="new_att_name" class="data-entry-label">Attribute Name</label>
+									<input type="text" class="data-entry-input" id="new_att_name" value="">
+								</li>
+								<li class="list-group-item float-left col-12 col-md-3 px-1">
+									<label for="new_att_value" class="data-entry-label">Attribute Value</label>
+									<input type="text" class="data-entry-input" id="new_att_value" value="">
+								</li>
+								<li class="list-group-item float-left col-12 col-md-2 px-1">
+									<label for="new_att_determiner" class="data-entry-label">Determiner</label>
+									<input type="text" class="data-entry-input" id="new_att_determiner" value="">
+								</li>
+								<li class="list-group-item float-left col-12 col-md-2 px-1">
+									<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
+									<input type="text" class="data-entry-input" id="new_att_det_date" value="">
+								</li>
+								<li class="list-group-item float-left col-12 col-md-2 px-1">
+									<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
+									<input type="text" class="data-entry-input" id="new_att_det_method" value="">
+								</li>
+								<li class="list-group-item float-left col-12 col-md-12 px-1">
+									<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
+									<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
+								</li>
+							</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
