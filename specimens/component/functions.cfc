@@ -4720,7 +4720,7 @@ function showLLFormat(orig_units) {
 				<div class="col-7 px-0 float-left">
 					<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 						<cfif len(getLoc.continent_ocean) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
 							<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
 						</cfif>
 						<cfif len(getLoc.sea) gt 0>
