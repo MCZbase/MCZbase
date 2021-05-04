@@ -243,7 +243,7 @@ limitations under the License.
 						</div>
 						<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 							<div class="card-body py-1 mb-1 float-left" id="otherIDsCardBody">
-												<cfif len(#blockotherid#) gt 1>
+								<cfif len(#blockotherid#) gt 0>
 									#blockotherid#
 								<cfelse>
 									<ul class="pl-0 mb-0"><li>None</li></ul>
@@ -313,7 +313,7 @@ limitations under the License.
 						</cfif>
 						</div>
 						<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-							<div class="card-body py-2 mb-1 float-left" id="attributesCardBody">
+							<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
 								<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
 							</div>
 						</div>
