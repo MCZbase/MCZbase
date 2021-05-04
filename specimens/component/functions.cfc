@@ -1554,7 +1554,7 @@ limitations under the License.
 										<td><div align="right">Part Name: </div></td>
 										<td>
 											<input type="text" name="part_name" id="part_name" class="reqdClr"
-												onchange="findPart(this.id,this.value,'#parts.collection_cde#');"
+												onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
 												onkeypress="return noenter(event);">
 										</td>
 									</tr>
