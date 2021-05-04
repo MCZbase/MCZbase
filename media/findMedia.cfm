@@ -42,9 +42,11 @@ limitations under the License.
 	<cfif not isdefined("mime_type")> 
 		<cfset mime_type="">
 	</cfif>
+	<cfset in_mime_type=mime_type>
 	<cfif not isdefined("media_type")> 
 		<cfset media_type="">
 	</cfif>
+	<cfset in_media_type=media_type>
 	<cfif not isdefined("media_id")> 
 		<cfset media_id="">
 	</cfif>
