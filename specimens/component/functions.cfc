@@ -2282,7 +2282,7 @@ limitations under the License.
 						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
 				</form>
 					<cfelse>
-						There are no attributes for this record.
+				
 					</cfif>
 <div class="col-12 mt-4 px-1">
 	<div id="accordionAttribute">
