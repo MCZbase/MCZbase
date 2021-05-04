@@ -2189,7 +2189,7 @@ limitations under the License.
 									</ul>
 								</cfif>
 						</cfloop>
-										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" onclick="if (checkFormValidity($('#editAttributeForm')[0])) { editAttributeSubmit();  } ">
+										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary">
 				</form>
 					<cfelse>
 						There are no attributes for this record.
