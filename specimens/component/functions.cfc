@@ -968,7 +968,7 @@ limitations under the License.
 											<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
 										</h1>
 									</div>
-									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+									<div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordion2">
 										<div class="card-body mt-2">
 											<form name="newOID" method="post" action="Specimens.cfm">
 												<div class="row mx-0">
