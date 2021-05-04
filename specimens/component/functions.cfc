@@ -3518,7 +3518,7 @@ function showLLFormat(orig_units) {
 						<cfloop query="relns">
 							<li class="list-group-item py-0"> <input class="" type="text" value="#biol_indiv_relationship#"> <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> <input class="" type="" value="#related_collection#"> <input class="" value="#related_cat_num#" type="text"> </a>
 								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-									<input class="" size="37" type="text" value="#biol_indiv_relation_remarks#">
+									<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
 								</cfif>
 							</li>
 						</cfloop>
