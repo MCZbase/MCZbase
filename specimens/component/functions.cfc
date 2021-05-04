@@ -2053,12 +2053,12 @@ limitations under the License.
 					<ul class="col-12 px-0">
 						<cfloop query="sex">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
-								<label>Sex:</label>
+								<label class="data-entry-label">Sex:</label>
 								<input class="data-entry-input" value="#attribute_value#">
 							</li>
 							<cfif len(attributeDeterminer) gt 0>
 								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label>Determiner:</label>
+									<label class="data-entry-label">Determiner:</label>
 									<input class="data-entry-input" value="#attributeDeterminer#">
 								</li>
 								<cfif len(determined_date) gt 0>
@@ -2082,7 +2082,6 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</ul>
-				
 						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 						</cfquery>
@@ -2154,7 +2153,6 @@ limitations under the License.
 						select * from attribute1 where attribute_type NOT IN ('sex')
 					</cfquery>
 						</cfif>
-						
 						<cfloop query="theRest">
 							<ul class="col-12 px-0 mt-2 mb-1">
 							<li class="list-group-item float-left col-12 col-md-2 px-1">
@@ -2195,6 +2193,34 @@ limitations under the License.
 					<cfelse>
 						There are no attributes for this record.
 					</cfif>
+				<form class="col-12 px-0">
+					<ul class="col-12 px-0 mt-2 mb-1">
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_name" class="data-entry-label">Attribute Name</label>
+							<input type="text" class="data-entry-input" id="new_att_name" value="">
+						</li>
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_value" class="data-entry-label">Attribute Value</label>
+							<input type="text" class="data-entry-input" id="new_att_value" value="">
+						</li>
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_determiner" class="data-entry-label">Determiner</label>
+							<input type="text" class="data-entry-input" id="new_att_determiner" value="">
+						</li>
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
+							<input type="text" class="data-entry-input" id="new_att_det_date" value="">
+						</li>
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_det_method" class="data-entry-label">Det. Method</label>
+							<input type="text" class="data-entry-input" id="new_att_det_method" value="">
+						</li>
+								<li class="list-group-item float-left col-12 col-md-12 px-1">
+							<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
+							<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
+						</li>
+					</ul>
+				</form>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
