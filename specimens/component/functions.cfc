@@ -2154,14 +2154,15 @@ limitations under the License.
 					</cfquery>
 						</cfif>
 						<cfloop query="theRest">
-							<li class="list-group-item">
-								<label for="att_name" class="data-entry-label">Attribute Name</label>
-								<input type="text" class="" id="att_name" value="#attribute_type#">
+							<li class="list-group-item col-12 px-0">
+								<label for="att_name" class="">Attribute Name</label>
+								<input type="text" class="float-left col-2" id="att_name" value="#attribute_type#">
 								
-								<label for="att_value" class="data-entry-label">Attribute Value</label>
-								<input type="text" class="" id="att_value" value="#attribute_value#">
+								<label for="att_value" class="">Attribute Value</label>
+								<input type="text" class="col-2 float-left" id="att_value" value="#attribute_value#">
 								<cfif len(attribute_units) gt 0>
-									, <input type="text" class="" value="#attribute_units#">
+									<label for="att_units" class="">Units</label>
+									<input type="text" class="col-2 float-left" value="#attribute_units#">
 								</cfif>
 								<cfif len(attributeDeterminer) gt 0>
 									<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
@@ -2174,7 +2175,7 @@ limitations under the License.
 										<input type="text" class="" value="#determination#">
 								</cfif>
 								<cfif len(attribute_remark) gt 0>
-									, Remark: <input type="text" class="" value="#attribute_remark#">
+									<label>Remark</label> <input type="text" class="" value="#attribute_remark#">
 								</cfif>
 							</li>
 						</cfloop>
