@@ -3519,6 +3519,11 @@ function showLLFormat(orig_units) {
 						</cfif>
 					</ul>
 					</div>
+							<div class="row mx-0 pb-2">
+											<div class="col-12 col-md-12 px-1">
+												<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+											</div>
+										</div>
 				</div>
 				</cfif>
 
@@ -3587,11 +3592,7 @@ function showLLFormat(orig_units) {
 												</li>
 											</ul>
 										</div>
-										<div class="row mx-0 pb-2">
-											<div class="col-12 col-md-12 px-1">
-												<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
-											</div>
-										</div>
+								
 										<div class="row mx-0 pb-2">
 											<div class="col-12 col-md-12 px-1 mt-3">
 												<label class="data-entry-label">Picked Cataloged Item:</label>
