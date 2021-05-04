@@ -3518,85 +3518,90 @@ function showLLFormat(orig_units) {
 							<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
 						</cfif>
 					</ul>
-				</cfif>
 					</div>
-<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select biol_indiv_relationship from ctbiol_relations
-</cfquery>
-<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
-	collection_object_id=#collection_object_id#
-</cfquery>
-<div class="col-12 mt-4 px-1">
-	<div id="accordionAttribute">
-		<div class="card">
-			<div class="card-header pt-1" id="headingAttribute">
-				<h1 class="my-0 px-1 pb-1">
-					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Relationship</span> </button>
-				</h1>
-			</div>
-			<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
-				<div class="card-body mt-2">
-					<form name="newRelationship" >	
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<div class="row mx-0 pb-2">
-							<ul class="col-12 px-0 mt-2 mb-1">
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Relationship:</label>
-									<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
-										<cfloop query="ctReln">
-											<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
-										</cfloop>
-									</select>
-									<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select collection from collection 
-										group by collection order by collection
-									</cfquery>
-								</li>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Relationship:</label>
-									<select name="collection" size="1" class="data-entry-select">
-										<cfloop query="ctColl">
-											<option 
-												<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
-												value="#ctColl.collection#">#ctColl.collection#</option>
-										</cfloop>
-									</select>
-								</li>
-								<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
-								</cfquery>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Other ID Type:</label>
-									<select name="other_id_type" size="1" class="data-entry-select">
-										<option value="catalog_number">Catalog Number</option>
-										<cfloop query="ctOtherIdType">
-											<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
-										</cfloop>
-									</select>
-								</li>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Other ID Number:</label>
-									<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-12 px-1">
-									<label class="data-entry-label">Remarks:</label>
-									<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
-								</li>
-							</ul>
-						</div>
-						<div class="row mx-0 pb-2">
-							<div class="col-12 col-md-12 px-1 mt-2">
-								<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+				</cfif>
+
+				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select biol_indiv_relationship from ctbiol_relations
+				</cfquery>
+				<cfquery name="thisCollId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select collection from cataloged_item,collection where cataloged_item.collection_id=collection.collection_id and
+					collection_object_id=#collection_object_id#
+				</cfquery>
+				<div class="col-12 mt-4 px-1">
+					<div id="accordionAttribute">
+						<div class="card">
+							<div class="card-header pt-1" id="headingAttribute">
+								<h1 class="my-0 px-1 pb-1">
+									<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Relationship</span> </button>
+								</h1>
+							</div>
+							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
+								<div class="card-body mt-2">
+									<form name="newRelationship" >	
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<div class="row mx-0 pb-2">
+											<ul class="col-12 px-0 mt-2 mb-1">
+												<li class="list-group-item float-left col-12 col-md-3 px-1">
+													<label class="data-entry-label">Relationship:</label>
+													<select name="biol_indiv_relationship" size="1" class="reqdClr data-entry-select">
+														<cfloop query="ctReln">
+															<option value="#ctReln.biol_indiv_relationship#">#ctReln.biol_indiv_relationship#</option>
+														</cfloop>
+													</select>
+													<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select collection from collection 
+														group by collection order by collection
+													</cfquery>
+												</li>
+												<li class="list-group-item float-left col-12 col-md-3 px-1">
+													<label class="data-entry-label">Relationship:</label>
+													<select name="collection" size="1" class="data-entry-select">
+														<cfloop query="ctColl">
+															<option 
+																<cfif #thisCollId.collection# is "#ctColl.collection#"> selected </cfif>
+																value="#ctColl.collection#">#ctColl.collection#</option>
+														</cfloop>
+													</select>
+												</li>
+												<cfquery name="ctOtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct(other_id_type) FROM ctColl_Other_Id_Type ORDER BY other_Id_Type
+												</cfquery>
+												<li class="list-group-item float-left col-12 col-md-3 px-1">
+													<label class="data-entry-label">Other ID Type:</label>
+													<select name="other_id_type" size="1" class="data-entry-select">
+														<option value="catalog_number">Catalog Number</option>
+														<cfloop query="ctOtherIdType">
+															<option value="#ctOtherIdType.other_id_type#">#ctOtherIdType.other_id_type#</option>
+														</cfloop>
+													</select>
+												</li>
+												<li class="list-group-item float-left col-12 col-md-3 px-1">
+													<label class="data-entry-label">Other ID Number:</label>
+													<input type="text" name="oidNumber" class="reqdClr data-entry-input" size="8">
+												</li>
+												<li class="list-group-item float-left col-12 col-md-12 px-1">
+													<label class="data-entry-label">Remarks:</label>
+													<input type="text" id="" name="biol_indiv_relation_remarks" size="50" class="data-entry-input">
+												</li>
+											</ul>
+										</div>
+										<div class="row mx-0 pb-2">
+											<div class="col-12 col-md-12 px-1 mt-2">
+												<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+											</div>
+										</div>
+										<div class="row mx-0 pb-2">
+											<div class="col-12 col-md-12 px-1 mt-3">
+												<label class="data-entry-label">Picked Cataloged Item:</label>
+												<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
+											</div>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
-						<div class="row mx-0 pb-2">
-							<div class="col-12 col-md-12 px-1 mt-3">
-								<label class="data-entry-label">Picked Cataloged Item:</label>
-								<input type="text" id="catColl" name="catColl" class="data-entry-input read-only" readonly="yes" size="46">
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
