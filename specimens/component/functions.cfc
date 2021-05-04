@@ -3738,7 +3738,7 @@ function showLLFormat(orig_units) {
 						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
 						<!---semi-standard measurements ---> 
-						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+						<h5 class="pt-1 px-2 mb-0">Standard Measurements</h5>
 						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
 							<tr>
 								<td><font size="-1">total length</font></td>
