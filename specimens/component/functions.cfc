@@ -3505,7 +3505,7 @@ function showLLFormat(orig_units) {
 		</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="row mx-0 mt-3">
-					<div class="col-12">
+					<div class="col-12 px-0">
 					<ul class="list-group list-group-flush float-left">
 						<cfloop query="relns">
 							<li class="list-group-item py-0"> <input class="" type="text" value="#biol_indiv_relationship#"> <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> <input class="" type="" value="#related_collection#"> <input class="" value="#related_cat_num#" type="text"> </a>
