@@ -90,7 +90,6 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
@@ -101,7 +100,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing getMedia: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
