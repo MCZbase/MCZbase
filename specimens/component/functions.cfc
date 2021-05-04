@@ -900,7 +900,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12 mt-2 bg-light border p-3">
+						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
 							<form name="ids" method="post" action="Specimen.cfm">
 								<div class="mb-4">
