@@ -987,7 +987,7 @@ limitations under the License.
 														<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
 														<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
 													</div>
-													<div class="form-group col-2 px-1">
+													<div class="form-group col-3 px-1">
 														<label class="data-entry-label" id="other_id_number">Other ID Number</label>
 														<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
 													</div>
@@ -995,8 +995,8 @@ limitations under the License.
 														<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
 														<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
 													</div>
-													<div class="form-group col-1 px-1 mt-3">
-														<input type="submit" value="Create New Identifier" class="btn btn-xs btn-primary">
+													<div class="form-group col-2 px-1 mt-3">
+														<input type="submit" value="Create Identifier" class="btn btn-xs btn-primary">
 													</div>
 												</div>
 											</form>
