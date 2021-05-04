@@ -2120,7 +2120,7 @@ limitations under the License.
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr class="col-12">
 											<td><input type="text" class="col-9" value="#total_length.attribute_value#"> <input type="text" class="col-3" value="#total_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="" value="#tail_length.attribute_value#"> <input type="text" class="" value="#tail_length.attribute_units#">&nbsp;</td>
 											<td><input type="text" class="" value="#hf.attribute_value#"> <input type="text" class="" value="#hf.attribute_units#">&nbsp;</td>
