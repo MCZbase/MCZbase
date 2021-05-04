@@ -2294,7 +2294,7 @@ limitations under the License.
 			</div>
 			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
 				<div class="card-body mt-2">
-					<form name="newOID" method="post" action="Specimens.cfm">
+					<form name="newOID">
 						<div class="row mx-0 pb-2">
 							<ul class="col-12 px-0 mt-2 mb-1">
 								<li class="list-group-item float-left col-12 col-md-3 px-1">
