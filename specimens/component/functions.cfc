@@ -2081,7 +2081,7 @@ limitations under the License.
 							</cfif>
 						</cfloop>
 					</ul>
-					<ul class="col-12 px-2">
+				
 						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 						</cfquery>
@@ -2153,19 +2153,21 @@ limitations under the License.
 						select * from attribute1 where attribute_type NOT IN ('sex')
 					</cfquery>
 						</cfif>
+						<ul class="col-12 px-2">
 						<cfloop query="theRest">
-							<li class="list-group-item col-4 px-0">
-								<label for="att_name" class="">Attribute Name</label>
-								<input type="text" class="float-left col-2" id="att_name" value="#attribute_type#">
+							
+							<li class="list-group-item float-left col-12 col-md-3">
+								<label for="att_name" class="data-entry-label">Attribute Name</label>
+								<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
 							</li>
-							<li class="list-group-item col-4 px-0">
-								<label for="att_value" class="">Attribute Value</label>
-								<input type="text" class="col-2 float-left" id="att_value" value="#attribute_value#">
+							<li class="list-group-item float-left col-12 col-md-3">
+								<label for="att_value" class="data-entry-label">Attribute Value</label>
+								<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
 							</li>
-							<li class="list-group-item col-4 px-0">
+							<li class="list-group-item float-left col-12 col-md-2">
 								<cfif len(attribute_units) gt 0>
-									<label for="att_units" class="">Units</label>
-									<input type="text" class="col-2 float-left" value="#attribute_units#">
+									<label for="att_units" class="data-entry-label">Units</label>
+									<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
 								</cfif>
 							</li>
 								<cfif len(attributeDeterminer) gt 0>
@@ -2176,10 +2178,16 @@ limitations under the License.
 									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
-										<input type="text" class="" value="#determination#">
+									<li class="list-group-item float-left col-12 col-md-2">
+										<label for="att_det" class="data-entry-label">Determiner</label>
+										<input type="text" class="data-entry-input" id="att_det" value="#determination#">
+									</li>
 								</cfif>
 								<cfif len(attribute_remark) gt 0>
-									<label>Remark</label> <input type="text" class="" value="#attribute_remark#">
+									<li class="list-group-item float-left col-12 col-md-2">
+										<label for="att_rem" class="data-entry-label">Remarks</label>
+										<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
+									</li>
 								</cfif>
 							</li>
 						</cfloop>
