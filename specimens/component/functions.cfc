@@ -1463,7 +1463,7 @@ limitations under the License.
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
-													<td colspan="5"><span class="d-block"><span class="font-italic pl-2">Remarks:</span> <input class="w-100" type="text" value="#part_remarks#"></span></td>
+													<td colspan="5"><span class="d-block"><span class="font-italic pl-1">Remarks:</span> <input class="w-100" type="text" value="#part_remarks#"></span></td>
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">
@@ -1495,13 +1495,13 @@ limitations under the License.
 																 <input type="text" class="" value="#attribute_units#">
 																</cfif>
 																<cfif len(determined_date) gt 0>
-																	determined date= <input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+																	determined date = <input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
 																</cfif>
 																<cfif len(agent_name) gt 0>
-																	determined by= <input type="text" class="" value="#agent_name#">
+																	determined by = <input type="text" class="" value="#agent_name#">
 																</cfif>
 																<cfif len(attribute_remark) gt 0>
-																	remark= <input type="text" class="" value="#attribute_remark#">
+																	remark = <input type="text" class="" value="#attribute_remark#">
 																</cfif>
 															</div>
 														</cfloop></td>
