@@ -2195,27 +2195,27 @@ limitations under the License.
 					</cfif>
 				<form class="col-12 px-0">
 					<ul class="col-12 px-0 mt-2 mb-1">
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-2 px-1">
 							<label for="new_att_name" class="data-entry-label">Attribute Name</label>
 							<input type="text" class="data-entry-input" id="new_att_name" value="">
 						</li>
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-3 px-1">
 							<label for="new_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" class="data-entry-input" id="new_att_value" value="">
 						</li>
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-2 px-1">
 							<label for="new_att_determiner" class="data-entry-label">Determiner</label>
 							<input type="text" class="data-entry-input" id="new_att_determiner" value="">
 						</li>
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-2 px-1">
 							<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
 							<input type="text" class="data-entry-input" id="new_att_det_date" value="">
 						</li>
-						<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-2 px-1">
 							<label for="new_att_det_method" class="data-entry-label">Det. Method</label>
 							<input type="text" class="data-entry-input" id="new_att_det_method" value="">
 						</li>
-								<li class="list-group-item float-left col-12 col-md-12 px-1">
+						<li class="list-group-item float-left col-12 col-md-12 px-1">
 							<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
 							<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
 						</li>
