@@ -2175,7 +2175,7 @@ limitations under the License.
 									<li class="list-group-item float-left col-12 col-md-2 px-1"><label class="data-entry-label">Determined Date</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<li class="list-group-item float-left col-12 col-md-2 px-1"><label class="data-entry-label">Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
+										<li class="list-group-item float-left col-12 col-md-2 px-1"><label class="data-entry-label">Determined Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
 									</cfif>
 								</cfif>
 							</ul>
@@ -2195,7 +2195,7 @@ limitations under the License.
 					</cfif>
 				<form class="col-12 px-0">
 					<ul class="col-12 px-0 mt-2 mb-1">
-						<li class="list-group-item float-left col-12 col-md-2 px-1">
+						<li class="list-group-item float-left col-12 col-md-3 px-1">
 							<label for="new_att_name" class="data-entry-label">Attribute Name</label>
 							<input type="text" class="data-entry-input" id="new_att_name" value="">
 						</li>
@@ -2212,7 +2212,7 @@ limitations under the License.
 							<input type="text" class="data-entry-input" id="new_att_det_date" value="">
 						</li>
 						<li class="list-group-item float-left col-12 col-md-2 px-1">
-							<label for="new_att_det_method" class="data-entry-label">Det. Method</label>
+							<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
 							<input type="text" class="data-entry-input" id="new_att_det_method" value="">
 						</li>
 						<li class="list-group-item float-left col-12 col-md-12 px-1">
