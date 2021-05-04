@@ -2154,7 +2154,12 @@ limitations under the License.
 					</cfquery>
 						</cfif>
 						<cfloop query="theRest">
-							<li class="list-group-item"><input type="text" class="" value="#attribute_type#">: <input type="text" class="" value="#attribute_value#">
+							<li class="list-group-item">
+								<label for="att_name" class="data-entry-label">Attribute Name</label>
+								<input type="text" class="" id="att_name" value="#attribute_type#">
+								
+								<label for="att_value" class="data-entry-label">Attribute Value</label>
+								<input type="text" class="" id="att_value" value="#attribute_value#">
 								<cfif len(attribute_units) gt 0>
 									, <input type="text" class="" value="#attribute_units#">
 								</cfif>
