@@ -3371,7 +3371,7 @@ function showLLFormat(orig_units) {
 			</cfquery>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> sex: #attribute_value#,
+				<li class="list-group-item"> sex: <input class="" value="#attribute_value#">,
 					<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "#attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
@@ -3380,10 +3380,10 @@ function showLLFormat(orig_units) {
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '#determination#, #determination_method#'>
 						</cfif>
-						#determination#
+						<input value="#determination#">
 					</cfif>
 					<cfif len(attribute_remark) gt 0>
-						, Remark: #attribute_remark#
+						, Remark: <input class="" value="#attribute_remark#">
 					</cfif>
 				</li>
 			</cfloop>
@@ -3423,11 +3423,11 @@ function showLLFormat(orig_units) {
 							<td><font size="-1">weight</font></td>
 						</tr>
 						<tr>
-							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+							<td><input class="" value="#total_length.attribute_value#"> <input class="" value="#total_length.attribute_units#"> </td>
+							<td><input class="" value="#tail_length.attribute_value#"> <input class="" value="#tail_length.attribute_units#"> </td>
+							<td><input class="" value="#hf.attribute_value# #hf.attribute_units#"> </td>
+							<td><input class="" value="#efn.attribute_value# #efn.attribute_units#"> </td>
+							<td><input class="" value="#weight.attribute_value#"> <input class="" value="#weight.attribute_units"> </td>
 						</tr>
 					</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
@@ -3438,7 +3438,7 @@ function showLLFormat(orig_units) {
 							<cfif len(determination_method) gt 0>
 								<cfset determination = '#determination#, #determination_method#'>
 							</cfif>
-							#determination#
+							<input class="" value="#determination#">
 						</cfif>
 					</cfif>
 					<cfquery name="theRest" dbtype="query">
@@ -3454,9 +3454,9 @@ function showLLFormat(orig_units) {
 					</cfquery>
 				</cfif>
 				<cfloop query="theRest">
-					<li class="list-group-item">#attribute_type#: #attribute_value#
+					<li class="list-group-item"><input class="" value="#attribute_type#">: <input class="" value="#attribute_value#">
 						<cfif len(attribute_units) gt 0>
-							, #attribute_units#
+							, <input class="" value="#attribute_units#">
 						</cfif>
 						<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
@@ -3466,14 +3466,15 @@ function showLLFormat(orig_units) {
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '#determination#, #determination_method#'>
 						</cfif>
-							#determination#
+							<input class="" value="#determination#">
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							, Remark: #attribute_remark#
+							, Remark: <input class="" value="#attribute_remark#">
 						</cfif>
 					</li>
 				</cfloop>
 			</ul>
+						<input class="btn btn-xs btn-primary" value="Save" type="submit">
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
