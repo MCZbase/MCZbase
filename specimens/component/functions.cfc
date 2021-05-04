@@ -2140,6 +2140,7 @@ limitations under the License.
 			</cfquery>
 			<cfif len(attribute1.attribute_value) gt 0>
 				<form class="row mx-0">
+					<div class="bg-light border rounded p-3">
 					<h1 class="h3">Edit Existing Attributes</h1>
 					<ul class="col-12 px-0">
 						<cfloop query="sex">
@@ -2279,7 +2280,9 @@ limitations under the License.
 									</ul>
 								</cfif>
 						</cfloop>
+						</div>
 						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
+				
 				</form>
 					<cfelse>
 				
