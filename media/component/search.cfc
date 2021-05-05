@@ -29,6 +29,12 @@ limitations under the License.
 	<cfargument name="has_roi" type="string" required="no">
 	<cfargument name="keywords" type="string" required="no">
 
+	<cfif isdefined("keywords") and len(keywords) gt 0>
+		<cfset keysearch="plain">
+		<cfif FindNoCase(" ",keywords) GT 0 or FindNoCase("*",keywords) GT 0 or FindNoCase("|",keywords) GT 0) >
+			<cfset keysearch="ctxcat">
+		</cfif>
+	</cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -45,7 +51,9 @@ limitations under the License.
 				media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 				<cfif isdefined("keywords") and len(keywords) gt 0>
-					left join media_keywords on media.media_id = media_keywords.media_id
+					<cfif keysearch IS "plain" >
+						left join media_keywords on media.media_id = media_keywords.media_id
+					</cfif>
 				</cfif>
 			WHERE
 				media.media_id is not null
@@ -100,11 +108,10 @@ limitations under the License.
 					AND media.media_id in (select media_id from tag)
 				</cfif>
 				<cfif isdefined("keywords") and len(keywords) gt 0>
-					<!--- TODO: Support and/or matching lists --->
-					<cfif FindNoCase(" ",keywords) GT 0 or FindNoCase("*",keywords) GT 0 >
-						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0
-					<cfelse>
+					<cfif keysearch IS "plain" >
 						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keywords)#%">
+					<cfelse>
+						AND media_id in (select media_id from media_keywords where CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0) 
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
