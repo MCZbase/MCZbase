@@ -102,7 +102,7 @@ limitations under the License.
 				<cfif isdefined("keywords") and len(keywords) gt 0>
 					<!--- TODO: Support and/or matching lists --->
 					<cfif FindNoCase(" ",keywords) GT 0 or FindNoCase("*",keywords) GT 0 >
-						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL)
+						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0
 					<cfelse>
 						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keywords)#%">
 					</cfif>
