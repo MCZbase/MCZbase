@@ -31,7 +31,7 @@ limitations under the License.
 
 	<cfif isdefined("keywords") and len(keywords) gt 0>
 		<cfset keysearch="plain">
-		<cfif REFind('[ |*"]| -') >
+		<cfif REFind('[ |*"]| -',keywords) >
 			<!--- cat search operators:  space=AND, |=or, *=wildcard, - (preceded by space)= not, ""=quoted phrase --->
 			<cfset keysearch="ctxcat">
 		</cfif>
