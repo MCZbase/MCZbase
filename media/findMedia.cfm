@@ -122,17 +122,19 @@ limitations under the License.
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Media Record Visibility</label>
-										<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
-											<option></option>
-											<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="1" #sel#>Hidden</option>
-											<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="0" #sel#>Public</option>
-										</select>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+											<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Media Record Visibility</label>
+											<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
+												<option></option>
+												<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="1" #sel#>Hidden</option>
+												<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="0" #sel#>Public</option>
+											</select>
+										</cfif>
 									</div>
 									<div class="col-12 col-md-5">
-										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords</label>
+										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span>(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 								</div>
@@ -206,8 +208,9 @@ limitations under the License.
 						datafields:
 						[
 							{ name: 'media_id', type: 'string' },
-							{ name: 'mask_media_fg', type: 'string' },
-							{ name: 'hide_media', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'mask_media_fg', type: 'string' },
+							</cfif>
 							{ name: 'credit', type: 'string' },
 							{ name: 'licence_uri', type: 'string' },
 							{ name: 'licence_display', type: 'string' },
@@ -270,8 +273,9 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-							{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
-							{text: 'Hide Media', datafield: 'hide_media', width: 60, hidable: true, hidden: true },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
+							</cfif>
 							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: true },
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
