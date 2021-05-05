@@ -27,7 +27,7 @@ limitations under the License.
 	<cfargument name="mask_media_fg" type="string" required="no">
 	<cfargument name="media_id" type="string" required="no">
 	<cfargument name="has_roi" type="string" required="no">
-	<cfargument name="keyword" type="string" required="no">
+	<cfargument name="keywords" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -44,7 +44,7 @@ limitations under the License.
 			FROM 
 				media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-				<cfif isdefined("keyword") and len(keyword) gt 0>
+				<cfif isdefined("keywords") and len(keywords) gt 0>
 					left join media_keywords on media.media_id = media_keywords.media_id
 				</cfif>
 			WHERE
@@ -99,12 +99,12 @@ limitations under the License.
 					-- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.
 					AND media.media_id in (select media_id from tag)
 				</cfif>
-				<cfif isdefined("keyword") and len(keyword) gt 0>
+				<cfif isdefined("keywords") and len(keywords) gt 0>
 					<!--- TODO: Support and/or matching lists --->
-					<cfif FindNoCase(" ",keyword) GT 0 or FindNoCase("*",keyword) GT 0 >
-						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">,NULL)
+					<cfif FindNoCase(" ",keywords) GT 0 or FindNoCase("*",keywords) GT 0 >
+						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL)
 					<cfelse>
-						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">
+						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keywords)#%">
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
