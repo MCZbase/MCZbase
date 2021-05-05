@@ -31,7 +31,8 @@ limitations under the License.
 
 	<cfif isdefined("keywords") and len(keywords) gt 0>
 		<cfset keysearch="plain">
-		<cfif FindNoCase(" ",keywords) GT 0 or FindNoCase("*",keywords) GT 0 or FindNoCase("|",keywords) GT 0) >
+		<cfif REFind('[ |*"]| -') >
+			<!--- cat search operators:  space=AND, |=or, *=wildcard, - (preceded by space)= not, ""=quoted phrase --->
 			<cfset keysearch="ctxcat">
 		</cfif>
 	</cfif>
