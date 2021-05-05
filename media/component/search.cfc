@@ -26,6 +26,8 @@ limitations under the License.
 	<cfargument name="preview_uri" type="string" required="no">
 	<cfargument name="mask_media_fg" type="string" required="no">
 	<cfargument name="media_id" type="string" required="no">
+	<cfargument name="has_roi" type="string" required="no">
+	<cfargument name="keyword" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -34,11 +36,20 @@ limitations under the License.
 				media.media_id as media_id,
 				media_type, mime_type, 
 				media_uri, preview_uri,
-				mask_media_fg
+				mask_media_fg,
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
+				MCZBASE.is_media_encumbered(media.media_id) hide_media,
+				MCZBASE.get_media_credit(media.media_id) as credit 
 			FROM 
 				media
+				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					left join media_keywords on media.media_id = media_keywords.media_id
+				</cfif>
 			WHERE
 				media.media_id is not null
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				<cfif isdefined("media_type") AND len(#media_type#) gt 0>
 					<cfif left(media_type,1) is "!">
 						AND media_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(media_type,len(media_type)-1)#">
@@ -83,6 +94,18 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("media_id") AND isnumeric(#media_id#)>
 					AND agent_name.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				</cfif>
+				<cfif isdefined("has_roi") and len(has_roi) gt 0>
+					-- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.
+					AND media.media_id in (select media_id from tag)
+				</cfif>
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					<!--- TODO: Support and/or matching lists --->
+					<cfif FindNoCase(" ",keyword) GT 0 or FindNoCase("*",keyword) GT 0 >
+						AND CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">,NULL)
+					<cfelse>
+						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">
+					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
 		</cfquery>

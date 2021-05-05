@@ -50,6 +50,9 @@ limitations under the License.
 	<cfif not isdefined("media_id")> 
 		<cfset media_id="">
 	</cfif>
+	<cfif not isdefined("keywords")> 
+		<cfset keywords="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -119,14 +122,18 @@ limitations under the License.
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Mask Media Flag</label>
+										<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Media Record Visibility</label>
 										<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
 											<option></option>
 											<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="1" #sel#>1</option>
+											<option value="1" #sel#>Hidden</option>
 											<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="0" #sel#>0</option>
+											<option value="0" #sel#>Public</option>
 										</select>
+									</div>
+									<div class="col-12 col-md-5">
+										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords</label>
+										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
@@ -172,6 +179,15 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
 			};
+			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var luri = rowData['licence_uri'];
+				if (luri != "") { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + rowData['licence_uri'] + '">'+value+'</a></span>';
+				} else { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+				}
+			};
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -191,6 +207,10 @@ limitations under the License.
 						[
 							{ name: 'media_id', type: 'string' },
 							{ name: 'mask_media_fg', type: 'string' },
+							{ name: 'hide_media', type: 'string' },
+							{ name: 'credit', type: 'string' },
+							{ name: 'licence_uri', type: 'string' },
+							{ name: 'licence_display', type: 'string' },
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
 							{ name: 'preview_uri', type: 'string' },
@@ -251,8 +271,11 @@ limitations under the License.
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
+							{text: 'Hide Media', datafield: 'hide_media', width: 60, hidable: true, hidden: true },
 							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: true },
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
+							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
+							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
 						],
