@@ -55,7 +55,7 @@ limitations under the License.
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
-					and description like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
+					and upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
