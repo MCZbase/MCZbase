@@ -289,7 +289,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','agent');
+						gridLoaded('searchResultsGrid','media records');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
