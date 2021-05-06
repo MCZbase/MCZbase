@@ -136,7 +136,7 @@ limitations under the License.
 					<cfelseif protocol IS 'httphttps'>
 						AND (media_uri like 'https://%' OR media_uri like 'http://') 
 					<cfelseif protocol IS 'NULL'>
-						regexp_substr(media_uri,'^[htpsf]+://') IS NULL
+						AND regexp_substr(media_uri,'^[htpsf]+://') IS NULL
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
