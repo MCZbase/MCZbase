@@ -313,7 +313,14 @@ limitations under the License.
 								<h1 class="h4">Results: </h1>
 								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
+									<div class="container-fluid">
+										<div class="row">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-6">
+											<div id="columnPick1" class="px-1"></div>
+										</div>
+									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
@@ -556,8 +563,9 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var halfcolumns = Math.round(columns.length/2);
 				var columnListSource = [];
-				for (i = 0; i < columns.length; i++) {
+				for (i = 0; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -578,6 +586,100 @@ limitations under the License.
 					}
 					$("##" + gridId).jqxGrid('endupdate');
 				});
+				var columnListSource1 = [];
+				for (i = halfcolumns; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource1.push(listRow);
+					}
+				} 
+				$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick1").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				$("##columnPickDialog").dialog({ 
+					height: 'auto', 
+					width: 'auto',
+					adaptivewidth: true,
+					title: 'Show/Hide Columns',
+					autoOpen: false,
+					modal: true, 
+					reszable: true, 
+					buttons: [
+						{
+							text: "Ok",
+							click: function(){ $(this).dialog("close"); },
+							tabindex: 0
+						}
+					],
+					open: function (event, ui) { 
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					} 
+				});
+				$("##columnPickDialogButton").html(
+					`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide 
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
+					</span>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
+					`
+				);
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			}
+
+			function togglePinTaxonColumn() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+				} else {
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleCommon() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$("##searchResultsGrid").jqxGrid('showcolumn', 'COMMON_NAMES');
+				} else {
+					$("##searchResultsGrid").jqxGrid('hidecolumn', 'COMMON_NAMES');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleSuperSub() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SUBPHYLUM', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					var action = 'showcolumn';
+				} else {
+					var action = 'hidecolumn';
+
+
 				$("##columnPickDialog").dialog({ 
 					height: 'auto', 
 					title: 'Show/Hide Columns',
