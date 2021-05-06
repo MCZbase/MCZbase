@@ -158,12 +158,11 @@ limitations under the License.
 											<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 											<option value="NULL" #sel#>NULL</option>
 										</select>
-										</select>
-										</select>
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
+									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
