@@ -315,10 +315,12 @@ limitations under the License.
 								<div id="columnPickDialog">
 									<div class="container-fluid">
 										<div class="row">
-											<div id="columnPick" class="px-1"></div>
-										</div>
-										<div class="col-12 col-md-6">
-											<div id="columnPick1" class="px-1"></div>
+											<div class="col-12 col-md-6">
+												<div id="columnPick" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div id="columnPick1" class="px-1"></div>
+											</div>
 										</div>
 									</div>
 								</div>
