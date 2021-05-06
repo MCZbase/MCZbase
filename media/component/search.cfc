@@ -44,7 +44,7 @@ limitations under the License.
 				media_type, mime_type, 
 				media_uri, preview_uri,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					decode(mask_media_fg,0'public',1,'hidden','error') as mask_media_fg,
+					decode(mask_media_fg,0,'public',1,'hidden','error') as mask_media_fg,
 				</cfif>
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
