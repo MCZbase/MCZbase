@@ -28,6 +28,8 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="no">
 	<cfargument name="has_roi" type="string" required="no">
 	<cfargument name="keywords" type="string" required="no">
+	<cfargument name="protocol" type="string" required="no">
+	<cfargument name="filename" type="string" required="no">
 
 	<cfif isdefined("keywords") and len(keywords) gt 0>
 		<cfset keysearch="plain">
@@ -49,7 +51,12 @@ limitations under the License.
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
 				MCZBASE.is_media_encumbered(media.media_id) hide_media,
-				MCZBASE.get_media_credit(media.media_id) as credit 
+				MCZBASE.get_media_credit(media.media_id) as credit,
+				regexp_substr(media_uri,'^[htpsf]+:/') as protocol,
+				regexp_substr(media_uri,'[^/]+$') as filename,
+				MCZBASE.get_media_creator(media.media_id) as creator,
+				MCZBASE.get_media_relations)string(media.media_id) as relations,
+				MCZBASE.get_media_descriptor as ac_description
 			FROM 
 				media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
@@ -115,6 +122,20 @@ limitations under the License.
 						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keywords)#%">
 					<cfelse>
 						AND media_id in (select media_id from media_keywords where CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0) 
+					</cfif>
+				</cfif>
+				<cfif isdefined("filename") and len(filename) gt 0>
+					AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#">
+				</cfif>
+				<cfif isdefined("protocol") and len(protocol) gt 0>
+					<cfif protocol IS "http">
+						AND media_uri like 'http://%'
+					<cfelseif protocol IS "https">
+						AND media_uri like 'https://%'
+					<cfelse if protocol IS 'httphttps'>
+						AND (media_uri like 'https://%' OR media_uri like 'http://') 
+					<cfelse if protocol IS 'NULL'>
+						regexp_substr(media_uri,'^[htpsf]+://') IS NULL
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri

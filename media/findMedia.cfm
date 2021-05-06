@@ -53,6 +53,12 @@ limitations under the License.
 	<cfif not isdefined("keywords")> 
 		<cfset keywords="">
 	</cfif>
+	<cfif not isdefined("protocol")> 
+		<cfset protocol="">
+	</cfif>
+	<cfif not isdefined("filename")> 
+		<cfset filename="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -138,6 +144,27 @@ limitations under the License.
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-2">
+										<label for="keywords" class="data-entry-label" id="keywords_label">Protocol<span></span></label>
+										<select id="protocol" name="protocol" class="data-entry-select">
+											<option></option>
+											<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="http" #sel#>http://</option>
+											<cfif protocol EQ "https"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="https" #sel#>https://</option>
+											<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="httphttps" #sel#>http or https</option>
+											<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel#>NULL</option>
+										</select>
+										</select>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
+										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
+								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
@@ -185,7 +212,18 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var luri = rowData['licence_uri'];
 				if (luri != "") { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + rowData['licence_uri'] + '">'+value+'</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + luri + '">'+value+'</a></span>';
+				} else { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+				}
+			};
+			var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var puri = rowData['preview_uri'];
+				var muri = rowData['media_uri'];
+				var alt = rowData['ac_description'];
+				if (puri != "") { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' muri + '"><img src="'+puri+'" alt="'+alt+'"></a></span>';
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
@@ -216,6 +254,11 @@ limitations under the License.
 							{ name: 'licence_display', type: 'string' },
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
+							{ name: 'protocol', type: 'string' },
+							{ name: 'filename', type: 'string' },
+							{ name: 'creator', type: 'string' },
+							{ name: 'relations', type: 'string' },
+							{ name: 'ac_description', type: 'string' },
 							{ name: 'preview_uri', type: 'string' },
 							{ name: 'media_uri', type: 'string' }
 						],
@@ -278,9 +321,14 @@ limitations under the License.
 							</cfif>
 							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: true },
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
+							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
+							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
+							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
-							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true },
+						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true, cellsrenderer: thumbnailCellRenderer },
+							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
+							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
 						],
 						rowdetails: true,
