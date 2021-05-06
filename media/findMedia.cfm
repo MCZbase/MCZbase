@@ -325,7 +325,7 @@ limitations under the License.
 							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
-						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true, cellsrenderer: thumbnailCellRenderer },
+						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true, cellsrenderer: thumbCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
