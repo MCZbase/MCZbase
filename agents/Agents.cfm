@@ -237,7 +237,7 @@ limitations under the License.
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#email#" aria-labelledby="email_label" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-2">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#phone#" aria-labelledby="phone_label" >
 										</div>
