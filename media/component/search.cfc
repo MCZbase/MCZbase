@@ -132,9 +132,9 @@ limitations under the License.
 						AND media_uri like 'http://%'
 					<cfelseif protocol IS "https">
 						AND media_uri like 'https://%'
-					<cfelse if protocol IS 'httphttps'>
+					<cfelseif protocol IS 'httphttps'>
 						AND (media_uri like 'https://%' OR media_uri like 'http://') 
-					<cfelse if protocol IS 'NULL'>
+					<cfelseif protocol IS 'NULL'>
 						regexp_substr(media_uri,'^[htpsf]+://') IS NULL
 					</cfif>
 				</cfif>
