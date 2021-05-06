@@ -125,7 +125,8 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
-					AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#">
+					<!--- too slow AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
+					AND media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#filename#">
 				</cfif>
 				<cfif isdefined("protocol") and len(protocol) gt 0>
 					<cfif protocol IS "http">
