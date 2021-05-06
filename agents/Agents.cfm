@@ -567,7 +567,7 @@ limitations under the License.
 				var columns = $('##' + gridId).jqxGrid('columns').records;
 				var halfcolumns = Math.round(columns.length/2);
 				var columnListSource = [];
-				for (i = 0; i < halfcolumns; i++) {
+				for (i = 1; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
