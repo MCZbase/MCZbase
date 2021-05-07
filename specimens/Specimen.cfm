@@ -204,7 +204,7 @@ limitations under the License.
 			</div>
 		</section>
 	</div>
-	<div class="container-fluid mb-2">
+	<div class="container-fluid mb-0">
 			<section class="row mb-0">
 					<div class="col-12">
 	<!--- TODO: Cleanup indendation from here on ---> 
