@@ -246,7 +246,7 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-	<div class="col-12 col-xl-9">
+	<div class="col-12 col-xl-9 mx-xl-auto">
 		<ul class="list-group list-group-horizontal border-0 mb-2 mx-auto w-100">
 			<li class="list-group-item">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
