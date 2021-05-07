@@ -289,12 +289,12 @@ limitations under the License.
 			</li>
 			<li class="list-group-item">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Collecting Event</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
 				</cfif>
 			</li>
 			<li class="list-group-item">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
 				</cfif>
 			</li>
 			<li class="list-group-item">
