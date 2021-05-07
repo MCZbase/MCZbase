@@ -131,7 +131,7 @@ limitations under the License.
 		</div>
 	</cfif>
 <!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 mb-2 clear-fix px-0 <cfif ctmedia.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+		<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif ctmedia.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 
 <!----------------------------- identifications ----------------------------------> 
