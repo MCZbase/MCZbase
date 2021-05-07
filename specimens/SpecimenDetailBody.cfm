@@ -98,7 +98,42 @@ limitations under the License.
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
-	<div class="col-12 mx-auto">
+
+	<cfif ctmedia.ct gt 0>
+		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+<!-----------------------------Media----------------------------------> 
+				<div class="accordion" id="accordionMedia">
+					<div class="card mb-2 bg-light">
+						<div id="mediaDialog">
+						</div>
+						<script>
+							function reloadMedia() { 
+								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+								loadMedia(#collection_object_id#,'mediaCardBody');
+							}
+						</script>
+						<div class="card-header" id="headingMedia">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##mediaPane">Media</a>
+								<span class="text-success small ml-2">(count: #ctmedia.ct# media records)</span>
+							</h3>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+							</cfif>
+						</div>
+						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div class="card-body py-1 mb-1 float-left" id="mediaCardBody">
+								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
+								#block#
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</cfif>
+<!----------------------------- two right columns ---------------------------------->
+		<div class="col-12 col-sm-12 mb-2 px-0 <cfif ctmedia.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+				<div class="col-12 mx-auto">
 		<ul class="list-unstyled mt-0">
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -155,41 +190,8 @@ limitations under the License.
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
 				</cfif>
 			</li>
-</ul></div>
-	<cfif ctmedia.ct gt 0>
-		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-<!-----------------------------Media----------------------------------> 
-				<div class="accordion" id="accordionMedia">
-					<div class="card mb-2 bg-light">
-						<div id="mediaDialog">
-						</div>
-						<script>
-							function reloadMedia() { 
-								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-								loadMedia(#collection_object_id#,'mediaCardBody');
-							}
-						</script>
-						<div class="card-header" id="headingMedia">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##mediaPane">Media</a>
-								<span class="text-success small ml-2">(count: #ctmedia.ct# media records)</span>
-							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-							</cfif>
-						</div>
-						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-							<div class="card-body py-1 mb-1 float-left" id="mediaCardBody">
-								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
-								#block#
-							</div>
-						</div>
-					</div>
-				</div>
-		</div>
-	</cfif>
-<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 mb-2 px-0 <cfif ctmedia.ct gt 0>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+		</ul>
+	</div>
 			<div class="col-12 col-md-6 px-1 float-left"> 
 
 <!----------------------------- identifications ----------------------------------> 
