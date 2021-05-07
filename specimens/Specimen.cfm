@@ -246,6 +246,7 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
+	<div class="col-12 col-xl-9">
 		<ul class="list-group list-group-horizontal border-0 mb-3 mx-auto w-100">
 			<li class="list-group-item">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -303,6 +304,7 @@ limitations under the License.
 				</cfif>
 			</li>
 		</ul>
+	</div>
 	<!---	</form>--->
 	</cfif>
 </cfoutput>
