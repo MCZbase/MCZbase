@@ -75,7 +75,6 @@ limitations under the License.
 		cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 			<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) as ct 
@@ -92,14 +91,13 @@ limitations under the License.
 				where
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
-
 			<cfset ctPart.ct=''>
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
-	<div class="col-12 mx-auto">
-		<ul class="list-unstyled mt-0">
+	<div class="col-12 row col-md-6 mx-auto pr-5 justify-content-center">
+		<ul class="list-unstyled mt-0 py-2 text-center">
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
