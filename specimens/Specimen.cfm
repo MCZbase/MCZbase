@@ -259,7 +259,7 @@ limitations under the License.
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCitationsDialog(110406,'citationsDialog','MCZ:Herp:A-15810',reloadCitations)">Citations</button>
 				</li>
 				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditOtherIDsDialog(110406,'otherIDsDialog','MCZ:Herp:A-15810',reloadOtherIDs)">Other IDs</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditOtherIDsDialog(110406,'otherIDsDialog','MCZ:Herp:A-15810',reloadOtherIDs)">Other&nbsp;IDs</button>
 				</li>
 				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditPartsDialog(110406,'partsDialog','MCZ:Herp:A-15810',reloadParts)">Parts</button>
@@ -283,7 +283,7 @@ limitations under the License.
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditTransactionsDialog(110406,'transactionsDialog','MCZ:Herp:A-15810',reloadTransactions)">Transactions</button>
 				</li>
 				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMetadataDialog(110406,'metadataDialog','MCZ:Herp:A-15810',reloadMetadata)">Meta Data</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMetadataDialog(110406,'metadataDialog','MCZ:Herp:A-15810',reloadMetadata)">Meta&nbsp;Data</button>
 				</li>
 			</ul>
 						</div></div>
