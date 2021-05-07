@@ -246,39 +246,39 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-			<div class="flex-row float-left mb-1" style="font-size: 10px;">
+			<div class="flex-row float-left mb-1 w-100" style="font-size: 11px;">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+					<button type="button" class="btn btn-xs small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+					<button type="button" class="btn btn-xs small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 				</cfif>		
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+					<button type="button" class="btn btn-xs small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 				</cfif>						
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
+					<button type="button" class="btn btn-xs small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
 				</cfif>		
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
 				</cfif>	
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality/Collecting Event</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality/Collecting Event</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+					<button type="button" class="btn btn-xs small small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
+					<button type="button" class="btn btn-xs small float-left mx-1 py-0 px-1 w-auto text-left" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
 				</cfif>
 			</div>
 		</form>
