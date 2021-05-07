@@ -284,22 +284,22 @@ limitations under the License.
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality and Collecting Event</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality and Collecting Event</button>
 				</cfif>
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
 				</cfif>
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 				</cfif>
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
 				</cfif>
 			</li>
 		</ul>
