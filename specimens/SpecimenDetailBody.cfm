@@ -98,8 +98,8 @@ limitations under the License.
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
-	<div class="col-12">
-		<ul class="list-unstyled">
+	<div class="col-12 mx-auto">
+		<ul class="list-unstyled mt-0">
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
