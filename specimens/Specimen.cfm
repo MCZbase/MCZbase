@@ -246,68 +246,44 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-					<ul class="list-group list-group-horizontal-md mt-0 pt-0 pb-2 mx-auto" style="font-size: 11px">
-			<li class="list-group-item px-0 mx-1">
-				
+			<ul class="list-group list-group-horizontal-md mt-0 pt-0 pb-2 mx-auto" style="font-size: 11px">
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditMediaDialog(110406,'mediaDialog','MCZ:Herp:A-15810',reloadMedia)">Media</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditIdentificationsDialog(110406,'identificationsDialog','MCZ:Herp:A-15810',reloadIdentifications)">Identifications</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditCitationsDialog(110406,'citationsDialog','MCZ:Herp:A-15810',reloadCitations)">Citations</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditIdentificationsDialog(110406,'identificationsDialog','MCZ:Herp:A-15810',reloadIdentifications)">Identifications</button>
+				</li>
+				<li class="list-group-item px-0 mx-1">
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCitationsDialog(110406,'citationsDialog','MCZ:Herp:A-15810',reloadCitations)">Citations</button>
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditOtherIDsDialog(110406,'otherIDsDialog','MCZ:Herp:A-15810',reloadOtherIDs)">Other IDs</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditPartsDialog(110406,'partsDialog','MCZ:Herp:A-15810',reloadParts)">Parts</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditAttributesDialog(110406,'attributesDialog','MCZ:Herp:A-15810',reloadAttributes)">Attributes</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditRelationsDialog(110406,'relationsDialog','MCZ:Herp:A-15810',reloadRelations)">Relationships</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditLocalityDialog(110406,'localityDialog','MCZ:Herp:A-15810',reloadLocality)">Locality</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditLocalityDialog(110406,'localityDialog','MCZ:Herp:A-15810',reloadLocality)">Event</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditCollectorsDialog(110406,'collectorsDialog','MCZ:Herp:A-15810',reloadCollectors)">Collectors</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditTransactionsDialog(110406,'transactionsDialog','MCZ:Herp:A-15810',reloadTransactions)">Transactions</button>
-				
-			</li>
-			<li class="list-group-item px-0 mx-1">
-				
+				</li>
+				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onclick="openEditMetadataDialog(110406,'metadataDialog','MCZ:Herp:A-15810',reloadMetadata)">Meta Data</button>
-				
-			</li>
-		</ul>
+				</li>
+			</ul>
 <!---			<div class="px-2 row mx-0 ">
 				<div class="mx-auto px-lg-2 col-12 col-md-7 float-left py-1 w-100 text-center" style="font-size: .8rem;background-color:aliceblue;">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
