@@ -246,7 +246,7 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-		<ul class="list-group list-group-horizontal mt-0 py-2 mx-auto">
+		<ul class="list-unstyled list-group list-group-xl-horizontal mt-0 py-2 mx-auto">
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
@@ -299,7 +299,7 @@ limitations under the License.
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 				</cfif>
 			</li>
 			<li>
