@@ -96,7 +96,7 @@ limitations under the License.
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
-	<div class="col-12 row col-md-6 mx-auto pr-5 justify-content-center">
+	<div class="col-12 col-md-6 mx-auto pr-5 justify-content-center">
 		<ul class="list-unstyled mt-0 py-2 text-center">
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
