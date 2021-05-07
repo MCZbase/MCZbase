@@ -98,6 +98,7 @@ limitations under the License.
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
+	<div class="col-12"><ul><li><button class="btn btn-xs btn-primary">Media</button></li><li><button class="btn btn-xs btn-primary">Identifications</button></li><li><button class="btn btn-xs btn-primary">Citations</button></li><li><button class="btn btn-xs btn-primary">Other IDs</li><li><button class="btn btn-xs btn-primary">Parts</button></li><li><button class="btn btn-xs btn-primary">Attributes</button></li><li><button class="btn btn-xs btn-primary">Relationships</button></li><li><button class="btn btn-xs btn-primary">Location and Collecting Event</button></li><li><button class="btn btn-xs btn-primary">Collectors and Preparators</button></li><li><button class="btn btn-xs btn-primary">Transactions</button></li><li><button class="btn btn-xs btn-primary">Meta Data</button></li></ul></div>
 	<cfif ctmedia.ct gt 0>
 		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 <!-----------------------------Media----------------------------------> 
