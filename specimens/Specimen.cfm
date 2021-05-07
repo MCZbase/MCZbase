@@ -246,8 +246,8 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-			<div class="flex-row-md mx-auto px-5 float-left py-1 w-100" style="font-size: .8rem;background-color:aliceblue;">
-				<div class="col-12 col-xl-5 mx-auto px-md-5">
+			<div class="flex-row-md mx-auto px-lg-5 float-left py-1 w-100" style="font-size: .8rem;background-color:aliceblue;">
+				<div class="col-12 col-xl-5 mx-auto px-lg-5">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" class="btn btn-xs small float-left mx-1 bg-light py-0 bg-light px-1 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 				</cfif>
