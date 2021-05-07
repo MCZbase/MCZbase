@@ -246,7 +246,7 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-		</form>
+	<!---	</form>--->
 	</cfif>
 </cfoutput>
 
