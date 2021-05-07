@@ -248,16 +248,16 @@ limitations under the License.
 			</cfif>
 			<div class="flex-row float-left mb-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+					<button type="button" class="btn btn-xs btn-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+					<button type="button" class="btn btn-xs btn-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 				</cfif>		
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+					<button type="button" class="btn btn-xs btn-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 				</cfif>						
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
+					<button type="button" class="btn btn-xs btn-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
 				</cfif>		
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
