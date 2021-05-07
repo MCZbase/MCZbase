@@ -206,7 +206,7 @@ limitations under the License.
 	</div>
 	<div class="container-fluid">
 			<section class="row">
-					<div class="col-12">
+					<div class="col-12 px-3">
 	<!--- TODO: Cleanup indendation from here on ---> 
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
