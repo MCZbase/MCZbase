@@ -247,37 +247,37 @@ limitations under the License.
 				<cfset isPrev="">
 			</cfif>
 		<ul class="list-group list-group-horizontal-md mt-0 py-2 mx-auto" style="font-size: 11px">
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 				</cfif>
 			</li>
-			<li class="list-group-item px-0 mx-1">
+			<li class="list-group-item px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 				</cfif>
