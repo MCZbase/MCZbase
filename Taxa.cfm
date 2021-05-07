@@ -531,7 +531,7 @@ limitations under the License.
 											<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
 										</div>
-										<div class="col-md-4">
+										<div class="col-md-2">
 											<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
 											<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 												<option></option>
@@ -541,7 +541,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-md-4">
+										<div class="col-md-2">
 											<label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
 											<select name="relationship" id="relationship" class="data-entry-select" size="1">
 												<option></option>
