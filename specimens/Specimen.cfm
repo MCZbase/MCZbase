@@ -270,10 +270,10 @@ limitations under the License.
 					<button type="button" class="btn btn-xs small small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality and Collecting Event</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
+					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
