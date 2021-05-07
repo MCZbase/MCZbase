@@ -212,8 +212,8 @@ limitations under the License.
 		<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
 		<form name="incPg" method="post" action="/specimens/Specimen.cfm">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-			<input type="hidden" name="suppressHeader" value="true">
-			<input type="hidden" name="action" value="nothing">
+		<!---	<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">--->
 			<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
 			<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
 				<cfset isPrev = "no">
@@ -246,7 +246,7 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-	<div class="col-12 col-xl mx-xl-auto">
+	<div class="col-12 col-xl-8 mx-xl-auto">
 		<ul class="list-group list-group-horizontal border-0 mb-2 mx-auto w-100">
 			<li class="list-group-item">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
