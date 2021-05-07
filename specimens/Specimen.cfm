@@ -246,7 +246,9 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-			<ul class="list-group list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 11px">
+					<div class="container">
+  <div class="row">
+			<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 11px">
 				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMediaDialog(110406,'mediaDialog','MCZ:Herp:A-15810',reloadMedia)">Media</button>
 				</li>
@@ -284,6 +286,7 @@ limitations under the License.
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMetadataDialog(110406,'metadataDialog','MCZ:Herp:A-15810',reloadMetadata)">Meta Data</button>
 				</li>
 			</ul>
+						</div></div>
 <!---			<div class="px-2 row mx-0 ">
 				<div class="mx-auto px-lg-2 col-12 col-md-7 float-left py-1 w-100 text-center" style="font-size: .8rem;background-color:aliceblue;">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
