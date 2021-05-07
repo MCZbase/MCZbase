@@ -246,9 +246,9 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
-			<div class="flex-row float-left mb-1">
-				<cfif listcontainsnocase(session.roles,"manage_specimens")><ul><li>
-					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button></li></ul>
+			<div class="flex-row float-left mb-1" style="font-size: 10px;">
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 				</cfif>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" class="btn btn-xs small float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
