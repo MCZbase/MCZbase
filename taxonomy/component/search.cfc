@@ -54,6 +54,10 @@ limitations under the License.
 	<cfargument name="taxonid" type="string" required="no">
 	<cfargument name="we_have_some" type="string" required="no"><!--- 1 or empty string, thus type string --->
 	<cfargument name="valid_catalog_term_fg" type="string" required="no"><!--- 1 or empty string, thus type string --->
+	<cfargument name="relationship" type="string" required="no">
+
+	<!--- TODO: Support following relationship directions --->
+	<cfset relationshipdirection = "forward">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -522,6 +526,25 @@ limitations under the License.
 						<cfelse>
 							AND upper(common_name.common_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(common_name)#%">
 						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("relationship") AND len(relationship) gt 0>
+					<cfif relationship IS 'NOT NULL'>
+						AND taxonomy.taxon_name_id in (select distinct taxon_name_id from taxon_relations union select distinct related_taxon_name_id from taxon_relations)
+					<cfelseif relationshipdirection = "both" >
+						AND taxonomy.taxon_name_id in (
+							select taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+							union
+							select related_taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+						)
+					<cfelseif relationshipdirection = "backwards" >
+						AND taxonomy.taxon_name_id in (
+							select related_taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+						)
+					<cfelse>
+						AND taxonomy.taxon_name_id in (
+							select taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+						)
 					</cfif>
 				</cfif>
 			GROUP BY

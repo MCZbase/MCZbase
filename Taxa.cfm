@@ -33,6 +33,13 @@ limitations under the License.
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
+<cfquery name="cttaxon_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select cttaxon_relation.taxon_relationship, count(taxon_relations.taxon_name_id) ct
+	from cttaxon_relation
+		left join taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship 
+	group by cttaxon_relation.taxon_relationship
+	order by taxon_relationship
+</cfquery>
 <!--- set default search field values if not passed in --->
 <cfif NOT isDefined("valid_catalog_term_fg")><cfset valid_catalog_term_fg=""></cfif>
 <cfif NOT isDefined("we_have_some")><cfset we_have_some=""></cfif>
@@ -75,6 +82,11 @@ limitations under the License.
 	<cfset in_taxon_status="">
 <cfelse>
 	<cfset in_taxon_status="#taxon_status#">
+</cfif>
+<cfif NOT isDefined("relationship")>
+	<cfset in_relationship="">
+<cfelse>
+	<cfset in_relationship="#relationship#">
 </cfif>
 
 <cfoutput>
@@ -527,6 +539,18 @@ limitations under the License.
 													<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 													<option value="#taxon_status#" #selected#>#taxon_status#</option>
 												</cfloop>
+											</select>
+										</div>
+										<div class="col-md-4">
+											<label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
+											<select name="relationship" id="relationship" class="data-entry-select" size="1">
+												<option></option>
+												<cfloop query="cttaxon_relationship">
+													<cfif in_relationship EQ relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#relationship#" #selected#>#relationship#</option>
+												</cfloop>
+												<cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="NOT NULL" #selected# >Any Relationship</option>
 											</select>
 										</div>
 									</div>
