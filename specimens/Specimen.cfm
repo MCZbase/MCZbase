@@ -282,27 +282,27 @@ limitations under the License.
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 				</cfif>
 			</li>
-			<li class="float-left px-0 mx-1">
+			<li class="float-left px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
 				</cfif>
 			</li>
-			<li class="float-left px-0 mx-1">
+			<li class="float-left px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
 				</cfif>
 			</li>
-			<li class="float-left px-0 mx-1">
+			<li class="float-left px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
 				</cfif>
 			</li>
-			<li class="float-left px-0 mx-1">
+			<li class="float-left px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 				</cfif>
 			</li>
-			<li class="float-left px-0 mx-1">
+			<li class="float-left px-0 d-flex mx-1">
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
 				</cfif>
