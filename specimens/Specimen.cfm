@@ -304,7 +304,7 @@ limitations under the License.
 			</li>
 			<li>
 				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
 				</cfif>
 			</li>
 		</ul>
