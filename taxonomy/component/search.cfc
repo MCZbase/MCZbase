@@ -531,13 +531,13 @@ limitations under the License.
 				<cfif isdefined("relationship") AND len(relationship) gt 0>
 					<cfif relationship IS 'NOT NULL'>
 						AND taxonomy.taxon_name_id in (select distinct taxon_name_id from taxon_relations union select distinct related_taxon_name_id from taxon_relations)
-					<cfelseif relationshipdirection = "both" >
+					<cfelseif relationshipdirection IS "both" >
 						AND taxonomy.taxon_name_id in (
 							select taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 							union
 							select related_taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 						)
-					<cfelseif relationshipdirection = "backwards" >
+					<cfelseif relationshipdirection IS "backwards" >
 						AND taxonomy.taxon_name_id in (
 							select related_taxon_name_id from taxon_relations where taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 						)
