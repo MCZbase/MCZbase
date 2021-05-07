@@ -246,6 +246,68 @@ limitations under the License.
 				<cfset isNext="">
 				<cfset isPrev="">
 			</cfif>
+		<ul class="list-group list-group-horizontal mt-0 py-2 mx-auto">
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+				</cfif>
+			</li>
+						<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Collecting Event</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-none" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+				</cfif>
+			</li>
+			<li>
+				<cfif listcontainsnocase(session.roles,"manage_specimens")>
+					<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
+				</cfif>
+			</li>
+		</ul>
 		</form>
 	</cfif>
 </cfoutput>
