@@ -33,7 +33,7 @@ limitations under the License.
 <cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
-<cfquery name="cttaxon_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select cttaxon_relation.taxon_relationship, count(taxon_relations.taxon_name_id) ct
 	from cttaxon_relation
 		left join taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship 
@@ -545,9 +545,9 @@ limitations under the License.
 											<label for="relationship" class="data-entry-label align-left-center">Has Relationship</label>
 											<select name="relationship" id="relationship" class="data-entry-select" size="1">
 												<option></option>
-												<cfloop query="cttaxon_relationship">
-													<cfif in_relationship EQ relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="#relationship#" #selected#>#relationship#</option>
+												<cfloop query="cttaxon_relation">
+													<cfif in_relationship EQ taxon_relationship><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<option value="#cttaxon_relation.taxon_relationship#" #selected#>#cttaxon_relation.taxon_relationship# (#cttaxon_relation.ct#)</option>
 												</cfloop>
 												<cfif in_relationship EQ "NOT NULL"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 												<option value="NOT NULL" #selected# >Any Relationship</option>
