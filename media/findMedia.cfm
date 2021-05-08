@@ -360,7 +360,6 @@ limitations under the License.
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
 							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: true },
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
-							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
 						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true, cellsrenderer: thumbCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
