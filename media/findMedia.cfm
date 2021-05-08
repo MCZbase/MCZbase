@@ -53,6 +53,9 @@ limitations under the License.
 	<cfif not isdefined("keywords")> 
 		<cfset keywords="">
 	</cfif>
+	<cfif not isdefined("description")> 
+		<cfset description="">
+	</cfif>
 	<cfif not isdefined("protocol")> 
 		<cfset protocol="">
 	</cfif>
