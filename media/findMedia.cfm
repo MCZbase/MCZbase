@@ -163,6 +163,10 @@ limitations under the License.
 										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
+									<div class="col-12 col-md-5">
+										<label for="description" class="data-entry-label" id="description_label">Description <span>(|,*,"",-)</span></label>
+										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">

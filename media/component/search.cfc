@@ -121,8 +121,16 @@ limitations under the License.
 					<cfif keysearch IS "plain" >
 						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keywords)#%">
 					<cfelse>
-						AND media_id in (select media_id from media_keywords where CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0) 
+						AND media.media_id in (select media_id from media_keywords where CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0) 
 					</cfif>
+				</cfif>
+				<cfif isdefined("description") and len(description) gt 0>
+						AND media.media_id in 
+						(
+							select media_id 
+							from media_labels 
+							where media_label = 'description' and label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
+						)
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
 					<!--- too slow AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
