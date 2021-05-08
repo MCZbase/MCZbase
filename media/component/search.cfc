@@ -150,6 +150,7 @@ limitations under the License.
 							from media_labels 
 							where media_label = 'description' and label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
 						)
+					</cfif>
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
 					<!--- too slow AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
