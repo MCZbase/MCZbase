@@ -46,12 +46,14 @@ limitations under the License.
 				media_type, mime_type, 
 				media_uri, preview_uri,
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					decode(mask_media_fg,0,'public',1,'hidden','error') as mask_media_fg,
+					decode(mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media_fg,
 				</cfif>
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
 				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
 				MCZBASE.is_media_encumbered(media.media_id) as hide_media,
 				MCZBASE.get_media_credit(media.media_id) as credit,
+				MCZBASE.get_media_owner(media.media_id) as owner,
+				MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
 				regexp_substr(media_uri,'^[htpsf]+:/') as protocol,
 				regexp_substr(media_uri,'[^/]+$') as filename,
 				MCZBASE.get_media_creator(media.media_id) as creator,
