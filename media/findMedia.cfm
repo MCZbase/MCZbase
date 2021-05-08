@@ -374,15 +374,15 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
 							</cfif>
-							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: true },
-							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
+							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: false },
+							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: false },
 							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
 							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
-							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: true },
-							{text: 'Description', datafield: 'description', width: 100, hidable: true, hidden: true },
+							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: false },
+							{text: 'Description', datafield: 'description', width: 120, hidable: true, hidden: false },
 							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: true },
 							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: true },
-							{text: 'Original Filename', datafield: 'original_filename', width: 100, hidable: true, hidden: true },
+							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: false },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: true },
 							</cfif>
@@ -390,8 +390,8 @@ limitations under the License.
 							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: true },
 							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: true },
 							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: true },
-							{text: 'height', datafield: 'height', width: 100, hidable: true, hidden: true },
-							{text: 'width', datafield: 'width', width: 100, hidable: true, hidden: true },
+							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: false },
+							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: false },
 							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
 							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: true },
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
