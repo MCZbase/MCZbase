@@ -216,7 +216,16 @@ limitations under the License.
 								<h1 class="h4">Results: </h1>
 								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-12 col-md-6">
+												<div id="columnPick" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-6">
+												<div id="columnPick1" class="px-1"></div>
+											</div>
+										</div>
+									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
@@ -291,6 +300,20 @@ limitations under the License.
 							{ name: 'dc_rights', type: 'string' },
 							{ name: 'relations', type: 'string' },
 							{ name: 'ac_description', type: 'string' },
+							{ name: 'aspect', type: 'string' },
+							{ name: 'description', type: 'string' },
+							{ name: 'made_date', type: 'string' },
+							{ name: 'subject', type: 'string' },
+							{ name: 'original_filename', type: 'string' },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{ name: 'internal_remarks', type: 'string' },
+							</cfif>
+							{ name: 'remarks', type: 'string' },
+							{ name: 'spectrometer', type: 'string' },
+							{ name: 'light_source', type: 'string' },
+							{ name: 'spectrometer_reading_location', type: 'string' },
+							{ name: 'height', type: 'string' },
+							{ name: 'width', type: 'string' },
 							{ name: 'preview_uri', type: 'string' },
 							{ name: 'media_uri', type: 'string' }
 						],
@@ -355,6 +378,20 @@ limitations under the License.
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: true },
 							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
 							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
+							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: true },
+							{text: 'Description', datafield: 'description', width: 100, hidable: true, hidden: true },
+							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: true },
+							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: true },
+							{text: 'Original Filename', datafield: 'original_filename', width: 100, hidable: true, hidden: true },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: true },
+							</cfif>
+							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: true },
+							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: true },
+							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: true },
+							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: true },
+							{text: 'height', datafield: 'height', width: 100, hidable: true, hidden: true },
+							{text: 'width', datafield: 'width', width: 100, hidable: true, hidden: true },
 							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
 							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: true },
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
@@ -422,8 +459,9 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var halfcolumns = Math.round(columns.length/2);
 				var columnListSource = [];
-				for (i = 0; i < columns.length; i++) {
+				for (i = 1; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -436,6 +474,28 @@ limitations under the License.
 				} 
 				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
 				$("##columnPick").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				var columnListSource1 = [];
+				for (i = halfcolumns; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource1.push(listRow);
+					}
+				} 
+				$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick1").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
 						$("##" + gridId).jqxGrid('showcolumn', event.args.value);

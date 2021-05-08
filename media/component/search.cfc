@@ -58,6 +58,20 @@ limitations under the License.
 				regexp_substr(media_uri,'[^/]+$') as filename,
 				MCZBASE.get_media_creator(media.media_id) as creator,
 				MCZBASE.get_media_relations_string(media.media_id) as relations,
+				MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+				MCZBASE.get_medialabel(media.media_id,'description') as description,
+				MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+				MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+				MCZBASE.get_medialabel(media.media_id,'original filename') as original_filename,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					MCZBASE.get_medialabel(media.media_id,'internal remarks') as internal_remarks,
+				</cfif>
+				MCZBASE.get_medialabel(media.media_id,'remarks') as remarks,
+				MCZBASE.get_medialabel(media.media_id,'spectrometer') as spectrometer,
+				MCZBASE.get_medialabel(media.media_id,'light source') as light_source,
+				MCZBASE.get_medialabel(media.media_id,'spectrometer reading location') as spectrometer_reading_location,
+				MCZBASE.get_medialabel(media.media_id,'height') as height,
+				MCZBASE.get_medialabel(media.media_id,'width') as width,
 				MCZBASE.get_media_descriptor(media.media_id) as ac_description
 			FROM 
 				media
