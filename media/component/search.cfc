@@ -124,7 +124,26 @@ limitations under the License.
 						AND media.media_id in (select media_id from media_keywords where CATSEARCH(keywords,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#keywords#">,NULL) > 0) 
 					</cfif>
 				</cfif>
+				<cfif isdefined("created_by_agent_id") and len(created_by_agent_id) gt 0>
+					AND media.media_id in 
+					(
+						select media_id 
+						from media_relations
+						where media_relationship = 'created by agent' and related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#created_by_agent_id#">
+					)
+				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
+					<cfif description IS "NULL">
+						AND media.media_id not in 
+						(
+							select media_id from media_labels where media_label = 'description'
+						)
+					<cfelseif description IS "NOT NULL">
+						AND media.media_id in 
+						(
+							select media_id from media_labels where media_label = 'description'
+						)
+					<cfelse>
 						AND media.media_id in 
 						(
 							select media_id 

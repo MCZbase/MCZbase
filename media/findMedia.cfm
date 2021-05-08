@@ -62,6 +62,12 @@ limitations under the License.
 	<cfif not isdefined("filename")> 
 		<cfset filename="">
 	</cfif>
+	<cfif not isdefined("created_by_agent_name")>
+		<cfset created_by_agent_name="">
+	</cfif>
+	<cfif not isdefined("created_by_agent_id")>
+		<cfset created_by_agent_id="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -166,10 +172,27 @@ limitations under the License.
 										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
-									<div class="col-12 col-md-5">
-										<label for="description" class="data-entry-label" id="description_label">Description <span>(|,*,"",-)</span></label>
+									<div class="col-12 col-md-4">
+										<label for="description" class="data-entry-label" id="description_label">Description <span>(NULL, NOT NULL)</span></label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
+									<div class="col-12 col-md-3">
+										<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label">Created By Agent
+											<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+										</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
+											<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
+										});
+									</script>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
