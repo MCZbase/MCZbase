@@ -82,7 +82,7 @@ limitations under the License.
 			<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
-			<cfif ctmedia.recordcount gt 0>
+			<cfif ctmedia.ct gt 0>
 				<cfoutput><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfoutput>
 					<cfquery name="media" dbtype="query">
 						select distinct
