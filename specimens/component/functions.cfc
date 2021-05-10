@@ -123,7 +123,7 @@ limitations under the License.
 												order by media.media_type
 											</cfquery>
 <cfoutput>
-<cfset relns=getMediaRelations(#media.media_id#)>
+<!---<cfset relns=getMediaRelations(#media.media_id#)>
 <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		media_label,
@@ -136,8 +136,8 @@ limitations under the License.
 	where
 		media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 		media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-</cfquery>
-<cfoutput>
+</cfquery>--->
+<!---<cfoutput>
 	<div >
 		<form name="editMedia" method="post">
 			<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
@@ -306,9 +306,7 @@ limitations under the License.
 																	<cfset i=i+1>
 														</cfloop>
 													</span>
-													</cfoutput>
-<!---												<cfset i = #i#+1>
-											</cfloop>--->
+													</cfoutput>--->
 										</div>
 									</div>
 								</form>
