@@ -201,7 +201,7 @@ limitations under the License.
 																	<div class="row mx-0">
 																		<div class="col-8 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id" class="float-left mt-1">
+																			<select name="media_license_id" id="media_license_id" class="float-left ml-1">
 																				<option value="">NONE</option>
 																				<option selected="selected" value="1">MCZ Permissions &amp; Copyright</option>
 																				<option value="4">Rights defined by 3rd party host</option>
