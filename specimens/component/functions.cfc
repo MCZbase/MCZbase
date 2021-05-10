@@ -124,16 +124,10 @@ limitations under the License.
 												order by media.media_type
 											</cfquery>
 											<cfset i = 1>
-											<cfset mediaCount=mediaS1.ct>
-									
 											<cfloop query="media">
 												#media_id#
 												<cfset i = #i#+1>
 											</cfloop>
-											<div class="col-12 mt-2">
-										
-											</div>
-										
 										</div>
 									</div>
 								</form>
@@ -148,6 +142,7 @@ limitations under the License.
 										</div>
 										<div id="collapseMedia" class="collapse" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 											<div class="card-body"> 
+												#media.media_ID#
 											</div>
 										</div>
 									</div>
