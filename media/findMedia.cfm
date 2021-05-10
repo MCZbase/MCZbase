@@ -352,6 +352,8 @@ limitations under the License.
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
 						autoheight: 'true',
+						autorowheight: 'true',
+						rowsheight: 83,
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
@@ -371,6 +373,7 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
 							</cfif>
@@ -379,7 +382,7 @@ limitations under the License.
 							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
 							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
 							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: false },
-							{text: 'Description', datafield: 'description', width: 120, hidable: true, hidden: false },
+							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: false },
 							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: true },
 							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: true },
 							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: false },
@@ -397,7 +400,6 @@ limitations under the License.
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
 							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: true },
 							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
-						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: true, cellsrenderer: thumbCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
