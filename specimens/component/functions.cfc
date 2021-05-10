@@ -217,7 +217,7 @@ limitations under the License.
 																		</div>
 																		<div class="col-4 float-left px-0">
 																			<label for="mask_media_fg" class="float-left mt-1">Visibility</label> 
-																			<input class="float-left ml-1" type="text" name="mask_media_fg" id="mask_media_fg" value="#mask_media_fg#">
+																			<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg" <cfif mask_media_fg =0>public<cfelse>hidden</cfif>
 																		</div>
 																	</div>
 																	<div class="row my-2 mx-0">
