@@ -248,7 +248,7 @@ limitations under the License.
 			</cfif>
 					<div class="container">
   <div class="row">
-			<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 11px">
+			<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
 				<li class="list-group-item px-0 mx-1">
 					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMediaDialog(110406,'mediaDialog','MCZ:Herp:A-15810',reloadMedia)">Media</button>
 				</li>
