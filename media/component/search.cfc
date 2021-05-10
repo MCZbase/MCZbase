@@ -304,27 +304,9 @@ md5hash
 						where 
 							media_label = 'made date' 
 							AND 
-							label_value IS NOT NULL
-							AND
-							((
-								regexp_like(label_value,'[0-9]{4}-([0][1-9]|[1][0-2])-([0][1-9]|[1][0-9]|[3][0-2])')  
-								AND 
-								to_date(label_value,'yyyy-mm-dd') between 
+							to_date_safe(label_value) between 
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'> and
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
-							  ) OR (  
-								regexp_like(label_value,'[0-9]{2}-[JANFEBMRPYULAGSOCTVD]{3}-[0-9]{2}')
-								AND 
-								to_date(label_value,'dd-MM-yy') between 
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'> and
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
-							  ) OR (  
-								regexp_like(label_value,'[0-9]{2} [A-Z][a-z]+ [0-9]{4}')
-								AND 
-								to_date(label_value,'dd Mm yyyy') between 
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'> and
-								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
-							))
 					)
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
