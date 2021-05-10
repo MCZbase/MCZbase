@@ -113,7 +113,6 @@ limitations under the License.
 													mczbase.get_media_descriptor(media.media_id) as media_descriptor
 												from
 													media,
-													mediaS1,
 													media_relations,
 													media_labels
 												where
