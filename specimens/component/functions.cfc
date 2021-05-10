@@ -171,33 +171,35 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</span>
-													</cfoutput>
+								</cfoutput>
 							</cfif>
-						<cfoutput></div>
+			<cfoutput>
+						</div>
 					</div>
 				</div>
-												</cfoutput>
+			</cfoutput>
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
 					<div class="container">
 						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
 								<h2>Internal Server Error.</h2>
 								<p>#message#</p>
 								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 							</div>
 						</div>
 					</div>
+				</cfoutput>
 			</cfcatch>
-			</cftry>
+		</cftry>
 		</cfthread>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
