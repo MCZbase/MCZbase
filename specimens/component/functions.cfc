@@ -191,7 +191,7 @@ limitations under the License.
 																	<div class="row mx-0">
 																	<div class="col-5 float-left px-0">
 																		<label for="media_type">Mime Type</label> 
-																		<input type="text" name="media_type" id="media_type" size="90" value="#media_type#">
+																		<input class="float-left" type="text" name="media_type" id="media_type" value="#media_type#">
 																	</div>
 																	<div class="col-5 float-left px-0">
 																		<label for="mime_type">Mime Type</label> 
