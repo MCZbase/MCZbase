@@ -171,9 +171,9 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</span>
-								
+													</cfoutput>
 							</cfif>
-						</div>
+						<cfoutput></div>
 					</div>
 				</div>
 												</cfoutput>
