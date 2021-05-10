@@ -144,7 +144,7 @@ limitations under the License.
 	from media 
 	where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 </cfquery>
-<cfset relns=getMediaRelations(#media_id#)>
+<cfset relns=getMediaRelations(#media2.media_id#)>
 <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		media_label,
