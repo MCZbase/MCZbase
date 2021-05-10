@@ -315,7 +315,7 @@ md5hash
 							  ) OR (  
 								regexp_like(label_value,'[0-9]{2}-[JANFEBMRPYULAGSOCTVD]{3}-[0-9]{2}')
 								AND 
-								to_date(label_value,'dd-MM-dd') between 
+								to_date(label_value,'dd-MM-yy') between 
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'> and
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
 							  ) OR (  
