@@ -94,7 +94,7 @@ limitations under the License.
 <!----------------------------------------------------------------------------------------->
 
 <cfoutput>
-	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media_relationship from ctmedia_relationship 
 		<cfif oneOfUs EQ 0>
 			where media_relationship not like 'document%' and media_relationship not like '%permit'
@@ -116,7 +116,7 @@ limitations under the License.
 	</cfquery>
 	<h2 class="wikilink">Search Media
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
+		<img class="infoLink" onClick="getMCZDocs('Search Media')" alt="[ help ]">
 	</cfif>
 	</h2>
 
@@ -146,7 +146,6 @@ limitations under the License.
 	<label for="tag">Require TAG?</label>
 	<input type="checkbox" id="tag" name="tag" value="1">
 </div>
-
 	<div style="width: 420px;margin-top:.5em;">
 		<div style="display: inline; width: 200px; float:left;">
 			<label for="mime_type">MIME Type</label>
@@ -167,7 +166,6 @@ limitations under the License.
 			</select>
 		</div>
 	</div>
-
 	<div style="clear: both;">
 		<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 		<input type="reset" value="Reset Form" class="clrBtn">
@@ -204,51 +202,44 @@ limitations under the License.
 			</cfloop>
 		</select>
 	</div>
-     	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-          <div style="float:left;width: 150px;">
-           <span>
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
-               <input type="checkbox" name="unlinked" id="unlinked" value="true">
-           </span>
-           </div>
-        </cfif>
-      <div style="clear: both;padding-top: .5em;">
-      <label for="relationships">Media Relationships</label>
-      <div id="relationships" class="relationship_dd">
-        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
-          <option value=""></option>
-          <cfloop query="ctmedia_relationship">
-            <option value="#media_relationship#">#media_relationship#</option>
-          </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" size="70">
-        <input type="hidden" name="related_id__1" id="related_id__1">
-        <br>
-        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-        </div>
-      <label for="labels" style="margin-top: .5em">Media Labels</label>
-      <div id="labels" class="relationship_dd">
-        <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;">
-            <option value=""></option>
-            <cfloop query="ctmedia_label">
-              <option value="#media_label#">#media_label#</option>
-            </cfloop>
-          </select>:&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="70">
-        </div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
-         </div>
-      <input type="submit"
-				value="Search"
-				class="schBtn">&nbsp;&nbsp;
-      <input type="reset"
-				value="Reset Form"
-				class="clrBtn">
-
-       </form>
-
-
-  </cfoutput>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+	<div style="float:left;width: 150px;">
+	<span>
+		<label for "unlinked">Limit to Media not yet linked to any record.</label>
+		<input type="checkbox" name="unlinked" id="unlinked" value="true">
+	</span>
+	</div>
+	</cfif>
+	<div style="clear: both;padding-top: .5em;">
+	<label for="relationships">Media Relationships</label>
+	<div id="relationships" class="relationship_dd">
+	<select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
+	<option value=""></option>
+	<cfloop query="ctmedia_relationship">
+	<option value="#media_relationship#">#media_relationship#</option>
+	</cfloop>
+	</select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" size="70">
+	<input type="hidden" name="related_id__1" id="related_id__1">
+	<br>
+	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+	</div>
+	<label for="labels" style="margin-top: .5em">Media Labels</label>
+	<div id="labels" class="relationship_dd">
+	<div id="labelsDiv__1">
+	<select name="label__1" id="label__1" size="1" style="width: 200px;">
+	<option value=""></option>
+	<cfloop query="ctmedia_label">
+	<option value="#media_label#">#media_label#</option>
+	</cfloop>
+	</select>:&nbsp;
+	<input type="text" name="label_value__1" id="label_value__1" size="70">
+	</div>
+	<span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
+	</div>
+	<input type="submit" value="Search"	class="btn btn-xs btn-primary">
+	<input type="reset" value="Reset Form" class="btn btn-xs btn-warning">
+	</form>
+	</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif action is "search">
