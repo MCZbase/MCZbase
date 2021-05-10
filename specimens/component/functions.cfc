@@ -201,7 +201,7 @@ limitations under the License.
 																	<div class="row mx-0">
 																		<div class="col-8 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id">
+																			<select name="media_license_id" id="media_license_id" class="float-left mt-1">
 																				<option value="">NONE</option>
 																				<option selected="selected" value="1">MCZ Permissions &amp; Copyright</option>
 																				<option value="4">Rights defined by 3rd party host</option>
@@ -211,10 +211,6 @@ limitations under the License.
 																				<option value="8">Creative Commons Attribution-NonCommercial (CC BY-NC)</option>
 																				<option value="9">Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</option>
 																			</select>
-																		</div>
-																		<div class="col-5 float-left px-0">
-																			<label for="mime_type" class="float-left mt-1">Mime Type</label> 
-																			<input class="float-left ml-1" type="text" name="mime_type" id="mime_type" value="#mime_type#">
 																		</div>
 																	</div>
 																</div>
