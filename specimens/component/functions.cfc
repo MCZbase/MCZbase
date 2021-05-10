@@ -122,10 +122,10 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-											<cfset i = 1>
+<!---											<cfset i = 1>
 											<cfloop query="media">
 												<cfoutput>			
-													<span class="form-row col-12 px-0 mx-0"> 
+													<span class="form-row col-12 px-0 mx-0"> --->
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
 							<!---			<cfif #mediaS1.media_uri# contains "specimen_images">
@@ -138,6 +138,7 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>--->
+													<span class="form-row col-12 px-0 mx-0">
 														<cfset i=1>
 														<cfloop query="media">
 															<!---div class="thumbs"--->
@@ -186,8 +187,8 @@ limitations under the License.
 														</cfloop>
 													</span>
 													</cfoutput>
-												<cfset i = #i#+1>
-											</cfloop>
+<!---												<cfset i = #i#+1>
+											</cfloop>--->
 										</div>
 									</div>
 								</form>
