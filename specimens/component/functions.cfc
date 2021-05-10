@@ -182,7 +182,8 @@ limitations under the License.
 															<p>
 																<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 																<span class="">#description#</span><br>
-
+																<label for="media_uri">Media URI (<a href="#mediaS2.media_uri#" target="_blank">open</a>)</label>
+																<input type="text" name="media_uri" id="media_uri" size="90" value="#mediaS2.media_uri#">
 															</p>
 															</div>
 																	<cfset i=i+1>
