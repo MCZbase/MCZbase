@@ -184,10 +184,10 @@ limitations under the License.
 																	<span class="">#description#</span>
 																</div>
 																<div class="col-10 mt-2 float-left px-0">
-																	<label for="media_uri">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
-																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
-																	<label for="preview_uri">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
-																	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#preview_uri#">
+																	<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
+																	<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
+																	<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
+																	<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
 																	<div class="row mx-0">
 																	<div class="col-5 float-left px-0">
 																		<label for="media_type" class="float-left mt-1">Mime Type</label> 
