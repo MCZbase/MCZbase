@@ -223,7 +223,7 @@ limitations under the License.
 																	<div class="row my-2 mx-0">
 																		<div class="col-10 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id">
+																			<select name="media_license_id" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
 																				<cfloop query="ctmedia_license">
 																					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
