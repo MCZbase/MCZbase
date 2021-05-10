@@ -252,7 +252,7 @@ md5hash
 								media_label = 'height' 
 							<cfif left(height,1) is ">">
 								and upper(label_value) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(height,len(height)-1))#"> 
-							<cfif left(height,1) is "<">
+							<cfelseif left(height,1) is "<">
 								and upper(label_value) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(height,len(height)-1))#"> 
 							<cfelse>
 								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#height#"> 
@@ -273,7 +273,7 @@ md5hash
 								media_label = 'width' 
 							<cfif left(width,1) is ">">
 								and upper(label_value) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(width,len(width)-1))#"> 
-							<cfif left(width,1) is "<">
+							<cfelseif left(width,1) is "<">
 								and upper(label_value) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(width,len(width)-1))#"> 
 							<cfelse>
 								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#width#"> 

@@ -258,7 +258,7 @@ md5hash
 											<cfset label = replace(ctmedia_label.media_label," ","_")>
 											<div class="col-12 col-md-2">
 												<label for="#label#" class="data-entry-label" id="#label#_label">#ctmedia_label.media_label# <span>(NULL, NOT NULL)</span></label>
-												<input type="text" id="#label#" name="#label#" class="data-entry-input" value="#label#" aria-labelledby="#label#_label" >
+												<input type="text" id="#label#" name="#label#" class="data-entry-input" value="#DE(label)#" aria-labelledby="#label#_label" >
 											</div>
 										</cfif>
 									</cfloop>
