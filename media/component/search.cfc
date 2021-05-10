@@ -30,6 +30,24 @@ limitations under the License.
 	<cfargument name="keywords" type="string" required="no">
 	<cfargument name="protocol" type="string" required="no">
 	<cfargument name="filename" type="string" required="no">
+	<cfargument name="description" type="string" required="no">
+	<cfargument name="aspect" type="string" required="no">
+	<cfargument name="height" type="string" required="no">
+	<cfargument name="width" type="string" required="no">
+	<cfargument name="internal_remarks" type="string" required="no">
+	<cfargument name="remarks" type="string" required="no">
+	<cfargument name="subject" type="string" required="no">
+<!-- TODO:
+made date
+original filename
+owner
+credit
+dcterms:identifier
+spectrometer
+light source
+spectrometer reading location
+md5hash
+-->
 
 	<cfif isdefined("keywords") and len(keywords) gt 0>
 		<cfset keysearch="plain">
@@ -150,26 +168,121 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
 					<cfif description IS "NULL">
-						AND media.media_id not in 
-						(
-							select media_id from media_labels where media_label = 'description'
-						)
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'description' )
 					<cfelseif description IS "NOT NULL">
-						AND media.media_id in 
-						(
-							select media_id from media_labels where media_label = 'description'
-						)
+						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
 					<cfelse>
-						AND media.media_id in 
-						(
+						AND media.media_id in (
 							select media_id 
 							from media_labels 
-							where media_label = 'description' and label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
+							where media_label = 'description' and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("remarks") and len(remarks) gt 0>
+					<cfif remarks IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'remarks' )
+					<cfelseif remarks IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where media_label = 'remarks' and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks)#%">
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("internal_remarks") and len(internal_remarks) gt 0>
+						<cfif internal_remarks IS "NULL">
+							AND media.media_id not in ( select media_id from media_labels where media_label = 'internal remarks' )
+						<cfelseif internal_remarks IS "NOT NULL">
+							AND media.media_id in ( select media_id from media_labels where media_label = 'internal remarks' )
+						<cfelse>
+							AND media.media_id in (
+								select media_id 
+								from media_labels 
+								where media_label = 'internal_remarks' and label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(internal_remarks)#%">
+							)
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("subject") and len(subject) gt 0>
+					<cfif subject IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'subject' )
+					<cfelseif subject IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where media_label = 'subject' and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("aspect") and len(aspect) gt 0>
+					<cfif aspect IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'aspect')
+					<cfelseif aspect IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'aspect')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'aspect' 
+							<cfif left(aspect,1) is "=">
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(aspect)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(aspect)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("height") and len(height) gt 0>
+					<cfif height IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'height')
+					<cfelseif height IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'height')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'height' 
+							<cfif left(height,1) is ">">
+								and upper(label_value) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(height,len(height)-1))#"> 
+							<cfif left(height,1) is "<">
+								and upper(label_value) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(height,len(height)-1))#"> 
+							<cfelse>
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#height#"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("width") and len(width) gt 0>
+					<cfif width IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'width')
+					<cfelseif width IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'width')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'width' 
+							<cfif left(width,1) is ">">
+								and upper(label_value) > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(width,len(width)-1))#"> 
+							<cfif left(width,1) is "<">
+								and upper(label_value) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(width,len(width)-1))#"> 
+							<cfelse>
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#width#"> 
+							</cfif>
 						)
 					</cfif>
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
-					<!--- too slow AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
+					<!--- too slow: AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
 					AND media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#filename#">
 				</cfif>
 				<cfif isdefined("protocol") and len(protocol) gt 0>

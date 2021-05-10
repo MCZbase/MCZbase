@@ -27,6 +27,9 @@ limitations under the License.
 <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select mime_type  from ctmime_type
 </cfquery>
+<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_label, description  from ctmedia_label
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -68,6 +71,14 @@ limitations under the License.
 	<cfif not isdefined("created_by_agent_id")>
 		<cfset created_by_agent_id="">
 	</cfif>
+	<cfloop query="ctmedia_label">
+		<cfif ctmedia_label.media_label NEQ 'description'>
+			<cfset label = replace(ctmedia_label.media_label," ","_")>
+			<cfif not isdefined(label)>
+				<cfset "#label#" = "">
+			</cfif>
+		</cfif>
+	</cfloop>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -132,12 +143,22 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
+									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<cfset keycols="5">
+									<cfelse>
+										<cfset keycols="7">
+									</cfif>
 									<div class="col-12 col-md-5">
 										<label for="preview_uri" class="data-entry-label" id="preview_uri_label">Preview URI</label>
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 									</div>
-									<div class="col-12 col-md-2">
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="col-12 col-md-#keycols#">
+										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span>(|,*,"",-)</span></label>
+										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 col-md-2">
 											<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Media Record Visibility</label>
 											<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
 												<option></option>
@@ -146,12 +167,8 @@ limitations under the License.
 												<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 												<option value="0" #sel#>Public</option>
 											</select>
-										</cfif>
-									</div>
-									<div class="col-12 col-md-5">
-										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span>(|,*,"",-)</span></label>
-										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
-									</div>
+										</div>
+									</cfif>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-2">
@@ -193,6 +210,58 @@ limitations under the License.
 											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
 										});
 									</script>
+								</div>
+								<div class="form-row my-2 mx-0">
+									<div class="col-12 col-md-2">
+										<label for="height" class="data-entry-label" id="height_label">Height <span>(&gt;,&lt;,NULL, NOT NULL)</span></label>
+										<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="width" class="data-entry-label" id="width_label">Width <span>(&gt;,&lt;,NULL, NOT NULL)</span></label>
+										<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect <span>(=,NULL, NOT NULL)</span></label>
+										<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="subject" class="data-entry-label" id="subject_label">Subject <span>(NULL, NOT NULL)</span></label>
+										<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
+									</div>
+									<cfset remcol = "4">
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<cfset remcol = "2">
+										<div class="col-12 col-md-2">
+											<label for="internal_remarks" class="data-entry-label" id="internal_remarks_label">Internal Remarks <span>(NULL, NOT NULL)</span></label>
+											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
+										</div>
+									</cfif>
+									<div class="col-12 col-md-#remcol#">
+										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span>(NULL, NOT NULL)</span></label>
+										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
+									</div>
+<!--- 
+made date
+original filename
+owner
+credit
+dcterms:identifier
+spectrometer
+light source
+spectrometer reading location
+md5hash
+--->
+								</div>
+								<div class="form-row my-2 mx-0">
+									<cfloop query="ctmedia_label">
+										<cfif ctmedia_label.media_label NEQ 'description'>
+											<cfset label = replace(ctmedia_label.media_label," ","_")>
+											<div class="col-12 col-md-2">
+												<label for="#label#" class="data-entry-label" id="#label#_label">#ctmedia_label.media_label# <span>(NULL, NOT NULL)</span></label>
+												<input type="text" id="#label#" name="#label#" class="data-entry-input" value="#label#" aria-labelledby="#label#_label" >
+											</div>
+										</cfif>
+									</cfloop>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
