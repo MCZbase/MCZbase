@@ -189,7 +189,7 @@ limitations under the License.
 																	<label for="preview_uri">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#preview_uri#">
 																	<div class="col-5 float-left px-0">Media Type <input type="text" name="media_type" id="media_type" size="90" value="#media_type#"></div>
-																	<div class="col-5 float-left px-0">Mime Type <input type="text" name="mime_type" id="mime_type" size="90" value="#mime_type#"></div>
+																	<div class="col-5 float-left px-0">Mime Type <input class="data-entry-input" type="text" name="mime_type" id="mime_type" value="#mime_type#"></div>
 																</div>
 															</div>
 													
