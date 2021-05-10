@@ -123,7 +123,7 @@ limitations under the License.
 												order by media.media_type
 											</cfquery>
 <cfoutput>
-<cfset relns=getMediaRelations(#media2.media_id#)>
+<cfset relns=getMediaRelations(#media.media_id#)>
 <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		media_label,
