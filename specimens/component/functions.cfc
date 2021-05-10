@@ -138,10 +138,10 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>---><cfoutput>
-													<div class="row">
+													
 														<cfset i=1>
 														<cfloop query="media">
-												
+												<div class="row">
 															<!---div class="thumbs"--->
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
