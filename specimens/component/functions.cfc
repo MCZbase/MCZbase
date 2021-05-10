@@ -189,13 +189,17 @@ limitations under the License.
 																	<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
 																	<div class="row mx-0">
-																		<div class="col-5 float-left px-0">
+																		<div class="col-4 float-left px-0">
 																			<label for="media_type" class="float-left mt-1">Mime Type</label> 
 																			<input class="float-left ml-1" type="text" name="media_type" id="media_type" value="#media_type#">
 																		</div>
-																		<div class="col-5 float-left px-0">
+																		<div class="col-4 float-left px-0">
 																			<label for="mime_type" class="float-left mt-1">Mime Type</label> 
 																			<input class="float-left ml-1" type="text" name="mime_type" id="mime_type" value="#mime_type#">
+																		</div>
+																		<div class="col-4 float-left px-0">
+																			<label for="mask_media_fg" class="float-left mt-1">Visibility</label> 
+																			<input class="float-left ml-1" type="text" name="mask_media_fg" id="mask_media_fg" value="#mask_media_fg#">
 																		</div>
 																	</div>
 																	<div class="row my-2 mx-0">
