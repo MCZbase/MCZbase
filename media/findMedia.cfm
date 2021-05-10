@@ -195,7 +195,11 @@ limitations under the License.
 										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-2">
+										<label for="original_filename" class="data-entry-label" id="original_filename_label">Original Filename<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
+									</div>
+									<div class="col-12 col-md-2">
 										<label for="description" class="data-entry-label" id="description_label">Description <span>(NULL, NOT NULL)</span></label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
@@ -254,12 +258,10 @@ limitations under the License.
 								</div>
 								<div class="form-row my-2 mx-0">
 <!--- 
-original filename
 owner
 credit
 dcterms:identifier
 spectrometer
-light source
 spectrometer reading location
 md5hash
 --->
@@ -276,6 +278,10 @@ md5hash
 										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date (text)<span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
 									</div>
+									<div class="col-12 col-md-2">
+										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
+									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<cfloop query="ctmedia_label">
@@ -287,6 +293,7 @@ md5hash
 											AND ctmedia_label.media_label NEQ 'internal remarks' 
 											AND ctmedia_label.media_label NEQ 'subject' 
 											AND ctmedia_label.media_label NEQ 'made date' 
+											AND ctmedia_label.media_label NEQ 'original filename' 
 										>
 											<cfset label = replace(ctmedia_label.media_label," ","_")>
 											<div class="col-12 col-md-2">

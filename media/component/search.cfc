@@ -42,13 +42,13 @@ limitations under the License.
 	<cfargument name="made_date" type="string" required="no">
 	<cfargument name="to_made_date" type="string" required="no">
 	<cfargument name="text_made_date" type="string" required="no">
+	<cfargument name="original_filename" type="string" required="no">
+	<cfargument name="light_source" type="string" required="no">
 <!--- TODO:
-original filename
 owner
 credit
 dcterms:identifier
 spectrometer
-light source
 spectrometer reading location
 md5hash
 --->
@@ -249,9 +249,47 @@ md5hash
 							where 
 								media_label = 'aspect' 
 							<cfif left(aspect,1) is "=">
-								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(aspect)-1))#"> 
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(aspect)-1))#"> 
 							<cfelse>
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(aspect)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("original_filename") and len(original_filename) gt 0>
+					<cfif original_filename IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'original filename')
+					<cfelseif original_filename IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'original filename')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'original filename' 
+							<cfif left(original_filename,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(original_filename,len(original_filename)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(original_filename)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("light_source") and len(light_source) gt 0>
+					<cfif light_source IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'light source')
+					<cfelseif light_source IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'light source')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'light source' 
+							<cfif left(light_source,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(light_source,len(light_source)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(light_source)#%"> 
 							</cfif>
 						)
 					</cfif>
@@ -310,7 +348,7 @@ md5hash
 							where 
 								media_label = 'made date'
 							<cfif left(text_made_date,1) is "=">
-								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(text_made_date,len(text_made_date)-1))#"> 
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(text_made_date,len(text_made_date)-1))#"> 
 							<cfelse>
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(text_made_date)#%"> 
 							</cfif>
