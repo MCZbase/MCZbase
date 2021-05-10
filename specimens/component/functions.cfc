@@ -141,7 +141,7 @@ limitations under the License.
 													
 														<cfset i=1>
 														<cfloop query="media">
-												<div class="row my-2 border">
+												<div class="row my-2 py-2 border">
 															<!---div class="thumbs"--->
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
