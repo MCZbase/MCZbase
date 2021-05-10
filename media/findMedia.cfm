@@ -73,7 +73,7 @@ limitations under the License.
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description'>
-			<cfset label = replace(ctmedia_label.media_label," ","_")>
+			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
 			<cfif not isdefined(label)>
 				<cfset "#label#" = "">
 			</cfif>
