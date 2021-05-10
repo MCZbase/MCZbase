@@ -183,10 +183,10 @@ limitations under the License.
 																	<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 																	<span class="">#description#</span>
 																</div>
-																<div class="col-10 mt-2 float-left">
+																<div class="col-10 mt-2 float-left px-0">
 																	<label for="media_uri">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
-																	<label for="preview_uri">Media URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
+																	<label for="preview_uri">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#preview_uri#">
 																</div>
 															</div>
