@@ -37,8 +37,9 @@ limitations under the License.
 	<cfargument name="internal_remarks" type="string" required="no">
 	<cfargument name="remarks" type="string" required="no">
 	<cfargument name="subject" type="string" required="no">
-<!-- TODO:
-made date
+	<cfargument name="made_date" type="string" required="no">
+	<cfargument name="to_made_date" type="string" required="no">
+<!--- TODO:
 original filename
 owner
 credit
@@ -47,7 +48,20 @@ spectrometer
 light source
 spectrometer reading location
 md5hash
--->
+--->
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("made_date") and len(#made_date#) gt 0>
+		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
+			<cfset to_made_date=made_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#made_date#) EQ 4>
+			<cfset made_date = "#made_date#-01-01">
+		</cfif>
+		<cfif len(#to_made_date#) EQ 4>
+			<cfset to_made_date = "#to_made_date#-12-31">
+		</cfif>
+	</cfif>
 
 	<cfif isdefined("keywords") and len(keywords) gt 0>
 		<cfset keysearch="plain">
@@ -280,6 +294,17 @@ md5hash
 							</cfif>
 						)
 					</cfif>
+				</cfif>
+				<cfif isdefined("made_date") and len(made_date) gt 0>
+					AND media.media_id in (
+						select media_id 
+						from media_labels 
+						where 
+							media_label = 'made_date' 
+							AND to_date(label_value) between 
+								to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'>) and
+								to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>)
+					)
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
 					<!--- too slow: AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
