@@ -125,7 +125,7 @@ limitations under the License.
 											</cfquery>
 											<cfset i = 1>
 											<cfloop query="media">
-												<cfoutput>#media_id#</cfoutput>
+												<cfoutput>#media.media_id#</cfoutput>
 												<cfset i = #i#+1>
 											</cfloop>
 										</div>
