@@ -400,15 +400,9 @@ md5hash
 						id: 'media_id',
 						url: '/media/component/search.cfc?' + $('##searchForm').serialize(),
 						timeout: 60000,  // units not specified, miliseconds? 
-						loadError: function(jqXHR, status, error) { 
+						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
-							var message = "";
-							if (error == 'timeout') { 
-								message = ' Server took too long to respond.';
-							} else { 
-								message = jqXHR.responseText;
-							}
-							messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
+							handleFail(jqXHR,textStatus,error,"running media search");
 						},
 						async: true
 					};
