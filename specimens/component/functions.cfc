@@ -123,12 +123,6 @@ limitations under the License.
 												order by media.media_type
 											</cfquery>
 <cfoutput>
-<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
-	mczbase.get_media_descriptor(media_id) as alttag 
-	from media 
-	where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-</cfquery>
 <cfset relns=getMediaRelations(#media2.media_id#)>
 <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -146,20 +140,15 @@ limitations under the License.
 <cfoutput>
 	<div >
 		<form name="editMedia" method="post" action="SpecimenDetailBody.cfm">
-			<input type="hidden" name="action" value="saveEdit">
-			<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 			<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
-			<label for="media_uri">Media URI (<a href="#media2.media_uri#" target="_blank">open</a>)</label>
+			<label for="media_uri">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
 			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#">
-	<cfif #media.media_uri# contains #application.serverRootUrl#>
-		<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-	</cfif>
 	<label for="preview_uri">Preview URI
 		<cfif len(media.preview_uri) gt 0>
 		(<a href="#media2.preview_uri#" target="_blank">open</a>)
 		</cfif>
 	</label>
-	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media2.preview_uri#">
+	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#">
 	<label for="mime_type">MIME Type</label>
 		<select name="mime_type" id="mime_type">
 			<cfloop query="ctmime_type">
