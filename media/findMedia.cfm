@@ -272,9 +272,9 @@ md5hash
 											AND ctmedia_label.media_label NEQ 'width' 
 											AND ctmedia_label.media_label NEQ 'aspect' 
 											AND ctmedia_label.media_label NEQ 'remarks' 
-											AND ctmedia_label.media_label NEQ 'internal_remarks' 
+											AND ctmedia_label.media_label NEQ 'internal remarks' 
 											AND ctmedia_label.media_label NEQ 'subject' 
-											AND ctmedia_label.media_label NEQ 'made_date' 
+											AND ctmedia_label.media_label NEQ 'made date' 
 										>
 											<cfset label = replace(ctmedia_label.media_label," ","_")>
 											<div class="col-12 col-md-2">
