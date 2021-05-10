@@ -102,7 +102,7 @@ limitations under the License.
 											<cfquery name="ctmedia" dbtype="query">
 												select count(*) as ct from mediaS1 group by media_relationship order by media_id
 											</cfquery>
-											<cfquery name="media" dbtype="query">
+											<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct
 													media.media_id,
 													media.media_uri,
