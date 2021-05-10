@@ -173,7 +173,7 @@ limitations under the License.
 																<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfelse>
 																<!---for DRS from library--->
-																<cfset one_thumb = "<div class='col-2'>">
+																<cfset one_thumb = "<div class='col-2 float-left my-1'>">
 																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
 																<cfset aForImHref = media_uri>
 																<cfset aForDetHref = "/media/#media_id#">
@@ -183,7 +183,7 @@ limitations under the License.
 																	<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 																	<span class="">#description#</span>
 																</div>
-																<div class="col-10 float-left">
+																<div class="col-10 mt-2 float-left">
 																	<label for="media_uri">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
 																</div>
