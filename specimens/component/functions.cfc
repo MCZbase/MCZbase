@@ -141,7 +141,7 @@ limitations under the License.
 													
 														<cfset i=1>
 														<cfloop query="media">
-												<div class="row">
+												<div class="row my-2">
 															<!---div class="thumbs"--->
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
@@ -173,7 +173,7 @@ limitations under the License.
 																<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfelse>
 																<!---for DRS from library--->
-																<cfset one_thumb = "<div class='col-2 float-left my-2'>">
+																<cfset one_thumb = "<div class='col-2 float-left'>">
 																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
 																<cfset aForImHref = media_uri>
 																<cfset aForDetHref = "/media/#media_id#">
