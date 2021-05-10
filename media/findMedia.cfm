@@ -254,7 +254,14 @@ md5hash
 								</div>
 								<div class="form-row my-2 mx-0">
 									<cfloop query="ctmedia_label">
-										<cfif ctmedia_label.media_label NEQ 'description'>
+										<cfif ctmedia_label.media_label NEQ 'description' 
+											AND ctmedia_label.media_label NEQ 'height' 
+											AND ctmedia_label.media_label NEQ 'width' 
+											AND ctmedia_label.media_label NEQ 'aspect' 
+											AND ctmedia_label.media_label NEQ 'remarks' 
+											AND ctmedia_label.media_label NEQ 'internal_remarks' 
+											AND ctmedia_label.media_label NEQ 'subject' 
+										>
 											<cfset label = replace(ctmedia_label.media_label," ","_")>
 											<div class="col-12 col-md-2">
 												<label for="#label#" class="data-entry-label" id="#label#_label">#ctmedia_label.media_label# <span>(NULL, NOT NULL)</span></label>
