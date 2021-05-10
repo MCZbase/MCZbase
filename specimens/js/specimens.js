@@ -379,7 +379,26 @@ function addIdentAgentToForm (id,name,formid) {
 		if (!error) { error = ""; } 
 		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
-}							
+}
+
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
 
 function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Relationships for " + guid;

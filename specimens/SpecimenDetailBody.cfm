@@ -103,8 +103,7 @@ limitations under the License.
 <!-----------------------------Media----------------------------------> 
 				<div class="accordion" id="accordionMedia">
 					<div class="card mb-2 bg-light">
-						<div id="mediaDialog">
-						</div>
+						<div id="mediaDialog"></div>
 						<script>
 							function reloadMedia() { 
 								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
