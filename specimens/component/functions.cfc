@@ -122,23 +122,8 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-<!---											<cfset i = 1>
-											<cfloop query="media">
-												<cfoutput>			
-													<span class="form-row col-12 px-0 mx-0"> --->
-										<!---div class="feature image using media_uri"--->
-										<!--- to-do: Create checkbox for featured media on create media page--->
-							<!---			<cfif #mediaS1.media_uri# contains "specimen_images">
-												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-												<a href="#aForThisHref#" target="_blank" class="w-100">
-												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
-													
-												</a>
-													
-											<cfelse>
-
-											</cfif>---><cfoutput>
-												<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfoutput>
+<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
 	mczbase.get_media_descriptor(media_id) as alttag 
 	from media 
@@ -160,13 +145,10 @@ limitations under the License.
 </cfquery>
 <cfoutput>
 	<div >
-		<h2 class="wikilink">Edit Media</h2>
-		<a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
 		<form name="editMedia" method="post" action="SpecimenDetailBody.cfm">
 			<input type="hidden" name="action" value="saveEdit">
 			<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 			<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
-			<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 			<label for="media_uri">Media URI (<a href="#media2.media_uri#" target="_blank">open</a>)</label>
 			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#">
 	<cfif #media.media_uri# contains #application.serverRootUrl#>
