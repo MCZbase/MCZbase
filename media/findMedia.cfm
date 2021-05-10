@@ -226,6 +226,11 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect <span>(=,NULL, NOT NULL)</span></label>
 										<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+										<script>
+											$(document).ready(function() {
+												makeAspectAutocomplete("aspect");
+											});
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="subject" class="data-entry-label" id="subject_label">Subject <span>(NULL, NOT NULL)</span></label>
