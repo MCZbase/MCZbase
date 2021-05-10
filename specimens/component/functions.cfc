@@ -143,6 +143,21 @@ limitations under the License.
 														<cfloop query="media">
 												<div class="row my-2 py-2 border">
 															<!---div class="thumbs"--->
+													<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select media_relationship from ctmedia_relationship order by media_relationship
+													</cfquery>
+													<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select media_label from ctmedia_label order by media_label
+													</cfquery>
+													<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select media_type from ctmedia_type order by media_type
+													</cfquery>
+													<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select mime_type from ctmime_type order by mime_type
+													</cfquery>
+													<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select media_license_id,display media_license from ctmedia_license order by media_license_id
+													</cfquery>
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
 															</cfquery>
@@ -165,6 +180,7 @@ limitations under the License.
 															<cfif desc.recordcount is 1>
 																<cfset description=desc.label_value>
 															</cfif>
+															
 															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 																<!---for media images -- remove absolute url after demo / test db issue?--->
 																<cfset one_thumb = "<div class='col-2 float-left'>">
@@ -205,15 +221,11 @@ limitations under the License.
 																	<div class="row my-2 mx-0">
 																		<div class="col-10 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id" class="float-left ml-1">
-																				<option value="">NONE</option>
-																				<option selected="selected" value="1">MCZ Permissions &amp; Copyright</option>
-																				<option value="4">Rights defined by 3rd party host</option>
-																				<option value="5">Creative Commons Zero (CC0)</option>
-																				<option value="6">Creative Commons Attribution (CC BY)</option>
-																				<option value="7">Creative Commons Attribution-ShareAlike (CC BY-SA)</option>
-																				<option value="8">Creative Commons Attribution-NonCommercial (CC BY-NC)</option>
-																				<option value="9">Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)</option>
+																			<select name="media_license_id" id="media_license_id">
+																			<option value="">NONE</option>
+																				<cfloop query="ctmedia_license">
+																					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																				</cfloop>
 																			</select>
 																		</div>
 																	</div>
