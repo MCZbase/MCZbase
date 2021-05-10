@@ -132,191 +132,23 @@ limitations under the License.
 												<cfset i = #i#+1>
 											</cfloop>
 											<div class="col-12 mt-2">
-												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editIdentificationsForm')[0])) { editIdentificationsSubmit();  } ">
-												<output id="saveIdentificationsResultDiv" class="text-danger">&nbsp;</output>
+										
 											</div>
-											<script>
-												function editIdentificationsSubmit(){
-													$('##saveIdentificationsResultDiv').html('Saving....');
-													$('##saveIdentificationsResultDiv').addClass('text-warning');
-													$('##saveIdentificationsResultDiv').removeClass('text-success');
-													$('##saveIdentificationsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editIdentificationsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveIdentificationsResultDiv').html('Saved');
-																$('##saveIdentificationsResultDiv').addClass('text-success');
-																$('##saveIdentificationsResultDiv').removeClass('text-warning');
-																$('##saveIdentificationsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveIdentificationsResultDiv').html('Error');
-																$('##saveIdentificationsResultDiv').addClass('text-danger');
-																$('##saveIdentificationsResultDiv').removeClass('text-warning');
-																$('##saveIdentificationsResultDiv').removeClass('text-success');
-																messageDialog('Error updating identification history: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveIdentificationsResultDiv').html('Error');
-															$('##saveIdentificationsResultDiv').addClass('text-danger');
-															$('##saveIdentificationsResultDiv').removeClass('text-warning');
-															$('##saveIdentificationsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to identification history");
-														}
-													});
-												};
-											</script> 
+										
 										</div>
 									</div>
 								</form>
 							</div>
 							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordion1">
+								<div id="accordionMedia">
 									<div class="card">
-										<div class="card-header pt-1" id="headingOnex">
+										<div class="card-header pt-1" id="headingMedia">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseOnex" aria-expanded="true" aria-controls="collapseOnex"><span class="h4">Add New Determination</span> </button>
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia" aria-expanded="true" aria-controls="collapseMedia"><span class="h4">Add New Media</span> </button>
 											</h1>
 										</div>
-										<div id="collapseOnex" class="collapse" aria-labelledby="headingOnex" data-parent="##accordion1">
+										<div id="collapseMedia" class="collapse" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 											<div class="card-body"> 
-												<script>
-													function idFormulaChanged(newFormula,baseId) { 
-														if(newFormula.includes("B")) {
-															$('##' + baseId).show();
-															$('##'+baseId+'_label').show();
-														} else { 
-															$('##' + baseId).hide();
-															$('##'+baseId+'_label').hide();
-															$('##' + baseId).val("");
-															$('##'+baseID+'_id').val("");
-														}
-													}
-												</script>
-												<form name="newIDForm" id="newIDForm">
-													<input type="hidden" name="Action" value="createNew">
-													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-														<div class="row mx-0 mt-0 pt-2 pb-1">
-															<div class="col-12 col-md-4 px-1">
-																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-																<cfif not isdefined("taxa_formula")>
-																	<cfset taxa_formula='A'>
-																</cfif>
-																<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
-																	<cfset selected_value = "#taxa_formula#">
-																	<cfloop query="ctFormula">
-																		<cfif selected_value EQ ctFormula.taxa_formula>
-																			<cfset selected = "selected='selected'">
-																			<cfelse>
-																			<cfset selected ="">
-																		</cfif>
-																		<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-																	</cfloop>
-																</select>
-															</div>
-															<div class="col-12 col-md-8 px-1">
-																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
-																<input type="hidden" name="taxona_id" id="taxona_id">
-															</div>
-															<div class="col-12 col-md-8 px-1 d-none">
-																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-																<input type="hidden" name="taxonb_id" id="taxonb_id">
-															</div>
-														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 px-0">
-															<cfset idnum=1>
-															<cfloop query="determiners">
-																<div id="IdTr_#i#_#idnum#">
-																	<div class="col-12 px-0">
-																		<label for="IdBy_#i#_#idnum#" class="data-entry-label">
-																		Identified By
-																		<h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-																		</label>
-																		<div class="col-12 px-0">
-																			<div class="input-group col-7 px-1 float-left">
-																				<div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
-																				<input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(agent_name)#" class="reqdClr data-entry-input form-control" >
-																			</div>
-																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
-																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
-																		</div>
-																	</div>
-																	<script>
-																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
-																	</script> 
-																</div>
-												<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.--->
-																<script>	
-																	$(document).ready(function(){
-																		$(".addNewIDName").click(function(){$("##addNewID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-7 px-1 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
-																		});
-																		$("##addNewID").on('click','.remIDName',function(){$(this).parent().remove()});
-																	});
-																</script>
-																<cfset idnum=idnum+1>
-															</cfloop>
-															</div>
-														</div>
-														<div id="addNewID" class="row"></div>
-															<script>
-														function addIdentAgentToForm(agent_id,agent_name) { 
-															// add trans_agent record
-															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
-															// trigger save needed
-															handleChange();
-														}
-													</script>
-														<div class="row mx-0 mt-0 pt-2 pb-1">
-															<div class="col-12 col-md-6 px-1">
-																<label for="made_date" class="data-entry-label" >Date Identified</label>
-																<input type="text" name="made_date" id="made_date" class="data-entry-input">
-															</div>
-															<div class="col-12 col-md-6 px-1">
-																<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-																	<cfloop query="ctnature">
-																		<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-																	</cfloop>
-																</select>
-															</div>
-														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<label for="identification_publication" class="data-entry-label" >Sensu</label>
-																<input type="hidden" name="new_publication_id" id="new_publication_id">
-																<input type="text" id="newPub" class="data-entry-input">
-															</div>
-														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-															</div>
-														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-															</div>
-														</div>
-														<script>
-															$(document).ready(function() {
-																makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-																makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-																makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-																makePublicationAutocompleteMeta("newPub", "new_publication_id");
-															});
-														</script> 
-												</form>
 											</div>
 										</div>
 									</div>
@@ -346,8 +178,8 @@ limitations under the License.
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
-	<cfthread action="join" name="getEditIdentsThread" />
-	<cfreturn getEditIdentsThread.output>
+	<cfthread action="join" name="getEditMediaThread" />
+	<cfreturn getEditMediaThread.output>
 </cffunction>
 				
 				
