@@ -188,6 +188,8 @@ limitations under the License.
 																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
 																	<label for="preview_uri">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
 																	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#preview_uri#">
+																	<div class="col-5 float-left px-0">Media Type</div>
+																	<div class="col-5 float-left px-0">Mime Type</div>
 																</div>
 															</div>
 													
