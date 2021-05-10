@@ -195,6 +195,7 @@ limitations under the License.
 															
 														</cfloop>
 													</div>
+																	<input value="Submit" class="btn btn-xs btn-primary">
 													</cfoutput>
 <!---												<cfset i = #i#+1>
 											</cfloop>--->
