@@ -186,17 +186,17 @@ limitations under the License.
 															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 																<!---for media images -- remove absolute url after demo / test db issue?--->
 																<cfset one_thumb = "<div class='col-2 float-left'>">
-																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Media Record</a>">
+																<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 																<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfset aForDetHref = "/media/#media_id#" >
 																<cfelse>
 																<!---for DRS from library--->
 																<cfset one_thumb = "<div class='col-2 float-left'>">
-																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
+																<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 																<cfset aForImHref = media_uri>
 																<cfset aForDetHref = "/media/#media_id#">
 															</cfif><br>
-																	#one_thumb# #editThis# <br><a href="#aForImHref#" target="_blank"> 
+																	#one_thumb# #mediaRecord# <br><a href="#aForImHref#" target="_blank"> 
 																	<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a>
 																	<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 																	<span class="">#description#</span>
