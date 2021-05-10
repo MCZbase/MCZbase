@@ -138,9 +138,10 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>---><cfoutput>
-													<span class="form-row col-12 px-0 mx-0">
+													<div class="row">
 														<cfset i=1>
 														<cfloop query="media">
+															<div class="col-12">
 															<!---div class="thumbs"--->
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
@@ -167,20 +168,18 @@ limitations under the License.
 															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 																<!---for media images -- remove absolute url after demo / test db issue?--->
 																<cfset one_thumb = "<div class='col-2'>">
-															<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
+																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
 																<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfelse>
 																<!---for DRS from library--->
-																<cfset one_thumb = "<div class='col-12'>">
+																<cfset one_thumb = "<div class='col-2'>">
 																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
 																<cfset aForImHref = media_uri>
 																<cfset aForDetHref = "/media/#media_id#">
 															</cfif><br>
-																#one_thumb# #editThis# <br><a href="#aForImHref#" target="_blank"> 
-															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a>
-															<div>
-																<div class="col-2 float-left">
+																	#one_thumb# #editThis# <br><a href="#aForImHref#" target="_blank"> 
+																	<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a>
 																	<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 																	<span class="">#description#</span>
 																</div>
@@ -189,10 +188,11 @@ limitations under the License.
 																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
 																</div>
 															</div>
-															</div>
-																	<cfset i=i+1>
+														</div>
+															<cfset i=i+1>
+															
 														</cfloop>
-													</span>
+													</div>
 													</cfoutput>
 <!---												<cfset i = #i#+1>
 											</cfloop>--->
