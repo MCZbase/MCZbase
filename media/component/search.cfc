@@ -41,6 +41,7 @@ limitations under the License.
 	<cfargument name="subject" type="string" required="no">
 	<cfargument name="made_date" type="string" required="no">
 	<cfargument name="to_made_date" type="string" required="no">
+	<cfargument name="text_made_date" type="string" required="no">
 <!--- TODO:
 original filename
 owner
@@ -293,6 +294,25 @@ md5hash
 								and upper(label_value) < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trim(right(width,len(width)-1))#"> 
 							<cfelse>
 								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#width#"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("text_made_date") and len(text_made_date) gt 0>
+					<cfif text_made_date IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'text_made_date')
+					<cfelseif text_made_date IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'text_made_date')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'text_made_date' 
+							<cfif left(text_made_date,1) is "=">
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(text_made_date,len(text_made_date)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(text_made_date)#%"> 
 							</cfif>
 						)
 					</cfif>

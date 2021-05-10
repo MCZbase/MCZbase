@@ -71,6 +71,9 @@ limitations under the License.
 	<cfif not isdefined("created_by_agent_id")>
 		<cfset created_by_agent_id="">
 	</cfif>
+	<cfif not isdefined("text_made_date")>
+		<cfset text_made_date="">
+	</cfif>
 	<cfif not isdefined("to_made_date")>
 		<cfset to_made_date="">
 	</cfif>
@@ -262,12 +265,16 @@ md5hash
 --->
 									<div class="col-12 col-md-4 mb-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="made_date">Made Date</label>
+											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="made_date">Made Date (as date)</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
 											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date (text)<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
