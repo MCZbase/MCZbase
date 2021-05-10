@@ -139,13 +139,13 @@ limitations under the License.
 </cfquery>
 <cfoutput>
 	<div >
-		<form name="editMedia" method="post" action="SpecimenDetailBody.cfm">
+		<form name="editMedia" method="post">
 			<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 			<label for="media_uri">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
 			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#">
 	<label for="preview_uri">Preview URI
 		<cfif len(media.preview_uri) gt 0>
-		(<a href="#media2.preview_uri#" target="_blank">open</a>)
+		(<a href="#media.preview_uri#" target="_blank">open</a>)
 		</cfif>
 	</label>
 	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#">
@@ -255,7 +255,7 @@ limitations under the License.
 		<input type="submit" value="Save Edits" class="btn btn-xs btn-primary">
 	</form>
 	</div>
-</cfoutput>
+
 													<span class="form-row col-12 px-0 mx-0">
 														<cfset i=1>
 														<cfloop query="media">
