@@ -186,9 +186,9 @@ limitations under the License.
 															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 																<!---for media images -- remove absolute url after demo / test db issue?--->
 																<cfset one_thumb = "<div class='col-2 float-left'>">
-																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
+																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Media Record</a>">
 																<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-																<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+																<cfset aForDetHref = "/media/#media_id#" >
 																<cfelse>
 																<!---for DRS from library--->
 																<cfset one_thumb = "<div class='col-2 float-left'>">
