@@ -110,6 +110,7 @@ limitations under the License.
 													media.media_type,
 													media.preview_uri,
 													media.mask_media_fg,
+													media.media_license_id,
 													media_relations.media_relationship,
 													mczbase.get_media_descriptor(media.media_id) as media_descriptor
 												from
