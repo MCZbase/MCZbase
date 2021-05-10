@@ -127,14 +127,17 @@ limitations under the License.
 												<cfoutput>			<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS1.media_uri# contains "specimen_images">
+							<!---			<cfif #mediaS1.media_uri# contains "specimen_images">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100">
 												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
+													
 												</a>
+													
 											<cfelse>
 
-											</cfif>
+											</cfif>--->
+													<cfif #mediaS1.media_uri# contains "specimen_images">
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
@@ -175,7 +178,8 @@ limitations under the License.
 											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span>
+												<span class="">#description#</span><br>
+												<a href="/media.cfm?action=edit&media_id=1468052" target="_blank">Edit</a>
 											</p>
 											</div>
 													<cfset i=i+1>
@@ -183,6 +187,7 @@ limitations under the License.
 									</span></cfoutput>
 												<cfset i = #i#+1>
 											</cfloop>
+													</cfif>
 										</div>
 									</div>
 								</form>
