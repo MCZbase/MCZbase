@@ -84,7 +84,7 @@ limitations under the License.
 			</cfquery>
 			<cfif ctmedia.recordcount gt 0>
 				<cfoutput><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfoutput>
-					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="media" dbtype="query">
 						select distinct
 							media.media_id,
 							media.media_uri,
@@ -95,10 +95,12 @@ limitations under the License.
 							mczbase.get_media_descriptor(media.media_id) as media_descriptor
 						from
 							media,
+							mediaS1,
 							media_relations,
 							media_labels
 						where
 							media.media_id=media_relations.media_id and
+							media.media_id = mediaS1.media_id and
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
