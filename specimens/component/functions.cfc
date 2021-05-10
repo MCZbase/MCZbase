@@ -125,7 +125,7 @@ limitations under the License.
 											</cfquery>
 											<cfset i = 1>
 											<cfloop query="media">
-												<cfoutput>#media.media_id#</cfoutput>
+												<cfoutput>#mediaS1.media_id#</cfoutput>
 												<cfset i = #i#+1>
 											</cfloop>
 										</div>
@@ -142,7 +142,7 @@ limitations under the License.
 										</div>
 										<div id="collapseMedia" class="collapse" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 											<div class="card-body"> 
-												#media.media_ID#
+												<cfoutput>#mediaS1.media_id#</cfoutput>
 											</div>
 										</div>
 									</div>
