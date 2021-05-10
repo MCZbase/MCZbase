@@ -311,25 +311,12 @@ limitations under the License.
 									<div class="card">
 										<div class="card-header pt-1" id="headingMedia">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia" aria-expanded="true" aria-controls="collapseMedia"><span class="h4">Add New Determination</span> </button>
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia" aria-expanded="true" aria-controls="collapseMedia"><span class="h4">Add New Media</span> </button>
 											</h1>
 										</div>
 										<div id="collapseMedia" class="collapse" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 											<div class="card-body"> 
-												<script>
-													function idFormulaChanged(newFormula,baseId) { 
-														if(newFormula.includes("B")) {
-															$('##' + baseId).show();
-															$('##'+baseId+'_label').show();
-														} else { 
-															$('##' + baseId).hide();
-															$('##'+baseId+'_label').hide();
-															$('##' + baseId).val("");
-															$('##'+baseID+'_id').val("");
-														}
-													}
-												</script>
-												<form name="newIDForm" id="newIDForm">
+												<form name="newMediaForm" id="newMediaForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 														<div class="row mx-0 mt-0 pt-2 pb-1">
@@ -378,7 +365,7 @@ limitations under the License.
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
+																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Media</a>
 																		</div>
 																	</div>
 																	<script>
@@ -435,17 +422,9 @@ limitations under the License.
 														</div>
 														<div class="row mx-0 mt-0 py-1">
 															<div class="col-12 col-md-12 px-1">
-																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Media</button>
 															</div>
 														</div>
-														<script>
-															$(document).ready(function() {
-																makeScientificNameAutocompleteMeta("taxona", "taxona_id");
-																makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
-																makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
-																makePublicationAutocompleteMeta("newPub", "new_publication_id");
-															});
-														</script> 
 												</form>
 											</div>
 										</div>
