@@ -198,8 +198,8 @@ limitations under the License.
 																			<input class="float-left ml-1" type="text" name="mime_type" id="mime_type" value="#mime_type#">
 																		</div>
 																	</div>
-																	<div class="row mx-0">
-																		<div class="col-8 float-left px-0">
+																	<div class="row my-2 mx-0">
+																		<div class="col-10 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">License</label> 
 																			<select name="media_license_id" id="media_license_id" class="float-left ml-1">
 																				<option value="">NONE</option>
