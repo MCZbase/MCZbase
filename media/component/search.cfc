@@ -380,7 +380,7 @@ md5hash
 				count(*) ct,
 				label_value
 			from 
-				media_label
+				media_labels
 			where 
 				media_label = 'aspect' 
 				AND upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
