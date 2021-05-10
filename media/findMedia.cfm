@@ -242,6 +242,11 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="subject" class="data-entry-label" id="subject_label">Subject <span>(NULL, NOT NULL)</span></label>
 										<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("subject","subject");
+											});
+										</script>
 									</div>
 									<cfset remcol = "4">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -277,10 +282,20 @@ md5hash
 									<div class="col-12 col-md-2">
 										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date (text)<span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("text_made_date","made date");
+											});
+										</script>
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source<span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("light_source","light source");
+											});
+										</script>
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
