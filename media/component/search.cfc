@@ -305,6 +305,7 @@ md5hash
 							media_label = 'made date' 
 							AND 
 							label_value IS NOT NULL
+							AND
 							((
 								regexp_like(label_value,'[0-9]{4}-([0][1-9]|[1][0-2])-([0][1-9]|[1][0-9]|[3][0-2])')  
 								AND 
