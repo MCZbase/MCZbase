@@ -117,7 +117,6 @@ limitations under the License.
 													media_labels
 												where
 													media.media_id=media_relations.media_id and
-													media.media_id = mediaS1.media_id and
 													media.media_id=media_labels.media_id (+) and
 													media_relations.media_relationship like '%cataloged_item' and
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
