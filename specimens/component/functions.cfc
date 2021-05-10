@@ -141,7 +141,7 @@ limitations under the License.
 													<div class="row">
 														<cfset i=1>
 														<cfloop query="media">
-															<div class="col-12">
+												
 															<!---div class="thumbs"--->
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
@@ -167,7 +167,7 @@ limitations under the License.
 															</cfif>
 															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 																<!---for media images -- remove absolute url after demo / test db issue?--->
-																<cfset one_thumb = "<div class='col-2'>">
+																<cfset one_thumb = "<div class='col-2 float-left'>">
 																<cfset editThis = "<a href='/media.cfm?action=edit&media_id=#media_id#' class='w-100'>Edit Media</a>">
 																<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 																<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
@@ -188,7 +188,7 @@ limitations under the License.
 																	<input type="text" name="media_uri" id="media_uri" size="90" value="#media_uri#">
 																</div>
 															</div>
-														</div>
+													
 															<cfset i=i+1>
 															
 														</cfloop>
