@@ -304,10 +304,9 @@ md5hash
 						where 
 							media_label = 'made date' 
 							AND 
+							label_value IS NOT NULL
 							((
-								regexp_like(label_value,'[0-9]{4}-[0-9]{2}-[0-9]{2}')  
-								AND 
-								NOT regexp_like(label_value,'[0-9]{4}-[2][3-9]-[0-9]{2}')  
+								regexp_like(label_value,'[0-9]{4}-([0][1-9]|[1][0-2])-([0][1-9]|[1][0-9]|[3][0-2])')  
 								AND 
 								to_date(label_value,'yyyy-mm-dd') between 
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'> and
