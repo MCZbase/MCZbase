@@ -301,7 +301,7 @@ md5hash
 						from media_labels 
 						where 
 							media_label = 'made_date' 
-							AND to_date(label_value) between 
+							AND to_date(label_value,'yyyy-mm-dd') between 
 								to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(made_date, "yyyy-mm-dd")#'>) and
 								to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>)
 					)
