@@ -190,11 +190,11 @@ limitations under the License.
 																	<input type="text" name="preview_uri" id="preview_uri" size="90" value="#preview_uri#">
 																	<div class="row mx-0">
 																	<div class="col-5 float-left px-0">
-																		<label for="media_type">Mime Type</label> 
+																		<label for="media_type" class="float-left">Mime Type</label> 
 																		<input class="float-left" type="text" name="media_type" id="media_type" value="#media_type#">
 																	</div>
 																	<div class="col-5 float-left px-0">
-																		<label for="mime_type">Mime Type</label> 
+																		<label for="mime_type" class="float-left">Mime Type</label> 
 																		<input class="float-left" type="text" name="mime_type" id="mime_type" value="#mime_type#">
 																	</div>
 																</div>
