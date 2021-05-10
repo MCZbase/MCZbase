@@ -300,15 +300,15 @@ md5hash
 				</cfif>
 				<cfif isdefined("text_made_date") and len(text_made_date) gt 0>
 					<cfif text_made_date IS "NULL">
-						AND media.media_id not in ( select media_id from media_labels where media_label = 'text_made_date')
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'made date')
 					<cfelseif text_made_date IS "NOT NULL">
-						AND media.media_id in ( select media_id from media_labels where media_label = 'text_made_date')
+						AND media.media_id in ( select media_id from media_labels where media_label = 'made date')
 					<cfelse>
 						AND media.media_id in (
 							select media_id 
 							from media_labels 
 							where 
-								media_label = 'text_made_date' 
+								media_label = 'made date'
 							<cfif left(text_made_date,1) is "=">
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(text_made_date,len(text_made_date)-1))#"> 
 							<cfelse>
