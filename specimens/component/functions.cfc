@@ -66,9 +66,9 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<div class="container-fluid">
+				<cfoutput><div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+						<div class="col-12"></cfoutput>
 							<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						media.media_id,
@@ -171,11 +171,12 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</span>
-								</cfoutput>
+								
 							</cfif>
 						</div>
 					</div>
 				</div>
+												</cfoutput>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
