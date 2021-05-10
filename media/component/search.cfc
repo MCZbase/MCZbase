@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- function getMedia search for media returning json suitable for a jqxgrid --->
 <cffunction name="getMedia" access="remote" returntype="any" returnformat="json">
