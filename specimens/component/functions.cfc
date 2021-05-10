@@ -132,14 +132,14 @@ limitations under the License.
 								</form>
 							</div>
 							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordionMedia">
+								<div id="accordionMedia1">
 									<div class="card">
-										<div class="card-header pt-1" id="headingMedia">
+										<div class="card-header pt-1" id="headingMedia1">
 											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia" aria-expanded="true" aria-controls="collapseMedia"><span class="h4">Add New Media</span> </button>
+												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">Add New Media</span> </button>
 											</h1>
 										</div>
-										<div id="collapseMedia" class="collapse" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+										<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
 											<div class="card-body"> 
 												<cfoutput>#mediaS1.media_id#</cfoutput>
 											</div>
