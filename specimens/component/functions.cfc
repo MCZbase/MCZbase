@@ -242,7 +242,7 @@ limitations under the License.
 																			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 																	</cfquery>
 																	<div class="row my-2 mx-0">
-																		<div class="col-10 float-left px-0">
+																		<div class="col-12 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">Media Relationships</label> 
 																			<select name="media_license_id" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
@@ -252,7 +252,17 @@ limitations under the License.
 																			</select>
 																		</div>
 																	</div>
-																		
+																	<div class="row my-2 mx-0">
+																		<div class="col-12 float-left px-0">
+																			<label for="media_label" class="float-left mt-1">Media Labels</label> 
+																			<select name="media_label" id="media_license_id" class="ml-1">
+																			<option value="">NONE</option>
+																				<cfloop query="ctmedia_label">
+																					<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+																				</cfloop>
+																			</select>
+																		</div>
+																	</div>	
 																	</div>
 																</div>
 															</div>
