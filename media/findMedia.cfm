@@ -386,7 +386,7 @@ md5hash
 				var muri = rowData['media_uri'];
 				var alt = rowData['ac_description'];
 				if (puri != "") { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'"></a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100"></a></span>';
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
@@ -492,7 +492,7 @@ md5hash
 						showtoolbar: false,
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-						 	{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
+						 	{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
 							</cfif>
