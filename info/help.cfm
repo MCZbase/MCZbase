@@ -229,9 +229,6 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 	<cfquery name="cnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as cnt from cataloged_item
 	</cfquery>
-	<cfquery name="numColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(distinct(collection_id)) as cnt from collection where collection_id not in (6, 10, 12)
-	</cfquery>
 	Summary of specimens represented in MCZbase:
 	<blockquote>
 	<table>
@@ -266,7 +263,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 		<tr>
 			<td>&nbsp;</td>
 			<td colspan="2" align="center">
-				#numColl.cnt#
+				#stat.recordcount#
 			</td>
 			<td>#cnt.cnt#</td>
 			<td>&nbsp;</td>
