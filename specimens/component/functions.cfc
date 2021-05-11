@@ -286,7 +286,8 @@ limitations under the License.
 									</h1>
 								</div>
 								<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
-									<div class="card-body"> <cfoutput>
+									<div class="card-body"> 
+										<cfoutput>
 											<div class="row mx-0 mb-2">
 											<div class="col-12 px-0">
 												<label for="MediaURI" class="data-entry-label">Media URI</label>
@@ -299,16 +300,23 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mx-0 mb-2">
-												<div class="col-12 px-0">
-												<label for "">Media Type</label>
-												<input class="mx-2" name="" id="" value="">
-												<label for "">Mime Type</label>
-												<input class="mx-2" name="" id="" value="">
-												<label for "">Visibility</label>
-												<input class="mx-2" name="" id="" value="">
+												<div class="col-12 px-4">
+													<label for "media_type" class="data-entry-label">Media Type</label>
+													<input class="mx-2" name="mime_type" id="media_type" value="">
+													<label for "">Mime Type</label>
+													<input class="mx-2" name="mime_type" id="mime_type" value="">
+													<label for "visibility">Visibility</label>
+													<input class="mx-2" name="visibility" id="visibility" value="">
 												</div>
+												<select name="media_label" id="media_license_id" class="ml-1">
+													<option value="">NONE</option>
+													<cfloop query="ctmedia_label">
+														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+													</cfloop>
+												</select>
 											</div>
-										</cfoutput> </div>
+										</cfoutput> 
+									</div>
 								</div>
 							</div>
 						</div>
