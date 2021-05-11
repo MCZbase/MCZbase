@@ -231,12 +231,22 @@ limitations under the License.
 																			</select>
 																		</div>
 																	</div>
+																	<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																		SELECT
+																			media_id,
+																			media_relations_id,
+																			media_relationship
+																		FROM
+																			media_relations
+																		WHERE
+																			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																	</cfquery>
 																	<div class="row my-2 mx-0">
 																		<div class="col-10 float-left px-0">
 																			<label for="media_license_id" class="float-left mt-1">Media Relationships</label> 
 																			<select name="media_license_id" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_license">
+																				<cfloop query="ctmedia_relationship">
 																					<option <cfif media_relationship.media_id is ctmedia_relationship.media_id> selected="selected"</cfif> value="#ctmedia_relationship.media_id#">#ctmedia_relationship.media_id#</option>
 																				</cfloop>
 																			</select>
