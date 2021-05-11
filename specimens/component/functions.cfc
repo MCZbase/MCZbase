@@ -208,7 +208,12 @@ limitations under the License.
 																	<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
 																	<div class="row mx-0">
 																		<div class="col-4 float-left px-0">
-																			<label for="media_type" class="float-left mt-1">Mime Type</label> 
+																			<label for="media_type" class="float-left mt-1">Media Type</label> 
+																			<select name="media_type" id="media_type">
+																				<cfloop query="ctmedia_type">
+																					<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+																				</cfloop>
+																			</select>
 																			<input class="float-left ml-1" type="text" name="media_type" id="media_type" value="#media_type#">
 																		</div>
 																		<div class="col-4 float-left px-0">
