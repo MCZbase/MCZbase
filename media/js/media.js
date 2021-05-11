@@ -22,12 +22,6 @@ function makeAspectAutocomplete(valueControl) {
 				}
 			})
 		},
-      select: function (event, result) {
-			if (idControl) { 
-				// if idControl is non null, non-empty, non-false
-				$('#'+idControl).val(result.item.value);
-			}
-      },
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "collection name * (description)" instead of value in picklist.
@@ -63,12 +57,6 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
 				}
 			})
 		},
-      select: function (event, result) {
-			if (idControl) { 
-				// if idControl is non null, non-empty, non-false
-				$('#'+idControl).val(result.item.value);
-			}
-      },
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "collection name * (description)" instead of value in picklist.
