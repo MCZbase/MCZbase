@@ -218,7 +218,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			collection
 		WHERE
 			 collection.collection_id = cataloged_item.collection_id (+)
-			 and collection.collection_id not in (6, 10, 12)
+			 and collection.collection_id not in (10, 12)
 		GROUP BY
 			collection,
 			descr,
