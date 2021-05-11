@@ -218,18 +218,89 @@ limitations under the License.
 																		<div class="col-4 float-left px-0">
 																			<label for="mask_media_fg" class="float-left mt-1">Visibility</label> 
 																			<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">
+																			<cfif #media.mask_media_fg# eq 1 >
+																				<option value="0">Public</option>
+																				<option value="1" selected="selected">Hidden</option>
+																			<cfelse>
+																				<option value="0" selected="selected">Public</option>
+																				<option value="1">Hidden</option>
+																			</cfif>
 																		</div>
 																	</div>
-																	<div class="row my-2 mx-0">
-																		<div class="col-10 float-left px-0">
-																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_license">
-																					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-																				</cfloop>
-																			</select>
-																		</div>
+																 <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+      <div id="relationships" class="graydot">
+        <cfset i=1>
+        <cfif relns.recordcount is 0>
+          <!--- seed --->
+          <div id="seedMedia" style="display:none">
+            <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+            <cfset d="">
+            <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
+              <option value="delete">delete</option>
+              <cfloop query="ctmedia_relationship">
+                <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+              </cfloop>
+            </select>
+            :&nbsp;
+            <input type="text" name="related_value__0" id="related_value__0" size="80">
+            <input type="hidden" name="related_id__0" id="related_id__0">
+          </div>
+        </cfif>
+        <cfloop query="relns">
+          <cfset d=media_relationship>
+          <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
+            <option value="delete">delete</option>
+            <cfloop query="ctmedia_relationship">
+              <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+            </cfloop>
+          </select>
+          :&nbsp;
+          <input type="text" name="related_value__#i#" id="related_value__#i#" size="90" value="#summary#">
+          <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+          <cfset i=i+1>
+          <br>
+        </cfloop>
+        <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
+      <br>
+      <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+      <div id="labels" class="graydot">
+        <cfset i=1>
+        <cfif labels.recordcount is 0>
+          <!--- seed --->
+          <div id="seedLabel" style="display:none;">
+            <div id="labelsDiv__0">
+              <input type="hidden" id="media_label_id__0" name="media_label_id__0" size="90">
+              <cfset d="">
+              <select name="label__0" id="label__0" size="1">
+                <option value="delete">delete</option>
+                <cfloop query="ctmedia_label">
+                  <option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+                </cfloop>
+              </select>
+              :&nbsp;
+              <input type="text" name="label_value__0" id="label_value__0" size="90">
+            </div>
+          </div>
+        </cfif>
+        <cfloop query="labels">
+          <cfset d=media_label>
+          <div id="labelsDiv__#i#">
+            <input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
+            <select name="label__#i#" id="label__#i#" size="1">
+              <option value="delete">delete</option>
+              <cfloop query="ctmedia_label">
+                <option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+              </cfloop>
+            </select>
+            :&nbsp;
+            <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#stripQuotes(label_value)#">
+          </div>
+          <cfset i=i+1>
+        </cfloop>
+        <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
+      <br>
 																	</div>
 																</div>
 															</div>
