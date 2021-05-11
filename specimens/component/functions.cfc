@@ -203,7 +203,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-4 float-left px-0">
+										<div class="col-4 float-left px-2">
 											<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
 											<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 											<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
