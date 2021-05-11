@@ -124,27 +124,10 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-<!---											<cfset i = 1>
+										<cfoutput>
+											<cfset i=1>
 											<cfloop query="media">
-												<cfoutput>			
-													<span class="form-row col-12 px-0 mx-0"> --->
-										<!---div class="feature image using media_uri"--->
-										<!--- to-do: Create checkbox for featured media on create media page--->
-							<!---			<cfif #mediaS1.media_uri# contains "specimen_images">
-												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-												<a href="#aForThisHref#" target="_blank" class="w-100">
-												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
-													
-												</a>
-													
-											<cfelse>
-
-											</cfif>---><cfoutput>
-													
-														<cfset i=1>
-														<cfloop query="media">
 												<div class="row my-2 py-2 border">
-															<!---div class="thumbs"--->
 													<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_relationship from ctmedia_relationship order by media_relationship
 													</cfquery>
@@ -160,9 +143,9 @@ limitations under the License.
 													<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_license_id,display media_license from ctmedia_license order by media_license_id
 													</cfquery>
-															<cfquery name="ctmedia" dbtype="query">
-																select count(*) as ct from media group by media_relationship order by media_id
-															</cfquery>
+													<cfquery name="ctmedia" dbtype="query">
+														select count(*) as ct from media group by media_relationship order by media_id
+													</cfquery>
 															<cfset mt=media.mime_type>
 															<cfset altText = media.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
@@ -248,7 +231,17 @@ limitations under the License.
 																			</select>
 																		</div>
 																	</div>
-																		
+																	<div class="row my-2 mx-0">
+																		<div class="col-10 float-left px-0">
+																			<label for="media_license_id" class="float-left mt-1">Media Relationships</label> 
+																			<select name="media_license_id" id="media_license_id" class="ml-1">
+																			<option value="">NONE</option>
+																				<cfloop query="ctmedia_license">
+																					<option <cfif media_relationship.media_id is ctmedia_relationship.media_id> selected="selected"</cfif> value="#ctmedia_relationship.media_id#">#ctmedia_relationship.media_id#</option>
+																				</cfloop>
+																			</select>
+																		</div>
+																	</div>
 																		
 																	</div>
 																</div>
