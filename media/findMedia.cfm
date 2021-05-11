@@ -309,6 +309,7 @@ md5hash
 											AND ctmedia_label.media_label NEQ 'subject' 
 											AND ctmedia_label.media_label NEQ 'made date' 
 											AND ctmedia_label.media_label NEQ 'original filename' 
+											AND ctmedia_label.media_label NEQ 'light source' 
 										>
 											<cfset label = replace(ctmedia_label.media_label," ","_")>
 											<div class="col-12 col-md-2">
