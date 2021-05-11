@@ -214,11 +214,14 @@ limitations under the License.
 																					<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 																				</cfloop>
 																			</select>
-																			<input class="float-left ml-1" type="text" name="media_type" id="media_type" value="#media_type#">
 																		</div>
 																		<div class="col-4 float-left px-0">
-																			<label for="mime_type" class="float-left mt-1">Mime Type</label> 
-																			<input class="float-left ml-1" type="text" name="mime_type" id="mime_type" value="#mime_type#">
+																			<label for="mime_type" class="float-left mt-1">Mime Type</label>
+																			<select name="mime_type" id="mime_type">
+																				<cfloop query="ctmime_type">
+																					<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+																				</cfloop>
+																			</select>
 																		</div>
 																		<div class="col-4 float-left px-0">
 																			<label for="mask_media_fg" class="float-left mt-1">Visibility</label> 
