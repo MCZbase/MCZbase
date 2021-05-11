@@ -292,16 +292,23 @@ limitations under the License.
 										<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
 											<div class="card-body"> 
 												<cfoutput>
-												<label for="">Media URI</label>
-												<input class="" name="" id="" value="">
+											<div class="row mb-2">
+												<label for="MediaURI">Media URI</label>
+												<input class="ml-2" name="" id="MediaURI" value="">
+													</div>
+													<div class="row mb-2">
 												<label for "">Preview URI</label>
 												<input class="" name="" id="" value="">
+											</div>
+											<div class="row mb-2">
 												<label for "">Media Type</label>
 												<input class="" name="" id="" value="">
 												<label for "">Mime Type</label>
 												<input class="" name="" id="" value="">
+											
 												<label for "">Visibility</label>
 												<input class="" name="" id="" value="">
+												</div>
 												</cfoutput>
 											</div>
 										</div>
