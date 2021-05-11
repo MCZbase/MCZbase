@@ -293,8 +293,8 @@ limitations under the License.
 											<div class="card-body"> 
 												<cfoutput>
 											<div class="row mb-2">
-												<label for="MediaURI">Media URI</label>
-												<input class="ml-2" name="" id="MediaURI" value="">
+												<label for="MediaURI" class="data-entry-label">Media URI</label>
+												<input class="ml-2 data-entry-input" name="" id="MediaURI" value="">
 													</div>
 													<div class="row mb-2">
 												<label for "">Preview URI</label>
