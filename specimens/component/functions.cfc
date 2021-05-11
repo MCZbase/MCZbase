@@ -238,38 +238,8 @@ limitations under the License.
 																			</select>
 																		</div>
 																	</div>
-																		<div class="row my-2 mx-0">
-																		<div class="col-10 float-left px-0">
-																			<label for="media_license_id" class="float-left mt-1">Relationships</label> 
-																			<select name="media_license_id" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_license">
-																					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																	</div>
-																		<div class="row my-2 mx-0">
-																		<div class="col-10 float-left px-0">
-																			<label for="media_license_id" class="float-left mt-1">Labels</label> 
-																			<cfloop query="labels">
-																			<cfset d=media_label>
-																				<div id="labelsDiv__#i#">
-																					<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
-																					<select name="label__#i#" id="label__#i#" size="1">
-																						<option value="delete">delete</option>
-																						<cfloop query="ctmedia_label">
-																							<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-																						</cfloop>
-																					</select>
-																					:&nbsp;
-																					<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#stripQuotes(label_value)#">
-																				</div>
-																				<cfset i=i+1>
-																			</cfloop>
-																			<span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
-																		</div>
-																		</div>
+																		
+																		
 																	</div>
 																</div>
 															</div>
