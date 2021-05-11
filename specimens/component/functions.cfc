@@ -51,8 +51,7 @@ limitations under the License.
 	</cftry>
 	<cfreturn result>
 </cffunction>
-				
-				
+
 <!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
@@ -70,17 +69,17 @@ limitations under the License.
 				</cfquery>
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-12">
-							<div class="col-12  float-left mb-2 px-0">
-								<form name="editMediaForm" id="editIdentificationsForm">
-									<input type="hidden" name="method" value="updateMedia">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
-									<div class="row mx-0">
-										<div class="col-12 px-0">
-											<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<div class="col-12">
+					<div class="col-12  float-left mb-2 px-0">
+					<form name="editMediaForm" id="editIdentificationsForm">
+						<input type="hidden" name="method" value="updateMedia">
+						<input type="hidden" name="returnformat" value="json">
+						<input type="hidden" name="queryformat" value="column">
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+						<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
+						<div class="row mx-0">
+						<div class="col-12 px-0">
+						<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct
 													media.media_id,
 													media.media_uri,
@@ -99,10 +98,10 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-											<cfquery name="ctmedia" dbtype="query">
+						<cfquery name="ctmedia" dbtype="query">
 												select count(*) as ct from mediaS1 group by media_relationship order by media_id
 											</cfquery>
-											<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct
 													media.media_id,
 													media.media_uri,
@@ -124,32 +123,32 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-										<cfoutput>
-											<cfset i=1>
-											<cfloop query="media">
-												<div class="row my-2 py-2 border">
-													<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfoutput>
+							<cfset i=1>
+							<cfloop query="media">
+								<div class="row my-2 py-2 border">
+									<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_relationship from ctmedia_relationship order by media_relationship
 													</cfquery>
-													<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_label from ctmedia_label order by media_label
 													</cfquery>
-													<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_type from ctmedia_type order by media_type
 													</cfquery>
-													<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select mime_type from ctmime_type order by mime_type
 													</cfquery>
-													<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select media_license_id,display media_license from ctmedia_license order by media_license_id
 													</cfquery>
-													<cfquery name="ctmedia" dbtype="query">
+									<cfquery name="ctmedia" dbtype="query">
 														select count(*) as ct from media group by media_relationship order by media_id
 													</cfquery>
-															<cfset mt=media.mime_type>
-															<cfset altText = media.media_descriptor>
-															<cfset puri=getMediaPreview(preview_uri,mime_type)>
-															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfset mt=media.mime_type>
+									<cfset altText = media.media_descriptor>
+									<cfset puri=getMediaPreview(preview_uri,mime_type)>
+									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	media_label,
 																	label_value
@@ -158,165 +157,162 @@ limitations under the License.
 																WHERE
 																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 															</cfquery>
-															<cfquery name="desc" dbtype="query">
+									<cfquery name="desc" dbtype="query">
 																select label_value from labels where media_label='description'
 															</cfquery>
-															<cfset description="Media Preview Image">
-															<cfif desc.recordcount is 1>
-																<cfset description=desc.label_value>
-															</cfif>
-															
-															<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-																<!---for media images -- remove absolute url after demo / test db issue?--->
-																<cfset one_thumb = "<div class='col-2 float-left'>">
-																<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-																<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-																<cfset aForDetHref = "/media/#media_id#" >
-																<cfelse>
-																<!---for DRS from library--->
-																<cfset one_thumb = "<div class='col-2 float-left'>">
-																<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-																<cfset aForImgHref = media_uri>
-																<cfset aForDetHref = "/media/#media_id#">
-															</cfif><br>
-																	#one_thumb# #mediaRecord# <br><a href="#aForImgHref#" target="_blank"> 
-																	<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a>
-																	<a href="#aForImgHref#" target="_blank">Media Details</a> <br>
-																	<span class="">#description#</span>
-																</div>
-																<div class="col-10 mt-2 float-left px-0">
-																	<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
-																	<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
-																	<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
-																	<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
-																	<div class="row mx-0">
-																		<div class="col-4 float-left px-0">
-																			<label for="media_type" class="float-left mt-1">Media Type</label> 
-																			<select name="media_type" class="ml-2" id="media_type">
-																				<cfloop query="ctmedia_type">
-																					<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																		<div class="col-4 float-left px-0">
-																			<label for="mime_type" class="float-left mt-1">Mime Type</label>
-																			<select name="mime_type" class="ml-2" id="mime_type">
-																				<cfloop query="ctmime_type">
-																					<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																		<div class="col-4 float-left px-0">
-																			<label for="mask_media_fg" class="float-left mt-1">Visibility</label> 
-																		<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
-																			<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-																			<cfif #media.mask_media_fg# eq 1 >
-																				<option value="0">Public</option>
-																				<option value="1" selected="selected">Hidden</option>
-																			<cfelse>
-																				<option value="0" selected="selected">Public</option>
-																				<option value="1">Hidden</option>
-																			</cfif>
-																				</select>
-																		</div>
-																	</div>
-																	<div class="row my-2 mx-0">
-																		<div class="col-10 float-left px-0">
-																			<label for="media_license_id" class="float-left mt-1">License</label> 
-																			<select name="media_license_id" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_license">
-																					<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																	</div>
-																	<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																		SELECT
-																			media_id,
-																			media_relations_id,
-																			media_relationship
-																		FROM
-																			media_relations
-																		WHERE
-																			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-																	</cfquery>
-																	<div class="row my-2 mx-0">
-																		<div class="col-12 float-left px-0">
-																			<label for="media_license_id" class="float-left mt-1">Media Relationships</label> 
-																			<select name="media_license_id" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_relationship">
-																					<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																	</div>
-																	<div class="row my-2 mx-0">
-																		<div class="col-12 float-left px-0">
-																			<label for="media_label" class="float-left mt-1">Media Labels</label> 
-																			<select name="media_label" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																				<cfloop query="ctmedia_label">
-																					<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-																				</cfloop>
-																			</select>
-																		</div>
-																	</div>	
-																	</div>
-																</div>
-															</div>
-													
-															<cfset i=i+1>
-															
-														</cfloop>
-													</div>
-													<div class="row"><input value="Submit" class="btn mb-4 btn-xs btn-primary"></div>
-																	
-													</cfoutput>
-<!---												<cfset i = #i#+1>
-											</cfloop>--->
+									<cfset description="Media Preview Image">
+									<cfif desc.recordcount is 1>
+										<cfset description=desc.label_value>
+									</cfif>
+									<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+										<!---for media images -- remove absolute url after demo / test db issue?--->
+										<cfset one_thumb = "<div class='col-2 float-left'>">
+										<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+										<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
+										<cfset aForDetHref = "/media/#media_id#" >
+										<cfelse>
+										<!---for DRS from library--->
+										<cfset one_thumb = "<div class='col-2 float-left'>">
+										<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+										<cfset aForImgHref = media_uri>
+										<cfset aForDetHref = "/media/#media_id#">
+									</cfif>
+									<br>
+#one_thumb# #mediaRecord# 									<br>
+									<a href="#aForImgHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a> <a href="#aForImgHref#" target="_blank">Media Details</a> <br>
+									<span class="">#description#</span> </div>
+								<div class="col-10 mt-2 float-left px-0">
+									<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
+									<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
+									<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
+									<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
+									<div class="row mx-0">
+										<div class="col-4 float-left px-0">
+											<label for="media_type" class="float-left mt-1">Media Type</label>
+											<select name="media_type" class="ml-2" id="media_type">
+												<cfloop query="ctmedia_type">
+													<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-4 float-left px-0">
+											<label for="mime_type" class="float-left mt-1">Mime Type</label>
+											<select name="mime_type" class="ml-2" id="mime_type">
+												<cfloop query="ctmime_type">
+													<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-4 float-left px-0">
+											<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
+											<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+											<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
+												<cfif #media.mask_media_fg# eq 1 >
+													<option value="0">Public</option>
+													<option value="1" selected="selected">Hidden</option>
+													<cfelse>
+													<option value="0" selected="selected">Public</option>
+													<option value="1">Hidden</option>
+												</cfif>
+											</select>
 										</div>
 									</div>
-								</form>
-							</div>
-						<div class="row mx-0">
-							<div class="col-12 col-lg-7 float-left px-0">
-								<div id="accordionMedia1">
-									<div class="card">
-										<div class="card-header pt-1" id="headingMedia1">
-											<h1 class="my-0 px-1 pb-1">
-												<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">Add New Media</span> </button>
-											</h1>
+									<div class="row my-2 mx-0">
+										<div class="col-10 float-left px-0">
+											<label for="media_license_id" class="float-left mt-1">License</label>
+											<select name="media_license_id" id="media_license_id" class="ml-1">
+												<option value="">NONE</option>
+												<cfloop query="ctmedia_license">
+													<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+												</cfloop>
+											</select>
 										</div>
-										<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
-											<div class="card-body"> 
-												<cfoutput>
-											<div class="row mb-2">
+									</div>
+									<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											media_id,
+											media_relations_id,
+											media_relationship
+										FROM
+											media_relations
+										WHERE
+											media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+									</cfquery>
+									<div class="row my-2 mx-0">
+										<div class="col-12 float-left px-0">
+											<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
+											<select name="media_license_id" id="media_license_id" class="ml-1">
+												<option value="">NONE</option>
+												<cfloop query="ctmedia_relationship">
+													<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+									<div class="row my-2 mx-0">
+										<div class="col-12 float-left px-0">
+											<label for="media_label" class="float-left mt-1">Media Labels</label>
+											<select name="media_label" id="media_license_id" class="ml-1">
+												<option value="">NONE</option>
+												<cfloop query="ctmedia_label">
+													<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+												</cfloop>
+											</select>
+										</div>
+									</div>
+								</div>
+								</div>
+								</div>
+								<cfset i=i+1>
+							</cfloop>
+							</div>
+							<div class="row">
+								<input value="Submit" class="btn mb-4 btn-xs btn-primary">
+							</div>
+						</cfoutput> 
+						<!---												<cfset i = #i#+1>
+											</cfloop>--->
+						</div>
+						</div>
+					</form>
+				</div>
+				<div class="row mx-0">
+					<div class="col-12 col-lg-7 float-left px-0">
+						<div id="accordionMedia1">
+							<div class="card">
+								<div class="card-header pt-1" id="headingMedia1">
+									<h1 class="my-0 px-1 pb-1">
+										<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">Add New Media</span> </button>
+									</h1>
+								</div>
+								<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
+									<div class="card-body"> <cfoutput>
+											<div class="row mx-0 mb-2">
+											<div class="col-12 px-0">
 												<label for="MediaURI" class="data-entry-label">Media URI</label>
 												<input class="ml-2 data-entry-input" name="" id="MediaURI" value="">
-													</div>
-													<div class="row mb-2">
-												<label for "">Preview URI</label>
-												<input class="" name="" id="" value="">
+											</div>
+											<div class="row mx-0 mb-2">
+												<div class="col-12 px-0">
+													<label for "">Preview URI</label>
+													<input class="" name="" id="" value="">
+												</div>
 											</div>
 											<div class="row mb-2">
 												<label for "">Media Type</label>
 												<input class="" name="" id="" value="">
 												<label for "">Mime Type</label>
 												<input class="" name="" id="" value="">
-											
 												<label for "">Visibility</label>
 												<input class="" name="" id="" value="">
-												</div>
-												</cfoutput>
 											</div>
-										</div>
-									</div>
+										</cfoutput> </div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+				</div>
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
@@ -342,9 +338,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaThread" />
 	<cfreturn getEditMediaThread.output>
 </cffunction>
-				
-				
-				
+
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -464,15 +458,14 @@ limitations under the License.
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-2 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
-																		</div>
+																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addIDName col-2 rounded px-1 mx-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> </div>
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 																	</script> 
 																</div>
-												<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.--->
-													<script>	
+																<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
+																<script>	
 														$(document).ready(function(){
 															$(".addIDName").click(function(){$("##newID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-6 px-0 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
 															});
@@ -626,37 +619,37 @@ limitations under the License.
 												<form name="newIDForm" id="newIDForm">
 													<input type="hidden" name="Action" value="createNew">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-														<div class="row mx-0 mt-0 pt-2 pb-1">
-															<div class="col-12 col-md-4 px-1">
-																<label for="taxa_formula" class="data-entry-label">ID Formula</label>
-																<cfif not isdefined("taxa_formula")>
-																	<cfset taxa_formula='A'>
-																</cfif>
-																<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
-																	<cfset selected_value = "#taxa_formula#">
-																	<cfloop query="ctFormula">
-																		<cfif selected_value EQ ctFormula.taxa_formula>
-																			<cfset selected = "selected='selected'">
-																			<cfelse>
-																			<cfset selected ="">
-																		</cfif>
-																		<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
-																	</cfloop>
-																</select>
-															</div>
-															<div class="col-12 col-md-8 px-1">
-																<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
-																<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
-																<input type="hidden" name="taxona_id" id="taxona_id">
-															</div>
-															<div class="col-12 col-md-8 px-1 d-none">
-																<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
-																<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
-																<input type="hidden" name="taxonb_id" id="taxonb_id">
-															</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-4 px-1">
+															<label for="taxa_formula" class="data-entry-label">ID Formula</label>
+															<cfif not isdefined("taxa_formula")>
+																<cfset taxa_formula='A'>
+															</cfif>
+															<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr w-100" required onchange="idFormulaChanged(this.value,'taxonb');">
+																<cfset selected_value = "#taxa_formula#">
+																<cfloop query="ctFormula">
+																	<cfif selected_value EQ ctFormula.taxa_formula>
+																		<cfset selected = "selected='selected'">
+																		<cfelse>
+																		<cfset selected ="">
+																	</cfif>
+																	<option #selected# value="#ctFormula.taxa_formula#">#ctFormula.taxa_formula#</option>
+																</cfloop>
+															</select>
 														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 px-0">
+														<div class="col-12 col-md-8 px-1">
+															<label for="taxona" class="data-entry-label reqdClr" required>Taxon A</label>
+															<input type="text" name="taxona" id="taxona" class="reqdClr data-entry-input">
+															<input type="hidden" name="taxona_id" id="taxona_id">
+														</div>
+														<div class="col-12 col-md-8 px-1 d-none">
+															<label id="taxonb_label" for="taxonb" class="data-entry-label" style="display:none;">Taxon B</label>
+															<input type="text" name="taxonb" id="taxonb" class="reqdClr w-100" size="50" style="display:none">
+															<input type="hidden" name="taxonb_id" id="taxonb_id">
+														</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 px-0">
 															<cfset idnum=1>
 															<cfloop query="determiners">
 																<div id="IdTr_#i#_#idnum#">
@@ -672,14 +665,13 @@ limitations under the License.
 																			</div>
 																			<input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#agent_id#" >
 																			<input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#identification_agent_id#">
-																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a>
-																		</div>
+																			<a aria-label="Add another Identifier"  style="padding-top: .2rem;" class="float-left btn btn-xs btn-primary addNewIDName col-4 rounded px-1 mt-0" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> </div>
 																	</div>
 																	<script>
 																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 																	</script> 
 																</div>
-												<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.--->
+																<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
 																<script>	
 																	$(document).ready(function(){
 																		$(".addNewIDName").click(function(){$("##addNewID").append('<div class="col-12"><label for="IdBy_#i#_#idnum#" class="data-entry-label mt-1">Identified By this one <h5 id="IdBy_#i#_#idnum#_view" class="d-inline infoLink">&nbsp;&nbsp;&nbsp;&nbsp;</h5></label><div class="col-12 px-0"><div class="input-group col-7 px-1 float-left"><div class="input-group-prepend"> <span class="input-group-text smaller bg-lightgreen" id="IdBy_#i#_#idnum#_icon"><i class="fa fa-user" aria-hidden="true"></i></span></div><input type="text" name="IdBy_#i#_#idnum#" id="IdBy_#i#_#idnum#" value="#encodeForHTML(determiners.agent_name)#" class="reqdClr data-entry-input form-control"></div><input type="hidden" name="IdBy_#i#_#idnum#_id" id="IdBy_#i#_#idnum#_id" value="#determiners.agent_id#"><input type="hidden" name="identification_agent_id_#i#_#idnum#" id="identification_agent_id_#i#_#idnum#" value="#determiners.identification_agent_id#"></div><button href="javascript:void(0);" arial-label="remove" class="btn data-entry-button px-2 mx-0 addIDName float-left remIDName"><i class="fas fa-times"></i></button></div></div></div>');
@@ -689,10 +681,10 @@ limitations under the License.
 																</script>
 																<cfset idnum=idnum+1>
 															</cfloop>
-															</div>
 														</div>
-														<div id="addNewID" class="row"></div>
-															<script>
+													</div>
+													<div id="addNewID" class="row"></div>
+													<script>
 														function addIdentAgentToForm(agent_id,agent_name) { 
 															// add trans_agent record
 															getIdent_agent(IdBy_#i#_#idnum#,IdBy_#i#_#idnum#_id,'##newID');
@@ -700,46 +692,46 @@ limitations under the License.
 															handleChange();
 														}
 													</script>
-														<div class="row mx-0 mt-0 pt-2 pb-1">
-															<div class="col-12 col-md-6 px-1">
-																<label for="made_date" class="data-entry-label" >Date Identified</label>
-																<input type="text" name="made_date" id="made_date" class="data-entry-input">
-															</div>
-															<div class="col-12 col-md-6 px-1">
-																<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
-																<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
-																	<cfloop query="ctnature">
-																		<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-																	</cfloop>
-																</select>
-															</div>
+													<div class="row mx-0 mt-0 pt-2 pb-1">
+														<div class="col-12 col-md-6 px-1">
+															<label for="made_date" class="data-entry-label" >Date Identified</label>
+															<input type="text" name="made_date" id="made_date" class="data-entry-input">
 														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<label for="identification_publication" class="data-entry-label" >Sensu</label>
-																<input type="hidden" name="new_publication_id" id="new_publication_id">
-																<input type="text" id="newPub" class="data-entry-input">
-															</div>
+														<div class="col-12 col-md-6 px-1">
+															<label for="nature_of_id" class="data-entry-label mt-0" >Nature of ID <span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span></label>
+															<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr w-100">
+																<cfloop query="ctnature">
+																	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+																</cfloop>
+															</select>
 														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
-																<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
-															</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="identification_publication" class="data-entry-label" >Sensu</label>
+															<input type="hidden" name="new_publication_id" id="new_publication_id">
+															<input type="text" id="newPub" class="data-entry-input">
 														</div>
-														<div class="row mx-0 mt-0 py-1">
-															<div class="col-12 col-md-12 px-1">
-																<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
-															</div>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<label for="identification_remarks" class="data-entry-label mt-0" >Remarks</label>
+															<input type="text" name="identification_remarks" id="identification_remarks" class="data-entry-input">
 														</div>
-														<script>
+													</div>
+													<div class="row mx-0 mt-0 py-1">
+														<div class="col-12 col-md-12 px-1">
+															<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Identification</button>
+														</div>
+													</div>
+													<script>
 															$(document).ready(function() {
 																makeScientificNameAutocompleteMeta("taxona", "taxona_id");
 																makeScientificNameAutocompleteMeta("taxonb", "taxonb_id");
 																makeRichAgentPicker("newIdBy", "newIdBy_id", "newIdBy_icon", "newIdBy_view", null);
 																makePublicationAutocompleteMeta("newPub", "new_publication_id");
 															});
-														</script> 
+														</script>
 												</form>
 											</div>
 										</div>
@@ -780,34 +772,33 @@ limitations under the License.
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="number_of_ids" type="string" required="yes">
-
-	<cfoutput>
+	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 		<cftry>
 			<cfquery datasource="uam_god">
 				alter trigger tr_stored_as_fg disable
 			</cfquery>
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-			<cfelse>
-				<cfset queryError = ''>
-			</cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfcontent reset="yes">
-			<cfheader statusCode="500" statusText="#message#">
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<cfabort>
-		</cfcatch>
+				<cfabort>
+			</cfcatch>
 		</cftry>
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of identifications --->
@@ -823,7 +814,7 @@ limitations under the License.
 					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
 					<cfif #isdefined("storedas_" & n)#>
 						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
-					<cfelse>
+						<cfelse>
 						<cfset thisStoredAs = 0>
 					</cfif>
 					<cfif thisAcceptedIdFg is 1>
@@ -850,7 +841,7 @@ limitations under the License.
 							SET STORED_AS_FG=1 
 							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-					<cfelse>
+						<cfelse>
 						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE identification 
 							SET STORED_AS_FG=0 
@@ -870,7 +861,7 @@ limitations under the License.
 							DELETE FROM identification 
 							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
 						</cfquery>
-					<cfelse>
+						<cfelse>
 						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE identification SET
 								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
@@ -892,15 +883,15 @@ limitations under the License.
 							<cftry>
 								<!--- couter does not increment backwards - may be a few empty loops in here ---->
 								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-							<cfcatch>
-								<cfset thisIdId =-1>
-							</cfcatch>
+								<cfcatch>
+									<cfset thisIdId =-1>
+								</cfcatch>
 							</cftry>
 							<cftry>
 								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-							<cfcatch>
-								<cfset thisIdAgntId=-1>
-							</cfcatch>
+								<cfcatch>
+									<cfset thisIdAgntId=-1>
+								</cfcatch>
 							</cftry>
 							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
 								<!--- new determiner --->
@@ -916,7 +907,7 @@ limitations under the License.
 										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
 									)
 								</cfquery>
-							<cfelse>
+								<cfelse>
 								<!--- update or delete --->
 								<cfif #thisIdId# is "DELETE">
 									<!--- delete --->
@@ -924,7 +915,7 @@ limitations under the License.
 										DELETE FROM identification_agent
 										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
 									</cfquery>
-								<cfelseif thisIdId gte 0>
+									<cfelseif thisIdId gte 0>
 									<!--- update --->
 									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										UPDATE identification_agent sET
@@ -945,11 +936,38 @@ limitations under the License.
 				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
 				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
 				<cfreturn data>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cftransaction>
+		<cftry>
+			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+			<cfquery datasource="uam_god">
+				alter trigger tr_stored_as_fg enable
+			</cfquery>
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
-				<cfelse>
+					<cfelse>
 					<cfset queryError = ''>
 				</cfif>
 				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -965,33 +983,6 @@ limitations under the License.
 					</div>
 				</div>
 			</cfcatch>
-			</cftry>
-		</cftransaction>
-		<cftry>
-			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg enable
-			</cfquery>
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-			<cfelse>
-				<cfset queryError = ''>
-			</cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfcontent reset="yes">
-			<cfheader statusCode="500" statusText="#message#">
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
-		</cfcatch>
 		</cftry>
 	</cfoutput>
 </cffunction>
@@ -1098,9 +1089,6 @@ limitations under the License.
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
 </cffunction>
-
-
-
 <cffunction name="getIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
@@ -1482,7 +1470,7 @@ limitations under the License.
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
 															<cfelse>
-															#display_value#
+#display_value#
 														</cfif>
 													</li>
 												</cfloop>
@@ -1631,30 +1619,30 @@ limitations under the License.
 <cffunction name="getAgentIdentifiers" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getAgentIdentsThread"> <cfoutput>
-		<cftry>
-		<p>Hello</p>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			<cftry>
+				<p>Hello</p>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<cfabort>
-			</cfcatch>
-		</cftry>
+					<cfabort>
+				</cfcatch>
+			</cftry>
 		</cfoutput> </cfthread>
 	<cfthread action="join" name="getAgentIdentsThread" />
 	<cfreturn getAgentIdentsThread.output>
@@ -1737,7 +1725,6 @@ limitations under the License.
 				order by
 					part_name
 			</cfquery>
-				
 			<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
@@ -1746,9 +1733,9 @@ limitations under the License.
 				select count(*) as ct from parts group by lot_count order by part_name
 			</cfquery>
 			<cfoutput>
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-12 mt-1">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mt-1">
 							<form>
 								<h1 class="h3 px-1">Edit Existing Parts</h1>
 								<table class="table border-bottom mb-0">
@@ -1773,7 +1760,9 @@ limitations under the License.
 											</tr>
 											<cfif len(part_remarks) gt 0>
 												<tr class="small">
-													<td colspan="5"><span class="d-block"><span class="font-italic pl-1">Remarks:</span> <input class="w-100" type="text" value="#part_remarks#"></span></td>
+													<td colspan="5"><span class="d-block"><span class="font-italic pl-1">Remarks:</span>
+														<input class="w-100" type="text" value="#part_remarks#">
+														</span></td>
 												</tr>
 											</cfif>
 											<cfquery name="patt" dbtype="query">
@@ -1800,18 +1789,24 @@ limitations under the License.
 											<cfif patt.recordcount gt 0>
 												<tr>
 													<td colspan="5"><cfloop query="patt">
-															<div class="small pl-3" style="line-height: .9rem;"> <input type="text" class="" value="#attribute_type#">=<input class="" value="#attribute_value#">
+															<div class="small pl-3" style="line-height: .9rem;">
+																<input type="text" class="" value="#attribute_type#">
+																=
+																<input class="" value="#attribute_value#">
 																<cfif len(attribute_units) gt 0>
-																 <input type="text" class="" value="#attribute_units#">
+																	<input type="text" class="" value="#attribute_units#">
 																</cfif>
 																<cfif len(determined_date) gt 0>
-																	determined date = <input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+																	determined date =
+																	<input type="text" class="" value="#dateformat(determined_date,"yyyy-mm-dd")#">
 																</cfif>
 																<cfif len(agent_name) gt 0>
-																	determined by = <input type="text" class="" value="#agent_name#">
+																	determined by =
+																	<input type="text" class="" value="#agent_name#">
 																</cfif>
 																<cfif len(attribute_remark) gt 0>
-																	remark = <input type="text" class="" value="#attribute_remark#">
+																	remark =
+																	<input type="text" class="" value="#attribute_remark#">
 																</cfif>
 															</div>
 														</cfloop></td>
@@ -1830,7 +1825,9 @@ limitations under the License.
 												</tr>
 												<cfif len(part_remarks) gt 0>
 													<tr class="small">
-														<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span> <input class="" type="text" value="#part_remarks#"> </span></td>
+														<td colspan="5"><span class="pl-3 d-block"> <span class="font-italic">Remarks:</span>
+															<input class="" type="text" value="#part_remarks#">
+															</span></td>
 													</tr>
 												</cfif>
 											</cfloop>
@@ -1838,7 +1835,7 @@ limitations under the License.
 									</tbody>
 								</table>
 							</form>
-								<div class="col-8 px-0 mt-3">
+							<div class="col-8 px-0 mt-3">
 								<div id="accordionNewPart">
 									<div class="card">
 										<div class="card-header pt-1" id="headingNewPart">
@@ -1846,35 +1843,29 @@ limitations under the License.
 												<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNewPart" aria-expanded="true" aria-controls="collapseNewPart"> <span class="h4">Add Specimen Part</span> </button>
 											</h1>
 										</div>
-											<div id="collapseNewPart" class="collapse" aria-labelledby="headingNewPart" data-parent="##accordionNewPart">
-												<div class="card-body mt-2">
-												<a name="newPart"></a>
+										<div id="collapseNewPart" class="collapse" aria-labelledby="headingNewPart" data-parent="##accordionNewPart">
+											<div class="card-body mt-2"> <a name="newPart"></a>
 												<form name="newPart">
 													<input type="hidden" name="Action" value="newPart">
 													<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 													<table class="table table-responsive table-light border-0 col-12 px-0 mb-2">
 														<tr>
 															<td class=""><div align="right">Part Name: </div></td>
-															<td class="">
-																<input type="text" name="part_name" id="part_name" class="reqdClr"
+															<td class=""><input type="text" name="part_name" id="part_name" class="reqdClr"
 																	onchange="findPart(this.id,this.value,'#collcode.collection_cde#');"
-																	onkeypress="return noenter(event);">
-															</td>
+																	onkeypress="return noenter(event);"></td>
 														</tr>
 														<tr>
 															<td><div align="right">Preserve Method: </div></td>
-															<td>
-																<select name="preserve_method" size="1"  class="reqdClr">
-																<cfloop query="ctPreserveMethod">
-																	<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-																</cfloop>
-																</select>
-															</td>
+															<td><select name="preserve_method" size="1"  class="reqdClr">
+																	<cfloop query="ctPreserveMethod">
+																		<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+																	</cfloop>
+																</select></td>
 														</tr>
 														<tr>
 															<td><div align="right">Count:</div></td>
-															<td>
-																<select name="lot_count_modifier" size="1">
+															<td><select name="lot_count_modifier" size="1">
 																	<option value=""></option>
 																	<cfloop query="ctModifiers">
 																		<option value="#ctModifiers.modifier#">#ctModifiers.modifier#</option>
@@ -1884,13 +1875,11 @@ limitations under the License.
 														</tr>
 														<tr>
 															<td><div align="right">Disposition:</div></td>
-															<td>
-																<select name="coll_obj_disposition" size="1"  class="reqdClr">
+															<td><select name="coll_obj_disposition" size="1"  class="reqdClr">
 																	<cfloop query="ctDisp">
-																	<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+																		<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 																	</cfloop>
-																</select>
-															</td>
+																</select></td>
 														</tr>
 														<tr>
 															<td><div align="right">Condition:</div></td>
@@ -1901,22 +1890,20 @@ limitations under the License.
 															<td><input type="text" name="coll_object_remarks" size="50"></td>
 														</tr>
 														<tr>
-															<td colspan="2">
-																<div align="center">
+															<td colspan="2"><div align="center">
 																	<input type="submit" value="Create" class="btn btn-xs btn-primary">
-																</div>
-															</td>
+																</div></td>
 														</tr>
 													</table>
 												</form>
-												</div>
 											</div>
 										</div>
+									</div>
 								</div>
-							</div>
 							</div>
 						</div>
 					</div>
+				</div>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
@@ -2375,7 +2362,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditAttributesThread"> <cfoutput>
 			<cftry>
-			<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="attribute1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
 					attributes.attribute_value,
@@ -2391,7 +2378,7 @@ limitations under the License.
 					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
@@ -2429,209 +2416,221 @@ limitations under the License.
 					 and ctrel.rel_type <> 'functional'
 				)
 			</cfquery>
-			<cfquery name="sex" dbtype="query">
+				<cfquery name="sex" dbtype="query">
 				select * from attribute1 where attribute_type = 'sex'
 			</cfquery>
-			<cfif len(attribute1.attribute_value) gt 0>
-				<form class="row mx-0">
-					<div class="bg-light border rounded p-2">
-					<h1 class="h3">Edit Existing Attributes</h1>
-					<ul class="col-12 px-0 pb-3">
-						<cfloop query="sex">
-							<li class="list-group-item float-left col-12 col-md-2 px-1">
-								<label class="data-entry-label">Sex:</label>
-								<input class="data-entry-input" value="#attribute_value#">
-							</li>
-							<cfif len(attributeDeterminer) gt 0>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Determiner:</label>
-									<input class="data-entry-input" value="#attributeDeterminer#">
-								</li>
-								<cfif len(determined_date) gt 0>
+				<cfif len(attribute1.attribute_value) gt 0>
+					<form class="row mx-0">
+						<div class="bg-light border rounded p-2">
+							<h1 class="h3">Edit Existing Attributes</h1>
+							<ul class="col-12 px-0 pb-3">
+								<cfloop query="sex">
 									<li class="list-group-item float-left col-12 col-md-2 px-1">
-										<label class="data-entry-label">Date:</label>
-										<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+										<label class="data-entry-label">Sex:</label>
+										<input class="data-entry-input" value="#attribute_value#">
 									</li>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2 px-1">
-										<label class="data-entry-label">Method:</label>
-										<input class="data-entry-input" value="#determination_method#">
-									</li>
-								</cfif>
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label class="data-entry-label">Remark:</label>
-									<input class="data-entry-input" value="#attribute_remark#">
-								</li>
-							</cfif>
-						</cfloop>
-					</ul>
-						<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfif len(attributeDeterminer) gt 0>
+										<li class="list-group-item float-left col-12 col-md-3 px-1">
+											<label class="data-entry-label">Determiner:</label>
+											<input class="data-entry-input" value="#attributeDeterminer#">
+										</li>
+										<cfif len(determined_date) gt 0>
+											<li class="list-group-item float-left col-12 col-md-2 px-1">
+												<label class="data-entry-label">Date:</label>
+												<input class="data-entry-input" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+											</li>
+										</cfif>
+										<cfif len(determination_method) gt 0>
+											<li class="list-group-item float-left col-12 col-md-2 px-1">
+												<label class="data-entry-label">Method:</label>
+												<input class="data-entry-input" value="#determination_method#">
+											</li>
+										</cfif>
+									</cfif>
+									<cfif len(attribute_remark) gt 0>
+										<li class="list-group-item float-left col-12 col-md-3 px-1">
+											<label class="data-entry-label">Remark:</label>
+											<input class="data-entry-input" value="#attribute_remark#">
+										</li>
+									</cfif>
+								</cfloop>
+							</ul>
+							<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 						</cfquery>
-						<cfif #code.collection_cde# is "Mamm">
-						<cfquery name="total_length" dbtype="query">
+							<cfif #code.collection_cde# is "Mamm">
+								<cfquery name="total_length" dbtype="query">
 							select * from attribute1 where attribute_type = 'total length'
 						</cfquery>
 								<cfquery name="tail_length" dbtype="query">
 							select * from attribute1 where attribute_type = 'tail length'
 						</cfquery>
-						<cfquery name="hf" dbtype="query">
+								<cfquery name="hf" dbtype="query">
 							select * from attribute1 where attribute_type = 'hind foot with claw'
 						</cfquery>
-						<cfquery name="efn" dbtype="query">
+								<cfquery name="efn" dbtype="query">
 							select * from attribute1 where attribute_type = 'ear from notch'
 						</cfquery>
-						<cfquery name="weight" dbtype="query">
+								<cfquery name="weight" dbtype="query">
 							select * from attribute1 where attribute_type = 'weight'
 						</cfquery>
-						<cfif
+								<cfif
 							len(total_length.attribute_units) gt 0 OR
 							len(tail_length.attribute_units) gt 0 OR
 							len(hf.attribute_units) gt 0 OR
 							len(efn.attribute_units) gt 0 OR
 							len(weight.attribute_units) gt 0>
-								<!---semi-standard measurements ---> 
-								<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
-								<table class="table table-responsive bg-white mt-2 mb-1 mx-0" aria-label="Standard Measurements">
-									<thead>
-										<tr>
-											<th>total length</th>
-											<th>tail length</th>
-											<th>hind foot</th>
-											<th>efn</th>
-											<th>weight</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="col-12 px-0 pt-2">
-											<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#"></td>
-											<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#"></td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#"></td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#"></td>
-											<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#"> <input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#"></td>
-										</tr>
-									</tbody>
-								</table>
-								<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-									<cfset determination = "#attributeDeterminer#">
-									<cfif len(determined_date) gt 0>
-										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+									<!---semi-standard measurements ---> 
+									<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+									<table class="table table-responsive bg-white mt-2 mb-1 mx-0" aria-label="Standard Measurements">
+										<thead>
+											<tr>
+												<th>total length</th>
+												<th>tail length</th>
+												<th>hind foot</th>
+												<th>efn</th>
+												<th>weight</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="col-12 px-0 pt-2">
+												<td><input type="text" class="col-8 float-left px-1" value="#total_length.attribute_value#">
+													<input type="text" class="col-4 px-1 float-left" value="#total_length.attribute_units#"></td>
+												<td><input type="text" class="col-8 float-left px-1" value="#tail_length.attribute_value#">
+													<input type="text" class="col-4 px-1 float-left" value="#tail_length.attribute_units#"></td>
+												<td><input type="text" class="col-8 px-1 float-left" value="#hf.attribute_value#">
+													<input type="text" class="col-4 px-1 float-left" value="#hf.attribute_units#"></td>
+												<td><input type="text" class="col-8 px-1 float-left" value="#efn.attribute_value#">
+													<input type="text" class="col-4 px-1 float-left" value="#efn.attribute_units#"></td>
+												<td><input type="text" class="col-8 px-1 float-left" value="#weight.attribute_value#">
+													<input type="text" class="col-4 px-1 float-left" value="#weight.attribute_units#"></td>
+											</tr>
+										</tbody>
+									</table>
+									<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+										<cfset determination = "#attributeDeterminer#">
+										<cfif len(determined_date) gt 0>
+											<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+										</cfif>
+										<cfif len(determination_method) gt 0>
+											<cfset determination = '#determination#, #determination_method#'>
+										</cfif>
+#determination#
 									</cfif>
-									<cfif len(determination_method) gt 0>
-										<cfset determination = '#determination#, #determination_method#'>
-									</cfif>
-									#determination#
 								</cfif>
-							</cfif>
-					<cfquery name="theRest" dbtype="query">
+								<cfquery name="theRest" dbtype="query">
 						select * from attribute1 
 						where attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
 					</cfquery>
-							<cfelse>
-							<!--- not Mamm --->
-							
-					<cfquery name="theRest" dbtype="query">
+								<cfelse>
+								<!--- not Mamm --->
+								
+								<cfquery name="theRest" dbtype="query">
 						select * from attribute1 where attribute_type NOT IN ('sex')
 					</cfquery>
-						</cfif>
-						<cfloop query="theRest">
-							<div class="row mx-0">
-							<ul class="col-12 mb-0 px-0 mt-2 pt-1 border-top">
-							<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-								<label for="att_name" class="data-entry-label">Attribute Name</label>
-								<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
-							</li>
-							<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
-								<label for="att_value" class="data-entry-label">Attribute Value</label>
-								<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
-							</li>
-								<cfif len(attribute_units) gt 0>
-								<li class="list-group-item float-left col-12 col-md-1 px-1 mb-1">
-									<label for="att_units" class="data-entry-label">Units</label>
-									<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
-								</li>
-								</cfif>
-								<cfif len(attributeDeterminer) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1"><label class="data-entry-label">Determiner</label><input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#"></li>
-									<cfif len(determined_date) gt 0>
-									<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1"><label class="data-entry-label">Determined Date</label><input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#"></li>
-									</cfif>
-									<cfif len(determination_method) gt 0>
-										<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1"><label class="data-entry-label">Determined Method</label><input type="text" class="data-entry-input" id="att_meth" value="#determination_method#"></li>
-									</cfif>
-								</cfif>
-							</ul>
-							</div>
-								<cfif len(attribute_remark) gt 0>
-								<div class="mx-0 row">
-									<ul class="col-12 mb-0 px-0 mt-2 mb-1">
-										<li class="list-group-item float-left col-12 col-md-12 px-1 mb-1">
-											<label for="att_rem" class="data-entry-label">Remarks</label>
-											<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
+							</cfif>
+							<cfloop query="theRest">
+								<div class="row mx-0">
+									<ul class="col-12 mb-0 px-0 mt-2 pt-1 border-top">
+										<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
+											<label for="att_name" class="data-entry-label">Attribute Name</label>
+											<input type="text" class="data-entry-input" id="att_name" value="#attribute_type#">
 										</li>
+										<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
+											<label for="att_value" class="data-entry-label">Attribute Value</label>
+											<input type="text" class="data-entry-input" id="att_value" value="#attribute_value#">
+										</li>
+										<cfif len(attribute_units) gt 0>
+											<li class="list-group-item float-left col-12 col-md-1 px-1 mb-1">
+												<label for="att_units" class="data-entry-label">Units</label>
+												<input type="text" class="data-entry-input" id="att_units" value="#attribute_units#">
+											</li>
+										</cfif>
+										<cfif len(attributeDeterminer) gt 0>
+											<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
+												<label class="data-entry-label">Determiner</label>
+												<input type="text" class="data-entry-input" id="att_det" value="#attributeDeterminer#">
+											</li>
+											<cfif len(determined_date) gt 0>
+												<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
+													<label class="data-entry-label">Determined Date</label>
+													<input type="text" class="data-entry-input" id="att_det" value="#dateformat(determined_date,"yyyy-mm-dd")#">
+												</li>
+											</cfif>
+											<cfif len(determination_method) gt 0>
+												<li class="list-group-item float-left col-12 col-md-2 px-1 mb-1">
+													<label class="data-entry-label">Determined Method</label>
+													<input type="text" class="data-entry-input" id="att_meth" value="#determination_method#">
+												</li>
+											</cfif>
+										</cfif>
 									</ul>
 								</div>
+								<cfif len(attribute_remark) gt 0>
+									<div class="mx-0 row">
+										<ul class="col-12 mb-0 px-0 mt-2 mb-1">
+											<li class="list-group-item float-left col-12 col-md-12 px-1 mb-1">
+												<label for="att_rem" class="data-entry-label">Remarks</label>
+												<input type="text" class="data-entry-input" id="att_rem" value="#attribute_remark#">
+											</li>
+										</ul>
+									</div>
 								</cfif>
-						</cfloop>
+							</cfloop>
 						</div>
 						<input type="button" value="Save" aria-label="Save Changes" class="mt-2 btn mx-1 btn-xs btn-primary">
-				
-				</form>
-					<cfelse>
-				
-					</cfif>
-<div class="col-12 mt-4 px-1">
-	<div id="accordionAttribute">
-		<div class="card">
-			<div class="card-header pt-1" id="headingAttribute">
-				<h1 class="my-0 px-1 pb-1">
-					<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Attribute</span> </button>
-				</h1>
-			</div>
-			<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
-				<div class="card-body mt-2">
-					<form name="newOID">
-						<div class="row mx-0 pb-2">
-							<ul class="col-12 px-0 mt-2 mb-1">
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label for="new_att_name" class="data-entry-label">Attribute Name</label>
-									<input type="text" class="data-entry-input" id="new_att_name" value="">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-3 px-1">
-									<label for="new_att_value" class="data-entry-label">Attribute Value</label>
-									<input type="text" class="data-entry-input" id="new_att_value" value="">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-2 px-1">
-									<label for="new_att_determiner" class="data-entry-label">Determiner</label>
-									<input type="text" class="data-entry-input" id="new_att_determiner" value="">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-2 px-1">
-									<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
-									<input type="text" class="data-entry-input" id="new_att_det_date" value="">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-2 px-1">
-									<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
-									<input type="text" class="data-entry-input" id="new_att_det_method" value="">
-								</li>
-								<li class="list-group-item float-left col-12 col-md-12 px-1">
-									<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
-									<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
-								</li>
-							</ul>
-						<div class="col-12 col-md-12 px-1 mt-2">
-							<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
-						</div>
 					</form>
+					<cfelse>
+				</cfif>
+				<div class="col-12 mt-4 px-1">
+					<div id="accordionAttribute">
+						<div class="card">
+							<div class="card-header pt-1" id="headingAttribute">
+								<h1 class="my-0 px-1 pb-1">
+									<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseAttribute" aria-expanded="true" aria-controls="collapseAttribute"> <span class="h4">Add New Attribute</span> </button>
+								</h1>
+							</div>
+							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
+								<div class="card-body mt-2">
+									<form name="newOID">
+										<div class="row mx-0 pb-2">
+										<ul class="col-12 px-0 mt-2 mb-1">
+											<li class="list-group-item float-left col-12 col-md-3 px-1">
+												<label for="new_att_name" class="data-entry-label">Attribute Name</label>
+												<input type="text" class="data-entry-input" id="new_att_name" value="">
+											</li>
+											<li class="list-group-item float-left col-12 col-md-3 px-1">
+												<label for="new_att_value" class="data-entry-label">Attribute Value</label>
+												<input type="text" class="data-entry-input" id="new_att_value" value="">
+											</li>
+											<li class="list-group-item float-left col-12 col-md-2 px-1">
+												<label for="new_att_determiner" class="data-entry-label">Determiner</label>
+												<input type="text" class="data-entry-input" id="new_att_determiner" value="">
+											</li>
+											<li class="list-group-item float-left col-12 col-md-2 px-1">
+												<label for="new_att_det_date" class="data-entry-label">Determined Date</label>
+												<input type="text" class="data-entry-input" id="new_att_det_date" value="">
+											</li>
+											<li class="list-group-item float-left col-12 col-md-2 px-1">
+												<label for="new_att_det_method" class="data-entry-label">Determined Method</label>
+												<input type="text" class="data-entry-input" id="new_att_det_method" value="">
+											</li>
+											<li class="list-group-item float-left col-12 col-md-12 px-1">
+												<label for="new_att_det_remarks" class="data-entry-label">Remarks</label>
+												<input type="text" class="data-entry-input" id="new_att_det_remarks" value="">
+											</li>
+										</ul>
+										<div class="col-12 col-md-12 px-1 mt-2">
+											<button id="newID_submit" value="Create" class="btn btn-xs btn-primary" title="Create Identification">Create Attribute</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
@@ -2652,8 +2651,7 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cfoutput> 
-		</cfthread>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditAttributesThread" />
 	<cfreturn getEditAttributesThread.output>
 </cffunction>
@@ -3068,343 +3066,341 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 float-left px-0">
-						<h1 class="h3">Specific Locality</h1>
-							
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
-							<li class="col-12 col-md-12 px-0 pt-1">
-								<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
-									&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
-									<cfif loccount.ct eq 1>
-										(unique to this specimen)
-										<cfelse>
-										(shared with #loccount.ct# specimens)
-									</cfif>
-								</label>
-							</li>
-							<li class="col-12 pb-1 col-md-12 pb-2 px-0">
-								<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
-							</li>
-							<li class=" col-12 col-md-2 px-0 py-1">
-								<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
-							</li>
-							<li class="col-12  col-md-10 px-0 pb-2">
-								<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
-									<cfloop query="ctSovereignNation">
-										<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-									</cfloop>
-								</select>
-							</li>
-							<li class=" col-12 col-md-2 py-1 px-0">
-								<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
-							</li>
-							<li class=" col-12 col-md-2 pb-2 px-0">
-								<cfinput type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
-							</li>
-							<li class=" col-12 col-md-2 py-1 px-0">
-								<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
-							</li>
-							<li class=" col-12 col-md-2 pb-2 px-0">
-								<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
-							</li>
-							<li class=" col-12 col-md-2 py-1 px-0">
-								<label for="orig_elev_units" class="data-entry-label px-2 text-right"> Elevation Units </label>
-							</li>
-							<li class=" col-12 col-md-2 pb-1 px-0">
-								<select name="orig_elev_units" id="orig_elev_units" size="1">
-									<option value=""></option>
-									<cfloop query="ctElevUnit">
-										<option <cfif #ctelevunit.orig_elev_units# is "#l.orig_elev_units#"> selected </cfif>
+							<h1 class="h3">Specific Locality</h1>
+							<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
+								<li class="col-12 col-md-12 px-0 pt-1">
+									<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
+										&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
+										<cfif loccount.ct eq 1>
+											(unique to this specimen)
+											<cfelse>
+											(shared with #loccount.ct# specimens)
+										</cfif>
+									</label>
+								</li>
+								<li class="col-12 pb-1 col-md-12 pb-2 px-0">
+									<cfinput type="text" class="data-entry-input" name="spec_locality" id="spec_locality" value="#l.spec_locality#" required="true" message="Specific Locality is required.">
+								</li>
+								<li class=" col-12 col-md-2 px-0 py-1">
+									<label for="sovereign_nation" class="data-entry-label pt-1 text-right">Sovereign Nation</label>
+								</li>
+								<li class="col-12  col-md-10 px-0 pb-2">
+									<select name="sovereign_nation" id="sovereign_nation" size="1" class="">
+										<cfloop query="ctSovereignNation">
+											<option <cfif isdefined("l.sovereign_nation") AND ctsovereignnation.sovereign_nation is l.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
+										</cfloop>
+									</select>
+								</li>
+								<li class=" col-12 col-md-2 py-1 px-0">
+									<label for="minimum_elevation" class="data-entry-label px-2 text-right"> Min. Elevation </label>
+								</li>
+								<li class=" col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" class="px-2 data-entry-input mr-2" name="minimum_elevation" id="minimum_elevation" value="#l.MINIMUM_ELEVATION#" validate="numeric" message="Minimum Elevation is a number.">
+								</li>
+								<li class=" col-12 col-md-2 py-1 px-0">
+									<label for="maximum_elevation"  class="data-entry-label px-2 text-right"> Max. Elevation </label>
+								</li>
+								<li class=" col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" class="data-entry-label px-2 mr-2" id="maximum_elevation" name="maximum_elevation" value="#l.MAXIMUM_ELEVATION#" validate="numeric" message="Maximum Elevation is a number.">
+								</li>
+								<li class=" col-12 col-md-2 py-1 px-0">
+									<label for="orig_elev_units" class="data-entry-label px-2 text-right"> Elevation Units </label>
+								</li>
+								<li class=" col-12 col-md-2 pb-1 px-0">
+									<select name="orig_elev_units" id="orig_elev_units" size="1">
+										<option value=""></option>
+										<cfloop query="ctElevUnit">
+											<option <cfif #ctelevunit.orig_elev_units# is "#l.orig_elev_units#"> selected </cfif>
 									value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-									</cfloop>
-								</select>
-							</li>
-							<li class=" col-12 col-md-2 py-1 px-0">
-								<label for="min_depth" class="data-entry-label px-2 text-right"> Min. Depth </label>
-							</li>
-							<li class="col-12 col-md-2 pb-1 px-0">
-								<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
-							</li>
-							<li class=" col-12 col-md-2 py-1 px-0">
-								<label for="max_depth" class="data-entry-label px-2 text-right"> Max. Depth </label>
-							</li>
-							<li class="col-12 col-md-2 pb-1 px-0">
-								<cfinput type="text" id="max_depth" name="max_depth"
+										</cfloop>
+									</select>
+								</li>
+								<li class=" col-12 col-md-2 py-1 px-0">
+									<label for="min_depth" class="data-entry-label px-2 text-right"> Min. Depth </label>
+								</li>
+								<li class="col-12 col-md-2 pb-1 px-0">
+									<cfinput type="text" class="data-entry-input" name="min_depth" id="min_depth" value="#l.min_depth#" validate="numeric" message="Minimum Depth is a number.">
+								</li>
+								<li class=" col-12 col-md-2 py-1 px-0">
+									<label for="max_depth" class="data-entry-label px-2 text-right"> Max. Depth </label>
+								</li>
+								<li class="col-12 col-md-2 pb-1 px-0">
+									<cfinput type="text" id="max_depth" name="max_depth"
 								value="#l.max_depth#" size="3" validate="numeric" class="data-entry-input px-2 mr-2" message="Maximum Depth is a number.">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="depth_units"  class="data-entry-label px-2 text-right"> Depth Units </label>
-							</li>
-							<li class=" col-12 col-md-2 pb-1 px-0">
-								<select name="depth_units" id="depth_units" class="" size="1">
-									<option value=""></option>
-									<cfloop query="ctdepthUnit">
-										<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="depth_units"  class="data-entry-label px-2 text-right"> Depth Units </label>
+								</li>
+								<li class=" col-12 col-md-2 pb-1 px-0">
+									<select name="depth_units" id="depth_units" class="" size="1">
+										<option value=""></option>
+										<cfloop query="ctdepthUnit">
+											<option <cfif #ctdepthUnit.depth_units# is "#l.depth_units#"> selected </cfif>
 									value="#ctdepthUnit.depth_units#">#ctdepthUnit.depth_units#</option>
-									</cfloop>
-								</select>
-							</li>
-							<li class="col-12 col-md-12 pt-1 px-0">
-								<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
-							</li>
-							<li class="col-12 col-md-12 pb-1 px-0">
-								<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
-							</li>
-							<li class=" col-12 col-md-12 pt-1 px-0">
-								<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a> </label>
-							</li>
-							<li class=" col-12 col-md-12 pb-2 px-0">
-								<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#" class="data-entry-input">
-								<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
-									<div class="redMessage"> NotGeorefBecause should be NULL for localities with georeferences.
-										Please review this locality and update accordingly. </div>
-									<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
-									<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
-								</cfif>
-							</li>
-						</ul>
-						<h1 class="h3 mt-3">Collecting Event</h1>
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
-							<li class="col-12 col-md-12 px-0 pt-1 mt-2">
-								<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
-									<cfif cecount.ct eq 1>
-										(unique to this specimen)
-										<cfelse>
-										(shared with #cecount.ct# specimens)
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-12 pt-1 px-0">
+									<label for="locality_remarks" class="data-entry-label px-2">Locality Remarks</label>
+								</li>
+								<li class="col-12 col-md-12 pb-1 px-0">
+									<input type="text" class="data-entry-label px-2" name="locality_remarks" id="locality_remarks" value="#l.LOCALITY_REMARKS#">
+								</li>
+								<li class=" col-12 col-md-12 pt-1 px-0">
+									<label for="NoGeorefBecause" class="data-entry-label px-2"> Not Georefererenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">(Suggested Entries)</a> </label>
+								</li>
+								<li class=" col-12 col-md-12 pb-2 px-0">
+									<input type="text" name="NoGeorefBecause" value="#l.NoGeorefBecause#" class="data-entry-input">
+									<cfif #len(l.orig_lat_long_units)# gt 0 AND len(#l.NoGeorefBecause#) gt 0>
+										<div class="redMessage"> NotGeorefBecause should be NULL for localities with georeferences.
+											Please review this locality and update accordingly. </div>
+										<cfelseif #len(l.orig_lat_long_units)# is 0 AND len(#l.NoGeorefBecause#) is 0>
+										<div class="redMessage"> Please georeference this locality or enter a value for NoGeorefBecause. </div>
 									</cfif>
-								</label>
-							</li>
-							<li class="col-12 col-md-12 pb-2 px-0">
-								<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
-							</li>
-							<li class="col-12 col-md-2 py-2 px-0">
-								<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
-							</li>
-							<li class="col-12 col-md-2 pb-2 px-0">
-								<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="collecting time" class="px-2 data-entry-label text-right">Collecting Time</label>
-							</li>
-							<li class="col-12 col-md-2 pb-2 px-0">
-								<cfinput type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#l.collecting_time#">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
-							</li>
-							<li class="col-12 col-md-2 pb-2 px-0">
-								<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="startDayofYear" class="px-2 data-entry-label text-right"> Start Day of Year</label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="endDayofYear" class="px-2 data-entry-label text-right"> End Day of Year </label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="began_date" class="px-2 data-entry-label text-right">Began Date/Time</label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="ended_date" class="px-2  data-entry-label text-right"> Ended Date/Time </label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
-							</li>
-							<li class="col-12 col-md-3 py-1 px-0">
-								<label for="coll_event_remarks" class="px-2  data-entry-label text-right"> Collecting Event Remarks </label>
-							</li>
-							<li class="col-12 col-md-9 pb-2 px-0">
-								<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="collecting_source" class="px-2 data-entry-label text-right"> Collecting Source </label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
-								<option value=""></option>
-								<cfloop query="ctcollecting_source">
-									<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
+								</li>
+							</ul>
+							<h1 class="h3 mt-3">Collecting Event</h1>
+							<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
+								<li class="col-12 col-md-12 px-0 pt-1 mt-2">
+									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
+										<cfif cecount.ct eq 1>
+											(unique to this specimen)
+											<cfelse>
+											(shared with #cecount.ct# specimens)
+										</cfif>
+									</label>
+								</li>
+								<li class="col-12 col-md-12 pb-2 px-0">
+									<cfinput type="text" class="data-entry-input" name="verbatim_locality" id="verbatim_locality" value="#l.verbatim_locality#" required="true" message="Verbatim Locality is required.">
+								</li>
+								<li class="col-12 col-md-2 py-2 px-0">
+									<label for="verbatim_date" class="px-2 data-entry-label text-right">Verbatim Date</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" class="data-entry-input" name="verbatim_date" id="verbatim_date" value="#l.verbatim_date#" required="true" message="Verbatim Date is a required text field.">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="collecting time" class="px-2 data-entry-label text-right">Collecting Time</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" class="data-entry-input" name="collecting_time" id="collecting_time" value="#l.collecting_time#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="ich field number" class="px-2 data-entry-label text-right"> Ich. Field Number </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" class="px-2 data-entry-input" name="ich_field_number" id="ich_field_number" value="#l.fish_field_number#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="startDayofYear" class="px-2 data-entry-label text-right"> Start Day of Year</label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<cfinput type="text" class="px-2 data-entry-input" name="startDayofYear" id="startDayofYear" value="#l.startdayofyear#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="endDayofYear" class="px-2 data-entry-label text-right"> End Day of Year </label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<cfinput type="text" class="px-2 data-entry-input" name="endDayofYear" id="endDayofYear" value="#l.enddayofyear#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="began_date" class="px-2 data-entry-label text-right">Began Date/Time</label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<input type="text" class="px-2 data-entry-input" name="began_date" id="began_date" value="#l.began_date#" class="reqdClr">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="ended_date" class="px-2  data-entry-label text-right"> Ended Date/Time </label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<input type="text" class="data-entry-input" name="ended_date" id="ended_date" value="#l.ended_date#" class="reqdClr">
+								</li>
+								<li class="col-12 col-md-3 py-1 px-0">
+									<label for="coll_event_remarks" class="px-2  data-entry-label text-right"> Collecting Event Remarks </label>
+								</li>
+								<li class="col-12 col-md-9 pb-2 px-0">
+									<input type="text" class="data-entry-input" name="coll_event_remarks" id="coll_event_remarks" value="#l.COLL_EVENT_REMARKS#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="collecting_source" class="px-2 data-entry-label text-right"> Collecting Source </label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<select name="collecting_source" class="data-entry-select" id="collecting_source" size="1" class="reqdClr">
+									<option value=""></option>
+									<cfloop query="ctcollecting_source">
+										<option <cfif #ctcollecting_source.COLLECTING_SOURCE# is "#l.COLLECTING_SOURCE#"> selected </cfif>
 						value="#ctcollecting_source.COLLECTING_SOURCE#">#ctcollecting_source.COLLECTING_SOURCE#</option>
-								</cfloop>
-								</select>
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="collecting_method" class="data-entry-label px-2 text-right"> Collecting Method </label>
-							</li>
-							<li class="col-12 col-md-4 pb-2 px-0">
-								<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
-							</li>
-							<li class="col-12 col-md-2 py-1 px-0">
-								<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
-							</li>
-							<li class="col-12 col-md-10 pb-2 px-0">
-								<input type="text" class="data-entry-input px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
-							</li>
-						</ul>
-					<h1 class="h3 mt-3">Geology</h1>
+									</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="collecting_method" class="data-entry-label px-2 text-right"> Collecting Method </label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<input type="text" name="collecting_method" id="collecting_method" value="#l.COLLECTING_METHOD#" >
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="habitat_desc" class="data-entry-label px-2 text-right"> Habitat </label>
+								</li>
+								<li class="col-12 col-md-10 pb-2 px-0">
+									<input type="text" class="data-entry-input px-2" name="habitat_desc" id="habitat_desc" value="#l.habitat_desc#" >
+								</li>
+							</ul>
+							<h1 class="h3 mt-3">Geology</h1>
 							<ul id="gTab" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<cfloop query="g">
-							<cfset thisAttribute=g.geology_attribute>
-							<select name="geology_attribute__#geology_attribute_id#"
+								<cfloop query="g">
+									<cfset thisAttribute=g.geology_attribute>
+									<select name="geology_attribute__#geology_attribute_id#"
 				id="geology_attribute__#geology_attribute_id#" size="1" class="reqdClr" onchange="populateGeology(this.id)">
-								<option value="">DELETE THIS ROW</option>
-								<cfloop query="ctgeology_attribute">
-									<option
+										<option value="">DELETE THIS ROW</option>
+										<cfloop query="ctgeology_attribute">
+											<option
 					<cfif thisAttribute is geology_attribute> selected="selected" </cfif>
 						value="#geology_attribute#">#geology_attribute#</option>
-								</cfloop>
-							</select>
-							<select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
+										</cfloop>
+									</select>
+									<select id="geo_att_value__#geology_attribute_id#" class="reqdClr"
 				name="geo_att_value__#geology_attribute_id#">
-								<option value="#geo_att_value#">#geo_att_value#</option>
-							</select>
-							<input type="text" id="geo_att_determiner__#geology_attribute_id#"
+										<option value="#geo_att_value#">#geo_att_value#</option>
+									</select>
+									<input type="text" id="geo_att_determiner__#geology_attribute_id#"
 				name="geo_att_determiner__#geology_attribute_id#" value="#geo_att_determiner#"
 				size="15"
 				onchange="getAgent('geo_att_determiner_id__#geology_attribute_id#','geo_att_determiner__#geology_attribute_id#','loc',this.value); return false;">
-							<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
+									<input type="hidden" name="geo_att_determiner_id__#geology_attribute_id#"
 				id="geo_att_determiner_id__#geology_attribute_id#" value="#geo_att_determiner_id#">
-							<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
+									<input type="text" id="geo_att_determined_date__#geology_attribute_id#"
 				name="geo_att_determined_date__#geology_attribute_id#"
 				value="#dateformat(geo_att_determined_date,'yyyy-mm-dd')#"
 				size="10">
-							<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
+									<input type="text" id="geo_att_determined_method__#geology_attribute_id#"
 				name="geo_att_determined_method__#geology_attribute_id#" value="#geo_att_determined_method#"
 				size="10">
-							<input type="text" id="geo_att_remark__#geology_attribute_id#"
+									<input type="text" id="geo_att_remark__#geology_attribute_id#"
 				name="geo_att_remark__#geology_attribute_id#" value="#geo_att_remark#"
 				size="10">
-							<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
-						</cfloop>
-				
-					<li class="col-12 col-md-2 py-1 px-0">
-						<label for="geology_attribute" class="data-entry-label px-2 text-right">Geology Attribute</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">
-						<select name="geology_attribute" onchange="populateGeology(this.id)" id="geology_attribute" class="reqdClr data-entry-select">
-							<option value=""></option>
-							<cfloop query="ctgeology_attribute">
-								<option value="#geology_attribute#">#geology_attribute#</option>
-							</cfloop>
-						</select>
-					</li>
-					<li class="col-12 col-md-2 py-1 px-0">
-						<label for="geo_att_value" class="data-entry-label px-2 text-right"> Value</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">	
-						<select id="geo_att_value" class="reqdClr data-entry-select" name="geo_att_value"><option>value</option></select>
-					</li>
-					<li class="col-12 col-md-2 py-1 px-0">
-						<label for="geo_att_determiner" class="data-entry-label px-2 text-right"> Determiner</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">		
-						<input type="text" id="geo_att_determiner" name="geo_att_determiner"  class="data-entry-input" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
-						<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
-					</li>
-					<li class="col-12 col-md-2 py-1 px-0">
-						<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">	
-						<input type="text" id="geo_att_determined_date" name="geo_att_determined_date" class="data-entry-input">
-					</li>
-					<li class="col-12 col-md-2 py-1 px-0">
-							<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">	
-						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
-					</li>
-					<li class="col-12 col-md-2 py-1 px-0">
-							<label for="geo_att_remark" class="data-entry-label px-2 text-right"> Remark</label>
-					</li>
-					<li class="col-12 col-md-2 pb-2 px-0">
-						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
-					</li>
-					</ul>	
-						<h1 class="h3 mt-3">Coordinates and Coordinate Metadata</h1>
-						<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-			
-					 
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
-						</li>
-						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
-							<label for="DETERMINED_DATE" class="data-entry-label px-2"> Determined Date </label>
-						</li>
-						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="determined_date" id="determined_date"
+									<img src="/images/del.gif" class="likeLink" onclick="document.getElementById('geology_attribute__#geology_attribute_id#').value='';">
+								</cfloop>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geology_attribute" class="data-entry-label px-2 text-right">Geology Attribute</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<select name="geology_attribute" onchange="populateGeology(this.id)" id="geology_attribute" class="reqdClr data-entry-select">
+										<option value=""></option>
+										<cfloop query="ctgeology_attribute">
+											<option value="#geology_attribute#">#geology_attribute#</option>
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geo_att_value" class="data-entry-label px-2 text-right"> Value</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<select id="geo_att_value" class="reqdClr data-entry-select" name="geo_att_value">
+										<option>value</option>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geo_att_determiner" class="data-entry-label px-2 text-right"> Determiner</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" id="geo_att_determiner" name="geo_att_determiner"  class="data-entry-input" onchange="getAgent('geo_att_determiner_id','geo_att_determiner','loc',this.value); return false;">
+									<input type="hidden" name="geo_att_determiner_id" id="geo_att_determiner_id">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geo_att_determined_date" class="data-entry-label px-2 text-right"> Date</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" id="geo_att_determined_date" name="geo_att_determined_date" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geo_att_determined_method" class="data-entry-label px-2 text-right"> Method</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="geo_att_remark" class="data-entry-label px-2 text-right"> Remark</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
+								</li>
+							</ul>
+							<h1 class="h3 mt-3">Coordinates and Coordinate Metadata</h1>
+							<ul id="llMeta" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="coordinate_determiner" class="data-entry-label px-2 text-right"> Coordinate Determiner </label>
+								</li>
+								<li class="col-12 col-md-10 pb-2 px-0">
+									<input type="text" name="coordinate_determiner" id="coordinate_determiner" class="reqdClr" value="#l.coordinate_determiner#" onchange="getAgent('DETERMINED_BY_AGENT_ID','coordinate_determiner','loc',this.value); return false;" onKeyPress="return noenter(event);">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<input type="hidden" name="DETERMINED_BY_AGENT_ID" value="#l.DETERMINED_BY_AGENT_ID#">
+									<label for="DETERMINED_DATE" class="data-entry-label px-2"> Determined Date </label>
+								</li>
+								<li class="col-12 col-md-10 pb-2 px-0">
+									<input type="text" name="determined_date" id="determined_date"
 									   value="#dateformat(l.determined_date,'yyyy-mm-dd')#" class="reqdClr">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<input type="text" class="data-entry-input" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0 mx-1">
-							<select name="MAX_ERROR_UNITS" size="1" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="cterror">
-									<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="MAX_ERROR_DISTANCE" class="px-2 data-entry-label text-right"> Maximum Error </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" class="data-entry-input" name="MAX_ERROR_DISTANCE" id="MAX_ERROR_DISTANCE" value="#l.MAX_ERROR_DISTANCE#" size="6">
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0 mx-1">
+									<select name="MAX_ERROR_UNITS" size="1" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="cterror">
+											<option <cfif #cterror.LAT_LONG_ERROR_UNITS# is "#l.MAX_ERROR_UNITS#"> selected </cfif>
 								value="#cterror.LAT_LONG_ERROR_UNITS#">#cterror.LAT_LONG_ERROR_UNITS#</option>
-								</cfloop>
-							</select>
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="DATUM" class="data-entry-label px-2 text-right"> Datum </label>
-						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
-							<cfset thisDatum = #l.DATUM#>
-							<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctdatum">
-									<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="DATUM" class="data-entry-label px-2 text-right"> Datum </label>
+								</li>
+								<li class="col-12 col-md-3 pb-2 px-0">
+									<cfset thisDatum = #l.DATUM#>
+									<select name="DATUM" id="DATUM" size="1" class="reqdClr data-entry-select">
+										<option value=""></option>
+										<cfloop query="ctdatum">
+											<option <cfif #ctdatum.DATUM# is "#thisDatum#"> selected </cfif>
 							value="#ctdatum.DATUM#">#ctdatum.DATUM#</option>
-								</cfloop>
-							</select>
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="georefMethod" class="data-entry-label px-2 text-right"> Georeference Method </label>
-						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
-							<cfset thisGeoMeth = #l.georefMethod#>
-							<select name="georefMethod" id="georefMethod" size="1" class="reqdClr data-entry-select">
-								<cfloop query="ctGeorefMethod">
-									<option
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="georefMethod" class="data-entry-label px-2 text-right"> Georeference Method </label>
+								</li>
+								<li class="col-12 col-md-3 pb-2 px-0">
+									<cfset thisGeoMeth = #l.georefMethod#>
+									<select name="georefMethod" id="georefMethod" size="1" class="reqdClr data-entry-select">
+										<cfloop query="ctGeorefMethod">
+											<option
 						<cfif #thisGeoMeth# is #ctGeorefMethod.georefMethod#> selected </cfif>
 							value="#georefMethod#">#georefMethod#</option>
-								</cfloop>
-							</select>
-						</li>
-						<li class="col-12 col-md-1 py-1 px-0">
-							<label for="extent" class="data-entry-label px-2 text-right"> Extent </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<input type="text" name="extent" id="extent" value="#l.extent#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="GpsAccuracy" class="data-entry-label px-2 text-right"> GPS Accuracy </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label>
-						</li>
-						<li class="col-12 col-md-3 pb-2 px-0">
-							<cfset thisVerificationStatus = #l.VerificationStatus#>
-							<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr  data-entry-select"
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-1 py-1 px-0">
+									<label for="extent" class="data-entry-label px-2 text-right"> Extent </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" name="extent" id="extent" value="#l.extent#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="GpsAccuracy" class="data-entry-label px-2 text-right"> GPS Accuracy </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" name="GpsAccuracy" id="GpsAccuracy" value="#l.GpsAccuracy#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="VerificationStatus" class="data-entry-label px-2 text-right"> Verification Status </label>
+								</li>
+								<li class="col-12 col-md-3 pb-2 px-0">
+									<cfset thisVerificationStatus = #l.VerificationStatus#>
+									<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr  data-entry-select"
 				onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
 									{document.getElementById('verified_by').style.display = 'block';
 									document.getElementById('verified_byLBL').style.display = 'block';
@@ -3414,44 +3410,42 @@ limitations under the License.
 									document.getElementById('verified_by').style.display = 'none';
 									document.getElementById('verified_byLBL').style.display = 'none';
 									document.getElementById('verified_by').className = '';}">
-								<cfloop query="ctVerificationStatus">
-									<option
+										<cfloop query="ctVerificationStatus">
+											<option
 							<cfif #thisVerificationStatus# is #ctVerificationStatus.VerificationStatus#> selected </cfif>
 								value="#VerificationStatus#">#VerificationStatus#</option>
-								</cfloop>
-							</select>
-						</li>
-						<li class="col-12 col-md-3 py-1 px-0">
-							<cfset thisVerifiedBy = #l.verifiedby#>
-							<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
-							<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
-						</li>
-						<li class="col-12 col-md-4 pb-2 px-0">
-							<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" 
+										</cfloop>
+									</select>
+								</li>
+								<li class="col-12 col-md-3 py-1 px-0">
+									<cfset thisVerifiedBy = #l.verifiedby#>
+									<cfset thisVerifiedByAgentId = #l.verified_by_agent_id#>
+									<label for="verified_by" id="verified_byLBL" <cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>> Verified by </label>
+								</li>
+								<li class="col-12 col-md-4 pb-2 px-0">
+									<input type="text" name="verified_by" id="verified_by" value="#thisVerifiedBy#" 
 						<cfif #thisVerificationStatus# EQ "verified by MCZ collection" or #thisVerificationStatus# EQ "rejected by MCZ collection">class="reqdClr data-entry-input" style="display:block"
 						<cfelse>style="display:none"
 						</cfif>
 						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','loc',this.value); return false;}"
 				onKeyPress="return noenter(event);">
-							<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
-						</li>
-						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr data-entry-input"
+									<input type="hidden" name="verified_by_agent_id" value="#thisVerifiedByAgentId#">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="LAT_LONG_REF_SOURCE" class="data-entry-label px-2 text-right"> Reference </label>
+								</li>
+								<li class="col-12 col-md-10 pb-2 px-0">
+									<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE"  class="reqdClr data-entry-input"
 							   value="#encodeForHTML(l.LAT_LONG_REF_SOURCE)#" />
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
-						</li>
-						<li class="col-12 col-md-10 pb-2 px-0">
-							<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-entry-input">
-						</li>
-				</ul>
-		
-		
-						<script>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="LAT_LONG_REMARKS" class="data-entry-label px-2 text-right"> Remarks </label>
+								</li>
+								<li class="col-12 col-md-10 pb-2 px-0">
+									<input type="text" name="LAT_LONG_REMARKS" id="LAT_LONG_REMARKS" value="#encodeForHTML(l.LAT_LONG_REMARKS)#" class="data-entry-input">
+								</li>
+							</ul>
+							<script>
 function showLLFormat(orig_units) {
 		//alert(orig_units);
 		var llMeta = document.getElementById('llMeta');
@@ -3489,255 +3483,252 @@ function showLLFormat(orig_units) {
 			}
 		}
 	}
-		</script>
-	
-		
-		<!-- ORIGINAL UNITS -->
-					<div class="col-12 col-md-12 py-1 px-0  row mx-0 px-3 pt-3 pb-2 mb-0 border">
-							<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label px-2 col-3 text-left"> Select Original Coordinate Units <span class="small d-block">so the appropriate format appears</span> </label>
-						<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
-							<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
-								<option value="">Not Georeferenced</option>
-								<cfloop query="ctunits">
-									<option
+		</script> 
+							
+							<!-- ORIGINAL UNITS -->
+							<div class="col-12 col-md-12 py-1 px-0  row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<label for="ORIG_LAT_LONG_UNITS" class="data-entry-label px-2 col-3 text-left"> Select Original Coordinate Units <span class="small d-block">so the appropriate format appears</span> </label>
+								<cfset thisUnits = #l.ORIG_LAT_LONG_UNITS#>
+								<select name="ORIG_LAT_LONG_UNITS" id="ORIG_LAT_LONG_UNITS" size="1" class="reqdClr" onchange="showLLFormat(this.value)">
+									<option value="">Not Georeferenced</option>
+									<cfloop query="ctunits">
+										<option
 						  	<cfif #thisUnits# is "#ctunits.ORIG_LAT_LONG_UNITS#"> selected </cfif>value="#ctunits.ORIG_LAT_LONG_UNITS#">#ctunits.ORIG_LAT_LONG_UNITS#</option>
-								</cfloop>
-							</select>
-						</div>
-						<ul id="decdeg" style="display: none;" class="list-unstyled bg-light col-12 row mx-0 px-3 pt-3 pb-2 mb-0 border">
-							<li class="col-12 col-md-3 py-1 px-0">
-								<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
-							</li>
-							<li class="col-12 col-md-3 pb-2 px-0">
-								<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
-							</li>
-							<li class="col-12 col-md-3 py-1 px-0">
-								<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
-							</li>
-							<li class="col-12 col-md-3 pb-2 px-0">
-								<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
-							</li>
-						</ul>
-						<ul id="dms" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
-								 validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
-								<option value=""></option>
-								<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-								<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-							</select>
-							</li>
-						
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
-																	   validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
-																	   validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
-																		   validate="numeric"> </li>	
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
-						</li>
-						<li class="col-12 col-md-1 pb-2 px-0">
-							<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr data-entry-select">
-								<option value=""></option>
-								<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-								<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-							</select>
-						</li>
-						</ul>
-						<ul id="ddm" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlat_deg" class="data-entry-label px-2 text-right">
-						Lat. Deg.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dec_lat_min" class="data-entry-label px-2 text-right">
-						Lat. Dec. Min.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
-																	   validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlat_dir" class="data-entry-label px-2 text-right">
-						Lat. Dir.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-						<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
-							<option value=""></option>
-							<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
-							<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
-							</select></li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlong_deg" class="data-entry-label px-2 text-right">
-						Long. Deg.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
-																	   validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dec_long_min" class="data-entry-label px-2 text-right">
-						Long. Dec. Min.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
-																	 validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="dmlong_dir" class="data-entry-label px-2 text-right">
-						Long. Dir.
-						<label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-						<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
-							<option value=""></option>
-							<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
-							<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
-					</select></li>
-						</ul>
-						<ul id="utm" style="display:none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
-																	   validate="numeric">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
-						</li>
-					</ul>
-						<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
-						</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
-							</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-						<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
-							</li>
-						<li class="col-12 col-md-2 pb-2 px-0">
-							<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
-						</li>
-						<li class="col-12 col-md-2 py-1 px-0">
-							<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
-						</li>
-						<li class="col-12 col-md-9 pb-2 px-0">
-							<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
-						</li>
+									</cfloop>
+								</select>
+							</div>
+							<ul id="decdeg" style="display: none;" class="list-unstyled bg-light col-12 row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-3 py-1 px-0">
+									<label for="dec_lat" class="data-entry-label px-2 text-right">Decimal Latitude</label>
+								</li>
+								<li class="col-12 col-md-3 pb-2 px-0">
+									<cfinput type="text" name="dec_lat" id="dec_lat" value="#l.dec_lat#" class="reqdClr data-entry-input" validate="numeric">
+								</li>
+								<li class="col-12 col-md-3 py-1 px-0">
+									<label for="dec_long" class="data-entry-label px-2 text-right">Decimal Longitude</label>
+								</li>
+								<li class="col-12 col-md-3 pb-2 px-0">
+									<cfinput type="text" name="DEC_LONG" value="#l.DEC_LONG#" id="dec_long" class="reqdClr data-entry-input" validate="numeric">
+								</li>
 							</ul>
-				      <script>
+							<ul id="dms" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_deg" class="data-entry-label px-2 text-right">Lat. Deg.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LAT_DEG" value="#l.LAT_DEG#" size="4" id="lat_deg" class="reqdClr data-entry-input"
+								 validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_min" class="data-entry-label px-2 text-right">Lat. Min.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LAT_MIN" value="#l.LAT_MIN#" size="4" id="lat_min" class="reqdClr data-entry-input" validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_sec" class="data-entry-label px-2 text-right">Lat. Sec.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LAT_SEC" value="#l.LAT_SEC#" id="lat_sec" class="reqdClr data-entry-input" validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="lat_dir" class="data-entry-label px-2 text-right">Lat. Dir.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<select name="LAT_DIR" size="1" id="lat_dir"  class="reqdClr data-entry-select">
+										<option value=""></option>
+										<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+										<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_deg" class="data-entry-label px-2 text-right">Long. Deg.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LONG_DEG" value="#l.LONG_DEG#" size="4" id="long_deg" class="reqdClr data-entry-input"
+																	   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_min" class="data-entry-label px-2 text-right">Long. Min.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LONG_MIN" value="#l.LONG_MIN#" size="4" id="long_min" class="reqdClr data-entry-input"
+																	   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_sec" class="data-entry-label px-2 text-right">Long. Sec.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<cfinput type="text" name="LONG_SEC" value="#l.LONG_SEC#" id="long_sec"  class="reqdClr data-entry-input"
+																		   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="long_dir" class="data-entry-label px-2 text-right">Long. Dir.</label>
+								</li>
+								<li class="col-12 col-md-1 pb-2 px-0">
+									<select name="LONG_DIR" size="1" id="long_dir" class="reqdClr data-entry-select">
+										<option value=""></option>
+										<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
+										<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
+									</select>
+								</li>
+							</ul>
+							<ul id="ddm" style="display: none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dmlat_deg" class="data-entry-label px-2 text-right">
+								Lat. Deg.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<input type="text" name="dmLAT_DEG" value="#l.LAT_DEG#" size="4" id="dmlat_deg" class="reqdClr data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dec_lat_min" class="data-entry-label px-2 text-right">
+								Lat. Dec. Min.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="DEC_LAT_MIN" value="#l.DEC_LAT_MIN#" id="dec_lat_min" class="reqdClr data-entry-input"
+																	   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dmlat_dir" class="data-entry-label px-2 text-right">
+								Lat. Dir.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<select name="dmLAT_DIR" size="1" id="dmlat_dir" class="reqdClr data-entry-select">
+										<option value=""></option>
+										<option <cfif #l.LAT_DIR# is "N"> selected </cfif>value="N">N</option>
+										<option <cfif #l.LAT_DIR# is "S"> selected </cfif>value="S">S</option>
+									</select>
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dmlong_deg" class="data-entry-label px-2 text-right">
+								Long. Deg.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="dmLONG_DEG" value="#l.LONG_DEG#" size="4" id="dmlong_deg" class="reqdClr data-entry-input"
+																	   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dec_long_min" class="data-entry-label px-2 text-right">
+								Long. Dec. Min.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="DEC_LONG_MIN" value="#l.DEC_LONG_MIN#" id="dec_long_min" class="reqdClr data-entry-input"
+																	 validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+								<label for="dmlong_dir" class="data-entry-label px-2 text-right">
+								Long. Dir.
+								<label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<select name="dmLONG_DIR" size="1" id="dmlong_dir" class="reqdClr data-entry-select">
+										<option value=""></option>
+										<option <cfif #l.LONG_DIR# is "E"> selected </cfif>value="E">E</option>
+										<option <cfif #l.LONG_DIR# is "W"> selected </cfif>value="W">W</option>
+									</select>
+								</li>
+							</ul>
+							<ul id="utm" style="display:none;" class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="utm_zone" class="data-entry-label px-2 text-right"> UTM Zone </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="UTM_ZONE" value="#l.UTM_ZONE#" id="utm_zone" class="reqdClr data-entry-input" validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="utm_ew" class="data-entry-label px-2 text-right"> UTM East/West </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="UTM_EW" value="#l.UTM_EW#" id="utm_ew" class="reqdClr data-entry-input"
+																	   validate="numeric">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="utm_ns" class="data-entry-label px-2 text-right"> UTM North/South </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="UTM_NS" value="#l.UTM_NS#" id="utm_ns" class="reqdClr data-entry-input" validate="numeric">
+								</li>
+							</ul>
+							<ul class="list-unstyled bg-light row mx-0 px-3 pt-3 pb-2 mb-0 border">
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label class="data-entry-label px-2 text-right">Verbatim Coordinates (summary)</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimCoordinates" id="verbatimCoordinates" value="#l.verbatimCoordinates#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label class="data-entry-label px-2 text-right">Verbatim Latitude</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimLatitude" id="verbatimLatitude" value="#l.verbatimLatitude#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label class="data-entry-label px-2 text-right">Verbatim Longitude</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimLongitude" id="verbatimLongitude" value="#l.verbatimLongitude#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label class="data-entry-label px-2 text-right">Verbatim Coordinate System (e.g., decimal degrees)</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label class="data-entry-label px-2 text-right">Verbatim SRS (e.g., datum)</label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimSRS" id="verbatimSRS" value="#l.verbatimSRS#" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="verbatimCoordinates" class="data-entry-label px-2 text-right"> Verbatim Coordinates </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimCoordinates" value="#l.verbatimCoordinates#" id="verbatimCoordinates" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="verbatimLatitude" class="data-entry-label px-2 text-right"> Verbatim Latitude </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimLatitude" value="#l.verbatimLatitude#" id="verbatimLatitude" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="verbatimLongitude" class="data-entry-label px-2 text-right"> Verbatim Longitude </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimLongitude" value="#l.verbatimLongitude#" id="verbatimLongitude" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="verbatimCoordinateSystem" class="data-entry-label px-2 text-right"> Verbatim Coordinate System </label>
+								</li>
+								<li class="col-12 col-md-2 pb-2 px-0">
+									<cfinput type="text" name="verbatimCoordinateSystem" value="#l.verbatimCoordinateSystem#" id="verbatimCoordinateSystem" class="data-entry-input">
+								</li>
+								<li class="col-12 col-md-2 py-1 px-0">
+									<label for="verbatimSRS" class="data-entry-label px-2 text-right"> Verbatim SRS </label>
+								</li>
+								<li class="col-12 col-md-9 pb-2 px-0">
+									<cfinput type="text" name="verbatimSRS" value="#l.verbatimSRS#" id="verbatimSRS" class="data-entry-input">
+								</li>
+							</ul>
+							<script>
 		showLLFormat('#l.ORIG_LAT_LONG_UNITS#');
-	</script>
+	</script> 
 						</div>
-					<cfif loccount.ct eq 1 and cecount.ct eq 1>
+						<cfif loccount.ct eq 1 and cecount.ct eq 1>
 							<input type="submit" value="Save Changes" class="btn btn-xs btn-primary">
-					<cfelse>
-						<div class="mt-3">
-						<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
-							<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span>
-						</div>
-					</cfif>
+							<cfelse>
+							<div class="mt-3">
+								<input type="submit" value="Split and Save Changes" class="btn  btn-xs btn-primary">
+								<span class="ml-3">A new locality and collecting event will be created with these values and changes will apply to this record only. </span> </div>
+						</cfif>
 					</cfform>
-		
-
-			
 				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
@@ -3762,12 +3753,12 @@ function showLLFormat(orig_units) {
 		</cfoutput> </cfthread>
 	<cfthread action="join" name="getEditLocalityThread" />
 	<cfreturn getEditLocalityThread.output>
-</cffunction> 
+</cffunction>
 <cffunction name="getEditRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditRelationsThread"> <cfoutput>
 			<cftry>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
@@ -3806,29 +3797,33 @@ function showLLFormat(orig_units) {
 			)
 		</cfquery>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<div class="row mx-0 mt-3">
-					<div class="col-12 px-0">
-					<ul class="list-group list-group-flush float-left">
-						<cfloop query="relns">
-							<li class="list-group-item py-0"> <input class="" type="text" value="#biol_indiv_relationship#"> <a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top"> <input class="" type="" value="#related_collection#"> <input class="" value="#related_cat_num#" type="text"> </a>
-								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-									<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
+					<div class="row mx-0 mt-3">
+						<div class="col-12 px-0">
+							<ul class="list-group list-group-flush float-left">
+								<cfloop query="relns">
+									<li class="list-group-item py-0">
+										<input class="" type="text" value="#biol_indiv_relationship#">
+										<a href="/Specimen.cfm?collection_object_id=#related_coll_object_id#" target="_top">
+										<input class="" type="" value="#related_collection#">
+										<input class="" value="#related_cat_num#" type="text">
+										</a>
+										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+											<input class="" size="39" type="text" value="#biol_indiv_relation_remarks#">
+										</cfif>
+									</li>
+								</cfloop>
+								<cfif len(relns.biol_indiv_relationship) gt 0>
+									<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
 								</cfif>
-							</li>
-						</cfloop>
-						<cfif len(relns.biol_indiv_relationship) gt 0>
-							<li class="pb-1 list-group-item"> <a href="/Specimen.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
-						</cfif>
-					</ul>
+							</ul>
+						</div>
 					</div>
-				</div>
-				<div class="row mx-0 pb-2">
-					<div class="col-12 col-md-12 p-2">
-						<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+					<div class="row mx-0 pb-2">
+						<div class="col-12 col-md-12 p-2">
+							<input type="submit" id="theSubmit" value="Save" class="btn btn-xs btn-primary">
+						</div>
 					</div>
-				</div>
 				</cfif>
-
 				<cfquery name="ctReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select biol_indiv_relationship from ctbiol_relations
 				</cfquery>
@@ -3846,7 +3841,7 @@ function showLLFormat(orig_units) {
 							</div>
 							<div id="collapseAttribute" class="collapse" aria-labelledby="headingAttribute" data-parent="##accordionAttribute">
 								<div class="card-body mt-0">
-									<form name="newRelationship" >	
+									<form name="newRelationship" >
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<div class="row mx-0 pb-0">
 											<ul class="col-12 px-0 mb-2">
@@ -4007,7 +4002,7 @@ function showLLFormat(orig_units) {
 								<cfif len(determination_method) gt 0>
 									<cfset determination = '#determination#, #determination_method#'>
 								</cfif>
-								#determination#
+#determination#
 							</cfif>
 							<cfif len(attribute_remark) gt 0>
 								, Remark: #attribute_remark#
@@ -4035,7 +4030,7 @@ function showLLFormat(orig_units) {
 						len(hf.attribute_units) gt 0 OR
 						len(efn.attribute_units) gt 0 OR
 						len(weight.attribute_units) gt 0>
-						<!---semi-standard measurements ---> 
+						<!---semi-standard measurements --->
 						<h5 class="pt-1 px-2 mb-0">Standard Measurements</h5>
 						<table class="table table-responsive bg-white mt-2 mb-1 mx-0" aria-label="Standard Measurements">
 							<tr>
@@ -4046,11 +4041,16 @@ function showLLFormat(orig_units) {
 								<td><font size="-1">weight</font></td>
 							</tr>
 							<tr>
-								<td><input type="text" class="" value="#total_length.attribute_value#"> #total_length.attribute_units#&nbsp;</td>
-								<td><input type="text" class="" value="#tail_length.attribute_value#"> #tail_length.attribute_units#&nbsp;</td>
-								<td><input type="text" class="" value="#hf.attribute_value#"> #hf.attribute_units#&nbsp;</td>
-								<td><input type="text" class="" value="#efn.attribute_value#"> #efn.attribute_units#&nbsp;</td>
-								<td><input type="text" class="" value="#weight.attribute_value#"> #weight.attribute_units#&nbsp;</td>
+								<td><input type="text" class="" value="#total_length.attribute_value#">
+#total_length.attribute_units#																																													&nbsp;</td>
+								<td><input type="text" class="" value="#tail_length.attribute_value#">
+#tail_length.attribute_units#																																													&nbsp;</td>
+								<td><input type="text" class="" value="#hf.attribute_value#">
+#hf.attribute_units#																																													&nbsp;</td>
+								<td><input type="text" class="" value="#efn.attribute_value#">
+#efn.attribute_units#																																													&nbsp;</td>
+								<td><input type="text" class="" value="#weight.attribute_value#">
+#weight.attribute_units#																																													&nbsp;</td>
 							</tr>
 						</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
@@ -5255,10 +5255,8 @@ function showLLFormat(orig_units) {
  @return html block listing condition history for the specified part
 --->
 <cffunction name="getPartConditionHistoryHTML" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="collection_object_id" type="string" required="yes">
-
-	<cfthread name="getPartCondHist">
-		<cfoutput>
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getPartCondHist"> <cfoutput>
 			<cftry>
 				<!---- lookup cataloged item for collection object or part we are getting the condition history of ---->
 				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -5285,13 +5283,8 @@ function showLLFormat(orig_units) {
 					WHERE
 						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-
-				<div>
-					<strong>Condition History of #itemDetails.collection# #itemDetails.cat_num#
-						(<i>#itemDetails.scientific_name#</i>) #itemDetails.part_name#
-					</strong>
-				</div>
-
+				<div> <strong>Condition History of #itemDetails.collection# #itemDetails.cat_num# (<i>#itemDetails.scientific_name#</i>) #itemDetails.part_name# </strong> </div>
+				
 				<!--- lookup part history --->
 				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -5314,7 +5307,6 @@ function showLLFormat(orig_units) {
 					order by 
 						determined_date DESC
 				</cfquery>
-
 				<table class="table table-responsive border table-striped table-sm">
 					<tr>
 						<td><strong>Determined By</strong></td>
@@ -5329,14 +5321,12 @@ function showLLFormat(orig_units) {
 						</tr>
 					</cfloop>
 				</table>
-   		<cfcatch>
-       		Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#
-		   </cfcatch>
+				<cfcatch>
+					Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#
+				</cfcatch>
 			</cftry>
-		</cfoutput>
-	</cfthread>
+		</cfoutput> </cfthread>
 	<cfthread action="join" name="getPartCondHist" />
 	<cfreturn getPartCondHist.output>
 </cffunction>
-
 </cfcomponent>
