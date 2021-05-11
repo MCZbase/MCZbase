@@ -209,7 +209,7 @@ limitations under the License.
 																	<div class="row mx-0">
 																		<div class="col-4 float-left px-0">
 																			<label for="media_type" class="float-left mt-1">Media Type</label> 
-																			<select name="media_type" id="media_type">
+																			<select name="media_type" class="ml-2" id="media_type">
 																				<cfloop query="ctmedia_type">
 																					<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 																				</cfloop>
@@ -217,7 +217,7 @@ limitations under the License.
 																		</div>
 																		<div class="col-4 float-left px-0">
 																			<label for="mime_type" class="float-left mt-1">Mime Type</label>
-																			<select name="mime_type" id="mime_type">
+																			<select name="mime_type" class="ml-2" id="mime_type">
 																				<cfloop query="ctmime_type">
 																					<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
 																				</cfloop>
