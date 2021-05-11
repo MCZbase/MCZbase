@@ -77,14 +77,14 @@ limitations under the License.
 </cfquery>
 	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
-			<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) as ct 
 				from 
 					media_relations
 				where 
 					media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 			</cfquery>
-			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id
 				from
@@ -93,8 +93,8 @@ limitations under the License.
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 
-			<cfset ctPart.ct=''>
-			<cfquery name="ctPart" dbtype="query">
+		<cfset ctPart.ct=''>
+		<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from rparts
 			</cfquery>
 <cfoutput>
@@ -519,7 +519,7 @@ limitations under the License.
 						
 			</cfif>
 		</div>
-	</div>
+	</section>
 	</cfoutput>
 	</div>
 </section>
