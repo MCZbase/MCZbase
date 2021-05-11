@@ -205,127 +205,92 @@ limitations under the License.
 		</section>
 	</div>
 	<div class="container-fluid">
-			<section class="row">
-					<div class="col-12 px-3">
-	<!--- TODO: Cleanup indendation from here on ---> 
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
-		<form name="incPg" method="post" action="/specimens/Specimen.cfm">
-			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-			<input type="hidden" name="suppressHeader" value="true">
-			<input type="hidden" name="action" value="nothing">
-			<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-			<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
-				<cfset isPrev = "no">
-				<cfset isNext = "no">
-				<cfset currPos = 0>
-				<cfset lenOfIdList = 0>
-				<cfset firstID = collection_object_id>
-				<cfset nextID = collection_object_id>
-				<cfset prevID = collection_object_id>
-				<cfset lastID = collection_object_id>
-				<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
-				<cfset lenOfIdList = listlen(session.collObjIdList)>
-				<cfset firstID = listGetAt(session.collObjIdList,1)>
-				<cfif currPos lt lenOfIdList>
-					<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
-				</cfif>
-				<cfif currPos gt 1>
-					<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-				</cfif>
-				<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-				<cfif lenOfIdList gt 1>
-					<cfif currPos gt 1>
-						<cfset isPrev = "yes">
+	<section class="row">
+		<div class="col-12 px-3">
+			<!--- TODO: Cleanup indendation from here on ---> 
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
+				<form name="incPg" method="post" action="/specimens/Specimen.cfm">
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+					<input type="hidden" name="suppressHeader" value="true">
+					<input type="hidden" name="action" value="nothing">
+					<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
+					<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+						<cfset isPrev = "no">
+						<cfset isNext = "no">
+						<cfset currPos = 0>
+						<cfset lenOfIdList = 0>
+						<cfset firstID = collection_object_id>
+						<cfset nextID = collection_object_id>
+						<cfset prevID = collection_object_id>
+						<cfset lastID = collection_object_id>
+						<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+						<cfset lenOfIdList = listlen(session.collObjIdList)>
+						<cfset firstID = listGetAt(session.collObjIdList,1)>
+						<cfif currPos lt lenOfIdList>
+							<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
+						</cfif>
+						<cfif currPos gt 1>
+							<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+						</cfif>
+						<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+						<cfif lenOfIdList gt 1>
+							<cfif currPos gt 1>
+								<cfset isPrev = "yes">
+							</cfif>
+							<cfif currPos lt lenOfIdList>
+								<cfset isNext = "yes">
+							</cfif>
+						</cfif>
+					<cfelse>
+						<cfset isNext="">
+						<cfset isPrev="">
 					</cfif>
-					<cfif currPos lt lenOfIdList>
-						<cfset isNext = "yes">
-					</cfif>
-				</cfif>
-			<cfelse>
-				<cfset isNext="">
-				<cfset isPrev="">
-			</cfif>
 					<div class="container">
-  <div class="row">
-			<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
-				</li>
-				<li class="list-group-item px-0 mx-1">
-					<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
-				</li>
-			</ul>
-						</div></div>
-<!---			<div class="px-2 row mx-0 ">
-				<div class="mx-auto px-lg-2 col-12 col-md-7 float-left py-1 w-100 text-center" style="font-size: .8rem;background-color:aliceblue;">
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 bg-light py-0 bg-light px-1 w-auto text-left" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
-				</cfif>		
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
-				</cfif>						
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other IDs</button>
-				</cfif>		
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
-				</cfif>	
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left mx-1 bg-light py-0 px-1 w-auto text-left" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality and Event</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors and Preparators</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
-				</cfif>
-				<cfif listcontainsnocase(session.roles,"manage_specimens")>
-					<button type="button" class="btn btn-xs small float-left bg-light mx-1 py-0 px-1 w-auto text-left" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta Data</button>
-				</cfif>
-				</div>--->
-			</div>
-		</form>
-	</cfif>
+						<div class="row">
+							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+								</li>
+								<li class="list-group-item px-0 mx-1">
+									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</cfif>
+			
 </cfoutput>
 
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
