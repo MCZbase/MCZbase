@@ -456,7 +456,7 @@ md5hash
 
 	<cftry>
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			<cfif media_label = 'internal remarks'>
+			<cfif media_label IS 'internal remarks'>
 				<cfthrow message="Insufficent Access Rights">
 			</cfif>
 		</cfif>
