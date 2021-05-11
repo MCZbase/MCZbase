@@ -298,13 +298,15 @@ limitations under the License.
 													<input class="" name="" id="" value="">
 												</div>
 											</div>
-											<div class="row mb-2">
+											<div class="row mx-0 mb-2">
+												<div class="col-12 px-0">
 												<label for "">Media Type</label>
 												<input class="" name="" id="" value="">
 												<label for "">Mime Type</label>
 												<input class="" name="" id="" value="">
 												<label for "">Visibility</label>
 												<input class="" name="" id="" value="">
+												</div>
 											</div>
 										</cfoutput> </div>
 								</div>
