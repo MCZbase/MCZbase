@@ -290,22 +290,22 @@ limitations under the License.
 											<div class="row mx-0 mb-2">
 											<div class="col-12 px-0">
 												<label for="MediaURI" class="data-entry-label">Media URI</label>
-												<input class="ml-2 data-entry-input" name="" id="MediaURI" value="">
+												<input class="mx-2 data-entry-input" name="" id="MediaURI" value="">
 											</div>
 											<div class="row mx-0 mb-2">
 												<div class="col-12 px-0">
 													<label for "">Preview URI</label>
-													<input class="" name="" id="" value="">
+													<input class="mx-2" name="" id="" value="">
 												</div>
 											</div>
 											<div class="row mx-0 mb-2">
 												<div class="col-12 px-0">
 												<label for "">Media Type</label>
-												<input class="" name="" id="" value="">
+												<input class="mx-2" name="" id="" value="">
 												<label for "">Mime Type</label>
-												<input class="" name="" id="" value="">
+												<input class="mx-2" name="" id="" value="">
 												<label for "">Visibility</label>
-												<input class="" name="" id="" value="">
+												<input class="mx-2" name="" id="" value="">
 												</div>
 											</div>
 										</cfoutput> </div>
