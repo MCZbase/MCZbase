@@ -71,7 +71,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<div class="col-12  float-left mb-4 px-0">
+							<div class="col-12  float-left mb-2 px-0">
 								<form name="editMediaForm" id="editIdentificationsForm">
 									<input type="hidden" name="method" value="updateMedia">
 									<input type="hidden" name="returnformat" value="json">
@@ -271,7 +271,7 @@ limitations under the License.
 															
 														</cfloop>
 													</div>
-													<div class="row"><input value="Submit" class="btn btn-xs btn-primary"></div>
+													<div class="row"><input value="Submit" class="btn mb-2 btn-xs btn-primary"></div>
 																	
 													</cfoutput>
 <!---												<cfset i = #i#+1>
