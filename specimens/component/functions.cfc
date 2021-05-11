@@ -124,22 +124,27 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 												order by media.media_type
 											</cfquery>
-<!---											<cfset i = 1>
-											<cfloop query="media">
-												<cfoutput>			
-													<span class="form-row col-12 px-0 mx-0"> --->
-										<!---div class="feature image using media_uri"--->
-										<!--- to-do: Create checkbox for featured media on create media page--->
-							<!---			<cfif #mediaS1.media_uri# contains "specimen_images">
-												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-												<a href="#aForThisHref#" target="_blank" class="w-100">
-												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
-													
-												</a>
-													
-											<cfelse>
-
-											</cfif>---><cfoutput>
+												 <cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+		mczbase.get_media_descriptor(media_id) as alttag 
+		from media 
+		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	</cfquery>
+  <cfset relns=getMediaRelations(#media_id#)>
+  <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			media_label,
+			label_value,
+			agent_name,
+			media_label_id
+		from
+			media_labels,
+			preferred_agent_name
+		where
+			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	</cfquery>
+												<cfoutput>
 													
 														<cfset i=1>
 														<cfloop query="media">
@@ -163,6 +168,7 @@ limitations under the License.
 															<cfquery name="ctmedia" dbtype="query">
 																select count(*) as ct from media group by media_relationship order by media_id
 															</cfquery>
+													
 															<cfset mt=media.mime_type>
 															<cfset altText = media.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
