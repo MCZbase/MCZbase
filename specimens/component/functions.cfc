@@ -296,19 +296,19 @@ limitations under the License.
 										<div class="card-body"> 
 											<cfoutput>
 												<div class="row mx-0 mb-2">
-													<div class="col-12 px-0">
+													<div class="col-12 px-1">
 														<label for="MediaURI" class="data-entry-label">Media URI</label>
-														<input class="mx-2 data-entry-input" name="" id="MediaURI" value="">
+														<input class="data-entry-input" name="" id="MediaURI" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
-													<div class="col-12 px-0">
+													<div class="col-12 px-1">
 														<label for "">Preview URI</label>
-														<input class="mx-2" name="" id="" value="">
+														<input class="data-entry-input" name="" id="" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
-													<div class="col-12 px-4">
+													<div class="col-12 px-1">
 														<label for "media_type" class="data-entry-label">Media Type</label>
 														<input class="mx-2" name="mime_type" id="media_type" value="">
 														<label for "">Mime Type</label>
@@ -316,12 +316,16 @@ limitations under the License.
 														<label for "visibility">Visibility</label>
 														<input class="mx-2" name="visibility" id="visibility" value="">
 													</div>
-													<select name="media_label" id="media_license_id" class="ml-1">
-														<option value="">NONE</option>
-														<cfloop query="ctmedia_label">
-															<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-														</cfloop>
-													</select>
+												</div>
+												<div class="row mx-0 mb-2">
+													<div class="col-12 px-1">
+														<select name="media_label" id="media_license_id" class="ml-1">
+															<option value="">NONE</option>
+															<cfloop query="ctmedia_label">
+																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+															</cfloop>
+														</select>
+													</div>
 												</div>
 											</cfoutput> 
 										</div>
