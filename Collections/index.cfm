@@ -52,8 +52,8 @@ limitations under the License.
 	order by collection.collection
 </cfquery>
 <cfoutput>
-	<main class=”container my-3” id=”content”>
-		<section class=”row” >
+	<main class="container my-3" id="content">
+		<section class="row" >
 			<div class="col-12">
 				<h1 class="h2">MCZbase Holdings</h1>
 				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
