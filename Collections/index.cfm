@@ -30,12 +30,18 @@ limitations under the License.
 		web_link,
 		web_link_text,
 		loan_policy_url,
-		count(cat_num) as cnt
+		count(filtered_flat.collection_object_id) as cnt
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			,count(flat.collection_object_id) as internal_count
+		</cfif>
 	from
-		collection,
-		cataloged_item
+		collection 
+		left join filtered_flat on collection.collection_id = filtered_flat.collection_id
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			left join filtered_flat on collection.collection_id = filtered_flat.collection_id
+		</cfif>
 	where
-		collection.collection_id = cataloged_item.collection_id
+		collection.collection_id is not null
 	group by
 		collection.collection,
 		collection.collection_id,
@@ -46,10 +52,11 @@ limitations under the License.
 	order by collection.collection
 </cfquery>
 <cfoutput>
-	<main class=”container” id=”content”>
+	<main class=”container my-3” id=”content”>
 		<section class=”row” >
-			<h1 class="h2">MCZbase Holdings</h1>
-				<table border id="t" class="sortable">
+			<div class="col-12">
+				<h1 class="h2">MCZbase Holdings</h1>
+				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
 					<tr>
 						<th>
 							<strong>Collection</strong>
@@ -63,9 +70,18 @@ limitations under the License.
 						<th>
 							<strong>Loan Policy</strong>
 						</th>
-						<th>
-							<strong>Cataloged Items</strong>
-						</th>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<th>
+								<strong>Cataloged Items</strong>
+							</th>
+							<th>
+								<strong>Accessible to Public</strong>
+							</th>
+						<cfelse>
+							<th>
+								<strong>Cataloged Items</strong>
+							</th>
+						</cfif>
 					</tr>
 					<cfloop query="colls">
 						<tr>
@@ -85,10 +101,16 @@ limitations under the License.
 									Inquire
 								</cfif>
 							</td>
-							<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#internal_count#</a></td>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
+							</cfelse>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
+							</cfif>
 						</tr>
 					</cfloop>
 				</table>
+			</div>
 		</section>
 	</main>
 </cfoutput>
