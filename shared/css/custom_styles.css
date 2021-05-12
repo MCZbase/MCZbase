@@ -333,6 +333,7 @@ span.data-entry-addon {
 	letter-spacing: .04rem;
 	background-color: #d9e8fa;
 	border: 1px solid hsl(0, 0%, 62%);
+	font-size: medium;
 }
 .btn-powder-blue:hover {
 	/*background-color: #d3dfe0;*/

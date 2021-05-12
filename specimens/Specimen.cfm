@@ -250,40 +250,40 @@ limitations under the License.
 						<div class="row">
 							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs small btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs small btn-powder-blue py-0 w-100" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs small btn-powder-blue py-0 w-100" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Parts</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Attributes</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Relationships</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Locality</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Event</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Collectors</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditTransactionsDialog(110406,'transactionsDialog','#guid#',reloadTransactions)">Transactions</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
 								</li>
 							</ul>
 						</div>
