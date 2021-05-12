@@ -29,7 +29,7 @@ limitations under the License.
 		descr,
 		web_link,
 		web_link_text,
-		loan_policy_url,
+		loan_policy_url
 	from
 		collection 
 	where
