@@ -218,7 +218,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			collection
 		WHERE
 			 collection.collection_id = cataloged_item.collection_id (+)
-			 and collection.collection_id not in (6, 10, 12)
+			 and collection.collection_id not in (10, 12)
 		GROUP BY
 			collection,
 			descr,
@@ -228,9 +228,6 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 	</cfquery>
 	<cfquery name="cnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as cnt from cataloged_item
-	</cfquery>
-	<cfquery name="numColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(distinct(collection_id)) as cnt from collection where collection_id not in (6, 10, 12)
 	</cfquery>
 	Summary of specimens represented in MCZbase:
 	<blockquote>
@@ -264,9 +261,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td colspan="2" align="center">
-				#numColl.cnt#
+			<td colspan="3">&nbsp;</td>
 			</td>
 			<td>#cnt.cnt#</td>
 			<td>&nbsp;</td>
