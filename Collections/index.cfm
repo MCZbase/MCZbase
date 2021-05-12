@@ -71,6 +71,8 @@ limitations under the License.
 							</th>
 						</cfif>
 					</tr>
+					<cfset totalinternal = 0>
+					<cfset totalpublic = 0>
 					<cfloop query="colls">
 						<tr>
 							<td>#COLLECTION#</td>
@@ -94,21 +96,38 @@ limitations under the License.
 									select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 								</cfquery>
 								<cfset icount = caticount.internal_count>
+								<cfset totalinternal = totalinternal + icount>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#icount#</a></td>
+
 								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 								</cfquery>
 								<cfset pcount = catcount.cnt>
+								<cfset totalpublic = totalpublic + pcount>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#pcount#</a></td>
+
 								<td>#icount-pcount#</td>
 							<cfelse>
 								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 								</cfquery>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
+								<cfset totalpublic = totalpublic + catcount.cnt>
 							</cfif>
 						</tr>
 					</cfloop>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>Total</td>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<td>#totalinternal#</td>
+							<td>#totalpublic#</td>
+							<td>#totalinternal-totalpublic#</td>
+						<cfelse>
+							<td>#totalpublci#</td>
+						</cfif>
 				</table>
 			</div>
 		</section>
