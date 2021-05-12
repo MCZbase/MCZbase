@@ -298,14 +298,14 @@ limitations under the License.
 											<cfoutput>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
-														<label for="MediaURI" class="">Media URI</label>
-														<input class="mx-1" name="" size="90" id="MediaURI" value="">
+														<label for="MediaURI" class="data-entry-label">Media URI</label>
+														<input class="mx-1 data-entry-input" name="MediaURI" id="MediaURI" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
-														<label for="">Preview URI</label>
-														<input class="mx-1" size="90" name="" id="" value="">
+														<label for="previewURI" class="data-entry-label">Preview URI</label>
+														<input class="mx-1 data-entry-input" name="previewURI" id="previewURI" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
