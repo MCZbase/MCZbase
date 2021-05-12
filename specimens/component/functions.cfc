@@ -600,8 +600,10 @@ limitations under the License.
 										<cfoutput>
 											<div class="row mx-0 mb-2">
 											<div class="col-12 px-0">
-												<label for="MediaURI" class="data-entry-label">Media URI</label>
-												<input class="mx-2 data-entry-input" name="" id="MediaURI" value="">
+												<div class="form-group">
+													<label for="MediaURI" class="data-entry-label">Media URI</label>
+													<input class="mx-2 data-entry-input" name="" id="MediaURI" value="">
+												</div>
 											</div>
 											<div class="row mx-0 mb-2">
 												<div class="col-12 px-0">
