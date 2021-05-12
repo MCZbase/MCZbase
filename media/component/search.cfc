@@ -44,6 +44,11 @@ limitations under the License.
 	<cfargument name="text_made_date" type="string" required="no">
 	<cfargument name="original_filename" type="string" required="no">
 	<cfargument name="light_source" type="string" required="no">
+	<cfargument name="md5hash" type="string" required="no">
+	<cfargument name="owner" type="string" required="no">
+	<cfargument name="credit" type="string" required="no">
+	<cfargument name="spectrometer" type="string" required="no">
+	<cfargument name="spectrometer_reading_location" type="string" required="no">
 <!--- TODO:
 owner
 credit
@@ -292,6 +297,107 @@ md5hash
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(light_source)#%"> 
 							</cfif>
 						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("spectrometer_reading_location") and len(spectrometer_reading_location) gt 0>
+					<cfif spectrometer_reading_location IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'spectrometer reading location')
+					<cfelseif spectrometer_reading_location IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'spectrometer reading location')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'spectrometer reading location' 
+							<cfif left(spectrometer_reading_location,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spectrometer_reading_location,len(spectrometer_reading_location)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spectrometer_reading_location)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("spectrometer") and len(spectrometer) gt 0>
+					<cfif spectrometer IS "NULL">
+						AND media.media_id not in ( select media_id from media_labels where media_label = 'spectrometer')
+					<cfelseif spectrometer IS "NOT NULL">
+						AND media.media_id in ( select media_id from media_labels where media_label = 'spectrometer')
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = 'spectrometer' 
+							<cfif left(spectrometer,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spectrometer,len(spectrometer)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spectrometer)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("credit") and len(credit) gt 0>
+						<cfif credit IS "NULL">
+							AND media.media_id not in ( select media_id from media_labels where media_label = 'credit')
+						<cfelseif credit IS "NOT NULL">
+							AND media.media_id in ( select media_id from media_labels where media_label = 'credit')
+						<cfelse>
+							AND media.media_id in (
+								select media_id 
+								from media_labels 
+								where 
+									media_label = 'credit' 
+								<cfif left(credit,1) is "=">
+									and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(credit,len(credit)-1))#"> 
+								<cfelse>
+									and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(credit)#%"> 
+								</cfif>
+							)
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("owner") and len(owner) gt 0>
+						<cfif owner IS "NULL">
+							AND media.media_id not in ( select media_id from media_labels where media_label = 'owner')
+						<cfelseif owner IS "NOT NULL">
+							AND media.media_id in ( select media_id from media_labels where media_label = 'owner')
+						<cfelse>
+							AND media.media_id in (
+								select media_id 
+								from media_labels 
+								where 
+									media_label = 'owner' 
+								<cfif left(owner,1) is "=">
+									and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(owner,len(owner)-1))#"> 
+								<cfelse>
+									and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(owner)#%"> 
+								</cfif>
+							)
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("md5hash") and len(md5hash) gt 0>
+						<cfif md5hash IS "NULL">
+							AND media.media_id not in ( select media_id from media_labels where media_label = 'md5hash')
+						<cfelseif md5hash IS "NOT NULL">
+							AND media.media_id in ( select media_id from media_labels where media_label = 'md5hash')
+						<cfelse>
+							AND media.media_id in (
+								select media_id 
+								from media_labels 
+								where 
+									media_label = 'md5hash' 
+								<cfif left(md5hash,1) is "=">
+									and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(md5hash,len(md5hash)-1))#"> 
+								<cfelse>
+									and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(md5hash)#%"> 
+								</cfif>
+							)
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("height") and len(height) gt 0>

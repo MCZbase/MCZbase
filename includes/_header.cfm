@@ -352,9 +352,10 @@
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<!--- show internal MCZ wiki link only to users with role coldfusion_user --->
 								<a class="dropdown-item" target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a>
-								<a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							</cfif>
 							<a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a>
+							<a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+							<a class="dropdown-item" href="/Collections/index.cfm">Holdings</a>
 					 		<a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a>
 						</div>
 					</li>
