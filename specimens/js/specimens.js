@@ -381,6 +381,30 @@ function addIdentAgentToForm (id,name,formid) {
 	});
 }
 
+/** loadIdentifications populate an html block with the identification 
+* history for a cataloged item.
+* @param collection_object_id identifying the cataloged item for which 
+*  to list the identification history.
+* @param targetDivId the id for the div in the dom, without a leading #
+*  selector, for which to replace the html content with the identification 
+*  history.
+*/
+function loadMedia(identification_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getMediaHtml",
+			identification_id: identification_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
