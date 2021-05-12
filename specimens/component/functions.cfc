@@ -285,8 +285,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="container-fluid">
-					<div class="row mx-0">
-						<div class="col-9 float-left px-0">
+					<div class="row">
+						<div class="col-9 float-left">
 							<div id="accordionMedia1">
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
