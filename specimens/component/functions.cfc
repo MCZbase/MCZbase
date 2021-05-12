@@ -563,11 +563,9 @@ limitations under the License.
 							</cfloop>
 							</div>
 							<div class="row">
-								<input value="Submit" class="btn mb-4 btn-xs btn-primary">
+								<input value="Save Changes" class="btn mb-4 btn-xs btn-primary">
 							</div>
 						</cfoutput> 
-						<!---												<cfset i = #i#+1>
-											</cfloop>--->
 						</div>
 						</div>
 					</form>
