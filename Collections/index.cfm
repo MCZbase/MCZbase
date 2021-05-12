@@ -62,6 +62,9 @@ limitations under the License.
 							<th>
 								<strong>Accessible to Public</strong>
 							</th>
+							<th>
+								<strong>Encumbered</strong>
+							</th>
 						<cfelse>
 							<th>
 								<strong>Cataloged Items</strong>
@@ -90,11 +93,14 @@ limitations under the License.
 								<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 								</cfquery>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#caticount.internal_count#</a></td>
+								<cfset icount = caticount.internal_count>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#icount#</a></td>
 								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
 								</cfquery>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
+								<cfset pcount = catcount.cnt>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#pcount#</a></td>
+								<td>(#icount-pcount#)</td>
 							<cfelse>
 								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
