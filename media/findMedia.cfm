@@ -77,8 +77,11 @@ limitations under the License.
 	<cfif not isdefined("to_made_date")>
 		<cfset to_made_date="">
 	</cfif>
+	<cfif not isdefined("dcterms_identifier")>
+		<cfset dcterms_identifier="">
+	</cfif>
 	<cfloop query="ctmedia_label">
-		<cfif ctmedia_label.media_label NEQ 'description'>
+		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
 			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
 			<cfif not isdefined(label)>
 				<cfset "#label#" = "">
