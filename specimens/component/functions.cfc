@@ -298,14 +298,18 @@ limitations under the License.
 											<cfoutput>
 												<div class="row">
 													<div class="col-12">
-														<label for="MediaURI" class="data-entry-label">Media URI</label>
-														<input class="mx-1 data-entry-input" name="MediaURI" id="MediaURI" value="">
+														<div class="form-group">
+															<label for="MediaURI" class="data-entry-label">Media URI</label>
+															<input class="mx-1 data-entry-input" name="MediaURI" id="MediaURI" value="">
+														</div>
 													</div>
 												</div>
 												<div class="row">
 													<div class="col-12">
-														<label for="previewURI" class="data-entry-label">Preview URI</label>
-														<input class="mx-1 data-entry-input" name="previewURI" id="previewURI" value="">
+														<div class="form-group">
+															<label for="previewURI" class="data-entry-label">Preview URI</label>
+															<input class="mx-1 data-entry-input" name="previewURI" id="previewURI" value="">
+														</div>
 													</div>
 												</div>
 												<div class="row">
