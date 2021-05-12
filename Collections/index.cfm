@@ -126,7 +126,7 @@ limitations under the License.
 							<td>#totalpublic#</td>
 							<td>#totalinternal-totalpublic#</td>
 						<cfelse>
-							<td>#totalpublci#</td>
+							<td>#totalpublic#</td>
 						</cfif>
 				</table>
 			</div>
