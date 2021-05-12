@@ -309,12 +309,18 @@ limitations under the License.
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-0">
-														<label for "media_type" class="data-entry-label">Media Type</label>
-														<input class="mx-1" name="mime_type" id="media_type" value="">
-														<label for "">Mime Type</label>
-														<input class="mx-1" name="mime_type" id="mime_type" value="">
-														<label for "visibility">Visibility</label>
-														<input class="mx-1" name="visibility" id="visibility" value="">
+														<div class="form-group">
+															<label for="media_type" class="data-entry-label">Media Type</label>
+															<input class="mx-1" name="mime_type" id="media_type" value="">
+														</div>
+														<div class="form-group">
+															<label for="mime_type">Mime Type</label>
+															<input class="mx-1" name="mime_type" id="mime_type" value="">
+														</div>
+														<div class="form-group">
+															<label for="visibility">Visibility</label>
+															<input class="mx-1" name="visibility" id="visibility" value="">
+														</div>
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
@@ -322,7 +328,7 @@ limitations under the License.
 														<select name="media_label" id="media_license_id" class="ml-1">
 															<option value="">NONE</option>
 															<cfloop query="ctmedia_label">
-																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">#ctmedia_label.media_label#</option>
 															</cfloop>
 														</select>
 													</div>
