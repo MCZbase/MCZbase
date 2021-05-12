@@ -30,16 +30,8 @@ limitations under the License.
 		web_link,
 		web_link_text,
 		loan_policy_url,
-		count(filtered_flat.collection_object_id) as cnt
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			,count(flat.collection_object_id) as internal_count
-		</cfif>
 	from
 		collection 
-		left join filtered_flat on collection.collection_id = filtered_flat.collection_id
-		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			left join flat on collection.collection_id = flat.collection_id
-		</cfif>
 	where
 		collection.collection_id is not null
 	order by collection.collection
