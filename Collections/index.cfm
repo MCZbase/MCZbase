@@ -53,7 +53,7 @@ limitations under the License.
 							<strong>Website</strong>
 						</th>
 						<th>
-							<strong>Loan Policy</strong>
+							<strong>Collection Policies</strong>
 						</th>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<th>
