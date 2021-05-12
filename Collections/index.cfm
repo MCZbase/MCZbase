@@ -42,13 +42,6 @@ limitations under the License.
 		</cfif>
 	where
 		collection.collection_id is not null
-	group by
-		collection.collection,
-		collection.collection_id,
-		descr,
-		web_link,
-		web_link_text,
-		loan_policy_url
 	order by collection.collection
 </cfquery>
 <cfoutput>
@@ -102,10 +95,19 @@ limitations under the License.
 								</cfif>
 							</td>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#internal_count#</a></td>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
+								<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+								</cfquery>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#caticount.internal_count#</a></td>
+								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+								</cfquery>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
 							<cfelse>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
+								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+								</cfquery>
+								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
 							</cfif>
 						</tr>
 					</cfloop>
