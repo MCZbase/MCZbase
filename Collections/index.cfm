@@ -42,92 +42,99 @@ limitations under the License.
 			<div class="col-12">
 				<h1 class="h2">MCZbase Holdings</h1>
 				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
-					<tr>
-						<th>
-							<strong>Collection</strong>
-						</th>
-						<th>
-							<strong>Description</strong>
-						</th>
-						<th>
-							<strong>Website</strong>
-						</th>
-						<th>
-							<strong>Collection Policies</strong>
-						</th>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<th>
-								<strong>Cataloged Items</strong>
-							</th>
-							<th>
-								<strong>Accessible to Public</strong>
-							</th>
-							<th>
-								<strong>Encumbered</strong>
-							</th>
-						<cfelse>
-							<th>
-								<strong>Cataloged Items</strong>
-							</th>
-						</cfif>
-					</tr>
-					<cfset totalinternal = 0>
-					<cfset totalpublic = 0>
-					<cfloop query="colls">
+					<thead>
 						<tr>
-							<td>#COLLECTION#</td>
-							<td>#DESCR#</td>
-							<td>
-								<cfif len(#WEB_LINK#) gt 0 and len(#WEB_LINK_TEXT#) gt 0>
-									<a href="#WEB_LINK#" target="_blank">#WEB_LINK_TEXT#</a>
-								<cfelse>
-									<a href="https://mcz.harvard.edu/" target="_blank">MCZ</a>
-								</cfif>
-							</td>
-							<td>
-								<cfif len(#loan_policy_url#) gt 0 and len(#loan_policy_url#) gt 0>
-									<a href="#loan_policy_url#" target="_blank">Collection Policies</a>
-								<cfelse>
-									&nbsp;
-								</cfif>
-							</td>
+							<th>
+								<strong>Collection</strong>
+							</th>
+							<th>
+								<strong>Description</strong>
+							</th>
+							<th>
+								<strong>Website</strong>
+							</th>
+							<th>
+								<strong>Collection Policies</strong>
+							</th>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
-									select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
-								</cfquery>
-								<cfset icount = caticount.internal_count>
-								<cfset totalinternal = totalinternal + icount>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#icount#</a></td>
-
-								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
-									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
-								</cfquery>
-								<cfset pcount = catcount.cnt>
-								<cfset totalpublic = totalpublic + pcount>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#pcount#</a></td>
-
-								<td>#icount-pcount#</td>
+								<th>
+									<strong>Cataloged Items</strong>
+								</th>
+								<th>
+									<strong>Accessible to Public</strong>
+								</th>
+								<th>
+									<strong>Encumbered</strong>
+								</th>
 							<cfelse>
-								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
-									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
-								</cfquery>
-								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
-								<cfset totalpublic = totalpublic + catcount.cnt>
+								<th>
+									<strong>Cataloged Items</strong>
+								</th>
 							</cfif>
 						</tr>
-					</cfloop>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>Total</td>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<td>#totalinternal#</td>
-							<td>#totalpublic#</td>
-							<td>#totalinternal-totalpublic#</td>
-						<cfelse>
-							<td>#totalpublic#</td>
-						</cfif>
+					</thead>
+					<cfset totalinternal = 0>
+					<cfset totalpublic = 0>
+					<tbody>
+						<cfloop query="colls">
+							<tr>
+								<td>#COLLECTION#</td>
+								<td>#DESCR#</td>
+								<td>
+									<cfif len(#WEB_LINK#) gt 0 and len(#WEB_LINK_TEXT#) gt 0>
+										<a href="#WEB_LINK#" target="_blank">#WEB_LINK_TEXT#</a>
+									<cfelse>
+										<a href="https://mcz.harvard.edu/" target="_blank">MCZ</a>
+									</cfif>
+								</td>
+								<td>
+									<cfif len(#loan_policy_url#) gt 0 and len(#loan_policy_url#) gt 0>
+										<a href="#loan_policy_url#" target="_blank">Collection Policies</a>
+									<cfelse>
+										&nbsp;
+									</cfif>
+								</td>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<cfquery name="caticount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+										select count(*) as internal_count from flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+									</cfquery>
+									<cfset icount = caticount.internal_count>
+									<cfset totalinternal = totalinternal + icount>
+									<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#icount#</a></td>
+	
+									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+									</cfquery>
+									<cfset pcount = catcount.cnt>
+									<cfset totalpublic = totalpublic + pcount>
+									<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#pcount#</a></td>
+	
+									<td>#icount-pcount#</td>
+								<cfelse>
+									<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+										select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
+									</cfquery>
+									<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#catcount.cnt#</a></td>
+									<cfset totalpublic = totalpublic + catcount.cnt>
+								</cfif>
+							</tr>
+						</cfloop>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>Total</td>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<td>#totalinternal#</td>
+								<td>#totalpublic#</td>
+								<td>#totalinternal-totalpublic#</td>
+							<cfelse>
+								<td>#totalpublic#</td>
+							</cfif>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</section>
