@@ -261,9 +261,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td colspan="2" align="center">
-				#stat.recordcount#
+			<td colspan="3">&nbsp;</td>
 			</td>
 			<td>#cnt.cnt#</td>
 			<td>&nbsp;</td>
