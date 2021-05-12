@@ -299,7 +299,7 @@ limitations under the License.
 											<cfoutput>
 												<div class="row">
 													<div class="col-12">
-														<div class="form-group">
+														<div class="form-group mt-2">
 															<label for="MediaURI" class="data-entry-label">Media URI</label>
 															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
 														</div>
@@ -332,8 +332,8 @@ limitations under the License.
 												<div class="row">
 													<div class="col-12">
 														<div class="form-group">
-															<label for="media_label">Media Labels</label>
-															<select name="media_label" id="media_label" class="ml-1">
+															<label for="media_label" class="data-entry-label">Media Labels</label>
+															<select name="media_label" id="media_label" class="data-entry-select">
 																<option value="">NONE</option>
 																<cfloop query="ctmedia_label">
 																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
