@@ -250,7 +250,7 @@ limitations under the License.
 						<div class="row">
 							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs small py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue small py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs small btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
