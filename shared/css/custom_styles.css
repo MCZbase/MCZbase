@@ -329,15 +329,16 @@ span.data-entry-addon {
 	border: 1px solid #ced4da;
 }
 .btn-powder-blue {
-	color: #fff;
+	color: #1b1b1b;
+	letter-spacing: .04rem;
 	background-color: #b8d4fa;
 	border: 1px solid hsl(0, 0%, 62%);
 }
 .btn-powder-blue:hover {
 	/*background-color: #d3dfe0;*/
 	color: #212529;
-	background-color: #deebec;
 	background: #6f89ad;
+	letter-spacing: .04rem;
 	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-secondary {
