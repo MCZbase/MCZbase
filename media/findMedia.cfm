@@ -262,14 +262,6 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
-<!--- 
-owner
-credit
-dcterms:identifier
-spectrometer
-spectrometer reading location
-md5hash
---->
 									<div class="col-12 col-md-4 mb-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="made_date">Made Date (as date)</label>
@@ -280,7 +272,7 @@ md5hash
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date (text)<span>(=, NULL, NOT NULL)</span></label>
+										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date [text] <span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
 										<script>
 											$(document).ready(function() {
@@ -289,7 +281,7 @@ md5hash
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source<span>(=, NULL, NOT NULL)</span></label>
+										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source <span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
 										<script>
 											$(document).ready(function() {
@@ -298,7 +290,7 @@ md5hash
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer<span>(=, NULL, NOT NULL)</span></label>
+										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer <span>(=, NULL, NOT NULL)</span></label>
 										<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
 										<script>
 											$(document).ready(function() {
@@ -316,28 +308,34 @@ md5hash
 										</script>
 									</div>
 								</div>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="form-row my-2 mx-0">
+										<div class="col-12 col-md-2">
+											<label for="owner" class="data-entry-label" id="owner_label">Owner <span>(=, NULL, NOT NULL)</span></label>
+											<input type="text" id="owner" name="owner" class="data-entry-input" value="#owner#" aria-labelledby="owner_label" >
+											<script>
+												$(document).ready(function() {
+													makeMediaLabelAutocomplete("owner","owner");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="credit" class="data-entry-label" id="credit_label">Credit <span>(=, NULL, NOT NULL)</span></label>
+											<input type="text" id="credit" name="credit" class="data-entry-input" value="#credit#" aria-labelledby="credit_label" >
+											<script>
+												$(document).ready(function() {
+													makeMediaLabelAutocomplete("credit","credit");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="md5hash" class="data-entry-label" id="md5hash_label">MD5 Hash <span>(=, NULL, NOT NULL)</span></label>
+											<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
+										</div>
+									</div>
+								</cfif>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 col-md-2">
-										<label for="owner" class="data-entry-label" id="owner_label">Owner<span>(=, NULL, NOT NULL)</span></label>
-										<input type="text" id="owner" name="owner" class="data-entry-input" value="#owner#" aria-labelledby="owner_label" >
-										<script>
-											$(document).ready(function() {
-												makeMediaLabelAutocomplete("owner","owner");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="credit" class="data-entry-label" id="credit_label">Credit<span>(=, NULL, NOT NULL)</span></label>
-										<input type="text" id="credit" name="credit" class="data-entry-input" value="#credit#" aria-labelledby="credit_label" >
-										<script>
-											$(document).ready(function() {
-												makeMediaLabelAutocomplete("credit","credit");
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-2">
-										<label for="md5hash" class="data-entry-label" id="md5hash_label">MD5 Hash<span>(=, NULL, NOT NULL)</span></label>
-										<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
