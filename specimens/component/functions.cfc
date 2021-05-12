@@ -611,8 +611,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				</div>
-				</div>
+			</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
