@@ -271,7 +271,7 @@ BELOW: Small Form button (bootstrap override)
 /*	line-height: 1.15rem;*/
 	border-radius: .2rem;
 	font-size: small;
-	padding: 2px 3px;
+	padding: 2px 5px;
 }
 .btn-outline-primary {
 	background-color: white;
