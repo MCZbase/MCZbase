@@ -298,20 +298,20 @@ limitations under the License.
 											<cfoutput>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
-														<label for="MediaURI" class="data-entry-label">Media URI</label>
-														<input class="data-entry-input" name="" id="MediaURI" value="">
+														<label for="MediaURI" class="">Media URI</label>
+														<input class="" name="" id="MediaURI" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
-														<label for "">Preview URI</label>
-														<input class="data-entry-input" name="" id="" value="">
+														<label for="">Preview URI</label>
+														<input class="" name="" id="" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-0">
 														<div class="form-group">
-															<label for="media_type" class="data-entry-label">Media Type</label>
+															<label for="media_type" class="">Media Type</label>
 															<input class="mx-1" name="mime_type" id="media_type" value="">
 														</div>
 														<div class="form-group">
