@@ -308,13 +308,13 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
-													<div class="col-12 px-1">
+													<div class="col-12 px-0">
 														<label for "media_type" class="data-entry-label">Media Type</label>
-														<input class="mx-2" name="mime_type" id="media_type" value="">
+														<input class="mx-1" name="mime_type" id="media_type" value="">
 														<label for "">Mime Type</label>
-														<input class="mx-2" name="mime_type" id="mime_type" value="">
+														<input class="mx-1" name="mime_type" id="mime_type" value="">
 														<label for "visibility">Visibility</label>
-														<input class="mx-2" name="visibility" id="visibility" value="">
+														<input class="mx-1" name="visibility" id="visibility" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
