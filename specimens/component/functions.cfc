@@ -299,13 +299,13 @@ limitations under the License.
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
 														<label for="MediaURI" class="">Media URI</label>
-														<input class="mx-1" name="" id="MediaURI" value="">
+														<input class="mx-1" name="" size="90" id="MediaURI" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
 														<label for="">Preview URI</label>
-														<input class="mx-1" name="" id="" value="">
+														<input class="mx-1" size="90" name="" id="" value="">
 													</div>
 												</div>
 												<div class="row mx-0 mb-2">
