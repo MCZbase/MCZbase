@@ -296,31 +296,31 @@ limitations under the License.
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
 										<div class="card-body"> 
 											<cfoutput>
-												<div class="row mx-0 mb-2">
-													<div class="col-12 px-1">
+												<div class="row">
+													<div class="col-12">
 														<label for="MediaURI" class="data-entry-label">Media URI</label>
 														<input class="mx-1 data-entry-input" name="MediaURI" id="MediaURI" value="">
 													</div>
 												</div>
-												<div class="row mx-0 mb-2">
-													<div class="col-12 px-1">
+												<div class="row">
+													<div class="col-12">
 														<label for="previewURI" class="data-entry-label">Preview URI</label>
 														<input class="mx-1 data-entry-input" name="previewURI" id="previewURI" value="">
 													</div>
 												</div>
-												<div class="row mx-0 mb-2">
-													<div class="col-12 px-1">
+												<div class="row">
+													<div class="col-12">
 														<div class="form-group float-left">
-															<label for="media_type" class="">Media Type</label>
-															<input class="mx-1" name="mime_type" id="media_type" value="">
+															<label for="media_type" class="data-entry-label">Media Type</label>
+															<input class="data-entry-input" name="mime_type" id="media_type" value="">
 														</div>
 														<div class="form-group float-left">
-															<label for="mime_type">Mime Type</label>
-															<input class="mx-1" name="mime_type" id="mime_type" value="">
+															<label for="mime_type" class="data-entry-label">Mime Type</label>
+															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
 														</div>
 														<div class="form-group float-left">
-															<label for="visibility">Visibility</label>
-															<input class="mx-1" name="visibility" id="visibility" value="">
+															<label for="visibility" class="data-entry-label">Visibility</label>
+															<input class="data-entry-input" name="visibility" id="visibility" value="">
 														</div>
 													</div>
 												</div>
