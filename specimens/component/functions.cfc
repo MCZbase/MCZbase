@@ -283,6 +283,8 @@ limitations under the License.
 							</form>
 						</div>
 					</div>
+				</div>
+				<div class="container-fluid">
 					<div class="row mx-0">
 						<div class="col-9 float-left px-0">
 							<div id="accordionMedia1">
