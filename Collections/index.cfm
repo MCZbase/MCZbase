@@ -84,9 +84,9 @@ limitations under the License.
 							</td>
 							<td>
 								<cfif len(#loan_policy_url#) gt 0 and len(#loan_policy_url#) gt 0>
-									<a href="#loan_policy_url#" target="_blank">Loan Policy</a>
+									<a href="#loan_policy_url#" target="_blank">Collection Policies</a>
 								<cfelse>
-									Inquire
+									&nbsp;
 								</cfif>
 							</td>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
