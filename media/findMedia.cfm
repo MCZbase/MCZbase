@@ -297,27 +297,48 @@ md5hash
 											});
 										</script>
 									</div>
+									<div class="col-12 col-md-2">
+										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("spectrometer","spectrometer");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="spectrometer_reading_location" class="data-entry-label" id="spectrometer_reading_location_label">Spectrometer Reading Location<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
+											});
+										</script>
+									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
-									<cfloop query="ctmedia_label">
-										<cfif ctmedia_label.media_label NEQ 'description' 
-											AND ctmedia_label.media_label NEQ 'height' 
-											AND ctmedia_label.media_label NEQ 'width' 
-											AND ctmedia_label.media_label NEQ 'aspect' 
-											AND ctmedia_label.media_label NEQ 'remarks' 
-											AND ctmedia_label.media_label NEQ 'internal remarks' 
-											AND ctmedia_label.media_label NEQ 'subject' 
-											AND ctmedia_label.media_label NEQ 'made date' 
-											AND ctmedia_label.media_label NEQ 'original filename' 
-											AND ctmedia_label.media_label NEQ 'light source' 
-										>
-											<cfset label = replace(ctmedia_label.media_label," ","_")>
-											<div class="col-12 col-md-2">
-												<label for="#label#" class="data-entry-label" id="#label#_label">#ctmedia_label.media_label# <span></span></label>
-												<input type="text" id="#label#" name="#label#" class="data-entry-input" value="#DE(label)#" aria-labelledby="#label#_label" >
-											</div>
-										</cfif>
-									</cfloop>
+									<div class="col-12 col-md-2">
+										<label for="owner" class="data-entry-label" id="owner_label">Owner<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="owner" name="owner" class="data-entry-input" value="#owner#" aria-labelledby="owner_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("owner","owner");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="credit" class="data-entry-label" id="credit_label">Credit<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="credit" name="credit" class="data-entry-input" value="#credit#" aria-labelledby="credit_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("credit","credit");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="md5hash" class="data-entry-label" id="md5hash_label">MD5 Hash<span>(=, NULL, NOT NULL)</span></label>
+										<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
+									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
