@@ -68,7 +68,7 @@ limitations under the License.
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
 				<div class="container-fluid">
-					<div class="row">
+					<div class="row mx-0">
 						<div class="col-12  float-left mb-2 px-0">
 							<form name="editMediaForm" id="editIdentificationsForm">
 								<input type="hidden" name="method" value="updateMedia">
@@ -275,7 +275,9 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="row">
+										<div class="col-2">
 											<input value="Save Changes" class="btn mb-4 btn-xs btn-primary">
+										</div>
 									</div>
 								</cfoutput> 
 							</form>
