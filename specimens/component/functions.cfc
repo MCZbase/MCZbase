@@ -300,7 +300,7 @@ limitations under the License.
 													<div class="col-12">
 														<div class="form-group">
 															<label for="MediaURI" class="data-entry-label">Media URI</label>
-															<input class="mx-1 data-entry-input" name="MediaURI" id="MediaURI" value="">
+															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
 														</div>
 													</div>
 												</div>
@@ -308,7 +308,7 @@ limitations under the License.
 													<div class="col-12">
 														<div class="form-group">
 															<label for="previewURI" class="data-entry-label">Preview URI</label>
-															<input class="mx-1 data-entry-input" name="previewURI" id="previewURI" value="">
+															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
 														</div>
 													</div>
 												</div>
