@@ -104,7 +104,7 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#internal_count#</a></td>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
-							</cfelse>
+							<cfelse>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#cnt#</a></td>
 							</cfif>
 						</tr>
