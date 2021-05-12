@@ -254,7 +254,7 @@ label {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-.btn-xs {
+.btn-xs {  /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
 	display: inline-block;
 	font-weight: 500;
 	color: #212529;
@@ -266,10 +266,12 @@ BELOW: Small Form button (bootstrap override)
 	user-select: none;
 	background-color: transparent;
 	border: 1px solid #aaa;
-	padding: .15rem .5rem .22rem .5rem;
-	font-size: .875rem;
-	line-height: 1.15rem;
+/*	padding: .15rem .5rem .22rem .5rem;*/
+/*	font-size: .875rem;*/
+/*	line-height: 1.15rem;*/
 	border-radius: .2rem;
+	font-size: small;
+	padding: 2px 3px;
 }
 .btn-outline-primary {
 	background-color: white;
