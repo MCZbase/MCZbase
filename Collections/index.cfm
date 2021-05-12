@@ -100,7 +100,7 @@ limitations under the License.
 								</cfquery>
 								<cfset pcount = catcount.cnt>
 								<td><a href="/SpecimenSearch.cfm?collection_id=#collection_id#">#pcount#</a></td>
-								<td>(#icount-pcount#)</td>
+								<td>#icount-pcount#</td>
 							<cfelse>
 								<cfquery name="catcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 									select count(*) as cnt from filtered_flat where collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_id#">
