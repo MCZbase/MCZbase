@@ -283,6 +283,7 @@ limitations under the License.
 							</form>
 						</div>
 					</div>
+												</div>
 					<div class="row mx-0">
 						<div class="col-12 float-left px-0">
 							<div id="accordionMedia1">
@@ -325,7 +326,7 @@ limitations under the License.
 												</div>
 												<div class="row mx-0 mb-2">
 													<div class="col-12 px-1">
-														<label for="media_label">Visibility</label>
+														<label for="media_label">Media Labels</label>
 														<select name="media_label" id="media_label" class="ml-1">
 															<option value="">NONE</option>
 															<cfloop query="ctmedia_label">
