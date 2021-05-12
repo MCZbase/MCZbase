@@ -298,7 +298,7 @@ limitations under the License.
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
 										<div class="card-body"> 
 											<cfoutput>
-												<div class="row">
+												<div class="row mx-0">
 													<div class="col-12">
 														<div class="form-group mt-2">
 															<label for="MediaURI" class="data-entry-label">Media URI</label>
