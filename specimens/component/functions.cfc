@@ -284,6 +284,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+			</div>
 				<div class="container-fluid">
 					<div class="row mx-0">
 						<div class="col-9 float-left px-0">
