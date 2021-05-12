@@ -205,6 +205,7 @@ Common Names have been opportunistically entered into MCZbase. Common Name entri
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
 <cfif #content# is "CollStats">
+	<!--- TODO: Deprecated, remove --->
 	<cfset title="Collection Stats">
 	<cfquery name="stat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
