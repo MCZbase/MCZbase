@@ -38,7 +38,7 @@ limitations under the License.
 		collection 
 		left join filtered_flat on collection.collection_id = filtered_flat.collection_id
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-			left join filtered_flat on collection.collection_id = filtered_flat.collection_id
+			left join flat on collection.collection_id = flat.collection_id
 		</cfif>
 	where
 		collection.collection_id is not null
