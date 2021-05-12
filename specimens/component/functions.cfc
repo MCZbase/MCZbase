@@ -283,9 +283,8 @@ limitations under the License.
 							</form>
 						</div>
 					</div>
-												</div>
 					<div class="row mx-0">
-						<div class="col-12 float-left px-0">
+						<div class="col-9 float-left px-0">
 							<div id="accordionMedia1">
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
@@ -314,29 +313,31 @@ limitations under the License.
 												</div>
 												<div class="row">
 													<div class="col-12">
-														<div class="form-group float-left">
+														<div class="form-group mr-4 float-left">
 															<label for="media_type" class="data-entry-label">Media Type</label>
 															<input class="data-entry-input" name="mime_type" id="media_type" value="">
 														</div>
-														<div class="form-group float-left">
+														<div class="form-group mr-4 float-left">
 															<label for="mime_type" class="data-entry-label">Mime Type</label>
 															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
 														</div>
-														<div class="form-group float-left">
+														<div class="form-group mr-4 float-left">
 															<label for="visibility" class="data-entry-label">Visibility</label>
 															<input class="data-entry-input" name="visibility" id="visibility" value="">
 														</div>
 													</div>
 												</div>
-												<div class="row mx-0 mb-2">
-													<div class="col-12 px-1">
-														<label for="media_label">Media Labels</label>
-														<select name="media_label" id="media_label" class="ml-1">
-															<option value="">NONE</option>
-															<cfloop query="ctmedia_label">
-																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
-															</cfloop>
-														</select>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_label">Media Labels</label>
+															<select name="media_label" id="media_label" class="ml-1">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label">
+																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
+																</cfloop>
+															</select>
+														</div>
 													</div>
 												</div>
 											</cfoutput> 
