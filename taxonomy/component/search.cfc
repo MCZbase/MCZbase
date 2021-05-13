@@ -434,7 +434,7 @@ limitations under the License.
 					<cfif left(species,1) is "=">
 						AND upper(taxonomy.species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif left(species,1) is "$">
-						AND soundex(species) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-1)#">)
+						AND soundex(taxonomy.species) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-1)#">)
 					<cfelseif left(species,1) is "!">
 						AND upper(taxonomy.species) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif species is "NULL">
@@ -453,7 +453,7 @@ limitations under the License.
 					<cfif left(subspecies,1) is "=">
 						AND upper(taxonomy.subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif left(subspecies,1) is "$">
-						AND soundex(subspecies) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-1)#">)
+						AND soundex(taxonomy.subspecies) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-1)#">)
 					<cfelseif left(subspecies,1) is "!">
 						AND upper(taxonomy.subspecies) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif subspecies is "NULL">
@@ -472,7 +472,7 @@ limitations under the License.
 					<cfif left(author_text,1) is "=">
 						AND upper(taxonomy.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif left(author_text,1) is "$">
-						AND soundex(author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-1)#">)
+						AND soundex(taxonomy.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-1)#">)
 					<cfelseif left(author_text,1) is "!">
 						AND upper(taxonomy.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif author_text is "NULL">
