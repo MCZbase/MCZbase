@@ -321,17 +321,18 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-4 mb-2">
-										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="made_date">Made Date (as date)</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
-											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+									<div class="col-12 col-md-4">
+										<div class="date row bg-light border p-2 my-3 mx-0 rounded">
+											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
+											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<div class="col-1 text-center px-4"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date [text]
+										<div class="form-group">
+										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
@@ -343,9 +344,11 @@ limitations under the License.
 												makeMediaLabelAutocomplete("text_made_date","made date");
 											});
 										</script>
+										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source 
+										<div class="form-group">
+										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
@@ -357,9 +360,11 @@ limitations under the License.
 												makeMediaLabelAutocomplete("light_source","light source");
 											});
 										</script>
+										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer 
+										<div class="form-group">
+										<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
@@ -371,9 +376,11 @@ limitations under the License.
 												makeMediaLabelAutocomplete("spectrometer","spectrometer");
 											});
 										</script>
+										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="spectrometer_reading_location" class="data-entry-label" id="spectrometer_reading_location_label">Spectrometer Read Location
+										<div class="form-group">
+										<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
@@ -385,6 +392,7 @@ limitations under the License.
 												makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
 											});
 										</script>
+									</div>
 									</div>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -434,7 +442,7 @@ limitations under the License.
 									</div>
 								</div>
 								</cfif>
-								<div class="form-row mt-4 mb-2 mx-0">
+								<div class="form-row my-0 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
