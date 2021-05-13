@@ -140,7 +140,9 @@
 	<cfset checkSql(collection_object_id)>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select GUID from #session.flatTableName# where collection_object_id=#collection_object_id#
+			select GUID 
+			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfheader name="Location" value="/guid/#c.guid#">
@@ -156,29 +158,25 @@
 	<cfset checkSql(guid)>
 	<cfif guid contains ":">
 		<cfoutput>
-			<cfset sql="select collection_object_id from
-					#session.flatTableName#
-				WHERE
-					upper(guid)='#ucase(guid)#'">
-			<cfset checkSql(sql)>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				#preservesinglequotes(sql)#
+				select collection_object_id 
+				from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> 
+				WHERE
+					upper(guid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(guid)#">
 			</cfquery>
 		</cfoutput>
 	<cfelseif guid contains " ">
 		<cfset spos=find(" ",reverse(guid))>
 		<cfset cc=left(guid,len(guid)-spos)>
 		<cfset cn=right(guid,spos)>
-		<cfset sql="select collection_object_id from
+		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select collection_object_id from
 				cataloged_item,
 				collection
 			WHERE
 				cataloged_item.collection_id = collection.collection_id AND
-				cat_num = #cn# AND
-				lower(collection.collection)='#lcase(cc)#'">
-		<cfset checkSql(sql)>
-		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+				cat_num = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cn#"> AND
+				lower(collection.collection) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lcase(cc)#">
 		</cfquery>
 	</cfif>
 	<cfif isdefined("c.collection_object_id") and len(c.collection_object_id) gt 0>
