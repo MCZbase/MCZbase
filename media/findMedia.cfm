@@ -284,7 +284,7 @@ limitations under the License.
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
-										</div>
+										</div></cfif>
 									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-md-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
