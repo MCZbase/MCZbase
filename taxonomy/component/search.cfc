@@ -119,9 +119,9 @@ limitations under the License.
 					<cfif left(scientific_name,1) is "=">
 						AND upper(taxonomy.scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
 					<cfelseif left(scientific_name,1) is "~">
-						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) >= 0.85
+						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) >= 0.90
 					<cfelseif left(anyName,1) is "!~">
-						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) < 0.85
+						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) < 0.90
 					<cfelseif left(scientific_name,1) is "!">
 						AND upper(taxonomy.scientific_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
 					<cfelse>
