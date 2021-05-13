@@ -577,11 +577,15 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#kingdom#" placeholder="kingdom">
 										</div>
 										<div class="col-md-2">
-											<label for="phylum" class="data-entry-label align-left-center">Phylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </a></label>
+											<label for="phylum" class="data-entry-label align-left-center">Phylum 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylum');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="phylum" name="phylum" value="#phylum#" placeholder="phylum">
 										</div>
 										<div class="col-md-2">
-											<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
+											<label for="subphylum" class="data-entry-label align-left-center">Subphylum 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="small" class="data-entry-input" id="subphylum" name="subphylum" value="#subphylum#" placeholder="subphylum">
 										</div>
 										<div class="col-md-2">&nbsp;
@@ -599,19 +603,27 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-0">
 										<div class="col-md-2">
-											<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
+											<label for="superclass" class="data-entry-label align-left-center">Superclass 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="small" class="data-entry-input" id="superclass" name="superclass" value="#superclass#" placeholder="superclass">
 										</div>
 										<div class="col-md-2">
-											<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
+											<label for="phylclass" class="data-entry-label align-left-center">Class 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="phylclass" name="phylclass" value="#phylclass#" placeholder="class">
 										</div>
 										<div class="col-md-2">
-											<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
+											<label for="subclass" class="data-entry-label align-left-center">Subclass 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#subclass#" placeholder="subclass">
 										</div>
 										<div class="col-md-2">
-											<label for="infraclass" class="data-entry-label align-left-center">Infraclass <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=) </a></label>
+											<label for="infraclass" class="data-entry-label align-left-center">Infraclass 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('infraclass');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="infraclass" name="infraclass" value="#infraclass#" placeholder="infraclass">
 										</div>
 										<div class="col-md-4">
