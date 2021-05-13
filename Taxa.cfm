@@ -494,8 +494,8 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name 
 												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true" class="btn btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
-													<button type="button" tabindex="-1" aria-hidden="true" class="btn btn-link" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn btn-link px-0" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn btn-link px-0" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
@@ -505,7 +505,11 @@ limitations under the License.
 											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 										</div>
 										<div class="col-md-4">
-											<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
+											<label for="common_name" class="data-entry-label align-left-center">Common Name 
+												<span class="small">
+													(<button type="button" aria-hidden="true" tabindex="-1" class="btn btn-link px-0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
 										</div>
 									</div>
