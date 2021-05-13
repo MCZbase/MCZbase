@@ -192,6 +192,10 @@ limitations under the License.
 						AND upper(first_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif left(first_name,2) is "!!">
 						AND first_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-2)#">
+					<cfelseif left(first_name,1) is "$">
+						AND soundex(first_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">)
+					<cfelseif left(first_name,2) is "!$">
+						AND soundex(first_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-2))#">)
 					<cfelseif left(first_name,1) is "!">
 						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif first_name is "NULL">
@@ -213,8 +217,14 @@ limitations under the License.
 						AND upper(middle_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
 					<cfelseif left(middle_name,2) is "!!">
 						AND middle_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-2)#">
+					<cfelseif left(middle_name,1) is "$">
+						AND soundex(middle_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">)
+					<cfelseif left(middle_name,2) is "!$">
+						AND soundex(middle_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-2))#">)
 					<cfelseif left(middle_name,1) is "!">
 						AND upper(middle_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+					<cfelseif middle_name is "NULL">
+						AND middle_name is null
 					<cfelseif middle_name is "NULL">
 						AND middle_name is null
 					<cfelseif middle_name is "NOT NULL">
@@ -234,6 +244,10 @@ limitations under the License.
 						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif left(last_name,2) is "!!">
 						AND last_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">
+					<cfelseif left(last_name,1) is "$">
+						AND soundex(last_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-1)#">)
+					<cfelseif left(last_name,2) is "!$">
+						AND soundex(last_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">)
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif last_name is "NULL">
@@ -482,6 +496,37 @@ Function getAgentList.  Search for agents by name with a substring match on any 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getPreferredNameExists Check if a prefered name exists.
+
+@param agent_name name to look up.
+@return 1 if one or more preferred names exactly matching the provided string exists, otherwise 0, 
+ returns an http 500 status in the case of an error.
+--->
+<cffunction name="getPreferredNameExists" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_name" type="string" required="yes">
+
+	<cfset retval ="">
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select count(*) as ct from agent_name
+			where
+				agent_name_type = 'preferred'
+				and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">
+		</cfquery>
+		<cfset retval = search.ct>
+		<cfif retval GT 1><cfset retval = 1></cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	<cfreturn #retval#>
+</cffunction>
 <!---
 Function getAgentAutocomplete.  Search for agents by name with a substring match on any name, returning json suitable for jquery-ui autocomplete.
 

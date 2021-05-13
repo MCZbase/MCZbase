@@ -179,6 +179,7 @@ limitations under the License.
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -189,16 +190,18 @@ limitations under the License.
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>

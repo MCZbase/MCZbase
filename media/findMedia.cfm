@@ -163,7 +163,7 @@ limitations under the License.
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 									</div>
 									<div class="col-12 col-md-#keycols#">
-										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span>(|,*,"",-)</span></label>
+										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -199,11 +199,16 @@ limitations under the License.
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="original_filename" class="data-entry-label" id="original_filename_label">Original Filename<span>(=, NULL, NOT NULL)</span></label>
+										<label for="original_filename" class="data-entry-label" id="original_filename_label">Original Filename
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="description" class="data-entry-label" id="description_label">Description <span>(NULL, NOT NULL)</span></label>
+										<label for="description" class="data-entry-label" id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 									<div class="col-12 col-md-3">
@@ -226,15 +231,32 @@ limitations under the License.
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 col-md-2">
-										<label for="height" class="data-entry-label" id="height_label">Height <span>(&gt;,&lt;,NULL, NOT NULL)</span></label>
+										<label for="height" class="data-entry-label" id="height_label">Height 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</a><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="width" class="data-entry-label" id="width_label">Width <span>(&gt;,&lt;,NULL, NOT NULL)</span></label>
+										<label for="width" class="data-entry-label" id="width_label">Width 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</a><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect <span>(=,NULL, NOT NULL)</span></label>
+										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
 										<script>
 											$(document).ready(function() {
@@ -243,7 +265,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="subject" class="data-entry-label" id="subject_label">Subject <span>(NULL, NOT NULL)</span></label>
+										<label for="subject" class="data-entry-label" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
 										<script>
 											$(document).ready(function() {
@@ -255,12 +277,12 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset remcol = "2">
 										<div class="col-12 col-md-2">
-											<label for="internal_remarks" class="data-entry-label" id="internal_remarks_label">Internal Remarks <span>(NULL, NOT NULL)</span></label>
+											<label for="internal_remarks" class="data-entry-label" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
 										</div>
 									</cfif>
 									<div class="col-12 col-md-#remcol#">
-										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span>(NULL, NOT NULL)</span></label>
+										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
 									</div>
 								</div>
@@ -275,7 +297,12 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date [text] <span>(=, NULL, NOT NULL)</span></label>
+										<label for="text_made_date" class="data-entry-label" id="text_made_date_label">Made Date [text]
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
 										<script>
 											$(document).ready(function() {
@@ -284,7 +311,12 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source <span>(=, NULL, NOT NULL)</span></label>
+										<label for="light_source" class="data-entry-label" id="light_source_label">Light Source 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
 										<script>
 											$(document).ready(function() {
@@ -293,7 +325,12 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer <span>(=, NULL, NOT NULL)</span></label>
+										<label for="spectrometer" class="data-entry-label" id="spectrometer_label">Spectrometer 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
 										<script>
 											$(document).ready(function() {
@@ -302,7 +339,12 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="spectrometer_reading_location" class="data-entry-label" id="spectrometer_reading_location_label">Spectrometer Reading Location<span>(=, NULL, NOT NULL)</span></label>
+										<label for="spectrometer_reading_location" class="data-entry-label" id="spectrometer_reading_location_label">Spectrometer Read Location
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
 										<script>
 											$(document).ready(function() {
@@ -314,7 +356,12 @@ limitations under the License.
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 col-md-2">
-											<label for="owner" class="data-entry-label" id="owner_label">Owner <span>(=, NULL, NOT NULL)</span></label>
+											<label for="owner" class="data-entry-label" id="owner_label">Owner 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
 											<input type="text" id="owner" name="owner" class="data-entry-input" value="#owner#" aria-labelledby="owner_label" >
 											<script>
 												$(document).ready(function() {
@@ -323,7 +370,12 @@ limitations under the License.
 											</script>
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="credit" class="data-entry-label" id="credit_label">Credit <span>(=, NULL, NOT NULL)</span></label>
+											<label for="credit" class="data-entry-label" id="credit_label">Credit 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
 											<input type="text" id="credit" name="credit" class="data-entry-input" value="#credit#" aria-labelledby="credit_label" >
 											<script>
 												$(document).ready(function() {
@@ -332,7 +384,12 @@ limitations under the License.
 											</script>
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="md5hash" class="data-entry-label" id="md5hash_label">MD5 Hash <span>(=, NULL, NOT NULL)</span></label>
+											<label for="md5hash" class="data-entry-label" id="md5hash_label">MD5 Hash 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
 											<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
 										</div>
 									</div>
@@ -666,7 +723,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-2 mx-3' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -674,7 +731,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
 	</cfoutput>
