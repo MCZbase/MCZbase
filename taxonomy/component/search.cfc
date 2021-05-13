@@ -770,7 +770,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
   by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
 @param term value of the name to search for.
-@param rank the rank to search
+@param rank the rank to search (accepts any of the atomic field names in taxonomy table, including author_text).
 @return a json structure containing id and value, and meta, with matching with matched name in value and id, 
   and count metadata in meta.
 --->
@@ -802,7 +802,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">subfamily as name</cfcase>
 					<cfcase value="tribe">tribe as name</cfcase>
 					<cfcase value="genus">genus as name</cfcase>
+					<cfcase value="subgenus">subgenus as name</cfcase>
+					<cfcase value="species">species as name</cfcase>
+					<cfcase value="subspecies">subspecies as name</cfcase>
 					<cfcase value="author_text">author_text as name</cfcase>
+					<cfcase value="infraspecific_author">infraspecific_author as name</cfcase>
 				</cfswitch>
 			FROM 
 				taxonomy
@@ -824,7 +828,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">upper (subfamily)</cfcase>
 					<cfcase value="tribe">upper (tribe)</cfcase>
 					<cfcase value="genus">upper (genus)</cfcase>
+					<cfcase value="subgenus">upper (subgenus)</cfcase>
+					<cfcase value="species">upper (species)</cfcase>
+					<cfcase value="subspecies">upper (subspecies)</cfcase>
 					<cfcase value="author_text">upper (author_text)</cfcase>
+					<cfcase value="infraspecific_author">upper (infraspecific_author)</cfcase>
 				</cfswitch>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
@@ -845,7 +853,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">subfamily</cfcase>
 					<cfcase value="tribe">tribe</cfcase>
 					<cfcase value="genus">genus</cfcase>
+					<cfcase value="subgenus">subgenus</cfcase>
+					<cfcase value="species">species</cfcase>
+					<cfcase value="subspecies">subspecies</cfcase>
 					<cfcase value="author_text">author_text</cfcase>
+					<cfcase value="infraspecific_author">infraspecific_author</cfcase>
 				</cfswitch>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
