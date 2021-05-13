@@ -23,7 +23,7 @@ function makeAspectAutocomplete(valueControl) {
 			})
 		},
 		select: function (event, result) {
-			$('#'+valueControl).val("=" + result.item.id);
+			$('#'+valueControl).val("=" + result.item.value);
 		},
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
