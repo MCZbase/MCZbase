@@ -236,7 +236,7 @@ limitations under the License.
 										</select>
 										</div>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-md-2">
 										<label for="height" class="data-entry-label mb-0" id="height_label">Height 
 											<span class="small">
@@ -248,7 +248,7 @@ limitations under the License.
 										<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-md-2">
 										<label for="width" class="data-entry-label mb-0" id="width_label">Width 
 											<span class="small">
@@ -260,7 +260,7 @@ limitations under the License.
 										<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<div class="form-group">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 											<span class="small">
@@ -276,13 +276,12 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-									
 								</div>
 								<div class="form-row"><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset keycols="5">
 									<cfelse>
-										<cfset keycols="7">
+										<cfset keycols="5">
 									</cfif>
 									<div class="col-12 col-md-#keycols#">
 										<div class="form-group mb-md-2">
@@ -290,7 +289,7 @@ limitations under the License.
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 										</div>
-									<div class="col-12 col-md-8">
+									<div class="col-12 col-md-6">
 										<div class="form-group mb-md-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
@@ -298,10 +297,10 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<cfset remcol = "4">
+									<cfset remcol = "6">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<cfset remcol = "2">
-									<div class="col-12 col-md-2">
+									<cfset remcol = "6">
+									<div class="col-12 col-md-6">
 											<div class="form-group mb-md-2">
 											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
@@ -315,16 +314,16 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-4">
-										<div class="date row bg-light border p-2 my-3 mx-0 rounded">
+										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
-											<div class="col-1 text-center px-4"><small> to</small></div>
+											<div class="col-1 text-center"><small>to</small></div>
 											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
 											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
-										<div class="form-group mb-2">
+										<div class="form-group mb-md-2">
 										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -340,7 +339,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
-										<div class="form-group">
+										<div class="form-group mb-md-2">
 										<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
 										<script>
@@ -350,10 +349,9 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-
 								</div>
 									<div class="form-row">
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 										<div class="form-group">
 										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 											<span class="small">
@@ -385,7 +383,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-5">
 										<div class="form-group">
 										<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
 											<span class="small">
@@ -402,14 +400,11 @@ limitations under the License.
 									</div>
 									</div>
 									</div>
-									<div class="form-row">
-
-								</div>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<div class="form-row">
 									<div class="col-12 col-md-4">
-										<div class="form-group mb-2">
+										<div class="form-group mb-md-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -425,7 +420,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
-										<div class="form-group mb-2">
+										<div class="form-group mb-mb-2">
 										<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
