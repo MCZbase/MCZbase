@@ -188,7 +188,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
 											<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -258,7 +258,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 											<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -313,7 +313,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 											<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -329,7 +329,7 @@ limitations under the License.
 									<div class="form-group mb-2">
 									<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
 										<span class="small">
-											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 											NULL, NOT NULL)
 										</span>
 									</label>
@@ -345,7 +345,7 @@ limitations under the License.
 									<div class="form-group mb-2">
 									<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
 										<span class="small">
-											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 											NULL, NOT NULL)
 										</span>
 									</label>
@@ -362,7 +362,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;"><i class="fa fa-usd"></i></a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;"><i class="fa fa-equals"></i></a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -378,7 +378,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 											<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -394,7 +394,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
 											<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"><i class="fa fa-usd"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;"><i class="fa fa-equals"></i></button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -406,7 +406,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
 											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"><i class="fa fa-usd"></i></a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;"><i class="fa fa-equals"></i></a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
