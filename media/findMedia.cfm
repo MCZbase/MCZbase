@@ -134,7 +134,7 @@ limitations under the License.
 											<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
 										</div>
 									</div>
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-3">
 											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
@@ -150,7 +150,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-2">
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 											<select id="mime_type" name="mime_type" class="data-entry-select">
@@ -220,7 +220,7 @@ limitations under the License.
 									</script>
 <!---								</div>
 								<div class="form-row">--->
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 										<select id="protocol" name="protocol" class="data-entry-select">
@@ -236,7 +236,7 @@ limitations under the License.
 										</select>
 										</div>
 									</div>
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-2">
 										<label for="height" class="data-entry-label mb-0" id="height_label">Height 
 											<span class="small">
@@ -248,7 +248,7 @@ limitations under the License.
 										<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-2">
 										<label for="width" class="data-entry-label mb-0" id="width_label">Width 
 											<span class="small">
@@ -260,7 +260,7 @@ limitations under the License.
 										<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-3 col-xl-3">
+									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-md-2">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 											<span class="small">
@@ -279,13 +279,13 @@ limitations under the License.
 <!---								</div>
 								<div class="form-row">---><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-4 col-xl-6">
+									<div class="col-12 col-md-4 col-xl-4">
 										<div class="form-group mb-md-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 										</div></cfif>
-									<div class="col-12 col-md-6 col-xl-6">
+									<div class="col-12 col-md-6 col-xl-5">
 										<div class="form-group mb-md-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
@@ -294,14 +294,14 @@ limitations under the License.
 <!---								</div>
 								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-6 col-xl-6">
+									<div class="col-12 col-md-6 col-xl-5">
 											<div class="form-group mb-md-2">
 											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-6 col-xl-6">
+									<div class="col-12 col-md-6 col-xl-5">
 										<div class="form-group mb-md-2">
 										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
