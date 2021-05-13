@@ -162,9 +162,6 @@ limitations under the License.
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 					MCZBASE.GET_AGENTNAMEOFTYPE_EXISTS(agent.agent_id,'login') as login,
 				</cfif>
-				<cfif isdefined("anyName") AND len(anyName) gt 0 AND left(anyName,1) is "~">
-					utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">),
-				</cfif>
 				agentguid
 			FROM 
 				agent_name
@@ -393,9 +390,6 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			ORDER BY 
-				<cfif isdefined("anyName") AND len(anyName) gt 0 AND left(anyName,1) is "~">
-					utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) DESC,
-				</cfif>
 				preferred_agent_name.agent_name
 		</cfquery>
 
