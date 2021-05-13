@@ -187,8 +187,8 @@ limitations under the License.
 									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-group mb-2">
 										<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -233,9 +233,9 @@ limitations under the License.
 									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-2">
 										<label for="height" class="data-entry-label mb-0" id="height_label">Height 
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</a><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+												<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('height');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -245,9 +245,9 @@ limitations under the License.
 									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-2">
 										<label for="width" class="data-entry-label mb-0" id="width_label">Width 
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</a><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</button><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
+												<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('width');e.value='<'+e.value;">&lt;</button><span class="sr-only">prefix with less than sign for search for smaller than provided value</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -257,8 +257,8 @@ limitations under the License.
 									<div class="col-12 col-md-3 col-xl-2">
 										<div class="form-group mb-2">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -274,20 +274,20 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-2">
-										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
+										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small90">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 										</div></cfif>
 									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-2">
-											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small90">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 col-xl-5">
 											<div class="form-group mb-2">
-											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small90">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
 											</div>
 										</div>
@@ -328,8 +328,8 @@ limitations under the License.
 									<div class="col-12 col-md-4 col-xl-3">
 									<div class="form-group mb-2">
 									<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
-										<span class="small">
-											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+										<span class="small90">
+											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 											NULL, NOT NULL)
 										</span>
 									</label>
@@ -344,8 +344,8 @@ limitations under the License.
 									<div class="col-12 col-md-5 col-xl-3">
 									<div class="form-group mb-2">
 									<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
-										<span class="small">
-											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+										<span class="small90">
+											(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 											NULL, NOT NULL)
 										</span>
 									</label>
@@ -405,7 +405,7 @@ limitations under the License.
 								<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-group mb-2">
 										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
-											<span class="small">
+											<span class="small90">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
