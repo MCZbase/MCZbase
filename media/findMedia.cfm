@@ -113,17 +113,22 @@ limitations under the License.
 						<div class="col-12 px-4 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
-								<div class="form-row mb-2">
+								<div class="form-row my-2">
 									<div class="col-12 col-md-5">
-										<label for="media_uri" class="data-entry-label" id="media_uri_label">Media URI</label>
-										<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#media_uri#" aria-labelledby="media_uri_label" >
+										<div class="form-group">
+											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
+											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#media_uri#" aria-labelledby="media_uri_label" >
+										</div>
 									</div>
 									<div class="col-12 col-md-1">
-										<label for="media_id" class="data-entry-label" id="mediaid_label">Media ID</label>
-										<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
+										<div class="form-group">
+											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
+											<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
+										</div>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="media_type" class="data-entry-label" id="media_type_label">Media Type</label>
+										<div class="form-group">
+										<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 										<select id="media_type" name="media_type" class="data-entry-select">
 											<option></option>
 											<cfloop query="ctmedia_type">
@@ -135,9 +140,10 @@ limitations under the License.
 												<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
 											</cfloop>
 										</select>
+													</div>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="mime_type" class="data-entry-label" id="mime_type_label">MIME Type</label>
+										<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 										<select id="mime_type" name="mime_type" class="data-entry-select">
 											<option></option>
 											<cfloop query="ctmime_type">
@@ -151,7 +157,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row mb-2">
+								<div class="form-row my-2">
 									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset keycols="5">
@@ -159,16 +165,16 @@ limitations under the License.
 										<cfset keycols="7">
 									</cfif>
 									<div class="col-12 col-md-5">
-										<label for="preview_uri" class="data-entry-label" id="preview_uri_label">Preview URI</label>
+										<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 									</div>
 									<div class="col-12 col-md-#keycols#">
-										<label for="keywords" class="data-entry-label" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
+										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<div class="col-12 col-md-2">
-											<label for="mask_media_fg" class="data-entry-label" id="mask_media_fg_label">Media Record Visibility</label>
+											<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
 											<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
 												<option></option>
 												<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
@@ -179,9 +185,9 @@ limitations under the License.
 										</div>
 									</cfif>
 								</div>
-								<div class="form-row mb-2">
+								<div class="form-row my-2">
 									<div class="col-12 col-md-2">
-										<label for="keywords" class="data-entry-label" id="keywords_label">Protocol<span></span></label>
+										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 										<select id="protocol" name="protocol" class="data-entry-select">
 											<option></option>
 											<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
@@ -195,7 +201,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="filename" class="data-entry-label" id="filename_label">Filename<span></span></label>
+										<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
@@ -208,11 +214,11 @@ limitations under the License.
 										<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="description" class="data-entry-label" id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
+										<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label">Created By Agent
+										<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0">Created By Agent
 											<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
 										<div class="input-group">
@@ -229,7 +235,7 @@ limitations under the License.
 										});
 									</script>
 								</div>
-								<div class="form-row my-2 mx-0">
+								<div class="form-row my-2">
 									<div class="col-12 col-md-2">
 										<label for="height" class="data-entry-label" id="height_label">Height 
 											<span class="small">
@@ -277,7 +283,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset remcol = "2">
 										<div class="col-12 col-md-2">
-											<label for="internal_remarks" class="data-entry-label" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
 										</div>
 									</cfif>
@@ -286,7 +292,7 @@ limitations under the License.
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
 									</div>
 								</div>
-								<div class="form-row my-2 mx-0">
+								<div class="form-row my-2">
 									<div class="col-12 col-md-4 mb-2">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="made_date">Made Date (as date)</label>
