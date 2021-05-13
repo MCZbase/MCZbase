@@ -494,8 +494,8 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name 
 												<span class="small90">
-													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
-													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >=<span class="sr-only">prefix with equals sign for exact match search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('scientific_name');e.value='~'+e.value;" >~<span class="sr-only">prefix with tilde for search for similar text</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
@@ -503,7 +503,7 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
 												<span class="small90">
-													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
 												</span>
 												</span>
 											</label>
@@ -512,7 +512,7 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="common_name" class="data-entry-label align-left-center">Common Name 
 												<span class="small90">
-													(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
+													(<button type="button" aria-hidden="true" tabindex="-1" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
@@ -572,7 +572,7 @@ limitations under the License.
 									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="kingdom" class="data-entry-label align-left-center">Kingdom 
-												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
 											</label>
 											<input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#kingdom#" placeholder="kingdom">
 										</div>
