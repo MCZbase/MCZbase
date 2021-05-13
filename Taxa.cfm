@@ -567,7 +567,7 @@ limitations under the License.
 									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="kingdom" class="data-entry-label align-left-center">Kingdom 
-												<button aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=)</button>
 											</label>
 											<input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#kingdom#" placeholder="kingdom">
 										</div>
