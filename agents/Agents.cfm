@@ -126,7 +126,7 @@ limitations under the License.
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='$'+e.value;">~</a><span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~</a><span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
 												NULL, NOT NULL)
 											</span>
 										</label>
