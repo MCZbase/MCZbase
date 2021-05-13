@@ -270,8 +270,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-<!---								</div>
-								<div class="form-row">---><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+								<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-2">
@@ -285,8 +284,6 @@ limitations under the License.
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
-<!---								</div>
-								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 col-xl-5">
 											<div class="form-group mb-2">
@@ -301,8 +298,6 @@ limitations under the License.
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
 										</div>
 									</div>
-<!---								</div>
-								<div class="form-row">--->
 									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-group mb-2">
 										<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
@@ -438,7 +433,7 @@ limitations under the License.
 							</div>
 							
 								<div class="form-row my-0 mx-0">
-									<div class="col-12 px-0 pt-2">
+									<div class="col-12 px-0 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
