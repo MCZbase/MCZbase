@@ -399,6 +399,10 @@ limitations under the License.
 				<cfif isdefined("genus") AND len(genus) gt 0>
 					<cfif left(genus,1) is "=">
 						AND upper(taxonomy.genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
+					<cfelseif left(genus,1) is "$">
+						AND soundex(taxonomy.genus) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(genus,len(genus)-1)#">)
+					<cfelseif left(genus,2) is "!$">
+						AND soundex(taxonomy.genus) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(genus,len(genus)-2)#">)
 					<cfelseif left(genus,1) is "!">
 						AND upper(taxonomy.genus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
 					<cfelseif genus is "NULL">
@@ -416,6 +420,10 @@ limitations under the License.
 				<cfif isdefined("subgenus") AND len(subgenus) gt 0>
 					<cfif left(subgenus,1) is "=">
 						AND upper(taxonomy.subgenus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
+					<cfelseif left(subgenus,1) is "$">
+						AND soundex(taxonomy.subgenus) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subgenus,len(subgenus)-1)#">)
+					<cfelseif left(subgenus,2) is "!$">
+						AND soundex(taxonomy.subgenus) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subgenus,len(subgenus)-2)#">)
 					<cfelseif left(subgenus,1) is "!">
 						AND upper(taxonomy.subgenus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
 					<cfelseif subgenus is "NULL">
@@ -435,6 +443,8 @@ limitations under the License.
 						AND upper(taxonomy.species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif left(species,1) is "$">
 						AND soundex(taxonomy.species) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-1)#">)
+					<cfelseif left(species,2) is "!$">
+						AND soundex(taxonomy.species) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-2)#">)
 					<cfelseif left(species,1) is "!">
 						AND upper(taxonomy.species) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif species is "NULL">
@@ -454,6 +464,8 @@ limitations under the License.
 						AND upper(taxonomy.subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif left(subspecies,1) is "$">
 						AND soundex(taxonomy.subspecies) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-1)#">)
+					<cfelseif left(subspecies,2) is "!$">
+						AND soundex(taxonomy.subspecies) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-2)#">)
 					<cfelseif left(subspecies,1) is "!">
 						AND upper(taxonomy.subspecies) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif subspecies is "NULL">
@@ -473,6 +485,8 @@ limitations under the License.
 						AND upper(taxonomy.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif left(author_text,1) is "$">
 						AND soundex(taxonomy.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-1)#">)
+					<cfelseif left(author_text,2) is "!$">
+						AND soundex(taxonomy.author_text) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-2)#">)
 					<cfelseif left(author_text,1) is "!">
 						AND upper(taxonomy.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif author_text is "NULL">
@@ -486,6 +500,10 @@ limitations under the License.
 				<cfif isdefined("infraspecific_author") AND len(infraspecific_author) gt 0>
 					<cfif left(infraspecific_author,1) is "=">
 						AND upper(taxonomy.infraspecific_author) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
+					<cfelseif left(infraspecific_author,1) is "$">
+						AND soundex(taxonomy.infraspecific_author) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(infraspecific_author,len(infraspecific_author)-1)#">)
+					<cfelseif left(infraspecific_author,2) is "!$">
+						AND soundex(taxonomy.infraspecific_author) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(infraspecific_author,len(infraspecific_author)-2)#">)
 					<cfelseif left(infraspecific_author,1) is "!">
 						AND upper(taxonomy.infraspecific_author) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
 					<cfelseif infraspecific_author is "NULL">

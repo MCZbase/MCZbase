@@ -102,6 +102,20 @@ limitations under the License.
 		};
 
 		jQuery(document).ready(function() {
+			jQuery("##kingdom").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'kingdom' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##phylum").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -312,6 +326,48 @@ limitations under the License.
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 			};
+			jQuery("##subgenus").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subgenus' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
+			jQuery("##species").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'species' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
+			jQuery("##subspecies").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'subspecies' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##author_text").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -325,6 +381,20 @@ limitations under the License.
 				select: function (event,ui) { 
 					$("##author_text").val("="+ui.item.value);
 					return false; // prevents default action
+				},
+				minLength: 3
+			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
+			jQuery("##infraspecific_author").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/taxonomy/component/search.cfc",
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'infraspecific_author' },
+						dataType: 'json',
+						success : function (data) { response(data); },
+						error : handleError
+					})
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -436,11 +506,21 @@ limitations under the License.
 									</div>
 									<div class="form-row mt-1">
 										<div class="form-group col-md-2">
-											<label for="genus" class="data-entry-label align-left-center">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
+											<label for="genus" class="data-entry-label align-left-center">Genus 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#" placeholder="generic name">
 										</div>
 										<div class="col-md-2">
-											<label for="subgenus" class="data-entry-label align-left-center">Subgenus <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </a></label>
+											<label for="subgenus" class="data-entry-label align-left-center">Subgenus 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input" id="subgenus" name="subgenus" value="#subgenus#" placeholder="subgenus">
 										</div>
 										<div class="form-group col-md-2">
