@@ -192,6 +192,10 @@ limitations under the License.
 						AND upper(first_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif left(first_name,2) is "!!">
 						AND first_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(first_name,len(first_name)-2)#">
+					<cfelseif left(first_name,1) is "$">
+						AND soundex(first_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">)
+					<cfelseif left(first_name,2) is "!$">
+						AND soundex(first_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-2))#">)
 					<cfelseif left(first_name,1) is "!">
 						AND upper(first_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(first_name,len(first_name)-1))#">
 					<cfelseif first_name is "NULL">
@@ -213,8 +217,14 @@ limitations under the License.
 						AND upper(middle_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
 					<cfelseif left(middle_name,2) is "!!">
 						AND middle_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(middle_name,len(middle_name)-2)#">
+					<cfelseif left(middle_name,1) is "$">
+						AND soundex(middle_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">)
+					<cfelseif left(middle_name,2) is "!$">
+						AND soundex(middle_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-2))#">)
 					<cfelseif left(middle_name,1) is "!">
 						AND upper(middle_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(middle_name,len(middle_name)-1))#">
+					<cfelseif middle_name is "NULL">
+						AND middle_name is null
 					<cfelseif middle_name is "NULL">
 						AND middle_name is null
 					<cfelseif middle_name is "NOT NULL">
@@ -234,10 +244,12 @@ limitations under the License.
 						AND upper(last_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
 					<cfelseif left(last_name,2) is "!!">
 						AND last_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">
+					<cfelseif left(last_name,1) is "$">
+						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
+					<cfelseif left(last_name,2) is "!$">
+						AND soundex(last_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">)
 					<cfelseif left(last_name,1) is "!">
 						AND upper(last_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">
-					<cfelseif left(last_name,1) is "$">
-						AND soundex(last_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(last_name,len(last_name)-1))#">)
 					<cfelseif last_name is "NULL">
 						AND last_name is null
 					<cfelseif last_name is "NOT NULL">

@@ -189,6 +189,7 @@ md5hash
 					)
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
+					-- TODO: look at UTL_MATCH.JARO_WINKLER matching
 					<cfif description IS "NULL">
 						AND media.media_id not in ( select media_id from media_labels where media_label = 'description' )
 					<cfelseif description IS "NOT NULL">
@@ -205,7 +206,7 @@ md5hash
 					<cfif remarks IS "NULL">
 						AND media.media_id not in ( select media_id from media_labels where media_label = 'remarks' )
 					<cfelseif remarks IS "NOT NULL">
-						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
+						AND media.media_id in ( select media_id from media_labels where media_label = 'remarks' )
 					<cfelse>
 						AND media.media_id in (
 							select media_id 
