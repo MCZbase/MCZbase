@@ -501,13 +501,15 @@ limitations under the License.
 											<input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
 										</div>
 										<div class="col-md-4">
-											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
+											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
+												<span class="small90"></span>
+											</label>
 											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 										</div>
 										<div class="col-md-4">
 											<label for="common_name" class="data-entry-label align-left-center">Common Name 
-												<span class="small">
-													(<button type="button" aria-hidden="true" tabindex="-1" class="btn btn-link p-0 small" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
+												<span class="small90">
+													(<button type="button" aria-hidden="true" tabindex="-1" class="btn btn-link p-0 border-0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">=</button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
