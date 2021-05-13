@@ -334,9 +334,9 @@ limitations under the License.
 					<cfif left(anyName,1) is "=">
 						AND upper(agent_name.agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif left(anyName,1) is "~">
-						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">) > 0.90
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) >= 0.80
 					<cfelseif left(anyName,1) is "!~">
-						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">) < 0.90
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) < 0.80
 					<cfelseif left(anyName,1) is "!">
 						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif anyName is "NULL">
@@ -389,7 +389,11 @@ limitations under the License.
 						)
 					</cfif>
 				</cfif>
-			ORDER BY preferred_agent_name.agent_name
+			ORDER BY 
+				<cfif isdefined("anyName") AND len(anyName) gt 0 AND left(anyName,1) is "~">
+					utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) DESC,
+				</cfif>
+				preferred_agent_name.agent_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
