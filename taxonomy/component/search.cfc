@@ -399,6 +399,10 @@ limitations under the License.
 				<cfif isdefined("genus") AND len(genus) gt 0>
 					<cfif left(genus,1) is "=">
 						AND upper(taxonomy.genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
+					<cfelseif left(genus,1) is "$">
+						AND soundex(taxonomy.genus) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(genus,len(genus)-1)#">)
+					<cfelseif left(genus,2) is "!$">
+						AND soundex(taxonomy.genus) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(genus,len(genus)-2)#">)
 					<cfelseif left(genus,1) is "!">
 						AND upper(taxonomy.genus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(genus,len(genus)-1))#">
 					<cfelseif genus is "NULL">
@@ -416,6 +420,10 @@ limitations under the License.
 				<cfif isdefined("subgenus") AND len(subgenus) gt 0>
 					<cfif left(subgenus,1) is "=">
 						AND upper(taxonomy.subgenus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
+					<cfelseif left(subgenus,1) is "$">
+						AND soundex(taxonomy.subgenus) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subgenus,len(subgenus)-1)#">)
+					<cfelseif left(subgenus,2) is "!$">
+						AND soundex(taxonomy.subgenus) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subgenus,len(subgenus)-2)#">)
 					<cfelseif left(subgenus,1) is "!">
 						AND upper(taxonomy.subgenus) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subgenus,len(subgenus)-1))#">
 					<cfelseif subgenus is "NULL">
@@ -433,6 +441,10 @@ limitations under the License.
 				<cfif isdefined("species") AND len(species) gt 0>
 					<cfif left(species,1) is "=">
 						AND upper(taxonomy.species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
+					<cfelseif left(species,1) is "$">
+						AND soundex(taxonomy.species) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-1)#">)
+					<cfelseif left(species,2) is "!$">
+						AND soundex(taxonomy.species) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(species,len(species)-2)#">)
 					<cfelseif left(species,1) is "!">
 						AND upper(taxonomy.species) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(species,len(species)-1))#">
 					<cfelseif species is "NULL">
@@ -450,6 +462,10 @@ limitations under the License.
 				<cfif isdefined("subspecies") AND len(subspecies) gt 0>
 					<cfif left(subspecies,1) is "=">
 						AND upper(taxonomy.subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
+					<cfelseif left(subspecies,1) is "$">
+						AND soundex(taxonomy.subspecies) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-1)#">)
+					<cfelseif left(subspecies,2) is "!$">
+						AND soundex(taxonomy.subspecies) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subspecies,len(subspecies)-2)#">)
 					<cfelseif left(subspecies,1) is "!">
 						AND upper(taxonomy.subspecies) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subspecies,len(subspecies)-1))#">
 					<cfelseif subspecies is "NULL">
@@ -467,6 +483,10 @@ limitations under the License.
 				<cfif isdefined("author_text") AND len(author_text) gt 0>
 					<cfif left(author_text,1) is "=">
 						AND upper(taxonomy.author_text) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
+					<cfelseif left(author_text,1) is "$">
+						AND soundex(taxonomy.author_text) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-1)#">)
+					<cfelseif left(author_text,2) is "!$">
+						AND soundex(taxonomy.author_text) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(author_text,len(author_text)-2)#">)
 					<cfelseif left(author_text,1) is "!">
 						AND upper(taxonomy.author_text) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(author_text,len(author_text)-1))#">
 					<cfelseif author_text is "NULL">
@@ -480,6 +500,10 @@ limitations under the License.
 				<cfif isdefined("infraspecific_author") AND len(infraspecific_author) gt 0>
 					<cfif left(infraspecific_author,1) is "=">
 						AND upper(taxonomy.infraspecific_author) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
+					<cfelseif left(infraspecific_author,1) is "$">
+						AND soundex(taxonomy.infraspecific_author) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(infraspecific_author,len(infraspecific_author)-1)#">)
+					<cfelseif left(infraspecific_author,2) is "!$">
+						AND soundex(taxonomy.infraspecific_author) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(infraspecific_author,len(infraspecific_author)-2)#">)
 					<cfelseif left(infraspecific_author,1) is "!">
 						AND upper(taxonomy.infraspecific_author) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(infraspecific_author,len(infraspecific_author)-1))#">
 					<cfelseif infraspecific_author is "NULL">
@@ -746,7 +770,7 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
   by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
 @param term value of the name to search for.
-@param rank the rank to search
+@param rank the rank to search (accepts any of the atomic field names in taxonomy table, including author_text).
 @return a json structure containing id and value, and meta, with matching with matched name in value and id, 
   and count metadata in meta.
 --->
@@ -778,7 +802,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">subfamily as name</cfcase>
 					<cfcase value="tribe">tribe as name</cfcase>
 					<cfcase value="genus">genus as name</cfcase>
+					<cfcase value="subgenus">subgenus as name</cfcase>
+					<cfcase value="species">species as name</cfcase>
+					<cfcase value="subspecies">subspecies as name</cfcase>
 					<cfcase value="author_text">author_text as name</cfcase>
+					<cfcase value="infraspecific_author">infraspecific_author as name</cfcase>
 				</cfswitch>
 			FROM 
 				taxonomy
@@ -800,7 +828,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">upper (subfamily)</cfcase>
 					<cfcase value="tribe">upper (tribe)</cfcase>
 					<cfcase value="genus">upper (genus)</cfcase>
+					<cfcase value="subgenus">upper (subgenus)</cfcase>
+					<cfcase value="species">upper (species)</cfcase>
+					<cfcase value="subspecies">upper (subspecies)</cfcase>
 					<cfcase value="author_text">upper (author_text)</cfcase>
+					<cfcase value="infraspecific_author">upper (infraspecific_author)</cfcase>
 				</cfswitch>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
@@ -821,7 +853,11 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 					<cfcase value="subfamily">subfamily</cfcase>
 					<cfcase value="tribe">tribe</cfcase>
 					<cfcase value="genus">genus</cfcase>
+					<cfcase value="subgenus">subgenus</cfcase>
+					<cfcase value="species">species</cfcase>
+					<cfcase value="subspecies">subspecies</cfcase>
 					<cfcase value="author_text">author_text</cfcase>
+					<cfcase value="infraspecific_author">infraspecific_author</cfcase>
 				</cfswitch>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
