@@ -22,7 +22,15 @@ limitations under the License.
 
 <script type='text/javascript' src='/transactions/js/reviewLoanItems.js'></script>
 <script type='text/javascript' src='/specimens/js/specimens.js'></script>
-
+<style>
+	.jqx-grid-cell {
+		background-color: #E9EDECd6;
+	}
+	.jqx-grid-cell-alt {
+		background-color: #f5f5f5;
+	}
+	}
+</style>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
