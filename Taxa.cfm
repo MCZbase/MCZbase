@@ -502,7 +502,10 @@ limitations under the License.
 										</div>
 										<div class="col-md-4">
 											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification
-												<span class="small90"></span>
+												<span class="small90">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn btn-link p-0 border-0" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
+												</span>
+												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 										</div>
