@@ -126,8 +126,8 @@ limitations under the License.
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-md-2">
 											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
@@ -180,8 +180,8 @@ limitations under the License.
 													</div>
 										</div>
 									</cfif>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
@@ -201,7 +201,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
-											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0">Created By Agent
+											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 											</label>
 											<div class="input-group">
@@ -218,8 +218,8 @@ limitations under the License.
 											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
 										});
 									</script>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-md-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
@@ -276,8 +276,8 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-								</div>
-								<div class="form-row"><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+<!---								</div>
+								<div class="form-row">---><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset keycols="6">
 									<cfelse>
@@ -295,8 +295,8 @@ limitations under the License.
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<cfset remcol = "6">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<cfset remcol = "6">
@@ -311,9 +311,10 @@ limitations under the License.
 										<div class="form-group mb-md-2">
 										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
-										</div></div>
-								</div>
-								<div class="form-row">
+										</div>
+									</div>
+<!---								</div>
+								<div class="form-row">--->
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
 										<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
@@ -341,8 +342,8 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<div class="col-12 col-md-4">
 									<div class="form-group">
 									<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
@@ -375,8 +376,8 @@ limitations under the License.
 									</script>
 								</div>
 								</div>
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
@@ -421,10 +422,10 @@ limitations under the License.
 										<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
 										</div>
 									</div>
-										</cfif>
+									</cfif>
 
-								</div>
-								<div class="form-row">
+<!---								</div>
+								<div class="form-row">--->
 								<div class="col-12 col-md-5">
 									<div class="form-group mb-md-2">
 										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
