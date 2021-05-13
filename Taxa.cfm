@@ -444,15 +444,30 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="subgenus" name="subgenus" value="#subgenus#" placeholder="subgenus">
 										</div>
 										<div class="form-group col-md-2">
-											<label for="species" class="data-entry-label align-left-center">Species <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</a> </label>
+											<label for="species" class="data-entry-label align-left-center">Species 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input" id="species" name="species" value="#species#" placeholder="specific name">
 										</div>
 										<div class="form-group col-md-2">
-											<label for="subspecies" class="data-entry-label align-left-center">Subspecies <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </a></label>
+											<label for="subspecies" class="data-entry-label align-left-center">Subspecies 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input" id="subspecies" name="subspecies" value="#subspecies#" placeholder="subspecific name">
 										</div>
 										<div class="col-md-2">
-											<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
+											<label for="author_text" class="data-entry-label align-left-center">Authorship 
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+												</span>
+											</label>
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
 										<div class="col-md-2">
