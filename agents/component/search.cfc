@@ -483,6 +483,37 @@ Function getAgentList.  Search for agents by name with a substring match on any 
 </cffunction>
 
 <!---
+Function getPreferredNameExists Check if a prefered name exists.
+
+@param agent_name name to look up.
+@return 1 if one or more preferred names exactly matching the provided string exists, otherwise 0, 
+ returns an http 500 status in the case of an error.
+--->
+<cffunction name="getPreferredNameExists" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_name" type="string" required="yes">
+
+	<cfset retval ="">
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select count(*) as ct from agent_name
+			where
+				agent_name_type = 'preferred'
+				and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">
+		</cfquery>
+		<cfset retval = search.ct>
+		<cfif retval GT 1><cfset retval = 1></cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	<cfreturn #retval#>
+</cffunction>
+<!---
 Function getAgentAutocomplete.  Search for agents by name with a substring match on any name, returning json suitable for jquery-ui autocomplete.
 
 @param term agent name to search for.
