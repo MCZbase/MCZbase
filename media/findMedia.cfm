@@ -423,7 +423,7 @@ limitations under the License.
 										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
-											<div class="col-1 text-center"><small>to</small></div>
+											<div class="col-1 mx-auto"><small>to</small></div>
 											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
 											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
