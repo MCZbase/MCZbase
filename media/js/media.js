@@ -23,6 +23,8 @@ function makeAspectAutocomplete(valueControl) {
 			})
 		},
 		select: function (event, result) {
+			//  on select, set prefix the value with an equals for exact match
+			event.preventDefault();
 			$('#'+valueControl).val("=" + result.item.value);
 		},
       minLength: 3
@@ -59,6 +61,11 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
 					messageDialog('Error:' + message ,'Error: ' + error);
 				}
 			})
+		},
+		select: function (event, result) {
+			//  on select, set prefix the value with an equals for exact match
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
 		},
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
