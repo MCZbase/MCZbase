@@ -136,7 +136,7 @@ limitations under the License.
 					<cfif left(full_taxon_name,1) is "=">
 						AND upper(taxonomy.full_taxon_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(full_taxon_name,len(full_taxon_name)-1))#">
 					<cfelseif left(full_taxon_name,1) is "!">
-						AND upper(taxonomy.full_taxon_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(full_taxon_name,len(full_taxon_name)-1))#">
+						AND upper(taxonomy.full_taxon_name) NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(right(full_taxon_name,len(full_taxon_name)-1))#%">
 					<cfelse>
 						<cfif find(',',full_taxon_name) GT 0>
 							AND upper(taxonomy.full_taxon_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(full_taxon_name)#" list="yes"> )
