@@ -312,8 +312,8 @@ limitations under the License.
 									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-group mb-2">
 										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
 											</span>
 										</label>
