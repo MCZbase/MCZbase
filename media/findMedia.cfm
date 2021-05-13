@@ -115,27 +115,25 @@ limitations under the License.
 								<input type="hidden" name="method" value="getMedia">
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-xl-5">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
 											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#media_uri#" aria-labelledby="media_uri_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-5">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
 										<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
-<!---								</div>
-								<div class="form-row">--->
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
 											<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
 										</div>
 									</div>
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-3">
+										<div class="form-group mb-2">
 											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
 												<option></option>
@@ -151,7 +149,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 											<select id="mime_type" name="mime_type" class="data-entry-select">
 											<option></option>
@@ -168,7 +166,7 @@ limitations under the License.
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<div class="col-12 col-md-3 col-xl-2">
-											<div class="form-group">
+											<div class="form-group mb-2">
 											<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
 											<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
 												<option></option>
@@ -180,16 +178,14 @@ limitations under the License.
 													</div>
 										</div>
 									</cfif>
-<!---								</div>
-								<div class="form-row">--->
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 											<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -200,7 +196,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 											</label>
@@ -218,10 +214,8 @@ limitations under the License.
 											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
 										});
 									</script>
-<!---								</div>
-								<div class="form-row">--->
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 										<select id="protocol" name="protocol" class="data-entry-select">
 											<option></option>
@@ -237,7 +231,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="height" class="data-entry-label mb-0" id="height_label">Height 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('height');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
@@ -249,7 +243,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="width" class="data-entry-label mb-0" id="width_label">Width 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('width');e.value='>'+e.value;">&gt;</a><span class="sr-only">prefix with greater than sign for search for larger than provided value</span>, 
@@ -261,7 +255,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3 col-xl-2">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -280,13 +274,13 @@ limitations under the License.
 								<div class="form-row">---><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-4 col-xl-4">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 										</div></cfif>
 									<div class="col-12 col-md-6 col-xl-5">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
@@ -295,14 +289,14 @@ limitations under the License.
 								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-6 col-xl-5">
-											<div class="form-group mb-md-2">
+											<div class="form-group mb-2">
 											<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
 											</div>
 										</div>
 									</cfif>
 									<div class="col-12 col-md-6 col-xl-5">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
 										</div>
@@ -310,7 +304,7 @@ limitations under the License.
 <!---								</div>
 								<div class="form-row">--->
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
 										<script>
@@ -321,7 +315,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group">
+										<div class="form-group mb-2">
 										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -336,10 +330,8 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-<!---								</div>
-								<div class="form-row">--->
 									<div class="col-12 col-md-4 col-xl-3">
-									<div class="form-group">
+									<div class="form-group mb-2">
 									<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
 										<span class="small">
 											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -355,7 +347,7 @@ limitations under the License.
 									</div>
 								</div>
 									<div class="col-12 col-md-5 col-xl-3">
-									<div class="form-group">
+									<div class="form-group mb-2">
 									<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
 										<span class="small">
 											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -374,7 +366,7 @@ limitations under the License.
 								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('owner');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -390,7 +382,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-mb-2">
+										<div class="form-group mb-2">
 										<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('credit');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -406,7 +398,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
-										<div class="form-group mb-md-2">
+										<div class="form-group mb-2">
 										<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -417,8 +409,8 @@ limitations under the License.
 										</div>
 									</div>
 									</cfif>
-								<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-md-2">
+								<div class="col-12 col-md-4 col-xl-3">
+										<div class="form-group mb-2">
 										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -434,7 +426,7 @@ limitations under the License.
 										</div>
 									</div>
 								<div class="col-12 col-md-5 col-xl-4">
-									<div class="form-group mb-md-2">
+									<div class="form-group mb-2">
 										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
