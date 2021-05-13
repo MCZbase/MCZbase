@@ -245,7 +245,7 @@ limitations under the License.
 					<cfelseif left(last_name,2) is "!!">
 						AND last_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">
 					<cfelseif left(last_name,1) is "$">
-						AND soundex(last_name) = (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-1)#">)
+						AND soundex(last_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-1)#">)
 					<cfelseif left(last_name,2) is "!$">
 						AND soundex(last_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(last_name,len(last_name)-2)#">)
 					<cfelseif left(last_name,1) is "!">
