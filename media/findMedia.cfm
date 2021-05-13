@@ -199,7 +199,12 @@ limitations under the License.
 										<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="original_filename" class="data-entry-label" id="original_filename_label">Original Filename<span>(=, NULL, NOT NULL)</span></label>
+										<label for="original_filename" class="data-entry-label" id="original_filename_label">Original Filename
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
 									</div>
 									<div class="col-12 col-md-2">
@@ -234,7 +239,12 @@ limitations under the License.
 										<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
 									</div>
 									<div class="col-12 col-md-2">
-										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect <span>(=,NULL, NOT NULL)</span></label>
+										<label for="aspect" class="data-entry-label" id="aspect_label">Aspect 
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
 										<script>
 											$(document).ready(function() {

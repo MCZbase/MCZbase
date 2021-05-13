@@ -22,6 +22,9 @@ function makeAspectAutocomplete(valueControl) {
 				}
 			})
 		},
+		select: function (event, result) {
+			$('#'+valueControl).val("=" + result.item.id);
+		},
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "collection name * (description)" instead of value in picklist.
