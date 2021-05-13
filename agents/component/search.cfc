@@ -333,6 +333,10 @@ limitations under the License.
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
 						AND upper(agent_name.agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
+					<cfelseif left(anyName,1) is "~">
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">) > 0.90
+					<cfelseif left(anyName,1) is "!~">
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">) < 0.90
 					<cfelseif left(anyName,1) is "!">
 						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif anyName is "NULL">
