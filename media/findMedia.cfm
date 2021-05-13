@@ -261,7 +261,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
-										<div class="form-group">
+										<div class="form-group mb-md-2">
 										<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -279,9 +279,9 @@ limitations under the License.
 								</div>
 								<div class="form-row"><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset keycols="5">
+										<cfset keycols="6">
 									<cfelse>
-										<cfset keycols="5">
+										<cfset keycols="6">
 									</cfif>
 									<div class="col-12 col-md-#keycols#">
 										<div class="form-group mb-md-2">
@@ -308,27 +308,12 @@ limitations under the License.
 										</div>
 									</cfif>
 									<div class="col-12 col-md-#remcol#">
+										<div class="form-group mb-md-2">
 										<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 										<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
-									</div>
+										</div></div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-4">
-										<div class="form-group mb-md-2">
-										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
-										<script>
-											$(document).ready(function() {
-												makeMediaLabelAutocomplete("text_made_date","made date");
-											});
-										</script>
-										</div>
-									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
 										<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
@@ -357,44 +342,43 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-									<div class="form-row">
-										<div class="col-12 col-md-4">
-										<div class="form-group">
-										<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
-										<script>
-											$(document).ready(function() {
-												makeMediaLabelAutocomplete("spectrometer","spectrometer");
-											});
-										</script>
-										</div>
+								<div class="form-row">
+									<div class="col-12 col-md-4">
+									<div class="form-group">
+									<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
+										<span class="small">
+											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											NULL, NOT NULL)
+										</span>
+									</label>
+									<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
+									<script>
+										$(document).ready(function() {
+											makeMediaLabelAutocomplete("spectrometer","spectrometer");
+										});
+									</script>
 									</div>
-										<div class="col-12 col-md-5">
-										<div class="form-group">
-										<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
-											</span>
-										</label>
-										<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
-										<script>
-											$(document).ready(function() {
-												makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
-											});
-										</script>
-									</div>
-									</div>
-									</div>
-								
+								</div>
+									<div class="col-12 col-md-5">
+									<div class="form-group">
+									<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
+										<span class="small">
+											(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+											NULL, NOT NULL)
+										</span>
+									</label>
+									<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
+									<script>
+										$(document).ready(function() {
+											makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
+										});
+									</script>
+								</div>
+								</div>
+								</div>
 								<div class="form-row">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
@@ -410,7 +394,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-4">
 										<div class="form-group mb-mb-2">
 										<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 											<span class="small">
@@ -426,8 +410,8 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-3">
-										<div class="form-group mb-2">
+									<div class="col-12 col-md-4">
+										<div class="form-group mb-md-2">
 										<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -438,7 +422,11 @@ limitations under the License.
 										</div>
 									</div>
 										</cfif>
-									<div class="col-12 col-md-3">
+
+								</div>
+								<div class="form-row">
+								<div class="col-12 col-md-5">
+									<div class="form-group mb-md-2">
 										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
@@ -448,6 +436,23 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
+								<div class="col-12 col-md-4">
+										<div class="form-group mb-md-2">
+										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+												NULL, NOT NULL)
+											</span>
+										</label>
+										<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
+										<script>
+											$(document).ready(function() {
+												makeMediaLabelAutocomplete("text_made_date","made date");
+											});
+										</script>
+										</div>
+									</div>		
+							</div>
 							
 								<div class="form-row my-0 mx-0">
 									<div class="col-12 px-0 pt-2">
