@@ -110,7 +110,7 @@ limitations under the License.
 								$("##to_collected_date").datepicker({ dateFormat: 'yy-mm-dd'});
 							});
 						</script>
-						<div class="col-12 px-4 pt-3 pb-2">
+						<div class="col-12 pt-3 pb-2">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<div class="form-row">
@@ -314,15 +314,6 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-4">
-										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
-											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
-											<div class="col-1 text-center"><small>to</small></div>
-											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
-										</div>
-									</div>
-									<div class="col-12 col-md-4">
 										<div class="form-group mb-md-2">
 										<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
 											<span class="small">
@@ -349,9 +340,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-								</div>
-									<div class="form-row">
-										<div class="col-12 col-md-3">
+									<div class="col-12 col-md-4">
 										<div class="form-group">
 										<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 											<span class="small">
@@ -367,6 +356,8 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
+								</div>
+									<div class="form-row">
 										<div class="col-12 col-md-4">
 										<div class="form-group">
 										<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
@@ -400,10 +391,10 @@ limitations under the License.
 									</div>
 									</div>
 									</div>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								
 								<div class="form-row">
-									<div class="col-12 col-md-4">
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-md-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
@@ -419,7 +410,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-mb-2">
 										<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 											<span class="small">
@@ -435,7 +426,7 @@ limitations under the License.
 										</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 										<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
 											<span class="small">
@@ -446,8 +437,18 @@ limitations under the License.
 										<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
 										</div>
 									</div>
+										</cfif>
+									<div class="col-12 col-md-3">
+										<div class="date row bg-light border p-2 my-2 mx-0 rounded">
+											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
+											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<div class="col-1 text-center"><small>to</small></div>
+											<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+										</div>
+									</div>
 								</div>
-								</cfif>
+							
 								<div class="form-row my-0 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
