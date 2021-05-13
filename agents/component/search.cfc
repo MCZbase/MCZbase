@@ -390,11 +390,9 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			ORDER BY 
-				<cfif isdefined("anyName") AND len(anyName) gt 0 AND left(anyName,1) is "~">
-					utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) DESC,
-				</cfif>
 				preferred_agent_name.agent_name
 		</cfquery>
+
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">

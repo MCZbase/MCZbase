@@ -122,7 +122,14 @@ limitations under the License.
 								<input type="hidden" name="method" value="getAgents">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-5">
-										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name</label>
+										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
+											<span class="small">
+												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~</a><span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
+												NULL, NOT NULL)
+											</span>
+										</label>
 										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
 									</div>
 									<div class="col-12 col-md-4">
