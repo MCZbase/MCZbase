@@ -273,13 +273,13 @@ limitations under the License.
 <!---								</div>
 								<div class="form-row">---><!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-4 col-xl-4">
+									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-2">
 										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 										<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 									</div>
 										</div></cfif>
-									<div class="col-12 col-md-6 col-xl-5">
+									<div class="col-12 col-md-6 col-xl-6">
 										<div class="form-group mb-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
@@ -362,10 +362,8 @@ limitations under the License.
 									</script>
 								</div>
 								</div>
-<!---								</div>
-								<div class="form-row">--->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 col-md-4 col-xl-3">
+									<div class="col-12 col-md-5 col-xl-3">
 										<div class="form-group mb-2">
 										<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 											<span class="small">
