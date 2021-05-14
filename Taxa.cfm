@@ -505,7 +505,6 @@ limitations under the License.
 												<span class="small90">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('full_taxon_name');e.value='!'+e.value;" >!<span class="sr-only">prefix with exclamation point for not search</span></button>)
 												</span>
-												</span>
 											</label>
 											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 										</div>
@@ -522,8 +521,8 @@ limitations under the License.
 										<div class="form-group col-md-2">
 											<label for="genus" class="data-entry-label align-left-center">Genus 
 												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('genus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#" placeholder="generic name">
@@ -531,8 +530,8 @@ limitations under the License.
 										<div class="col-md-2">
 											<label for="subgenus" class="data-entry-label align-left-center">Subgenus 
 												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subgenus');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input" id="subgenus" name="subgenus" value="#subgenus#" placeholder="subgenus">
@@ -540,8 +539,8 @@ limitations under the License.
 										<div class="form-group col-md-2">
 											<label for="species" class="data-entry-label align-left-center">Species 
 												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('species');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('species');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input" id="species" name="species" value="#species#" placeholder="specific name">
@@ -549,8 +548,8 @@ limitations under the License.
 										<div class="form-group col-md-2">
 											<label for="subspecies" class="data-entry-label align-left-center">Subspecies 
 												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('subspecies');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input" id="subspecies" name="subspecies" value="#subspecies#" placeholder="subspecific name">
@@ -558,14 +557,16 @@ limitations under the License.
 										<div class="col-md-2">
 											<label for="author_text" class="data-entry-label align-left-center">Authorship 
 												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>)
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('author_text');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
 											</label>
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
 										<div class="col-md-2">
-											<label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+											<label for="infraspecific_author" class="data-entry-label align-left-center">Infrasp. Author
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
 										</div>
 									</div>
@@ -639,19 +640,27 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-0">
 										<div class="col-md-2">
-											<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
+											<label for="superorder" class="data-entry-label align-left-center">Superorder 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="superorder" name="superorder" value="#superorder#" placeholder="superorder">
 										</div>
 										<div class="col-md-2">
-											<label for="phylorder" class="data-entry-label align-left-center">Order <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </a></label>
+											<label for="phylorder" class="data-entry-label align-left-center">Order 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="phylorder" name="phylorder" value="#phylorder#" placeholder="order">
 										</div>
 										<div class="col-md-2">
-											<label for="suborder" class="data-entry-label align-left-center">Suborder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </a></label>
+											<label for="suborder" class="data-entry-label align-left-center">Suborder
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('suborder');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="suborder" name="suborder" value="#suborder#" placeholder="suborder">
 										</div>
 										<div class="col-md-2">
-											<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
+											<label for="infraorder" class="data-entry-label align-left-center">Infraorder 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
 										</div>
 										<div class="col-md-2">
@@ -679,19 +688,27 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-3">
 										<div class="col-md-2">
-											<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
+											<label for="superfamily" class="data-entry-label align-left-center">Superfamily 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
 										</div>
 										<div class="col-md-2">
-											<label for="family" class="data-entry-label align-left-center">Family <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </a></label>
+											<label for="family" class="data-entry-label align-left-center">Family 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('family');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
 										</div>
 										<div class="col-md-2">
-											<label for="subfamily" class="data-entry-label align-left-center">Subfamily <a class="btn-link" tabindex="-1" aria-hidden="true" href="##" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </a></label>
+											<label for="subfamily" class="data-entry-label align-left-center">Subfamily 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="subfamily" name="subfamily" value="#subfamily#" placeholder="subfamily">
 										</div>
 										<div class="col-md-2">
-											<label for="tribe" class="data-entry-label align-left-center">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
+											<label for="tribe" class="data-entry-label align-left-center">Tribe 
+												<button type="button" aria-hidden="true" tabindex="-1" class="btn-link border-0 small90 p-0 bg-light" onclick="var e=document.getElementById('tribe');e.value='='+e.value;">(=)</button>
+											</label>
 											<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#" placeholder="tribe">
 										</div>
 										<div class="col-md-4">
