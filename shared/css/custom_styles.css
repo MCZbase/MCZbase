@@ -1634,7 +1634,10 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-	color: blue;
+	border: none;
+}
+.card-header h3 a.parts:before {
+display:none;
 }
 .card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
