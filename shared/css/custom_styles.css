@@ -1627,9 +1627,9 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-.card-header h3 a.part:before {display:none;}
-.card-header h3 a.part.collapsed:before {content: "\f068"}
-.card-header h3 button.parts:before {
+/*.card-header h3 a.part:before {display:none;}
+.card-header h3 a.part.collapsed:before {content: "\f068"}*/
+.card-header h3 button:before.parts:before a.part {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f067";
@@ -1638,8 +1638,14 @@ tr.line-top:first-child {
 	cursor: pointer;
 	border: none;
 }
-.card-header h3 a.parts:before {
-display:none;
+.card-header h3.collapsed button.parts:before a.part.collapsed {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f067";
+	padding-right: 5px;
+	float: left !important;
+	cursor: pointer;
+	border: none;
 }
 .card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
