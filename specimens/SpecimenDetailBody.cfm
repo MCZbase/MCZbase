@@ -267,7 +267,7 @@ limitations under the License.
 						<div class="card-header" id="headingParts">
 					
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
+								<a href="##" class="parts" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
 								<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
