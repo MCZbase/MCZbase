@@ -328,33 +328,44 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-4">
+									<!--- setup to hide search for date as text from most users --->
+									<cfset datecol="3">
+									<cfset asdate = "">
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+										<cfset datecol="2">
+										<cfset asdate = "(as date)">
+									</cfif>
+									<div class="col-12 col-md-#datecol#">
 										<div class="form-group mb-2">
-											<div class="date row bg-light border p-2 my-2 mx-0 rounded">
-												<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date (as date)</label>
-												<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
-												<div class="col-1 mx-auto"><small>to</small></div>
-												<label class="data-entry-label sr-only" for="to_made_date">end of search range for made date</label>		
-												<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
+											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+										</div>
+									</div>
+									<div class="col-12 col-md-#datecol#">
+										<div class="form-group mb-2">
+											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+										</div>
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+										<!--- hide search for date as text from most users, too confusing --->
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date (as text)
+													<span class="small">
+														(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+														NULL, NOT NULL)
+													</span>
+												</label>
+												<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
+												<script>
+													$(document).ready(function() {
+														makeMediaLabelAutocomplete("text_made_date","made date");
+													});
+												</script>
 											</div>
 										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date [text]
-												<span class="small">
-													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("text_made_date","made date");
-												});
-											</script>
-										</div>
-									</div>
+									</cfif>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
@@ -438,19 +449,20 @@ limitations under the License.
 												</script>
 											</div>
 										</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
+													<span class="small">
+														(<button type="button" tabindex="-1" aria-hidden="true" class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('md5hash');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+														NULL, NOT NULL)
+													</span>
+												</label>
+												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
+											</div>
 										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<!---- Place holder:  More internal only controls will go here --->
+										<div class="col-12 col-md-2">
+											<!---- Place holder:  More internal only controls will go here --->
+										</div>
 									</div>
 								</cfif>
 								<div class="form-row">
