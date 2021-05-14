@@ -544,6 +544,17 @@ limitations under the License.
 			};
 	
 			$(document).ready(function() {
+				/* Setup date time input controls */
+				$(".datetimeinput").datepicker({ 
+					defaultDate: null,
+					changeMonth: true,
+					changeYear: true,
+					dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
+					buttonImageOnly: true,
+					buttonImage: "/shared/images/calendar_icon.png",
+					showOn: "button"
+				});
+
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
 					evt.preventDefault();
