@@ -211,7 +211,10 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<!--- TODO: Split out more parts of the media_uri, put search controls here between protocol and filename --->
+									<div class="col-12 col-md-2">
+										&nbsp;
+										<!--- TODO: Split out more parts of the media_uri, put search controls here between protocol and filename --->
+									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
@@ -235,7 +238,7 @@ limitations under the License.
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -296,7 +299,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 col-xl-3">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
