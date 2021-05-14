@@ -514,7 +514,7 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
-								<div id="switchView"></div>
+								<div id="jqxbutton">Switch to Card View</div>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
@@ -720,11 +720,11 @@ limitations under the License.
 						var rowIndex = args.rowindex;
 						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 					});
-					$("##switchView").jqxButton();
-					$("##switchView").on('click', function() {
+					$("##jqxbutton").jqxButton();
+					$("##jqxbutton").on('click', function() {
 						var cardView = $("##searchResultsGrid").jqxGrid('cardview');
 						$("##searchResultsGrid").jqxGrid({cardview: !cardView});
-				});
+					});
 				});
 				/* End Setup jqxgrid for Search ******************************/
 
