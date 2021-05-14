@@ -128,7 +128,6 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop query="media">
 												<div class="row my-2 py-2 border">
-													<div class="">
 														<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select media_relationship from ctmedia_relationship order by media_relationship
 														</cfquery>
