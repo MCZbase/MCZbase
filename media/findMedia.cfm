@@ -345,15 +345,15 @@ limitations under the License.
 										<cfset asdate = "(as date)">
 									</cfif>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput col-11 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-11 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -514,6 +514,7 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
+								<div id="switchView"></div>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
@@ -719,6 +720,11 @@ limitations under the License.
 						var rowIndex = args.rowindex;
 						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 					});
+					$("##switchView").jqxButton();
+					$("##switchView").on('click', function() {
+						var cardView = $("##searchResultsGrid").jqxGrid('cardview');
+						$("##searchResultsGrid").jqxGrid({cardview: !cardView});
+				});
 				});
 				/* End Setup jqxgrid for Search ******************************/
 
