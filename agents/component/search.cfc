@@ -40,6 +40,19 @@ limitations under the License.
 	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 
+	<!--- clear any arguments where only an operator is given without a search term --->
+	<cfif isdefined("first_name") AND first_name IS "="><cfset first_name = ""></cfif>
+	<cfif isdefined("first_name") AND first_name IS "!"><cfset first_name = ""></cfif>
+	<cfif isdefined("first_name") AND first_name IS "$"><cfset first_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "="><cfset middle_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "!"><cfset middle_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "$"><cfset middle_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "="><cfset last_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "!"><cfset last_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "$"><cfset last_name = ""></cfif>
+	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
+	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
+
 	<!--- TODO: allow relaxation of this criterion --->
 	<cfset knowntoyear = "yes">
 
@@ -333,6 +346,10 @@ limitations under the License.
 				<cfif isdefined("anyName") AND len(anyName) gt 0>
 					<cfif left(anyName,1) is "=">
 						AND upper(agent_name.agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
+					<cfelseif left(anyName,1) is "~">
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) >= 0.80
+					<cfelseif left(anyName,1) is "!~">
+						AND utl_match.jaro_winkler(agent_name.agent_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(anyName,len(anyName)-1)#">) < 0.80
 					<cfelseif left(anyName,1) is "!">
 						AND upper(agent_name.agent_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(anyName,len(anyName)-1))#">
 					<cfelseif anyName is "NULL">
@@ -385,8 +402,10 @@ limitations under the License.
 						)
 					</cfif>
 				</cfif>
-			ORDER BY preferred_agent_name.agent_name
+			ORDER BY 
+				preferred_agent_name.agent_name
 		</cfquery>
+
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">

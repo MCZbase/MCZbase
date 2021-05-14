@@ -56,6 +56,38 @@ limitations under the License.
 	<cfargument name="valid_catalog_term_fg" type="string" required="no"><!--- 1 or empty string, thus type string --->
 	<cfargument name="relationship" type="string" required="no">
 
+	<!--- clear values that are just an empty operator without a search term --->
+	<cfif isdefined("scientific_name") AND scientific_name IS "="><cfset scientific_name=""></cfif>
+	<cfif isdefined("scientific_name") AND scientific_name IS "~"><cfset scientific_name=""></cfif>
+	<cfif isdefined("full_taxon_name") AND full_taxon_name IS "!"><cfset full_taxon_name=""></cfif>
+	<cfif isdefined("common_name") AND common_name IS "="><cfset common_name=""></cfif>
+	<cfif isdefined("kingdom") AND kingdom IS "="><cfset kingdom=""></cfif>
+	<cfif isdefined("phylum") AND phylum IS "="><cfset phylum=""></cfif>
+	<cfif isdefined("subphylum") AND subphylum IS "="><cfset subphylum=""></cfif>
+	<cfif isdefined("superclass") AND superclass IS "="><cfset superclass=""></cfif>
+	<cfif isdefined("phylclass") AND phylclass IS "="><cfset phylclass=""></cfif>
+	<cfif isdefined("subclass") AND subclass IS "="><cfset subclass=""></cfif>
+	<cfif isdefined("infraclass") AND infraclass IS "="><cfset infraclass=""></cfif>
+	<cfif isdefined("superorder") AND superorder IS "="><cfset superorder=""></cfif>
+	<cfif isdefined("phylorder") AND phylorder IS "="><cfset phylorder=""></cfif>
+	<cfif isdefined("infraorder") AND infraorder IS "="><cfset infraorder=""></cfif>
+	<cfif isdefined("superfamily") AND superfamily IS "="><cfset superfamily=""></cfif>
+	<cfif isdefined("family") AND family IS "="><cfset family=""></cfif>
+	<cfif isdefined("subfamily") AND subfamily IS "="><cfset subfamily=""></cfif>
+	<cfif isdefined("tribe") AND tribe IS "="><cfset tribe=""></cfif>
+	<cfif isdefined("genus") AND genus IS "="><cfset genus=""></cfif>
+	<cfif isdefined("genus") AND genus IS "$"><cfset genus=""></cfif>
+	<cfif isdefined("subgenus") AND subgenus IS "="><cfset subgenus=""></cfif>
+	<cfif isdefined("subgenus") AND subgenus IS "$"><cfset subgenus=""></cfif>
+	<cfif isdefined("species") AND species IS "="><cfset species=""></cfif>
+	<cfif isdefined("species") AND species IS "$"><cfset species=""></cfif>
+	<cfif isdefined("subspecies") AND subspecies IS "="><cfset subspecies=""></cfif>
+	<cfif isdefined("subspecies") AND subspecies IS "$"><cfset subspecies=""></cfif>
+	<cfif isdefined("author_text") AND author_text IS "="><cfset author_text=""></cfif>
+	<cfif isdefined("author_text") AND author_text IS "$"><cfset author_text=""></cfif>
+	<cfif isdefined("infraspecific_author") AND infraspecific_author IS "="><cfset infraspecific_author=""></cfif>
+	<cfif isdefined("infraspecific_author") AND infraspecific_author IS "$"><cfset infraspecific_author=""></cfif>
+
 	<!--- TODO: Support following relationship directions --->
 	<cfset relationshipdirection = "forward">
 
@@ -118,6 +150,10 @@ limitations under the License.
 				<cfif isdefined("scientific_name") AND len(scientific_name) gt 0>
 					<cfif left(scientific_name,1) is "=">
 						AND upper(taxonomy.scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
+					<cfelseif left(scientific_name,1) is "~">
+						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) >= 0.90
+					<cfelseif left(anyName,1) is "!~">
+						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) < 0.90
 					<cfelseif left(scientific_name,1) is "!">
 						AND upper(taxonomy.scientific_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
 					<cfelse>
@@ -132,7 +168,7 @@ limitations under the License.
 					<cfif left(full_taxon_name,1) is "=">
 						AND upper(taxonomy.full_taxon_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(full_taxon_name,len(full_taxon_name)-1))#">
 					<cfelseif left(full_taxon_name,1) is "!">
-						AND upper(taxonomy.full_taxon_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(full_taxon_name,len(full_taxon_name)-1))#">
+						AND upper(taxonomy.full_taxon_name) NOT LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(right(full_taxon_name,len(full_taxon_name)-1))#%">
 					<cfelse>
 						<cfif find(',',full_taxon_name) GT 0>
 							AND upper(taxonomy.full_taxon_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(full_taxon_name)#" list="yes"> )
