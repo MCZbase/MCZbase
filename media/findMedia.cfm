@@ -115,6 +115,7 @@ limitations under the License.
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<div class="form-row">
+									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
 											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
@@ -163,6 +164,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
+									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset keycols="5">
@@ -197,6 +199,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="form-row">
+									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<div class="col-12 col-md-1">
 										<div class="form-group mb-2">
 											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
@@ -333,19 +336,21 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<!--- setup to hide search for date as text from most users --->
-									<cfset datecol="3">
+									<cfset datecolm="6">
+									<cfset datecolx="3">
 									<cfset asdate = "">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
-										<cfset datecol="2">
+										<cfset datecolm="4">
+										<cfset datecolx="2">
 										<cfset asdate = "(as date)">
 									</cfif>
-									<div class="col-12 col-md-#datecol#">
+									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
 											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
-									<div class="col-12 col-md-#datecol#">
+									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
 											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
@@ -353,7 +358,7 @@ limitations under the License.
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 										<!--- hide search for date as text from most users, too confusing --->
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-4 col-xl=2">
 											<div class="form-group mb-2">
 												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date (as text)
 													<span class="small">
@@ -370,7 +375,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 												<span class="small">
@@ -386,7 +391,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
 												<span class="small">
@@ -402,7 +407,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
 												<span class="small">
@@ -421,7 +426,7 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row">
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="owner" class="data-entry-label mb-0" id="owner_label">Owner 
 													<span class="small">
@@ -437,7 +442,7 @@ limitations under the License.
 												</script>
 											</div>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="credit" class="data-entry-label mb-0" id="credit_label">Credit 
 													<span class="small">
@@ -453,7 +458,7 @@ limitations under the License.
 												</script>
 											</div>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="md5hash" class="data-entry-label mb-0" id="md5hash_label">MD5 Hash 
 													<span class="small">
@@ -470,7 +475,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<!---- Place holder:  Relationship search controls will go here --->
 									</div>
 								</div>
