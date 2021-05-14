@@ -1627,9 +1627,9 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-/*.card-header h3 a.part:before {display:none;}
-.card-header h3 a.part.collapsed:before {content: "\f068"}*/
-.card-header h3 button:before.parts a.part {
+.card-header h3 a.part:before {display:none;}
+.card-header h3 a.part.collapsed:before {content: "\f068"}
+.card-header h3 button.parts:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f067";
@@ -1638,7 +1638,7 @@ tr.line-top:first-child {
 	cursor: pointer;
 	border: none;
 }
-.card-header h3.collapsed button.parts:before a.collapsed {
+.card-header h3.collapsed button.parts:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f067";
