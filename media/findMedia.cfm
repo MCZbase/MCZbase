@@ -662,7 +662,8 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						columns: [
+						cardview: true,
+						cardviewcolumns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 						 	{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
