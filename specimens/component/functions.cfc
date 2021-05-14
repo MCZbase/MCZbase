@@ -265,7 +265,7 @@ limitations under the License.
 																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
 																</cfloop>
 															</select>
-															<input class="media_label" name="media_label" type="text" value="#labels.media_label#">
+															<input class="media_label" name="media_label" type="text" value="#labels.label_value#">
 														</div>
 													</div>
 												</div>
