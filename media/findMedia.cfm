@@ -261,7 +261,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="height" class="data-entry-label mb-0" id="height_label">Height 
 												<span class="small">
@@ -273,7 +273,7 @@ limitations under the License.
 											<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="width" class="data-entry-label mb-0" id="width_label">Width 
 												<span class="small">
@@ -285,7 +285,7 @@ limitations under the License.
 											<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 												<span class="small">
@@ -301,7 +301,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
@@ -312,9 +312,11 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<cfset remcol="4">
+									<cfset remcolm="8">
+									<cfset remcolx="4">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset remcol="2">
+										<cfset remcolm="4">
+										<cfset remcolx="2">
 										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
 												<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
@@ -322,7 +324,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-#remcol#">
+									<div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
 										<div class="form-group mb-2">
 											<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
