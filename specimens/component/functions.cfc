@@ -269,7 +269,101 @@ limitations under the License.
 														</div>
 													</div>
 												</div>--->
-															
+												<cfif isdefined("srchType") and srchType is "key">
+		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			select distinct 
+				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, 
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, 
+				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+				MCZBASE.get_media_credit(media.media_id) as credit 
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					,media_keywords.keywords
+				</cfif>
+			FROM media
+				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					left join media_keywords on media.media_id = media_keywords.media_id
+				</cfif>
+			WHERE
+				media.media_id > 0
+				AND MCZBASE.is_media_encumbered(media.media_id) < 1
+				<cfif isdefined("keyword") and len(keyword) gt 0>
+					<cfif not isdefined("kwType") >
+						<cfset kwType="all">
+					</cfif>
+					<cfif kwType EQ "phrase">
+						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">
+					<cfelse>
+						<cfset orSep = "">
+						AND (
+						<cfloop list="#keyword#" index="i" delimiters=",;: ">
+							<cfswitch expression="#orSep#">
+								<cfcase value="OR">OR</cfcase>
+								<cfcase value="AND">AND</cfcase>
+								<cfdefaultcase></cfdefaultcase>
+							</cfswitch>
+							upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
+							<cfif kwType is "any">
+								<cfset orSep = "OR">
+							<cfelse>
+								<cfset orSep = "AND">
+							</cfif>
+						</cfloop>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("media_uri") and len(media_uri) gt 0>
+					AND upper(media_uri) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_uri)#%">
+				</cfif>
+				<cfif isdefined("tag") and len(tag) gt 0>
+					-- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.
+					AND media.media_id in (select media_id from tag)
+				</cfif>
+				<cfif isdefined("media_type") and len(media_type) gt 0>
+					AND media_type in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#" list="yes">)
+				</cfif>
+				<cfif isdefined("media_id") and len(#media_id#) gt 0>
+					AND media.media_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
+				</cfif>
+				<cfif isdefined("mime_type") and len(#mime_type#) gt 0>
+					AND mime_type in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#" list="yes">)
+				</cfif>
+				AND rownum <=500
+		</cfquery>
+	<cfelse>
+		<cfif not isdefined("number_of_relations")>
+			<cfif (isdefined("relationship") and len(relationship) gt 0) or (isdefined("related_to") and len(related_to) gt 0)>
+				<cfset number_of_relations=1>
+				<cfif isdefined("relationship") and len(relationship) gt 0>
+					<cfset relationship__1=relationship>
+				</cfif>
+				<cfif isdefined("related_to") and len(related_to) gt 0>
+					<cfset related_value__1=related_to>
+				</cfif>
+			<cfelse>
+				<cfset number_of_relations=1>
+			</cfif>
+		</cfif>
+	   <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+			<cfif isdefined("unlinked") and unlinked EQ "true">
+				<cfset number_of_relations = 0 >
+      	</cfif>
+      </cfif>
+		<cfif not isdefined("number_of_labels")>
+			<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
+				<cfset number_of_labels=1>
+				<cfif isdefined("label") and len(label) gt 0>
+					<cfset label__1=label>
+				</cfif>
+				<cfif isdefined("label_value") and len(label_value) gt 0>
+					<cfset label_value__1=label_value>
+
+				</cfif>
+			<cfelse>
+				<cfset number_of_labels=0>
+			</cfif>
+		</cfif>
 																<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct 
 				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
