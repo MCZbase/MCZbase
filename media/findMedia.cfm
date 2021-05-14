@@ -338,13 +338,13 @@ limitations under the License.
 									<div class="col-12 col-md-#datecol#">
 										<div class="form-group mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input col-5" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecol#">
 										<div class="form-group mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
