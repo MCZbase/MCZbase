@@ -317,7 +317,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset remcolm="4">
 										<cfset remcolx="2">
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
 												<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
