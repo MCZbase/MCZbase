@@ -1627,13 +1627,14 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-#headingParts.card-header h3 a.parts:before, #headingParts.card-header h2 a.parts:before, #headingParts.card-header h2 button:before {
+.card-header h2 button.parts:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content: "\f067";
+	content: "\f068";
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
+	color: blue;
 }
 .card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
@@ -1643,28 +1644,6 @@ tr.line-top:first-child {
 	cursor: pointer;
 }
 .card-header button span:before, .card-header button span:before, .card-header button span:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	content: "\f068";
-	padding-right: 5px;
-	float: left !important;
-	cursor: pointer;
-}
-#headingParts.card-header h3 a.parts.collapsed:before, #headingParts.card-header h2 a.parts.collapsed:before, #headingParts.card-header h2 button.collapsed:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	float: left !important;
-	content: "\f067";
-	cursor: pointer;
-}
-#headingParts.card-header button.collapsed span:before, #headingParts.card-header button.collapsed span:before, #headingParts.card-header button.collapsed span:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	float: left !important;
-	content: "\f067";
-	cursor: pointer;
-}
-#headingParts.card-header button span:before, #headingParts.card-header button span:before, #headingParts.card-header button span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
