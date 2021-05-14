@@ -409,7 +409,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
-											<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Location
+											<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Loc.
 												<span class="small">
 												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 												NULL, NOT NULL)
