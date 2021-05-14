@@ -40,6 +40,19 @@ limitations under the License.
 	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 
+	<!--- clear any arguments where only an operator is given without a search term --->
+	<cfif isdefined("first_name") AND first_name IS "="><cfset first_name = ""></cfif>
+	<cfif isdefined("first_name") AND first_name IS "!"><cfset first_name = ""></cfif>
+	<cfif isdefined("first_name") AND first_name IS "$"><cfset first_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "="><cfset middle_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "!"><cfset middle_name = ""></cfif>
+	<cfif isdefined("middle_name") AND middle_name IS "$"><cfset middle_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "="><cfset last_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "!"><cfset last_name = ""></cfif>
+	<cfif isdefined("last_name") AND last_name IS "$"><cfset last_name = ""></cfif>
+	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
+	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
+
 	<!--- TODO: allow relaxation of this criterion --->
 	<cfset knowntoyear = "yes">
 

@@ -123,13 +123,13 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-5">
 										<label for="anyName" class="data-entry-label" id="anyName_label">Any part of any name
-											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
+											<span class="small90">
+												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
 												<!--- 
 													! for not search works, but probably not as expected, it finds agents who have any agent name which doesn't match.
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
 												--->
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~</a><span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('anyName');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for 0.8 or greater jaro winkler text matching search</span></button>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -187,9 +187,9 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<label for="first_name" class="data-entry-label" id="first_name_label">First Name
 											<span class="small">
-												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
+												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('first_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -198,9 +198,9 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
-												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
+												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 												NULL, NOT NULL)
 											</span>
 										</label>
@@ -209,9 +209,9 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
-												(accepts <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for case insensitive exact match search</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!</a><span class="sr-only">prefix with exclamation point for case insensitive not search</span>,
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$</a><span class="sr-only">prefix with dollarsign for sounds like search</span>,
+												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='!'+e.value;">!<span class="sr-only">prefix with exclamation point for case insensitive not search</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>,
 												NULL, NOT NULL)
 											</span>
 										</label>
