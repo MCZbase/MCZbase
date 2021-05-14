@@ -1630,7 +1630,7 @@ tr.line-top:first-child {
 #headingParts.card-header h3 a.parts:before, #headingParts.card-header h2 a.parts:before, #headingParts.card-header h2 button:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content: "\f068";
+	content: "\f067";
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
