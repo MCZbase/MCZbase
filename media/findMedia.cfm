@@ -358,7 +358,7 @@ limitations under the License.
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 										<!--- hide search for date as text from most users, too confusing --->
-										<div class="col-12 col-md-4 col-xl=2">
+										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date (as text)
 													<span class="small">
