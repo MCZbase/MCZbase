@@ -1627,7 +1627,7 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-.card-header h2 button.parts {
+.card-header h3 button.parts {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f067";
