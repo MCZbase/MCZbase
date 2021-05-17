@@ -513,6 +513,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
+								<div id="gridCardToggleButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
 								<div id="jqxbutton">Switch to Card View</div>
 							</div>
@@ -551,6 +552,10 @@ limitations under the License.
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
+			};
+			function toggleCardView() { 
+				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
 			};
 	
 			$(document).ready(function() {
@@ -662,7 +667,7 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						cardview: true,
+						cardview: false,
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id' },
 							{ width: 'auto', datafield: 'preview_uri' },
@@ -732,11 +737,6 @@ limitations under the License.
 						var args = event.args;
 						var rowIndex = args.rowindex;
 						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-					});
-					$("##jqxbutton").jqxButton();
-					$("##jqxbutton").on('click', function() {
-						var cardView = $("##searchResultsGrid").jqxGrid('cardview');
-						$("##searchResultsGrid").jqxGrid({cardview: !cardView});
 					});
 				});
 				/* End Setup jqxgrid for Search ******************************/
@@ -835,6 +835,9 @@ limitations under the License.
 				});
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
+				);
+				$("##gridCardToggleButton").html(
+					"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Grid/Card View</button>"
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
