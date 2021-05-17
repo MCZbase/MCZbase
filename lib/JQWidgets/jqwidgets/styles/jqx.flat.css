@@ -114,7 +114,7 @@
 }
 
 .jqx-icon-calendar-flat {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-metro-light.png');
+    background-image: url('images/icon-calendar-metro-light.png');
     background-repeat: no-repeat;
     background-position: left top;
     position: relative;
@@ -124,7 +124,7 @@
 }
 
 .jqx-icon-calendar-pressed-flat {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-metro-light.png') !important;
+    background-image: url('images/icon-calendar-metro-light.png') !important;
     background-repeat: no-repeat;
     background-position: left top;
     position: relative;
@@ -151,7 +151,7 @@
     background-color: #FFBB00 !important;
 }
 .jqx-datetimeinput-flat .jqx-action-button-flat:hover.jqx-fill-state-hover-flat .jqx-icon-calendar-flat {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-metro-yellow-light.png') !important;
+    background-image: url('images/icon-calendar-metro-yellow-light.png') !important;
     background-repeat: no-repeat;
     background-position: left top;
     position: relative;
@@ -160,7 +160,7 @@
     margin-top: -10px !important;
 }
 .jqx-datetimeinput-flat .jqx-action-button-flat:hover.jqx-fill-state-pressed-flat .jqx-icon-calendar-flat {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-metro-light.png') !important;
+    background-image: url('images/icon-calendar-metro-light.png') !important;
     background-repeat: no-repeat;
     background-position: left top;
     position: relative;
@@ -259,7 +259,7 @@
 }
 .jqx-window-header-flat, .jqx-input-button-header-flat, .jqx-calendar-title-header-flat, .jqx-grid-flat .jqx-widget-header-flat, .jqx-grid-header-flat, .jqx-grid-column-header-flat {font-size: 14px; font-family: 'segoe ui', arial, sans-serif; border-color: #A6A6A6; color: #000; background: #f4f4f4;}
 .jqx-grid-column-menubutton-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down.png');
+    background-image: url('images/metro-icon-down.png');
  }
 .jqx-calendar-title-header-flat {
     background: #F2F2F2;
@@ -276,10 +276,10 @@
 .jqx-grid-cell-hover-flat{ background-color:#dedede;}
  /*applied to the column's sort button when the sort order is ascending.*/
  .jqx-grid-column-sortascbutton-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-up.png');
+    background-image: url('images/metro-icon-up.png');
  }
 .jqx-grid-column-sortdescbutton-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down.png');
+    background-image: url('images/metro-icon-down.png');
 }
 .jqx-checkbox-hover-flat {
     background-color: #fff;
@@ -317,34 +317,34 @@
 /*icons*/
 .jqx-window-collapse-button-flat
 {
-    background-image: url(../../jqwidgets/styles/images/metro-icon-up.png);
+    background-image: url(./images/metro-icon-up.png);
 }
 .jqx-window-collapse-button-collapsed-flat {
-  background-image: url(../../jqwidgets/styles/images/metro-icon-down.png);
+  background-image: url(./images/metro-icon-down.png);
 }
 .jqx-icon-arrow-up-flat, .jqx-expander-arrow-bottom-flat, .jqx-menu-item-arrow-up-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-up.png');
+    background-image: url('images/metro-icon-up.png');
 }
 .jqx-icon-arrow-down-flat, .jqx-expander-arrow-top-flat, .jqx-tree-item-arrow-expand-flat, .jqx-tree-item-arrow-expand-hover-flat, .jqx-menu-item-arrow-down-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down.png');
+    background-image: url('images/metro-icon-down.png');
 }
 .jqx-icon-arrow-left-flat, .jqx-menu-item-arrow-left-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left.png');
+    background-image: url('images/metro-icon-left.png');
 }
 .jqx-icon-arrow-right-flat, .jqx-menu-item-arrow-right-flat, .jqx-tree-item-arrow-collapse-flat, .jqx-tree-item-arrow-collapse-hover-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-right.png');
+    background-image: url('images/metro-icon-right.png');
 }
 .jqx-tabs-arrow-left-flat, .jqx-tree-item-arrow-collapse-rtl-flat, .jqx-tree-item-arrow-collapse-hover-rtl-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left.png');
+    background-image: url('images/metro-icon-left.png');
 }
 .jqx-tabs-arrow-right-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-right.png');
+    background-image: url('images/metro-icon-right.png');
 }
 .jqx-slider-slider-flat
 {
@@ -397,77 +397,77 @@
 .jqx-switchbutton-wrapper-flat {
 }
 .jqx-grid-cell-flat.jqx-grid-cell-selected-flat>.jqx-grid-group-expand-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down-white.png');
+    background-image: url('images/metro-icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-flat.jqx-grid-cell-selected-flat>.jqx-grid-group-collapse-flat{
-    background-image: url('../../jqwidgets/styles/images/metro-icon-right-white.png');
+    background-image: url('images/metro-icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-flat.jqx-grid-cell-selected-flat>.jqx-grid-group-collapse-rtl-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left-white.png');
+    background-image: url('images/metro-icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-flat.jqx-grid-cell-selected-flat>.jqx-grid-group-expand-rtl-flat{
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down-white.png');
+    background-image: url('images/metro-icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-group-collapse-flat {
-    background-image: url(../../jqwidgets/styles/images/metro-icon-right.png);
+    background-image: url(./images/metro-icon-right.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 .jqx-grid-group-collapse-rtl-flat
 {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/metro-icon-left.png);
+    background-image: url(./images/metro-icon-left.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 .jqx-grid-group-expand-flat, .jqx-grid-group-expand-rtl-flat
 {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/metro-icon-down.png);
+    background-image: url(./images/metro-icon-down.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 .jqx-icon-arrow-first-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-first.png');
+    background-image: url('images/metro-icon-first.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-last-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-last.png');
+    background-image: url('images/metro-icon-last.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-first-hover-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-first.png');
+    background-image: url('images/metro-icon-first.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-last-hover-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-last.png');
+    background-image: url('images/metro-icon-last.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-first-selected-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-first-white.png');
+    background-image: url('images/metro-icon-first-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-last-selected-flat
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-last-white.png');
+    background-image: url('images/metro-icon-last-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -475,7 +475,7 @@
     margin-top: 1px;
 }
 .jqx-icon-calendar-pressed-flat {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-white.png');
+    background-image: url('images/icon-calendar-white.png');
 }
 .jqx-layout-flat
 {
@@ -515,10 +515,10 @@
  
 }
 .jqx-expander-arrow-top-flat{
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left.png');
+    background-image: url('images/metro-icon-left.png');
 }
 .jqx-expander-arrow-bottom-flat {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down.png');
+    background-image: url('images/metro-icon-down.png');
 }
 .jqx-expander .jqx-widget-content-flat, .jqx-navigationbar .jqx-widget-content-flat {
     background-color: transparent !important;

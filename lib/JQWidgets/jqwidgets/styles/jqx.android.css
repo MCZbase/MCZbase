@@ -192,7 +192,7 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
    border-color: #262626;
  }
 .jqx-grid-column-menubutton-android {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down-white.png');
+    background-image: url('images/metro-icon-down-white.png');
  }
 .jqx-input-android {
     border-color: #3C4648;
@@ -201,17 +201,17 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
 .jqx-widget-android .jqx-grid-cell-hover-android, .jqx-grid-cell-hover-android{ background-color:#3E3E42;}
  /*applied to the column's sort button when the sort order is ascending.*/
  .jqx-grid-column-sortascbutton-android {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-up-white.png');
+    background-image: url('images/metro-icon-up-white.png');
  }
 .jqx-grid-column-sortdescbutton-android {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down-white.png');
+    background-image: url('images/metro-icon-down-white.png');
 }
 .jqx-checkbox-default-android {
     background: #000;
     border-color: #636466;
 }
-.jqx-checkbox-check-checked-android{position: relative; background:transparent url(../../jqwidgets/styles/images/check_lightblue.png) center center no-repeat}
-.jqx-checkbox-check-indeterminate-android{background:transparent url(../../jqwidgets/styles/images/check_lightblue_indeterminate.png) center center no-repeat}
+.jqx-checkbox-check-checked-android{position: relative; background:transparent url(./images/check_lightblue.png) center center no-repeat}
+.jqx-checkbox-check-indeterminate-android{background:transparent url(./images/check_lightblue_indeterminate.png) center center no-repeat}
 .jqx-checkbox-hover-android, .jqx-radiobutton-hover-android {
 
 }
@@ -253,48 +253,48 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
 /*icons*/
 .jqx-window-collapse-button-android
 {
-    background-image: url(../../jqwidgets/styles/images/metro-icon-up-white.png);
+    background-image: url(./images/metro-icon-up-white.png);
 }
 .jqx-window-collapse-button-collapsed-android {
-  background-image: url(../../jqwidgets/styles/images/metro-icon-down-white.png);
+  background-image: url(./images/metro-icon-down-white.png);
 }
 .jqx-icon-arrow-up-android, .jqx-expander-arrow-bottom-android, .jqx-menu-item-arrow-up-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-up-white.png');
+    background-image: url('images/metro-icon-up-white.png');
 }
 .jqx-icon-arrow-down-android, .jqx-expander-arrow-top-android, .jqx-tree-item-arrow-expand-android, .jqx-tree-item-arrow-expand-hover-android, .jqx-menu-item-arrow-down-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-down-white.png');
+    background-image: url('images/metro-icon-down-white.png');
 }
 .jqx-icon-arrow-left-android, .jqx-menu-item-arrow-left-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left-white.png');
+    background-image: url('images/metro-icon-left-white.png');
 }
 .jqx-icon-arrow-right-android, .jqx-menu-item-arrow-right-android, .jqx-tree-item-arrow-collapse-android, .jqx-tree-item-arrow-collapse-hover-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-right-white.png');
+    background-image: url('images/metro-icon-right-white.png');
 }
 .jqx-tabs-arrow-left-android, .jqx-tree-item-arrow-collapse-rtl-android, .jqx-tree-item-arrow-collapse-hover-rtl-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-left-white.png');
+    background-image: url('images/metro-icon-left-white.png');
 }
 .jqx-tabs-arrow-right-android
 {
-    background-image: url('../../jqwidgets/styles/images/metro-icon-right-white.png');
+    background-image: url('images/metro-icon-right-white.png');
 }
-.jqx-menu-item-arrow-up-selected-android, .jqx-icon-arrow-up-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-up-white.png');background-repeat:no-repeat;background-position:center;}
-.jqx-menu-item-arrow-down-selected-android, .jqx-icon-arrow-down-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-down-white.png');background-repeat:no-repeat;background-position:center;}
-.jqx-menu-item-arrow-left-selected-android, .jqx-icon-arrow-left-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-left-white.png');background-repeat:no-repeat;background-position:center;}
-.jqx-menu-item-arrow-right-selected-android, .jqx-icon-arrow-right-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-right-white.png');background-repeat:no-repeat;background-position:center;}
-.jqx-window-close-button-android, .jqx-icon-close-android, .jqx-tabs-close-button-android, .jqx-tabs-close-button-hover-android, .jqx-tabs-close-button-selected-android{background-image:url(../../jqwidgets/styles/images/close_white.png);  background-repeat:no-repeat;  background-position:center}
+.jqx-menu-item-arrow-up-selected-android, .jqx-icon-arrow-up-selected-android{background-image:url('images/metro-icon-up-white.png');background-repeat:no-repeat;background-position:center;}
+.jqx-menu-item-arrow-down-selected-android, .jqx-icon-arrow-down-selected-android{background-image:url('images/metro-icon-down-white.png');background-repeat:no-repeat;background-position:center;}
+.jqx-menu-item-arrow-left-selected-android, .jqx-icon-arrow-left-selected-android{background-image:url('images/metro-icon-left-white.png');background-repeat:no-repeat;background-position:center;}
+.jqx-menu-item-arrow-right-selected-android, .jqx-icon-arrow-right-selected-android{background-image:url('images/metro-icon-right-white.png');background-repeat:no-repeat;background-position:center;}
+.jqx-window-close-button-android, .jqx-icon-close-android, .jqx-tabs-close-button-android, .jqx-tabs-close-button-hover-android, .jqx-tabs-close-button-selected-android{background-image:url(./images/close_white.png);  background-repeat:no-repeat;  background-position:center}
 .jqx-listbox-feedback-android {
     border-top: 1px dashed #fff;
 }
 
-.jqx-scrollbar-android .jqx-icon-arrow-up-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-up-white.png'); background-repeat:no-repeat; background-position:center;}
-.jqx-scrollbar-android .jqx-icon-arrow-down-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-down-white.png'); background-repeat:no-repeat; background-position:center;}
-.jqx-scrollbar-android .jqx-icon-arrow-left-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-left-white.png'); background-repeat:no-repeat; background-position:center;}
-.jqx-scrollbar-android .jqx-icon-arrow-right-selected-android{background-image:url('../../jqwidgets/styles/images/metro-icon-right-white.png');background-repeat:no-repeat; background-position:center;}
+.jqx-scrollbar-android .jqx-icon-arrow-up-selected-android{background-image:url('images/metro-icon-up-white.png'); background-repeat:no-repeat; background-position:center;}
+.jqx-scrollbar-android .jqx-icon-arrow-down-selected-android{background-image:url('images/metro-icon-down-white.png'); background-repeat:no-repeat; background-position:center;}
+.jqx-scrollbar-android .jqx-icon-arrow-left-selected-android{background-image:url('images/metro-icon-left-white.png'); background-repeat:no-repeat; background-position:center;}
+.jqx-scrollbar-android .jqx-icon-arrow-right-selected-android{background-image:url('images/metro-icon-right-white.png');background-repeat:no-repeat; background-position:center;}
 
 .jqx-input-button-content-android
 {  
@@ -425,13 +425,13 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
 }
 .jqx-icon-arrow-first-android
 {
-    background-image: url('../../jqwidgets/styles/images/icon-first-white.png');
+    background-image: url('images/icon-first-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-last-android
 {
-    background-image: url('../../jqwidgets/styles/images/icon-last-white.png');
+    background-image: url('images/icon-last-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -451,21 +451,21 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
     border-bottom-color: #000 !important;
  }
 .jqx-grid-group-collapse-android {
-    background-image: url(../../jqwidgets/styles/images/metro-icon-right-white.png);
+    background-image: url(./images/metro-icon-right-white.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 .jqx-grid-group-collapse-rtl-android
 {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/metro-icon-left-white.png);
+    background-image: url(./images/metro-icon-left-white.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 .jqx-grid-group-expand-android, .jqx-grid-group-expand-rtl-android
 {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/metro-icon-down-white.png);
+    background-image: url(./images/metro-icon-down-white.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
@@ -480,29 +480,29 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
 }
 .jqx-icon-search-android
 {
-    background-image: url(../../jqwidgets/styles/images/search_white.png);
+    background-image: url(./images/search_white.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-passwordinput-password-icon-android, .jqx-passwordinput-password-icon-rtl-android
 {
-    background-image: url(../../jqwidgets/styles/images/icon-showpassword-white.png) !important;
+    background-image: url(./images/icon-showpassword-white.png) !important;
     background-repeat: no-repeat !important;
 }
 .jqx-icon-calendar-android, .jqx-icon-calendar-hover-android, .jqx-icon-calendar-pressed-android {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-white.png');
+    background-image: url('images/icon-calendar-white.png');
 }
 .jqx-icon-time-android, .jqx-icon-time-hover-android, .jqx-icon-time-pressed-android {
-    background-image: url('../../jqwidgets/styles/images/icon-time-white.png');
+    background-image: url('images/icon-time-white.png');
 }
 .jqx-calendar-cell-today-android {
     color: black;
 }
 .jqx-editor-toolbar-icon-android {
-    background: url('../../jqwidgets/styles/images/html_editor_white.png') no-repeat;
+    background: url('images/html_editor_white.png') no-repeat;
 }
 .jqx-menu-minimized-button-android {
-   background-image: url('../../jqwidgets/styles/images/icon-menu-minimized-white.png');
+   background-image: url('images/icon-menu-minimized-white.png');
 }
 .jqx-file-upload-file-name-android{padding:3px;}
 .jqx-file-upload-file-row-android{ height: 40px;}
@@ -512,12 +512,16 @@ input[type=text].jqx-input-android, input[type=password].jqx-input-android, .jqx
 }
 .jqx-layout-pseudo-window-pin-icon-android
 {
-    background-image: url("../../jqwidgets/styles/images/pin-white.png");
+    background-image: url("images/pin-white.png");
 }
 .jqx-layout-pseudo-window-pinned-icon-android
 {
-    background-image: url("../../jqwidgets/styles/images/pinned-white.png");
+    background-image: url("images/pinned-white.png");
 }
 .jqx-scheduler-android, .jqx-scheduler-time-column-android, .jqx-scheduler-toolbar-details-android {
     color: white !important;
+}
+
+.jqx-label-android {
+	fill: lightgray;
 }

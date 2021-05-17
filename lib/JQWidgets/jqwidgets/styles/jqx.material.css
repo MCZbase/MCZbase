@@ -220,7 +220,7 @@
       border-color: transparent;
       box-shadow:none;
   }
-  
+
     .jqx-button-material.jqx-fill-state-focus.outlined,
     .jqx-button-material.jqx-fill-state-focus.flat {
         box-shadow: none;
@@ -567,7 +567,7 @@
     color: rgba(0,0,0,.54) !important;
     background-color: transparent;
     border-color: transparent;
-    box-shadow: none;    
+    box-shadow: none;
 }
 
 .jqx-grid-pager-top-material .jqx-grid-pager-number-material,
@@ -757,6 +757,7 @@
     overflow: visible;
 }
 
+.jqx-tree-material .jqx-checkbox-material .jqx-checkbox-default-material,
 .jqx-checkbox-material[checked] .jqx-checkbox-default-material,
 .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-material,
 .jqx-radiobutton-material[checked] .jqx-radiobutton-default-material
@@ -766,7 +767,7 @@
 }
 
 .jqx-checkbox-check-checked-material {
-    background: transparent url(../../jqwidgets/styles/images/material_check_white.png) center center no-repeat;
+    background: transparent url(./images/material_check_white.png) center center no-repeat;
 }
 .jqx-checkbox-check-indeterminate-material {
     width:14px !important;
@@ -775,6 +776,12 @@
     top: 1px;
     left: 1px;
     background: white;
+}
+.jqx-tree-material .jqx-checkbox-check-indeterminate-material {
+    width:12px !important;
+    height:12px !important;
+    top: 2px;
+    left:2px;
 }
 
 .jqx-checkbox-hover-material,
@@ -795,13 +802,13 @@
 .jqx-slider-material[discrete] .jqx-slider-slider-material:active
  {
     transform: scaleX(0);
-    
+
 }
 .jqx-slider-slider-horizontal-material {
-    background: #0077BE; 
+    background: #0077BE;
 }
 .jqx-slider-slider-vertical-material {
-    background: #0077BE; 
+    background: #0077BE;
 }
 .jqx-slider-tooltip-material {
     width: 25px;
@@ -818,11 +825,11 @@
 .jqx-slider-tooltip-material.hide {
      transition: transform 0.2s ease;
      transform-origin:50% 100%;
-     transform: scale(0) rotate(45deg); 
+     transform: scale(0) rotate(45deg);
 }
 .jqx-slider-tooltip-material.show {
      transition: transform 0.2s ease;
-     transform: scale(1) rotate(45deg); 
+     transform: scale(1) rotate(45deg);
 }
 
 
@@ -837,18 +844,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0077BE; 
+    background: #0077BE;
     color: #fff;
     font-size:11px;
 }
 .jqx-slider-tooltip-material.far, .jqx-slider-tooltip-material.far .jqx-fill-state-normal-material {
-   border-radius: 0px 15px 15px 15px; 
+   border-radius: 0px 15px 15px 15px;
 }
 .jqx-slider-tooltip-material.vertical, .jqx-slider-tooltip-material.vertical .jqx-fill-state-normal-material {
-   border-radius: 15px 0px 15px 15px; 
+   border-radius: 15px 0px 15px 15px;
 }
 .jqx-slider-tooltip-material.vertical.far, .jqx-slider-tooltip-material.vertical.far .jqx-fill-state-normal-material {
-   border-radius: 15px 15px 15px 0px; 
+   border-radius: 15px 15px 15px 0px;
 }
 .jqx-slider-tooltip-material {
     background:transparent;
@@ -898,7 +905,7 @@
 }
 .jqx-slider-button-material.jqx-fill-state-normal-material,
 .jqx-slider-button-material.jqx-fill-state-hover-material,
-.jqx-slider-button-material.jqx-fill-state-pressed-material 
+.jqx-slider-button-material.jqx-fill-state-pressed-material
 {
     background: transparent !important;
 }
@@ -982,41 +989,41 @@
 }
 
 .jqx-grid-column-sortascbutton-material, .jqx-expander-arrow-bottom-material, .jqx-window-collapse-button-material, .jqx-menu-item-arrow-up-material, .jqx-menu-item-arrow-up-selected-material, .jqx-menu-item-arrow-top-up-material, .jqx-icon-arrow-up-material, .jqx-icon-arrow-up-hover-material, .jqx-icon-arrow-up-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-up.png');
+    background-image: url('images/material-icon-up.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-material .jqx-grid-group-expand-material, .jqx-grid-group-expand-material, .jqx-grid-column-menubutton-material, .jqx-grid-column-sortdescbutton-material, .jqx-expander-arrow-top-material, .jqx-window-collapse-button-collapsed-material, .jqx-menu-item-arrow-down-material, .jqx-menu-item-arrow-down-selected-material, .jqx-menu-item-arrow-down-material, .jqx-icon-arrow-down-material, .jqx-icon-arrow-down-hover-material, .jqx-icon-arrow-down-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tabs-arrow-left-material, .jqx-menu-item-arrow-left-selected-material, .jqx-menu-item-arrow-top-left, .jqx-icon-arrow-left-material, .jqx-icon-arrow-down-left-material, .jqx-icon-arrow-left-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-material .jqx-grid-group-collapse-material, .jqx-grid-group-collapse-material, .jqx-tabs-arrow-right-material, .jqx-menu-item-arrow-right-selected-material, .jqx-menu-item-arrow-top-right-material, .jqx-icon-arrow-right-material, .jqx-icon-arrow-right-hover-material, .jqx-icon-arrow-right-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tree-item-arrow-collapse-rtl-material, .jqx-tree-item-arrow-collapse-hover-rtl-material {
-    background-image: url(../../jqwidgets/styles/images/material-icon-left.png);
+    background-image: url(./images/material-icon-left.png);
 }
 
 .jqx-menu-item-arrow-left-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-menu-item-arrow-right-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -1042,7 +1049,7 @@
 }
 
 .jqx-combobox-material .jqx-icon-close-material {
-    background-image:url(../../jqwidgets/styles/images/close_white.png)
+    background-image:url(./images/close_white.png)
 }
 .jqx-combobox-material, .jqx-input-material {
     border-color: #E0E0E0;
@@ -1062,7 +1069,7 @@
     border-color: transparent;
 }
 
-.jqx-combobox-content-focus-material, 
+.jqx-combobox-content-focus-material,
 .jqx-combobox-state-focus-material,
 .jqx-numberinput-focus-material {
     outline: none;
@@ -1102,7 +1109,7 @@
 
 .jqx-input-material.jqx-validator-error-element {
     border-color: transparent !important;
-    border-bottom: 1px solid #df2227 !important; 
+    border-bottom: 1px solid #df2227 !important;
 }
 .jqx-input-material input,
 .jqx-dropdownlist-state-normal-material,
@@ -1119,7 +1126,7 @@
     outline: none;
 }
 .jqx-datetimeinput-material .jqx-action-button-material,
-.jqx-datetimeinput-material .jqx-action-button-rtl-material 
+.jqx-datetimeinput-material .jqx-action-button-rtl-material
  {
     background-color: transparent;
     border-color: transparent;
@@ -1188,8 +1195,10 @@ textarea:focus ~ .jqx-input-bar:before,
 .jqx-complex-input-group-material .jqx-fill-state-normal-material {
     border-color: #fafafa;
 }
-input[type="password"] {
-    letter-spacing: 0.3em;
+
+
+.jqx-input-widget-material.jqx-rtl > input {
+    direction: rtl
 }
 
 .jqx-input-label-material {
@@ -1244,13 +1253,13 @@ input[type="password"] {
 .jqx-expander-header-material .jqx-icon-arrow-up {
    transform: rotate(180deg);
    transition: transform 0.2s ease-out;
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
 }
 
 .jqx-tree-item-arrow-collapse-material
 {
     transform: rotate(-90deg);
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
     transition: transform 0.2s ease-out;
@@ -1306,25 +1315,25 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-expand-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-collapse-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-collapse-rtl-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-expand-rtl-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -1348,7 +1357,7 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
 .jqx-tabs-title-selected-top-material
  {
     color: #0077BE;
-    font-weight:500;   
+    font-weight:500;
     padding-top:5px;
     padding-bottom:5px;
 }
@@ -1475,201 +1484,201 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
     font-size:12px;
 }
 .jqx-grid-column-menubutton-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
 }
 
 .jqx-tabs-close-button-material {
-    background-image: url(../../jqwidgets/styles/images/close.png);
+    background-image: url(./images/close.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tabs-close-button-selected-material {
-    background-image: url(../../jqwidgets/styles/images/close.png);
+    background-image: url(./images/close.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tabs-close-button-hover-material {
-    background-image: url(../../jqwidgets/styles/images/close.png);
+    background-image: url(./images/close.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-scrollbar-button-state-pressed-material .jqx-icon-arrow-up-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-up.png');
+    background-image: url('images/material-icon-up.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-scrollbar-button-state-pressed-material .jqx-icon-arrow-down-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-scrollbar-button-state-pressed-material .jqx-icon-arrow-left-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-scrollbar-button-state-pressed-material .jqx-icon-arrow-right-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-expand-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-collapse-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-collapse-rtl-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-cell-material.jqx-grid-cell-selected-material > .jqx-grid-group-expand-rtl-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-grid-group-collapse-material {
-    background-image: url(../../jqwidgets/styles/images/material-icon-right.png);
+    background-image: url(./images/material-icon-right.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 
 .jqx-grid-group-collapse-rtl-material {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/material-icon-left.png);
+    background-image: url(./images/material-icon-left.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 
 .jqx-grid-group-expand-material, .jqx-grid-group-expand-rtl-material {
     padding-right: 0px;
-    background-image: url(../../jqwidgets/styles/images/material-icon-down.png);
+    background-image: url(./images/material-icon-down.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
 
 .jqx-icon-arrow-first-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-first.png');
+    background-image: url('images/material-icon-first.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-icon-arrow-last-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-last.png');
+    background-image: url('images/material-icon-last.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-icon-arrow-first-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-first.png');
+    background-image: url('images/material-icon-first.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-icon-arrow-last-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-last.png');
+    background-image: url('images/material-icon-last.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-icon-arrow-first-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-first.png');
+    background-image: url('images/material-icon-first.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-icon-arrow-last-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-last.png');
+    background-image: url('images/material-icon-last.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-fill-state-pressed-material .jqx-icon-arrow-first-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-first-white.png');
+    background-image: url('images/material-icon-first-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-fill-state-pressed-material .jqx-icon-arrow-last-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-last-white.png');
+    background-image: url('images/material-icon-last-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-fill-state-pressed-material .jqx-icon-arrow-left-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left-white.png');
+    background-image: url('images/material-icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-fill-state-pressed-material .jqx-icon-arrow-right-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right-white.png');
+    background-image: url('images/material-icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-primary .jqx-icon-arrow-down-material, .jqx-warning .jqx-icon-arrow-down-material, .jqx-danger .jqx-icon-arrow-down-material, .jqx-success .jqx-icon-arrow-down-material, .jqx-info .jqx-icon-arrow-down-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
 }
 
 .jqx-primary .jqx-icon-arrow-down-selected-material, .jqx-warning .jqx-icon-arrow-down-selected-material, .jqx-danger .jqx-icon-arrow-down-selected-material, .jqx-success .jqx-icon-arrow-down-selected-material, .jqx-info .jqx-icon-arrow-down-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
 }
 
 .jqx-primary .jqx-icon-arrow-down-hover-material, .jqx-warning .jqx-icon-arrow-down-hover-material, .jqx-danger .jqx-icon-arrow-down-hover-material, .jqx-success .jqx-icon-arrow-down-hover-material, .jqx-info .jqx-icon-arrow-down-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-down.png');
+    background-image: url('images/material-icon-down.png');
 }
 
 .jqx-primary .jqx-icon-arrow-up-material, .jqx-warning .jqx-icon-arrow-up-material, .jqx-danger .jqx-icon-arrow-up-material, .jqx-success .jqx-icon-arrow-up-material, .jqx-info .jqx-icon-arrow-up-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-up.png');
+    background-image: url('images/material-icon-up.png');
 }
 
 .jqx-primary .jqx-icon-arrow-up-selected-material, .jqx-warning .jqx-icon-arrow-up-selected-material, .jqx-danger .jqx-icon-arrow-up-selected-material, .jqx-success .jqx-icon-arrow-up-selected-material, .jqx-info .jqx-icon-arrow-up-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-up.png');
+    background-image: url('images/material-icon-up.png');
 }
 
 .jqx-primary .jqx-icon-arrow-up-hover-material, .jqx-warning .jqx-icon-arrow-up-hover-material, .jqx-danger .jqx-icon-arrow-up-hover-material, .jqx-success .jqx-icon-arrow-up-hover-material, .jqx-info .jqx-icon-arrow-up-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-up.png');
+    background-image: url('images/material-icon-up.png');
 }
 
 
 .jqx-primary .jqx-icon-arrow-left-material, .jqx-warning .jqx-icon-arrow-left-material, .jqx-danger .jqx-icon-arrow-left-material, .jqx-success .jqx-icon-arrow-left-material, .jqx-info .jqx-icon-arrow-left-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
 }
 
 .jqx-primary .jqx-icon-arrow-left-selected-material, .jqx-warning .jqx-icon-arrow-left-selected-material, .jqx-danger .jqx-icon-arrow-left-selected-material, .jqx-success .jqx-icon-arrow-left-selected-material, .jqx-info .jqx-icon-arrow-left-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
 }
 
 .jqx-primary .jqx-icon-arrow-left-hover-material, .jqx-warning .jqx-icon-arrow-left-hover-material, .jqx-danger .jqx-icon-arrow-left-hover-material, .jqx-success .jqx-icon-arrow-left-hover-material, .jqx-info .jqx-icon-arrow-left-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-left.png');
+    background-image: url('images/material-icon-left.png');
 }
 
 .jqx-primary .jqx-icon-arrow-right-material, .jqx-warning .jqx-icon-arrow-right-material, .jqx-danger .jqx-icon-arrow-right-material, .jqx-success .jqx-icon-arrow-right-material, .jqx-info .jqx-icon-arrow-right-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
 }
 
 .jqx-primary .jqx-icon-arrow-right-selected-material, .jqx-warning .jqx-icon-arrow-right-selected-material, .jqx-danger .jqx-icon-arrow-right-selected-material, .jqx-success .jqx-icon-arrow-right-selected-material, .jqx-info .jqx-icon-arrow-right-selected-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
 }
 
 .jqx-primary .jqx-icon-arrow-right-hover-material, .jqx-warning .jqx-icon-arrow-right-hover-material, .jqx-danger .jqx-icon-arrow-right-hover-material, .jqx-success .jqx-icon-arrow-right-hover-material, .jqx-info .jqx-icon-arrow-right-hover-material {
-    background-image: url('../../jqwidgets/styles/images/material-icon-right.png');
+    background-image: url('images/material-icon-right.png');
 }
 
 
@@ -1686,13 +1695,13 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
     pointer-events: none;
     border-radius: 0%;
     transform: scaleX(0);
-    background: rgba(0,119,190,0.5); 
+    background: rgba(0,119,190,0.5);
     opacity: 0.25;
 }
 
 
 .outlined .ink, .flat .ink {
-    background: rgba(0,119,190,0.5); 
+    background: rgba(0,119,190,0.5);
     overflow:hidden;
 }
 
@@ -1706,9 +1715,9 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
     overflow:visible;
 }
 .jqx-checkbox-material .ink,
-.jqx-radiobutton-material .ink 
+.jqx-radiobutton-material .ink
  {
-    transform: scale(0); 
+    transform: scale(0);
     background: #0077BE;
     border-radius: 50%;
 }
@@ -1768,36 +1777,69 @@ input[type="text"].jqx-input-material:-ms-input-placeholder, input[type="text"].
 
 .jqx-fill-state-pressed-material .jqx-icon-delete-material
 {
-    background-image: url('../../jqwidgets/styles/images/icon-delete-white.png');
+    background-image: url('images/icon-delete-white.png');
 }
 .jqx-fill-state-pressed-material .jqx-icon-edit-material
 {
-    background-image: url('../../jqwidgets/styles/images/icon-edit-white.png');
+    background-image: url('images/icon-edit-white.png');
 }
 .jqx-fill-state-pressed-material .jqx-icon-save-material
 {
-    background-image: url('../../jqwidgets/styles/images/icon-save-white.png');
+    background-image: url('images/icon-save-white.png');
 }
 .jqx-fill-state-pressed-material .jqx-icon-cancel-material
 {
-    background-image: url('../../jqwidgets/styles/images/icon-cancel-white.png');
+    background-image: url('images/icon-cancel-white.png');
 }
 .jqx-fill-state-pressed-material .jqx-icon-search-material
 {
-    background-image: url(../../jqwidgets/styles/images/search_white.png);
+    background-image: url(./images/search_white.png);
 }
 .jqx-fill-state-pressed-material .jqx-icon-plus-material
 {
-    background-image: url(../../jqwidgets/styles/images/plus_white.png);
+    background-image: url(./images/plus_white.png);
 }
 .jqx-fill-state-pressed-material .jqx-menu-minimized-button-material {
-   background-image: url('../../jqwidgets/styles/images/icon-menu-minimized-white.png');
+   background-image: url('images/icon-menu-minimized-white.png');
 }
-.jqx-fill-state-hover-material .jqx-editor-toolbar-icon-material, .jqx-fill-state-pressed-material .jqx-editor-toolbar-icon-material {
-    background: url('../../jqwidgets/styles/images/html_editor_white.png') no-repeat;
+.jqx-fill-state-hover-material .jqx-editor-toolbar-icon-material,
+.jqx-fill-state-pressed-material .jqx-editor-toolbar-icon-material {
+    background: url('images/html_editor_white.png') no-repeat;
 }
+
+.jqx-fill-state-hover-material .jqx-editor-toolbar-icon-fontsize-material,
+.jqx-fill-state-pressed-material .jqx-editor-toolbar-icon-fontsize-material,
+.jqx-fill-state-hover-material .jqx-editor-toolbar-icon-forecolor-material,
+.jqx-fill-state-pressed-material .jqx-editor-toolbar-icon-forecolor-material
+{
+        background: url('images/html_editor.png') no-repeat;
+}
+
 .jqx-editor-toolbar-button-material{
     border-color: #ddd;
     box-shadow: none !important;
 	color: #333;
+}
+
+jqx-editor-toolbar-icon-fontsize-material,
+jqx-editor-toolbar-icon-fontcolor-material {
+
+}
+.jqx-input-group-material.jqx-fill-state-disabled {
+	pointer-events: none;
+}
+
+/*applied to the timepicker*/
+.jqx-needle-central-circle-material {
+	fill: rgb(0, 119, 190);
+}
+.jqx-needle-material {
+	fill: rgb(0, 119, 190);
+}
+.jqx-time-picker .jqx-header .jqx-selected-material:focus {
+    outline: 2px solid rgba(0, 119, 190, 0.5);
+	box-shadow: 0px 0px 4px 2px rgba(0, 119, 190, 0.125);
+}
+.jqx-svg-picker-material:focus {
+	border: 1px solid rgb(0, 119, 190) !important;
 }

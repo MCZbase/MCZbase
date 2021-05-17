@@ -381,41 +381,41 @@
     -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 .jqx-grid-column-sortascbutton-arctic, .jqx-expander-arrow-bottom-arctic, .jqx-window-collapse-button-arctic, .jqx-menu-item-arrow-up-arctic, .jqx-menu-item-arrow-up-selected-arctic, .jqx-menu-item-arrow-top-up-arctic, .jqx-icon-arrow-up-arctic, .jqx-icon-arrow-up-hover-arctic, .jqx-icon-arrow-up-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-up.png');
+    background-image: url('images/icon-up.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-arctic .jqx-grid-group-expand-arctic, .jqx-grid-group-expand-arctic, .jqx-grid-column-menubutton-arctic, .jqx-grid-column-sortdescbutton-arctic, .jqx-expander-arrow-top-arctic, .jqx-window-collapse-button-collapsed-arctic, .jqx-menu-item-arrow-down-arctic, .jqx-menu-item-arrow-down-selected-arctic, .jqx-menu-item-arrow-down-arctic, .jqx-icon-arrow-down-arctic, .jqx-icon-arrow-down-hover-arctic, .jqx-icon-arrow-down-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-down.png');
+    background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tabs-arrow-left-arctic, .jqx-menu-item-arrow-left-selected-arctic, .jqx-menu-item-arrow-top-left, .jqx-icon-arrow-left-arctic, .jqx-icon-arrow-down-left-arctic, .jqx-icon-arrow-left-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-left.png');
+    background-image: url('images/icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-arctic .jqx-grid-group-collapse-arctic, .jqx-grid-group-collapse-arctic, .jqx-tabs-arrow-right-arctic, .jqx-menu-item-arrow-right-selected-arctic, .jqx-menu-item-arrow-top-right-arctic, .jqx-icon-arrow-right-arctic, .jqx-icon-arrow-right-hover-arctic, .jqx-icon-arrow-right-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-right.png');
+    background-image: url('images/icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tree-item-arrow-collapse-rtl-arctic, .jqx-tree-item-arrow-collapse-hover-rtl-arctic {
-    background-image: url(../../jqwidgets/styles/images/icon-left.png);
+    background-image: url(./images/icon-left.png);
 }
 
 .jqx-menu-item-arrow-left-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-menu-item-arrow-right-selected-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -466,25 +466,25 @@ input[type="text"].jqx-input-arctic:-ms-input-placeholder, input[type="text"].jq
 
 .jqx-grid-cell-arctic.jqx-grid-cell-selected-arctic>.jqx-grid-group-expand-arctic,
 .jqx-grid-cell-arctic.jqx-grid-cell-hover-arctic>.jqx-grid-group-expand-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-down-white.png');
+    background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-arctic.jqx-grid-cell-selected-arctic>.jqx-grid-group-collapse-arctic,
 .jqx-grid-cell-arctic.jqx-grid-cell-hover-arctic>.jqx-grid-group-collapse-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-arctic.jqx-grid-cell-selected-arctic>.jqx-grid-group-collapse-rtl-arctic,
 .jqx-grid-cell-arctic.jqx-grid-cell-hover-arctic>.jqx-grid-group-collapse-rtl-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-arctic.jqx-grid-cell-selected-arctic>.jqx-grid-group-expand-rtl-arctic,
 .jqx-grid-cell-arctic.jqx-grid-cell-hover-arctic>.jqx-grid-group-expand-rtl-arctic {
-    background-image: url('../../jqwidgets/styles/images/icon-down-white.png');
+    background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }

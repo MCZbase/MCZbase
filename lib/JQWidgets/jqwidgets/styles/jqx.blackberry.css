@@ -307,45 +307,45 @@
     -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 .jqx-grid-column-sortascbutton-blackberry, .jqx-expander-arrow-bottom-blackberry, .jqx-window-collapse-button-blackberry, .jqx-menu-item-arrow-up-blackberry, .jqx-menu-item-arrow-up-selected-blackberry, .jqx-menu-item-arrow-top-up-blackberry, .jqx-icon-arrow-up-blackberry, .jqx-icon-arrow-up-hover-blackberry, .jqx-icon-arrow-up-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-up.png');
+    background-image: url('images/icon-up.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-blackberry .jqx-grid-group-expand-blackberry, .jqx-grid-group-expand-blackberry, .jqx-grid-column-menubutton-blackberry, .jqx-grid-column-sortdescbutton-blackberry, .jqx-expander-arrow-top-blackberry, .jqx-window-collapse-button-collapsed-blackberry, .jqx-menu-item-arrow-down-blackberry, .jqx-menu-item-arrow-down-selected-blackberry, .jqx-menu-item-arrow-down-blackberry, .jqx-icon-arrow-down-blackberry, .jqx-icon-arrow-down-hover-blackberry, .jqx-icon-arrow-down-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-down.png');
+    background-image: url('images/icon-down.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-tabs-arrow-left-blackberry, .jqx-menu-item-arrow-left-selected-blackberry, .jqx-menu-item-arrow-top-left, .jqx-icon-arrow-left-blackberry, .jqx-icon-arrow-down-left-blackberry, .jqx-icon-arrow-left-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-left.png');
+    background-image: url('images/icon-left.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-widget-blackberry .jqx-grid-group-collapse-blackberry, .jqx-grid-group-collapse-blackberry, .jqx-tabs-arrow-right-blackberry, .jqx-menu-item-arrow-right-selected-blackberry, .jqx-menu-item-arrow-top-right-blackberry, .jqx-icon-arrow-right-blackberry, .jqx-icon-arrow-right-hover-blackberry, .jqx-icon-arrow-right-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-right.png');
+    background-image: url('images/icon-right.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-tree-item-arrow-collapse-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-right.png') !important;
+    background-image: url('images/icon-right.png') !important;
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-tree-item-arrow-collapse-rtl-blackberry, .jqx-tree-item-arrow-collapse-hover-rtl-blackberry {
-    background-image: url(../../jqwidgets/styles/images/icon-left.png);
+    background-image: url(./images/icon-left.png);
 }
 
 .jqx-menu-item-arrow-left-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .jqx-menu-item-arrow-right-selected-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -462,34 +462,34 @@ input[type="text"].jqx-input-blackberry:-ms-input-placeholder, input[type="text"
 {
     color: #fff;
 }
-.jqx-expander-arrow-expanded-blackberry, .jqx-icon-arrow-up-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-up-white.png'); background-repeat:no-repeat; background-position:center}
-.jqx-icon-arrow-down-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-down-white.png'); background-repeat:no-repeat; background-position:center}
-.jqx-icon-arrow-left-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-left-white.png'); background-repeat:no-repeat; background-position:center}
-.jqx-icon-arrow-right-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-right-white.png');background-repeat:no-repeat; background-position:center}
+.jqx-expander-arrow-expanded-blackberry, .jqx-icon-arrow-up-selected-blackberry{background-image:url('images/icon-up-white.png'); background-repeat:no-repeat; background-position:center}
+.jqx-icon-arrow-down-selected-blackberry{background-image:url('images/icon-down-white.png'); background-repeat:no-repeat; background-position:center}
+.jqx-icon-arrow-left-selected-blackberry{background-image:url('images/icon-left-white.png'); background-repeat:no-repeat; background-position:center}
+.jqx-icon-arrow-right-selected-blackberry{background-image:url('images/icon-right-white.png');background-repeat:no-repeat; background-position:center}
 .jqx-grid-column-sortdescbutton-blackberry, jqx-grid-column-filterbutton-blackberry, .jqx-grid-column-sortascbutton-blackberry{ background-color:transparent;  border-style:solid;  border-width:0px 0px 0px 0px;  border-color:#0076ae}
 
-.jqx-menu-item-arrow-right-selected-blackberry{background-image:url(../../jqwidgets/styles/images/icon-right-white.png); background-position:100% 50%; background-repeat:no-repeat}
-.jqx-menu-item-arrow-down-selected-blackberry{background-image:url(../../jqwidgets/styles/images/icon-down-white.png); background-position:100% 50%; background-repeat:no-repeat}
-.jqx-menu-item-arrow-up-selected-blackberry{background-image:url(../../jqwidgets/styles/images/icon-up-white.png);background-position:100% 50%; background-repeat:no-repeat}
-.jqx-menu-item-arrow-left-selected-blackberry{background-image:url(../../jqwidgets/styles/images/icon-left-white.png); background-position:0 50%; background-repeat:no-repeat}
+.jqx-menu-item-arrow-right-selected-blackberry{background-image:url(./images/icon-right-white.png); background-position:100% 50%; background-repeat:no-repeat}
+.jqx-menu-item-arrow-down-selected-blackberry{background-image:url(./images/icon-down-white.png); background-position:100% 50%; background-repeat:no-repeat}
+.jqx-menu-item-arrow-up-selected-blackberry{background-image:url(./images/icon-up-white.png);background-position:100% 50%; background-repeat:no-repeat}
+.jqx-menu-item-arrow-left-selected-blackberry{background-image:url(./images/icon-left-white.png); background-position:0 50%; background-repeat:no-repeat}
 
 .jqx-button-blackberry .jqx-icon-arrow-left-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-left.png');
+    background-image:url('images/icon-left.png');
 }
 .jqx-button-blackberry .jqx-icon-arrow-right-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-right.png');
+    background-image:url('images/icon-right.png');
 }
 .jqx-listmenu-item-blackberry.jqx-fill-state-normal-blackberry .jqx-icon-arrow-left-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-left.png');
+    background-image:url('images/icon-left.png');
 }
 .jqx-listmenu-item-blackberry.jqx-fill-state-normal-blackberry .jqx-icon-arrow-right-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-right.png');
+    background-image:url('images/icon-right.png');
 }
 .jqx-listmenu-item-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-left-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image:url('images/icon-left-white.png');
 }
 .jqx-listmenu-item-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-right-blackberry {
-    background-image:url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image:url('images/icon-right-white.png');
 }
 .jqx-listmenu-header-label-blackberry {
     font-size: 24px;
@@ -517,11 +517,11 @@ input[type="text"].jqx-input-blackberry:-ms-input-placeholder, input[type="text"
     font-family: Slate Pro, Slate, Helvetica, sans-serif;
 }
 
-.jqx-grid-column-sortascbutton-blackberry, .jqx-window-collapse-button-blackberry, .jqx-menu-item-arrow-up-selected-blackberry, .jqx-menu-item-arrow-top-up-blackberry, .jqx-icon-arrow-up-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-up-white.png');background-repeat:no-repeat;background-position:center}
-.jqx-grid-column-menubutton-blackberry, .jqx-grid-column-sortdescbutton-blackberry, .jqx-window-collapse-button-collapsed-blackberry, .jqx-menu-item-arrow-down-selected-blackberry, .jqx-menu-item-arrow-down-blackberry, .jqx-icon-arrow-down-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-down-white.png');background-repeat:no-repeat;background-position:center}
-.jqx-tabs-arrow-left-blackberry, .jqx-menu-item-arrow-left-selected-blackberry, .jqx-icon-arrow-left-blackberry, .jqx-menu-item-arrow-top-left-blackberry{background-image:url('../../jqwidgets/styles/images/icon-left-white.png');background-repeat:no-repeat;background-position:center}
-.jqx-tabs-arrow-right-blackberry, .jqx-menu-item-arrow-right-selected-blackberry, .jqx-menu-item-arrow-top-right-blackberry, .jqx-icon-arrow-right-blackberry, .jqx-icon-arrow-right-hover-blackberry, .jqx-icon-arrow-right-selected-blackberry{background-image:url('../../jqwidgets/styles/images/icon-right-white.png');background-repeat:no-repeat;background-position:center}
-.jqx-window-close-button-blackberry, .jqx-icon-close-blackberry, .jqx-tabs-close-button-blackberry, .jqx-tabs-close-button-hover-blackberry, .jqx-tabs-close-button-selected-blackberry{background-image:url(../../jqwidgets/styles/images/close_white.png);  background-repeat:no-repeat;  background-position:center}
+.jqx-grid-column-sortascbutton-blackberry, .jqx-window-collapse-button-blackberry, .jqx-menu-item-arrow-up-selected-blackberry, .jqx-menu-item-arrow-top-up-blackberry, .jqx-icon-arrow-up-selected-blackberry{background-image:url('images/icon-up-white.png');background-repeat:no-repeat;background-position:center}
+.jqx-grid-column-menubutton-blackberry, .jqx-grid-column-sortdescbutton-blackberry, .jqx-window-collapse-button-collapsed-blackberry, .jqx-menu-item-arrow-down-selected-blackberry, .jqx-menu-item-arrow-down-blackberry, .jqx-icon-arrow-down-selected-blackberry{background-image:url('images/icon-down-white.png');background-repeat:no-repeat;background-position:center}
+.jqx-tabs-arrow-left-blackberry, .jqx-menu-item-arrow-left-selected-blackberry, .jqx-icon-arrow-left-blackberry, .jqx-menu-item-arrow-top-left-blackberry{background-image:url('images/icon-left-white.png');background-repeat:no-repeat;background-position:center}
+.jqx-tabs-arrow-right-blackberry, .jqx-menu-item-arrow-right-selected-blackberry, .jqx-menu-item-arrow-top-right-blackberry, .jqx-icon-arrow-right-blackberry, .jqx-icon-arrow-right-hover-blackberry, .jqx-icon-arrow-right-selected-blackberry{background-image:url('images/icon-right-white.png');background-repeat:no-repeat;background-position:center}
+.jqx-window-close-button-blackberry, .jqx-icon-close-blackberry, .jqx-tabs-close-button-blackberry, .jqx-tabs-close-button-hover-blackberry, .jqx-tabs-close-button-selected-blackberry{background-image:url(./images/close_white.png);  background-repeat:no-repeat;  background-position:center}
 .jqx-button-blackberry {
    padding: 10px 7px;
 }
@@ -566,38 +566,38 @@ input[type=text].jqx-input-blackberry, input[type=password].jqx-input-blackberry
     border-radius: 100%;
 }
 .jqx-slider-button-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-right-blackberry {
-      background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+      background-image: url('images/icon-right-white.png');
 }
 .jqx-slider-button-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-left-blackberry {
-      background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+      background-image: url('images/icon-left-white.png');
 }
 .jqx-slider-button-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-up-blackberry {
-      background-image: url('../../jqwidgets/styles/images/icon-up-white.png');
+      background-image: url('images/icon-up-white.png');
 }
 .jqx-slider-button-blackberry.jqx-fill-state-pressed-blackberry .jqx-icon-arrow-down-blackberry {
-      background-image: url('../../jqwidgets/styles/images/icon-down-white.png');
+      background-image: url('images/icon-down-white.png');
 }
 .jqx-grid-cell-blackberry.jqx-grid-cell-selected-blackberry>.jqx-grid-group-expand-blackberry,
 .jqx-grid-cell-blackberry.jqx-grid-cell-hover-blackberry>.jqx-grid-group-expand-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-down-white.png');
+    background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-blackberry.jqx-grid-cell-selected-blackberry>.jqx-grid-group-collapse-blackberry,
 .jqx-grid-cell-blackberry.jqx-grid-cell-hover-blackberry>.jqx-grid-group-collapse-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-blackberry.jqx-grid-cell-selected-blackberry>.jqx-grid-group-collapse-rtl-blackberry,
 .jqx-grid-cell-blackberry.jqx-grid-cell-hover-blackberry>.jqx-grid-group-collapse-rtl-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-grid-cell-blackberry.jqx-grid-cell-selected-blackberry>.jqx-grid-group-expand-rtl-blackberry,
 .jqx-grid-cell-blackberry.jqx-grid-cell-hover-blackberry>.jqx-grid-group-expand-rtl-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-down-white.png');
+    background-image: url('images/icon-down-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -609,36 +609,36 @@ input[type=text].jqx-input-blackberry, input[type=password].jqx-input-blackberry
 }
 .jqx-icon-arrow-first-selected-blackberry
 {
-    background-image: url('../../jqwidgets/styles/images/icon-first-white.png');
+    background-image: url('images/icon-first-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-icon-arrow-last-selected-blackberry
 {
-    background-image: url('../../jqwidgets/styles/images/icon-last-white.png');
+    background-image: url('images/icon-last-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-button-blackberry .jqx-icon-arrow-left-selected-blackberry, .jqx-icon-arrow-left-selected-blackberry
 {
-    background-image: url('../../jqwidgets/styles/images/icon-left-white.png');
+    background-image: url('images/icon-left-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
 .jqx-button-blackberry .jqx-icon-arrow-right-selected-blackberry, .jqx-icon-arrow-right-selected-blackberry
 {
-    background-image: url('../../jqwidgets/styles/images/icon-right-white.png');
+    background-image: url('images/icon-right-white.png');
     background-repeat: no-repeat;
     background-position: center;
 }
  .jqx-icon-calendar-pressed-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-calendar-white.png');
+    background-image: url('images/icon-calendar-white.png');
 }
  .jqx-icon-time-pressed-blackberry {
-    background-image: url('../../jqwidgets/styles/images/icon-time-white.png');
+    background-image: url('images/icon-time-white.png');
 }
  .jqx-file-upload-blackberry .jqx-icon-arrow-up-blackberry {
-  background-image: url('../../jqwidgets/styles/images/icon-up-white.png');
+  background-image: url('images/icon-up-white.png');
 }
 .jqx-file-upload-file-name-blackberry{padding:3px;}
 .jqx-file-upload-file-row-blackberry{ height: 40px;}
@@ -648,9 +648,9 @@ input[type=text].jqx-input-blackberry, input[type=password].jqx-input-blackberry
 }
 .jqx-layout-pseudo-window-pin-icon-blackberry
 {
-    background-image: url("../../jqwidgets/styles/images/pin-white.png");
+    background-image: url("images/pin-white.png");
 }
 .jqx-layout-pseudo-window-pinned-icon-blackberry
 {
-    background-image: url("../../jqwidgets/styles/images/pinned-white.png");
+    background-image: url("images/pinned-white.png");
 }
