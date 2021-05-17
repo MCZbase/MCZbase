@@ -100,13 +100,12 @@ limitations under the License.
 			}
 			messageDialog('Error:' + message ,'Error: ' + error);
 		};
-
-		jQuery(document).ready(function() {
-			jQuery("##kingdom").autocomplete({
+		function makeTaxonSearchAutocomplete(fieldId, targetRank) { 
+			jQuery("##"+fieldId).autocomplete({
 				source: function (request, response) {
 					$.ajax({
 						url: "/taxonomy/component/search.cfc",
-						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: 'kingdom' },
+						data: { term: request.term, method: 'getHigherRankAutocomplete', rank: targetRank },
 						dataType: 'json',
 						success : function (data) { response(data); },
 						error : handleError
@@ -114,12 +113,17 @@ limitations under the License.
 				},
 				select: function (event, result) {
 					event.preventDefault();
-					$('##kingdom').val("=" + result.item.value);
+					$('##'+fieldId).val("=" + result.item.value);
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 			};
+		};
+
+		jQuery(document).ready(function() {
+			makeTaxonSearchAutoComplete('kingdom','kingdom');
+
 			jQuery("##phylum").autocomplete({
 				source: function (request, response) {
 					$.ajax({
