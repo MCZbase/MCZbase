@@ -112,6 +112,10 @@ limitations under the License.
 						error : handleError
 					})
 				},
+				select: function (event, result) {
+					event.preventDefault();
+					$('##kingdom').val("=" + result.item.value);
+				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
 				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
