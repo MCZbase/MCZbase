@@ -49,14 +49,6 @@ limitations under the License.
 	<cfargument name="credit" type="string" required="no">
 	<cfargument name="spectrometer" type="string" required="no">
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
-<!--- TODO:
-owner
-credit
-dcterms:identifier
-spectrometer
-spectrometer reading location
-md5hash
---->
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("made_date") and len(#made_date#) gt 0>
 		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
@@ -239,7 +231,12 @@ md5hash
 						AND media.media_id in (
 							select media_id 
 							from media_labels 
-							where media_label = 'subject' and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
+							where media_label = 'subject' and 
+							<cfif left(subject,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(subject)-1))#"> 
+							<cfelse>
+								upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
+							</cfif>
 						)
 					</cfif>
 				</cfif>
