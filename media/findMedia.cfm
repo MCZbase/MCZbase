@@ -664,27 +664,18 @@ limitations under the License.
 						showtoolbar: false,
 						cardview: true,
 						cardviewcolumns: [
-						{ width: 'auto', datafield: 'preview_uri'},
-						{ width: 'auto', datafield: 'media_type'},
-						{ width: 'auto', datafield: 'mime_type'},
-						{ width: 'auto', datafield: 'filename'},
-						{ width: 'auto', datafield: 'subject'},
-						{ width: 'auto', datafield: 'aspect'},
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							{ width: 'auto', datafield: 'internal_remarks'},
-						</cfif>
-						{ width: 'auto', datafield: 'credit'},
-						{ width: 'auto', datafield: 'dc_rights'},
-						{ width: 'auto', datafield: 'ac_description'},
-						{ width: 'auto', datafield: 'dc_rights'},
-						{ width: 'auto', datafield: 'owner'},
-						{ width: 'auto', datafield: 'license_display'},
-						{ width: 'auto', datafield: 'relations'},
-						{ width: 'auto', datafield: 'made_date'},
-						{ width: 'auto', datafield: 'creator'}
+							{ width: 'auto', datafield: 'media_id' },
+							{ width: 'auto', datafield: 'preview_uri' },
+							{ width: 'auto', datafield: 'media_type' },
+							{ width: 'auto', datafield: 'mime_type' },
+							{ width: 'auto', datafield: 'aspect' },
+							{ width: 'auto', datafield: 'description' },
+							{ width: 'auto', datafield: 'original_filename' },
+							{ width: 'auto', datafield: 'height' },
+							{ width: 'auto', datafield: 'width' },
+							{ width: 'auto', datafield: 'media_uri' }
 						],
-						columns:
-						[
+						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
