@@ -122,7 +122,7 @@ limitations under the License.
 		};
 
 		jQuery(document).ready(function() {
-			makeTaxonSearchAutoComplete('kingdom','kingdom');
+			makeTaxonSearchAutocomplete('kingdom','kingdom');
 
 			jQuery("##phylum").autocomplete({
 				source: function (request, response) {
