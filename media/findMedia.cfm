@@ -513,7 +513,9 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
-								<div id="gridCardToggleButton"></div>
+								<cfif Application.serverrole NEQ "production" >
+									<div id="gridCardToggleButton"></div>
+								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
 							</div>
 							<div class="row mt-0"> 
@@ -666,19 +668,21 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						cardview: false,
-						cardviewcolumns: [
-							{ width: 'auto', datafield: 'media_id' },
-							{ width: 'auto', datafield: 'preview_uri' },
-							{ width: 'auto', datafield: 'media_type' },
-							{ width: 'auto', datafield: 'mime_type' },
-							{ width: 'auto', datafield: 'aspect' },
-							{ width: 'auto', datafield: 'description' },
-							{ width: 'auto', datafield: 'original_filename' },
-							{ width: 'auto', datafield: 'height' },
-							{ width: 'auto', datafield: 'width' },
-							{ width: 'auto', datafield: 'media_uri' }
-						],
+						<cfif Application.serverrole NEQ "production" >
+							cardview: false,
+							cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'aspect' },
+								{ width: 'auto', datafield: 'description' },
+								{ width: 'auto', datafield: 'original_filename' },
+								{ width: 'auto', datafield: 'height' },
+								{ width: 'auto', datafield: 'width' },
+								{ width: 'auto', datafield: 'media_uri' }
+							],
+						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
@@ -835,9 +839,11 @@ limitations under the License.
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
 				);
-				$("##gridCardToggleButton").html(
-					"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-0' >Grid/Card View</button>"
-				);
+				<cfif Application.serverrole NEQ "production" >
+					$("##gridCardToggleButton").html(
+						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-0' >Grid/Card View</button>"
+					);
+				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				var maxZIndex = getMaxZIndex();
