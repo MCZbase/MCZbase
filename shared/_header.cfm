@@ -74,7 +74,10 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.pager.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.grouping.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.aggregates.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.columnsresize.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.columnsreorder.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxscrollbar.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxwindow.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/globalization/globalize.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxbuttons.js"></script>
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxlistbox.js"></script> 
@@ -88,8 +91,6 @@ limitations under the License.
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxpanel.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxinput.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxdragdrop.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.columnsresize.js"></script> 
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.columnsreorder.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxcalendar.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxtree.js"></script> 
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxinput.js"></script> 
@@ -101,7 +102,6 @@ limitations under the License.
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxscrollbar.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxdropdownbutton.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxcolorpicker.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxwindow.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxeditor.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxtooltip.js"></script>
 	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxcheckbox.js"></script>
