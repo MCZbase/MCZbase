@@ -233,7 +233,7 @@ limitations under the License.
 							from media_labels 
 							where media_label = 'subject' and 
 							<cfif left(subject,1) is "=">
-								upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subject,len(subject)-1))#"> 
+								label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#case(right(subject,len(subject)-1)#"> 
 							<cfelse>
 								upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
 							</cfif>
