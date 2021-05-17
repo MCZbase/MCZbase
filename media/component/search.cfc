@@ -226,14 +226,14 @@ limitations under the License.
 					<cfif subject IS "NULL">
 						AND media.media_id not in ( select media_id from media_labels where media_label = 'subject' )
 					<cfelseif subject IS "NOT NULL">
-						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
+						AND media.media_id in ( select media_id from media_labels where media_label = 'subject' )
 					<cfelse>
 						AND media.media_id in (
 							select media_id 
 							from media_labels 
 							where media_label = 'subject' and 
 							<cfif left(subject,1) is "=">
-								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(subject)-1))#"> 
+								upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(subject,len(subject)-1))#"> 
 							<cfelse>
 								upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
 							</cfif>
