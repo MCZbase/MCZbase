@@ -515,7 +515,6 @@ limitations under the License.
 								<div id="columnPickDialogButton"></div>
 								<div id="gridCardToggleButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
-								<div id="jqxbutton">Switch to Card View</div>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
@@ -837,7 +836,7 @@ limitations under the License.
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
 				);
 				$("##gridCardToggleButton").html(
-					"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Grid/Card View</button>"
+					"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-0' >Grid/Card View</button>"
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
