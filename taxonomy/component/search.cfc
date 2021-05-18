@@ -247,7 +247,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("phylclass") AND len(phylclass) gt 0>
 					<cfif left(phylclass,1) is "=">
-						AND upper(taxonomy.phylclass) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">
+						AND taxonomy.phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(phylclass,len(phylclass)-1)#">
 					<cfelseif left(phylclass,1) is "!">
 						AND upper(taxonomy.phylclass) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(phylclass,len(phylclass)-1))#">
 					<cfelseif phylclass is "NULL">

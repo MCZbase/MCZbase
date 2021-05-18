@@ -49,14 +49,6 @@ limitations under the License.
 	<cfargument name="credit" type="string" required="no">
 	<cfargument name="spectrometer" type="string" required="no">
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
-<!--- TODO:
-owner
-credit
-dcterms:identifier
-spectrometer
-spectrometer reading location
-md5hash
---->
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("made_date") and len(#made_date#) gt 0>
 		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
@@ -132,11 +124,7 @@ md5hash
 					</cfif>
 				</cfif>
 				<cfif isdefined("mime_type") AND len(#mime_type#) gt 0>
-					<cfif left(mime_type,1) is "!">
-						AND mime_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(mime_type,len(mime_type)-1)#">
-					<cfelse>
-						AND mime_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
-					</cfif>
+					AND mime_type in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#" list="yes">)
 				</cfif>
 				<cfif isdefined("media_uri") AND len(media_uri) gt 0>
 					<cfif left(media_uri,2) is "==">
@@ -234,12 +222,17 @@ md5hash
 					<cfif subject IS "NULL">
 						AND media.media_id not in ( select media_id from media_labels where media_label = 'subject' )
 					<cfelseif subject IS "NOT NULL">
-						AND media.media_id in ( select media_id from media_labels where media_label = 'description' )
+						AND media.media_id in ( select media_id from media_labels where media_label = 'subject' )
 					<cfelse>
 						AND media.media_id in (
 							select media_id 
 							from media_labels 
-							where media_label = 'subject' and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
+							where media_label = 'subject' and 
+								<cfif left(subject,1) is "=">
+									label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(subject,len(subject)-1)#"> 
+								<cfelse>
+									upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(subject)#%">
+								</cfif>
 						)
 					</cfif>
 				</cfif>
@@ -254,11 +247,11 @@ md5hash
 							from media_labels 
 							where 
 								media_label = 'aspect' 
-							<cfif left(aspect,1) is "=">
-								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(aspect,len(aspect)-1))#"> 
-							<cfelse>
-								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(aspect)#%"> 
-							</cfif>
+								<cfif left(aspect,1) is "=">
+									and label_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(aspect,len(aspect)-1)#"> 
+								<cfelse>
+									and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(aspect)#%"> 
+								</cfif>
 						)
 					</cfif>
 				</cfif>

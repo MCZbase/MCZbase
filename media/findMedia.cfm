@@ -130,7 +130,6 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
-											<!--- TODO: Change to a multiselect --->
 											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
 												<option></option>
@@ -147,19 +146,19 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
-											<!--- TODO: Change to a multiselect --->
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
-											<select id="mime_type" name="mime_type" class="data-entry-select">
+											<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 												<option></option>
 												<cfloop query="ctmime_type">
-													<cfif in_mime_type EQ ctmime_type.mime_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 													<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 												</cfloop>
-												<cfloop query="ctmime_type">
-													<cfif in_mime_type EQ "!#ctmime_type.mime_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="!#ctmime_type.mime_type#" #selected#>not #ctmime_type.mime_type#</option>
-												</cfloop>
 											</select>
+											<script>
+												$(document).ready(function () {
+													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+												});
+											</script>
 										</div>
 									</div>
 								</div>
@@ -345,15 +344,15 @@ limitations under the License.
 										<cfset asdate = "(as date)">
 									</cfif>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput col-11 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-11 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -513,6 +512,9 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
+								<cfif Application.serverrole NEQ "production" >
+									<div id="gridCardToggleButton"></div>
+								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
 							</div>
 							<div class="row mt-0"> 
@@ -550,6 +552,10 @@ limitations under the License.
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
+			};
+			function toggleCardView() { 
+				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
 			};
 	
 			$(document).ready(function() {
@@ -661,9 +667,24 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
+						<cfif Application.serverrole NEQ "production" >
+							cardview: false,
+							cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'aspect' },
+								{ width: 'auto', datafield: 'description' },
+								{ width: 'auto', datafield: 'original_filename' },
+								{ width: 'auto', datafield: 'height' },
+								{ width: 'auto', datafield: 'width' },
+								{ width: 'auto', datafield: 'media_uri' }
+							],
+						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-						 	{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
+							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
 							</cfif>
@@ -817,13 +838,18 @@ limitations under the License.
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
 				);
+				<cfif Application.serverrole NEQ "production" >
+					$("##gridCardToggleButton").html(
+						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-0' >Grid/Card View</button>"
+					);
+				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				var maxZIndex = getMaxZIndex();
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 mx-0 my-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
 	</cfoutput>
