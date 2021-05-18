@@ -87,8 +87,6 @@ limitations under the License.
 														media.media_uri,
 														media.mime_type,
 														media.media_type,
-														media_labels.media_label,
-														media_labels.label_value,
 														media.preview_uri,
 														media.mask_media_fg,
 														media.media_license_id,
@@ -217,7 +215,7 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-																</div>
+														</div>
 													</div>
 													</div>
 													<cfset i=i+1>
