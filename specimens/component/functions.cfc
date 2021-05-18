@@ -244,6 +244,7 @@ limitations under the License.
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
 																	</cfloop>
+																		<cfset i=i+1>
 																</div>
 															</div>
 
@@ -263,7 +264,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<cfset i=i+1>
+												
 												</cfloop>
 											</div>
 									</div>
