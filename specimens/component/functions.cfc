@@ -88,7 +88,6 @@ limitations under the License.
 														media.mime_type,
 													media_labels.media_label,
 													media_labels.label_value,
-													media_
 														media.media_type,
 														media.preview_uri,
 														media.mask_media_fg,
