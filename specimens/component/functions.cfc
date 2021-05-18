@@ -233,6 +233,7 @@ limitations under the License.
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
+																	<cfloop query="relations">
 																	<select name="media_license_id" id="media_license_id" class="ml-1">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
@@ -240,6 +241,7 @@ limitations under the License.
 																		</cfloop>
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
+																	</cfloop>
 																</div>
 															</div>
 																<div class="row my-2 mx-0">
