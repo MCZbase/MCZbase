@@ -90,6 +90,7 @@ limitations under the License.
 														media_labels.label_value,
 														media.preview_uri,
 														media.mask_media_fg,
+														media.media_id,
 														media.media_license_id,
 														media_relations.media_relationship,
 														mczbase.get_media_descriptor(media.media_id) as media_descriptor
