@@ -60,7 +60,7 @@ limitations under the License.
 				<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
-				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_catalog_item#" list="yes"> )
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes"> )
 		</cfquery>
 		<cfloop query="guidSearch">
 			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
