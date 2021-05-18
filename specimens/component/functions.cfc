@@ -276,7 +276,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
 										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4"> Add New Media</span> </button>
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media</span> </button>
 										</h1>
 									</div>
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
