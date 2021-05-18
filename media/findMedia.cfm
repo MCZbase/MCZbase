@@ -143,6 +143,11 @@ limitations under the License.
 													<option value="!#ctmedia_type.media_type#" #selected#>not #ctmedia_type.media_type#</option>
 												</cfloop>
 											</select>
+											<script>
+												$(document).ready(function () {
+													$("##media_type").jqxComboBox({  multiSelect: true });  
+												});
+											</script>
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
