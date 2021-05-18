@@ -220,6 +220,7 @@ limitations under the License.
 																SELECT
 																	media_relations.media_id,
 																	cataloged_item.cat_num,
+																	cataloged_item.collectoin_cde,
 																	media_relations.media_relations_id,
 																	media_relations.media_relationship
 																FROM
@@ -238,6 +239,7 @@ limitations under the License.
 																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																		</cfloop>
 																	</select>
+																	<input class="w-50" name="media_label" type="text" value="#relations.collection_cde#">
 																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
 																</div>
 															</div>
