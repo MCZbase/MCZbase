@@ -218,7 +218,19 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-														<cfset number_of_relations EQ i>
+															<cfif not isdefined("number_of_relations")>
+																<cfif (isdefined("relationship") and len(relationship) gt 0) or (isdefined("related_to") and len(related_to) gt 0)>
+																	<cfset number_of_relations=1>
+																	<cfif isdefined("relationship") and len(relationship) gt 0>
+																		<cfset relationship__1=relationship>
+																	</cfif>
+																	<cfif isdefined("related_to") and len(related_to) gt 0>
+																		<cfset related_value__1=related_to>
+																	</cfif>
+																<cfelse>
+																	<cfset number_of_relations=1>
+																</cfif>
+															</cfif>
 													<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														SELECT distinct 
 															media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
