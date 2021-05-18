@@ -248,8 +248,8 @@ limitations under the License.
 															</div>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
+																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
 																	<cfloop query="media">
-																		<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
 																		<select name="media_label" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
 																			<cfloop query="ctmedia_label">
