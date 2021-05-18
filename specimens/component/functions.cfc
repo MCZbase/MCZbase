@@ -246,14 +246,16 @@ limitations under the License.
 															</div>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
-																	<label for="media_label" class="float-left mt-1">Media Labels</label>
-																	<select name="media_label" id="media_license_id" class="ml-1">
-																		<option value="">NONE</option>
-																		<cfloop query="ctmedia_label">
-																			<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-																		</cfloop>
-																	</select>
-																	<input class="media_label w-50" name="media_label" type="text" value="#labels.label_value#">
+																	<cfloop query="media">
+																		<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
+																		<select name="media_label" id="media_license_id" class="ml-1">
+																			<option value="">NONE</option>
+																			<cfloop query="ctmedia_label">
+																				<option <cfif media.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+																			</cfloop>
+																		</select>
+																		<input class="media_label w-50" name="media_label" type="text" value="#media.label_value#">
+																	</cfloop>
 																</div>
 															</div>
 														</div>
