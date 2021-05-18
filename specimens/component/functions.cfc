@@ -104,7 +104,7 @@ limitations under the License.
 													order by media.media_type
 												</cfquery>
 												<cfquery name="ctmedia" dbtype="query">
-													select count(*) as ct from mediaS1 group by media_relationship order by media_id
+													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
 												<cfset i=1>
 												<cfloop query="media">
