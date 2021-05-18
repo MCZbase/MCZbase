@@ -218,13 +218,15 @@ limitations under the License.
 															</div>
 																<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
-																	media_id,
-																	media_relations_id,
-																	media_relationship
+																	media_relations.media_id as media_id,
+																	cataloged_item.cat_num as cat_num,
+																	media_relations.media_relations_id as media_relations_id,
+																	media_relations.media_relationship as media_relationship
 																FROM
-																	media_relations
+																	media_relations, cataloged_item
 																WHERE
-																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																	cataloged_item.cat_num and
+																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
@@ -235,7 +237,7 @@ limitations under the License.
 																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																		</cfloop>
 																	</select>
-																	<input class="w-50" name="media_label" type="text" value="#relations.media_id#">
+																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
 																</div>
 															</div>
 																<div class="row my-2 mx-0">
