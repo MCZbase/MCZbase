@@ -49,6 +49,9 @@ limitations under the License.
 	<cfargument name="credit" type="string" required="no">
 	<cfargument name="spectrometer" type="string" required="no">
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
+	<cfargument name="related_cataloged_item" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no">
+
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("made_date") and len(#made_date#) gt 0>
 		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
@@ -112,6 +115,9 @@ limitations under the License.
 					<cfif keysearch IS "plain" >
 						left join media_keywords on media.media_id = media_keywords.media_id
 					</cfif>
+				</cfif>
+				<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+				   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 				</cfif>
 			WHERE
 				media.media_id is not null
@@ -480,6 +486,14 @@ limitations under the License.
 						AND (media_uri like 'https://%' OR media_uri like 'http://') 
 					<cfelseif protocol IS 'NULL'>
 						AND regexp_substr(media_uri,'^[htpsf]+://') IS NULL
+					</cfif>
+				</cfif>
+				<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+					AND media_relations_ci.media_relationship = 'shows cataloged_item'
+					<cfif related_cataloged_item IS 'NOT NULL'>
+						AND media_relations_ci.related_primary_key IS NOT NULL
+					<cfelse>
+						AND media_relations_ci.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
