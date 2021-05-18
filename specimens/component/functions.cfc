@@ -220,7 +220,7 @@ limitations under the License.
 																SELECT
 																	media_relations.media_id,
 																	cataloged_item.cat_num,
-																	cataloged_item.collectoin_cde,
+																	cataloged_item.collection_cde,
 																	media_relations.media_relations_id,
 																	media_relations.media_relationship
 																FROM
