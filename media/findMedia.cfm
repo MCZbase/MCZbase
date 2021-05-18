@@ -163,7 +163,7 @@ limitations under the License.
 											<script>
 												$(document).ready(function () {
 													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
-													<cfloop list="selectedmimetypelist" index="mt">
+													<cfloop list="#selectedmimetypelist#" index="mt">
 														$("##mime_type").jqxComboBox('selectItem', '#mt#');
 													</cfloop>
 												});
