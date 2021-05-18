@@ -81,6 +81,16 @@ limitations under the License.
 									<div class="col-12  float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
+													<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select distinct
+														media.media_id,
+													from
+														media, media_relations
+													where
+														media_relations.media_relationship like '%cataloged_item' and
+														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+													order by media.media_type
+												</cfquery>
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct
 														media.media_id,
@@ -88,7 +98,7 @@ limitations under the License.
 														media.mime_type,
 														media.media_type,
 														media_labels.media_label,
-													media_labels.label_value,
+														media_labels.label_value,
 														media.preview_uri,
 														media.mask_media_fg,
 														media.media_license_id,
@@ -101,8 +111,7 @@ limitations under the License.
 													where
 														media.media_id=media_relations.media_id and
 														media.media_id=media_labels.media_id (+) and
-														media_relations.media_relationship like '%cataloged_item' and
-														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+														media.media_id = <cfqueryparam value=#mediaS2.media_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
 												<cfquery name="ctmedia" dbtype="query">
@@ -244,10 +253,17 @@ limitations under the License.
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
 																	</cfloop>
-																		<cfset i=i+1>
 																</div>
 															</div>
-
+															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																SELECT
+																	media_label,
+																	label_value
+																FROM
+																	media_relations
+																WHERE
+																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
@@ -258,13 +274,13 @@ limitations under the License.
 																				<option <cfif media.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input class="media_label w-50" name="media_label" type="text" value="#media.label_value#">
+																		<input class="media_label w-50" name="media_label" type="text" value="#mediaLabels.label_value#">
 																	</cfloop>
 																</div>
 															</div>
 														</div>
 													</div>
-												
+													<cfset i=i+1>
 												</cfloop>
 											</div>
 									</div>
