@@ -245,7 +245,7 @@ limitations under the License.
 																			<option <cfif media_specimen.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																		</cfloop>
 																	</select>
-																	<input class="w-50" name="media_label" type="text" value="#cat_num#">
+																	<input class="w-50" name="media_label" type="text" value="#media_specimen.cat_num#">
 																	</cfloop>
 																</div>
 															</div>
