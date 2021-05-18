@@ -81,25 +81,6 @@ limitations under the License.
 								<cfoutput>
 									<div class="row mx-0">
 										<div class="col-12 px-0">
-											<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct
-													media.media_id,
-													media.media_uri,
-													media.mime_type,
-													media.media_type,
-													media.preview_uri,
-													media_relations.media_relationship
-												 from
-													media,
-													media_relations,
-													media_labels
-												 where
-													media.media_id=media_relations.media_id and
-													media.media_id=media_labels.media_id (+) and
-													media_relations.media_relationship like '%cataloged_item' and
-													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-												order by media.media_type
-											</cfquery>
 											<cfquery name="ctmedia" dbtype="query">
 												select count(*) as ct from mediaS1 group by media_relationship order by media_id
 											</cfquery>
@@ -112,6 +93,7 @@ limitations under the License.
 													media.preview_uri,
 													media.mask_media_fg,
 													media.media_license_id,
+													media.media_labels,
 													media_relations.media_relationship,
 													mczbase.get_media_descriptor(media.media_id) as media_descriptor
 												from
@@ -171,7 +153,7 @@ limitations under the License.
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
 														<cfset aForDetHref = "/media/#media_id#" >
-														<cfelse>
+													<cfelse>
 														<!---for DRS from library--->
 														<cfset one_thumb = "<div class='col-2 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
@@ -235,23 +217,13 @@ limitations under the License.
 															</select>
 														</div>
 													</div>
-													<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														SELECT
-															media_id,
-															media_relations_id,
-															media_relationship
-														FROM
-															media_relations
-														WHERE
-															media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-													</cfquery>
 													<div class="row my-2 mx-0">
 														<div class="col-12 float-left px-0">
 															<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
 															<select name="media_license_id" id="media_license_id" class="ml-1">
 																<option value="">NONE</option>
 																<cfloop query="ctmedia_relationship">
-																	<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+																	<option <cfif media.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																</cfloop>
 															</select>
 														</div>
