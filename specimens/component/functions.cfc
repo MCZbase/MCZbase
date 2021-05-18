@@ -241,27 +241,17 @@ limitations under the License.
 																	</cfloop>
 																</div>
 															</div>
-															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	media_labels.media_label_id,
-																	media_labels.media_label,
-																	media_labels.label_value
-																FROM
-																	media_labels
-																WHERE
-																	media_labels.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-															</cfquery>
 															<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
-																	<cfloop query="mediaLabels">
+																	<cfloop query="labels">
 																		<select name="media_label" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
 																			<cfloop query="ctmedia_label">
-																				<option <cfif mediaLabels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+																				<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input class="media_label w-50" name="media_label" type="text" value="#mediaLabels.label_value#">
+																		<input class="media_label w-50" name="media_label" type="text" value="#labels.label_value#">
 																	</cfloop>
 																
 																</div>
