@@ -81,50 +81,31 @@ limitations under the License.
 									<div class="col-12  float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
-												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																	select distinct
-																		media.media_id,
-																		media.media_uri,
-																		media.mime_type,
-																		media.media_type,
-																		media.preview_uri,
-																		media_relations.media_relationship
-																	 from
-																		media,
-																		media_relations,
-																		media_labels
-																	 where
-																		media.media_id=media_relations.media_id and
-																		media.media_id=media_labels.media_id (+) and
-																		media_relations.media_relationship like '%cataloged_item' and
-																		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-																	order by media.media_type
-																</cfquery>
-												<cfquery name="ctmedia" dbtype="query">
-												select count(*) as ct from mediaS1 group by media_relationship order by media_id
-												</cfquery>
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct
-													media.media_id,
-													media.media_uri,
-													media.mime_type,
-													media.media_type,
-													media.preview_uri,
-													media.mask_media_fg,
-													media.media_license_id,
-													media_relations.media_relationship,
-													mczbase.get_media_descriptor(media.media_id) as media_descriptor
-												from
-													media,
-													media_relations,
-													media_labels
-												where
-													media.media_id=media_relations.media_id and
-													media.media_id=media_labels.media_id (+) and
-													media_relations.media_relationship like '%cataloged_item' and
-													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-												order by media.media_type
-											</cfquery>
+													select distinct
+														media.media_id,
+														media.media_uri,
+														media.mime_type,
+														media.media_type,
+														media.preview_uri,
+														media.mask_media_fg,
+														media.media_license_id,
+														media_relations.media_relationship,
+														mczbase.get_media_descriptor(media.media_id) as media_descriptor
+													from
+														media,
+														media_relations,
+														media_labels
+													where
+														media.media_id=media_relations.media_id and
+														media.media_id=media_labels.media_id (+) and
+														media_relations.media_relationship like '%cataloged_item' and
+														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+													order by media.media_type
+												</cfquery>
+												<cfquery name="ctmedia" dbtype="query">
+													select count(*) as ct from mediaS1 group by media_relationship order by media_id
+												</cfquery>
 												<cfset i=1>
 												<cfloop query="media">
 													<div class="row my-2 py-2 border">
@@ -330,6 +311,8 @@ limitations under the License.
 												</div>
 												<div class="row">
 													<div class="col-12">
+													<cfset i=1>
+													<cfloop query="media">
 														<div class="form-group">
 															<label for="media_label" class="data-entry-label">Media Labels</label>
 															<select name="media_label" id="media_label" class="data-entry-select">
@@ -339,6 +322,8 @@ limitations under the License.
 																</cfloop>
 															</select>
 														</div>
+													<cfset i=i+1>
+													</cfloop>
 													</div>
 												</div>
 											</cfoutput> 
