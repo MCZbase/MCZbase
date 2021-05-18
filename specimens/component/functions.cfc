@@ -108,9 +108,7 @@ limitations under the License.
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
-												<cfset i=1>
-												<cfloop query="media">
-													<div class="row my-2 py-2 border">
+											
 															<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select media_relationship from ctmedia_relationship order by media_relationship
 															</cfquery>
@@ -132,6 +130,9 @@ limitations under the License.
 															<cfset mt=media.mime_type>
 															<cfset altText = media.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
+															<cfset i=1>
+													<cfloop query="media">
+															<div class="row my-2 py-2 border">
 															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	media_label,
