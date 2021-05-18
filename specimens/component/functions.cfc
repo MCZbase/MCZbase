@@ -218,7 +218,7 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-																<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---																<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	distinct media_relations.media_relations_id,
 																	media_relations.media_id,
@@ -259,7 +259,7 @@ limitations under the License.
 																		<input class="media_label w-50" name="media_label" type="text" value="#media.label_value#">
 																	</cfloop>
 																</div>
-															</div>
+															</div>--->
 														</div>
 													</div>
 													<cfset i=i+1>
