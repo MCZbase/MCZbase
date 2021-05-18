@@ -269,6 +269,8 @@ limitations under the License.
 														</div>
 													</div>
 												</div>--->
+													<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+													<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 														<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 															SELECT distinct 
 																media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
