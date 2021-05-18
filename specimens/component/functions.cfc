@@ -244,7 +244,8 @@ limitations under the License.
 															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	media_labels.media_label,
-																	media_labels.label_value
+																	media_labels.label_value,
+																	media_labels.media_label_id
 																FROM
 																	media_labels
 																WHERE
@@ -255,13 +256,13 @@ limitations under the License.
 																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
 																	<cfset i=0>
 																	<cfloop query="mediaLabels">
-																		<select name="media_label" id="media_id_i" class="ml-1">
+																		<select name="media_label" id="media_label_id_i" class="ml-1">
 																			<option value="">NONE</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif mediaLabels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input class="media_label w-50" name="media_label" id="media_id_i" type="text" value="#mediaLabels.label_value#">
+																		<input class="media_label w-50" name="media_label" id="media_label_id_i" type="text" value="#mediaLabels.label_value_i#">
 																	</cfloop>
 																<cfset i=i+1>
 																</div>
