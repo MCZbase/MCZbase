@@ -86,8 +86,8 @@ limitations under the License.
 														media.media_id,
 														media.media_uri,
 														media.mime_type,
-													media_labels.media_label,
-													media_labels.label_value,
+														media_labels.media_label,
+														media_labels.label_value,
 														media.media_type,
 														media.preview_uri,
 														media.mask_media_fg,
@@ -104,6 +104,9 @@ limitations under the License.
 														media_relations.media_relationship like '%cataloged_item' and
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
+												</cfquery>
+												<cfquery name="media_specimen" dbtype="query">
+														select cat_num from media, cataloged_item where cataloged_item.collection_object_id = media.related_primary_key
 												</cfquery>
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
@@ -235,11 +238,11 @@ limitations under the License.
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_license_id" class="float-left mt-1 data-entry-label">Media Relationships</label>
-																	<cfloop query="relations">
+																	<cfloop query="media_specimen">
 																	<select name="media_license_id" id="media_license_id" class="">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
-																			<option <cfif media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																		</cfloop>
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#cat_num#">
