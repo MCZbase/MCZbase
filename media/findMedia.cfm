@@ -147,13 +147,13 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
+											<cfset selectedmimetypelist = "">
 											<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 												<option></option>
-												<cfset selectedmimetypelist = "">
 												<cfloop query="ctmime_type">
 													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
 														<cfset selected="selected='true'">
-														<cfset selectedmimetypelist = listAppend(seletedmimetypelist,ctmime_type.mime_type) >
+														<cfset selectedmimetypelist = listAppend(selectedmimetypelist,ctmime_type.mime_type) >
 													<cfelse>
 														<cfset selected="">
 													</cfif>
