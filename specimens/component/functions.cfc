@@ -246,6 +246,30 @@ limitations under the License.
 																	</cfloop>
 																</div>
 															</div>
+															<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select distinct
+																	media.media_id,
+																	media.media_uri,
+																	media.mime_type,
+																	media.media_type,
+																	media_labels.media_label,
+																media_labels.label_value,
+																	media.preview_uri,
+																	media.mask_media_fg,
+																	media.media_license_id,
+																	media_relations.media_relationship,
+																	mczbase.get_media_descriptor(media.media_id) as media_descriptor
+																from
+																	media,
+																	media_relations,
+																	media_labels
+																where
+																	media.media_id=media_relations.media_id and
+																	media.media_id=media_labels.media_id (+) and
+																	media_relations.media_relationship like '%cataloged_item' and
+																	media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+																order by media.media_type
+															</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
@@ -253,10 +277,10 @@ limitations under the License.
 																		<select name="media_label" id="media_license_id" class="ml-1">
 																			<option value="">NONE</option>
 																			<cfloop query="ctmedia_label">
-																				<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+																				<option <cfif media2.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input class="media_label w-50" name="media_label" type="text" value="#labels.label_value#">
+																		<input class="media_label w-50" name="media_label" type="text" value="#media2.label_value#">
 																	</cfloop>
 																</div>
 															</div>
