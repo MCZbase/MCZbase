@@ -218,55 +218,91 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-															<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select 
-																	distinct media_id, media_relationship 
-																from 
-																	media_relations, cataloged_item 
-																where 
-																	media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-																and cataloged_item.collection_object_id = media_relations.related_primary_key
-															</cfquery>
-																<div class="row my-2 mx-0">
-																<div class="col-12 float-left px-0">
-																	<label for="media_relationship" class="float-left mt-1 data-entry-label">Media Relationships</label>
-																	<cfloop query="relations">
-																	<select name="media_relationship" id="media_relationship" class="">
-																		<option value="">NONE</option>
-																		<cfloop query="ctmedia_relationship">
-																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-																		</cfloop>
-																	</select>
-																	<input class="w-50" name="media_label" type="text" value="#relations.label_value#">
-																	</cfloop>
-																</div>
-															</div>
-															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	media_labels.media_label,
-																	media_labels.label_value,
-																	media_labels.media_label_id
-																FROM
-																	media_labels
-																WHERE
-																	media_labels.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-															</cfquery>
-															<div class="row my-2 mx-0">
-																<div class="col-12 float-left px-0">
-																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
-																	<cfset i=0>
-																	<cfloop query="mediaLabels">
-																		<select name="media_label" id="media_label_id_i" class="ml-1">
-																			<option value="">NONE</option>
-																			<cfloop query="ctmedia_label">
-																				<option <cfif mediaLabels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-																			</cfloop>
-																		</select>
-																		<input class="media_label w-50" name="media_label" id="media_label_id_i" type="text" value="#mediaLabels.label_value_i#">
-																	</cfloop>
-																<cfset i=i+1>
-																</div>
-															</div>
+		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct 
+				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, 
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, 
+				MCZBASE.is_media_encumbered(media.media_id) hideMedia, 
+				MCZBASE.get_media_credit(media.media_id) as credit 
+			FROM media
+				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+				<cfif number_of_relations EQ 0>
+					left join media_relations media_relations0 on media.media_id=media_relations0.media_id
+				<cfelseif number_of_relations GT 0>
+					<cfloop from="1" to="#number_of_relations#" index="n">
+					left join media_relations media_relations#n# on media.media_id=media_relations#n#.media_id 
+					</cfloop>
+				</cfif>
+				<cfloop from="1" to="#number_of_labels#" index="n">
+					left join media_labels media_labels#n# on media.media_id=media_labels#n#.media_id
+				</cfloop>
+			WHERE
+				 media.media_id > 0
+				 AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				<cfif isdefined("media_uri") and len(media_uri) gt 0>
+					AND upper(media_uri) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_uri)#%">
+				</cfif>
+				<cfif isdefined("media_type") and len(media_type) gt 0>
+					AND upper(media_type) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_type)#%">
+				</cfif>
+				<cfif isdefined("mime_type") and len(#mime_type#) gt 0>
+					AND mime_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
+				</cfif>
+				<cfif isdefined("tag") and len(tag) gt 0>
+					AND media.media_id in (select media_id from tag)
+				</cfif>
+				<cfif isdefined("media_id") and len(media_id) gt 0>
+					AND media.media_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
+				</cfif>
+				<cfif number_of_relations EQ 0>
+				<cfset n = 0>
+					AND media_relations0.media_id is null
+				<cfelseif number_of_relations GT 0>
+					<cfloop from="1" to="#number_of_relations#" index="n">
+						<cftry>
+						<cfset thisRelationship = #evaluate("relationship__" & n)#>
+						<cfcatch><cfset thisRelationship = ""></cfcatch>
+						</cftry>
+						<cftry>
+						<cfset thisRelatedItem = #evaluate("related_value__" & n)#>
+							<cfcatch><cfset thisRelatedItem = ""></cfcatch>
+						</cftry>
+						<cftry>
+						<cfset thisRelatedKey = #evaluate("related_primary_key__" & n)#>
+						<cfcatch><cfset thisRelatedKey = ""></cfcatch>
+						</cftry>
+						<cfif len(#thisRelationship#) gt 0>
+							AND media_relations#n#.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#thisRelationship#%">
+						</cfif>
+						<cfif len(#thisRelatedItem#) gt 0>
+							AND upper(media_relation_summary(media_relations#n#.media_relations_id)) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(thisRelatedItem)#%">
+						</cfif>
+						<cfif len(#thisRelatedKey#) gt 0>
+							AND media_relations#n#.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedKey#">
+						</cfif>
+					</cfloop>
+				</cfif>
+				<cfloop from="1" to="#number_of_labels#" index="n">
+					<cftry>
+				<cfset thisLabel = #evaluate("label__" & n)#>
+				<cfcatch><cfset thisLabel = ""></cfcatch>
+				</cftry>
+			<cftry>
+				<cfset thisLabelValue = #evaluate("label_value__" & n)#>
+					<cfcatch><cfset thisLabelValue = ""></cfcatch>
+					</cftry>
+				<cfif len(#thisLabel#) gt 0>
+						AND media_labels#n#.media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">
+					</cfif>
+					<cfif len(#thisLabelValue#) gt 0>
+						AND upper(media_labels#n#.label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(thisLabelValue)#%">
+					</cfif>
+					<cfif oneOfUs EQ 0>
+						AND media_labels#n#.media_label <> 'internal remarks'
+					</cfif>
+				</cfloop>
+		</cfquery>
 														</div>
 													</div>
 													<cfset i=i+1>
