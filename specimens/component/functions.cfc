@@ -87,7 +87,7 @@ limitations under the License.
 													from
 														media, media_relations
 													where
-														media_relations.media_relationship like '%cataloged_item' and
+														media.media_id = media_relations.media_id and
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
