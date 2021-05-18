@@ -134,6 +134,7 @@ limitations under the License.
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
 															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
+																	media_label_id,
 																	media_label,
 																	label_value
 																FROM
