@@ -228,17 +228,16 @@ limitations under the License.
 																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
+																	<cfoutput name="relations" dbtype="query">
 																	<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
 																	<select name="media_license_id" id="media_license_id" class="ml-1">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
 																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-																			<cfquery name="mr">
-																				select * from media_relations where related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-																			</cfquery>
 																		</cfloop>
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#relations.media_id#">
+																	</cfoutput>
 																</div>
 															</div>
 																<div class="row my-2 mx-0">
