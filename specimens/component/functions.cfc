@@ -231,6 +231,24 @@ limitations under the License.
 																	<cfset number_of_relations=1>
 																</cfif>
 															</cfif>
+															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+																<cfif isdefined("unlinked") and unlinked EQ "true">
+																	<cfset number_of_relations = 0 >
+																</cfif>
+															</cfif>
+													<cfif not isdefined("number_of_labels")>
+														<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
+															<cfset number_of_labels=1>
+															<cfif isdefined("label") and len(label) gt 0>
+																<cfset label__1=label>
+															</cfif>
+															<cfif isdefined("label_value") and len(label_value) gt 0>
+																<cfset label_value__1=label_value>
+															</cfif>
+														<cfelse>
+															<cfset number_of_labels=0>
+														</cfif>
+													</cfif>
 													<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														SELECT distinct 
 															media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
