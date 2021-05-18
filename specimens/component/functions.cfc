@@ -83,12 +83,11 @@ limitations under the License.
 											<div class="col-12 px-0">
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct
-														media.media_id,
 														media.media_uri,
 														media.mime_type,
 														media.media_type,
 														media_labels.media_label,
-													media_labels.label_value,
+														media_labels.label_value,
 														media.preview_uri,
 														media.mask_media_fg,
 														media.media_license_id,
