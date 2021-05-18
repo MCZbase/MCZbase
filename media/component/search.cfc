@@ -55,19 +55,18 @@ limitations under the License.
 
 	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
-			select specimen_part.collection_object_id as part_coll_obj_id 
+			select collection_object_id as cat_item_coll_obj_id 
 			from 
 				<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
 				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes"> )
 		</cfquery>
 		<cfloop query="guidSearch">
-			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+			<cfif not listContains(collection_object_id,guidSearch.cat_item_coll_obj_id)>
 				<cfif len(collection_object_id) EQ 0>
-					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+					<cfset collection_object_id = guidSearch.cat_item_coll_obj_id>
 				<cfelse>
-					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.cat_item_coll_obj_id>
 				</cfif>
 			</cfif>
 		</cfloop>
