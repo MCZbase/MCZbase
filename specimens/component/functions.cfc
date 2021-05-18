@@ -296,16 +296,29 @@ limitations under the License.
 																	</cfif>
 																</cfloop>
 															</cfif>
+															<cfif not isdefined("number_of_labels")>
+																<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
+																	<cfset number_of_labels=1>
+																	<cfif isdefined("label") and len(label) gt 0>
+																		<cfset label__1=label>
+																	</cfif>
+																	<cfif isdefined("label_value") and len(label_value) gt 0>
+																		<cfset label_value__1=label_value>
+																	</cfif>
+																<cfelse>
+																	<cfset number_of_labels=0>
+																</cfif>
+															</cfif>
 															<cfloop from="1" to="#number_of_labels#" index="n">
-																<cftry>
-															<cfset thisLabel = #evaluate("label__" & n)#>
-															<cfcatch><cfset thisLabel = ""></cfcatch>
+															<cftry>
+																<cfset thisLabel = #evaluate("label__" & n)#>
+																<cfcatch><cfset thisLabel = ""></cfcatch>
 															</cftry>
-														<cftry>
-															<cfset thisLabelValue = #evaluate("label_value__" & n)#>
+															<cftry>
+																<cfset thisLabelValue = #evaluate("label_value__" & n)#>
 																<cfcatch><cfset thisLabelValue = ""></cfcatch>
-																</cftry>
-															<cfif len(#thisLabel#) gt 0>
+															</cftry>
+																<cfif len(#thisLabel#) gt 0>
 																	AND media_labels#n#.media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">
 																</cfif>
 																<cfif len(#thisLabelValue#) gt 0>
