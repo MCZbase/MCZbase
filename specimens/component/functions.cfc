@@ -108,7 +108,9 @@ limitations under the License.
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
-											
+												<cfset i=1>
+												<cfloop query="media">
+													<div class="row my-2 py-2 border">
 															<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select media_relationship from ctmedia_relationship order by media_relationship
 															</cfquery>
@@ -130,9 +132,6 @@ limitations under the License.
 															<cfset mt=media.mime_type>
 															<cfset altText = media.media_descriptor>
 															<cfset puri=getMediaPreview(preview_uri,mime_type)>
-															<cfset i=1>
-													<cfloop query="media">
-															<div class="row my-2 py-2 border">
 															<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	media_label,
@@ -219,48 +218,7 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-<!---																<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	distinct media_relations.media_relations_id,
-																	media_relations.media_id,
-																	cataloged_item.cat_num,
-																	cataloged_item.collection_cde,
-																	media_relations.media_relationship
-																FROM
-																	media_relations, cataloged_item
-																WHERE
-																	cataloged_item.collection_object_id = media_relations.media_relations_id 
-																AND
-																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-																</cfquery>
-																<div class="row my-2 mx-0">
-																<div class="col-12 float-left px-0">
-																	<label for="media_license_id" class="float-left mt-1 data-entry-label">Media Relationships</label>
-																	<cfloop query="relations">
-																	<select name="media_license_id" id="media_license_id" class="">
-																		<option value="">NONE</option>
-																		<cfloop query="ctmedia_relationship">
-																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
-																		</cfloop>
-																	</select>
-																	<input class="w-50" name="media_label" type="text" value="#relations.cat_num#">
-																	</cfloop>
-																</div>
-															</div>
-																<div class="row my-2 mx-0">
-																<div class="col-12 float-left px-0">
-																	<label for="media_label" class="float-left mt-1 data-entry-label">Media Labels</label>
-																	<cfloop query="media">
-																		<select name="media_label" id="media_license_id" class="ml-1">
-																			<option value="">NONE</option>
-																			<cfloop query="ctmedia_label">
-																				<option <cfif media.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-																			</cfloop>
-																		</select>
-																		<input class="media_label w-50" name="media_label" type="text" value="#media.label_value#">
-																	</cfloop>
-																</div>
-															</div>--->
+
 														</div>
 													</div>
 													<cfset i=i+1>
