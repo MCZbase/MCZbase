@@ -163,7 +163,7 @@ limitations under the License.
 											<script>
 												$(document).ready(function () {
 													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
-													<cfloop list="selectedmimetypelist" index="mt">
+													<cfloop list="selectedmimetypelist" item="mt">
 														$("##mime_type").jqxComboBox('selectItem', '#mt#');
 													</cfloop>
 												});
@@ -733,7 +733,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','media records');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
