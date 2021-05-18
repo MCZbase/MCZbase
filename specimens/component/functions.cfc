@@ -232,7 +232,7 @@ limitations under the License.
 																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
-																	<label for="media_license_id" class="float-left mt-1">Media Relationships</label><br>
+																	<label for="media_license_id" class="float-left mt-1 data-entry-label">Media Relationships</label>
 																	<cfloop query="relations">
 																	<select name="media_license_id" id="media_license_id" class="">
 																		<option value="">NONE</option>
