@@ -242,7 +242,7 @@ limitations under the License.
 																	<select name="media_license_id" id="media_license_id" class="">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
-																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+																			<option <cfif media_specimen.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
 																		</cfloop>
 																	</select>
 																	<input class="w-50" name="media_label" type="text" value="#cat_num#">
