@@ -52,6 +52,27 @@ limitations under the License.
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="collection_object_id" type="string" required="no">
 
+
+	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_catalog_item#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("made_date") and len(#made_date#) gt 0>
 		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
@@ -493,7 +514,7 @@ limitations under the License.
 					<cfif related_cataloged_item IS 'NOT NULL'>
 						AND media_relations_ci.related_primary_key IS NOT NULL
 					<cfelse>
-						AND media_relations_ci.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri

@@ -496,8 +496,7 @@ limitations under the License.
 												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
 													select distinct guid 
 													from 
-														#session.flatTableName# 
-														flat 
+														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 														left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 													where 
 														specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
