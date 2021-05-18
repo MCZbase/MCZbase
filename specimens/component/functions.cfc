@@ -243,15 +243,12 @@ limitations under the License.
 															</div>
 															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
-																	media_relations.media_label,
-																	media_relations.label_value,
-																	cataloged_item.cat_num
+																	media_labels.media_label,
+																	media_labels.label_value
 																FROM
-																	media_relations, cataloged_item
+																	media_labels
 																WHERE
-																	cataloged_item.collection_object_id = media_relations.media_relations_id 
-																AND
-																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																	media_labels.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
