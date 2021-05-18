@@ -894,3 +894,54 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** makeTaxonAutocomplete make an input control into a picker for a taxon field of arbitrary rank.
+ *  This version of the function does not prefix the selected value with an = for exact match search.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param targetRank the taxonomic rank (field in taxonomy.cfm, including author_text as an option)
+ *  to bind the autocomplete to.  
+ * @see makeTaxonSearchAutocomplete
+**/
+function makeTaxonAutocomplete(fieldId, targetRank) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getHigherRankAutocomplete', rank: targetRank },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : handleError
+			})
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
+/** makeTaxonSearchAutocomplete make an input control into a picker for a taxon field of arbitrary rank.
+ *  This version of the function prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for taxon search fields.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param targetRank the taxonomic rank (field in taxonomy.cfm, including author_text as an option)
+ *  to bind the autocomplete to.  
+ * @see makeTaxonAutocomplete
+**/
+function makeTaxonSearchAutocomplete(fieldId, targetRank) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getHigherRankAutocomplete', rank: targetRank },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : handleError
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
