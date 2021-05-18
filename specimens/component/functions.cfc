@@ -225,7 +225,7 @@ limitations under the License.
 																	media_relations
 																WHERE
 																	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-															</cfquery>
+																</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
 																	<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
@@ -233,9 +233,12 @@ limitations under the License.
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
 																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+																			<cfquery name="mr">
+																				select * from media_relations where related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+																			</cfquery>
 																		</cfloop>
 																	</select>
-																	<input class="w-50" name="media_label" type="text" value="#relations.media_relationship#">
+																	<input class="w-50" name="media_label" type="text" value="#relations.media_id#">
 																</div>
 															</div>
 																<div class="row my-2 mx-0">
@@ -272,7 +275,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
 										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">Add New Media</span> </button>
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4"> Add New Media</span> </button>
 										</h1>
 									</div>
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
