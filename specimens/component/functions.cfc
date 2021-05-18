@@ -218,25 +218,20 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-																<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	media_relations.media_id,
-																	cataloged_item.cat_num,
-																	cataloged_item.collection_cde,
-																	media_relations.media_relations_id,
-																	media_relations.media_relationship
-																FROM
-																	media_relations, cataloged_item
-																WHERE
-																	cataloged_item.collection_object_id = media_relations.media_relations_id 
-																AND
-																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-																</cfquery>
+															<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select 
+																	distinct media_id, media_relationship 
+																from 
+																	media_relations, cataloged_item 
+																where 
+																	media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																and cataloged_item.collection_object_id = media_relations.related_primary_key
+															</cfquery>
 																<div class="row my-2 mx-0">
 																<div class="col-12 float-left px-0">
-																	<label for="media_license_id" class="float-left mt-1 data-entry-label">Media Relationships</label>
+																	<label for="media_relationship" class="float-left mt-1 data-entry-label">Media Relationships</label>
 																	<cfloop query="relations">
-																	<select name="media_license_id" id="media_license_id" class="">
+																	<select name="media_relationship" id="media_relationship" class="">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_relationship">
 																			<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
