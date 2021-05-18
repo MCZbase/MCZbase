@@ -124,11 +124,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("mime_type") AND len(#mime_type#) gt 0>
-					<cfif left(mime_type,1) is "!">
-						AND mime_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(mime_type,len(mime_type)-1)#">
-					<cfelse>
-						AND mime_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
-					</cfif>
+					AND mime_type in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#" list="yes">)
 				</cfif>
 				<cfif isdefined("media_uri") AND len(media_uri) gt 0>
 					<cfif left(media_uri,2) is "==">

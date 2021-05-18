@@ -130,7 +130,6 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
-											<!--- TODO: Change to a multiselect --->
 											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
 												<option></option>
@@ -147,17 +146,12 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
-											<!--- TODO: Change to a multiselect --->
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 											<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 												<option></option>
 												<cfloop query="ctmime_type">
-													<cfif in_mime_type EQ ctmime_type.mime_type><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
 													<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
-												</cfloop>
-												<cfloop query="ctmime_type">
-													<cfif in_mime_type EQ "!#ctmime_type.mime_type#"><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-													<option value="!#ctmime_type.mime_type#" #selected#>not #ctmime_type.mime_type#</option>
 												</cfloop>
 											</select>
 											<script>
