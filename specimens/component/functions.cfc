@@ -243,8 +243,9 @@ limitations under the License.
 															</div>
 															<cfquery name="mediaLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
-																	media.media_label,
-																	media.label_value
+																	media_relations.media_label,
+																	media_relations.label_value,
+																	cataloged_item.cat_num
 																FROM
 																	media_relations, cataloged_item
 																WHERE
