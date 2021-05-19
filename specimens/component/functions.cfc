@@ -96,7 +96,16 @@ limitations under the License.
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
-													<cfset relns=getMediaRelations(#media_id#)>
+												<cfquery name="newMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+														media.media_id
+													from
+														media
+													where
+														media.media_id = <cfqueryparam value=#mediaS1.media_id# CFSQLType="CF_SQL_DECIMAL" >
+													order by media.media_type
+												</cfquery>
+													<cfset relns=getMediaRelations(#newMedia_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 
 												<cfset i=1>
