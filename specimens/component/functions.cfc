@@ -75,7 +75,6 @@ limitations under the License.
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
-	
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
@@ -97,12 +96,12 @@ limitations under the License.
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
-												<cfset relns=getMediaRelations(#media_id#)>
+												<cfset relns=getMediaRelations(#mediaS1.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
-												<input type="hidden" id="media_id" name="media_id" value="#media_id#">
+												<input type="hidden" id="media_id" name="media_id" value="#mediaS1.media_id#">
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+													select MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
 													where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
