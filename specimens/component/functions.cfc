@@ -251,7 +251,7 @@ limitations under the License.
 																	</cfif>
 																	<div class="form-row">
 																		<cfloop query="relns">
-																			<div class="col-10 px-0 mx-0">
+																			<div class="">
 																				<cfset d=media_relationship>
 																				<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																				<label class="sr-only" for="relationship__#i#">Relationship</label>
