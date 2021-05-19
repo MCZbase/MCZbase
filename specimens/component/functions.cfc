@@ -85,7 +85,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="col-12 px-0">
 												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select distinct
+													select
 														media.media_id,
 														media_relations.media_relationship
 													from
@@ -120,8 +120,6 @@ limitations under the License.
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
-												
-										
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
