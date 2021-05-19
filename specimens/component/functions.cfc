@@ -85,6 +85,7 @@ limitations under the License.
 											<div class="col-12 px-0">
 												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
+														media_id,
 														media_relations.media_relationship
 													from
 														media,
