@@ -85,7 +85,7 @@ limitations under the License.
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
-												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
 														media.media_id,
 														media_relations.media_relationship
@@ -97,7 +97,7 @@ limitations under the License.
 														media_relations.media_relationship like '%cataloged_item' and
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
-												</cfquery>
+												</cfquery>--->
 												<cfset relns=getMediaRelations(#mediaS1.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<input type="hidden" id="media_id" name="media_id" value="#mediaS1.media_id#">

@@ -77,6 +77,19 @@ limitations under the License.
 </cfquery>
 	
 		<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
+		<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select
+				media.media_id,
+				media_relations.media_relationship
+			from
+				media,
+				media_relations
+			where
+				media.media_id=media_relations.media_id and
+				media_relations.media_relationship like '%cataloged_item' and
+				media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+			order by media.media_type
+		</cfquery>
 		<cfquery name="ctmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) as ct 
 				from 
