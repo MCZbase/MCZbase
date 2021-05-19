@@ -97,13 +97,13 @@ limitations under the License.
 													order by media.media_type
 												</cfquery>
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select media_id, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+													select 
+														media.media_id, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, media_relations.media_relationship,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from 
 														media, media_relations 
 													where 
 														media.media_id=media_relations.media_id and
-														media_relations.media_relationship like '%cataloged_item' and
 														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 
