@@ -99,11 +99,11 @@ limitations under the License.
 
 
 												<cfset i=1>
-												<cfloop query="media">
+												<cfloop query="mediaS1">
 												<div class="row mx-0 my-2 py-2 border">
 												<cfset relns=getMediaRelations(#media.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-																						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
 														media.media_id, media.MEDIA_URI, media.MIME_TYPE, media.MEDIA_TYPE, media.PREVIEW_URI, media.MEDIA_LICENSE_ID, media.MASK_MEDIA_FG, media_relations.media_relationship,
 														mczbase.get_media_descriptor(media.media_id) as alttag 
