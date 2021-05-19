@@ -80,7 +80,7 @@ limitations under the License.
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
 								<cfoutput>
-									<div class="col-12  float-left mb-2 px-0">
+									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
 												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -123,7 +123,7 @@ limitations under the License.
 												</cfquery>
 												<cfset i=1>
 												<cfloop query="media">
-													<div class="row my-2 py-2 border">
+													<div class="row mx-0 my-2 py-2 border">
 														<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select media_relationship from ctmedia_relationship order by media_relationship
 														</cfquery>
@@ -277,7 +277,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-										<div class="row">
+										<div class="row mx-0">
 											<div class="col-2">
 												<input value="Save Changes" class="btn mb-4 btn-xs btn-primary">
 											</div>
