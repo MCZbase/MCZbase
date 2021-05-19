@@ -100,7 +100,7 @@ limitations under the License.
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<input type="hidden" id="media_id" name="media_id" value="#mediaS1.media_id#">
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+													select Media_id, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
 													where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
@@ -110,7 +110,7 @@ limitations under the License.
 														media_label,
 														label_value,
 														agent_name,
-														media_label_id
+														media_labels.media_label_id
 													from
 														media_labels,
 														preferred_agent_name
@@ -119,7 +119,7 @@ limitations under the License.
 														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
-													select count(*) as ct from labels group by media_label order by media_id
+													select count(*) as ct from labels group by media_label order by media_label
 												</cfquery>
 												<cfset i=1>
 												<cfloop query="media">
