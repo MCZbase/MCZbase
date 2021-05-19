@@ -104,7 +104,7 @@ limitations under the License.
 														media, media_relations 
 													where 
 														media.media_id=media_relations.media_id and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
+														media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 
 												<cfset i=1>
