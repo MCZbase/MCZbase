@@ -59,7 +59,6 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -77,7 +76,6 @@ limitations under the License.
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<input type="hidden" name="media_id" value="#media_id#">
 								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
