@@ -111,7 +111,7 @@ limitations under the License.
 														media, media_relations 
 													where 
 														media.media_id=media_relations.media_id and
-														media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+													
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
