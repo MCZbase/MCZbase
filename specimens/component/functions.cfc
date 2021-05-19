@@ -139,9 +139,6 @@ limitations under the License.
 														<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select media_license_id,display media_license from ctmedia_license order by media_license_id
 														</cfquery>
-														<cfquery name="ctmedia" dbtype="query">
-															select count(*) as ct from media group by media_relationship order by media_id
-														</cfquery>
 														<cfset mt=media.mime_type>
 														<cfset altText = media.media_descriptor>
 														<cfset puri=getMediaPreview(preview_uri,mime_type)>
