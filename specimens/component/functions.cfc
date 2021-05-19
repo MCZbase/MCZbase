@@ -159,7 +159,7 @@ limitations under the License.
 														<cfif desc.recordcount is 1>
 															<cfset description=desc.label_value>
 														</cfif>
-														<cfif media_type eq "image" and mediaS1.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+														<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 															<!---for media images -- remove absolute url after demo / test db issue?--->
 															<cfset one_thumb = "<div class='col-2 float-left'>">
 															<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
