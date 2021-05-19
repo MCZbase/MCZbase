@@ -255,13 +255,13 @@ limitations under the License.
 																				<cfset d=media_relationship>
 																				<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																				<label class="sr-only" for="relationship__#i#">Relationship</label>
-																				<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
+																				<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="float-left col-6">
 																					<option value="delete">delete</option>
 																					<cfloop query="ctmedia_relationship">
 																						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																					</cfloop>
 																				</select>
-																				<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+																				<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-6">
 																				<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 																				<cfset i=i+1>
 																			</div>
