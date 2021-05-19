@@ -216,7 +216,8 @@ limitations under the License.
 																	</cfif>
 																</select>
 															</div>
-															<div class="row my-2 mx-0">
+														</div>
+														<div class="row my-2 mx-0">
 																<div class="col-10 float-left px-0">
 																	<label for="media_license_id" class="float-left mt-1">License</label>
 																	<select name="media_license_id" id="media_license_id" class="float-left ml-2">
@@ -227,8 +228,7 @@ limitations under the License.
 																	</select>
 																</div>
 															</div>
-																
-														<div class="form-row mt-2">
+														<div class="row my-2">
 															<div class="col-12">
 																 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple relationships</span></label>
 																<div id="relationships">
@@ -251,7 +251,7 @@ limitations under the License.
 																	</cfif>
 																	<div class="form-row">
 																		<cfloop query="relns">
-																			<div class="col-12 col-md-10 px-0 mx-0">
+																			<div class="col-10 px-0 mx-0">
 																				<cfset d=media_relationship>
 																				<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																				<label class="sr-only" for="relationship__#i#">Relationship</label>
