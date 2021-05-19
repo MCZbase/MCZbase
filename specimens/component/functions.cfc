@@ -181,7 +181,7 @@ limitations under the License.
 														<br>
 														<span class="">#description#</span> 
 													</div>
-														<div class="col-10 mt-2 float-left px-0">
+													<div class="col-10 mt-2 float-left px-0">
 															<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 															<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
 															<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
@@ -269,16 +269,14 @@ limitations under the License.
 																				</div>
 																			</cfloop>
 																	</div>
-																			<span class="infoLink h5 box-shadow-0  col-md-2 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+																	<span class="infoLink h5 box-shadow-0  col-md-2 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
 																</div>
-															</div>
-														</div>
-													</div>
-
+							
 													<cfset i=i+1>
 												</cfloop>
 											</div>
 										</div>
+									</div>
 										<div class="row">
 											<div class="col-2">
 												<input value="Save Changes" class="btn mb-4 btn-xs btn-primary">
