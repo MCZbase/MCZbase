@@ -795,6 +795,37 @@ limitations under the License.
 				</cfif>
 			}); /* End document.ready */
 
+			<!--- TODO: load hide/show column preferences, iterate through, set values on grid load --->
+			function getColumnVisibilities() { 
+				var hiddenValues = new Object();
+				var cols = $('##searchResultsGrid').jqxGrid('columns').records;
+				var numcols = cols.length
+				for (i=0; i<numcols; i++) {
+					var field = cols[i].datafield;
+					if (field) { 
+						var hiddenvalue = $('##searchResultsGrid').jqxGrid('getcolumnproperty',field,'hidden');
+						hiddenValues[field] = hiddenvalue;
+					}
+				}
+				console.log(hiddenValues);
+				return hiddenValues;
+			};
+			function setColumnVisibilities(fieldHiddenValues) {
+				for (field in fieldHiddenValues) { 
+					if ($('##searchResultsGrid').jqxGrid('getcolumn',field)!==null) { 
+						if (fieldHiddenValues[field]==true) {
+							if ($('##searchResultsGrid').jqxGrid('getcolumnproperty',field,'hidable')==true) { 
+								$('##searchResultsGrid').jqxGrid('hidecolumn',field);
+							}
+						} else {
+							$('##searchResultsGrid').jqxGrid('showcolumn',field);
+						}
+						// alternative
+						//$('##searchResultsGrid').jqxGrid('setcolumnproperty',field,'hidden',fieldHiddenValues[field]);
+					}
+				}
+			}; 
+
 			function gridLoaded(gridId, searchType) { 
 				$("##overlay").hide();
 				var now = new Date();
