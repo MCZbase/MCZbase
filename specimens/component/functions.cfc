@@ -68,6 +68,7 @@ limitations under the License.
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
 					<div class="container-fluid">
+						<cfset relns=getMediaRelations(#media_id#)>
 						<div class="row mx-0">
 							<form name="editMediaForm" id="editIdentificationsForm">
 								<input type="hidden" name="method" value="updateMedia">
@@ -118,7 +119,7 @@ limitations under the License.
 														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 												
-												<cfset relns=getMediaRelations(#media_id#)>
+										
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
