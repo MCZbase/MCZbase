@@ -98,8 +98,8 @@ limitations under the License.
 												</cfquery>
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
-														media.media_id, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, media_relations.media_relationship,
-														mczbase.get_media_descriptor(media_id) as alttag 
+														media.media_id, media.MEDIA_URI, media.MIME_TYPE, media.MEDIA_TYPE, media.PREVIEW_URI, media.MEDIA_LICENSE_ID, media.MASK_MEDIA_FG, media_relations.media_relationship,
+														mczbase.get_media_descriptor(mediaS1.media_id) as alttag 
 													from 
 														media, media_relations 
 													where 
