@@ -73,6 +73,10 @@ limitations under the License.
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="action" value="saveEdit">
+								<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+								<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
+								<input type="hidden" id="media_id" name="media_id" value="#media_id#">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
@@ -81,28 +85,40 @@ limitations under the License.
 									<div class="col-12  float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
-												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct
 														media.media_id,
-														media.media_uri,
-														media.mime_type,
-														media.media_type,
-														media.preview_uri,
-														media.mask_media_fg,
-														media.media_license_id,
-														media_relations.media_relationship,
-														mczbase.get_media_descriptor(media.media_id) as media_descriptor
+														media_relations.media_relationship
 													from
 														media,
-														media_relations,
-														media_labels
+														media_relations
 													where
 														media.media_id=media_relations.media_id and
-														media.media_id=media_labels.media_id (+) and
 														media_relations.media_relationship like '%cataloged_item' and
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
+												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+														mczbase.get_media_descriptor(media_id) as alttag 
+													from media 
+													where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												</cfquery>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+														media_label,
+														label_value,
+														agent_name,
+														media_label_id
+													from
+														media_labels,
+														preferred_agent_name
+													where
+														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
+												</cfquery>
+												
+												<cfset relns=getMediaRelations(#media_id#)>
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
@@ -137,7 +153,7 @@ limitations under the License.
 															FROM
 																media_labels
 															WHERE
-																media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+																media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfquery name="desc" dbtype="query">
 															select label_value from labels where media_label='description'
@@ -163,7 +179,7 @@ limitations under the License.
 														#one_thumb# #mediaRecord# 									
 														<br>
 														<a href="#aForImgHref#" target="_blank"> 
-															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> 
+															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt-text#" class="" width="100"> 
 														</a> 
 														<a href="#aForImgHref#" target="_blank">Media Details</a> 
 														<br>
@@ -207,12 +223,54 @@ limitations under the License.
 															<div class="row my-2 mx-0">
 																<div class="col-10 float-left px-0">
 																	<label for="media_license_id" class="float-left mt-1">License</label>
-																	<select name="media_license_id" id="media_license_id" class="ml-1">
+																	<select name="media_license_id" id="media_license_id" class="float-left ml-2">
 																		<option value="">NONE</option>
 																		<cfloop query="ctmedia_license">
 																			<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 																		</cfloop>
 																	</select>
+																</div>
+															</div>
+																
+														<div class="form-row mt-2">
+															<div class="col-12">
+																 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+																<div id="relationships">
+																	<cfset i=1>
+																	<cfif relns.recordcount is 0>
+																		<!--- seed --->
+																		<div id="seedMedia" style="display:none">
+																			<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+																			<cfset d="">
+																			<select name="relationship__0" id="relationship__0" class="data-entry-select col-6" size="1"  onchange="pickedRelationship(this.id)">
+																				<option value="delete">delete</option>
+																				<cfloop query="ctmedia_relationship">
+																					<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																				</cfloop>
+																			</select>
+																			<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+																			<input type="hidden" name="related_id__0" id="related_id__0">
+																		</div>
+																		<!--- end seed data --->
+																	</cfif>
+																	<cfloop query="relns">
+																		<cfset d=media_relationship>
+																		<div class="form-row col-12 px-0 mx-0">
+																			<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+																				<label class="sr-only" for="relationship__#i#">Relationship</label>
+																				<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
+																						<option value="delete">delete</option>
+																						<cfloop query="ctmedia_relationship">
+																							<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																						</cfloop>
+																					</select>
+																				<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+																				<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+																				<cfset i=i+1>
+																		</div>
+																	</cfloop>
+																		<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+																	</div>
 																</div>
 															</div>
 														</div>
