@@ -59,7 +59,7 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-			<cfargument name="media_id" type="string" required="yes">
+		
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -77,7 +77,7 @@ limitations under the License.
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<input type="hidden" name="media_id" value="#mediaS1.media_id#">
+								<input type="hidden" name="media_id" value="#media_id#">
 								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
@@ -85,7 +85,7 @@ limitations under the License.
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
-<!---												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
 														media.media_id,
 														media_relations.media_relationship
@@ -97,7 +97,7 @@ limitations under the License.
 														media_relations.media_relationship like '%cataloged_item' and
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
-												</cfquery>--->
+												</cfquery>
 												<cfset relns=getMediaRelations(#mediaS1.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<input type="hidden" id="media_id" name="media_id" value="#mediaS1.media_id#">
