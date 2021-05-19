@@ -234,6 +234,7 @@ limitations under the License.
 																<div id="relationships">
 																	<cfset i=1>
 																	<cfif relns.recordcount is 0>
+																	<div class="form-row">
 																		<!--- seed --->
 																		<div id="seedMedia" style="display:none">
 																			<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
@@ -249,7 +250,7 @@ limitations under the License.
 																		</div>
 																		<!--- end seed data --->
 																	</cfif>
-																	<div class="form-row">
+																
 																		<cfloop query="relns">
 																			<div class="">
 																				<cfset d=media_relationship>
