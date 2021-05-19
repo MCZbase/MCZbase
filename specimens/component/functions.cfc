@@ -96,7 +96,14 @@ limitations under the License.
 														media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
-												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+
+												<cfset i=1>
+												<cfloop query="media">
+												<div class="row mx-0 my-2 py-2 border">
+												<cfset relns=getMediaRelations(#media.media_id#)>
+												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+																						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
 														media.media_id, media.MEDIA_URI, media.MIME_TYPE, media.MEDIA_TYPE, media.PREVIEW_URI, media.MEDIA_LICENSE_ID, media.MASK_MEDIA_FG, media_relations.media_relationship,
 														mczbase.get_media_descriptor(media.media_id) as alttag 
@@ -106,13 +113,6 @@ limitations under the License.
 														media.media_id=media_relations.media_id and
 														media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
-
-												<cfset i=1>
-												<cfloop query="media">
-												<div class="row mx-0 my-2 py-2 border">
-												<cfset relns=getMediaRelations(#media.media_id#)>
-												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-										
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
 														media_label,
