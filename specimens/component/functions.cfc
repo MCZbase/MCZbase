@@ -105,7 +105,7 @@ limitations under the License.
 														media.media_id = <cfqueryparam value=#mediaS1.media_id# CFSQLType="CF_SQL_DECIMAL" >
 													order by media.media_type
 												</cfquery>
-													<cfset relns=getMediaRelations(#newMedia_id#)>
+													<cfset relns=getMediaRelations(#newMedia.media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 
 												<cfset i=1>
