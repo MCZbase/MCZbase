@@ -175,7 +175,7 @@ limitations under the License.
 														#one_thumb# #mediaRecord# 									
 														<br>
 														<a href="#aForImgHref#" target="_blank"> 
-															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt-text#" class="" width="100"> 
+															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> 
 														</a> 
 														<a href="#aForImgHref#" target="_blank">Media Details</a> 
 														<br>
