@@ -105,12 +105,9 @@ limitations under the License.
 											#relns#
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
-														media.MEDIA_URI, media.MIME_TYPE, media.MEDIA_TYPE, media.PREVIEW_URI, media.MEDIA_LICENSE_ID, media.MASK_MEDIA_FG, media_relations.media_relationship,
-														mczbase.get_media_descriptor(media.media_id) as alttag 
+														media.MEDIA_URI, media.MIME_TYPE, media.MEDIA_TYPE, media.PREVIEW_URI, media.MEDIA_LICENSE_ID, media.MASK_MEDIA_FG
 													from 
-														media, media_relations 
-													where 
-														media.media_id=media_relations.media_id
+														media
 													
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
