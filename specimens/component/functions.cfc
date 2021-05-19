@@ -98,7 +98,6 @@ limitations under the License.
 												</cfquery>
 												<cfset relns=getMediaRelations(#mediaS1.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-												<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
 												<input type="hidden" id="media_id" name="media_id" value="#mediaS1.media_id#">
 												<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
@@ -119,8 +118,8 @@ limitations under the License.
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
-												<cfquery name="ctmedia" dbtype="query">
-													select count(*) as ct from media group by media_relationship order by media_id
+												<cfquery name="ctlabels" dbtype="query">
+													select count(*) as ct from labels group by media_label order by media_id
 												</cfquery>
 												<cfset i=1>
 												<cfloop query="media">
