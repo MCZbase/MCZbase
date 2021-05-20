@@ -113,7 +113,7 @@ limitations under the License.
 						<div class="card-header" id="headingMedia">
 							<h3 class="h4 my-0 float-left text-dark">
 								Media
-								<span class="text-success small ml-2">(count: #ctmedia.ct# media records)</span>
+								<span class="text-success small ml-2">(#ctmedia.ct# media records)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
