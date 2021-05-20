@@ -945,3 +945,46 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 	};
 };
+
+
+/** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
+ in the form of an object containing key value pairs where the key is the datafield name for the column
+ and the value is the value of the hidden column property for that column.
+ @param gridId the id for the jqxGrid object in the dom for which to obtain the columns without a 
+	leading # selector (typically searchResultsGrid)
+ @return an object with datafields as keys and hidden properies as values.
+ @see setColumnVisibilities
+**/
+function getColumnVisibilities(gridId) { 
+	var hiddenValues = new Object();
+	var cols = $('#' + gridId).jqxGrid('columns').records;
+	var numcols = cols.length
+	for (i=0; i<numcols; i++) {
+		var field = cols[i].datafield;
+		if (field) { 
+			var hiddenvalue = $('#'+gridId').jqxGrid('getcolumnproperty',field,'hidden');
+			hiddenValues[field] = hiddenvalue;
+		}
+	}
+	return hiddenValues;
+};
+
+/** function setColumnVisibilities update hidden column properties for a search results grid.
+ @param targetGridId the id for the jqxGrid object in the dom for which to set the hidden
+	properties of the columns, without leading # selector (typically searchResultsGrid)
+ @param fieldHiddenValues an object with datafields as keys and hidden properies as values.
+ @see setColumnVisibilities
+**/
+function setColumnVisibilities(fieldHiddenValues,targetGridId) {
+	for (field in fieldHiddenValues) { 
+		if ($('#'+targetGridId').jqxGrid('getcolumn',field)!==null) { 
+			if (fieldHiddenValues[field]==true) {
+				if ($('#'+targetGridId').jqxGrid('getcolumnproperty',field,'hidable')==true) { 
+					$('#'+targetGridId').jqxGrid('hidecolumn',field);
+				}
+			} else {
+				$('#'+targetGridId').jqxGrid('showcolumn',field);
+			}
+		}
+	}
+}; 
