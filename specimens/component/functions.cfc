@@ -655,7 +655,7 @@ limitations under the License.
 							<div class="card">
 								<div class="card-header pt-1" id="headingMedia11">
 									<h1 class="my-0 px-1 pb-1">
-										<span class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia11" aria-expanded="false" aria-controls="collapseMedia11"><span class="h4">Add New Media</span> </span>
+										<span class="btn btn-link w-100 text-left" data-toggle="collapse" data-target="##collapseMedia11" aria-expanded="false" aria-controls="collapseMedia11"><span class="h4">Add New Media</span> </span>
 									</h1>
 								</div>
 								<div id="collapseMedia11" class="collapse" aria-labelledby="headingMedia11" data-parent="##accordionMedia11">
