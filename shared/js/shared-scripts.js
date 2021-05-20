@@ -962,7 +962,7 @@ function getColumnVisibilities(gridId) {
 	for (i=0; i<numcols; i++) {
 		var field = cols[i].datafield;
 		if (field) { 
-			var hiddenvalue = $('#'+gridId').jqxGrid('getcolumnproperty',field,'hidden');
+			var hiddenvalue = $('#'+gridId).jqxGrid('getcolumnproperty',field,'hidden');
 			hiddenValues[field] = hiddenvalue;
 		}
 	}
@@ -977,13 +977,13 @@ function getColumnVisibilities(gridId) {
 **/
 function setColumnVisibilities(fieldHiddenValues,targetGridId) {
 	for (field in fieldHiddenValues) { 
-		if ($('#'+targetGridId').jqxGrid('getcolumn',field)!==null) { 
+		if ($('#'+targetGridId).jqxGrid('getcolumn',field)!==null) { 
 			if (fieldHiddenValues[field]==true) {
-				if ($('#'+targetGridId').jqxGrid('getcolumnproperty',field,'hidable')==true) { 
-					$('#'+targetGridId').jqxGrid('hidecolumn',field);
+				if ($('#'+targetGridId).jqxGrid('getcolumnproperty',field,'hidable')==true) { 
+					$('#'+targetGridId).jqxGrid('hidecolumn',field);
 				}
 			} else {
-				$('#'+targetGridId').jqxGrid('showcolumn',field);
+				$('#'+targetGridId).jqxGrid('showcolumn',field);
 			}
 		}
 	}
