@@ -278,8 +278,8 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="row mt-2">
-													<div class="col-10">	
-														<label for="labels" class="data-entry-label">Media Labels</label> 
+													<div class="col-10 px-0">	
+														<label for="labels" class="data-entry-label px-2">Media Labels</label> 
 														<div id="labels">
 															<cfset i=1>
 															<cfif labels.recordcount is 0>
@@ -302,10 +302,10 @@ limitations under the License.
 																</div>
 																<!--- end labels seed --->
 															</cfif>
-															<div class="row mx-2">
+															<div class="row mx-0">
 															<cfloop query="labels">
 																<cfset d=media_label>
-																<div id="labelsDiv__#i#" class="col-12">
+																<div id="labelsDiv__#i#" class="col-12 px-0">
 																	<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 																	<select name="label__#i#" id="label__#i#" size="1" class="float-left col-6">
