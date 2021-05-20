@@ -108,6 +108,7 @@ limitations under the License.
 														media.mask_media_fg,
 														media.media_type, 
 														media.media_id,
+														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
 													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
