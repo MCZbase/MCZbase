@@ -525,17 +525,17 @@ limitations under the License.
 												<cfset altText = media.media_descriptor>
 												<cfset puri=getMediaPreview(media1.preview_uri,media1.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																			SELECT
-																				media_label,
-																				label_value
-																			FROM
-																				media_labels
-																			WHERE
-																				media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-																		</cfquery>
+													SELECT
+														media_label,
+														label_value
+													FROM
+														media_labels
+													WHERE
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												</cfquery>
 												<cfquery name="desc" dbtype="query">
-																			select label_value from labels where media_label='description'
-																		</cfquery>
+													select label_value from labels where media_label='description'
+												</cfquery>
 												<cfset description="Media Preview Image">
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
@@ -554,7 +554,8 @@ limitations under the License.
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
 												<br>
-			#one_thumb# #mediaRecord# 									<br>
+												#one_thumb# #mediaRecord#
+												<br>
 												<a href="#aForImgHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a> <a href="#aForImgHref#" target="_blank">Media Details</a> <br>
 												<span class="">#description#</span> </div>
 											<div class="col-10 mt-2 float-left px-0">

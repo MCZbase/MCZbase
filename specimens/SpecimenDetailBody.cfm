@@ -268,7 +268,7 @@ limitations under the License.
 					
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<button type="button" class="parts border-0 btn-link">
-									<a class="part" href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
+									<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
 									<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
 								</button>
 							</h3>
