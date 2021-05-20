@@ -1627,6 +1627,7 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
+	color: purple;
 }
 /*.card-header h3 button.parts:before {
 	font-family: "Font Awesome 5 Free";
