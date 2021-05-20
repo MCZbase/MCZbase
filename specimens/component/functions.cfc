@@ -649,6 +649,7 @@ limitations under the License.
 						</form>
 					</div>
 				</div>
+			</div>
 				<div class="row">
 					<div class="col-12 col-lg-7 float-left">
 						<div id="accordionMedia1">
