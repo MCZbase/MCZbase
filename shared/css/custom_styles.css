@@ -1661,6 +1661,7 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
+	color: green;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
