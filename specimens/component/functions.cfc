@@ -95,7 +95,7 @@ limitations under the License.
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 											<div class="col-12 px-0">
-											<cfset i=1>
+												<cfset i=1>
 												<cfloop query="media">
 												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
@@ -273,18 +273,10 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-															</div></div>
+												</div>
 													<div class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</div>
-
-										</div>
-											<cfset i=i+1>
-										</cfloop>
-									</div>
-								</div>
-							</div>
-										<div class="row mx-0">
-											<div class="col-2">
-												<input value="Save Changes" class="btn mb-4 btn-xs btn-primary">
+												<cfset i=i+1>
+												</cfloop>
 											</div>
 										</div>
 									</div>
