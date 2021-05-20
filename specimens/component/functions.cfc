@@ -271,11 +271,10 @@ limitations under the License.
 																			<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 																			<cfset i=i+1>
 																		</div>
-																	<span class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</span>
 																	</cfloop>
 																</div>
-												</div>
-
+															</div>
+													<span class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</span>
 											</div>
 										</div>
 											<cfset i=i+1>
