@@ -319,7 +319,7 @@ limitations under the License.
 																</div>
 															</cfloop>
 															</div>
-																<span class="infoLink h5 col-3 offset-md-9 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+																<span class="infoLink h5 col-2 offset-md-10 px-0 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 															</div>
 													
 													</div>
