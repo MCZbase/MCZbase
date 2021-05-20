@@ -1654,7 +1654,7 @@ tr.line-top:first-child {
 	content: "\f067";
 	cursor: pointer;
 }*/
-.card-header button span:before, .card-header button span:before, .card-header button span:before {
+.card-header button span h4:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
