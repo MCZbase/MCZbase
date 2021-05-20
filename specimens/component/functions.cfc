@@ -658,7 +658,7 @@ limitations under the License.
 										<span class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia11" aria-expanded="false" aria-controls="collapseMedia11"><span class="h4">Add New Media</span> </span>
 									</h1>
 								</div>
-								<div id="collapseMedia11" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia11">
+								<div id="collapseMedia11" class="collapse" aria-labelledby="headingMedia11" data-parent="##accordionMedia11">
 									<div class="card-body"> 
 										<cfoutput>
 											<div class="row mx-0 mb-2">
@@ -687,7 +687,7 @@ limitations under the License.
 												<select name="media_label" id="media_label" class="ml-1">
 													<option value="">NONE</option>
 													<cfloop query="ctmedia_label">
-														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value=""></option>
 													</cfloop>
 												</select>
 											</div>
