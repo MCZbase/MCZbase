@@ -276,8 +276,8 @@ limitations under the License.
 														<a class="infoLink h5 box-shadow-0 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
 													</div>
 												</div>
-							<div class="form-row mt-2">
-								<div class="col-12">	
+												<div class="form-row mt-2">
+													<div class="col-12">	
 									<label for="labels" class="data-entry-label">Media Labels</label> 
 									<div id="labels">
 										<cfset i=1>
