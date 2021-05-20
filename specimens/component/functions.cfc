@@ -187,7 +187,7 @@ limitations under the License.
 													<div class="col-10 mt-2 float-left px-0">
 															<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
 															<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media1.media_uri#">
-															<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
+															<label for="preview_uri" class="mb-2">Preview URI (<a href="#media1.preview_uri#" target="_blank">open</a>)</label>
 															<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#media1.preview_uri#">
 															<div class="row mx-0">
 																<div class="col-4 float-left px-0">
@@ -479,7 +479,7 @@ limitations under the License.
 												</cfquery>
 												<cfset mt=media.mime_type>
 												<cfset altText = media.media_descriptor>
-												<cfset puri=getMediaPreview(preview_uri,mime_type)>
+												<cfset puri=getMediaPreview(media1.preview_uri,media1.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																			SELECT
 																				media_label,
