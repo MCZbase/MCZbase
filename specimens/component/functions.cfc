@@ -134,8 +134,8 @@ limitations under the License.
 														<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select media_license_id,display media_license from ctmedia_license order by media_license_id
 														</cfquery>
-														<cfset mt=media.mime_type>
-														<cfset altText = media.alttag>
+														<cfset mt=media1.mime_type>
+														<cfset altText = media1.alttag>
 														<cfset puri=getMediaPreview(preview_uri,mime_type)>
 														<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
