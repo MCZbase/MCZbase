@@ -731,37 +731,37 @@ limitations under the License.
 							],
 						</cfif>
 						columns: [
-							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
+							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
+							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
+								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: getColHidProp('mask_media_fg', true) },
 							</cfif>
-							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: false },
-							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: false },
-							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
-							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
-							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: false },
-							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: false },
-							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: true },
-							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: true },
-							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: false },
+							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: getColHidProp('media_type', false) },
+							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: getColHidProp('mime_type', false) },
+							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: getColHidProp('protocol', true) },
+							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: getColHidProp('filename', true) },
+							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: getColHidProp('aspect', false) },
+							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: getColHidProp('description', false) },
+							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: getColHidProp('made_date', true) },
+							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: getColHidProp('subject', true) },
+							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: getColHidProp('original_filename', false) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: true },
+								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: getColHidProp('internal_remarks', true) },
 							</cfif>
-							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: true },
-							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: true },
-							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: true },
-							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: true },
-							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: false },
-							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: false },
-							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
-							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: true },
-							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
-							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: true },
-							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
-							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
-							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
-							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
+							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: getColHidProp('remarks', true) },
+							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: getColHidProp('spectrometer', true) },
+							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: getColHidProp('light_source', true) },
+							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: getColHidProp('spectrometer_reading_location', true) },
+							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: getColHidProp('height', false) },
+							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: getColHidProp('width', false) },
+							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: getColHidProp('creator', true) },
+							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: getColHidProp('owner', true) },
+							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: getColHidProp('credit', true) },
+							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: getColHidProp('dc_rights', true) },
+							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
+							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
+							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
+							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -800,7 +800,8 @@ limitations under the License.
 			function gridLoaded(gridId, searchType) { 
 				// <!--- TODO: load hide/show column preferences from persistent store --->
 				if (Object.keys(window.columnHiddenSettings).length > 0) { 
-					setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
+					// too slow for all but a few rows, iterates through the columns with an update for each
+					// setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
 				} else {	
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 				}

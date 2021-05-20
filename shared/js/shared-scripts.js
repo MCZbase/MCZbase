@@ -987,4 +987,14 @@ function setColumnVisibilities(fieldHiddenValues,targetGridId) {
 			}
 		}
 	}
-}; 
+};
+
+// return either the value of the hidden property for the provided column from columnHiddenSettings
+// or if none is set, the provided default value.
+function getColHidProp(columnName, defaultValue) { 
+	if (window.columnHiddenSettings.hasOwnProperty(columnName)) { 
+		return window.columnHiddenSettings[columnName];
+	} else {
+		return defaultValue;
+	}
+}
