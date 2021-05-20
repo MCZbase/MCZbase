@@ -112,7 +112,7 @@ limitations under the License.
 						</script>
 						<div class="card-header" id="headingMedia">
 							<h3 class="h4 my-0 float-left text-dark">
-								<a href="##" role="button">Media</a>
+								Media
 								<span class="text-success small ml-2">(count: #ctmedia.ct# media records)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
