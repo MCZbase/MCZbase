@@ -100,6 +100,9 @@ limitations under the License.
 												<div class="row mx-0 my-2 py-2 border">
 												<cfset relns=getMediaRelations(#media.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select mime_type, media_type, media_id from media where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
 														media_label,
@@ -111,7 +114,7 @@ limitations under the License.
 														preferred_agent_name
 													where
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
 													select count(*) as ct from labels group by media_label order by media_label
