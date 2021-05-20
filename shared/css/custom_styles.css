@@ -1636,7 +1636,7 @@ tr.line-top:first-child {
 	cursor: pointer;
 	border: none;
 }*/
-.card-header h3.collapsed button.parts:before {
+/*.card-header h3.collapsed button.parts:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f067";
@@ -1644,7 +1644,7 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 	border: none;
-}
+}*/
 .card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
