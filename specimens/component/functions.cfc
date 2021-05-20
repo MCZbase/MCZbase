@@ -683,7 +683,8 @@ limitations under the License.
 													<label for "visibility">Visibility</label>
 													<input class="mx-2" name="visibility" id="visibility" value="">
 												</div>
-												<select name="media_label" id="media_license_id" class="ml-1">
+											</div>
+												<select name="media_label" id="media_label" class="ml-1">
 													<option value="">NONE</option>
 													<cfloop query="ctmedia_label">
 														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
