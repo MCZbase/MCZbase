@@ -300,7 +300,7 @@ limitations under the License.
 											</div>
 											<!--- end labels seed --->
 										</cfif>
-										<div class="form-row mx-0">
+										<div class="row mx-0">
 										<cfloop query="labels">
 											<cfset d=media_label>
 											<div id="labelsDiv__#i#" class="col-10 px-0">		
