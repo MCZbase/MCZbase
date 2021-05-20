@@ -178,17 +178,17 @@ limitations under the License.
 														#one_thumb# #mediaRecord# 									
 														<br>
 														<a href="#aForImgHref#" target="_blank"> 
-															<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> 
+															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 														</a> 
 														<a href="#aForImgHref#" target="_blank">Media Details</a> 
 														<br>
 														<span class="">#description#</span> 
 													</div>
 													<div class="col-10 mt-2 float-left px-0">
-															<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
-															<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
+															<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
+															<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media1.media_uri#">
 															<label for="preview_uri" class="mb-2">Preview URI (<a href="#preview_uri#" target="_blank">open</a>)</label>
-															<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#preview_uri#">
+															<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#media1.preview_uri#">
 															<div class="row mx-0">
 																<div class="col-4 float-left px-0">
 																	<label for="media_type" class="float-left mt-1">Media Type</label>
