@@ -829,7 +829,7 @@ limitations under the License.
 
 			function gridLoaded(gridId, searchType) { 
 				// <!--- TODO: load hide/show column preferences from persistent store --->
-				if (Object.keys(window.columnHiddenSettings).length)>0) { 
+				if (Object.keys(window.columnHiddenSettings).length > 0) { 
 					setColumnVisibilities(window.columnHiddenSettings);		
 				} else {	
 					window.columnHiddenSettings = getColumnVisibilities();		
