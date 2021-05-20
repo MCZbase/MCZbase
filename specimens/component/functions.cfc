@@ -202,15 +202,15 @@ limitations under the License.
 																	<label for="mime_type" class="float-left mt-1">Mime Type</label>
 																	<select name="mime_type" class="ml-2" id="mime_type">
 																		<cfloop query="ctmime_type">
-																			<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+																			<option <cfif #media1.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#media1.mime_type#">#media1.mime_type#</option>
 																		</cfloop>
 																	</select>
 																</div>
 																<div class="col-4 float-left px-2">
 																	<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
 																	<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
-																	<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-																		<cfif #media.mask_media_fg# eq 1 >
+																	<select class="float-left ml-2" type="text" name="mask_media_fg" value="#media1.mask_media_fg#">
+																		<cfif #media1.mask_media_fg# eq 1 >
 																			<option value="0">Public</option>
 																			<option value="1" selected="selected">Hidden</option>
 																			<cfelse>
@@ -226,7 +226,7 @@ limitations under the License.
 																		<select name="media_license_id" id="media_license_id" class="float-left ml-2">
 																			<option value="">NONE</option>
 																			<cfloop query="ctmedia_license">
-																				<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																				<option <cfif media1.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 																			</cfloop>
 																		</select>
 																	</div>
