@@ -1652,14 +1652,14 @@ tr.line-top:first-child {
 	content: "\f067";
 	cursor: pointer;
 }
-/*.card-header button span:before, .card-header button span:before, .card-header button span:before {
+.card-header button span:before, .card-header button span:before, .card-header button span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-}*/
+}
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
