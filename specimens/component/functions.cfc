@@ -235,7 +235,7 @@ limitations under the License.
 															</div>
 														<div class="row my-2">
 															<div class="col-10">
-																 <label for="relationships" class="data-entry-label">Media Relationships</label>
+																<label for="relationships" class="data-entry-label">Media Relationships</label>
 																<div id="relationships">
 																	<cfset i=1>
 																	<cfif relns.recordcount is 0>
@@ -257,7 +257,7 @@ limitations under the License.
 																		</div>
 																	</cfif>
 																	<cfloop query="relns">
-																		<div class="">
+																		<div class="pr-1">
 																			<cfset d=media_relationship>
 																			<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																			<label class="sr-only" for="relationship__#i#">Relationship</label>
@@ -274,7 +274,7 @@ limitations under the License.
 																	</cfloop>
 																</div>
 												</div>
-													<span class="infoLink h5 box-shadow-0 col-md-2 text-right my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</span>
+													<span class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</span>
 											</div>
 										</div>
 											<cfset i=i+1>
