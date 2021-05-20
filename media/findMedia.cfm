@@ -575,6 +575,8 @@ limitations under the License.
 		</main>
 
 		<script>
+			window.columnHiddenSettings = new Object();
+
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
@@ -795,7 +797,6 @@ limitations under the License.
 				</cfif>
 			}); /* End document.ready */
 
-			<!--- TODO: load hide/show column preferences, iterate through, set values on grid load --->
 			function getColumnVisibilities() { 
 				var hiddenValues = new Object();
 				var cols = $('##searchResultsGrid').jqxGrid('columns').records;
@@ -827,6 +828,12 @@ limitations under the License.
 			}; 
 
 			function gridLoaded(gridId, searchType) { 
+				<!--- TODO: load hide/show column preferences from persistent store --->
+				if (Object.keys(window.columnHiddenSettings).length)>0) { 
+					setColumnVisibilities(window.columnHiddenSettings);		
+				} else {	
+					window.columnHiddenSettings = getColumnVisibilities();		
+				}
 				$("##overlay").hide();
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -903,7 +910,10 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: { 
-						Ok: function(){ $(this).dialog("close"); }
+						Ok: function(){ 
+							window.columnHiddenSettings = getColumnVisibilities();		
+							$(this).dialog("close"); 
+						}
 					},
 					open: function (event, ui) { 
 						var maxZIndex = getMaxZIndex();
