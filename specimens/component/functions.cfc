@@ -173,7 +173,7 @@ limitations under the License.
 															<!---for DRS from library--->
 															<cfset one_thumb = "<div class='col-2 float-left'>">
 															<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-															<cfset aForImgHref = media_uri>
+															<cfset aForImgHref = media1.media_uri>
 															<cfset aForDetHref = "/media/#media_id#">
 														</cfif>
 														<br>
