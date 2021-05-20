@@ -315,12 +315,13 @@ limitations under the License.
 																			</cfloop>
 																	</select>
 																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-6">
-																</div>
 																<cfset i=i+1>
+																</div>
 															</cfloop>
+															</div>
 																<span class="infoLink h5 col-3 offset-md-9 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 															</div>
-														</div>
+													
 													</div>
 												</div>
 											</div>
