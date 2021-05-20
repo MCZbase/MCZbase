@@ -1618,6 +1618,7 @@ tr.line-top:first-child {
 	float: left !important;
 	content: "\f067";
 	cursor: pointer;
+	color: red;
 }
 .card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
 	font-family: "Font Awesome 5 Free";
