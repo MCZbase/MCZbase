@@ -274,7 +274,7 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-														<a class="infoLink h5 box-shadow-0 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
+														<a class="infoLink h5 box-shadow-0 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</a>
 													</div>
 												</div>
 												<div class="form-row mt-2">
@@ -300,10 +300,10 @@ limitations under the License.
 											</div>
 											<!--- end labels seed --->
 										</cfif>
-										<div class="form-row">
+										<div class="form-row mx-0">
 										<cfloop query="labels">
 											<cfset d=media_label>
-											<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
+											<div id="labelsDiv__#i#" class="col-10 px-0">		
 												<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 													<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
@@ -317,7 +317,7 @@ limitations under the License.
 													<cfset i=i+1>
 											
 										</cfloop>
-											<span class="infoLink h5 box-shadow-0 col-12 col-md-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+											<span class="infoLink h5 box-shadow-0 col-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
 									</div>	
 												</div>
