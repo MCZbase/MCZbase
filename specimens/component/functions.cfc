@@ -255,6 +255,7 @@ limitations under the License.
 																			</div>
 																			<!--- end seed data --->
 																		</div>
+																		<a class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
 																	</cfif>
 																	<cfloop query="relns">
 																		<div class="pr-1">
@@ -273,7 +274,7 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-														<a class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
+
 													</div>
 												</div>
 
