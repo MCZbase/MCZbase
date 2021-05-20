@@ -101,7 +101,7 @@ limitations under the License.
 												<cfset relns=getMediaRelations(#media.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select mime_type, media_type, media_id from media where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													select mime_type, media_type, media_id,mczbase.get_media_descriptor(media_id) as alttag from media where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
