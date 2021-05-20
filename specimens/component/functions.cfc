@@ -273,7 +273,7 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-														<a class="infoLink h5 box-shadow-0 d-block col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
+														<a class="infoLink h5 box-shadow-0 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
 													</div>
 												</div>
 
