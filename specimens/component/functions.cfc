@@ -223,16 +223,16 @@ limitations under the License.
 															</div>
 														</div>
 														<div class="row my-2 mx-0">
-																<div class="col-10 float-left px-0">
-																	<label for="media_license_id" class="float-left mt-1">License</label>
-																	<select name="media_license_id" id="media_license_id" class="float-left ml-2">
-																		<option value="">NONE</option>
-																		<cfloop query="ctmedia_license">
-																			<option <cfif media1.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-																		</cfloop>
-																	</select>
-																</div>
+															<div class="col-10 float-left px-0">
+																<label for="media_license_id" class="float-left mt-1">License</label>
+																<select name="media_license_id" id="media_license_id" class="float-left ml-2">
+																	<option value="">NONE</option>
+																	<cfloop query="ctmedia_license">
+																		<option <cfif media1.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																	</cfloop>
+																</select>
 															</div>
+														</div>
 														<div class="row my-2">
 															<div class="col-10">
 																<label for="relationships" class="data-entry-label">Media Relationships</label>
@@ -273,7 +273,8 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-												</div>
+															</div>
+														</div>
 													<div class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</div>
 												<cfset i=i+1>
 												</cfloop>
