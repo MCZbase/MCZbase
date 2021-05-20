@@ -185,7 +185,7 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="">#description#</span> 
-
+												<div class="row mx-0">
 													<div class="col-10 mt-2 float-left px-0">
 													<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
 													<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media1.media_uri#">
@@ -276,9 +276,10 @@ limitations under the License.
 												</div>
 													<span class="infoLink h5 box-shadow-0 col-md-2 text-right my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</span>
 												</div>
+												</div>
+											<cfset i=i+1>
 											</div>
 										</div>
-										<cfset i=i+1>
 										</cfloop>
 									</div>
 								</div>
