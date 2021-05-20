@@ -135,7 +135,7 @@ limitations under the License.
 															select media_license_id,display media_license from ctmedia_license order by media_license_id
 														</cfquery>
 														<cfset mt=media1.mime_type>
-														<cfset altText = media1.alttag>
+														<cfset altText = media.alttag>
 														<cfset puri=getMediaPreview(preview_uri,mime_type)>
 														<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
@@ -153,7 +153,7 @@ limitations under the License.
 														<cfif desc.recordcount is 1>
 															<cfset description=desc.label_value>
 														</cfif>
-														<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+														<cfif media_type eq "image" and mime_type NEQ "text/html">
 															<!---for media images -- remove absolute url after demo / test db issue?--->
 															<cfset one_thumb = "<div class='col-2 float-left'>">
 															<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
