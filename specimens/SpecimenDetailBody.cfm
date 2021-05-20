@@ -265,7 +265,6 @@ limitations under the License.
 						</script>
 						
 						<div class="card-header" id="headingParts">
-					
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<button type="button" class="parts border-0 btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>

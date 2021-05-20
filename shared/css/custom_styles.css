@@ -1618,7 +1618,6 @@ tr.line-top:first-child {
 	float: left !important;
 	content: "\f067";
 	cursor: pointer;
-	color: red;
 }
 .card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
 	font-family: "Font Awesome 5 Free";
@@ -1627,7 +1626,6 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-	color: purple;
 }
 /*.card-header h3 button.parts:before {
 	font-family: "Font Awesome 5 Free";
@@ -1653,7 +1651,6 @@ tr.line-top:first-child {
 	float: left !important;
 	content: "\f067";
 	cursor: pointer;
-	color:aqua;
 }
 .card-header h1 button span:before {
 	font-family: "Font Awesome 5 Free";
@@ -1662,7 +1659,6 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-	color: green;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
