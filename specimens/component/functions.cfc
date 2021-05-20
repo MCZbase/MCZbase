@@ -94,9 +94,9 @@ limitations under the License.
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
+											<cfset i=1>
+											<cfloop query="media">
 											<div class="col-12 px-0">
-												<cfset i=1>
-												<cfloop query="media">
 												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
@@ -186,103 +186,101 @@ limitations under the License.
 													<br>
 													<span class="">#description#</span> 
 												</div>
-												<div class="col-10 mt-2 float-left px-0">
-													<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
-													<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media1.media_uri#">
-													<label for="preview_uri" class="mb-2">Preview URI (<a href="#media1.preview_uri#" target="_blank">open</a>)</label>
-													<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#media1.preview_uri#">
-														<div class="row mx-0">
-															<div class="col-4 float-left px-0">
-																<label for="media_type" class="float-left mt-1">Media Type</label>
-																<select name="media_type" class="ml-2" id="media_type">
-																	<cfloop query="ctmedia_type">
-																		<option <cfif #media1.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media1.media_type#">#media1.media_type#</option>
-																	</cfloop>
-																</select>
+													<div class="col-10 mt-2 float-left px-0">
+														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
+														<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media1.media_uri#">
+														<label for="preview_uri" class="mb-2">Preview URI (<a href="#media1.preview_uri#" target="_blank">open</a>)</label>
+														<input type="text" name="preview_uri" class="mb-2" id="preview_uri" size="90" value="#media1.preview_uri#">
+															<div class="row mx-0">
+																<div class="col-4 float-left px-0">
+																	<label for="media_type" class="float-left mt-1">Media Type</label>
+																	<select name="media_type" class="ml-2" id="media_type">
+																		<cfloop query="ctmedia_type">
+																			<option <cfif #media1.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media1.media_type#">#media1.media_type#</option>
+																		</cfloop>
+																	</select>
+																</div>
+																<div class="col-4 float-left px-0">
+																	<label for="mime_type" class="float-left mt-1">Mime Type</label>
+																	<select name="mime_type" class="ml-2" id="mime_type">
+																		<cfloop query="ctmime_type">
+																			<option <cfif #media1.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#media1.mime_type#">#media1.mime_type#</option>
+																		</cfloop>
+																	</select>
+																</div>
+																<div class="col-4 float-left px-2">
+																	<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
+																	<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+																	<select class="float-left ml-2" type="text" name="mask_media_fg" value="#media1.mask_media_fg#">
+																		<cfif #media1.mask_media_fg# eq 1 >
+																			<option value="0">Public</option>
+																			<option value="1" selected="selected">Hidden</option>
+																			<cfelse>
+																			<option value="0" selected="selected">Public</option>
+																			<option value="1">Hidden</option>
+																		</cfif>
+																	</select>
+																</div>
 															</div>
-															<div class="col-4 float-left px-0">
-																<label for="mime_type" class="float-left mt-1">Mime Type</label>
-																<select name="mime_type" class="ml-2" id="mime_type">
-																	<cfloop query="ctmime_type">
-																		<option <cfif #media1.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#media1.mime_type#">#media1.mime_type#</option>
-																	</cfloop>
-																</select>
+															<div class="row my-2 mx-0">
+																<div class="col-10 float-left px-0">
+																	<label for="media_license_id" class="float-left mt-1">License</label>
+																	<select name="media_license_id" id="media_license_id" class="float-left ml-2">
+																		<option value="">NONE</option>
+																		<cfloop query="ctmedia_license">
+																			<option <cfif media1.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																		</cfloop>
+																	</select>
+																</div>
 															</div>
-															<div class="col-4 float-left px-2">
-																<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
-																<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
-																<select class="float-left ml-2" type="text" name="mask_media_fg" value="#media1.mask_media_fg#">
-																	<cfif #media1.mask_media_fg# eq 1 >
-																		<option value="0">Public</option>
-																		<option value="1" selected="selected">Hidden</option>
-																		<cfelse>
-																		<option value="0" selected="selected">Public</option>
-																		<option value="1">Hidden</option>
-																	</cfif>
-																</select>
-															</div>
-														</div>
-														<div class="row my-2 mx-0">
-															<div class="col-10 float-left px-0">
-																<label for="media_license_id" class="float-left mt-1">License</label>
-																<select name="media_license_id" id="media_license_id" class="float-left ml-2">
-																	<option value="">NONE</option>
-																	<cfloop query="ctmedia_license">
-																		<option <cfif media1.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-																	</cfloop>
-																</select>
-															</div>
-														</div>
-														<div class="row my-2">
-															<div class="col-10">
-																<label for="relationships" class="data-entry-label">Media Relationships</label>
-																<div id="relationships">
-																	<cfset i=1>
-																	<cfif relns.recordcount is 0>
-																		<div class="form-row">
-																			<!--- seed --->
-																			<div id="seedMedia" style="display:none">
-																				<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
-																				<cfset d="">
-																				<select name="relationship__0" id="relationship__0" class="float-left col-6" size="1"  onchange="pickedRelationship(this.id)">
+															<div class="row my-2">
+																<div class="col-10">
+																	<label for="relationships" class="data-entry-label">Media Relationships</label>
+																	<div id="relationships">
+																		<cfset i=1>
+																		<cfif relns.recordcount is 0>
+																			<div class="form-row">
+																				<!--- seed --->
+																				<div id="seedMedia" style="display:none">
+																					<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+																					<cfset d="">
+																					<select name="relationship__0" id="relationship__0" class="float-left col-6" size="1"  onchange="pickedRelationship(this.id)">
+																						<option value="delete">delete</option>
+																						<cfloop query="ctmedia_relationship">
+																							<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+																						</cfloop>
+																					</select>
+																					<input type="text" name="related_value__0" id="related_value__0" class="float-left col-6">
+																					<input type="hidden" name="related_id__0" id="related_id__0">
+																				</div>
+																				<!--- end seed data --->
+																			</div>
+																		</cfif>
+																		<cfloop query="relns">
+																			<div class="pr-1">
+																				<cfset d=media_relationship>
+																				<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+																				<label class="sr-only" for="relationship__#i#">Relationship</label>
+																				<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="float-left col-6">
 																					<option value="delete">delete</option>
 																					<cfloop query="ctmedia_relationship">
 																						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																					</cfloop>
 																				</select>
-																				<input type="text" name="related_value__0" id="related_value__0" class="float-left col-6">
-																				<input type="hidden" name="related_id__0" id="related_id__0">
+																				<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-6">
+																				<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+																				<cfset i=i+1>
 																			</div>
-																			<!--- end seed data --->
-																		</div>
-																	</cfif>
-																	<cfloop query="relns">
-																		<div class="pr-1">
-																			<cfset d=media_relationship>
-																			<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-																			<label class="sr-only" for="relationship__#i#">Relationship</label>
-																			<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="float-left col-6">
-																				<option value="delete">delete</option>
-																				<cfloop query="ctmedia_relationship">
-																					<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-																				</cfloop>
-																			</select>
-																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-6">
-																			<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-																			<cfset i=i+1>
-																		</div>
-																	</cfloop>
-																</div>
-															</div>
-														</div>
-													<a class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
-														</div>
-												<cfset i=i+1>
-													
-												</cfloop>
+																		</cfloop>
+																	</div>
+													</div>
+												</div>
+												<a class="infoLink h5 box-shadow-0 col-md-2 text-right px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</a>
+											</div>
+											<cfset i=i+1>
+											</cfloop>
 											</div>
 										</div>
-									</div>
 								</cfoutput> 
 							</form>
 						</div>
