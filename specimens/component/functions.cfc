@@ -105,6 +105,7 @@ limitations under the License.
 														media.preview_uri,
 														media.media_uri,
 														media.mime_type, 
+														media.mask_media_fg,
 														media.media_type, 
 														media.media_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
