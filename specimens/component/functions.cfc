@@ -102,7 +102,7 @@ limitations under the License.
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
-														preview_uri,
+														media.preview_uri,
 														media_uri,
 														mime_type, 
 														media_type, 
