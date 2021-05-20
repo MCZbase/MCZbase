@@ -1647,14 +1647,15 @@ tr.line-top:first-child {
 	cursor: pointer;
 	border: none;
 }*/
-/*.card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
+.card-header button.collapsed span:before, .card-header button.collapsed span:before, .card-header button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
 	content: "\f067";
 	cursor: pointer;
-}*/
-.card-header button span h4:before {
+	color:aqua;
+}
+.card-header button span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
