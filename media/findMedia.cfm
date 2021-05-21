@@ -876,7 +876,9 @@ limitations under the License.
 					// setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
 				} else {	
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-					saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettins,'Default');
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettins,'Default');
+					</cfif>
 				}
 				$("##overlay").hide();
 				var now = new Date();
