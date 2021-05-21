@@ -76,7 +76,7 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
 
 /** Make an arbitrary media uri component (hostname, path, filename) into an autocomplete 
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
- *  @param media_label the part of the media_uri (hostname, path, filename) to look up distinct values for
+ *  @param targetField the part of the media_uri (hostname, path, filename) to look up distinct values for
  */
 function makeMediaURIPartAutocomplete(valueControl,targetField) {
 	var targetMethod = "";
@@ -96,7 +96,6 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 					url: "/media/component/search.cfc",
 					data: { 
 						term: request.term, 
-						media_label: media_label, 
 						method: targetMethod
 					},
 					dataType: 'json',
