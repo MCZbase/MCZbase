@@ -187,7 +187,7 @@ limitations under the License.
 													<br>
 													<span class="small">#description#</span> <br>
 								
-													<cfif media1.media_type eq 'audio'>
+													<cfif media1.media_uri is not null>
 													<cfquery name="transcript">select media.media_uri from media, media_relations where media_relations.media_id = media.media_id and media_relationship = 'transcript of media' and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													</cfquery>
 														<a href="#transcript.media_uri#">Transcript</a>
