@@ -508,7 +508,7 @@ limitations under the License.
 					page_file_path,
 					username,
 					label,
-					columnhiddensettings,
+					columnhiddensettings
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
