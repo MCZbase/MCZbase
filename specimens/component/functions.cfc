@@ -82,7 +82,7 @@ limitations under the License.
 				</cfquery>
 					<div class="container-fluid">
 						<div class="row mx-0">
-							<form name="editMediaForm" id="editIdentificationsForm">
+							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">

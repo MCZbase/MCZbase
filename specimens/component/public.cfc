@@ -74,7 +74,7 @@ limitations under the License.
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS1.media_uri# contains "specimen_images">
+										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type eq "image">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100">
 												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
