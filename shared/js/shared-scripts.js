@@ -999,7 +999,7 @@ function setColumnVisibilities(fieldHiddenValues,targetGridId) {
  *  value is the hidden property for that datafield in a grid's properties, this would be expected
  *  to be the window.columnHiddenSettings global variable.
  * @param label the label for the user's configuration of visible grid columns on that page, default
- *  value is default
+ *  value is Default
  * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
  *  a leading # selector.
  */
@@ -1036,6 +1036,32 @@ function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv
 			} else { 
 				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
 			}
+		}
+	});
+}
+
+/** lookupColumnVisibilities retrieve the persisted grid column hidden properties from the database 
+ * @param page the page on which the grid for which to load the column hidden properites appears.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is Default
+ */
+function lookupColumnVisiblities (pageFilePath,label) { 
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "getGridColumnHiddenSettings",
+			page_file_path: pageFilePath,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error looking up column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			console.log(result);
+			window.columnHiddenSettings = result.DATA.COLUMNHIDDENSETTINGS[0];
 		}
 	});
 }

@@ -489,7 +489,7 @@ limitations under the License.
 <cffunction name="saveGridColumnHiddenSettings" returntype="query" access="remote">
 	<cfargument name="page_file_path" required="yes">
 	<cfargument name="columnhiddensettings" required="yes">
-	<cfargument name="label" required="no" default="default">
+	<cfargument name="label" required="no" default="Default">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
@@ -538,6 +538,42 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
+</cffunction>
+
+<cffunction name="getGridColumnHiddenSettings" returntype="any" returnformat="json" access="remote">
+	<cfargument name="page_file_path" required="yes">
+	<cfargument name="columnhiddensettings" required="yes">
+	<cfargument name="label" required="no" default="Default">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSettings_result">
+			select columnhiddensettings
+			from cf_grid_properties
+			where 
+				page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> AND
+				rownum < 2
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="getSettings">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(getSettings.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#getSettings[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 </cfcomponent>
