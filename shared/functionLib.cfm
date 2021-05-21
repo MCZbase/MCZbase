@@ -86,7 +86,7 @@ limitations under the License.
 		<cfelseif mt contains "model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
-			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png"><!---nothing was working for mime type--->
+			<cfreturn "/shared/images/noThumbDoc.png"><!---nothing was working for mime type--->
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
