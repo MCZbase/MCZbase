@@ -195,7 +195,7 @@ limitations under the License.
 															and media_relations.media_id = 171196
 														</cfquery>
 														<cfquery name="transcript_uri" dbtype="query">
-															select related_primary_id from transcript_relation
+															select related_primary_key from transcript_relation
 														</cfquery>
 															<a href="#transcript_uri.related_primary_key#">Transcript</a>
 												</cfif>
