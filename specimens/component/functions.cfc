@@ -186,7 +186,7 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>
-														<cfquery name="transcript_relation" dbtype="query">
+														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select related_primary_key, media_id 
 															from media_relations 
 															where media_relations.media_relationship = 'transcript of media'
