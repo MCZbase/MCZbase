@@ -123,7 +123,18 @@ limitations under the License.
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 												<span class="">#description#</span><br>
-												<span class=""><a class="" href="##">Transcript</a></span>
+												<cfif media1.media_type neq "image">
+														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select related_primary_key, media_id 
+															from media_relations 
+															where media_relations.media_relationship = 'transcript of media'
+															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														</cfquery>
+														<cfquery name="transcript_uri" dbtype="query">
+															select related_primary_key from transcript_relation
+														</cfquery>
+															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
+												</cfif>
 											</p>
 											</div>
 													<cfset i=i+1>
