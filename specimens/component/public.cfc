@@ -128,8 +128,9 @@ limitations under the License.
 											<cfset i=i+1>
 								</cfloop>
 							</div>
+							</cfoutput>
 						</cfif>
-					</cfoutput>
+
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
