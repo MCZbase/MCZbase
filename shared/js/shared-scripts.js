@@ -1007,6 +1007,9 @@ function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) {
 	if (typeof feedbackDiv !== 'undefined') { 
 		$('#'+feedbackDiv).html('Saving...');
 	}
+	if (typeof fieldHiddenValues === 'undefined') { 
+		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ",'Error: saving column visibilities.);
+	}
 	var settings = JSON.stringify(fieldHiddenValues);
 	if (settings=="") { settings = "{}"; } 
 	console.log(settings);
@@ -1025,7 +1028,7 @@ function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) {
 			if (typeof feedbackDiv !== 'undefined') { 
 				$('#'+feedbackDiv).html('Error.');
 			}
-			messageDialog("Error updating agent link: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+			messageDialog("Error saving column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
 			if (typeof feedbackDiv === 'undefined') { 

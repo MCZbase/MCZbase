@@ -877,7 +877,7 @@ limitations under the License.
 				} else {	
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettins,'Default');
+						saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettings,'Default');
 					</cfif>
 				}
 				$("##overlay").hide();
