@@ -122,7 +122,8 @@ limitations under the License.
 											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span>
+												<span class="">#description#</span><br>
+												<span class=""><a class="" href="##">Transcript</a></span>
 											</p>
 											</div>
 													<cfset i=i+1>

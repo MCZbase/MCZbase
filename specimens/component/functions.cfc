@@ -187,7 +187,7 @@ limitations under the License.
 													<br>
 													<span class="small">#description#</span> <br>
 													<cfif media1.media_type eq 'audio'>
-														<a href="##">Transcript of Media</a>
+														<a href="##">Transcript</a>
 													</cfif>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
