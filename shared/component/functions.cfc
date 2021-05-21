@@ -487,7 +487,7 @@ limitations under the License.
 	@param label an optional user supplied label for the settings for that page.
  --->
 <cffunction name="saveGridColumnHiddenSettings" returntype="query" access="remote">
-	<cfargument name="page" required="yes">
+	<cfargument name="page_file_path" required="yes">
 	<cfargument name="columnhiddensettings" required="yes">
 	<cfargument name="label" required="no" default="default">
 
@@ -498,19 +498,19 @@ limitations under the License.
 			select count(*) ct 
 			from cf_grid_properties
 			where 
-				page = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page#"> AND
+				page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 		</cfquery>
 		<cfif exists.ct EQ 0>
 			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 				insert into cf_grid_properties (
-					page,
+					page_file_path,
 					username,
 					label,
 					columnhiddensettings,
 				) values (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#columnhiddensettings#"> 
@@ -521,7 +521,7 @@ limitations under the License.
 				update cf_grid_properties
 				set columnhiddensettings = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#columnhiddensettings#"> 
 				where
-					page = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page#"> AND
+					page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
 					label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
 			</cfquery>

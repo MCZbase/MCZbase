@@ -1003,7 +1003,7 @@ function setColumnVisibilities(fieldHiddenValues,targetGridId) {
  * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
  *  a leading # selector.
  */
-function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) { 
+function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv) { 
 	if (typeof feedbackDiv !== 'undefined') { 
 		$('#'+feedbackDiv).html('Saving...');
 	}
@@ -1018,7 +1018,7 @@ function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) {
 		url: "/shared/component/functions.cfc",
 		data: { 
 			method : "saveGridColumnHiddenSettings",
-			page: page,
+			page_file_path: pageFilePath,
 			columnhiddensettings: settings,
 			label: label,
 			returnformat : "json",
