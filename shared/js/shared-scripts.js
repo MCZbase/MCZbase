@@ -974,8 +974,11 @@ function getColumnVisibilities(gridId) {
 	properties of the columns, without leading # selector (typically searchResultsGrid)
  @param fieldHiddenValues an object with datafields as keys and hidden properies as values.
  @see setColumnVisibilities
+ @see getColHidProp
+ @deprecated set properties in grid creation with getColHidProp instead
 **/
 function setColumnVisibilities(fieldHiddenValues,targetGridId) {
+	$('#'+targetGridId).jqxGrid('beginupdate',true)
 	for (field in fieldHiddenValues) { 
 		if ($('#'+targetGridId).jqxGrid('getcolumn',field)!==null) { 
 			if (fieldHiddenValues[field]==true) {
@@ -987,7 +990,49 @@ function setColumnVisibilities(fieldHiddenValues,targetGridId) {
 			}
 		}
 	}
+	$('#'+targetGridId).jqxGrid('endupdate')
 };
+
+/** saveColumnVisibilities persist the grid column hidden properties in the database 
+ * @param page the page on which the grid for which to save the column hidden properites appears.
+ * @param fieldHiddenValues an object containing key value pairs where the key is a datafield and the
+ *  value is the hidden property for that datafield in a grid's properties, this would be expected
+ *  to be the window.columnHiddenSettings global variable.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is default
+ * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
+ *  a leading # selector.
+ */
+function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) { 
+	if (typeof feedbackDiv !== 'undefined') { 
+		$('#'+feedbackDiv).html('Saving...');
+	}
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "saveGridColumnHiddenSettings",
+			page: page,
+			columnhiddensettings: JSON.stringify(fieldHiddenValues),
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			if (typeof feedbackDiv !== 'undefined') { 
+				$('#'+feedbackDiv).html('Error.');
+			}
+			messageDialog("Error updating agent link: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (typeof feedbackDiv === 'undefined') { 
+				console.log(result.DATA.MESSAGE[0]);
+			} else { 
+				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+			}
+		}
+	});
+}
 
 // return either the value of the hidden property for the provided column from columnHiddenSettings
 // or if none is set, the provided default value.
@@ -995,6 +1040,6 @@ function getColHidProp(columnName, defaultValue) {
 	if (window.columnHiddenSettings.hasOwnProperty(columnName)) { 
 		return window.columnHiddenSettings[columnName];
 	} else {
-		return defaultValue;
+		return defaultValue
 	}
 }

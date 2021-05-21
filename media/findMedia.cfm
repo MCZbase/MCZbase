@@ -876,6 +876,7 @@ limitations under the License.
 					// setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
 				} else {	
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettins,'Default');
 				}
 				$("##overlay").hide();
 				var now = new Date();
