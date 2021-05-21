@@ -1008,7 +1008,7 @@ function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) {
 		$('#'+feedbackDiv).html('Saving...');
 	}
 	if (typeof fieldHiddenValues === 'undefined') { 
-		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ",'Error: saving column visibilities.);
+		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ","Error: saving column visibilities.");
 	}
 	var settings = JSON.stringify(fieldHiddenValues);
 	if (settings=="") { settings = "{}"; } 
