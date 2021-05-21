@@ -292,7 +292,7 @@ limitations under the License.
 											<select id="extension" name="extension" class="data-entry-select">
 												<option></option>
 												<cfloop query="distinctExtensions">
-													<cfif in_extension IS distinctExtensions.extension>
+													<cfif in_extension EQ distinctExtensions.extension>
 														<cfset selected="selected='true'">
 													<cfelse>
 														<cfset selected="">
@@ -300,7 +300,7 @@ limitations under the License.
 													<option value="=#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 												</cfloop>
 												<cfloop query="distinctExtensions">
-													<cfif in_extension IS "!#distinctExtensions.extension#">
+													<cfif in_extension EQ "!#distinctExtensions.extension#">
 														<cfset selected="selected='true'">
 													<cfelse>
 														<cfset selected="">
