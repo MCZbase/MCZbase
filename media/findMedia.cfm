@@ -196,47 +196,6 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset keycols="5">
-									<cfelse>
-										<cfset keycols="7">
-									</cfif>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-3">
-										<div class="form-group mb-2">
-											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-#keycols#">
-										<div class="form-group mb-2">
-											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
-											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
-										</div>
-									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-3 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
-												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
-													<option></option>
-													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="1" #sel#>Hidden</option>
-													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="0" #sel#>Public</option>
-												</select>
-											</div>
-										</div>
-									</cfif>
-								</div>
-								<div class="form-row">
-									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<div class="col-12 col-md-1">
 										<div class="form-group mb-2">
 											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
@@ -286,30 +245,32 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-1">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+											<cfset selectedextensionlist = "">
 											<select id="extension" name="extension" class="data-entry-select">
 												<option></option>
 												<cfloop query="distinctExtensions">
-													<cfif in_extension EQ distinctExtensions.extension>
+													<cfif listContains(in_extension, distinctExtensions.extension) GT 0>
 														<cfset selected="selected='true'">
+														<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
 													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="=#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 												</cfloop>
-												<cfloop query="distinctExtensions">
-													<cfif in_extension EQ "!#distinctExtensions.extension#">
-														<cfset selected="selected='true'">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="!#distinctExtensions.extension#" #selected#>NOT #distinctExtensions.extension#</option>
-												</cfloop>
 												<option value="NULL">NULL</option>
 												<option value="NOT NULL">NOT NULL</option>
 											</select>
+											<script>
+												$(document).ready(function () {
+													$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+													<cfloop list="#selectedextensionlist#" index="ext">
+														$("##extension").jqxComboBox('selectItem', '#ext#');
+													</cfloop>
+												});
+											</script>
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -321,6 +282,33 @@ limitations under the License.
 												</span>
 											</label>
 											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
+										</div>
+									</div>
+								</div>
+								<div class="form-row">
+									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<cfset keycols="3">
+									<cfelse>
+										<cfset keycols="5">
+									</cfif>
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
+											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
+										</div>
+									</div>
+									<div class="col-12 col-md-3">
+										<div class="form-group mb-2">
+											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
+											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+										</div>
+									</div>
+									<div class="col-12 col-md-#keycols#">
+										<div class="form-group mb-2">
+											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
+											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -342,6 +330,20 @@ limitations under the License.
 											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
 										});
 									</script>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 col-md-3 col-xl-2">
+											<div class="form-group mb-2">
+												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
+												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
+													<option></option>
+													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="1" #sel#>Hidden</option>
+													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="0" #sel#>Public</option>
+												</select>
+											</div>
+										</div>
+									</cfif>
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-4 col-xl-2">
