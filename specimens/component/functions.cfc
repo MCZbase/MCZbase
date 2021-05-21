@@ -197,7 +197,7 @@ limitations under the License.
 														<cfquery name="transcript_uri" dbtype="query">
 															select related_primary_key from transcript_relation
 														</cfquery>
-															<a href="#transcript_uri.related_primary_key#">Transcript</a>
+															<a href='/media/#related_primary_key#'>Transcript</a>
 												</cfif>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
