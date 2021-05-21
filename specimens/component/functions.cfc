@@ -160,6 +160,9 @@ limitations under the License.
 													<cfquery name="desc" dbtype="query">
 														select label_value from labels where media_label='description'
 													</cfquery>
+													<cfquery name="relns2" dbtype="query">
+														select media_relationship from relns where media_relationship='media_transcript'
+													</cfquery>
 													<cfset description="Media Preview Image">
 													<cfif desc.recordcount is 1>
 														<cfset description=desc.label_value>
@@ -186,6 +189,7 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="">#description#</span> 
+													<span class="">#relns2#</span>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
