@@ -734,7 +734,7 @@ limitations under the License.
 			from 
 				media
 			where 
-				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				auto_host is not null 
 				AND upper(auto_host) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			group by auto_host
 			order by auto_host
