@@ -117,7 +117,7 @@ limitations under the License.
 												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 												<cfelse>
 												<!---for DRS from library--->
-												<cfset one_thumb = "<div class='imgsize'>">
+												<cfset one_thumb = "<div class='imgsize mx-1'>">
 												<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
 											</cfif>
