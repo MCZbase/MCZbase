@@ -30,6 +30,13 @@ limitations under the License.
 <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_label, description  from ctmedia_label
 </cfquery>
+<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select auto_extension as extension, count(*) as ct
+	from media
+	where auto_extension is not null
+	group by auto_extension
+	order by auto_extension
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -62,9 +69,19 @@ limitations under the License.
 	<cfif not isdefined("protocol")> 
 		<cfset protocol="">
 	</cfif>
+	<cfif not isdefined("hostname")> 
+		<cfset hostname="">
+	</cfif>
+	<cfif not isdefined("path")> 
+		<cfset path="">
+	</cfif>
 	<cfif not isdefined("filename")> 
 		<cfset filename="">
 	</cfif>
+	<cfif not isdefined("extension")> 
+		<cfset extension="">
+	</cfif>
+	<cfset in_extension=extension>
 	<cfif not isdefined("created_by_agent_name")>
 		<cfset created_by_agent_name="">
 	</cfif>
@@ -185,10 +202,16 @@ limitations under the License.
 									<cfelse>
 										<cfset keycols="7">
 									</cfif>
-									<div class="col-12 col-md-5">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
 											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
+										</div>
+									</div>
+									<div class="col-12 col-md-3">
+										<div class="form-group mb-2">
+											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
+											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-#keycols#">
@@ -231,13 +254,63 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										&nbsp;
-										<!--- TODO: Split out more parts of the media_uri, put search controls here between protocol and filename --->
+										<div class="form-group mb-2">
+											<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+											<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#hostname#" aria-labelledby="hostname_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("hostname","hostname");
+											});
+										</script>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
+											<input type="text" id="path" name="path" class="data-entry-input" value="#path#" aria-labelledby="path_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("path","path");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 											<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("filename","filename");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-1">
+										<div class="form-group mb-2">
+											<label for="extension" class="data-entry-label mb-0" id="extension_label">Path<span></span></label>
+											<input type="text" id="extension" name="extension" class="data-entry-input" value="#extension#" aria-labelledby="extension_label" >
+											<select id="extension" name="extension" class="data-entry-select" multiple="true">
+												<option></option>
+												<cfloop query="distinctExtensions">
+													<cfif in_extension IS distinctExtensions.extension>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="=#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
+												</cfloop>
+												<cfloop query="distinctExtensions">
+													<cfif in_extension IS "!#distinctExtensions.extension#">
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="!#distinctExtensions.extension#" #selected#>NOT #distinctExtensions.extension#</option>
+												</cfloop>
+												<option value="NULL">NULL</option>
+												<option value="NOT NULL">NOT NULL</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -249,12 +322,6 @@ limitations under the License.
 												</span>
 											</label>
 											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -643,7 +710,10 @@ limitations under the License.
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
 							{ name: 'protocol', type: 'string' },
+							{ name: 'host', type: 'string' },
+							{ name: 'path', type: 'string' },
 							{ name: 'filename', type: 'string' },
+							{ name: 'extension', type: 'string' },
 							{ name: 'creator', type: 'string' },
 							{ name: 'owner', type: 'string' },
 							{ name: 'credit', type: 'string' },
@@ -739,7 +809,10 @@ limitations under the License.
 							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: getColHidProp('media_type', false) },
 							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: getColHidProp('mime_type', false) },
 							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: getColHidProp('protocol', true) },
+							{text: 'Host', datafield: 'host', width: 80, hidable: true, hidden: getColHidProp('host', true) },
+							{text: 'Path', datafield: 'path', width: 80, hidable: true, hidden: getColHidProp('path', true) },
 							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: getColHidProp('filename', true) },
+							{text: 'Extension', datafield: 'extension', width: 80, hidable: true, hidden: getColHidProp('extension', true) },
 							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: getColHidProp('aspect', false) },
 							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: getColHidProp('description', false) },
 							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: getColHidProp('made_date', true) },

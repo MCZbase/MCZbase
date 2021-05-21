@@ -116,6 +116,7 @@ limitations under the License.
 				auto_host as host,
 				auto_path as path,
 				auto_filename as filename,
+				auto_extension as extension,
 				MCZBASE.get_media_creator(media.media_id) as creator,
 				MCZBASE.get_media_relations_string(media.media_id) as relations,
 				MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
@@ -500,85 +501,89 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("extension") and len(extension) gt 0>
 					<cfif left(extension,2) is "==">
-						AND extension = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
+						AND auto_extension = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
 					<cfelseif left(extension,1) is "=">
-						AND upper(extension) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
+						AND upper(auto_extension) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
 					<cfelseif left(extension,2) is "!!">
-						AND extension <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
+						AND auto_extension <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
 					<cfelseif left(extension,1) is "!">
-						AND upper(extension) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
+						AND upper(auto_extension) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
 					<cfelseif extension is "NULL">
-						AND extension is null
+						AND auto_extension is null
 					<cfelseif extension is "NOT NULL">
-						AND extension is not null
+						AND auto_extension is not null
 					<cfelse>
 						<cfif find(',',extension) GT 0>
-							AND upper(extension) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(extension)#" list="yes"> )
+							AND upper(auto_extension) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(extension)#" list="yes"> )
 						<cfelse>
-							AND upper(extension) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(extension)#%">
+							AND upper(auto_extension) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(extension)#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
 					<cfif left(filename,2) is "==">
-						AND filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+						AND auto_filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
 					<cfelseif left(filename,1) is "=">
-						AND upper(filename) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+						AND upper(auto_filename) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
 					<cfelseif left(filename,2) is "!!">
-						AND filename <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+						AND auto_filename <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+					<cfelseif left(filename,1) is "~">
+						AND utl_match.jaro_winkler(auto_filename, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-1)#">) >= 0.90
+					<cfelseif left(filename,1) is "!~">
+						AND utl_match.jaro_winkler(auto_filename, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-1)#">) < 0.90
 					<cfelseif left(filename,1) is "!">
-						AND upper(filename) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+						AND upper(auto_filename) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
 					<cfelseif filename is "NULL">
-						AND filename is null
+						AND auto_filename is null
 					<cfelseif filename is "NOT NULL">
-						AND filename is not null
+						AND auto_filename is not null
 					<cfelse>
 						<cfif find(',',filename) GT 0>
-							AND upper(filename) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(filename)#" list="yes"> )
+							AND upper(auto_filename) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(filename)#" list="yes"> )
 						<cfelse>
-							AND upper(filename) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(filename)#%">
+							AND upper(auto_filename) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(filename)#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("path") and len(path) gt 0>
 					<cfif left(path,2) is "==">
-						AND path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+						AND auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
 					<cfelseif left(path,1) is "=">
-						AND upper(path) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+						AND upper(auto_path) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
 					<cfelseif left(path,2) is "!!">
-						AND path <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+						AND auto_path <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
 					<cfelseif left(path,1) is "!">
-						AND upper(path) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+						AND upper(auto_path) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
 					<cfelseif path is "NULL">
-						AND path is null
+						AND auto_path is null
 					<cfelseif path is "NOT NULL">
-						AND path is not null
+						AND auto_path is not null
 					<cfelse>
 						<cfif find(',',path) GT 0>
-							AND upper(path) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(path)#" list="yes"> )
+							AND upper(auto_path) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(path)#" list="yes"> )
 						<cfelse>
-							AND upper(path) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(path)#%">
+							AND upper(auto_path) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(path)#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("hostname") and len(hostname) gt 0>
 					<cfif left(hostname,2) is "==">
-						AND hostname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+						AND auto_hostname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
 					<cfelseif left(hostname,1) is "=">
-						AND upper(hostname) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+						AND upper(auto_hostname) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
 					<cfelseif left(hostname,2) is "!!">
-						AND hostname <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+						AND auto_hostname <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
 					<cfelseif left(hostname,1) is "!">
-						AND upper(hostname) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+						AND upper(auto_hostname) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
 					<cfelseif hostname is "NULL">
-						AND hostname is null
+						AND auto_hostname is null
 					<cfelseif hostname is "NOT NULL">
-						AND hostname is not null
+						AND auto_hostname is not null
 					<cfelse>
 						<cfif find(',',hostname) GT 0>
-							AND upper(hostname) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
+							AND upper(auto_hostname) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
 						<cfelse>
-							AND upper(hostname) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
+							AND upper(auto_hostname) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -693,6 +698,126 @@ limitations under the License.
 				AND upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			group by label_value
 			order by label_value
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.label_value#" >
+			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media hostname autocomplete control --->
+<cffunction name="getHostnameAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_host
+			from 
+				media
+			where 
+				auto_host is not null and 
+				AND upper(auto_host) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_host
+			order by auto_host
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.label_value#" >
+			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media path autocomplete control --->
+<cffunction name="getPathAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_path
+			from 
+				media
+			where 
+				auto_path is not null and 
+				AND upper(auto_path) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_path
+			order by auto_path
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.label_value#" >
+			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media filename autocomplete control --->
+<cffunction name="getFilenameAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_filename
+			from 
+				media
+			where 
+				auto_filename is not null and 
+				AND upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_filename
+			order by auto_filename
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
