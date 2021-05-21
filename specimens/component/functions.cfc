@@ -185,8 +185,10 @@ limitations under the License.
 													</a> 
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
-													<span class="">#description#</span> 
-													<span class=""><a href="##">Transcript of Media</a></span>
+													<span class="">#description#</span> <br>
+													<cfif media.media_type eq 'audio'>
+														<a href="##">Transcript of Media</a>
+													</cfif>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
