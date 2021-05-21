@@ -186,6 +186,8 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>
+															
+												<cfif media1.media_type neq "image">
 														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select related_primary_key, media_id 
 															from media_relations 
@@ -196,6 +198,7 @@ limitations under the License.
 															select related_primary_id from transcript_relation
 														</cfquery>
 															<a href="#transcript_uri.related_primary_key#">Transcript</a>
+												</cfif>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
