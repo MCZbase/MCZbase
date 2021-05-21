@@ -743,8 +743,8 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["value"] = "#search.label_value#" >
-			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset row["value"] = "#search.auto_host#" >
+			<cfset row["meta"] = "#search.auto_host# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -783,8 +783,8 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["value"] = "#search.label_value#" >
-			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset row["value"] = "#search.auto_path#" >
+			<cfset row["meta"] = "#search.auto_path# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -823,8 +823,8 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["value"] = "#search.label_value#" >
-			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset row["value"] = "#search.auto_filename#" >
+			<cfset row["meta"] = "#search.auto_filename# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
