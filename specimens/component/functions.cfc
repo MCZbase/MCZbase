@@ -192,7 +192,7 @@ limitations under the License.
 															where media_relations.media_relationship = 'transcript of media'
 															and media_relations.media_id = 171196
 														</cfquery>
-														<cfquery name="transcript_uri" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="transcript_uri" dbtype="query">
 															select related_primary_id from transcript_relation
 														</cfquery>
 															<a href="#transcript_uri.related_primary_key#">Transcript</a>
