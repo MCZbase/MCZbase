@@ -64,11 +64,11 @@ a.external:hover:visited:after {
 	width: 31.5%;
 	margin: 0 2%;
 }*/
-imgsize {
+.imgsize {
 	width: 32%;
 	margin: 0 2%;
 }
-imgsize:last-child {
+.imgsize:last-child {
 	margin-right: 0;
 }
 table {
