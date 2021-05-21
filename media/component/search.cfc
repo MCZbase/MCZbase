@@ -568,22 +568,22 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("hostname") and len(hostname) gt 0>
 					<cfif left(hostname,2) is "==">
-						AND auto_hostname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+						AND auto_host = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
 					<cfelseif left(hostname,1) is "=">
-						AND upper(auto_hostname) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+						AND upper(auto_host) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
 					<cfelseif left(hostname,2) is "!!">
-						AND auto_hostname <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+						AND auto_host <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
 					<cfelseif left(hostname,1) is "!">
-						AND upper(auto_hostname) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+						AND upper(auto_host) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
 					<cfelseif hostname is "NULL">
-						AND auto_hostname is null
+						AND auto_host is null
 					<cfelseif hostname is "NOT NULL">
-						AND auto_hostname is not null
+						AND auto_host is not null
 					<cfelse>
 						<cfif find(',',hostname) GT 0>
-							AND upper(auto_hostname) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
+							AND upper(auto_host) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
 						<cfelse>
-							AND upper(auto_hostname) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
+							AND upper(auto_host) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
 						</cfif>
 					</cfif>
 				</cfif>
