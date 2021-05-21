@@ -49,7 +49,9 @@ limitations under the License.
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
 				<cfif ctmedia.recordcount gt 0>
-					<cfoutput><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfoutput>
+					<cfoutput>
+						
+					</cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							media.media_id,
@@ -71,6 +73,7 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
+						<cfif #mediaS1.media_type# eq 'image'><a href="/media/#mediaS1.media_id#" class="btn-link">Media Record</a></cfif>
 									<span class="form-row col-12 px-0 mx-0"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
