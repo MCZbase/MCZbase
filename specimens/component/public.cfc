@@ -45,13 +45,10 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
-			<cfquery name="ctmedia" dbtype="query">
+				<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
 				<cfif ctmedia.recordcount gt 0>
-					<cfoutput>
-						
-					</cfoutput>
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							media.media_id,
@@ -74,65 +71,65 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<cfif #mediaS1.media_type# eq 'image'><a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a></cfif>
-									<span class="form-row col-12 px-0 mx-0 mt-1"> 
-										<!---div class="feature image using media_uri"--->
-										<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
-												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-												<a href="#aForThisHref#" target="_blank" class="w-100">
-												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
-												</a>
-											<cfelse>
+							<div class="row mt-1"> 
+								<!---div class="feature image using media_uri"--->
+								<!--- to-do: Create checkbox for featured media on create media page--->
+								<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+										<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+										<a href="#aForThisHref#" target="_blank" class="w-100">
+										<img src="#mediaS1.media_uri#" class="w-100 mb-2">
+										</a>
+									<cfelse>
 
-											</cfif>
-										<cfset i=1>
-										<cfloop query="media">
-											<!---div class="thumbs"--->
-											<cfquery name="ctmedia" dbtype="query">
-												select count(*) as ct from media group by media_relationship order by media_id
-											</cfquery>
-											<cfset mt=media.mime_type>
-											<cfset altText = media.media_descriptor>
-											<cfset puri=getMediaPreview(preview_uri,mime_type)>
-											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT
-													media_label,
-													label_value
-												FROM
-													media_labels
-												WHERE
-													media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-											</cfquery>
-											<cfquery name="desc" dbtype="query">
-												select label_value from labels where media_label='description'
-											</cfquery>
-											<cfset description="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset description=desc.label_value>
-											</cfif>
-											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-												<!---for media images -- remove absolute url after demo / test db issue?--->
-												<cfset one_thumb = "<div class='imgsize'>">
-												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfelse>
-												<!---for DRS from library--->
-												<cfset one_thumb = "<div class='imgsize'>">
-												<cfset aForImHref = media_uri>
-												<cfset aForDetHref = "/media/#media_id#">
-											</cfif>
-											#one_thumb# <a href="#aForImHref#" target="_blank"> 
-											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
-											<p class="smaller">
-												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span>
-											</p>
-											</div>
-													<cfset i=i+1>
-										</cfloop>
-									</span>
-							</cfoutput>
+									</cfif>
+								<cfset i=1>
+								<cfloop query="media">
+									<!---div class="thumbs"--->
+									<cfquery name="ctmedia" dbtype="query">
+										select count(*) as ct from media group by media_relationship order by media_id
+									</cfquery>
+									<cfset mt=media.mime_type>
+									<cfset altText = media.media_descriptor>
+									<cfset puri=getMediaPreview(preview_uri,mime_type)>
+									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											media_label,
+											label_value
+										FROM
+											media_labels
+										WHERE
+											media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+									</cfquery>
+									<cfquery name="desc" dbtype="query">
+										select label_value from labels where media_label='description'
+									</cfquery>
+									<cfset description="Media Preview Image">
+									<cfif desc.recordcount is 1>
+										<cfset description=desc.label_value>
+									</cfif>
+									<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+										<!---for media images -- remove absolute url after demo / test db issue?--->
+										<cfset one_thumb = "<div class='imgsize'>">
+										<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+										<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+										<cfelse>
+										<!---for DRS from library--->
+										<cfset one_thumb = "<div class='imgsize'>">
+										<cfset aForImHref = media_uri>
+										<cfset aForDetHref = "/media/#media_id#">
+									</cfif>
+									#one_thumb# <a href="#aForImHref#" target="_blank"> 
+									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="98%"> </a>
+									<p class="smaller">
+										<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+										<span class="">#description#</span>
+									</p>
+									</div>
+											<cfset i=i+1>
+								</cfloop>
+							</div>
 						</cfif>
+					</cfoutput>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
