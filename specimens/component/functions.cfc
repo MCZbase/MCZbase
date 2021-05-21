@@ -185,7 +185,7 @@ limitations under the License.
 													</a> 
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
-													<span class="">#description#</span> <br>
+													<span class="small">#description#</span> <br>
 													<cfif media1.media_type eq 'audio'>
 														<a href="##">Transcript of Media</a>
 													</cfif>
