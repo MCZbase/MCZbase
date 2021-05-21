@@ -192,7 +192,7 @@ limitations under the License.
 															select related_primary_key, media_id 
 															from media_relations 
 															where media_relations.media_relationship = 'transcript of media'
-															and media_relations.media_id = 171196
+															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfquery name="transcript_uri" dbtype="query">
 															select related_primary_key from transcript_relation
