@@ -187,12 +187,13 @@ limitations under the License.
 													<br>
 													<span class="small">#description#</span> <br>
 														<cfquery name="transcript_relation" dbtype="query">
-															select media1.media_uri media_relations.media_relationship,media_relations.related_primary_key from media_relations, media1 
-															where media_relations.media_id = media1.media_id 
+															select related_primary_key, media_id 
+															from media_relations 
+															where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 															and media_relationship='transcript of media'
 														</cfquery>
 														<cfquery name="transcript_uri" dbtype="query">
-															select media_uri from transcript_relation where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transcript_relation.media_id#">
+															select media_uri from media where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transcript_relation.media_id#">
 														</cfquery>
 															<a href="#transcript_uri.media_uri#">Transcript</a>
 												</div>
