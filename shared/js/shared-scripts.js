@@ -1060,8 +1060,9 @@ function lookupColumnVisiblities (pageFilePath,label) {
 			messageDialog("Error looking up column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
-			console.log(result);
-			window.columnHiddenSettings = result.DATA.COLUMNHIDDENSETTINGS[0];
+			console.log(result[0]);
+			var settings = result[0];
+			window.columnHiddenSettings = JSON.parse(settings.columnhiddensettings);
 		}
 	});
 }
