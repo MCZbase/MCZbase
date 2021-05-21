@@ -958,6 +958,9 @@ limitations under the License.
 					buttons: { 
 						Ok: function(){ 
 							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettings,'Default');
+							</cfif>
 							$(this).dialog("close"); 
 						}
 					},
