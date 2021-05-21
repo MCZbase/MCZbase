@@ -542,7 +542,6 @@ limitations under the License.
 
 <cffunction name="getGridColumnHiddenSettings" returntype="any" returnformat="json" access="remote">
 	<cfargument name="page_file_path" required="yes">
-	<cfargument name="columnhiddensettings" required="yes">
 	<cfargument name="label" required="no" default="Default">
 	
 	<cfset data = ArrayNew(1)>
