@@ -52,7 +52,7 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
-.imgsize:nth-child(3n+1) {
+/*.imgsize:nth-child(3n+1) {
 	width: 31.5%;
 	margin: 0;
 }
@@ -63,6 +63,13 @@ a.external:hover:visited:after {
 .imgsize:nth-child(3n+3) {
 	width: 31.5%;
 	margin: 0 2%;
+}*/
+imgsize {
+	width: 32%;
+	margin: 0 2%;
+}
+imgsize:last-child {
+	margin-right: 0;
 }
 table {
 	font-size: 0.875rem;
