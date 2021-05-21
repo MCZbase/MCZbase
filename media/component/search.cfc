@@ -31,7 +31,10 @@ limitations under the License.
 	<cfargument name="has_roi" type="string" required="no">
 	<cfargument name="keywords" type="string" required="no">
 	<cfargument name="protocol" type="string" required="no">
+	<cfargument name="hostname" type="string" required="no">
+	<cfargument name="path" type="string" required="no">
 	<cfargument name="filename" type="string" required="no">
+	<cfargument name="extension" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="aspect" type="string" required="no">
 	<cfargument name="height" type="string" required="no">
@@ -109,8 +112,10 @@ limitations under the License.
 				MCZBASE.get_media_credit(media.media_id) as credit,
 				MCZBASE.get_media_owner(media.media_id) as owner,
 				MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
-				regexp_substr(media_uri,'^[htpsf]+:/') as protocol,
-				regexp_substr(media_uri,'[^/]+$') as filename,
+				auto_protocol as protocol,
+				auto_host as host,
+				auto_path as path,
+				auto_filename as filename,
 				MCZBASE.get_media_creator(media.media_id) as creator,
 				MCZBASE.get_media_relations_string(media.media_id) as relations,
 				MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
@@ -493,19 +498,101 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
 					)
 				</cfif>
+				<cfif isdefined("extension") and len(extension) gt 0>
+					<cfif left(extension,2) is "==">
+						AND extension = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
+					<cfelseif left(extension,1) is "=">
+						AND upper(extension) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
+					<cfelseif left(extension,2) is "!!">
+						AND extension <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
+					<cfelseif left(extension,1) is "!">
+						AND upper(extension) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
+					<cfelseif extension is "NULL">
+						AND extension is null
+					<cfelseif extension is "NOT NULL">
+						AND extension is not null
+					<cfelse>
+						<cfif find(',',extension) GT 0>
+							AND upper(extension) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(extension)#" list="yes"> )
+						<cfelse>
+							AND upper(extension) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(extension)#%">
+						</cfif>
+					</cfif>
+				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
-					<!--- too slow: AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
-					AND media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#filename#">
+					<cfif left(filename,2) is "==">
+						AND filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+					<cfelseif left(filename,1) is "=">
+						AND upper(filename) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+					<cfelseif left(filename,2) is "!!">
+						AND filename <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+					<cfelseif left(filename,1) is "!">
+						AND upper(filename) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+					<cfelseif filename is "NULL">
+						AND filename is null
+					<cfelseif filename is "NOT NULL">
+						AND filename is not null
+					<cfelse>
+						<cfif find(',',filename) GT 0>
+							AND upper(filename) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(filename)#" list="yes"> )
+						<cfelse>
+							AND upper(filename) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(filename)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("path") and len(path) gt 0>
+					<cfif left(path,2) is "==">
+						AND path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+					<cfelseif left(path,1) is "=">
+						AND upper(path) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+					<cfelseif left(path,2) is "!!">
+						AND path <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+					<cfelseif left(path,1) is "!">
+						AND upper(path) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+					<cfelseif path is "NULL">
+						AND path is null
+					<cfelseif path is "NOT NULL">
+						AND path is not null
+					<cfelse>
+						<cfif find(',',path) GT 0>
+							AND upper(path) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(path)#" list="yes"> )
+						<cfelse>
+							AND upper(path) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(path)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("hostname") and len(hostname) gt 0>
+					<cfif left(hostname,2) is "==">
+						AND hostname = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+					<cfelseif left(hostname,1) is "=">
+						AND upper(hostname) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+					<cfelseif left(hostname,2) is "!!">
+						AND hostname <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+					<cfelseif left(hostname,1) is "!">
+						AND upper(hostname) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+					<cfelseif hostname is "NULL">
+						AND hostname is null
+					<cfelseif hostname is "NOT NULL">
+						AND hostname is not null
+					<cfelse>
+						<cfif find(',',hostname) GT 0>
+							AND upper(hostname) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
+						<cfelse>
+							AND upper(hostname) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif isdefined("protocol") and len(protocol) gt 0>
 					<cfif protocol IS "http">
-						AND media_uri like 'http://%'
+						AND auto_protocol = 'http'
 					<cfelseif protocol IS "https">
-						AND media_uri like 'https://%'
+						AND auto_protocol = 'https'
 					<cfelseif protocol IS 'httphttps'>
-						AND (media_uri like 'https://%' OR media_uri like 'http://') 
+						AND (media_uri like 'https://%' OR media_uri like 'http://%') 
 					<cfelseif protocol IS 'NULL'>
-						AND regexp_substr(media_uri,'^[htpsf]+://') IS NULL
+						AND auto_protocol IS NULL
+					<cfelse>
+						AND auto_protocol = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#protocol#'>
 					</cfif>
 				</cfif>
 				<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
