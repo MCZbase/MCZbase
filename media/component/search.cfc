@@ -734,7 +734,7 @@ limitations under the License.
 			from 
 				media
 			where 
-				auto_host is not null and 
+				auto_host is not null 
 				AND upper(auto_host) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			group by auto_host
 			order by auto_host
@@ -774,7 +774,7 @@ limitations under the License.
 			from 
 				media
 			where 
-				auto_path is not null and 
+				auto_path is not null 
 				AND upper(auto_path) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			group by auto_path
 			order by auto_path
@@ -814,7 +814,7 @@ limitations under the License.
 			from 
 				media
 			where 
-				auto_filename is not null and 
+				auto_filename is not null 
 				AND upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			group by auto_filename
 			order by auto_filename
