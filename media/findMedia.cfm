@@ -288,9 +288,8 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-1">
 										<div class="form-group mb-2">
-											<label for="extension" class="data-entry-label mb-0" id="extension_label">Path<span></span></label>
-											<input type="text" id="extension" name="extension" class="data-entry-input" value="#extension#" aria-labelledby="extension_label" >
-											<select id="extension" name="extension" class="data-entry-select" multiple="true">
+											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+											<select id="extension" name="extension" class="data-entry-select">
 												<option></option>
 												<cfloop query="distinctExtensions">
 													<cfif in_extension IS distinctExtensions.extension>
