@@ -1007,13 +1007,16 @@ function saveColumnVisibilities(page,fieldHiddenValues,label,feedbackDiv) {
 	if (typeof feedbackDiv !== 'undefined') { 
 		$('#'+feedbackDiv).html('Saving...');
 	}
+	var settings = JSON.stringify(fieldHiddenValues);
+	if (settings=="") { settings = "{}"; } 
+	console.log(settings);
 	jQuery.ajax({
 		dataType: "json",
 		url: "/shared/component/functions.cfc",
 		data: { 
 			method : "saveGridColumnHiddenSettings",
 			page: page,
-			columnhiddensettings: JSON.stringify(fieldHiddenValues),
+			columnhiddensettings: settings,
 			label: label,
 			returnformat : "json",
 			queryformat : 'column'
