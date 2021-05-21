@@ -19,7 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
-<cfinclude template = "/includes/internalAjax.js">
+<script type="text/javascript" src="/includes/internalAjax.js"></script> 
 
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
