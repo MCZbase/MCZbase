@@ -245,7 +245,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
 											<cfset selectedextensionlist = "">
