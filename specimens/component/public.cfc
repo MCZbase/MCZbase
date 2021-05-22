@@ -130,7 +130,7 @@ limitations under the License.
 															where media_relations.media_relationship = 'transcript of media'
 															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-														<cfquery name="transcript_uri" dbtype="query">
+														<cfquery name="transcript_uri" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select related_primary_key from transcript_relation
 														</cfquery>
 															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
