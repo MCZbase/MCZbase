@@ -307,12 +307,6 @@ limitations under the License.
 									<cfelse>
 										<cfset keycols="5">
 									</cfif>
-									<div class="col-12 col-md-2">
-										<div class="form-group mb-2">
-											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
-										</div>
-									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
@@ -327,25 +321,33 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
-												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
-											</div>
+											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
+											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
+											<script>
+												$(document).ready(function() {
+													makeMediaLabelAutocomplete("subject","subject");
+												});
+											</script>
 										</div>
 									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
-										});
-									</script>
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+											<script>
+												$(document).ready(function() {
+													makeAspectAutocomplete("aspect");
+												});
+											</script>
+										</div>
+									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-3 col-xl-2">
+										<div class="col-12 col-md-2">
 											<div class="form-group mb-2">
 												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
 												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
@@ -386,33 +388,28 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
-											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
+											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
 											<script>
 												$(document).ready(function() {
-													makeAspectAutocomplete("aspect");
+													makeMediaLabelAutocomplete("light_source","light source");
 												});
 											</script>
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
-											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("subject","subject");
-												});
-											</script>
+											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
+											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
-									<cfset remcolm="8">
-									<cfset remcolx="4">
+									<cfset remcolm="4">
+									<cfset remcolx="2">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset remcolm="4">
 										<cfset remcolx="2">
@@ -431,6 +428,25 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
+												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
+											</div>
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
+										});
+									</script>
 									<!--- setup to hide search for date as text from most users --->
 									<cfset datecolm="6">
 									<cfset datecolx="3">
@@ -471,22 +487,6 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("light_source","light source");
-												});
-											</script>
-										</div>
-									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
