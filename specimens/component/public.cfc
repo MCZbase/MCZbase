@@ -135,9 +135,9 @@ limitations under the License.
 													</cfquery>
 													<cfset trn_uri = "/media/#transcript_uri.related_primary_key#">
 												</cfif>
-												<cfif isDefined(trn_uri)>
+										
 													<a href='#trn_uri#'>Transcript</a>
-												</cfif>
+												
 											</p>
 											</div>
 													<cfset i=i+1>
