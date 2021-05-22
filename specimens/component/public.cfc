@@ -123,17 +123,20 @@ limitations under the License.
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 												<span class="">#description#</span><br>
-												<cfif #media.media_type# eq 'audio'>
-														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select related_primary_key, media_id 
-															from media_relations 
-															where media_relations.media_relationship = 'transcript of media'
-															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>
-														<cfquery name="transcript_uri" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select related_primary_key from transcript_relation
-														</cfquery>
-															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
+												<cfif #media.media_relationship# eq 'transcript of media'>
+													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select related_primary_key, media_id 
+														from media_relations 
+														where media_relations.media_relationship = 'transcript of media'
+														and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													</cfquery>
+													<cfquery name="transcript_uri" dbtype="query">
+														select related_primary_key from transcript_relation
+													</cfquery>
+													<cfset trn_uri = "/media/#transcript_uri.related_primary_key#">
+												</cfif>
+												<cfif isDefined(trn_uri)>
+													<a href='#trn_uri#'>Transcript</a>
 												</cfif>
 											</p>
 											</div>
