@@ -850,7 +850,7 @@ limitations under the License.
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','media records');
+						gridLoaded('searchResultsGrid','media record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -888,7 +888,7 @@ limitations under the License.
 				$("##overlay").hide();
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var filename = searchType + '_results_' + nowstring + '.csv';
+				var filename = searchType.replace(/[ ]/g,'_') + '_results_' + nowstring + '.csv';
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
