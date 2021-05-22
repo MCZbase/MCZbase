@@ -260,6 +260,7 @@ limitations under the License.
 													</cfif>
 													<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 												</cfloop>
+												<option value="">Select All</option>
 												<option value="NULL">NULL</option>
 												<option value="NOT NULL">NOT NULL</option>
 											</select>
@@ -269,6 +270,18 @@ limitations under the License.
 													<cfloop list="#selectedextensionlist#" index="ext">
 														$("##extension").jqxComboBox('selectItem', '#ext#');
 													</cfloop>
+													$("##extension").jqxComboBox().on('select', function (event) {
+														var args = event.args;
+													   if (args) {
+    														var item = args.item;
+															if (item.label == 'Select All') { 
+																for (i=0;i<args.index;i++) { 
+																	$("##extension").jqxComboBox('selectIndex', i);
+																}
+																$("##extension").jqxComboBox('unselectIndex', args.index);
+															}
+														}
+													});
 												});
 											</script>
 										</div>
