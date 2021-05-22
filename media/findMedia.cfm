@@ -408,8 +408,8 @@ limitations under the License.
 											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
-									<cfset remcolm="4">
-									<cfset remcolx="2">
+									<cfset remcolm="8">
+									<cfset remcolx="4">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset remcolm="4">
 										<cfset remcolx="2">
