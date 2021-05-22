@@ -258,7 +258,7 @@ limitations under the License.
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="=#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
+													<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 												</cfloop>
 												<option value="NULL">NULL</option>
 												<option value="NOT NULL">NOT NULL</option>
