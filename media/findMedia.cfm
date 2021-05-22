@@ -249,7 +249,7 @@ limitations under the License.
 										<div class="form-group mb-2">
 											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
 											<cfset selectedextensionlist = "">
-											<select id="extension" name="extension" class="data-entry-select">
+											<select id="extension" name="extension" class="data-entry-select" multiple="true">
 												<option></option>
 												<cfloop query="distinctExtensions">
 													<cfif listContains(in_extension, distinctExtensions.extension) GT 0>
