@@ -30,12 +30,13 @@ limitations under the License.
 <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_label, description  from ctmedia_label
 </cfquery>
+<!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select auto_extension as extension, count(*) as ct
+	select trim(auto_extension) as extension, count(*) as ct
 	from media
 	where auto_extension is not null
-	group by auto_extension
-	order by auto_extension
+	group by trim(auto_extension)
+	order by upper(trim(auto_extension))
 </cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
@@ -260,7 +261,7 @@ limitations under the License.
 													</cfif>
 													<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 												</cfloop>
-												<option value="">Select All</option>
+												<option value="Select All">Select All</option>
 												<option value="NULL">NULL</option>
 												<option value="NOT NULL">NOT NULL</option>
 											</select>
