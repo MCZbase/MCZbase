@@ -133,7 +133,7 @@ limitations under the License.
 													<cfquery name="transcript_uri" dbtype="query">
 														select related_primary_key from transcript_relation
 													</cfquery>
-														<cfif #transcript_uri.related_primary_key# is not null>
+														<cfif #transcript_uri.related_primary_key# eq null>
 															<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
 														</cfif>
 												</cfif>
