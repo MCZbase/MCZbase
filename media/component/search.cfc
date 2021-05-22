@@ -500,24 +500,12 @@ limitations under the License.
 					)
 				</cfif>
 				<cfif isdefined("extension") and len(extension) gt 0>
-					<cfif left(extension,2) is "==">
-						AND auto_extension = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
-					<cfelseif left(extension,1) is "=">
-						AND upper(auto_extension) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
-					<cfelseif left(extension,2) is "!!">
-						AND auto_extension <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(extension,len(extension)-2)#">
-					<cfelseif left(extension,1) is "!">
-						AND upper(auto_extension) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(extension,len(extension)-1))#">
-					<cfelseif extension is "NULL">
+					<cfif extension is "NULL">
 						AND auto_extension is null
 					<cfelseif extension is "NOT NULL">
 						AND auto_extension is not null
 					<cfelse>
-						<cfif find(',',extension) GT 0>
-							AND upper(auto_extension) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(extension)#" list="yes"> )
-						<cfelse>
-							AND upper(auto_extension) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(extension)#%">
-						</cfif>
+						AND auto_extension in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#extension#" list="yes"> )
 					</cfif>
 				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
