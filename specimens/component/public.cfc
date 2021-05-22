@@ -133,11 +133,9 @@ limitations under the License.
 													<cfquery name="transcript_uri" dbtype="query">
 														select related_primary_key from transcript_relation
 													</cfquery>
-													<cfset trn_uri = "/media/#transcript_uri.related_primary_key#">
+														<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
 												</cfif>
 										
-													<a href='#trn_uri#'>Transcript</a>
-												
 											</p>
 											</div>
 													<cfset i=i+1>
