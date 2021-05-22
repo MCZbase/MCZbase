@@ -123,7 +123,7 @@ limitations under the License.
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 												<span class="">#description#</span><br>
-												<cfif #media.media_relationship# eq 'transcript of media'>
+												<cfif #media.media_type = 'audio'>
 													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select related_primary_key, media_id 
 														from media_relations 
