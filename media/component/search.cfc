@@ -54,8 +54,12 @@ limitations under the License.
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="unlinked" type="string" required="no">
 
 
+	<cfif not isdefined("unlinked")>
+		<cfset unlinked = "">
+	</cfif>
 	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
 			select collection_object_id as cat_item_coll_obj_id 
@@ -142,8 +146,10 @@ limitations under the License.
 						left join media_keywords on media.media_id = media_keywords.media_id
 					</cfif>
 				</cfif>
-				<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
-				   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
+				<cfif len(unlinked) EQ 0>
+					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
+					</cfif>
 				</cfif>
 			WHERE
 				media.media_id is not null
@@ -588,12 +594,16 @@ limitations under the License.
 						AND auto_protocol = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#protocol#'>
 					</cfif>
 				</cfif>
-				<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
-					AND media_relations_ci.media_relationship = 'shows cataloged_item'
-					<cfif related_cataloged_item IS 'NOT NULL'>
-						AND media_relations_ci.related_primary_key IS NOT NULL
-					<cfelse>
-						AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+				<cfif len(unlinked) GT 0>
+					and media.media_id not in (select media_id from media_relations where media_relationship <> 'created by agent')
+				<cfelse>
+					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+						AND media_relations_ci.media_relationship = 'shows cataloged_item'
+						<cfif related_cataloged_item IS 'NOT NULL'>
+							AND media_relations_ci.related_primary_key IS NOT NULL
+						<cfelse>
+							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+						</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri

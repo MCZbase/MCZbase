@@ -104,6 +104,9 @@ limitations under the License.
 	<cfif not isdefined("collection_object_id")>
 		<cfset collection_object_id="">
 	</cfif>
+	<cfif not isdefined("unlinked")>
+		<cfset unlinked="">
+	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
 			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
@@ -602,8 +605,33 @@ limitations under the License.
 											<input type="text" name="related_cataloged_item" 
 												class="data-entry-input" value="#related_cataloged_item#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
 												onchange="$('##collection_object_id').val('');">
-										<div>
-										<!---- TODO: More Relationship search controls will go here --->
+										</div>
+									</div>
+									<div class="col-12 col-md-4 col-xl-2">
+										<div class="form-group mb-2">
+											<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+												<label for "unlinked" class="data-entry-label">Limit to Media not yet linked to any record.</label>
+												<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="data-entry-checkbox">
+											</cfif>
+										</div>
+									</div>
+									<!---- TODO: More Relationship search controls will go here --->
+									<div class="col-12 col-md-4 col-xl-2">
+										<div class="form-group mb-2">
+<!---
+<div id="relationships" class="relationship_dd">
+	<select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
+		<option value=""></option>
+		<cfloop query="ctmedia_relationship">
+			<option value="#media_relationship#">#media_relationship#</option>
+		</cfloop>
+	</select>
+	<input type="text" name="related_value__1" id="related_value__1" size="70">
+	<input type="hidden" name="related_id__1" id="related_id__1">
+	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+</div>
+--->
 									</div>
 								</div>
 								<div class="form-row my-0 mx-0">
