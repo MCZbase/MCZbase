@@ -632,6 +632,7 @@ limitations under the License.
 	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
 </div>
 --->
+										</div>
 									</div>
 								</div>
 								<div class="form-row my-0 mx-0">
