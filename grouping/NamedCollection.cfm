@@ -474,8 +474,10 @@ limitations under the License.
 										</script> 
 									</div>
 									<div class="col-12 col-md-6">
-											<textarea name="featured_data" id="featured_data" style="height: 20em;">#featured_data#</textarea>
-											<script>CKEDITOR.replace( 'featured_data' );</script>
+											<textarea name="html_description" id="html_description" style="height: 20em;">#html_description#</textarea>
+											<script>CKEDITOR.replace( 'html_description' );</script>
+										
+										
 									</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
