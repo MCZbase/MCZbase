@@ -37,6 +37,7 @@ limitations under the License.
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
 <cfswitch expression="#action#">
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
@@ -430,7 +431,6 @@ limitations under the License.
 	<cfcase value="new">
 		<!--- Add a new ____ collection, link to agent ---> 
 		<cfoutput>
-			<cfset includeJQXEditor='true'>
 			<main class="container mt-3">
 				<section class="row">
 					<div class="col-12">
@@ -489,9 +489,9 @@ limitations under the License.
 										<label for="html_description" id="html_description" class="data-entry-label">HTML Description </label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0" rows="3" aria-labelledby="html_description" >
 										<script>
-//											$(document).ready(function () {
-//												$('##html_description').jqxEditor();
-//											});
+											$(document).ready(function () {
+												$('##html_description').jqxEditor();
+											});
 										</script>
 										</textarea>
 									</div>
