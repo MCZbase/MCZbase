@@ -78,10 +78,10 @@ limitations under the License.
 			<cfif not isdefined("underscore_agent_id")>
 				<cfset underscore_agent_id="">
 			</cfif>
-			<cfif len("underscore_agent_id") EQ 0>
+			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
 			</cfif>
-			<cfif len("html_description") EQ 0>
+			<cfif len(html_description) EQ 0>
 				<cfset html_description="">
 			</cfif>
 			<!--- Search Form ---> 
@@ -561,7 +561,7 @@ limitations under the License.
 		<cfif not isDefined("underscore_collection_id")>
 			<cfset underscore_collection_id = "">
 		</cfif>
-		<cfif len("underscore_collection_id") EQ 0>
+		<cfif len(underscore_collection_id) EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
