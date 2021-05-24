@@ -517,9 +517,6 @@ limitations under the License.
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,underscore_agent_id
 					</cfif>
-					<cfif isdefined("mask_fg")>
-						,mask_fg
-					</cfif>
 					<cfif isdefined("html_description")>
 						,html_description
 					</cfif>
@@ -535,7 +532,7 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 					<cfif isdefined("html_description")>
-						,<cfqueryparam cfsqltype="CLOB" value="#html_description#">
+						,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 					</cfif>
 				)
 			</cfquery>
