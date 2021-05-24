@@ -102,10 +102,11 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection_id, 
-				collection_name, description,
-				underscore_agent_id,
+				collection_name, 
+				description,
 				mask_flag,
 				html_description,
+				underscore_agent_id,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -124,9 +125,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["coll_event_num_series_id"] = "#search.coll_event_num_series_id#">
 			<cfset row["collection_name"] = "#search.collection_name#">
 			<cfset row["description"] = "#search.description#">
-			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["mask_fg"] = "#search.mask_fg#">
 			<cfset row["html_description"] = "#search.html_description#">
+			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["id_link"] = "<a href='/grouping/NamedCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
 			<cfset data[i] = row>
 			<cfset i = i + 1>
