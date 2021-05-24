@@ -472,8 +472,10 @@ limitations under the License.
 												$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
 											});
 										</script> 
-											<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
-											<script>CKEDITOR.replace( 'agent_remarks' );</script>
+									</div>
+									<div class="col-12 col-md-6">
+											<textarea name="featured_data" id="featured_data" style="height: 20em;">#featured_data#</textarea>
+											<script>CKEDITOR.replace( 'featured_data' );</script>
 									</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
