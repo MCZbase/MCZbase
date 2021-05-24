@@ -482,6 +482,12 @@ limitations under the License.
 											});
 										</script> 
 									</div>
+								<div class="form-row mb-1">
+									<div class="col-12 col-md-6">
+										<label for="html_description" id="html_description" class="data-entry-label">HTML Description </label>
+										<textarea id="description" name="description" class="data-entry-textarea mt-0" rows="3" aria-labelledby="html_description" ></textarea>
+									</div>
+								</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
 													value="Create" title="Create" aria-label="Create"
