@@ -489,9 +489,9 @@ limitations under the License.
 										<label for="html_description" id="html_description" class="data-entry-label">HTML Description </label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0" rows="3" aria-labelledby="html_description" >
 										<script>
-											$(document).ready(function () {
-												$('##html_description').jqxEditor();
-											});
+//											$(document).ready(function () {
+//												$('##html_description').jqxEditor();
+//											});
 										</script>
 										</textarea>
 									</div>
