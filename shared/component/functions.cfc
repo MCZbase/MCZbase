@@ -17,6 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
 	linkMediaHtml create dialog content to link media to an object 
@@ -477,5 +479,100 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+
+<!---
+   Function to store the serialization of grid column hidden properties for a user and page.
+   @param page the path and filename of the page on which the grid appears.
+   @param columnhiddensettings json serialization of window.columnHiddenSettings.
+	@param label an optional user supplied label for the settings for that page.
+ --->
+<cffunction name="saveGridColumnHiddenSettings" returntype="query" access="remote">
+	<cfargument name="page_file_path" required="yes">
+	<cfargument name="columnhiddensettings" required="yes">
+	<cfargument name="label" required="no" default="Default">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<!--- check if this setting exists --->
+		<cfquery name="exists" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="exists_result">
+			select count(*) ct 
+			from cf_grid_properties
+			where 
+				page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
+		</cfquery>
+		<cfif exists.ct EQ 0>
+			<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+				insert into cf_grid_properties (
+					page_file_path,
+					username,
+					label,
+					columnhiddensettings
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#columnhiddensettings#"> 
+				)
+			</cfquery>
+		<cfelse>
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+				update cf_grid_properties
+				set columnhiddensettings = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#columnhiddensettings#"> 
+				where
+					page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+					label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> 
+			</cfquery>
+		</cfif>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<cffunction name="getGridColumnHiddenSettings" returntype="any" returnformat="json" access="remote">
+	<cfargument name="page_file_path" required="yes">
+	<cfargument name="label" required="no" default="Default">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getSettings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSettings_result">
+			select columnhiddensettings
+			from cf_grid_properties
+			where 
+				page_file_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#page_file_path#"> AND
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#"> AND
+				rownum < 2
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="getSettings">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(getSettings.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#getSettings[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
 
 </cfcomponent>

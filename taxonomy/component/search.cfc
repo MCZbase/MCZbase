@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- Function getTaxa  --->
 <cffunction name="getTaxa" access="remote" returntype="any" returnformat="json">
@@ -152,7 +153,7 @@ limitations under the License.
 						AND upper(taxonomy.scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
 					<cfelseif left(scientific_name,1) is "~">
 						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) >= 0.90
-					<cfelseif left(anyName,1) is "!~">
+					<cfelseif left(scientific_name,1) is "!~">
 						AND utl_match.jaro_winkler(taxonomy.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(scientific_name,len(scientific_name)-1)#">) < 0.90
 					<cfelseif left(scientific_name,1) is "!">
 						AND upper(taxonomy.scientific_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(scientific_name,len(scientific_name)-1))#">
@@ -678,8 +679,9 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#:: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
