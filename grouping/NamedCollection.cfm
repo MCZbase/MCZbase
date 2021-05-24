@@ -175,7 +175,7 @@ limitations under the License.
 											</script>
 											<div class="col-12 mt-2">
 												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
-												<input type="text" class="data-entry-input" name="html_description"  value="#html_description#" aria-labelledby="html_description">
+												<input type="text" class="data-entry-input" name="html_description" value="#html_description#" aria-labelledby="html_description">
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
@@ -309,9 +309,7 @@ limitations under the License.
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
-										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false },
-										{text: 'Visibility', datafield: 'MASK_FG', hideable: true, hidden: false}
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
