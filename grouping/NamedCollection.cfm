@@ -78,11 +78,11 @@ limitations under the License.
 			<cfif not isdefined("underscore_agent_id")>
 				<cfset underscore_agent_id="">
 			</cfif>
-			<cfif len(underscore_agent_id) EQ 0>
-				<cfset underscore_agent_name="">
-			</cfif>
 			<cfif not isdefined("html_description")>
 				<cfset html_description="">
+			</cfif>
+			<cfif len(underscore_agent_id) EQ 0>
+				<cfset underscore_agent_name="">
 			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
