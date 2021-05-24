@@ -44,7 +44,8 @@ limitations under the License.
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname
+				as agentname,
+				html_description
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
@@ -79,7 +80,9 @@ limitations under the License.
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
 				</cfif>
-
+					<cfif isDefined("html_description") and len(html_description) gt 0>
+					and upper(html_description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(html_description)#%">
+				</cfif>
 			group by 
 				underscore_collection.underscore_collection_id,
 				collection_name,
@@ -88,7 +91,8 @@ limitations under the License.
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end
+					end,
+				html_description
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
