@@ -482,6 +482,7 @@ limitations under the License.
 											});
 										</script> 
 									</div>
+								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
 										<label for="html_description" id="html_description" class="data-entry-label">HTML Description </label>
