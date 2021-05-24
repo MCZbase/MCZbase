@@ -74,9 +74,6 @@ limitations under the License.
 				<cfif isDefined("collection_id") and len(collection_id) gt 0>
 					and #session.flatTableName#.collection_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">)
 				</cfif>
-				<cfif isDefined("mask_fg") and len(mask_fg) gt 0>
-					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
-				</cfif>
 				<cfif isDefined("html_description") and len(html_description) gt 0>
 					and html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
