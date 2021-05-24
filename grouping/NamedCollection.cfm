@@ -138,7 +138,7 @@ limitations under the License.
 												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 mt-1 col-md-2">
 												<label for="coll" class="data-entry-label" id="coll_label">Collection holding cataloged items</label>
 												<select id="coll" name="collection_id" class="data-entry-select" aria-labelledby="coll_label" >
 													<!--- NOTE: current UI support is for just one collection, though backing method can take list of collection_id values --->
@@ -153,7 +153,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4">
+											<div class="col-12 mt-1 col-md-4">
 												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
