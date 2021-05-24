@@ -78,9 +78,9 @@ limitations under the License.
 			<cfif not isdefined("underscore_agent_id")>
 				<cfset underscore_agent_id="">
 			</cfif>
-			<cfif not isdefined("html_description")>
+<!---			<cfif not isdefined("html_description")>
 				<cfset html_description="">
-			</cfif>
+			</cfif>--->
 			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
 			</cfif>
@@ -171,8 +171,8 @@ limitations under the License.
 												});
 											</script>
 											<div class="col-12 mt-2">
-												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
-												<input type="text" class="data-entry-input" name="html_description" value="#html_description#" aria-labelledby="html_description">
+<!---												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
+												<input type="text" class="data-entry-input" name="html_description" value="#html_description#" aria-labelledby="html_description">--->
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
@@ -244,8 +244,7 @@ limitations under the License.
 										{ name: 'DESCRIPTION', type: 'string' },
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
-										{ name: 'SPECIMEN_COUNT', type: 'string' },
-										{ name: 'HTML_DESCRIPTION', type: 'string'}
+										{ name: 'SPECIMEN_COUNT', type: 'string' }
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
@@ -305,8 +304,7 @@ limitations under the License.
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
-										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false }
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
