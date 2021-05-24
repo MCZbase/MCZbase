@@ -532,7 +532,7 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 					<cfif isdefined("html_description")>
-						,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#html_description#">
 					</cfif>
 				)
 			</cfquery>
@@ -561,7 +561,6 @@ limitations under the License.
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 						end
 					as agentname,
-					mask_fg,
 					html_description
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
