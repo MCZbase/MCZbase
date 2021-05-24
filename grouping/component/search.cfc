@@ -36,7 +36,6 @@ limitations under the License.
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
-				html_description,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
