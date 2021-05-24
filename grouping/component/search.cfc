@@ -36,6 +36,7 @@ limitations under the License.
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
+				html_description,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
@@ -54,6 +55,9 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
 					and upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
+				</cfif
+				<cfif isDefined("html_description") and len(html_description) gt 0>
+					and upper(html_description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(html_description)#%">
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
