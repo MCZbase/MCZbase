@@ -246,7 +246,8 @@ limitations under the License.
 										{ name: 'DESCRIPTION', type: 'string' },
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
-										{ name: 'SPECIMEN_COUNT', type: 'string' }
+										{ name: 'SPECIMEN_COUNT', type: 'string' },
+										{ name: 'HTML_DESCRIPTION', type: 'string' }
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
