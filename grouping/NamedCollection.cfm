@@ -156,7 +156,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
