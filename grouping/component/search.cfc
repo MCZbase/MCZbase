@@ -39,8 +39,6 @@ limitations under the License.
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
-				html_description,
-				mask_fg,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
@@ -59,12 +57,6 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
 					and upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
-				</cfif>
-				<cfif isDefined("html_description") and len(html_description) gt 0>
-					and html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
-				</cfif>
-				<cfif isDefined("mask_fg") and len(mask_fg) gt 0>
-					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
@@ -92,8 +84,6 @@ limitations under the License.
 				underscore_collection.underscore_collection_id,
 				collection_name,
 				description,
-				html_description,
-				mask_fg,
 				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
@@ -146,9 +136,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					else
 						description
 					end
-					as description_trim,
-				html_description,
-				mask_fg
+					as description_trim
 			FROM 
 				underscore_collection
 			WHERE
