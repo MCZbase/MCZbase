@@ -518,6 +518,9 @@ limitations under the License.
 					<cfif isdefined("mask_fg")>
 						,mask_fg
 					</cfif>
+					<cfif isdefined("html_description")>
+						,html_description
+					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
 					<cfif isdefined("description")>
@@ -530,7 +533,7 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>,
 					<cfif isdefined("html_description")>
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="html_description">
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#html_description#">
 					</cfif>
 				)
 			</cfquery>
@@ -559,7 +562,8 @@ limitations under the License.
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 						end
 					as agentname,
-					mask_fg
+					mask_fg,
+					html_description
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
@@ -676,6 +680,11 @@ limitations under the License.
 													}
 												};
 											</script> 
+									</div>
+									<div class="col-12 col-md-6">
+										<label for="html_description" id="description_label2" class="data-entry-label">Description</label>
+										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0 autogrow"
+												rows="3" aria-labelledby="description_label2" >#html_description#</textarea>
 									</div>
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
