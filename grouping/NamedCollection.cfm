@@ -172,12 +172,12 @@ limitations under the License.
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 												});
 											</script>
-											<div class="col-12">
+											<div class="col-12 ht-2">
 												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
 												<input type="text" class="data-entry-input" name="html_description" value="" aria-labelledby="html_description">
 											</div>
 										</div>
-										<div class="form-row mt-4 mx-0">
+										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0 pt-2">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
