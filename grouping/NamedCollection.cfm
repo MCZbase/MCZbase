@@ -65,6 +65,12 @@ limitations under the License.
 			<cfif not isdefined("description")>
 				<cfset description="">
 			</cfif>
+			<cfif not isdefined("html_description")>
+				<cfset html_description="">
+			</cfif>
+			<cfif not isdefined("mask_fg")>
+				<cfset mask_fg="">
+			</cfif>
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
@@ -80,12 +86,6 @@ limitations under the License.
 			</cfif>
 			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
-			</cfif>
-			<cfif not isdefined("html_description")>
-				<cfset html_description="">
-			</cfif>
-			<cfif not isdefined("mask_fg")>
-				<cfset mask_fg="">
 			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
