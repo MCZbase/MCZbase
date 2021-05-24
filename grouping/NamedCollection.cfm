@@ -84,6 +84,9 @@ limitations under the License.
 			<cfif not isdefined("html_description")>
 				<cfset html_description="">
 			</cfif>
+			<cfif not isdefined("mask_fg")>
+				<cfset mask_fg="">
+			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
@@ -242,11 +245,11 @@ limitations under the License.
 										{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
 										{ name: 'COLLECTION_NAME', type: 'string' },
 										{ name: 'DESCRIPTION', type: 'string' },
+										{ name: 'HTML_DESCRIPTION', type: 'string'},
+										{ name: 'MASK_FG', type: 'string'},
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
-										{ name: 'SPECIMEN_COUNT', type: 'string' },
-										{ name: 'HTML_DESCRIPTION', type: 'string'},
-										{ name: 'MASK_FG', type: 'string'}
+										{ name: 'SPECIMEN_COUNT', type: 'string' }
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
