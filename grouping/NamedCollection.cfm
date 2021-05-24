@@ -65,12 +65,6 @@ limitations under the License.
 			<cfif not isdefined("description")>
 				<cfset description="">
 			</cfif>
-			<cfif not isdefined("html_description")>
-				<cfset html_description="">
-			</cfif>
-			<cfif not isdefined("mask_fg")>
-				<cfset mask_fg="">
-			</cfif>
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
@@ -86,6 +80,9 @@ limitations under the License.
 			</cfif>
 			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
+			</cfif>
+			<cfif not isdefined("html_description")>
+				<cfset html_description="">
 			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
@@ -245,11 +242,10 @@ limitations under the License.
 										{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
 										{ name: 'COLLECTION_NAME', type: 'string' },
 										{ name: 'DESCRIPTION', type: 'string' },
-										{ name: 'HTML_DESCRIPTION', type: 'string'},
-										{ name: 'MASK_FG', type: 'string'},
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
-										{ name: 'SPECIMEN_COUNT', type: 'string' }
+										{ name: 'SPECIMEN_COUNT', type: 'string' },
+										{ name: 'HTML_DESCRIPTION', type: 'string'}
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
@@ -309,7 +305,8 @@ limitations under the License.
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false }
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
+										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {

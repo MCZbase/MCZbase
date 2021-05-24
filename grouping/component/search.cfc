@@ -26,10 +26,8 @@ limitations under the License.
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
-	<cfargument name="mask_fg" type="string" required="no">
-	<cfargument name="html_description" type="string" requirement="no">
 	<cfargument name="collection_id" type="string" required="no">
-
+	<cfargument name="html_description" type="string" requirement="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -80,7 +78,7 @@ limitations under the License.
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
 				</cfif>
-					<cfif isDefined("html_description") and len(html_description) gt 0>
+				<cfif isDefined("html_description") and len(html_description) gt 0>
 					and upper(html_description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(html_description)#%">
 				</cfif>
 			group by 
