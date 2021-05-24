@@ -64,9 +64,9 @@ limitations under the License.
 </cfcase>
 </cfswitch>
 
-
-<cfinclude template = "/shared/_header.cfm">
 <cfset includeJQXEditor='true'>
+<cfinclude template = "/shared/_header.cfm">
+
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
