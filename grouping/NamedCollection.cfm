@@ -78,9 +78,6 @@ limitations under the License.
 			<cfif not isdefined("underscore_agent_id")>
 				<cfset underscore_agent_id="">
 			</cfif>
-<!---			<cfif not isdefined("html_description")>
-				<cfset html_description="">
-			</cfif>--->
 			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
 			</cfif>
@@ -170,10 +167,6 @@ limitations under the License.
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 												});
 											</script>
-											<div class="col-12 mt-2">
-<!---												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
-												<input type="text" class="data-entry-input" name="html_description" value="#html_description#" aria-labelledby="html_description">--->
-											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
@@ -478,9 +471,6 @@ limitations under the License.
 											});
 										</script> 
 									</div>
-									<div class="col-12 col-md-6">
-										<textarea name="html_description" id="html_description" style="height: 20em;">#html_description#</textarea>
-									</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
 													value="Create" title="Create" aria-label="Create"
@@ -666,9 +656,6 @@ limitations under the License.
 													}
 												};
 											</script> 
-									</div>
-									<div class="col-12 col-md-6">
-										<label for="html_description" id="description_label2" class="data-entry-label">Description</label>
 									</div>
 									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
