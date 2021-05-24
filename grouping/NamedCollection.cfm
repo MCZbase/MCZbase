@@ -536,7 +536,7 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 					<cfif isdefined("html_description")>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#html_description#">
+						,<cfqueryparam cfsqltype="CLOB" value="#html_description#">
 					</cfif>
 				)
 			</cfquery>
