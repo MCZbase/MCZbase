@@ -105,18 +105,18 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-         <cfset columnNames = ListToArray(search.columnList)>
-         <cfloop array="#columnNames#" index="columnName">
-            <cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-         </cfloop>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+			<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+		</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getCollections: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-      <cfheader statusCode="500" statusText="#message#">
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getCollections: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
 	</cftry>
@@ -136,7 +136,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
