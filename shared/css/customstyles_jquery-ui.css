@@ -122,7 +122,7 @@ override Bootstrap styles
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	background-color: white;
-	background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/close.png");
+	background-image: url("/shared/images/close.png");
 	background-repeat: no-repeat;
 	background-size: 16px;
 	border: 2px solid #ddd;

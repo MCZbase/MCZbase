@@ -30,6 +30,14 @@ limitations under the License.
 <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_label, description  from ctmedia_label
 </cfquery>
+<!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
+<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select trim(auto_extension) as extension, count(*) as ct
+	from media
+	where auto_extension is not null
+	group by trim(auto_extension)
+	order by upper(trim(auto_extension))
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -62,9 +70,19 @@ limitations under the License.
 	<cfif not isdefined("protocol")> 
 		<cfset protocol="">
 	</cfif>
+	<cfif not isdefined("hostname")> 
+		<cfset hostname="">
+	</cfif>
+	<cfif not isdefined("path")> 
+		<cfset path="">
+	</cfif>
 	<cfif not isdefined("filename")> 
 		<cfset filename="">
 	</cfif>
+	<cfif not isdefined("extension")> 
+		<cfset extension="">
+	</cfif>
+	<cfset in_extension=extension>
 	<cfif not isdefined("created_by_agent_name")>
 		<cfset created_by_agent_name="">
 	</cfif>
@@ -79,6 +97,15 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("dcterms_identifier")>
 		<cfset dcterms_identifier="">
+	</cfif>
+	<cfif not isdefined("related_cataloged_item")>
+		<cfset related_cataloged_item="">
+	</cfif>
+	<cfif not isdefined("collection_object_id")>
+		<cfset collection_object_id="">
+	</cfif>
+	<cfif not isdefined("unlinked")>
+		<cfset unlinked="">
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
@@ -147,55 +174,29 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
+											<cfset selectedmimetypelist = "">
 											<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 												<option></option>
 												<cfloop query="ctmime_type">
-													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+													<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
+														<cfset selected="selected='true'">
+														<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
+													<cfelse>
+														<cfset selected="">
+													</cfif>
 													<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 												</cfloop>
 											</select>
 											<script>
 												$(document).ready(function () {
 													$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+													<cfloop list="#selectedmimetypelist#" index="mt">
+														$("##mime_type").jqxComboBox('selectItem', '#mt#');
+													</cfloop>
 												});
 											</script>
 										</div>
 									</div>
-								</div>
-								<div class="form-row">
-									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
-									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset keycols="5">
-									<cfelse>
-										<cfset keycols="7">
-									</cfif>
-									<div class="col-12 col-md-5">
-										<div class="form-group mb-2">
-											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
-										</div>
-									</div>
-									<div class="col-12 col-md-#keycols#">
-										<div class="form-group mb-2">
-											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
-											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
-										</div>
-									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-3 col-xl-2">
-											<div class="form-group mb-2">
-												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
-												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
-													<option></option>
-													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="1" #sel#>Hidden</option>
-													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-													<option value="0" #sel#>Public</option>
-												</select>
-											</div>
-										</div>
-									</cfif>
 								</div>
 								<div class="form-row">
 									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
@@ -216,13 +217,77 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
-										&nbsp;
-										<!--- TODO: Split out more parts of the media_uri, put search controls here between protocol and filename --->
+										<div class="form-group mb-2">
+											<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+											<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#hostname#" aria-labelledby="hostname_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("hostname","hostname");
+											});
+										</script>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
+											<input type="text" id="path" name="path" class="data-entry-input" value="#path#" aria-labelledby="path_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("path","path");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 											<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
+										</div>
+										<script>
+											$(document).ready(function() {
+												makeMediaURIPartAutocomplete("filename","filename");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<div class="form-group mb-2">
+											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+											<cfset selectedextensionlist = "">
+											<select id="extension" name="extension" class="data-entry-select" multiple="true">
+												<option></option>
+												<cfloop query="distinctExtensions">
+													<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
+														<cfset selected="selected='true'">
+														<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
+												</cfloop>
+												<option value="Select All">Select All</option>
+												<option value="NULL">NULL</option>
+												<option value="NOT NULL">NOT NULL</option>
+											</select>
+											<script>
+												$(document).ready(function () {
+													$("##extension").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+													<cfloop list="#selectedextensionlist#" index="ext">
+														$("##extension").jqxComboBox('selectItem', '#ext#');
+													</cfloop>
+													$("##extension").jqxComboBox().on('select', function (event) {
+														var args = event.args;
+													   if (args) {
+    														var item = args.item;
+															if (item.label == 'Select All') { 
+																for (i=0;i<args.index;i++) { 
+																	$("##extension").jqxComboBox('selectIndex', i);
+																}
+																$("##extension").jqxComboBox('unselectIndex', args.index);
+															}
+														}
+													});
+												});
+											</script>
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -236,31 +301,68 @@ limitations under the License.
 											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+								</div>
+								<div class="form-row">
+									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
+									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<cfset keycols="3">
+									<cfelse>
+										<cfset keycols="5">
+									</cfif>
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-#keycols#">
 										<div class="form-group mb-2">
-											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
-												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-											</label>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
-												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
-											</div>
+											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
+											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 										</div>
 									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
-										});
-									</script>
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
+											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
+											<script>
+												$(document).ready(function() {
+													makeMediaLabelAutocomplete("subject","subject");
+												});
+											</script>
+										</div>
+									</div>
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+											<script>
+												$(document).ready(function() {
+													makeAspectAutocomplete("aspect");
+												});
+											</script>
+										</div>
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 col-md-2">
+											<div class="form-group mb-2">
+												<label for="mask_media_fg" class="data-entry-label mb-0" id="mask_media_fg_label">Media Record Visibility</label>
+												<select id="mask_media_fg" name="mask_media_fg" class="data-entry-select">
+													<option></option>
+													<cfif mask_media_fg EQ "1"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="1" #sel#>Hidden</option>
+													<cfif mask_media_fg EQ "0"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="0" #sel#>Public</option>
+												</select>
+											</div>
+										</div>
+									</cfif>
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-4 col-xl-2">
@@ -289,29 +391,24 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
-											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
+											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
 												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" class="btn-link" onclick="var e=document.getElementById('aspect');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
 											<script>
 												$(document).ready(function() {
-													makeAspectAutocomplete("aspect");
+													makeMediaLabelAutocomplete("light_source","light source");
 												});
 											</script>
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
-											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("subject","subject");
-												});
-											</script>
+											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
+											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
 									<cfset remcolm="8">
@@ -334,6 +431,25 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
+												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
+												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
+											</div>
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
+										});
+									</script>
 									<!--- setup to hide search for date as text from most users --->
 									<cfset datecolm="6">
 									<cfset datecolx="3">
@@ -374,22 +490,6 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="light_source" class="data-entry-label mb-0" id="light_source_label">Light Source 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('light_source');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("light_source","light source");
-												});
-											</script>
-										</div>
-									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
@@ -475,7 +575,64 @@ limitations under the License.
 								</cfif>
 								<div class="form-row">
 									<div class="col-12 col-md-4 col-xl-2">
-										<!---- Place holder:  Relationship search controls will go here --->
+										<div class="form-group mb-2">
+											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+													select distinct guid 
+													from 
+														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+														left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+													where 
+														specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+													OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+												</cfquery>
+												<cfloop query="guidLookup">
+													<cfif not listContains(related_cataloged_item,guidLookup.guid)>
+														<cfif len(related_cataloged_item) EQ 0>
+															<cfset related_cataloged_item = guidLookup.guid>
+														<cfelse>
+															<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+														</cfif>
+													</cfif>
+												</cfloop>
+											</cfif>
+											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
+												<span class="small">
+													(NOT NULL)
+												</span>
+											</label>
+											<input type="text" name="related_cataloged_item" 
+												class="data-entry-input" value="#related_cataloged_item#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
+												onchange="$('##collection_object_id').val('');">
+										</div>
+									</div>
+									<div class="col-12 col-md-4 col-xl-2">
+										<div class="form-group mb-2">
+											<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+												<label for "unlinked" class="data-entry-label">Limit to Media not yet linked to any record.</label>
+												<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="data-entry-checkbox">
+											</cfif>
+										</div>
+									</div>
+									<!---- TODO: More Relationship search controls will go here --->
+									<div class="col-12 col-md-4 col-xl-2">
+										<div class="form-group mb-2">
+<!---
+<div id="relationships" class="relationship_dd">
+	<select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
+		<option value=""></option>
+		<cfloop query="ctmedia_relationship">
+			<option value="#media_relationship#">#media_relationship#</option>
+		</cfloop>
+	</select>
+	<input type="text" name="related_value__1" id="related_value__1" size="70">
+	<input type="hidden" name="related_id__1" id="related_id__1">
+	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+</div>
+--->
+										</div>
 									</div>
 								</div>
 								<div class="form-row my-0 mx-0">
@@ -529,6 +686,11 @@ limitations under the License.
 		</main>
 
 		<script>
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisiblities ('/media/findMedia.cfm','Default');
+			</cfif>
+
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
@@ -595,7 +757,10 @@ limitations under the License.
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
 							{ name: 'protocol', type: 'string' },
+							{ name: 'host', type: 'string' },
+							{ name: 'path', type: 'string' },
 							{ name: 'filename', type: 'string' },
+							{ name: 'extension', type: 'string' },
 							{ name: 'creator', type: 'string' },
 							{ name: 'owner', type: 'string' },
 							{ name: 'credit', type: 'string' },
@@ -683,37 +848,40 @@ limitations under the License.
 							],
 						</cfif>
 						columns: [
-							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: false, cellsrenderer: thumbCellRenderer },
+							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
+							{text: 'Preview URI', datafield: 'preview_uri', width: 102, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: true },
+								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: getColHidProp('mask_media_fg', true) },
 							</cfif>
-							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: false },
-							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: false },
-							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: true },
-							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: true },
-							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: false },
-							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: false },
-							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: true },
-							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: true },
-							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: false },
+							{text: 'Media Type', datafield: 'media_type', width: 100, hidable: true, hidden: getColHidProp('media_type', false) },
+							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: getColHidProp('mime_type', false) },
+							{text: 'Protocol', datafield: 'protocol', width: 80, hidable: true, hidden: getColHidProp('protocol', true) },
+							{text: 'Host', datafield: 'host', width: 80, hidable: true, hidden: getColHidProp('host', true) },
+							{text: 'Path', datafield: 'path', width: 80, hidable: true, hidden: getColHidProp('path', true) },
+							{text: 'Filename', datafield: 'filename', width: 100, hidable: true, hidden: getColHidProp('filename', true) },
+							{text: 'Extension', datafield: 'extension', width: 80, hidable: true, hidden: getColHidProp('extension', true) },
+							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: getColHidProp('aspect', false) },
+							{text: 'Description', datafield: 'description', width: 140, hidable: true, hidden: getColHidProp('description', false) },
+							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: getColHidProp('made_date', true) },
+							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: getColHidProp('subject', true) },
+							{text: 'Original Filename', datafield: 'original_filename', width: 120, hidable: true, hidden: getColHidProp('original_filename', false) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: true },
+								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: getColHidProp('internal_remarks', true) },
 							</cfif>
-							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: true },
-							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: true },
-							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: true },
-							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: true },
-							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: false },
-							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: false },
-							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: true },
-							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: true },
-							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: true },
-							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: true },
-							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: true, cellsrenderer: licenceCellRenderer },
-							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: true },
-							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: true },
-							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: false }
+							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: getColHidProp('remarks', true) },
+							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: getColHidProp('spectrometer', true) },
+							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: getColHidProp('light_source', true) },
+							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: getColHidProp('spectrometer_reading_location', true) },
+							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: getColHidProp('height', false) },
+							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: getColHidProp('width', false) },
+							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: getColHidProp('creator', true) },
+							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: getColHidProp('owner', true) },
+							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: getColHidProp('credit', true) },
+							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: getColHidProp('dc_rights', true) },
+							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
+							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
+							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
+							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -724,8 +892,8 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','media records');
+						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','media record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -750,10 +918,20 @@ limitations under the License.
 			}); /* End document.ready */
 
 			function gridLoaded(gridId, searchType) { 
+				// <!--- TODO: load hide/show column preferences from persistent store --->
+				if (Object.keys(window.columnHiddenSettings).length > 0) { 
+					// too slow for all but a few rows, iterates through the columns with an update for each
+					// setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
+				} else {	
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
 				$("##overlay").hide();
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var filename = searchType + '_results_' + nowstring + '.csv';
+				var filename = searchType.replace(/[ ]/g,'_') + '_results_' + nowstring + '.csv';
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
@@ -826,7 +1004,13 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: { 
-						Ok: function(){ $(this).dialog("close"); }
+						Ok: function(){ 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettings,'Default');
+							</cfif>
+							$(this).dialog("close"); 
+						}
 					},
 					open: function (event, ui) { 
 						var maxZIndex = getMaxZIndex();

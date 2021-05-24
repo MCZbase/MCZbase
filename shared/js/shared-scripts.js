@@ -945,3 +945,134 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 	};
 };
+
+
+/** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
+ in the form of an object containing key value pairs where the key is the datafield name for the column
+ and the value is the value of the hidden column property for that column.
+ @param gridId the id for the jqxGrid object in the dom for which to obtain the columns without a 
+	leading # selector (typically searchResultsGrid)
+ @return an object with datafields as keys and hidden properies as values.
+ @see setColumnVisibilities
+**/
+function getColumnVisibilities(gridId) { 
+	var hiddenValues = new Object();
+	var cols = $('#' + gridId).jqxGrid('columns').records;
+	var numcols = cols.length
+	for (i=0; i<numcols; i++) {
+		var field = cols[i].datafield;
+		if (field) { 
+			var hiddenvalue = $('#'+gridId).jqxGrid('getcolumnproperty',field,'hidden');
+			hiddenValues[field] = hiddenvalue;
+		}
+	}
+	return hiddenValues;
+};
+
+/** function setColumnVisibilities update hidden column properties for a search results grid.
+ @param targetGridId the id for the jqxGrid object in the dom for which to set the hidden
+	properties of the columns, without leading # selector (typically searchResultsGrid)
+ @param fieldHiddenValues an object with datafields as keys and hidden properies as values.
+ @see setColumnVisibilities
+ @see getColHidProp
+ @deprecated set properties in grid creation with getColHidProp instead
+**/
+function setColumnVisibilities(fieldHiddenValues,targetGridId) {
+	$('#'+targetGridId).jqxGrid('beginupdate',true)
+	for (field in fieldHiddenValues) { 
+		if ($('#'+targetGridId).jqxGrid('getcolumn',field)!==null) { 
+			if (fieldHiddenValues[field]==true) {
+				if ($('#'+targetGridId).jqxGrid('getcolumnproperty',field,'hidable')==true) { 
+					$('#'+targetGridId).jqxGrid('hidecolumn',field);
+				}
+			} else {
+				$('#'+targetGridId).jqxGrid('showcolumn',field);
+			}
+		}
+	}
+	$('#'+targetGridId).jqxGrid('endupdate')
+};
+
+/** saveColumnVisibilities persist the grid column hidden properties in the database 
+ * @param page the page on which the grid for which to save the column hidden properites appears.
+ * @param fieldHiddenValues an object containing key value pairs where the key is a datafield and the
+ *  value is the hidden property for that datafield in a grid's properties, this would be expected
+ *  to be the window.columnHiddenSettings global variable.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is Default
+ * @param feeebackdiv optional, the id for a page element which can display feedback from the save, without 
+ *  a leading # selector.
+ */
+function saveColumnVisibilities(pageFilePath,fieldHiddenValues,label,feedbackDiv) { 
+	if (typeof feedbackDiv !== 'undefined') { 
+		$('#'+feedbackDiv).html('Saving...');
+	}
+	if (typeof fieldHiddenValues === 'undefined') { 
+		messageDialog("Error saving column visibilities: columnHiddenSettings object was not passed in ","Error: saving column visibilities.");
+	}
+	var settings = JSON.stringify(fieldHiddenValues);
+	if (settings=="") { settings = "{}"; } 
+	console.log(settings);
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "saveGridColumnHiddenSettings",
+			page_file_path: pageFilePath,
+			columnhiddensettings: settings,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			if (typeof feedbackDiv !== 'undefined') { 
+				$('#'+feedbackDiv).html('Error.');
+			}
+			messageDialog("Error saving column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (typeof feedbackDiv === 'undefined') { 
+				console.log(result.DATA.MESSAGE[0]);
+			} else { 
+				$('#'+feedbackDiv).html(result.DATA.MESSAGE[0]);
+			}
+		}
+	});
+}
+
+/** lookupColumnVisibilities retrieve the persisted grid column hidden properties from the database 
+ * @param page the page on which the grid for which to load the column hidden properites appears.
+ * @param label the label for the user's configuration of visible grid columns on that page, default
+ *  value is Default
+ */
+function lookupColumnVisiblities (pageFilePath,label) { 
+	jQuery.ajax({
+		dataType: "json",
+		url: "/shared/component/functions.cfc",
+		data: { 
+			method : "getGridColumnHiddenSettings",
+			page_file_path: pageFilePath,
+			label: label,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error looking up column visibilities: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			console.log(result[0]);
+			var settings = result[0];
+			window.columnHiddenSettings = JSON.parse(settings.columnhiddensettings);
+		}
+	});
+}
+
+// return either the value of the hidden property for the provided column from columnHiddenSettings
+// or if none is set, the provided default value.
+function getColHidProp(columnName, defaultValue) { 
+	if (window.columnHiddenSettings.hasOwnProperty(columnName)) { 
+		return window.columnHiddenSettings[columnName];
+	} else {
+		return defaultValue
+	}
+}

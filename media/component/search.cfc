@@ -31,7 +31,10 @@ limitations under the License.
 	<cfargument name="has_roi" type="string" required="no">
 	<cfargument name="keywords" type="string" required="no">
 	<cfargument name="protocol" type="string" required="no">
+	<cfargument name="hostname" type="string" required="no">
+	<cfargument name="path" type="string" required="no">
 	<cfargument name="filename" type="string" required="no">
+	<cfargument name="extension" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="aspect" type="string" required="no">
 	<cfargument name="height" type="string" required="no">
@@ -49,6 +52,33 @@ limitations under the License.
 	<cfargument name="credit" type="string" required="no">
 	<cfargument name="spectrometer" type="string" required="no">
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
+	<cfargument name="related_cataloged_item" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="unlinked" type="string" required="no">
+
+
+	<cfif not isdefined("unlinked")>
+		<cfset unlinked = "">
+	</cfif>
+	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select collection_object_id as cat_item_coll_obj_id 
+			from 
+				<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.cat_item_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.cat_item_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.cat_item_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("made_date") and len(#made_date#) gt 0>
 		<cfif not isdefined("to_made_date") or len(to_made_date) is 0>
@@ -86,8 +116,11 @@ limitations under the License.
 				MCZBASE.get_media_credit(media.media_id) as credit,
 				MCZBASE.get_media_owner(media.media_id) as owner,
 				MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
-				regexp_substr(media_uri,'^[htpsf]+:/') as protocol,
-				regexp_substr(media_uri,'[^/]+$') as filename,
+				auto_protocol as protocol,
+				auto_host as host,
+				auto_path as path,
+				auto_filename as filename,
+				auto_extension as extension,
 				MCZBASE.get_media_creator(media.media_id) as creator,
 				MCZBASE.get_media_relations_string(media.media_id) as relations,
 				MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
@@ -111,6 +144,11 @@ limitations under the License.
 				<cfif isdefined("keywords") and len(keywords) gt 0>
 					<cfif keysearch IS "plain" >
 						left join media_keywords on media.media_id = media_keywords.media_id
+					</cfif>
+				</cfif>
+				<cfif len(unlinked) EQ 0>
+					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 					</cfif>
 				</cfif>
 			WHERE
@@ -467,19 +505,105 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_made_date, "yyyy-mm-dd")#'>
 					)
 				</cfif>
+				<cfif isdefined("extension") and len(extension) gt 0>
+					<cfif extension is "NULL">
+						AND auto_extension is null
+					<cfelseif extension is "NOT NULL">
+						AND auto_extension is not null
+					<cfelse>
+						AND auto_extension in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#extension#" list="yes"> )
+					</cfif>
+				</cfif>
 				<cfif isdefined("filename") and len(filename) gt 0>
-					<!--- too slow: AND regexp_substr(media_uri,'[^/]+$') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filename#"> --->
-					AND media_uri like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#filename#">
+					<cfif left(filename,2) is "==">
+						AND auto_filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+					<cfelseif left(filename,1) is "=">
+						AND upper(auto_filename) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+					<cfelseif left(filename,2) is "!!">
+						AND auto_filename <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-2)#">
+					<cfelseif left(filename,1) is "~">
+						AND utl_match.jaro_winkler(auto_filename, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-1)#">) >= 0.90
+					<cfelseif left(filename,1) is "!~">
+						AND utl_match.jaro_winkler(auto_filename, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(filename,len(filename)-1)#">) < 0.90
+					<cfelseif left(filename,1) is "!">
+						AND upper(auto_filename) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(filename,len(filename)-1))#">
+					<cfelseif filename is "NULL">
+						AND auto_filename is null
+					<cfelseif filename is "NOT NULL">
+						AND auto_filename is not null
+					<cfelse>
+						<cfif find(',',filename) GT 0>
+							AND upper(auto_filename) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(filename)#" list="yes"> )
+						<cfelse>
+							AND upper(auto_filename) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(filename)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("path") and len(path) gt 0>
+					<cfif left(path,2) is "==">
+						AND auto_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+					<cfelseif left(path,1) is "=">
+						AND upper(auto_path) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+					<cfelseif left(path,2) is "!!">
+						AND auto_path <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(path,len(path)-2)#">
+					<cfelseif left(path,1) is "!">
+						AND upper(auto_path) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(path,len(path)-1))#">
+					<cfelseif path is "NULL">
+						AND auto_path is null
+					<cfelseif path is "NOT NULL">
+						AND auto_path is not null
+					<cfelse>
+						<cfif find(',',path) GT 0>
+							AND upper(auto_path) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(path)#" list="yes"> )
+						<cfelse>
+							AND upper(auto_path) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(path)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("hostname") and len(hostname) gt 0>
+					<cfif left(hostname,2) is "==">
+						AND auto_host = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+					<cfelseif left(hostname,1) is "=">
+						AND upper(auto_host) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+					<cfelseif left(hostname,2) is "!!">
+						AND auto_host <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(hostname,len(hostname)-2)#">
+					<cfelseif left(hostname,1) is "!">
+						AND upper(auto_host) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(hostname,len(hostname)-1))#">
+					<cfelseif hostname is "NULL">
+						AND auto_host is null
+					<cfelseif hostname is "NOT NULL">
+						AND auto_host is not null
+					<cfelse>
+						<cfif find(',',hostname) GT 0>
+							AND upper(auto_host) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(hostname)#" list="yes"> )
+						<cfelse>
+							AND upper(auto_host) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(hostname)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif isdefined("protocol") and len(protocol) gt 0>
 					<cfif protocol IS "http">
-						AND media_uri like 'http://%'
+						AND auto_protocol = 'http'
 					<cfelseif protocol IS "https">
-						AND media_uri like 'https://%'
+						AND auto_protocol = 'https'
 					<cfelseif protocol IS 'httphttps'>
-						AND (media_uri like 'https://%' OR media_uri like 'http://') 
+						AND (media_uri like 'https://%' OR media_uri like 'http://%') 
 					<cfelseif protocol IS 'NULL'>
-						AND regexp_substr(media_uri,'^[htpsf]+://') IS NULL
+						AND auto_protocol IS NULL
+					<cfelse>
+						AND auto_protocol = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#protocol#'>
+					</cfif>
+				</cfif>
+				<cfif len(unlinked) GT 0>
+					and media.media_id not in (select media_id from media_relations where media_relationship <> 'created by agent')
+				<cfelse>
+					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+						AND media_relations_ci.media_relationship = 'shows cataloged_item'
+						<cfif related_cataloged_item IS 'NOT NULL'>
+							AND media_relations_ci.related_primary_key IS NOT NULL
+						<cfelse>
+							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+						</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY media.media_uri
@@ -579,6 +703,126 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["value"] = "#search.label_value#" >
 			<cfset row["meta"] = "#search.label_value# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media hostname autocomplete control --->
+<cffunction name="getHostnameAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_host
+			from 
+				media
+			where 
+				auto_host is not null 
+				AND upper(auto_host) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_host
+			order by auto_host
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.auto_host#" >
+			<cfset row["meta"] = "#search.auto_host# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media path autocomplete control --->
+<cffunction name="getPathAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_path
+			from 
+				media
+			where 
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				AND upper(auto_path) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_path
+			order by auto_path
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.auto_path#" >
+			<cfset row["meta"] = "#search.auto_path# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a media filename autocomplete control --->
+<cffunction name="getFilenameAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select 
+				count(*) ct,
+				auto_filename
+			from 
+				media
+			where 
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				AND upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by auto_filename
+			order by auto_filename
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["value"] = "#search.auto_filename#" >
+			<cfset row["meta"] = "#search.auto_filename# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
