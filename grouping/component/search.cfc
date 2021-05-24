@@ -55,7 +55,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
 					and upper(description) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
-					</cfif>
+				</cfif>
 				<cfif isDefined("html_description") and len(html_description) gt 0>
 					and upper(html_description) like <cfqueryparam cfsqltype="CF_SQL_CLOB" value="%#ucase(html_description)#%">
 				</cfif>
@@ -79,9 +79,6 @@ limitations under the License.
 					<cfelse>
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
-				</cfif>
-				<cfif isDefined("html_description") and len(html_description) gt 0>
-					and upper(html_description) like <cfqueryparam cfsqltype="CF_SQL_CLOB" value="%#ucase(html_description)#%">
 				</cfif>
 			group by 
 				underscore_collection.underscore_collection_id,
