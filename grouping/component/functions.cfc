@@ -104,8 +104,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				underscore_collection_id, 
 				collection_name, 
 				description,
-				mask_flag,
 				html_description,
+				mask_flag,
 				underscore_agent_id,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
@@ -125,8 +125,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["coll_event_num_series_id"] = "#search.coll_event_num_series_id#">
 			<cfset row["collection_name"] = "#search.collection_name#">
 			<cfset row["description"] = "#search.description#">
-			<cfset row["mask_fg"] = "#search.mask_fg#">
 			<cfset row["html_description"] = "#search.html_description#">
+			<cfset row["mask_fg"] = "#search.mask_fg#">
 			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["id_link"] = "<a href='/grouping/NamedCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
 			<cfset data[i] = row>
