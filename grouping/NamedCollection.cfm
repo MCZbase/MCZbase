@@ -172,7 +172,7 @@ limitations under the License.
 											</script>
 											<div class="col-12 mt-2">
 												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
-												<input type="text" class="data-entry-input" name="html_description" value="" aria-labelledby="html_description">
+												<input type="text" class="data-entry-input" name="html_description"  value="#html_description#" aria-labelledby="html_description">
 											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
