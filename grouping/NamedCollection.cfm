@@ -98,7 +98,7 @@ limitations under the License.
 								<div class="col-12 px-4 pt-3 pb-2">
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getCollections" class="keeponclear">
-										<div class="form-row mb-2">
+										<div class="form-row mt-1 mb-2">
 											<div class="col-md-5">
 												<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
 												<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
