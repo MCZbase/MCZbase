@@ -430,6 +430,7 @@ limitations under the License.
 	<cfcase value="new">
 		<!--- Add a new ____ collection, link to agent ---> 
 		<cfoutput>
+			<cfset includeJQXEditor='true'>
 			<main class="container mt-3">
 				<section class="row">
 					<div class="col-12">
