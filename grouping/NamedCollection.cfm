@@ -475,7 +475,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 											<textarea name="html_description" id="html_description" style="height: 20em;">#html_description#</textarea>
-											<script>CKEDITOR.replace( 'html_description' );</script>
+						<!---					<script>CKEDITOR.replace( 'html_description' );</script>--->
 										
 										
 									</div>
