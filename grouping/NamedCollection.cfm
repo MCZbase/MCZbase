@@ -81,7 +81,7 @@ limitations under the License.
 			<cfif len(underscore_agent_id) EQ 0>
 				<cfset underscore_agent_name="">
 			</cfif>
-			<cfif len("html_description") EQ 0>
+			<cfif len(html_description) EQ 0>
 				<cfset html_description="">
 			</cfif>
 			<!--- Search Form ---> 
@@ -245,7 +245,8 @@ limitations under the License.
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
 										{ name: 'SPECIMEN_COUNT', type: 'string' },
-										{ name: 'HTML_DESCRIPTION', type: 'string'}
+										{ name: 'HTML_DESCRIPTION', type: 'string'},
+										{ name: 'masked_fg', type: 'string'}
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
@@ -306,7 +307,8 @@ limitations under the License.
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
 										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
-										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false }
+										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false },
+										{text: 'Visibility', datafield: 'MASKED_FG', hideable: true, hidden: false}
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
@@ -482,9 +484,11 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 											<textarea name="html_description" id="html_description" style="height: 20em;">#html_description#</textarea>
-						<!---					<script>CKEDITOR.replace( 'html_description' );</script>--->
-										
-										
+										<script>
+											$(document).ready(function () {
+												$('##html_description').jqxEditor();
+											});
+										</script>
 									</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 

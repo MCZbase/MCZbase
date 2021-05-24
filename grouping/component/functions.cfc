@@ -104,13 +104,13 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				underscore_collection_id, 
 				collection_name, description,
 				underscore_agent_id,
+				mask_flag,
+				html_description,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname,
-				mask_flag,
-				html_description
+				as agentname
 			FROM 
 				underscore_collection
 			WHERE
