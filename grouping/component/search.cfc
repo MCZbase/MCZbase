@@ -86,7 +86,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("html_description") and len(html_description) gt 0>
-					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
+					and html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
 			group by 
 				underscore_collection.underscore_collection_id,
