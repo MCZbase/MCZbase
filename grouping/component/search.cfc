@@ -27,7 +27,6 @@ limitations under the License.
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
 	<cfargument name="collection_id" type="string" required="no">
-	<cfargument name="html_description" type="string" requirement="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -42,8 +41,7 @@ limitations under the License.
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname,
-				html_description
+				as agentname
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
@@ -89,8 +87,7 @@ limitations under the License.
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end,
-				html_description
+					end
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
