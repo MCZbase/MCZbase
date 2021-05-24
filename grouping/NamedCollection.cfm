@@ -18,6 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
 <cfif not isdefined("action")>
 	<cfset action="search">
 </cfif>
@@ -37,6 +38,8 @@ limitations under the License.
 </cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
+<script src="/includes/js/ckeditor/ckeditor.js"></script>
 <cfswitch expression="#action#">
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
 	<cfcase value="new">
@@ -166,8 +169,6 @@ limitations under the License.
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 												});
 											</script>
-											<textarea name="featured_data" id="featured_data" style="height: 20em;">#featured_data#</textarea>
-											<script>CKEDITOR.replace( 'featured_data' );</script>
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0 pt-2">
