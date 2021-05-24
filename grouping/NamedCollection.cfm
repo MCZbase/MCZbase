@@ -65,6 +65,9 @@ limitations under the License.
 			<cfif not isdefined("description")>
 				<cfset description="">
 			</cfif>
+			<cfif not isdefined("html_description")>
+				<cfset html_description="">
+			</cfif>
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
