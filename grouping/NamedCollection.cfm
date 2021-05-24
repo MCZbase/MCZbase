@@ -246,7 +246,7 @@ limitations under the License.
 										{ name: 'AGENTNAME', type: 'string' },
 										{ name: 'SPECIMEN_COUNT', type: 'string' },
 										{ name: 'HTML_DESCRIPTION', type: 'string'},
-										{ name: 'masked_fg', type: 'string'}
+										{ name: 'MASK_FG', type: 'string'}
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
@@ -308,7 +308,7 @@ limitations under the License.
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
 										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
 										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false },
-										{text: 'Visibility', datafield: 'MASKED_FG', hideable: true, hidden: false}
+										{text: 'Visibility', datafield: 'MASK_FG', hideable: true, hidden: false}
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
