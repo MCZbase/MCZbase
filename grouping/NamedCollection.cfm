@@ -482,11 +482,6 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 										<textarea name="html_description" id="html_description" style="height: 20em;">#html_description#</textarea>
-										<script>
-											$(document).ready(function () {
-												$('##html_description').jqxEditor();
-											});
-										</script>
 									</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
