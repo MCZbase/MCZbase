@@ -38,8 +38,8 @@ limitations under the License.
 </cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
-<script> var CKEDITOR_BASEPATH = '/includes/js/ckeditor/'; </script>
-<script src="/includes/js/ckeditor/ckeditor.js"></script>
+<script> var CKEDITOR_BASEPATH = '/shared/js/ckeditor/'; </script>
+<script src="/shared/js/ckeditor/ckeditor.js"></script>
 <cfswitch expression="#action#">
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
 	<cfcase value="new">
