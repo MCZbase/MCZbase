@@ -136,7 +136,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 mt-1 col-md-6">
 												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
