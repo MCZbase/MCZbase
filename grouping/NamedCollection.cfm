@@ -172,6 +172,10 @@ limitations under the License.
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 												});
 											</script>
+											<div class="col-12">
+												<label for="html_description" id="html_description" class="data-entry-label">Featured Data</label>
+												<input type="text" class="data-entry-input" name="html_description" value="html_description" aria-labelledby="html_description">
+											</div>
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0 pt-2">
