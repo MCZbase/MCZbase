@@ -27,8 +27,8 @@ limitations under the License.
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
-	<cfargument name="html_description" type="string" requirement="no">
 	<cfargument name="collection_id" type="string" required="no">
+	<cfargument name="html_description" type="string" requirement="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -86,7 +86,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("html_description") and len(html_description) gt 0>
-					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#html_description#">
+					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
 			group by 
 				underscore_collection.underscore_collection_id,
