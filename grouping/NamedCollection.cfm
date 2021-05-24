@@ -177,8 +177,8 @@ limitations under the License.
 												<input type="text" class="data-entry-input" name="html_description" value="" aria-labelledby="html_description">
 											</div>
 										</div>
-										<div class="form-row my-2 mx-0">
-											<div class="col-12 px-0 pt-2">
+										<div class="form-row mt-2 mx-0">
+											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
