@@ -529,7 +529,7 @@ limitations under the License.
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 					</cfif>
 					<cfif isdefined("html_description")>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#html_description#">
+						,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 					</cfif>
 				)
 			</cfquery>
