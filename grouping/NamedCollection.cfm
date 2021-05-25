@@ -474,7 +474,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0"
+										<textarea id="html_description" name="html_description" class="w-100"
 											aria-labelledby="html_description_label" ></textarea>
 									</div>
 									<script>
@@ -574,7 +574,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection_id, collection_name, description, underscore_agent_id,
+				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 					case 
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -633,8 +633,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0"
-											aria-labelledby="html_description_label" ></textarea>
+										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
 									</div>
 									<script>
 										$(document).ready(function () {
