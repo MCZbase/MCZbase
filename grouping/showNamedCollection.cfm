@@ -5,9 +5,14 @@
 	<style>
 		a:focus {box-shadow: none;}
 	</style>
-	<cfset underscore_collection_id = "1">
+	<cfif not isDefined("underscore_collection_id") OR len underscore_collection_id EQ 0>
+		<!--- TODO: Remove temporary hard coded default collection, replace with redirect to search if not provided an underscore collection id. --->
+		<cfset underscore_collection_id = "1">
+	</cfif>
+	<!--- TODO: Remove hardcoded reference, correct agent must be returned from getNamedGroup search --->
 	<cfset underscore_agent_id = "117103">
 	<cfset collection_object_id = "">
+	<!--- TODO: Fix query, shouldn't include values from underscore_relation in this query, it should return one and only one record for the underscore collection, not one per linked record, and should not join out to underscore collection or take collection object id as a parameter, that is only for the search, this page should return one and only one record.  --->
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select underscore_collection.collection_name, underscore_collection.description, underscore_collection.underscore_agent_id, underscore_relation.collection_object_id, underscore_collection.html_description, underscore_collection.mask_fg 
 		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -22,11 +27,14 @@
 						</div>
 					</div>
 					<div class="row mx-0">
+						<div class="col-12">
+							<p>#getNamedGroup.html_description#</p>
+						</div>
+					</div>
+					<div class="row mx-0">
 						<div class="col-12 col-md-7 col-lg-7 col-xl-7 px-0 px-md-4 float-left mt-0">
 							<h2>Description</h2>
 							<p class="">#getNamedGroup.description#</p>
-							<h2>Featured Data</h2>
-							<p>#getNamedGroup.html_description#</p>
 							<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
 							<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 							<!--Carousel Wrapper-->
