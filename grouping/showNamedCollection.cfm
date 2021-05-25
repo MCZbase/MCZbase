@@ -28,13 +28,9 @@
 							</div>
 						</div>
 						<div class="row mx-0">
-							<div class="col-12 px-0 px-md-4">
-								<p>#getNamedGroup.html_description#</p>
-							</div>
-						</div>
-						<div class="row mx-0">
 							<div class="col-12 col-md-7 col-lg-7 col-xl-7 px-0 px-md-4 float-left mt-0">
-								<h2>Description</h2>
+								#getNamedGroup.html_description# <!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
+								<h2 class="h2">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri, 
