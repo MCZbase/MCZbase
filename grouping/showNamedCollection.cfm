@@ -7,11 +7,8 @@
 	</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<!--- TODO: Remove temporary hard coded default collection, replace with redirect to search if not provided an underscore collection id. --->
-		<cfset underscore_collection_id = "1">
+		<cfset underscore_collection_id = "161">
 	</cfif>
-	<!--- TODO: Remove hardcoded reference, correct agent must be returned from getNamedGroup search --->
-	<cfset underscore_agent_id = "117103">
-	<cfset collection_object_id = "">
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 		select collection_name, description, underscore_agent_id, html_description, mask_fg 
 		from underscore_collection
@@ -58,67 +55,45 @@
 									ORDER BY flat.guid asc
 								</cfquery>
 								<cfset specimenImageCount = specimenImageQuery.recordcount>
-								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
-								<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
-								<!--Carousel Wrapper-->
-								<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-									<!--Indicators-->
-									<ol class="carousel-indicators">
-										<li data-target="##carousel-example-2" data-slide-to="0" class="active"></li>
-										<li data-target="##carousel-example-2" data-slide-to="1"></li>
-										<li data-target="##carousel-example-2" data-slide-to="2"></li>
-										<cfloop index="i" from="3" to="#specimenImageCount + 2#">
-											<li data-target="##carousel-example-2" data-slide-to="#i#"></li>
-										</cfloop>
-									</ol>
-									<!--/.Indicators---> 
-									<!--Slides-->
-									<div class="carousel-inner" role="listbox">
-										<div class="carousel-item active">
-											<div class="view"> <img class="d-block w-100" src="/shared/images/1024px-Berlin_Naturkundemuseum_Muscheln.jpg" alt="First slide"/>
-												   <div class="mask rgba-black-strong"></div>
-											</div>
-											<div class="carousel-caption">
-												<h3 class="h3-responsive">Diversity and variability of shells of molluscs on display</h3>
-												<p>Photo from Museum für Naturkunde Berlin</p>
-											</div>
-										</div>
-										<div class="carousel-item">
-											<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Fossilized_Ammonite_Mollusk_displayed_at_Philippine_National_Museum.jpg" alt="Second slide"/>
-												   <div class="mask rgba-black-strong"></div>
-											</div>
-											<div class="carousel-caption">
-												<h3 class="h3-responsive">Fossilized ammonite displayed</h3>
-												<p>National Museum of the Philippines</p>
-											</div>
-										</div>
-										<div class="carousel-item">
-											<div class="view"> <img class="d-block w-100" src="/shared/images/800px-Snail-wiki-120-Zachi-Evenor.jpg" alt="Second slide"/>
-												   <div class="mask rgba-black-strong"></div>
-											</div>
-											<div class="carousel-caption">
-												<h3 class="h3-responsive">Cornu aspersum (formerly Helix aspersa) – a common land snail</h3>
-												<p>Photo by Zachi Evenor</p>
-											</div>
-										</div>
-										<cfloop query="specimenImageQuery">
-											<div class="carousel-item">
-												<div class="view"> <img class="d-block w-100" src="#specimenImageQuery.media_uri#" alt="#specimenImageQuery.alt#"/>
+								<cfif specimenImageCount GT 0>
+									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
+									<p>Specimen Images</p>
+									<!--Carousel Wrapper-->
+									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+										<!--Indicators-->
+										<ol class="carousel-indicators">
+											<cfset active = 'class="active"' >
+											<cfloop index="i" from="0" to="#specimenImageCount#">
+												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
+												<cfset active = '' >
+											</cfloop>
+										</ol>
+										<!--/.Indicators---> 
+										<!--Slides-->
+										<div class="carousel-inner" role="listbox">
+											<cfset active = "active" >
+											<cfloop query="specimenImageQuery">
+												<div class="carousel-item #active#">
+													<div class="view">
+														<img class="d-block w-100" src="#specimenImageQuery.media_uri#" alt="#specimenImageQuery.alt#"/>
 													   <div class="mask rgba-black-strong"></div>
+													</div>
+													<div class="carousel-caption">
+														<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
+														<p>#specimenImageQuery.credit#</p>
+													</div>
 												</div>
-												<div class="carousel-caption">
-													<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
-													<p>#specimenImageQuery.credit#</p>
-												</div>
-											</div>
-										</cfloop>
+												<cfset active = "" >
+											</cfloop>
+										</div>
+										<!--/.Slides--> 
+										<!--Controls--> 
+										<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+										<!--/.Controls--> 
 									</div>
-									<!--/.Slides--> 
-									<!--Controls--> 
-									<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-									<!--/.Controls--> 
-								</div>
-								<!--/.Carousel Wrapper-->
+									<!--/.Carousel Wrapper-->
+
+
 								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
 								<div class="row">
