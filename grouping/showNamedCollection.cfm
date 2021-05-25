@@ -92,7 +92,7 @@
 										<!--/.Controls--> 
 									</div>
 									<!--/.Carousel Wrapper-->
-
+								</cfif><!--- end specimen image loop --->
 
 								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
