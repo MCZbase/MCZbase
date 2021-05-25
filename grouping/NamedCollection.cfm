@@ -172,18 +172,6 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="form-row my-1">
-											<div class="col-md-12">
-												<label for="description" class="data-entry-label" id="description">Description</label>
-												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description" >
-											</div>
-										</div>
-										<div class="form-row my-1">
-											<div class="col-md-12">
-												<label for="html_description" class="data-entry-label" id="html_description">Featured Data</label>
-												<input type="text" id="html_description" name="html_description" class="data-entry-input" value="#html_description#" aria-labelledby="html_description" >
-											</div>
-										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
