@@ -12,10 +12,10 @@
 	<!--- TODO: Remove hardcoded reference, correct agent must be returned from getNamedGroup search --->
 	<cfset underscore_agent_id = "117103">
 	<cfset collection_object_id = "">
-	<!--- TODO: Fix query, shouldn't include values from underscore_relation in this query, it should return one and only one record for the underscore collection, not one per linked record, and should not join out to underscore collection or take collection object id as a parameter, that is only for the search, this page should return one and only one record.  --->
-	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select underscore_collection.collection_name, underscore_collection.description, underscore_collection.underscore_agent_id, underscore_relation.collection_object_id, underscore_collection.html_description, underscore_collection.mask_fg 
-		from underscore_collection, underscore_relation where underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id and underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+		select collection_name, description, underscore_agent_id, html_description, mask_fg 
+		from underscore_collection
+		where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<main class="container-fluid py-3">
 		<div class="row mx-0">
