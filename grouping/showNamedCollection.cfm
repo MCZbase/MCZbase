@@ -39,6 +39,24 @@
 							<div class="col-12 col-md-7 col-lg-7 col-xl-7 px-0 px-md-4 float-left mt-0">
 								<h2>Description</h2>
 								<p class="">#getNamedGroup.description#</p>
+								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
+									SELECT DISTINCT media_uri, preview_uri, 
+										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_media_credit(media.media_id) as credit
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows cataloged_item'
+              						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+									ORDER BY flat.guid asc
+								</cfquery>
+								<cfset specimenImageCount = specimenImageQuery.recordcount>
 								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
 								<p>Specimen Images not linked to the #getNamedGroup.collection_name# (dev placeholders)</p>
 								<!--Carousel Wrapper-->
@@ -48,6 +66,9 @@
 										<li data-target="##carousel-example-2" data-slide-to="0" class="active"></li>
 										<li data-target="##carousel-example-2" data-slide-to="1"></li>
 										<li data-target="##carousel-example-2" data-slide-to="2"></li>
+										<cfloop index="i" from="3" to="#specimenImageCount + 2#">
+											<li data-target="##carousel-example-2" data-slide-to="#i#"></li>
+										</cfloop>
 									</ol>
 									<!--/.Indicators---> 
 									<!--Slides-->
@@ -79,6 +100,17 @@
 												<p>Photo by Zachi Evenor</p>
 											</div>
 										</div>
+										<cfloop query="specimenImageQuery">
+											<div class="carousel-item">
+												<div class="view"> <img class="d-block w-100" src="#specimenImageQuery.media_uri#" alt="#specimenImageQuery.alt#"/>
+													   <div class="mask rgba-black-strong"></div>
+												</div>
+												<div class="carousel-caption">
+													<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
+													<p>#specimenImageQuery.credit#</p>
+												</div>
+											</div>
+										</cfloop>
 									</div>
 									<!--/.Slides--> 
 									<!--Controls--> 
@@ -239,16 +271,18 @@
 											and flat.guid is not null
 										ORDER BY flat.guid asc
 									</cfquery>
-									<div class="col-12">
-										<h3>Specimen Records</h3>
-										<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-											<cfloop query="specimens">
-												<li class="list-group-item float-left d-inline mr-2" style="width:105px">
-													<a href="/guid/#specimens.guid#" target="_blank">#specimens.guid#</a>
-												</li>
-											</cfloop>
-										</ul>
-									</div>
+									<cfif agents.recordcount GT 0>
+										<div class="col-12">
+											<h3>Specimen Records</h3>
+											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
+												<cfloop query="specimens">
+													<li class="list-group-item float-left d-inline mr-2" style="width:105px">
+														<a href="/guid/#specimens.guid#" target="_blank">#specimens.guid#</a> #specimens.scientific_name#
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									<cfif>
 								</div>
 							</div>
 						</div>
