@@ -53,7 +53,7 @@
 								<cfset specimenImageCount = specimenImageQuery.recordcount>
 								<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
-									<p>Specimen Images</p>
+									<p>#specimenImageCount# Specimen Images</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 										<!--Indicators-->
