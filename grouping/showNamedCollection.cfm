@@ -28,7 +28,7 @@
 							</div>
 						</div>
 						<div class="row mx-0">
-							<div class="col-12 col-md-6 px-0 px-md-4 float-left mt-0">
+							<div class="col-12 col-md-6 float-left mt-0">
 								#getNamedGroup.html_description# <!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								<h2 class="h2">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
@@ -163,7 +163,7 @@
 								</div>
 	<!---  WARNING: indentation is not clean, nesting of divs may be broken.  Clean up indentation and verify nesting of tags. --->
 						
-							<div class="col-12 col-md-12 col-lg-4 px-4 mt-1 float-left">
+							<div class="col-12 col-md-6 mt-1 float-left">
 								<div class="row">
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxa_class_result">
 										SELECT DISTINCT flat.phylclass as phylclass 
