@@ -33,7 +33,7 @@
 								<h2 class="h2">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT DISTINCT media_uri, preview_uri, 
+									SELECT DISTINCT media_uri, preview_uri,media_type
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
@@ -47,7 +47,8 @@
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
 										AND media_relations.media_relationship = 'shows cataloged_item'
-              						AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+										AND (media_type = 'image' OR media_type = 'video')
+										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 									ORDER BY flat.guid asc
 								</cfquery>
 								<cfset specimenImageCount = specimenImageQuery.recordcount>
