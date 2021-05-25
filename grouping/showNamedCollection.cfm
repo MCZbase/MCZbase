@@ -201,7 +201,7 @@
 									<cfif country.recordcount GT 0>
 										<div class="col-12">
 											<h3>Countries</h3>
-											<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="country">
 													<li class="list-group-item float-left"><a class="h4" href="##">#country.country#</a></li>
 												</cfloop>
