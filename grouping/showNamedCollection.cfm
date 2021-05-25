@@ -42,7 +42,8 @@
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri, 
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit
+										MCZBASE.get_media_credit(media.media_id) as credit,
+										flat.guid
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
