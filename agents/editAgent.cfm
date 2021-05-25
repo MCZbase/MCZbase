@@ -335,7 +335,7 @@ limitations under the License.
 	<cfoutput>
 		<cfquery name="agentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT agent_type 
-			FROM cfagent_type 
+			FROM ctagent_type 
 			WHERE agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">
 		</cfquery>
 		<cfif agentTypeCheck.recordcount NEQ 1>
@@ -360,6 +360,12 @@ limitations under the License.
 						<cfif len(#agentguid#) gt 0>
 							,agentguid
 						</cfif>
+						<cfif len(#agent_remarks#) gt 0>
+							,agent_remarks
+						</cfif>
+						<cfif len(#biography#) gt 0>
+							,biography
+						</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_type#">
@@ -367,8 +373,11 @@ limitations under the License.
 						<cfif len(#agentguid_guid_type#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
 						</cfif>
-						<cfif len(#agentguid#) gt 0>
-							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid#">
+						<cfif len(#agent_remarks#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_remarks#">
+						</cfif>
+						<cfif len(#biography#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#biography#">
 						</cfif>
 					)
 				</cfquery>
