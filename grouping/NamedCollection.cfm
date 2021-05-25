@@ -314,8 +314,8 @@ limitations under the License.
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: true }
-										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
+										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: true },
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
