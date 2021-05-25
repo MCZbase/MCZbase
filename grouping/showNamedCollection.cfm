@@ -179,7 +179,8 @@
 									<cfif taxa_class.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
-											<ul class="list-group py-3 border-top border-bottom rounded-0 border-dark">
+										
+											<ul class="list-group py-3 border-top list-group-horizontal border-bottom rounded-0 border-dark">
 												<cfloop query="taxa_class">
 													<li class="list-group-item float-left"><a class="h4" href="##">#taxa_class.phylclass#</a></li>
 												</cfloop>
