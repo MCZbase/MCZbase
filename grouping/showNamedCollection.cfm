@@ -5,7 +5,7 @@
 	<style>
 		a:focus {box-shadow: none;}
 	</style>
-	<cfif not isDefined("underscore_collection_id") OR len underscore_collection_id EQ 0>
+	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 		<!--- TODO: Remove temporary hard coded default collection, replace with redirect to search if not provided an underscore collection id. --->
 		<cfset underscore_collection_id = "1">
 	</cfif>
