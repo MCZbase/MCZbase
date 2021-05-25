@@ -222,11 +222,33 @@
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name asc
 									</cfquery>
+									<cfquery name="other_agent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
+										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join collector on flat.collection_object_id = collector.collection_object_id
+											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.collectors is not null
+											and collector.collector_role = 'c'
+										ORDER BY preferred_agent_name.agent_name asc
+									</cfquery>
 									<cfif agents.recordcount GT 0>
 										<div class="col-12">
 											<h3>Collectors</h3>
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 												<cfloop query="agents">
+													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+													</li>
+												</cfloop>
+											</ul>
+											<h3>Agents of Organizations, Vessels, and Expeditions</h3>
+											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
+												<cfloop query="other_agent">
 													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
 														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 													</li>
