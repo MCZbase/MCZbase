@@ -47,7 +47,7 @@
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
 										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND (media_type = 'image' OR media_type = 'video')
+										AND media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 									ORDER BY flat.guid asc
 								</cfquery>
