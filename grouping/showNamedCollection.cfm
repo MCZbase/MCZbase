@@ -220,7 +220,7 @@
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.collectors is not null
 											and collector.collector_role = 'c'
-										ORDER BY person.last_name asc
+										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
 									<cfquery name="other_agent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id
