@@ -144,6 +144,7 @@
 										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
 								</div>
 							</div>
+<!---  WARNING: indentation is not clean, nesting of divs may be broken.  Clean up indentation and verify nesting of tags. --->
 					
 						<div class="col-12 col-md-12 col-lg-4 col-xl-5  px-0 mt-1 px-md-4 float-left">
 							<div class="row">
