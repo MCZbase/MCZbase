@@ -179,7 +179,6 @@
 									<cfif taxa_class.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
-										
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
 												<cfloop query="taxa_class">
 													<li class="list-group-item float-left"><a class="h4" href="##">#taxa_class.phylclass#</a></li>
@@ -209,7 +208,7 @@
 										</div>
 									</cfif>
 									<cfquery name="agents"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
-										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id
+										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -217,10 +216,11 @@
 												on underscore_relation.collection_object_id = flat.collection_object_id
 											left join collector on flat.collection_object_id = collector.collection_object_id
 											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+											left join person on preferred_agent_name.agent_id = person.agent
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.collectors is not null
 											and collector.collector_role = 'c'
-										ORDER BY preferred_agent_name.agent_name asc
+										ORDER BY person.last_name asc
 									</cfquery>
 									<cfif agents.recordcount GT 0>
 										<div class="col-12">
