@@ -31,9 +31,9 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
+	<cfargument name="html_description" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
-	<cfargument name="html_description" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>

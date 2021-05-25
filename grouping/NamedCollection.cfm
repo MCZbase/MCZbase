@@ -174,7 +174,13 @@ limitations under the License.
 										</div>
 										<div class="form-row my-1">
 											<div class="col-md-12">
-												<label for="html_description" class="data-entry-label" id="html_description">Description</label>
+												<label for="description" class="data-entry-label" id="description">Description</label>
+												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description" >
+											</div>
+										</div>
+										<div class="form-row my-1">
+											<div class="col-md-12">
+												<label for="html_description" class="data-entry-label" id="html_description">Featured Data</label>
 												<input type="text" id="html_description" name="html_description" class="data-entry-input" value="#html_description#" aria-labelledby="html_description" >
 											</div>
 										</div>
@@ -308,8 +314,8 @@ limitations under the License.
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
+										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: true }
 										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
-										{text: 'HTML Description', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
@@ -459,10 +465,24 @@ limitations under the License.
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
 									</div>
-								</div>
-								<script>
-										$('##description').keyup(autogrow);
+									<script>
+										$(document).ready(function() {
+											$('##description').keyup(autogrow);
+										});
 									</script>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
+										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0"
+											aria-labelledby="html_description_label" ></textarea>
+									</div>
+									<script>
+										$(document).ready(function () {
+											$('##html_description').jqxEditor();
+										});
+									</script>
+								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
 										<span>
@@ -485,13 +505,6 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-1">
-									<div class="col-12 col-md-6">
-										<label for="html_description" id="html_description" class="data-entry-label">HTML Description </label>
-										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0" rows="3" aria-labelledby="html_description" >
-			
-										</textarea>
-									</div>
-								</div>
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
 													value="Create" title="Create" aria-label="Create"
@@ -523,6 +536,9 @@ limitations under the License.
 					<cfif isdefined("description")>
 						,description
 					</cfif>
+					<cfif isdefined("html_description")>
+						,html_description
+					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,underscore_agent_id
 					</cfif>
@@ -530,6 +546,9 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+					</cfif>
+					<cfif isdefined("html_description")>
+						,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
@@ -601,16 +620,28 @@ limitations under the License.
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#description#</textarea>
 									</div>
+									<script>
+										// make selected textareas autogrow as text is entered.
+										$(document).ready(function() {
+											// bind the autogrow function to the keyup event
+											$('textarea.autogrow').keyup(autogrow);
+											// trigger keyup event to size textareas to existing text
+											$('textarea.autogrow').keyup();
+										});
+									</script>
 								</div>
-								<script>
-									// make selected textareas autogrow as text is entered.
-									$(document).ready(function() {
-										// bind the autogrow function to the keyup event
-										$('textarea.autogrow').keyup(autogrow);
-										// trigger keyup event to size textareas to existing text
-										$('textarea.autogrow').keyup();
-									});
-								</script>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
+										<textarea id="html_description" name="html_description" class="data-entry-textarea mt-0"
+											aria-labelledby="html_description_label" ></textarea>
+									</div>
+									<script>
+										$(document).ready(function () {
+											$('##html_description').jqxEditor();
+										});
+									</script>
+								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
@@ -833,7 +864,7 @@ limitations under the License.
 			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 					delete from underscore_collection 
 					where
 					 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
