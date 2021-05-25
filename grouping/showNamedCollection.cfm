@@ -212,7 +212,7 @@
 												</cfloop>
 											</ul>
 										</div>
-									<cfif>
+									</cfif>
 									<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="country_result">
 										SELECT DISTINCT flat.country as country
 										FROM
@@ -259,7 +259,7 @@
 												</cfloop>
 											</ul>
 										</div>
-									<cfif>
+									</cfif>
 									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT DISTINCT flat.guid, flat.scientific_name
 										FROM
@@ -282,7 +282,7 @@
 												</cfloop>
 											</ul>
 										</div>
-									<cfif>
+									</cfif>
 								</div>
 							</div>
 						</div>
