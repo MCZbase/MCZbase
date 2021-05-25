@@ -579,7 +579,8 @@ limitations under the License.
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 						end
-					as agentname
+					as agentname,
+					mask_fg
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
