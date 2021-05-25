@@ -250,7 +250,7 @@
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 												<cfloop query="other_agent">
 													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
-														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#other_agent.agent_name#</a>
 													</li>
 												</cfloop>
 											</ul>
