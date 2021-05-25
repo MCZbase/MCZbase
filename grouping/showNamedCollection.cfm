@@ -181,7 +181,7 @@
 											<h3>Taxa</h3>
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
 												<cfloop query="taxa_class">
-													<li class="list-group-item float-left"><a class="h4" href="##">#taxa_class.phylclass#</a></li>
+													<li class="list-group-item col-3 float-left"><a class="h4" href="##">#taxa_class.phylclass#</a></li>
 												</cfloop>
 											</ul>
 										</div>
@@ -202,7 +202,7 @@
 											<h3>Countries</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="country">
-													<li class="list-group-item float-left"><a class="h4" href="##">#country.country#</a></li>
+													<li class="list-group-item col-3 float-left"><a class="h4" href="##">#country.country#</a></li>
 												</cfloop>
 											</ul>
 										</div>
@@ -227,7 +227,7 @@
 											<h3>Collectors</h3>
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 												<cfloop query="agents">
-													<li class="list-group-item list-group-horizontal col-4 flex-wrap float-left d-inline mr-2">
+													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
 														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 													</li>
 												</cfloop>
