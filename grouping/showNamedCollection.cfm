@@ -227,7 +227,7 @@
 											<h3>Collectors</h3>
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
 												<cfloop query="agents">
-													<li class="list-group-item list-group-horizontal flex-wrap float-left d-inline mr-2">
+													<li class="list-group-item list-group-horizontal col-2 flex-wrap float-left d-inline mr-2">
 														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 													</li>
 												</cfloop>
