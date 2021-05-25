@@ -216,7 +216,7 @@
 												on underscore_relation.collection_object_id = flat.collection_object_id
 											left join collector on flat.collection_object_id = collector.collection_object_id
 											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-											left join person on preferred_agent_name.agent_id = person.agent
+											left join person on preferred_agent_name.agent_id = person.agent_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.collectors is not null
 											and collector.collector_role = 'c'
