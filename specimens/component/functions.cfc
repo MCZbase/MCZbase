@@ -182,8 +182,8 @@ limitations under the License.
 														<a href="#aForImgHref#" target="_blank">Media Details</a>
 													</div>
 													<div class="col-6 p-2 float-left">
-														#description#
-														<button class="btn btn-danger">Remove</button>
+														#description#<br>
+														<button class="btn btn-xs btn-danger">Remove</button>
 													</div>
 												</div>
 											</div>
