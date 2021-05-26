@@ -481,7 +481,7 @@ limitations under the License.
 															<div class="col-10">
 																<label for="relationships" class="data-entry-label">Media Relationships</label>
 																<div id="relationships">
-																	<cfset i=1>
+																	<cfset i=0>
 																	<cfif relns.recordcount is 0>
 																		<div class="form-row">
 																			<!--- seed --->
