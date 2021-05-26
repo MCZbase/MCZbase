@@ -429,7 +429,7 @@ function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getEditMediaHTML",
+			method : "getEditMediaDetailsHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
