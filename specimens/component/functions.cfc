@@ -302,7 +302,7 @@ limitations under the License.
 						media_relations
 					where
 						media.media_id=media_relations.media_id and
-						media_relations.media_id = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
