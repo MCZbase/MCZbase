@@ -172,7 +172,8 @@ limitations under the License.
 													<cfset aForImgHref = media1.media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
-												<div class="col-4 float-left border">
+												<div class="col-4 float-left p-2">
+												<div class="border p-2">
 													<div class="col-5 p-2 float-left">
 																#mediaRecord#<br> 
 														<a href="#aForImgHref#" target="_blank"> 
@@ -184,6 +185,7 @@ limitations under the License.
 														#description#
 													</div>
 												</div>
+											</div>
 										<cfset i=i+1>
 										</cfloop>
 								</cfoutput> 
