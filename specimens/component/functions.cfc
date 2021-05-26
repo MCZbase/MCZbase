@@ -295,15 +295,12 @@ limitations under the License.
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
-						media.media_id,
-						media_relations.media_relationship
+						media.media_id
 					from
-						media,
-						media_relations
+						media
 					where
-						media.media_id=media_relations.media_id and
-						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-					order by media.media_type
+						media.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+			
 				</cfquery>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
