@@ -126,10 +126,10 @@ limitations under the License.
 													<script>
 														function reloadMedia() { 
 															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-															loadMedia(#collection_object_id#,'mediaCardBody');
+															loadMedia(#media_id#,'mediaCardBody');
 														}
 													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+													<button type="button" id="btn_pane" class="btn btn-xs small my-2 float-right" onClick="openEditMediaDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 												<cfif #media.media_type# eq "audio">
 													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select related_primary_key, media_id 
