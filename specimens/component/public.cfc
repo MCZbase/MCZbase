@@ -123,6 +123,13 @@ limitations under the License.
 											<p class="smaller">
 												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 												<span class="">#description#</span><br>
+													<script>
+														function reloadMedia() { 
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															loadMedia(#collection_object_id#,'mediaCardBody');
+														}
+													</script>
+													<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 												<cfif #media.media_type# eq "audio">
 													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select related_primary_key, media_id 

@@ -177,12 +177,6 @@ limitations under the License.
 														<cfset aForImgHref = media1.media_uri>
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
-													<script>
-														function reloadMedia() { 
-															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-															loadMedia(#collection_object_id#,'mediaCardBody');
-														}
-													</script>
 													<br>
 													#one_thumb# #mediaRecord# 									
 													<br>
@@ -192,8 +186,6 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>
-													<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-															
 												<cfif media1.media_type neq "image">
 														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select related_primary_key, media_id 
