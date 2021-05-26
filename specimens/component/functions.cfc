@@ -185,7 +185,7 @@ limitations under the License.
 													</a> 
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
-													<span class="small">#description#</span> <br>#alttag#
+													<span class="small">#description#</span> <br>
 												</div>
 											</div>
 													</div>
