@@ -296,10 +296,14 @@ limitations under the License.
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
+						media_relations.media_relationship
 					from
-						media
+						media,
+						media_relations
 					where
-						media.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+						media.media_id=media_relations.media_id and
+						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+					order by media.media_type
 				</cfquery>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
@@ -338,7 +342,7 @@ limitations under the License.
 															media.media_license_id,
 															mczbase.get_media_descriptor(media_id) as alttag 
 														from media 
-														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													</cfquery>
 													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
@@ -509,9 +513,9 @@ limitations under the License.
 																			</select>
 																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-7">
 																			<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+																			<cfset i=i+1>
 																		</div>
 																	</cfloop>
-																<cfset i=i+1>
 																</div>
 														<span class="infoLink h5 box-shadow-0 col-3 offset-md-9 d-block text-right my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</span>
 													</div>
