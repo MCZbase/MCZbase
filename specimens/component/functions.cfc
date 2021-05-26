@@ -183,6 +183,7 @@ limitations under the License.
 													</div>
 													<div class="col-6 p-2 float-left">
 														#description#
+														<button class="btn btn-danger">Remove</button>
 													</div>
 												</div>
 											</div>
