@@ -25,6 +25,9 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .small90 {
 	font-size: 89%
 }
+.small95 {
+	font-size: 95%;
+}
 .font-weight-lessbold {
 	font-weight: 500;
 }
