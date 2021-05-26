@@ -129,7 +129,7 @@ limitations under the License.
 															loadMedia(#media_id#,'mediaCardBody');
 														}
 													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small my-2 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+													<button type="button" id="btn_pane" class="btn btn-xs my-2 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 												<cfif #media.media_type# eq "audio">
 													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select related_primary_key, media_id 
