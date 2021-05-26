@@ -376,6 +376,9 @@ limitations under the License.
 						<cfif len(#agentguid_guid_type#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
 						</cfif>
+						<cfif len(#agentguid#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid#">
+						</cfif>
 						<cfif len(#agent_remarks#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_remarks#">
 						</cfif>
