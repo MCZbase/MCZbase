@@ -166,31 +166,21 @@ limitations under the License.
 													</cfif>
 													<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 														<!---for media images -- remove absolute url after demo / test db issue?--->
-														<cfset one_thumb = "<div class='col-2 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
 														<cfset aForDetHref = "/media/#media_id#" >
 														<cfelse>
 														<!---for DRS from library--->
-														<cfset one_thumb = "<div class='col-2 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = media1.media_uri>
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
-													<div class="col-4 px-2 float-left">
-														<a href="#aForImgHref#" target="_blank"> 
-															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
-														</a> 
-													</div>
-													<div class="col-5 px-0 float-left">
-														#mediaRecord#<br>
-														<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
-														#description#
-													</div>
+														<div class="col-5 px-0 float-left">
+															#mediaRecord#<br>
+															<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
+															#description#
+														</div>
 												</div>
-											</div>
-											
-											</div>
 											<cfset i=i+1>
 											</cfloop>
 									</div>
