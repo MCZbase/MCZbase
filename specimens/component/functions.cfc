@@ -104,7 +104,7 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												<div class="row">
+												<div class="row mx-0">
 													<div class="col-12">
 														<div class="form-group">
 															<label for="previewURI" class="data-entry-label">Preview URI</label>
@@ -112,7 +112,7 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												<div class="row">
+												<div class="row mx-0">
 													<div class="col-12">
 														<div class="form-group mr-4 float-left">
 															<label for="media_type" class="data-entry-label">Media Type</label>
@@ -128,7 +128,7 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												<div class="row">
+												<div class="row mx-0">
 													<div class="col-12">
 														<div class="form-group">
 															<label for="media_label" class="data-entry-label">Media Labels</label>
