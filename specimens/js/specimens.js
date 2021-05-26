@@ -460,7 +460,6 @@ function openEditRelationsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
 function loadAttributes(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -477,7 +476,6 @@ function loadAttributes(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
 function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Attributes for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -496,7 +494,6 @@ function openEditAttributesDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
 function loadLocality(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -513,7 +510,6 @@ function loadLocality(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
 function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Locality and Collecting Event for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -532,7 +528,6 @@ function openEditLocalityDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
 function loadTransactions(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -549,7 +544,6 @@ function loadTransactions(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
-
 function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Transactions for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -653,7 +647,6 @@ function createSpecimenEditDialog(dialogId,title,closecallback) {
 	});
 	thedialog.dialog('open');
 }
-
 function createCitationEditDialog(dialogId,title,closecallback) {
 	var content = '<div id="'+dialogId+'_div">Loading...</div>';
 	var x=1;
@@ -702,7 +695,6 @@ function createCitationEditDialog(dialogId,title,closecallback) {
 	});
 	thedialog.dialog('open');
 }
-
 function openItemConditionHistoryDialog(collection_object_id, dialogId) { 
 	var title = "Part/Preparation Condition History.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
