@@ -80,6 +80,9 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
+				<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select media_label from ctmedia_label order by media_label
+				</cfquery>
 				<div class="container-fluid">
 					<div class="row mx-0">
 						<div class="col-9 float-left px-0">
@@ -127,22 +130,18 @@ limitations under the License.
 												</div>
 												<div class="row">
 													<div class="col-12">
-													<cfset i=1>
-													<cfloop query="media">
 														<div class="form-group">
 															<label for="media_label" class="data-entry-label">Media Labels</label>
 															<select name="media_label" id="media_label" class="data-entry-select">
 																<option value="">NONE</option>
 																<cfloop query="ctmedia_label">
-																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
+																	<option value="">ctmedia_label.media_label</option>
 																</cfloop>
 															</select>
 														</div>
-													<cfset i=i+1>
-													</cfloop>
 													</div>
 												</div>
-											</cfoutput> 
+											</cfoutput>
 										</div>
 									</div>
 								</div>
@@ -150,7 +149,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-					<div class="container-fluid">
+				<div class="container-fluid">
 						<div class="row mx-0">
 							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
