@@ -82,6 +82,7 @@ limitations under the License.
 				</cfquery>
 					<div class="container-fluid">
 						<div class="row mx-0">
+							<div class="col-12">
 							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
@@ -189,7 +190,8 @@ limitations under the License.
 									</div>
 								</cfoutput> 
 								
-							</form>
+							</form>'
+							</div>
 						</div>
 					</div>
 					<div class="container-fluid">
