@@ -329,7 +329,7 @@ limitations under the License.
 									
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
-													<cfset relns=getMediaRelations(#media.media_id#)>
+													<cfset relns=getMediaRelations(#media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 													<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select 
