@@ -290,7 +290,7 @@ limitations under the License.
 </cffunction>
 							
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
 			<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
