@@ -162,7 +162,7 @@ limitations under the License.
 				<h2>Create new Agent.</h2>
 			</cfif>
 			<section class="border rounded my-2 px-1 pt-1 pb-2">
-				<form id="newAgentForm">
+				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
 					<div class="row">
 						<div class="col-12 col-md-4">
