@@ -326,7 +326,7 @@ limitations under the License.
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 										
-											<cfloop query="media">
+									
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
@@ -568,7 +568,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-											</cfloop>
+					
 									</div>
 									</div>
 								</cfoutput> 
