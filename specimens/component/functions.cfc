@@ -93,102 +93,99 @@ limitations under the License.
 								</h1>
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
-										<div class="row mx-0">
-											<cfset i=1>
-											<cfloop query="media">
-													<cfset relns=getMediaRelations(#media.media_id#)>
-													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-													<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select 
-															media.preview_uri,
-															media.media_uri,
-															media.mime_type, 
-															media.mask_media_fg,
-															media.media_type, 
-															media.media_id,
-															media.media_license_id,
-															mczbase.get_media_descriptor(media_id) as alttag 
-														from media 
-														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-													</cfquery>
-													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select
-															media_label,
-															label_value,
-															agent_name,
-															media_labels.media_label_id
-														from
-															media_labels,
-															preferred_agent_name
-														where
-															media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-															media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
-													</cfquery>
-													<cfquery name="ctlabels" dbtype="query">
-														select count(*) as ct from labels group by media_label order by media_label
-													</cfquery>
-													<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select media_relationship from ctmedia_relationship order by media_relationship
-													</cfquery>
-													<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select media_label from ctmedia_label order by media_label
-													</cfquery>
-													<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select media_type from ctmedia_type order by media_type
-													</cfquery>
-													<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select mime_type from ctmime_type order by mime_type
-													</cfquery>
-													<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select media_license_id,display media_license from ctmedia_license order by media_license_id
-													</cfquery>
-													<cfset mt=media1.mime_type>
-													<cfset altText = media1.alttag>
-													<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
-													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														SELECT
-															media_label_id,
-															media_label,
-															label_value
-														FROM
-															media_labels
-														WHERE
-															media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-													</cfquery>
-													<cfquery name="desc" dbtype="query">
-														select label_value from labels where media_label='description'
-													</cfquery>
-													<cfset description="Media Preview Image">
-													<cfif desc.recordcount is 1>
-														<cfset description=desc.label_value>
-													</cfif>
-													<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
-														<!---for media images -- remove absolute url after demo / test db issue?--->
-														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-														<cfset aForDetHref = "/media/#media_id#" >
-														<cfelse>
-														<!---for DRS from library--->
-														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-														<cfset aForImgHref = media1.media_uri>
-														<cfset aForDetHref = "/media/#media_id#">
-													</cfif>
-													<div class="row border mx-0">
-														<div class="col-6 float-left">
+										<cfset i=1>
+										<cfloop query="media">
+												<cfset relns=getMediaRelations(#media.media_id#)>
+												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select 
+														media.preview_uri,
+														media.media_uri,
+														media.mime_type, 
+														media.mask_media_fg,
+														media.media_type, 
+														media.media_id,
+														media.media_license_id,
+														mczbase.get_media_descriptor(media_id) as alttag 
+													from media 
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												</cfquery>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+														media_label,
+														label_value,
+														agent_name,
+														media_labels.media_label_id
+													from
+														media_labels,
+														preferred_agent_name
+													where
+														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+												</cfquery>
+												<cfquery name="ctlabels" dbtype="query">
+													select count(*) as ct from labels group by media_label order by media_label
+												</cfquery>
+												<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_relationship from ctmedia_relationship order by media_relationship
+												</cfquery>
+												<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_label from ctmedia_label order by media_label
+												</cfquery>
+												<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_type from ctmedia_type order by media_type
+												</cfquery>
+												<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select mime_type from ctmime_type order by mime_type
+												</cfquery>
+												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_license_id,display media_license from ctmedia_license order by media_license_id
+												</cfquery>
+												<cfset mt=media1.mime_type>
+												<cfset altText = media1.alttag>
+												<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														media_label_id,
+														media_label,
+														label_value
+													FROM
+														media_labels
+													WHERE
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												</cfquery>
+												<cfquery name="desc" dbtype="query">
+													select label_value from labels where media_label='description'
+												</cfquery>
+												<cfset description="Media Preview Image">
+												<cfif desc.recordcount is 1>
+													<cfset description=desc.label_value>
+												</cfif>
+												<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
+													<!---for media images -- remove absolute url after demo / test db issue?--->
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
+													<cfset aForDetHref = "/media/#media_id#" >
+													<cfelse>
+													<!---for DRS from library--->
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = media1.media_uri>
+													<cfset aForDetHref = "/media/#media_id#">
+												</cfif>
+												<div class="row border mx-0">
+													<div class="col-6 float-left">
 														<a href="#aForImgHref#" target="_blank"> 
 															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 														</a> 
-														</div>
-														<div class="col-5 float-left">
+													</div>
+													<div class="col-5 float-left">
 														#mediaRecord#<br>
 														<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
 														#description#
-														</div>
 													</div>
-											</div>
-											<cfset i=i+1>
-											</cfloop>
-									</div>
+												</div>
+										<cfset i=i+1>
+										</cfloop>
 									</div>
 								</cfoutput> 
 								
