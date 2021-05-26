@@ -183,7 +183,7 @@ limitations under the License.
 													</div>
 													<div class="col-6 p-2 float-left">
 														<p>#description#</p>
-														<button class="btn small btn-xs btn-danger">Remove Media From Specimen Record</button>
+														<button class="btn small btn-xs btn-danger">Remove from Specimen Record</button>
 													</div>
 												</div>
 											</div>
