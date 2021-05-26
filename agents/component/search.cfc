@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!--- function getAgents search for agents returning json suitable for a jqxgrid --->
 <cffunction name="getAgents" access="remote" returntype="any" returnformat="json">

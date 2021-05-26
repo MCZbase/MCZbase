@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <cffunction name="checkPrefNameExists" returntype="any" access="remote" returnformat="json">
 	<cfargument name="pref_name" type="string" required="no"><!--- if given, the agent for whom this is an address, if not, select --->
