@@ -176,11 +176,11 @@ limitations under the License.
 													<div class="col-5 p-2 float-left">
 														<a href="#aForImgHref#" target="_blank"> 
 															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
-														</a> 
+														</a> <br>
+														<a href="#aForImgHref#" target="_blank">Media Details</a>
 													</div>
 													<div class="col-6 p-2 float-left">
-														#mediaRecord#<br>
-														<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
+														#mediaRecord#<br> 
 														#description#
 													</div>
 												</div>
