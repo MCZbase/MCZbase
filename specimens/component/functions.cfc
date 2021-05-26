@@ -80,7 +80,7 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label from ctmedia_label order by media_label
 				</cfquery>
 				<div class="container-fluid">
@@ -134,7 +134,7 @@ limitations under the License.
 															<label for="media_label" class="data-entry-label">Media Labels</label>
 															<select name="media_label" id="media_label" class="data-entry-select">
 																<option value="">NONE</option>
-																<cfloop query="ctmedia_label">
+																<cfloop query="ctmedia_label1">
 																	<option value="">ctmedia_label.media_label</option>
 																</cfloop>
 															</select>
