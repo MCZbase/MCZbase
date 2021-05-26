@@ -96,8 +96,6 @@ limitations under the License.
 										<div class="row mx-0">
 											<cfset i=1>
 											<cfloop query="media">
-											<div class="col-4 float-left px-0">
-												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 													<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -166,26 +164,27 @@ limitations under the License.
 													</cfif>
 													<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 														<!---for media images -- remove absolute url after demo / test db issue?--->
-														<cfset one_thumb = "<div class='col-12 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
 														<cfset aForDetHref = "/media/#media_id#" >
 														<cfelse>
 														<!---for DRS from library--->
-														<cfset one_thumb = "<div class='col-12 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = media1.media_uri>
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
-
-													#one_thumb#
-														<div class="col-5 px-0 float-left">
+														<div class="col-6 px-2 float-left">
+														<a href="#aForImgHref#" target="_blank"> 
+															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
+														</a> 
+													</div>
+														<div class="col-5 px-4 float-left">
 														#mediaRecord#<br>
 														<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
 														#description#
 														</div>
 													</div>
-												</div>
+											</div>
 											<cfset i=i+1>
 											</cfloop>
 									</div>
