@@ -188,7 +188,7 @@ limitations under the License.
 													<span class="small">#description#</span> <br>
 												</div>
 											</div>
-													</div>
+											
 												</div>
 											</div>
 										</div>
