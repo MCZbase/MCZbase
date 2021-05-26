@@ -325,7 +325,7 @@ limitations under the License.
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
-											<cfset i=0>
+										
 											<cfloop query="media">
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
@@ -568,7 +568,6 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-											<cfset i=i+1>
 											</cfloop>
 									</div>
 									</div>
