@@ -93,7 +93,7 @@ limitations under the License.
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
 								<cfoutput>
-									<div class="col-4 float-left mb-2 px-0">
+			
 										<cfset i=1>
 										<cfloop query="media">
 												<cfset relns=getMediaRelations(#media.media_id#)>
@@ -187,7 +187,6 @@ limitations under the License.
 												</div>
 										<cfset i=i+1>
 										</cfloop>
-									</div>
 								</cfoutput> 
 								
 							</form>'
