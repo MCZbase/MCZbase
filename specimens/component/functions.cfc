@@ -188,6 +188,7 @@ limitations under the License.
 														<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
 														#description#
 													</div>
+															</div>
 											</div>
 											
 											</div>
