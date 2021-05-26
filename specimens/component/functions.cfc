@@ -182,7 +182,7 @@ limitations under the License.
 														<a href="#aForImgHref#" target="_blank">Media Details</a>
 													</div>
 													<div class="col-6 p-2 float-left">
-														#description#<br>
+														<p>#description#</p>
 														<button class="btn small btn-xs btn-danger">Remove Media From Specimen Record</button>
 													</div>
 												</div>
