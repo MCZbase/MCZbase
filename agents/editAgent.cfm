@@ -499,6 +499,17 @@ limitations under the License.
 				<cflocation url="editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
 			<cfcatch>
 				<cftransaction action="rollback">
+				<section class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h1 class="h2">Creation of new agent record failed.<h1>
+							<p>There was an error creating this taxon record, please file a bug report describing the problem.</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+					<p><cfdump var=#cfcatch#></p>
+				</section>
 			</cfcatch>
 			</cftry>
 		</cftransaction>
