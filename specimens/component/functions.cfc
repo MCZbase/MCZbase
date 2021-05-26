@@ -293,18 +293,14 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-<!---				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
-						media_relations.media_relationship
 					from
-						media,
-						media_relations
+						media
 					where
-						media.media_id=media_relations.media_id and
 						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-					order by media.media_type
-				</cfquery>--->
+				</cfquery>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
@@ -326,10 +322,10 @@ limitations under the License.
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
 										
-									
+											<cfloop query="media">
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
-													<cfset relns=getMediaRelations(#media_id#)>
+													<cfset relns=getMediaRelations(#media.media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 													<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select 
@@ -568,7 +564,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-					
+											</cfloop>
 									</div>
 									</div>
 								</cfoutput> 
