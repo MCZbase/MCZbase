@@ -293,7 +293,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
 						media_relations.media_relationship
@@ -304,7 +304,7 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
-				</cfquery>
+				</cfquery>--->
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select nature_of_id from ctnature_of_id
 				</cfquery>
@@ -342,7 +342,7 @@ limitations under the License.
 															media.media_license_id,
 															mczbase.get_media_descriptor(media_id) as alttag 
 														from media 
-														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 													</cfquery>
 													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
