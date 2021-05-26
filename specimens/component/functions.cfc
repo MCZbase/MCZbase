@@ -83,7 +83,7 @@ limitations under the License.
 				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label from ctmedia_label order by media_label
 				</cfquery>
-				<div class="container-fluid">
+				<div class="container-fluid my-2">
 					<div class="row mx-0">
 						<div class="col-9 float-left px-0">
 							<div id="accordionMedia1">
@@ -149,7 +149,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-				<div class="container-fluid">
+				<div class="container-fluid my-2">
 						<div class="row mx-0">
 							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
