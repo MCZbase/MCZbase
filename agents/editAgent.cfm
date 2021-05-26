@@ -30,8 +30,11 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 	<cfelse>
-		<cfset action = "newAgent">
+		<cfset action = "new">
 	</cfif>
+<cfelse>
+	<!--- support old api call --->
+	<cfif action IS "newAgent"><cfset action = "new"></cfif>
 </cfif>
 
 <!--- TODO: Temporary test for non-production deployment, remove when ready --->
@@ -51,7 +54,7 @@ limitations under the License.
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
 </cfcase>
-<cfcase value="newAgent">
+<cfcase value="new">
 	<cfset pageTitle = "New Agent">
 	<cfif isDefined("agent_type") AND len(agent_type) GT 0>
 		<cfset curAgentType = agent_type>
@@ -138,7 +141,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 </cfcase>
-<cfcase value="newAgent">
+<cfcase value="new">
 	<cfoutput>
 		<script>
 			function getAssembledName() {
@@ -460,7 +463,7 @@ limitations under the License.
 							</cfloop>
 							<p>Are you sure you want to continue?</p>
 							<form name="ac" method="post" action="/agents/editAgent.cfm">
-								<input type="hidden" name="action" value="newAgent">
+								<input type="hidden" name="action" value="new">
 								<input type="hidden" name="prefix" value="#prefix#">
 								<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
 								<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
