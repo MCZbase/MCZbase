@@ -96,7 +96,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<cfset i=1>
 											<cfloop query="media">
-											<div class="col-6 float-left px-0">
+											<div class="col-4 float-left px-0">
 												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
 													<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
@@ -178,7 +178,7 @@ limitations under the License.
 														<div class="col-5 px-0 float-left">
 															#mediaRecord#<br>
 															<a href="#aForImgHref#" target="_blank">Media Details</a><br> 
-															#description#
+														#description#
 														</div>
 												</div>
 											<cfset i=i+1>
