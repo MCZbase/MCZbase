@@ -186,13 +186,8 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>#alttag#
-
 												</div>
 											</div>
-
-																<!--- end labels seed --->
-												</cfif>
-											
 													</div>
 												</div>
 											</div>
