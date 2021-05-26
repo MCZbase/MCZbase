@@ -83,7 +83,7 @@ limitations under the License.
 				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label from ctmedia_label order by media_label
 				</cfquery>
-				<div class="container-fluid my-2">
+				<div class="container-fluid my-4">
 					<div class="row mx-0">
 						<div class="col-9 float-left px-0">
 							<div id="accordionMedia1">
