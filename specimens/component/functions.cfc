@@ -186,6 +186,7 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>
+													<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 															
 												<cfif media1.media_type neq "image">
 														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
