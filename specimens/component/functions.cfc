@@ -177,6 +177,12 @@ limitations under the License.
 														<cfset aForImgHref = media1.media_uri>
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
+													<script>
+														function reloadMedia() { 
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															loadMedia(#collection_object_id#,'mediaCardBody');
+														}
+													</script>
 													<br>
 													#one_thumb# #mediaRecord# 									
 													<br>
