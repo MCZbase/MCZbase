@@ -175,9 +175,17 @@ limitations under the License.
 									if (selectedType == 'person') { 
 										$('##personRow').show();
 										$('##last_name').prop('required',true);
+										$('##start_date_label').html("Date of Birth");
+										$('##end_date_label').html("Date of Death");
+										$('##start_date').prop('disabled', false);
+										$('##end_date').prop('disabled', false);
 									} else { 
 										$('##personRow').hide();
 										$('##last_name').removeAttr('required');
+										$('##start_date_label').html("Start Date");
+										$('##end_date_label').html("End Date");
+										$('##start_date').prop('disabled', true);
+										$('##end_date').prop('disabled', true);
 									}
 								}
 							</script>
@@ -193,10 +201,21 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-8">
+						<div class="col-12 col-md-6">
 							<label for="pref_name" class="data-entry-label">Preferred Name</label>
 							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
 							<!--- TODO: Add test for unique preferred name --->
+							<script>
+								$(document).ready(function () {
+									$('##pref_name').change(function () {
+										checkPrefNameExists($('#pref_name#').val(),'name_matches');
+									});
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="name_matches" class="data-entry-label">Duplicate check</label>
+							<div id="name_matches"></div>
 						</div>
 					</div>
 					<div id="personRow" class="row">
@@ -214,7 +233,7 @@ limitations under the License.
 							<input type="text" name="first_name" id="first_name"class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="middle_name"class="data-entry-label">Middle Name</label>
+							<label for="middle_name" class="data-entry-label">Middle Name</label>
 							<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
@@ -233,7 +252,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div id="guids" class="row">
-						<div class="col-12">
+						<div class="col-12 col-md-6">
 							<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -267,7 +286,6 @@ limitations under the License.
 									value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 							</div>
-						</div>
 						<script>
 							$(document).ready(function () {
 								if ($('##agentguid').val().length > 0) {
@@ -300,6 +318,25 @@ limitations under the License.
 								});
 							});
 						</script>
+						</div>
+						<div class="col-12 col-md-3">
+							<cfif curAgentType EQ "person">
+								<cfset label="Date of Birth">
+							<cfelse>
+								<cfset label="Start Date">
+							</cfif>
+							<label id="start_date_label" for="start_date" class="data-entry-label">#label#</label>
+							<input type="text" name="end_date" id="end_date"class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-3">
+							<cfif curAgentType EQ "person">
+								<cfset label="Date of Birth">
+							<cfelse>
+								<cfset label="Start Date">
+							</cfif>
+							<label id="end_date_label" for="end_date" class="data-entry-label">#label#</label>
+							<input type="text" name="end_date" id="end_date"class="data-entry-input">
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
@@ -406,6 +443,12 @@ limitations under the License.
 							<cfif len(#SUFFIX#) gt 0>
 								,SUFFIX
 							</cfif>
+							<cfif len(#start_date#) gt 0>
+								,birth_date
+							</cfif>
+							<cfif len(#end_date#) gt 0>
+								,death_date
+							</cfif>
 						) VALUES (
 							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">
 							<cfif len(#prefix#) gt 0>
@@ -422,6 +465,12 @@ limitations under the License.
 							</cfif>
 							<cfif len(#SUFFIX#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
+							</cfif>
+							<cfif len(#start_date#) gt 0>
+								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
+							</cfif>
+							<cfif len(#end_date#) gt 0>
+								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
 							</cfif>
 						)
 					</cfquery>

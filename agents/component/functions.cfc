@@ -19,6 +19,40 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 
+<cffunction name="checkPrefNameExists" returntype="any" access="remote" returnformat="json">
+	<cfargument name="pref_name" type="string" required="no"><!--- if given, the agent for whom this is an address, if not, select --->
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+			select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+			from agent_name, agent
+			where agent_name.agent_id = agent.agent_id
+				and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+		</cfquery>
+		<cfset matchcount = dupPref.recordcount>
+		<cfset i = 1>
+		<cfloop query="dupPref">
+			<cfset row = StructNew()>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+			</cfloop>
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address
  @param shipment_id if given, the shipment for which this address is to be used for
