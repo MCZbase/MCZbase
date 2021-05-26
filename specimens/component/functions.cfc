@@ -514,7 +514,7 @@ limitations under the License.
 																		</div>
 																	</cfloop>
 																</div>
-														<button class="btn btn-xs btn-primary h5 col-2 px-0 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</button>
+														<button class="btn btn-xs btn-primary h5 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</button>
 														<script>
 															document.getElementById("addRelationship_#i#").addEventListener("click", function(event){
 															event.preventDefault()
@@ -564,7 +564,7 @@ limitations under the License.
 																</div>
 															</cfloop>
 															</div>
-																<button class="btn btn-primary btn-xs h5 col-2 px-0 my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label</button> 
+																<button class="btn btn-primary btn-xs h5 my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label</button> 
 														</div>
 													</div>
 												</div>
