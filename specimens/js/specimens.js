@@ -393,8 +393,8 @@ function loadMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
-			method : "getMediaHtml",
-			media_id: media_id,
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
