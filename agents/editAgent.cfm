@@ -193,7 +193,7 @@ limitations under the License.
 								}
 							</script>
 							<label for="agent_type" class="data-entry-label">Type of Agent</label>
-							<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr">
+							<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
 								<cfloop query="ctAgentType">
 									<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
 										<cfset selected = "selected='selected'">
