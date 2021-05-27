@@ -5,7 +5,7 @@ function checkPrefNameExists(preferred_name,target) {
       url: "/agents/component/functions.cfc",
       data : {
          method : "checkPrefNameExists",
-         prefName: preferred_name,
+         pref_name: preferred_name,
       },
       success: function (result) {
 			var matches = results.data;
