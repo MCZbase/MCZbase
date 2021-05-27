@@ -794,8 +794,9 @@ limitations under the License.
 														<label for="media_license_id" class="float-left mt-1">Media Relationships</label>
 														<select name="media_license_id" id="media_license_id" class="ml-1">
 															<option value="">NONE</option>
+															<cfset relationmt=get_media_id_for_relation(related_primary_key);>
 															<cfloop query="ctmedia_relationship">
-																<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#ctmedia_relationship.media_relationship#</option>
+																<option <cfif relations.media_relationship is ctmedia_relationship.media_relationship> selected="selected"</cfif> value="#ctmedia_relationship.media_relationship#">#relationsmt.media_relationship#</option>
 															</cfloop>
 														</select>
 													</div>
