@@ -101,10 +101,13 @@ limitations under the License.
 					<div class="container">
 						<div class="row">
 							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
-<!---								<li class="list-group-item px-0 mx-1">
+								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-								</li>--->
-
+								</li>
+								
+								
+								
+			
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
 							<script>
@@ -113,8 +116,12 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
+								<h3 class="h4 my-0 float-left text-dark">
+									Media
+									<span class="text-success small ml-2">(#ctmedia.ct# media records)</span>
+								</h3>
 								<cfif listcontainsnocase(session.roles,"manage_media")>
-									<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+									<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</button>
 								</cfif>
 						</div>
 						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
