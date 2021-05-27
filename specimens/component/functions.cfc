@@ -150,7 +150,6 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="container-fluid my-2">
-						<div class="row mx-0">
 							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
@@ -264,7 +263,7 @@ limitations under the License.
 								
 							</form>
 							</div>
-						</div>
+		
 
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
