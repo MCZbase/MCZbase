@@ -394,32 +394,32 @@ limitations under the License.
 						agent_id,
 						agent_type,
 						preferred_agent_name_id
-						<cfif len(#agentguid_guid_type#) gt 0>
+						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) GT 0>
 							,agentguid_guid_type
 						</cfif>
-						<cfif len(#agentguid#) gt 0>
+						<cfif isdefined("agentguid") AND len(#agentguid#) gt 0>
 							,agentguid
 						</cfif>
-						<cfif len(#agent_remarks#) gt 0>
+						<cfif isdefined("agent_remarks") AND len(#agent_remarks#) gt 0>
 							,agent_remarks
 						</cfif>
-						<cfif len(#biography#) gt 0>
+						<cfif isdefined("biography") AND len(#biography#) gt 0>
 							,biography
 						</cfif>
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_type#">,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>
-						<cfif len(#agentguid_guid_type#) gt 0>
+						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
 						</cfif>
-						<cfif len(#agentguid#) gt 0>
+						<cfif isdefined("agentguid") AND len(#agentguid#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid#">
 						</cfif>
-						<cfif len(#agent_remarks#) gt 0>
+						<cfif isdefined("agent_remarks") AND len(#agent_remarks#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_remarks#">
 						</cfif>
-						<cfif len(#biography#) gt 0>
+						<cfif isdefined("biography") AND len(#biography#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#biography#">
 						</cfif>
 					)
@@ -428,54 +428,55 @@ limitations under the License.
 					<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO person (
 							PERSON_ID
-							<cfif len(#prefix#) gt 0>
+							<cfif isdefined("prefix") AND len(#prefix#) gt 0>
 								,prefix
 							</cfif>
-							<cfif len(#LAST_NAME#) gt 0>
+							<cfif isdefined("LAST_NAME") AND len(#LAST_NAME#) gt 0>
 								,LAST_NAME
 							</cfif>
-							<cfif len(#FIRST_NAME#) gt 0>
+							<cfif isdefined("FIRST_NAME") AND len(#FIRST_NAME#) gt 0>
 								,FIRST_NAME
 							</cfif>
-							<cfif len(#MIDDLE_NAME#) gt 0>
+							<cfif isdefined("MIDDLE_NAME") AND len(#MIDDLE_NAME#) gt 0>
 								,MIDDLE_NAME
 							</cfif>
-							<cfif len(#SUFFIX#) gt 0>
+							<cfif isdefined("SUFFIX") AND len(#SUFFIX#) gt 0>
 								,SUFFIX
 							</cfif>
-							<cfif len(#start_date#) gt 0>
+							<cfif isdefined("start_date") AND len(#start_date#) gt 0>
 								,birth_date
 							</cfif>
-							<cfif len(#end_date#) gt 0>
+							<cfif isdefined("end_date") AND len(#end_date#) gt 0>
 								,death_date
 							</cfif>
 						) VALUES (
 							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">
-							<cfif len(#prefix#) gt 0>
+							<cfif isdefined("prefix") AND len(#prefix#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
 							</cfif>
-							<cfif len(#LAST_NAME#) gt 0>
+							<cfif isdefined("LAST_NAME") AND len(#LAST_NAME#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
 							</cfif>
-							<cfif len(#FIRST_NAME#) gt 0>
+							<cfif isdefined("FIRST_NAME") AND len(#FIRST_NAME#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
 							</cfif>
-							<cfif len(#MIDDLE_NAME#) gt 0>
+							<cfif isdefined("MIDDLE_NAME") AND len(#MIDDLE_NAME#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
 							</cfif>
-							<cfif len(#SUFFIX#) gt 0>
+							<cfif isdefined("SUFFIX") AND len(#SUFFIX#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
 							</cfif>
-							<cfif len(#start_date#) gt 0>
+							<cfif isdefined("start_date") AND len(#start_date#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
 							</cfif>
-							<cfif len(#end_date#) gt 0>
+							<cfif isdefined("end_date") AND len(#end_date#) gt 0>
 								,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
 							</cfif>
 						)
 					</cfquery>
 				</cfif>
 				<cfif len(pref_name) is 0>
+					<!--- unused block, preferred name is required field on form --->
 					<cfset name = "">
 					<cfif len(#prefix#) gt 0>
 						<cfset name = "#name# #prefix#">
