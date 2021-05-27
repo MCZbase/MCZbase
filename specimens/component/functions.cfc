@@ -240,7 +240,7 @@ limitations under the License.
 													<cfset aForImgHref = media1.media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
-												<div class="row col-12 mx-0 px-0">
+												<div class="col-12 mx-0 px-0 float-left">
 												<div class="col-4 float-left p-2">
 													<div class="border overflow-hidden p-2">
 														<div class="col-5 p-2 float-left">
