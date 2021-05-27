@@ -557,7 +557,7 @@ limitations under the License.
 									<div class="col-12">
 										<ul>
 											<cfloop query="findPotentialDups">
-												<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>">
+												<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
 												<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a> (agent ID ## #agent_id# - #agent_type#)</li>
 											</cfloop>
 										</ul>
