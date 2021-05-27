@@ -389,12 +389,12 @@ function addIdentAgentToForm (id,name,formid) {
 *  selector, for which to replace the html content with the identification 
 *  history.
 */
-function loadMedia(identification_id,form) {
+function loadMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getMediaHtml",
-			identification_id: identification_id,
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
