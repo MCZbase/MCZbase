@@ -116,12 +116,8 @@ limitations under the License.
 									loadMedia(#collection_object_id#,'mediaCardBody');
 								}
 							</script>
-								<h3 class="h4 my-0 float-left text-dark">
-									Media
-									<span class="text-success small ml-2">(#ctmedia.ct# media records)</span>
-								</h3>
 								<cfif listcontainsnocase(session.roles,"manage_media")>
-									<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</button>
+									<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 								</cfif>
 						</div>
 						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
