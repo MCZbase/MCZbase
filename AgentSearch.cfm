@@ -127,7 +127,7 @@
                    style="padding: 2px 6px;"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'"
-					onClick="window.open('/agents/editAgent.cfm?action=new','_blank');">
+					onClick="window.open('/agents/editAgent.cfm?action=new&agent_type=person','_blank');">
             <input type="reset" 
 				value="Clear Form" 
 				class="clrBtn"

@@ -411,7 +411,7 @@ limitations under the License.
 										</cfif>
 								
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new">Person</a> 
+										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a> 
 										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=other%20agent">Other Agent</a> 
 									</div>
 									</cfif>

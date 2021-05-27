@@ -161,9 +161,9 @@ limitations under the License.
 		</script>
 		<main class="container py-3" id="content">
 			<cfif isdefined("agent_type") and len(agent_type) GT 0>
-				<h2>Create new #encodeForHtml(agent_type)# Agent.</h2>
+				<h2>Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent.</h2>
 			<cfelse>
-				<h2>Create new Agent.</h2>
+				<h2>Create new <span id="headingTypeSpan"></span> Agent.</h2>
 			</cfif>
 			<section class="border rounded my-2 px-1 pt-1 pb-2">
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
@@ -175,6 +175,7 @@ limitations under the License.
 									var selectedType = $('##agent_type').val();
 									if (selectedType == 'person') { 
 										$('##personRow').show();
+										$('##headingTypeSpan').html("Person");
 										$('##last_name').prop('required',true);
 										$('##start_date_label').html("Date of Birth");
 										$('##end_date_label').html("Date of Death");
@@ -182,6 +183,7 @@ limitations under the License.
 										$('##end_date').prop('disabled', false);
 									} else { 
 										$('##personRow').hide();
+										$('##headingTypeSpan').html(selectedType);
 										$('##last_name').removeAttr('required');
 										$('##start_date_label').html("Start Date");
 										$('##end_date_label').html("End Date");
