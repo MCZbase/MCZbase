@@ -387,7 +387,8 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="">Collecting Event</a>
 										</cfif>
 									
-											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/agents/Agents.cfm">Agent</a> 
 									</div>
 								</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -409,11 +410,8 @@ limitations under the License.
 											</cfif>
 										</cfif>
 								
-										<cfif targetMenu EQ "production">									
-											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
-											<cfelse>
-											<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
-										</cfif>
+										<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new">Agent</a> 
 									</div>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
