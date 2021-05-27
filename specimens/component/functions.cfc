@@ -392,7 +392,7 @@ limitations under the License.
 													<cfif desc.recordcount is 1>
 														<cfset description=desc.label_value>
 													</cfif>
-													
+													<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 														<!---for media images -- remove absolute url after demo / test db issue?--->
 														<cfset one_thumb = "<div class='col-2 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
@@ -400,11 +400,11 @@ limitations under the License.
 														<cfset aForDetHref = "/media/#media_id#" >
 														<cfelse>
 														<!---for DRS from library--->
-<!---														<cfset one_thumb = "<div class='col-2 float-left'>">
+														<cfset one_thumb = "<div class='col-2 float-left'>">
 														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 														<cfset aForImgHref = media1.media_uri>
-														<cfset aForDetHref = "/media/#media_id#">--->
-					
+														<cfset aForDetHref = "/media/#media_id#">
+													</cfif>
 													<br>
 													#one_thumb# #mediaRecord#
 													<br>
