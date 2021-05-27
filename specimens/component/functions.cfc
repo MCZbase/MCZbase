@@ -407,7 +407,7 @@ limitations under the License.
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
 													<br>
-													#one_thumb# #mediaRecord#
+													#one_thumb# #mediaRecord# #relns.media_id#
 													<br>
 													<a href="#aForImgHref#" target="_blank"> 
 														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
