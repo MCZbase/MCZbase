@@ -501,74 +501,109 @@ limitations under the License.
 					</cfif>
 					<cfset pref_name = #trim(name)#>
 				</cfif>
-				<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
-					<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="duplicatePreferredCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT agent_name.agent_name, agent_name.agent_id 
+					FROM agent_name
+					WHERE 
+						agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
+				</cfquery>
+				<cfif dupPref.recordcount gt 0>
+					<!--- outright prevent creation of agents that duplicate the preferred name of other agents --->
+					<cfthrow message="Unable to create agent Duplicate preferred name [#encodeForHtml(pref_name)#].">
+				</cfif>
+				<cfset okToAddAgent = true>
+				<cfif not isdefined("ignoreDupCheck") or ignoreDupCheck is false>
+					<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
+					<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 						from agent_name, agent
 						where agent_name.agent_id = agent.agent_id
 							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
 					</cfquery>
-					<cfif dupPref.recordcount gt 0>
-						<!---- TODO: Change potential duplicate handling --->
-						<cfthrow message="Unable to create agent Duplcate preferred name [#encodeForHtml(pref_name)#].">
-						<!---
-						<div style="padding: 1em;width: 75%;">
-							<h3>That agent may already exist!</h3>
-							<p>The name you entered is either a preferred name or other name for an existing agent.</p>
-							<p>A duplicated preferred name will prevent MCZbase from functioning normally. </p>
-							<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
-							<cfloop query="dupPref">
-								<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
-							</cfloop>
-							<p>Are you sure you want to continue?</p>
-							<form name="ac" method="post" action="/agents/editAgent.cfm">
-								<input type="hidden" name="action" value="new">
-								<input type="hidden" name="prefix" value="#prefix#">
-								<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
-								<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
-								<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
-								<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-								<input type="hidden" name="pref_name" value="#pref_name#">
-								<input type="hidden" name="ignoreDupChek" value="true">
-								<input type="submit" class="insBtn" value="Create Agent">
-							</form>
-							<br><br>
-							<input type="cancel" value="Cancel" class="insBtn" style="background-color: ##ffcc00;border: 1px solid ##336666; width: 42px;" onclick="javascript:window.location='';return false;">
-							<cfabort>
-						</div>
-						--->
+					<cfif findPotentialDups.recordcount gt 0>
+						<!--- potential duplicates exist, require confirmation before continuing --->
+						<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
+						<cftransaction action="rollback">
+						<cfset okToAddAgent = false>
+						<main class="container py-3" id="content">
+							<h2 class="h3">The agent <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
+							<section class="border rounded my-2 px-1 pt-1 pb-2">
+								<div class="row">
+									<div class="col-12">
+										<p>The name you entered is already exists as a name (other than a preferred name) for an existing agent.</p>
+										<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
+									</div>
+									<div class="col-12">
+										<ul>
+											<cfloop query="findPotentialDups">
+												<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a> (agent ID ## #agent_id# - #agent_type#)</li>
+											</cfloop>
+										</ul>
+									</div>
+									<div class="col-12">
+										<label for="createAnywayButton">Do you still want to create this Agent?</p>
+										<form name="ac" method="post" action="/agents/editAgent.cfm">
+											<input type="hidden" name="action" value="new">
+											<input type="hidden" name="prefix" value="#prefix#">
+											<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
+											<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
+											<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
+											<input type="hidden" name="SUFFIX" value="#SUFFIX#">
+											<input type="hidden" name="pref_name" value="#pref_name#">
+											<input type="hidden" name="ignoreDupChek" value="true">
+											<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
+										</form>
+									</div>
+								</div>
+							</section>
+						</main>
 					</cfif>
 				</cfif>
-				<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO agent_name (
-						agent_name_id,
-						agent_id,
-						agent_name_type,
-						agent_name,
-						donor_card_present_fg)
-					VALUES (
-						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
-						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
-						'preferred',
-						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>,
-						0
-					)
-				</cfquery>
-				<cftransaction action="commit">
-				<!--- TODO redirect to redesiged edit agent page --->
-				<cflocation url="/editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
+				<cfif okToAddAgent IS true>
+					<!--- finish creating the agent record by adding a preferred name, and then committing the transaction --->
+					<!--- NOTE: Retaining donor_card_fg_present_fg for now, this likely indicates names created through the MCZbase coldfusion UI as opposed to loads of data --->
+					<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						INSERT INTO agent_name (
+							agent_name_id,
+							agent_id,
+							agent_name_type,
+							agent_name,
+							donor_card_present_fg)
+						VALUES (
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentNameID.nextAgentNameId#">,
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agentID.nextAgentId#">,
+							'preferred',
+							<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>,
+							0
+						)
+					</cfquery>
+					<cftransaction action="commit">
+					<!--- TODO redirect to redesiged edit agent page --->
+					<cflocation url="/editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
+				</cfif>
 			<cfcatch>
 				<cftransaction action="rollback">
 				<section class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h1 class="h2">Creation of new agent record failed.<h1>
-							<p>There was an error creating this taxon record, please file a bug report describing the problem.</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					<cfif cfcatch.message contains "Duplicate preferred name">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h1 class="h2">#encodeForHtml(cfcatch.message#<h1>
+								<p></p>
+								<p><a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#">Search for Agents with this name</a></p>
+							</div>
 						</div>
-					</div>
-					<p><cfdump var=#cfcatch#></p>
+					<cfelse>
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h1 class="h2">Creation of new agent record failed.<h1>
+								<p>There was an error creating this taxon record, please file a bug report describing the problem.</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+						<p><cfdump var=#cfcatch#></p>
+					</cfif>
 				</section>
 			</cfcatch>
 			</cftry>
