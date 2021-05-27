@@ -160,7 +160,7 @@ limitations under the License.
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
 								<cfoutput>
-			
+									<div class="col-12 mx-0 px-0 float-left">
 										<cfset i=1>
 										<cfloop query="media">
 												<cfset relns=getMediaRelations(#media.media_id#)>
@@ -240,7 +240,7 @@ limitations under the License.
 													<cfset aForImgHref = media1.media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
-												<div class="col-12 mx-0 px-0 float-left">
+												
 												<div class="col-4 float-left p-2">
 													<div class="border overflow-hidden p-2">
 														<div class="col-5 p-2 float-left">
@@ -259,6 +259,7 @@ limitations under the License.
 												</div>
 										<cfset i=i+1>
 										</cfloop>
+									</div>
 								</cfoutput> 
 								
 							</form>
