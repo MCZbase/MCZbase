@@ -509,7 +509,7 @@ limitations under the License.
 				</cfquery>
 				<cfif duplicatePreferredCheck.recordcount gt 0>
 					<!--- outright prevent creation of agents that duplicate the preferred name of other agents --->
-					<cfthrow message="Unable to create agent Duplicate preferred name [#encodeForHtml(pref_name)#].">
+					<cfthrow message="Unable to create agent: Duplicate preferred name [#encodeForHtml(pref_name)#].">
 				</cfif>
 				<cfset okToAddAgent = true>
 				<cfif not isdefined("ignoreDupCheck") or ignoreDupCheck is false>
@@ -589,6 +589,7 @@ limitations under the License.
 							<div class="alert alert-danger" role="alert">
 								<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 								<h1 class="h2">#encodeForHtml(cfcatch.message)#<h1>
+								<p>You cannot create a new agent record with a preferred name that duplicates an existing preferred name.</p>
 								<p></p>
 								<p><a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#">Search for Agents with this name</a></p>
 							</div>
