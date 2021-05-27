@@ -382,13 +382,13 @@ limitations under the License.
 										</cfif>
 																					
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Event</a> 
+											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events</a> 
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Collecting Event</a>
+											<a class="dropdown-item bg-warning" href="">Collecting Events</a>
 										</cfif>
 									
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/agents/Agents.cfm">Agent</a> 
+										<a class="dropdown-item" href="/agents/Agents.cfm">Agents</a> 
 									</div>
 								</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -410,8 +410,9 @@ limitations under the License.
 											</cfif>
 										</cfif>
 								
-										<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new">Agent</a> 
+										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new">Person</a> 
+										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=other%20agent">Other Agent</a> 
 									</div>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
