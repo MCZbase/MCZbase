@@ -251,7 +251,7 @@ limitations under the License.
 															<a href="#aForImgHref#" target="_blank">Media Details</a>
 														</div>
 														<div class="col-7 p-2 float-left">
-															<p class="small95" style="min-height: 200px;">#description#</p>
+															<p class="small95" style="min-height: 150px;">#description#</p>
 															<button class="btn small btn-xs btn-danger">Remove from Specimen Record</button>
 														</div>
 													</div>
