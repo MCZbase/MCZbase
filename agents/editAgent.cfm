@@ -556,14 +556,15 @@ limitations under the License.
 									<div class="col-12">
 										<label for="createAnywayButton">Do you still want to create this Agent?</p>
 										<form name="ac" method="post" action="/agents/editAgent.cfm">
-											<input type="hidden" name="action" value="new">
+											<!--- Resubmit to this action, but with parameter ignoreDupCheck set so as to skip this section --->
+											<input type="hidden" name="action" value="createAgent">
 											<input type="hidden" name="prefix" value="#prefix#">
 											<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
 											<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
 											<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
 											<input type="hidden" name="SUFFIX" value="#SUFFIX#">
 											<input type="hidden" name="pref_name" value="#pref_name#">
-											<input type="hidden" name="ignoreDupChek" value="true">
+											<input type="hidden" name="ignoreDupCheck" value="true">
 											<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
 										</form>
 									</div>
