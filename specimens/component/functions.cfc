@@ -256,12 +256,11 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												</div>
-										<cfset i=i+1>
+												
+												<cfset i=i+1>
 										</cfloop>
 									</div>
 								</cfoutput> 
-								
 							</form>
 							</div>
 		
