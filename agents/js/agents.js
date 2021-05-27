@@ -8,7 +8,7 @@ function checkPrefNameExists(preferred_name,target) {
          pref_name: preferred_name,
       },
       success: function (result) {
-			var matches = results.data;
+			var matches = result.data;
 			var matchcount = matches.length;
 			console.log(matches);
          $("#" + target).html(matchcount + " existing agents with same name");

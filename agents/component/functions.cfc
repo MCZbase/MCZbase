@@ -29,7 +29,7 @@ limitations under the License.
 			select agent.agent_type,agent_name.agent_id,agent_name.agent_name
 			from agent_name, agent
 			where agent_name.agent_id = agent.agent_id
-				and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+				and upper(agent_name.agent_name) = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(pref_name)#'>
 		</cfquery>
 		<cfset matchcount = dupPref.recordcount>
 		<cfset i = 1>
