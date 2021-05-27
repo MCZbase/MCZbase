@@ -337,6 +337,12 @@ limitations under the License.
 							<label id="end_date_label" for="end_date" class="data-entry-label">#label#</label>
 							<input type="text" name="end_date" id="end_date"class="data-entry-input">
 						</div>
+						<script>
+							$(document).ready(function() {
+								$("##start_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
+							});
+						</script>
 					</div>
 					<div class="row">
 						<div class="col-12">
