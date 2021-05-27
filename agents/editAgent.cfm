@@ -326,7 +326,7 @@ limitations under the License.
 								<cfset label="Start Date">
 							</cfif>
 							<label id="start_date_label" for="start_date" class="data-entry-label">#label#</label>
-							<input type="text" name="start_date" id="start_date"class="data-entry-input">
+							<input type="text" name="start_date" id="start_date"class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
 						</div>
 						<div class="col-12 col-md-3">
 							<cfif curAgentType EQ "person">
@@ -335,7 +335,7 @@ limitations under the License.
 								<cfset label="End Date">
 							</cfif>
 							<label id="end_date_label" for="end_date" class="data-entry-label">#label#</label>
-							<input type="text" name="end_date" id="end_date"class="data-entry-input">
+							<input type="text" name="end_date" id="end_date"class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
 						</div>
 						<script>
 							$(document).ready(function() {
