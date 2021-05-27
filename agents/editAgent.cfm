@@ -588,7 +588,7 @@ limitations under the License.
 						<div class="row">
 							<div class="alert alert-danger" role="alert">
 								<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h1 class="h2">#encodeForHtml(cfcatch.message#<h1>
+								<h1 class="h2">#encodeForHtml(cfcatch.message)#<h1>
 								<p></p>
 								<p><a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#">Search for Agents with this name</a></p>
 							</div>
