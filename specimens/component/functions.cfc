@@ -241,21 +241,23 @@ limitations under the License.
 													<cfset aForImgHref = media1.media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
+												<div class="row col-12 mx-0 px-0">
 												<div class="col-4 float-left p-2">
-												<div class="border overflow-hidden p-2">
-													<div class="col-5 p-2 float-left">
-																#mediaRecord#<br> 
-														<a href="#aForImgHref#" target="_blank"> 
-															<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
-														</a> <br>
-														<a href="#aForImgHref#" target="_blank">Media Details</a>
-													</div>
-													<div class="col-7 p-2 float-left">
-														<p class="small95">#description#</p>
-														<button class="btn small btn-xs btn-danger">Remove from Specimen Record</button>
+													<div class="border overflow-hidden p-2">
+														<div class="col-5 p-2 float-left">
+																	#mediaRecord#<br> 
+															<a href="#aForImgHref#" target="_blank"> 
+																<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
+															</a> <br>
+															<a href="#aForImgHref#" target="_blank">Media Details</a>
+														</div>
+														<div class="col-7 p-2 float-left">
+															<p class="small95">#description#</p>
+															<button class="btn small btn-xs btn-danger">Remove from Specimen Record</button>
+														</div>
 													</div>
 												</div>
-											</div>
+												</div>
 										<cfset i=i+1>
 										</cfloop>
 								</cfoutput> 
