@@ -507,7 +507,7 @@ limitations under the License.
 					WHERE 
 						agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
 				</cfquery>
-				<cfif dupPref.recordcount gt 0>
+				<cfif duplicatePreferredCheck.recordcount gt 0>
 					<!--- outright prevent creation of agents that duplicate the preferred name of other agents --->
 					<cfthrow message="Unable to create agent Duplicate preferred name [#encodeForHtml(pref_name)#].">
 				</cfif>
