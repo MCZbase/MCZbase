@@ -35,9 +35,9 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="dupPref">
 			<cfset row = StructNew()>
-			<cfset columnNames = ListToArray(search.columnList)>
+			<cfset columnNames = ListToArray(dupPref.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
-				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+				<cfset row["#columnName#"] = "#dupPref[columnName][currentrow]#">
 			</cfloop>
 			<cfset data[i] = row>
 			<cfset i = i + 1>
