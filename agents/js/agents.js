@@ -8,10 +8,18 @@ function checkPrefNameExists(preferred_name,target) {
          pref_name: preferred_name,
       },
       success: function (result) {
-			var matches = result.data;
+			var matches = jQuery.parseJSON(result);
 			var matchcount = matches.length;
 			console.log(matches);
-         $("#" + target).html(matchcount + " existing agents with same name");
+			if (matchcount==0) { 
+         	$("#" + target).html("no duplicates.");
+			} else {
+				var s = "s";
+				if (matchcount==1) { 
+					s = "";
+				}
+         	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+			}
       },
       error: function (jqXHR, status, message) {
          if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
