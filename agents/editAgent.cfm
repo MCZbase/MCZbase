@@ -390,8 +390,16 @@ limitations under the License.
 	</cfoutput>
 </cfcase>
 <cfcase value="createAgent">
-	<!--- TODO: Implement save new agent record --->
 	<cfoutput>
+		<cfif NOT isdefined('agent_type') OR len(trim(agent_type)) EQ 0>
+			<cfthrow message="Unable to create agent: agent type is required and was not supplied">
+		</cfif>
+		<cfif agent_type EQ "person" AND (NOT isdefined('LAST_NAME') OR len(trim(LAST_NAME)) EQ 0)>
+			<cfthrow message="Unable to create agent: last name is required for agents of type person and was not supplied">
+		</cfif>
+		<cfif NOT isdefined('pref_name') OR len(trim(pref_name)) EQ 0>
+			<cfthrow message="Unable to create agent: preferred name is required and was not supplied">
+		</cfif>
 		<cfquery name="agentTypeCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT agent_type 
 			FROM ctagent_type 
@@ -549,6 +557,7 @@ limitations under the License.
 									<div class="col-12">
 										<ul>
 											<cfloop query="findPotentialDups">
+												<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>">
 												<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a> (agent ID ## #agent_id# - #agent_type#)</li>
 											</cfloop>
 										</ul>
@@ -558,12 +567,39 @@ limitations under the License.
 										<form name="ac" method="post" action="/agents/editAgent.cfm">
 											<!--- Resubmit to this action, but with parameter ignoreDupCheck set so as to skip this section --->
 											<input type="hidden" name="action" value="createAgent">
-											<input type="hidden" name="prefix" value="#prefix#">
+											<input type="hidden" name="agent_type" value="#agent_type#">
 											<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
-											<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
-											<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
-											<input type="hidden" name="SUFFIX" value="#SUFFIX#">
 											<input type="hidden" name="pref_name" value="#pref_name#">
+											<cfif isdefined('prefix') AND len(prefix) GT 0>
+												<input type="hidden" name="prefix" value="#prefix#">
+											</cfif>
+											<cfif isdefined('FIRST_NAME') AND len(FIRST_NAME) GT 0>
+												<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
+											</cfif>
+											<cfif isdefined('MIDDLE_NAME') AND len(MIDDLE_NAME) GT 0>
+												<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
+											</cfif>
+											<cfif isdefined('SUFFIX') AND len(SUFFIX) GT 0>
+												<input type="hidden" name="SUFFIX" value="#SUFFIX#">
+											</cfif>
+											<cfif isdefined('start_date') AND len(start_date) GT 0>
+												<input type="hidden" name="start_date" value="#start_date#">
+											</cfif>
+											<cfif isdefined('end_date') AND len(end_date) GT 0>
+												<input type="hidden" name="end_date" value="#end_date#">
+											</cfif>
+											<cfif isdefined('agent_remarks') AND len(agent_remarks) GT 0>
+												<input type="hidden" name="agent_remarks" value="#agent_remarks#">
+											</cfif>
+											<cfif isdefined('biography') AND len(biography) GT 0>
+												<input type="hidden" name="biography" value="#biography#">
+											</cfif>
+											<cfif isdefined('agentguid') AND len(agentguid) GT 0>
+												<input type="hidden" name="agentguid" value="#agentguid#">
+											</cfif>
+											<cfif isdefined('agentguid_guid_type') AND len(agentguid_guid_type) GT 0>
+												<input type="hidden" name="agentguid_guid_typoe" value="#agentguid_guid_type#">
+											</cfif>
 											<input type="hidden" name="ignoreDupCheck" value="true">
 											<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
 										</form>
