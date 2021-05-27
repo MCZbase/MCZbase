@@ -59,6 +59,7 @@ limitations under the License.
 	<cfif isDefined("agent_type") AND len(agent_type) GT 0>
 		<cfset curAgentType = agent_type>
 	<cfelse>
+		<!--- default expectations of the new agent page are that a person is being created, and a change of agent type hides the person elements. --->
 		<cfset curAgentType = 'person'>
 	</cfif>
 </cfcase>
@@ -204,7 +205,6 @@ limitations under the License.
 						<div class="col-12 col-md-6">
 							<label for="pref_name" class="data-entry-label">Preferred Name</label>
 							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
-							<!--- TODO: Add test for unique preferred name --->
 							<script>
 								$(document).ready(function () {
 									$('##pref_name').change(function () {
@@ -219,6 +219,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div id="personRow" class="row">
+						<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
 						<div class="col-12 col-md-2">
 							<label for="prefix" class="data-entry-label">Prefix</label>
 							<select name="prefix" id="prefix" size="1" class="data-entry-select">
@@ -371,6 +372,16 @@ limitations under the License.
 							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
 						</div>
 					</div>
+					<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS "person">
+						<!--- no action needed, this is the default load state for this form --->
+					<cfelse>
+						<!--- change elements appropriately --->
+						<script>
+							$(document).ready(function () {
+								$('##agent_remarks').changeType();
+							});
+						</script>
+					</cfif>
 				</form>
 			</section>
 		</main>
