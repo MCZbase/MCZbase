@@ -166,7 +166,7 @@
 										</cfif>
 										<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a>
 										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a>
-										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new&agent_type=other%20agent">Other Agent</a>
+										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new&agent_type=organization">Organization Agent</a>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
