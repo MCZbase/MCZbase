@@ -53,6 +53,27 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<cffunction name="saveAgent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+	
+			<cfthrow message="saveAgent not yet implemented.">
+
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address

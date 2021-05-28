@@ -116,13 +116,21 @@ limitations under the License.
 				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 					SELECT 
 						agent.agent_type, agent.edited, 
-						agent_remarks, 
-						biography,
-						agentguid_guid_type, agentguid,
+						agent.agent_remarks, 
+						agent.biography,
+						agent.agentguid_guid_type, agentguid,
 						prefername.agent_name as preferred_agent_name
+						person.prefix,
+						person.suffix,
+						person.first_name,
+						person.last_name,
+						person.middle_name,
+						person.birth_date,
+						person.death_date
 					FROM 
 						agent
 						left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+						left join person on agent.agent_id = person.person_id
 					WHERE
 						agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 				</cfquery>
@@ -130,11 +138,193 @@ limitations under the License.
 					<h2>No such agent as agent_id = #encodeForHtml(agent_id)#.</h2>
 				<cfelse>
 					<cfloop query="getAgent">
-						<cfif getAgent.edited EQ 1><cfset vetted="*"><cfelse><cfset vetted=""></cfif>
-						<h2>Edit agent #getAgent.preferred_agent_name# #vetted# (#getAgent.agent_type#).</h2>
+						<cfif getAgent.edited EQ 1>
+							<cfset vetted="*">
+						<cfelse>
+							<cfset vetted="">
+						</cfif>
+						<cfif getAgent.agent_type EQ "person">
+							<!--- assemble display name from person data --->
+							<cfset nameStr="">
+							<cfset nameStr= listappend(nameStr,prefix,' ')>
+							<cfset nameStr= listappend(nameStr,first_name,' ')>
+							<cfset nameStr= listappend(nameStr,middle_name,' ')>
+							<cfset nameStr= listappend(nameStr,last_name,' ')>
+							<cfset nameStr= listappend(nameStr,suffix,' ')>
+							<cfif len(birth_date) gt 0>
+								<cfset nameStr="#nameStr# (#birth_date#">
+							<cfelse>
+								<cfset nameStr="#nameStr# (unknown">
+							</cfif>
+							<cfif len(death_date) gt 0>
+								<cfset nameStr="#nameStr# - #death_date#)">
+							<cfelse>
+								<cfset nameStr="#nameStr# - unknown)">
+							</cfif>
+						<cfelse>
+							<!--- assemble display name from preferred name --->
+							<cfset nameStr=#getAgent.preferred_agent_name#>
+						</cfif>
+						<h2>Edit #getAgent.agent_type# agent #nameStr#.</h2>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
-							<!--- TODO: Implement--->
-							<h2>Edit agent not yet implemented.</h2>
+							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
+								<input type="hidden" name="method" value="saveAgent">
+								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
+								<!--- function handleChange: action to take when an input has its value changed, binding to inputs below --->
+								<script>
+									function handleChange(){
+										$('##saveResultDiv').html('Unsaved changes.');
+										$('##saveResultDiv').addClass('text-danger');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-warning');
+									};
+									function changeType() { 
+										var selectedType = $('##agent_type').val();
+										if (selectedType == 'person') { 
+											$('##personRow').show();
+											$('##headingTypeSpan').html("Person");
+											$('##last_name').prop('required',true);
+											$('##start_date_label').html("Date of Birth");
+											$('##end_date_label').html("Date of Death");
+											$('##start_date').prop('disabled', false);
+											$('##end_date').prop('disabled', false);
+										} else { 
+											$('##personRow').hide();
+											$('##headingTypeSpan').html(selectedType);
+											$('##last_name').removeAttr('required');
+											$('##start_date_label').html("Start Date");
+											$('##end_date_label').html("End Date");
+											$('##start_date').prop('disabled', true);
+											$('##end_date').prop('disabled', true);
+										}
+									}
+								</script>
+								<div class="form-row">
+									<div class="col-12 col-md-4">
+										<label for="agent_type" class="data-entry-label">Type of Agent</label>
+										<cfset curAgentType = getAgent.agent_type>
+										<cfif curAgentType EQ "person">
+											<input type="text" name="agent_type" id="agent_type" class="data-entry-input reqdClr" value="#getAgent.agent_type#" disabled>
+											<!--- TODO: functionality to allow change of person to non-person, handling names and dates --->
+										<cfelse>
+											<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
+												<cfloop query="ctAgentType">
+													<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
+														<cfset selected = "selected='selected'">
+													<cfelse>
+														<cfset selected = "">
+													</cfif>
+													<option value="#ctAgentType.agent_type#" #selected#>#ctAgentType.agent_type#</option>
+												</cfloop>
+											</select>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-6">
+										<label for="pref_name" class="data-entry-label">Preferred Name</label>
+											<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required value="#getAgent.preferred_agent_name#">
+											<script>
+												$(document).ready(function () {
+													$('##pref_name').change(function () {
+														checkPrefNameExists($('##pref_name').val(),'name_matches');
+													});
+													checkPrefNameExists($('##pref_name').val(),'name_matches');
+												});
+											</script>
+										</div>
+									<div class="col-12 col-md-2">
+										<label for="name_matches" class="data-entry-label">Duplicate check</label>
+										<div id="name_matches"></div>
+									</div>
+								</div>
+								<div id="personRow" class="form-row">
+									<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
+									<div class="col-12 col-md-2">
+										<label for="prefix" class="data-entry-label">Prefix</label>
+										<select name="prefix" id="prefix" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctprefix">
+												<cfif ctprefix.prefix EQ getAgent.prefix><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#ctprefix.prefix#" #selected#>#ctprefix.prefix#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="first_name"class="data-entry-label">First Name</label>
+										<input type="text" name="first_name" id="first_name"class="data-entry-input" value="#getAgent.first_name#">
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="middle_name" class="data-entry-label">Middle Name</label>
+										<input type="text" name="middle_name" id="middle_name"class="data-entry-input" value="#getAgent.middle_name#">
+									</div>
+									<div class="col-12 col-md-3">
+										<cfif getAgent.agent_type EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
+										<label for="last_name"class="data-entry-label">Last Name</label>
+										<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req# value="#getAgent.last_name#">
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="suffix"class="data-entry-label">Suffix</label>
+										<select name="suffix" size="1" id="suffix" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctsuffix">
+												<cfif ctsuffix.suffix EQ getAgent.suffix><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#suffix#" #selected#>#suffix#</option>
+											</cfloop>
+									  	</select>
+									</div>
+								</div>
+
+
+								</div>
+								<div class="form-row mb-1">
+									<div class="form-group col-12">
+										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
+											id="submitButton" >
+										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
+										<!--- TODO: Implement delete agent, when no linked data --->
+										<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
+											onClick=" $('##action').val('editAgent'); confirmDialog('Delete this Agent?','Confirm Delete Agent', function() { $('##action').val('deleAgent'); $('##editAgentForm').submit(); } );">
+									</div>
+								</div>
+								<script>
+									$(document).ready(function() {
+										monitorForChanges('editAgentForm',handleChange);
+									});
+									function saveEdits(){ 
+										$('##saveResultDiv').html('Saving....');
+										$('##saveResultDiv').addClass('text-warning');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-danger');
+										jQuery.ajax({
+											url : "/agents/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##editAgentForm').serialize(),
+											success : function (data) {
+												$('##saveResultDiv').html('Saved.');
+												$('##saveResultDiv').addClass('text-success');
+												$('##saveResultDiv').removeClass('text-danger');
+												$('##saveResultDiv').removeClass('text-warning');
+											},
+											error: function(jqXHR,textStatus,error){
+												$('##saveResultDiv').html('Error.');
+												$('##saveResultDiv').addClass('text-danger');
+												$('##saveResultDiv').removeClass('text-success');
+												$('##saveResultDiv').removeClass('text-warning');
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error saving agent record: '+message, 'Error: '+error.substring(0,50));
+											}
+										});
+									};
+								</script>
+							</form>
 						</section>
 					</cfloop>
 				</cfif>
