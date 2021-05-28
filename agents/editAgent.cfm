@@ -119,7 +119,7 @@ limitations under the License.
 						agent.agent_remarks, 
 						agent.biography,
 						agent.agentguid_guid_type, agentguid,
-						prefername.agent_name as preferred_agent_name
+						prefername.agent_name as preferred_agent_name,
 						person.prefix,
 						person.suffix,
 						person.first_name,
