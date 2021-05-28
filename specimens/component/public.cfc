@@ -84,7 +84,7 @@ limitations under the License.
 													<span class="small">Media details</span>
 											
 												</a>
-															<div class="small">#mediaS1.description#</div>
+															<div class="small">#media.media_descriptor#</div>
 											</div>
 											<cfelse>
 
