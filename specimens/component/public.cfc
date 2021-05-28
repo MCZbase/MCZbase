@@ -98,6 +98,7 @@ limitations under the License.
 											<cfquery name="desc" dbtype="query">
 												select label_value from labels where media_label='description'
 											</cfquery>
+										<cfif media.recordcount = 1>
 											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
@@ -111,6 +112,7 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>
+										<cfelse>
 											<cfset description="Media Preview Image">
 											<cfif desc.recordcount is 1>
 												<cfset description=desc.label_value>
@@ -155,6 +157,7 @@ limitations under the License.
 										
 											</p>
 											</div>
+										</cfif>
 													<cfset i=i+1>
 										</cfloop>
 									</div>
