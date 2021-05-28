@@ -106,7 +106,11 @@ limitations under the License.
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
 													<span class="smaller col-6 px-0">Media details</span>
 												</a>
-												<div class="small">#desc.label_value# 		<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button></div>
+											<div class="form-row mx-0">
+												<div class="small">#desc.label_value# 
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												</div>
+											</div>
 											</div>
 											<cfelse>
 
