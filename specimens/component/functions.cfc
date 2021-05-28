@@ -865,8 +865,17 @@ limitations under the License.
 													<input class="mx-2" name="mime_type" id="media_type" value="">
 													<label for "">Mime Type</label>
 													<input class="mx-2" name="mime_type" id="mime_type" value="">
-													<label for "visibility">Visibility</label>
-													<input class="mx-2" name="visibility" id="visibility" value="">
+													<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
+														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
+															<cfif #media.mask_media_fg# eq 1 >
+																<option value="0">Public</option>
+																<option value="1" selected="selected">Hidden</option>
+																<cfelse>
+																<option value="0" selected="selected">Public</option>
+																<option value="1">Hidden</option>
+															</cfif>
+														</select>
 												</div>
 											</div>
 												<select name="media_label" id="media_label" class="ml-1">
