@@ -525,7 +525,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<cfif curAgentType EQ "person">
-								<cfset label="Date of Birth">
+								<cfset label="Date of Death">
 							<cfelse>
 								<cfset label="End Date">
 							</cfif>
