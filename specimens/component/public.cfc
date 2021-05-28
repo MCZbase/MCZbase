@@ -98,6 +98,9 @@ limitations under the License.
 											<cfquery name="desc" dbtype="query">
 												select label_value from labels where media_label='description'
 											</cfquery>
+											<cfif desc.recordcount is 1>
+												<cfset description=desc.label_value>
+											</cfif>
 										<cfif i eq 1>
 											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
 											<div class="col-12 px-1">
@@ -115,9 +118,7 @@ limitations under the License.
 											</cfif>
 										<cfelse>
 											<cfset description="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset description=desc.label_value>
-											</cfif>
+									
 											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 												<!---for media images -- remove absolute url after demo / test db issue?--->
 												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
@@ -159,7 +160,7 @@ limitations under the License.
 											</p>
 											</div>
 										</cfif>
-													<cfset i=i+1>
+										<cfset i=i+1>
 										</cfloop>
 									</div>
 								</div>
