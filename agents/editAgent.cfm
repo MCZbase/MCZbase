@@ -461,7 +461,7 @@ limitations under the License.
 							<cfset replacement = "">
 							<cfset searchlink = "" >
 							<cfset searchtext = "" >
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-6 col-md-3 col-xl-3 px-0 float-left">
 								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -479,10 +479,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
+							<div class="col-6 col-md-7 col-xl-3 w-100 px-0 float-left"> 
 								<a href="#searchlink#" id="agentguid_search" target="_blank" class="small90">#searchtext#</a>
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
 								<input class="data-entry-input" name="agentguid" id="agentguid" 
 									value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90"></a> 
