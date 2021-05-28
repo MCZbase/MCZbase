@@ -878,12 +878,13 @@ limitations under the License.
 														</select>
 												</div>
 											</div>
-												<select name="media_label" id="media_label" class="ml-1">
-													<option value="">NONE</option>
-													<cfloop query="ctmedia_label">
-														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value=""></option>
-													</cfloop>
-												</select>
+													<label for="media_label" class="float-left mt-1">Media Labels</label>
+														<select name="media_label" id="media_license_id" class="ml-1">
+															<option value="">NONE</option>
+															<cfloop query="ctmedia_label">
+																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+															</cfloop>
+														</select>
 											</div>
 										</cfoutput> 
 									</div>
