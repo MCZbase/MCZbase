@@ -360,7 +360,7 @@ limitations under the License.
 			<section class="border rounded my-2 px-1 pt-1 pb-2">
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12 col-md-4">
 							<script>
 								function changeType() { 
@@ -409,10 +409,10 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="name_matches" class="data-entry-label">Duplicate check</label>
-							<div id="name_matches"></div>
+							<output id="name_matches" class="alert alert-success p-1"></output>
 						</div>
 					</div>
-					<div id="personRow" class="row">
+					<div id="personRow" class="form-row">
 						<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
 						<div class="col-12 col-md-2">
 							<label for="prefix" class="data-entry-label">Prefix</label>
@@ -446,7 +446,7 @@ limitations under the License.
 						  	</select>
 						</div>
 					</div>
-					<div id="guids" class="row">
+					<div id="guids" class="form-row">
 						<div class="col-12 col-md-6">
 							<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 							<cfset pattern = "">
@@ -539,7 +539,7 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12">
 							<label for="biography" class="data-entry-label">Public Biography</label>
 							<textarea name="biography" id="biography" class="w-100"></textarea>
@@ -550,7 +550,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12">
 							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
 							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
@@ -561,7 +561,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12 col-md-3">
 							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
 						</div>
@@ -741,7 +741,7 @@ limitations under the License.
 						<main class="container py-3" id="content">
 							<h2 class="h3">The agent <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
 							<section class="border rounded my-2 px-1 pt-1 pb-2">
-								<div class="row">
+								<div class="form-row">
 									<div class="col-12">
 										<p>The name you entered is already exists as a name (other than a preferred name) for an existing agent.</p>
 										<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
