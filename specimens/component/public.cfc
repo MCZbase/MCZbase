@@ -79,8 +79,9 @@ limitations under the License.
 											<!--	<a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a>-->
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-													<span class="small90">#aForThisHref#</span>
+													
 												<a href="#aForThisHref#" target="_blank" class="w-100">
+													<span class="small90">Media details</span>
 													<img src="#mediaS1.media_uri#" class="w-100 mb-2">
 												</a>
 											</div>
