@@ -356,9 +356,9 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
-							<h2 class="mb-0 mt-3">Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
+							<h1 class="h2 mb-0 mt-3">Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
-							<h2 class="mb-0 mt-3">Create new <span id="headingTypeSpan"></span> Agent</h2>
+							<h1 class="h2 mb-0 mt-3">Create new <span id="headingTypeSpan"></span> Agent</h2>
 						</cfif>
 					</div>
 				</div>
