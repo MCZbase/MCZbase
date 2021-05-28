@@ -102,31 +102,26 @@ limitations under the License.
 						<div class="row">
 							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+										<!---<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+									</li>--->
+					
+									<div id="mediaDialog"></div>
+									<script>
+										function reloadMedia() { 
+											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+											loadMedia(#collection_object_id#,'mediaCardBody');
+										}
+									</script>
+										<cfif listcontainsnocase(session.roles,"manage_media")>
+											<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+										</cfif>
+									<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+										<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
+											<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
+											#block#
+										</div>
+									</div>
 								</li>
-								
-								
-								
-			
-						<div class="card mb-2 bg-light">
-							<div id="mediaDialog"></div>
-							<script>
-								function reloadMedia() { 
-									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-									loadMedia(#collection_object_id#,'mediaCardBody');
-								}
-							</script>
-								<cfif listcontainsnocase(session.roles,"manage_media")>
-									<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-								</cfif>
-						</div>
-						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-							<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
-								#block#
-							</div>
-						</div>
-
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 								</li>
