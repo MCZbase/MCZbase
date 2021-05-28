@@ -351,16 +351,22 @@ limitations under the License.
 				return result;
 			}
 		</script>
-		<main class="container py-3" id="content">
-			<cfif isdefined("agent_type") and len(agent_type) GT 0>
-				<h2>Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent.</h2>
-			<cfelse>
-				<h2>Create new <span id="headingTypeSpan"></span> Agent.</h2>
-			</cfif>
-			<section class="border rounded my-2 px-1 pt-1 pb-2">
+		<main id="content">
+			<div class="container">
+				<div class="form-row">
+					<div class="col-12">
+						<cfif isdefined("agent_type") and len(agent_type) GT 0>
+							<h2 class="mb-0">Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent.</h2>
+						<cfelse>
+							<h2 class="mb-0">Create new <span id="headingTypeSpan"></span> Agent.</h2>
+						</cfif>
+					</div>
+				</div>
+			</div>
+			<section class="container border rounded my-2 py-3">
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
-					<div class="form-row">
+					<div class="form-row mb-1">
 						<div class="col-12 col-md-4">
 							<script>
 								function changeType() { 
@@ -412,7 +418,7 @@ limitations under the License.
 							<output id="name_matches" class="text-success font-weight-lessbold p-1"></output>
 						</div>
 					</div>
-					<div id="personRow" class="form-row">
+					<div id="personRow" class="form-row mb-1">
 						<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
 						<div class="col-12 col-md-2">
 							<label for="prefix" class="data-entry-label">Prefix</label>
@@ -446,7 +452,7 @@ limitations under the License.
 						  	</select>
 						</div>
 					</div>
-					<div id="guids" class="form-row">
+					<div id="guids" class="form-row mb-1">
 						<div class="col-12 col-md-6">
 							<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 							<cfset pattern = "">
@@ -539,7 +545,7 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="form-row">
+					<div class="form-row mb-1">
 						<div class="col-12">
 							<label for="biography" class="data-entry-label">Public Biography</label>
 							<textarea name="biography" id="biography" class="w-100"></textarea>
@@ -550,7 +556,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mb-1">
 						<div class="col-12">
 							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
 							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
@@ -561,7 +567,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="form-row">
+					<div class="form-row mt-1">
 						<div class="col-12 col-md-3">
 							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
 						</div>
