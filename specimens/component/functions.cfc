@@ -241,7 +241,7 @@ limitations under the License.
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
 												
-												<div class="col-4 float-left p-2">
+												<div class="col-4 float-left px-2">
 													<div class="border overflow-hidden p-2">
 														<div class="col-5 p-2 float-left">
 																	#mediaRecord#<br> 
