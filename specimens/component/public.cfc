@@ -107,7 +107,8 @@ limitations under the License.
 													<span class="small">Media details</span>
 											
 												</a>
-												<div class="small">#media.media_descriptor#</div>
+												<div class="small">#media.description#</div>
+												<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 											</div>
 											<cfelse>
 
