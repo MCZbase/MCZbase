@@ -75,22 +75,10 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
-											<!--	<a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a>-->
-											<div class="col-12 px-1">
-												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
-													<span class="small">Media details</span>
-											
-												</a>
-															<div class="small">#media.media_descriptor#</div>
-											</div>
-											<cfelse>
 
-											</cfif>
 										<cfset i=1>
 										<cfloop query="media">
+				
 											<!---div class="thumbs"--->
 											<cfquery name="ctmedia" dbtype="query">
 												select count(*) as ct from media group by media_relationship order by media_id
@@ -110,6 +98,19 @@ limitations under the License.
 											<cfquery name="desc" dbtype="query">
 												select label_value from labels where media_label='description'
 											</cfquery>
+											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+											<div class="col-12 px-1">
+												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
+													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+													<span class="small">Media details</span>
+											
+												</a>
+												<div class="small">#media.media_descriptor#</div>
+											</div>
+											<cfelse>
+
+											</cfif>
 											<cfset description="Media Preview Image">
 											<cfif desc.recordcount is 1>
 												<cfset description=desc.label_value>
