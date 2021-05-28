@@ -115,7 +115,9 @@ limitations under the License.
 			<main class="container py-3" id="content">
 				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 					SELECT 
-						agent.agent_type, agent.edited, 
+						agent.agent_id,
+						agent.agent_type, 
+						agent.edited, 
 						agent.agent_remarks, 
 						agent.biography,
 						agent.agentguid_guid_type, agentguid,
