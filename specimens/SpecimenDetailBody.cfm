@@ -115,12 +115,6 @@ limitations under the License.
 										<cfif listcontainsnocase(session.roles,"manage_media")>
 											<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 										</cfif>
-									<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
-										<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
-											<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
-											#block#
-										</div>
-									</div>
 								</li>
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
