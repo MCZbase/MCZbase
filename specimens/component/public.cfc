@@ -70,13 +70,15 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-						<cfif #mediaS1.media_type# eq 'image'><a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a></cfif>
+		
 							<div class="form-row">			
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+											<!--	<a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a>-->
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+													#aForThisHref#
 												<a href="#aForThisHref#" target="_blank" class="w-100">
 												<img src="#mediaS1.media_uri#" class="w-100 mb-2">
 												</a>
