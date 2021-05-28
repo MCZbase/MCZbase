@@ -351,14 +351,14 @@ limitations under the License.
 				return result;
 			}
 		</script>
-		<main id="content">
+		<main id="content" class="pb-5">
 			<div class="container">
 				<div class="form-row">
 					<div class="col-12">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
-							<h2 class="mb-0">Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent.</h2>
+							<h2 class="mb-0 mt-3">Create new <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
-							<h2 class="mb-0">Create new <span id="headingTypeSpan"></span> Agent.</h2>
+							<h2 class="mb-0 mt-3">Create new <span id="headingTypeSpan"></span> Agent</h2>
 						</cfif>
 					</div>
 				</div>
@@ -480,12 +480,12 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="agentguid_search" target="_blank" style="font-size: 86%;">#searchtext#</a>
+								<a href="#searchlink#" id="agentguid_search" target="_blank" class="small90">#searchtext#</a>
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input class="data-entry-input" name="agentguid" id="agentguid" 
 									value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90"></a> 
 							</div>
 						<script>
 							$(document).ready(function () {
@@ -567,7 +567,7 @@ limitations under the License.
 							</script>
 						</div>
 					</div>
-					<div class="form-row mt-1">
+					<div class="form-row mt-2">
 						<div class="col-12 col-md-3">
 							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
 						</div>
