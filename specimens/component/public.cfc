@@ -77,13 +77,14 @@ limitations under the License.
 										<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
 											<!--	<a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a>-->
-											<div class="col-12 px-1 bg-white">
+											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-													
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
-													<span class="small90">Media details</span>
+													<span class="small">Media details</span>
+											
 												</a>
+															<div class="small">#mediaS1.description#</div>
 											</div>
 											<cfelse>
 
