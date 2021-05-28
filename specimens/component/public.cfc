@@ -80,9 +80,9 @@ limitations under the License.
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 													
-												<a href="#aForThisHref#" target="_blank" class="w-100">
+												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<span class="small90">Media details</span>
-													<img src="#mediaS1.media_uri#" class="w-100 mb-2">
+													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
 												</a>
 											</div>
 											<cfelse>
