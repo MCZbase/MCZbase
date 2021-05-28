@@ -71,7 +71,8 @@ limitations under the License.
 					</cfquery>
 					<cfoutput>
 						<cfif #mediaS1.media_type# eq 'image'><a href="/media/#mediaS1.media_id#" class="btn-link my-1">Media Record</a></cfif>
-									<span class="form-row col-12 px-0 mx-0 mt-1"> 
+							<div class="form-row">			
+								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
@@ -109,12 +110,12 @@ limitations under the License.
 											</cfif>
 											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 												<!---for media images -- remove absolute url after demo / test db issue?--->
-												<cfset one_thumb = "<div class='imgsize border-white px-1 mb-1 pt-1'>">
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 												<cfelse>
 												<!---for DRS from library--->
-												<cfset one_thumb = "<div class='imgsize border-white px-1 mb-1 pt-1'>">
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 												<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
 											</cfif>
@@ -129,7 +130,7 @@ limitations under the License.
 															loadMedia(#media_id#,'mediaCardBody');
 														}
 													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small my-2 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 												<cfif #media.media_type# eq "audio">
 													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select related_primary_key, media_id 
@@ -149,7 +150,8 @@ limitations under the License.
 											</div>
 													<cfset i=i+1>
 										</cfloop>
-									</span>
+									</div>
+								</div>
 							</cfoutput>
 						</cfif>
 			<cfcatch>
