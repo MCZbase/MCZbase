@@ -140,6 +140,17 @@ limitations under the License.
 															</select>
 														</div>
 													</div>
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_relations" class="data-entry-label">Media Relationships</label>
+															<select name="media_relations" id="media_relations" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label1">
+																	<option value="ctmedia_label1.media_relationship"></option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
 												</div>
 											</cfoutput>
 										</div>
