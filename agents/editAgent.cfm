@@ -409,7 +409,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="name_matches" class="data-entry-label">Duplicate check</label>
-							<output id="name_matches" class="alert alert-success p-1"></output>
+							<output id="name_matches" class="text-success font-weight-lessbold p-1"></output>
 						</div>
 					</div>
 					<div id="personRow" class="form-row">
