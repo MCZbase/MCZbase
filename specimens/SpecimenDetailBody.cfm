@@ -105,7 +105,7 @@ limitations under the License.
 										<!---<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 									</li>--->
 					
-									<div id="mediaDialog"></div>
+									<!---<div id="mediaDialog"></div>--->
 									<script>
 										function reloadMedia() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
