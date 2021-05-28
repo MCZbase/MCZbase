@@ -292,7 +292,7 @@ limitations under the License.
 							
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getEditMediaThread"> <cfoutput>
+	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -600,8 +600,8 @@ limitations under the License.
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
-	<cfthread action="join" name="getEditMediaThread" />
-	<cfreturn getEditMediaThread.output>
+	<cfthread action="join" name="getEditMediaDetailsThread" />
+	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
 <!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
