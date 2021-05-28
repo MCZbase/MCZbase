@@ -449,7 +449,7 @@ limitations under the License.
 																<label for="media_type" class="float-left mt-1">Media Type</label>
 																<select name="media_type" class="ml-2" id="media_type">
 																	<cfloop query="ctmedia_type">
-																		<option <cfif #media1.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media1.media_type#">#ctmedia.media_type#</option>
+																		<option <cfif #media1.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media1.media_type#">#media1.media_type#</option>
 																	</cfloop>
 																</select>
 															</div>
