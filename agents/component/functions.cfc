@@ -349,8 +349,6 @@ limitations under the License.
 	<cfargument name="agent_type" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
-	<cftransaction>
-	
 	<cfset provided_agent_type = agent_type >
 
 	<cftransaction>
@@ -384,7 +382,7 @@ limitations under the License.
 			<cfelse>
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
-			</cfelse>
+			</cfif>
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE agent SET
