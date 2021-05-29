@@ -20,18 +20,25 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- check if there is a case sensitive match to a specified preferred agent name --->
+<!--- check if there is a case sensitive exact match to a specified preferred agent name 
+ @param pref_name the name to check 
+ @param not_agent_id if specified, the current agent to exclude from the check
+--->
 <cffunction name="checkPrefNameExists" returntype="any" access="remote" returnformat="json">
-	<cfargument name="pref_name" type="string" required="no">
+	<cfargument name="pref_name" type="string" required="yes">
+	<cfargument name="not_agent_id" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
-			select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name
-			from preferred_agent_name
+			SELECT agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name
+			FROM preferred_agent_name
 				left join agent on preferred_agent_name.agent_id = agent.agent_id
-			where
+			WHERE
 				preferred_agent_name.agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
+				<cfif isdefined("not_agent_id") and len(not_agent_id) GT 0>
+					AND preferred_agent_name.agent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#not_agent_id#">
+				</cfif>
 		</cfquery>
 		<cfset matchcount = dupPref.recordcount>
 		<cfset i = 1>
@@ -55,17 +62,26 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
-<!--- check if there is a case-insensitive match to a specified agent name --->
+<!--- check if there is a case-insensitive match to a specified agent name 
+ @param pref_name the name to check 
+ @param not_agent_id if specified, the current agent to exclude from the check
+--->
 <cffunction name="checkNameExists" returntype="any" access="remote" returnformat="json">
-	<cfargument name="pref_name" type="string" required="no">
+	<cfargument name="pref_name" type="string" required="yes">
+	<cfargument name="not_agent_id" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
-			select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-			from agent_name, agent
-			where agent_name.agent_id = agent.agent_id
-				and upper(agent_name.agent_name) = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(pref_name)#'>
+			SELECT agent.agent_type,agent_name.agent_id,agent_name.agent_name
+			FROM 
+				agent_name
+				left join agent on agent_name.agent_id = agent.agent_id
+			WHERE 
+				upper(agent_name.agent_name) = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(pref_name)#'>
+				<cfif isdefined("not_agent_id") and len(not_agent_id) GT 0>
+					AND preferred_agent_name.agent_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#not_agent_id#">
+				</cfif>
 		</cfquery>
 		<cfset matchcount = dupPref.recordcount>
 		<cfset i = 1>

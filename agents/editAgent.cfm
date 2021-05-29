@@ -235,9 +235,9 @@ limitations under the License.
 											<script>
 												$(document).ready(function () {
 													$('##pref_name').change(function () {
-														checkNameExists($('##pref_name').val(),'name_matches',true);
+														checkNameExistsAlso($('##pref_name').val(),'name_matches',#agent_id#);
 													});
-													checkNameExists($('##pref_name').val(),'name_matches',true);
+													checkNameExistsAlso($('##pref_name').val(),'name_matches',#agent_id#);
 												});
 											</script>
 										</div>
