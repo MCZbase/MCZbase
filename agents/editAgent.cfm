@@ -937,7 +937,7 @@ limitations under the License.
 									</div>
 								</section>
 							</main>
-						<cfif>
+						</cfif>
 					<cfelse>
 						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
 						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
