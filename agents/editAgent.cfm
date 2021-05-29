@@ -314,7 +314,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
 											<input class="data-entry-input" name="agentguid" id="agentguid" 
-												value="#getAgent.agent_guid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 											<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90"></a> 
 										</div>
 										<script>
@@ -455,6 +455,9 @@ limitations under the License.
 						</section>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
 							<h2 class="h3">Names for this agent</h2>
+						</section>
+						<section class="row border rounded my-2 px-1 pt-1 pb-2">
+							<h2 class="h3">Relationships for this agent</h2>
 						</section>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
 							<h2 class="h3">Addresses for this agent</h2>
