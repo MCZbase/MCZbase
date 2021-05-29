@@ -854,94 +854,169 @@ limitations under the License.
 					</cfif>
 					<cfset pref_name = #trim(name)#>
 				</cfif>
-				<cfquery name="duplicatePreferredCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_name, agent_name.agent_id 
-					FROM agent_name
-					WHERE 
-						agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
-				</cfquery>
-				<cfif duplicatePreferredCheck.recordcount gt 0>
-					<!--- outright prevent creation of agents that duplicate the preferred name of other agents --->
-					<cfthrow message="Unable to create agent: Duplicate preferred name [#encodeForHtml(pref_name)#].">
-				</cfif>
 				<cfset okToAddAgent = true>
 				<cfif not isdefined("ignoreDupCheck") or ignoreDupCheck is false>
-					<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
-					<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-						from agent_name, agent
-						where agent_name.agent_id = agent.agent_id
-							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+					<cfquery name="duplicatePreferredCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT agent_name, agent_id 
+						FROM preferred_agent_name
+						WHERE 
+							agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pref_name#">
 					</cfquery>
-					<cfif findPotentialDups.recordcount gt 0>
-						<!--- potential duplicates exist, require confirmation before continuing --->
-						<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
-						<cftransaction action="rollback">
-						<cfset okToAddAgent = false>
-						<main class="container py-3" id="content">
-							<h2 class="h3">The agent <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
-							<section class="border rounded my-2 px-1 pt-1 pb-2">
-								<div class="form-row">
-									<div class="col-12">
-										<p>The name you entered is already exists as a name (other than a preferred name) for an existing agent.</p>
-										<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
+					<cfif duplicatePreferredCheck.recordcount gt 0>
+						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
+						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+							from agent
+								left join preferred_agent_name on agent.
+							where agent_name.agent_id = agent.agent_id
+								and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+						</cfquery>
+						<cfif findPreferredNameDups.recordcount gt 0>
+							<!--- potential duplicates exist, require confirmation before continuing --->
+							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
+							<cftransaction action="rollback">
+							<cfset okToAddAgent = false>
+							<main class="container py-3" id="content">
+								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
+								<section class="border rounded my-2 px-1 pt-1 pb-2">
+									<div class="form-row">
+										<div class="col-12">
+											<p>The name you entered already exists as a name as a preferred name for an existing agent.</p>
+											<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. Only add the duplicate record if there is a legitimate reason for two different agents to have the same preferred name, as duplicate preferred names block bulkload of data using the duplicated name.</p>
+										</div>
+										<div class="col-12">
+											<ul>
+												<cfloop query="findPreferredNameDups">
+													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#)</li>
+												</cfloop>
+											</ul>
+										</div>
+										<div class="col-12">
+											<label for="createAnywayButton">Do you still want to create this Agent?</p>
+											<form name="ac" method="post" action="/agents/editAgent.cfm">
+												<!--- Resubmit to this action, but with parameter ignoreDupCheck set so as to skip this section --->
+												<input type="hidden" name="action" value="createAgent">
+												<input type="hidden" name="agent_type" value="#agent_type#">
+												<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
+												<input type="hidden" name="pref_name" value="#pref_name#">
+												<cfif isdefined('prefix') AND len(prefix) GT 0>
+													<input type="hidden" name="prefix" value="#prefix#">
+												</cfif>
+												<cfif isdefined('FIRST_NAME') AND len(FIRST_NAME) GT 0>
+													<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
+												</cfif>
+												<cfif isdefined('MIDDLE_NAME') AND len(MIDDLE_NAME) GT 0>
+													<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
+												</cfif>
+												<cfif isdefined('SUFFIX') AND len(SUFFIX) GT 0>
+													<input type="hidden" name="SUFFIX" value="#SUFFIX#">
+												</cfif>
+												<cfif isdefined('start_date') AND len(start_date) GT 0>
+													<input type="hidden" name="start_date" value="#start_date#">
+												</cfif>
+												<cfif isdefined('end_date') AND len(end_date) GT 0>
+													<input type="hidden" name="end_date" value="#end_date#">
+												</cfif>
+												<cfif isdefined('agent_remarks') AND len(agent_remarks) GT 0>
+													<input type="hidden" name="agent_remarks" value="#agent_remarks#">
+												</cfif>
+												<cfif isdefined('biography') AND len(biography) GT 0>
+													<input type="hidden" name="biography" value="#biography#">
+												</cfif>
+												<cfif isdefined('agentguid') AND len(agentguid) GT 0>
+													<input type="hidden" name="agentguid" value="#agentguid#">
+												</cfif>
+												<cfif isdefined('agentguid_guid_type') AND len(agentguid_guid_type) GT 0>
+													<input type="hidden" name="agentguid_guid_typoe" value="#agentguid_guid_type#">
+												</cfif>
+												<input type="hidden" name="ignoreDupCheck" value="true">
+												<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
+											</form>
+										</div>
 									</div>
-									<div class="col-12">
-										<ul>
-											<cfloop query="findPotentialDups">
-												<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
-												<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#)</li>
-											</cfloop>
-										</ul>
+								</section>
+							</main>
+						<cfif>
+					<cfelse>
+						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
+						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+							from agent_name, agent
+							where agent_name.agent_id = agent.agent_id
+								and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+						</cfquery>
+						<cfif findPotentialDups.recordcount gt 0>
+							<!--- potential duplicates exist, require confirmation before continuing --->
+							<!--- continuing involves resubmission of this action on this page from the form below, rollback the transaction and skip further inserts --->
+							<cftransaction action="rollback">
+							<cfset okToAddAgent = false>
+							<main class="container py-3" id="content">
+								<h2 class="h3">The agent <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
+								<section class="border rounded my-2 px-1 pt-1 pb-2">
+									<div class="form-row">
+										<div class="col-12">
+											<p>The name you entered is already exists as a name (other than a preferred name) for an existing agent.</p>
+											<p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
+										</div>
+										<div class="col-12">
+											<ul>
+												<cfloop query="findPotentialDups">
+													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#)</li>
+												</cfloop>
+											</ul>
+										</div>
+										<div class="col-12">
+											<label for="createAnywayButton">Do you still want to create this Agent?</p>
+											<form name="ac" method="post" action="/agents/editAgent.cfm">
+												<!--- Resubmit to this action, but with parameter ignoreDupCheck set so as to skip this section --->
+												<input type="hidden" name="action" value="createAgent">
+												<input type="hidden" name="agent_type" value="#agent_type#">
+												<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
+												<input type="hidden" name="pref_name" value="#pref_name#">
+												<cfif isdefined('prefix') AND len(prefix) GT 0>
+													<input type="hidden" name="prefix" value="#prefix#">
+												</cfif>
+												<cfif isdefined('FIRST_NAME') AND len(FIRST_NAME) GT 0>
+													<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
+												</cfif>
+												<cfif isdefined('MIDDLE_NAME') AND len(MIDDLE_NAME) GT 0>
+													<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
+												</cfif>
+												<cfif isdefined('SUFFIX') AND len(SUFFIX) GT 0>
+													<input type="hidden" name="SUFFIX" value="#SUFFIX#">
+												</cfif>
+												<cfif isdefined('start_date') AND len(start_date) GT 0>
+													<input type="hidden" name="start_date" value="#start_date#">
+												</cfif>
+												<cfif isdefined('end_date') AND len(end_date) GT 0>
+													<input type="hidden" name="end_date" value="#end_date#">
+												</cfif>
+												<cfif isdefined('agent_remarks') AND len(agent_remarks) GT 0>
+													<input type="hidden" name="agent_remarks" value="#agent_remarks#">
+												</cfif>
+												<cfif isdefined('biography') AND len(biography) GT 0>
+													<input type="hidden" name="biography" value="#biography#">
+												</cfif>
+												<cfif isdefined('agentguid') AND len(agentguid) GT 0>
+													<input type="hidden" name="agentguid" value="#agentguid#">
+												</cfif>
+												<cfif isdefined('agentguid_guid_type') AND len(agentguid_guid_type) GT 0>
+													<input type="hidden" name="agentguid_guid_typoe" value="#agentguid_guid_type#">
+												</cfif>
+												<input type="hidden" name="ignoreDupCheck" value="true">
+												<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
+											</form>
+										</div>
 									</div>
-									<div class="col-12">
-										<label for="createAnywayButton">Do you still want to create this Agent?</p>
-										<form name="ac" method="post" action="/agents/editAgent.cfm">
-											<!--- Resubmit to this action, but with parameter ignoreDupCheck set so as to skip this section --->
-											<input type="hidden" name="action" value="createAgent">
-											<input type="hidden" name="agent_type" value="#agent_type#">
-											<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
-											<input type="hidden" name="pref_name" value="#pref_name#">
-											<cfif isdefined('prefix') AND len(prefix) GT 0>
-												<input type="hidden" name="prefix" value="#prefix#">
-											</cfif>
-											<cfif isdefined('FIRST_NAME') AND len(FIRST_NAME) GT 0>
-												<input type="hidden" name="FIRST_NAME" value="#FIRST_NAME#">
-											</cfif>
-											<cfif isdefined('MIDDLE_NAME') AND len(MIDDLE_NAME) GT 0>
-												<input type="hidden" name="MIDDLE_NAME" value="#MIDDLE_NAME#">
-											</cfif>
-											<cfif isdefined('SUFFIX') AND len(SUFFIX) GT 0>
-												<input type="hidden" name="SUFFIX" value="#SUFFIX#">
-											</cfif>
-											<cfif isdefined('start_date') AND len(start_date) GT 0>
-												<input type="hidden" name="start_date" value="#start_date#">
-											</cfif>
-											<cfif isdefined('end_date') AND len(end_date) GT 0>
-												<input type="hidden" name="end_date" value="#end_date#">
-											</cfif>
-											<cfif isdefined('agent_remarks') AND len(agent_remarks) GT 0>
-												<input type="hidden" name="agent_remarks" value="#agent_remarks#">
-											</cfif>
-											<cfif isdefined('biography') AND len(biography) GT 0>
-												<input type="hidden" name="biography" value="#biography#">
-											</cfif>
-											<cfif isdefined('agentguid') AND len(agentguid) GT 0>
-												<input type="hidden" name="agentguid" value="#agentguid#">
-											</cfif>
-											<cfif isdefined('agentguid_guid_type') AND len(agentguid_guid_type) GT 0>
-												<input type="hidden" name="agentguid_guid_typoe" value="#agentguid_guid_type#">
-											</cfif>
-											<input type="hidden" name="ignoreDupCheck" value="true">
-											<input type="submit" class="btn btn-xs btn-warning" value="Create Agent" id="createAnywayButton">
-										</form>
-									</div>
-								</div>
-							</section>
-						</main>
-					</cfif>
-				</cfif>
-				<cfif okToAddAgent IS true>
+								</section>
+							</main>
+						</cfif> <!--- end findPotentialDups.recordcount gt 0 --->
+					</cfif> <!--- end cfelse of duplicatePreferredCheck.recordcount gt 0 --->
+				</cfif><!--- end  not isdefined("ignoreDupCheck") or ignoreDupCheck is false --->
+				<cfif okToAddAgent IS true >
+					<!--- either the duplicate checks passed, or ignoreDupCheck was true --->
 					<!--- finish creating the agent record by adding a preferred name, and then committing the transaction --->
 					<!--- NOTE: Retaining donor_card_fg_present_fg for now, this likely indicates names created through the MCZbase coldfusion UI as opposed to loads of data --->
 					<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
