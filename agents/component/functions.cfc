@@ -105,27 +105,6 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
-<cffunction name="saveAgent" access="remote" returntype="any" returnformat="json">
-	<cfargument name="agent_id" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftransaction>
-		<cftry>
-	
-			<cfthrow message="saveAgent not yet implemented.">
-
-			<cftransaction action="commit">
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
 
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address
@@ -363,6 +342,201 @@ limitations under the License.
      </cftry>
 	</cftransaction>
      <cfreturn q>
+</cffunction>
+
+<cffunction name="saveAgent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="agent_type" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+	
+	<cfset provided_agent_type = agent_type >
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="lookupType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select agent_type as existing_agent_type
+				from agent
+				where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfif lookupType.recordcount NEQ 1>
+				<cfthrow message="Unable to lookup agent_type from provided agent_id [#encodeForHTML(agent_id)#]">
+			</cfif>
+			<cfset updateAgent = true>
+			<cfset updatePerson = false>
+			<cfset insertPerson = false>
+			<cfif lookupType.existing_agent_type IS "person" and provided_agent_type IS "person">
+				<!--- update existing person and agent records --->
+				<cfset updateAgent = true>
+				<cfset updatePerson = true>
+				<cfset insertPerson = false>
+			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS NOT "person">
+				<!--- update existing agent record --->
+				<cfset updateAgent = true>
+				<cfset updatePerson = false>
+				<cfset insertPerson = false>
+			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS "person">
+				<!--- change a non-person to a person update existing agent record and insert a person record --->
+				<cfset updateAgent = true>
+				<cfset updatePerson = false>
+				<cfset insertPerson = true>
+			<cfelse>
+				<!--- TODO: Support changing a person to a non-person --->
+				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+			</cfelse>
+			<cfif updateAgent>
+				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE agent SET
+						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
+						<cfif len(#biography#) gt 0>
+							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
+						<cfelse>
+						  	, biography = null
+						</cfif>
+						<cfif len(#agent_remarks#) gt 0>
+							, agent_remarks = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+						<cfelse>
+						  	, agent_remarks = null
+						</cfif>
+						<cfif len(#agentguid_guid_type#) gt 0>
+							, agentguid_guid_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid_guid_type#'>
+						<cfelse>
+						  	, agentguid_guid_type = null
+						</cfif>
+						<cfif len(#agentguid#) gt 0>
+							, agentguid = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid#'>
+						<cfelse>
+						  	, agentguid = null
+						</cfif>
+					WHERE
+						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+			</cfif>
+			<cfif insertPerson>
+				<!--- add a person record linked to existing agent record--->
+				<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO person (
+						PERSON_ID
+						<cfif isdefined("prefix") AND len(#prefix#) gt 0>
+							,prefix
+						</cfif>
+						<cfif isdefined("LAST_NAME") AND len(#LAST_NAME#) gt 0>
+							,LAST_NAME
+						</cfif>
+						<cfif isdefined("FIRST_NAME") AND len(#FIRST_NAME#) gt 0>
+							,FIRST_NAME
+						</cfif>
+						<cfif isdefined("MIDDLE_NAME") AND len(#MIDDLE_NAME#) gt 0>
+							,MIDDLE_NAME
+						</cfif>
+						<cfif isdefined("SUFFIX") AND len(#SUFFIX#) gt 0>
+							,SUFFIX
+						</cfif>
+						<cfif isdefined("start_date") AND len(#start_date#) gt 0>
+							,birth_date
+						</cfif>
+						<cfif isdefined("end_date") AND len(#end_date#) gt 0>
+							,death_date
+						</cfif>
+					) VALUES (
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value="#agent_id#">
+						<cfif isdefined("prefix") AND len(#prefix#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
+						</cfif>
+						<cfif isdefined("LAST_NAME") AND len(#LAST_NAME#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#LAST_NAME#'>
+						</cfif>
+						<cfif isdefined("FIRST_NAME") AND len(#FIRST_NAME#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#FIRST_NAME#'>
+						</cfif>
+						<cfif isdefined("MIDDLE_NAME") AND len(#MIDDLE_NAME#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MIDDLE_NAME#'>
+						</cfif>
+						<cfif isdefined("SUFFIX") AND len(#SUFFIX#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#SUFFIX#'>
+						</cfif>
+						<cfif isdefined("start_date") AND len(#start_date#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
+						</cfif>
+						<cfif isdefined("end_date") AND len(#end_date#) gt 0>
+							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
+						</cfif>
+					)
+				</cfquery>
+			</cfif>
+			<cfif updatePerson>
+				<!--- update existing person record --->
+				<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE person SET
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				<cfif len(#first_name#) gt 0>
+					,first_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#first_name#'>
+				<cfelse>
+					,first_name=null
+				</cfif>
+				<cfif len(#prefix#) gt 0>
+					,prefix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
+				<cfelse>
+					,prefix=null
+				</cfif>
+				<cfif len(#middle_name#) gt 0>
+					,middle_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#middle_name#'>
+				<cfelse>
+					,middle_name=null
+				</cfif>
+				<cfif len(#last_name#) gt 0>
+					,last_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#last_name#'>
+				<cfelse>
+					,last_name=null
+				</cfif>
+				<cfif len(#suffix#) gt 0>
+					,suffix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#suffix#'>
+				<cfelse>
+					,suffix=null
+				</cfif>
+				<cfif len(#birth_date#) gt 0>
+					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#birth_date#'>
+				  <cfelse>
+				  	,birth_date=null
+				</cfif>
+				<cfif len(#death_date#) gt 0>
+					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#death_date#'>
+				  <cfelse>
+				  	,death_date=null
+				</cfif>
+					WHERE
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+			</cfif>
+			<cfif removePerson>
+				<!~--- needs enforced foreign keys on coll_object.entered_by_person_id, last_edited_person_id, loan_item.reconciled_by_person_id and deacc_item.reconciled_by_person_id --->
+				<!--- TODO: Support changing a person to a non-person --->
+				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+				<cfquery name="deletePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deletePerson_result">
+					delete from person
+					where
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+			</cfif>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#agent_id#">
+			<cfset data[1] = row>
+	
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>
