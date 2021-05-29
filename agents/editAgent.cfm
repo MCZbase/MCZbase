@@ -871,7 +871,7 @@ limitations under the License.
 								substr(person.death_date,0.4) as death_date
 							from preferred_agent_name
 								left join agent on preferred_agent_name.agent_id = agent.agent_id
-								left join person on preferred_agent_name.agent_id = person.agent_id
+								left join person on preferred_agent_name.agent_id = person.person_id
 							where 
 								preferred_agent_name.agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
 						</cfquery>
@@ -962,7 +962,7 @@ limitations under the License.
 								substr(person.death_date,0.4) as death_date
 							FROM agent_name
 								left join agent on agent_name.agent_id = agent.agent_id
-								left join person on preferred_agent_name.agent_id = person.agent_id
+								left join person on preferred_agent_name.agent_id = person.person_id
 							WHERE 
 								upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
 						</cfquery>
