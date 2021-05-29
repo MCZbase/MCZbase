@@ -235,9 +235,9 @@ limitations under the License.
 											<script>
 												$(document).ready(function () {
 													$('##pref_name').change(function () {
-														checkPrefNameExists($('##pref_name').val(),'name_matches');
+														checkNameExists($('##pref_name').val(),'name_matches',true);
 													});
-													checkPrefNameExists($('##pref_name').val(),'name_matches');
+													checkNameExists($('##pref_name').val(),'name_matches',true);
 												});
 											</script>
 										</div>
@@ -542,7 +542,7 @@ limitations under the License.
 							<script>
 								$(document).ready(function () {
 									$('##pref_name').change(function () {
-										checkPrefNameExists($('##pref_name').val(),'name_matches');
+										checkNameExists($('##pref_name').val(),'name_matches',false);
 									});
 								});
 							</script>

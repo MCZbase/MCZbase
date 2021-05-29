@@ -1,6 +1,6 @@
 /** Scripts specific to agent pages. **/
 
-/** function checPrefNameExists chec to see if there is an exact match for a preferred name
+/** function checPrefNameExists check to see if there is an exact match for a preferred name
  * @param preferred_name a name string to check against existing preferred names.
  * @param target id of a dom element into which to place the results of the check.
  */
@@ -23,6 +23,55 @@ function checkPrefNameExists(preferred_name,target) {
 					s = "";
 				}
          	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+			}
+      },
+      error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+		},
+      dataType: "html"
+   });
+};
+
+/** function checPrefNameExists check to see if there is a case insensitive exact 
+ * match for a specified name against any agent name.
+ *
+ * @param preferred_name a name string to check against existing agent names.
+ * @param target id of a dom element into which to place the results of the check.
+ * @param expect_one affects text of response, if true, then one match is expected,
+ *  as in editing an existing agent, if false then no matches are expected as in 
+ *  adding a new agent.
+ */
+function checkNameExists(preferred_name,target,expect_one) {
+   jQuery.ajax({
+      url: "/agents/component/functions.cfc",
+      data : {
+         method : "checkPrefNameExists",
+         pref_name: preferred_name,
+      },
+      success: function (result) {
+			var matches = jQuery.parseJSON(result);
+			var matchcount = matches.length;
+			console.log(matches);
+			if (expect_one===true) {
+				if (matchcount==0) { 
+   	      	$("#" + target).html("no agents with this name.");
+				} else {
+					if (matchcount==1) { 
+   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
+					} else { 
+   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agents with this name</a>");
+					}
+				}
+			} else {
+				if (matchcount==0) { 
+   	      	$("#" + target).html("no duplicates.");
+				} else {
+					var s = "s";
+					if (matchcount==1) { 
+						s = "";
+					}
+   	      	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+				}
 			}
       },
       error: function (jqXHR, textStatus, error) {
