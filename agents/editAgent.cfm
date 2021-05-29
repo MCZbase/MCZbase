@@ -865,7 +865,8 @@ limitations under the License.
 					<cfif duplicatePreferredCheck.recordcount gt 0>
 						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
 						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name
+							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name,
+								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 							from preferred_agent_name
 								left join agent on preferred_agent_name.agent_id = agent.agent_id
 							where 
@@ -888,7 +889,7 @@ limitations under the License.
 											<ul>
 												<cfloop query="findPreferredNameDups">
 													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#)</li>
+													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#) #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>
@@ -941,7 +942,8 @@ limitations under the License.
 					<cfelse>
 						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
 						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+							select agent.agent_type,agent_name.agent_id,agent_name.agent_name,
+								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 							from agent_name, agent
 							where agent_name.agent_id = agent.agent_id
 								and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
@@ -963,7 +965,7 @@ limitations under the License.
 											<ul>
 												<cfloop query="findPotentialDups">
 													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#)</li>
+													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> (agent ID ## #agent_id# - #agent_type#) #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>
