@@ -865,11 +865,11 @@ limitations under the License.
 					<cfif duplicatePreferredCheck.recordcount gt 0>
 						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
 						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent.agent_type,agent_name.agent_id,agent_name.agent_name
-							from agent
-								left join preferred_agent_name on agent.
-							where agent_name.agent_id = agent.agent_id
-								and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
+							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name
+							from preferred_agent_name
+								left join agent on preferred_agent_name.agent_id = agent.agent_id
+							where 
+								preferred_agent_name.agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#pref_name#'>
 						</cfquery>
 						<cfif findPreferredNameDups.recordcount gt 0>
 							<!--- potential duplicates exist, require confirmation before continuing --->
