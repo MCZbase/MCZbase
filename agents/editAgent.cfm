@@ -868,7 +868,7 @@ limitations under the License.
 							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
-								substr(person.death_date,0.4) as death_date
+								substr(person.death_date,0,4) as death_date
 							from preferred_agent_name
 								left join agent on preferred_agent_name.agent_id = agent.agent_id
 								left join person on preferred_agent_name.agent_id = person.person_id
@@ -959,7 +959,7 @@ limitations under the License.
 							SELECT agent.agent_type,agent_name.agent_id,agent_name.agent_name,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
-								substr(person.death_date,0.4) as death_date
+								substr(person.death_date,0,4) as death_date
 							FROM agent_name
 								left join agent on agent_name.agent_id = agent.agent_id
 								left join person on preferred_agent_name.agent_id = person.person_id
