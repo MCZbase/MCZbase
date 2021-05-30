@@ -164,7 +164,7 @@ limitations under the License.
 								group_member 
 								left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
 								left join agent on group_member.member_agent_id = agent.agent_id
-								left join person on group_member.member_agent_id = person.agent_id
+								left join person on group_member.member_agent_id = person.person_id
 							WHERE
 								group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 							ORDER BY
