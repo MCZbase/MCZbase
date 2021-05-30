@@ -230,14 +230,14 @@ limitations under the License.
 											</select>
 										</cfif>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-1">
 										<label for="vetted" class="data-entry-label">Vetted</label>
 										<select name="vetted" size="1" id="vetted" class="data-entry-select">
 											<option value=1 <cfif #getAgent.edited# EQ 1>selected</cfif>>yes *</option>
 											<option value=0 <cfif #getAgent.edited# EQ 0 or #getAgent.edited# EQ "">selected</cfif>>no</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-5">
 										<label for="pref_name" class="data-entry-label">Preferred Name</label>
 											<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required value="#getAgent.preferred_agent_name#">
 											<script>
@@ -544,6 +544,13 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
+						<div class="col-12 col-md-1">
+							<label for="vetted" class="data-entry-label">Vetted</label>
+							<select name="vetted" size="1" id="vetted" class="data-entry-select" required>
+								<option value=0 selected >no</option>
+								<option value=1 >yes *</option>
+							</select>
+						</div>
 						<div class="col-12 col-md-6">
 							<label for="pref_name" class="data-entry-label">Preferred Name</label>
 							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
@@ -760,7 +767,8 @@ limitations under the License.
 					INSERT INTO agent (
 						agent_id,
 						agent_type,
-						preferred_agent_name_id
+						preferred_agent_name_id,
+						vetted,
 						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) GT 0>
 							,agentguid_guid_type
 						</cfif>
@@ -777,6 +785,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_type#">,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#vetted#'>
 						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
 						</cfif>
