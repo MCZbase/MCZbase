@@ -364,6 +364,7 @@ limitations under the License.
 			<cfset updateAgent = true>
 			<cfset updatePerson = false>
 			<cfset insertPerson = false>
+			<cfset removePerson = false>
 			<cfif lookupType.existing_agent_type IS "person" and provided_agent_type IS "person">
 				<!--- update existing person and agent records --->
 				<cfset updateAgent = true>
@@ -382,6 +383,8 @@ limitations under the License.
 			<cfelse>
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+				<cfset updateAgent = true>
+				<cfset removePerson = true>
 			</cfif>
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
