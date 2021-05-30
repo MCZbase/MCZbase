@@ -174,7 +174,7 @@ limitations under the License.
 							<ul><li>None</li></ul>
 						<cfelse>
 							<ul>
-								<cfset yearRange = assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=true)>
+								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 								<cfloop query="groupMembers">
 									<li>
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
