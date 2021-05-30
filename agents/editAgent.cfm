@@ -882,7 +882,10 @@ limitations under the License.
 					<cfif duplicatePreferredCheck.recordcount gt 0>
 						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
 						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name,
+							select
+								agent.agent_type, 
+								preferred_agent_name.agent_id, 
+								preferred_agent_name.agent_name,
 								agent.edited as vetted,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
@@ -981,14 +984,17 @@ limitations under the License.
 					<cfelse>
 						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
 						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT agent.agent_type,agent_name.agent_id,agent_name.agent_name,
+							SELECT 
+								agent.agent_type, 
+								agent_name.agent_id, 
+								agent_name.agent_name,
 								agent.edited as vetted,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
 								substr(person.death_date,0,4) as death_date
 							FROM agent_name
 								left join agent on agent_name.agent_id = agent.agent_id
-								left join person on preferred_agent_name.agent_id = person.person_id
+								left join person on agent_name.agent_id = person.person_id
 							WHERE 
 								upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
 						</cfquery>
