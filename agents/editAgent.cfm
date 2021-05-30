@@ -768,7 +768,7 @@ limitations under the License.
 						agent_id,
 						agent_type,
 						preferred_agent_name_id,
-						vetted,
+						edited,
 						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) GT 0>
 							,agentguid_guid_type
 						</cfif>
