@@ -70,6 +70,7 @@ limitations under the License.
 
 <cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/agents/component/functions.cfc" runOnce="true">
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -479,6 +480,19 @@ limitations under the License.
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
 							<h2 class="h3">Names for this agent</h2>
 						</section>
+						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+							<section class="row border rounded my-2 px-1 pt-1 pb-2">
+								<h2 class="h3">Group Members</h2>
+								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
+								<div id="groupMembersDiv">#groupMembersBlock#</div>
+								<script>
+									// callback for ajax methods to reload group members for agent
+									function reloadGroupMembers() { 
+										updateGroupMembers('#agent_id#','greoupMembersDiv');
+									};
+							</script>
+							</section>
+						</cfif>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
 							<h2 class="h3">Relationships for this agent</h2>
 						</section>

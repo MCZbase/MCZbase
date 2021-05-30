@@ -105,6 +105,75 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- obtain a block of html for displaying and editing members of a group agent 
+ @param agent_id the agent for which to lookup group information 
+ @return a block of html containing a list of group members with controls to remove or add members 
+--->
+<cffunction name="getGroupMembersHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfthread name="groupMembersThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAgent_result">
+					SELECT agent_type 
+					FROM agent
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfloop query="lookupAgent">
+					<cfif #lookupAgent.agent_type# IS "group" OR #lookupAgent.agent_type# IS "expedition" OR #lookupAgent.agent_type# IS "vessel">
+						<section class="row border rounded my-2 px-1 pt-1 pb-2">
+							<h2 class="h3">Group Members</h2>
+							<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+								SELECT
+									member_agent_id,
+									member_order,
+									agent_name
+								FROM
+									group_member 
+									left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+								WHERE
+									group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								ORDER BY
+									member_order
+							</cfquery>
+							<cfif groupMembers.recordcount EQ 0>
+								<ul><li>None</li></ul>
+							<cfelse>
+								<ul>
+									<cfloop query="groupMembers">
+										<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a> <a class="btn">Remove</a></li>
+									</cfloop>
+								</ul>
+							</cfif>
+							<!--- TODO: Ajax save of new group member --->
+							<!---
+							<form name="newGroupMember" method="post" action="editAllAgent.cfm">
+								<input type="hidden" name="agent_id" value="#agent_id#" />
+								<input type="hidden" name="action" value="makeNewGroupMemeber" />
+								<input type="hidden" name="member_order" value="#nOrd#" />
+								<input type="hidden" name="member_id">
+								<div class="newRec" style="margin-top: 1em;">
+									<label for="">Add Member to Group</label>
+										<input type="text" name="group_member" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+											onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
+				 							onKeyPress="return noenter(event);">
+									<input type="submit" class="insBtn" value="Add Group Member">
+								</div>
+							</form>
+							--->
+						</section>
+					</cfif>
+				</cfloop>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="groupMembersThread" />
+	<cfreturn groupMembersThread.output>
+</cffunction>
 
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address

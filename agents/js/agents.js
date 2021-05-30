@@ -129,3 +129,25 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' select').on("change",changeFunction);
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
+
+/* Update the content of a div containing group membership for an agent.
+ *
+ * @param agent_id the agent_id of the agent for which to lookup group membership
+ * @param targetDiv the id div for which to replace the contents, without a leading # selector.
+ */
+function updateGroupMembers(agent_id,targetDiv) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+			method : "getGroupMembersHTML",
+			agent_id: agent_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining group membership for an agent");
+		},
+		dataType: "html"
+	});
+};
