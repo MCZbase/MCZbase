@@ -551,7 +551,7 @@ limitations under the License.
 								<option value=1 >yes *</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-5">
 							<label for="pref_name" class="data-entry-label">Preferred Name</label>
 							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
 							<script>
