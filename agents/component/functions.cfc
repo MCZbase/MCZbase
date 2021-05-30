@@ -47,7 +47,8 @@ limitations under the License.
 		<cfset yearStr="#yearStr# - unknown)">
 	</cfif>
 	<cfreturn yearStr>
-</cfif>
+</cffunction>
+
 <!--- check if there is a case sensitive exact match to a specified preferred agent name 
  @param pref_name the name to check 
  @param not_agent_id if specified, the current agent to exclude from the check
