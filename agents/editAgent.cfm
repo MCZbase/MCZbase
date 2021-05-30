@@ -117,7 +117,7 @@ limitations under the License.
 					SELECT 
 						agent.agent_id,
 						agent.agent_type, 
-						agent.edited, 
+						agent.edited as vetted, 
 						agent.agent_remarks, 
 						agent.biography,
 						agent.agentguid_guid_type, agentguid,
@@ -230,7 +230,14 @@ limitations under the License.
 											</select>
 										</cfif>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-2">
+										<label for="vetted" class="data-entry-label">Vetted</label>
+										<select name="vetted" size="1" id="vetted" class="data-entry-select">
+											<option value=1 <cfif #getAgent.vetted# EQ 1>selected</cfif>>yes *</option>
+											<option value=0 <cfif #getAgent.vetted# EQ 0 or #getAgent.vetted# EQ "">selected</cfif>>no</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-4">
 										<label for="pref_name" class="data-entry-label">Preferred Name</label>
 											<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required value="#getAgent.preferred_agent_name#">
 											<script>

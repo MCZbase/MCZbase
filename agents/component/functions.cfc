@@ -386,7 +386,7 @@ limitations under the License.
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE agent SET
-						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
+						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#vetted#'>
 						<cfif len(#biography#) gt 0>
 							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
 						<cfelse>
