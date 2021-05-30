@@ -20,6 +20,34 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- given a start year and end year, return a string representing the 
+ range of years with unknown for start/end years with no value)
+--->
+<cffunction name="assembleYearRange">
+	<cfargument name="start_year" type="string" required="yes">
+	<cfargument name="end_year" type="string" required="yes">
+	<cfargument name="year_only" type="string" required="no" default=false>
+	<cfset yearStr = "">
+	<cfif year_only>
+		<cfif len(start_year) GT 4>
+			<cfset start_year = left(start_year,4)>
+		<cfif>
+		<cfif len(end_year) GT 4>
+			<cfset end_year = left(end_year,4)>
+		<cfif>
+	<cfif>
+	<cfif len(start_year) gt 0>
+		<cfset yearStr="#yearStr# (#start_year#">
+	<cfelse>
+		<cfset yearStr="#yearStr# (unknown">
+	</cfif>
+	<cfif len(end_year) gt 0>
+		<cfset yearStr="#yearStr# - #end_year#)">
+	<cfelse>
+		<cfset yearStr="#yearStr# - unknown)">
+	</cfif>
+	<cfreturn yearStr>
+</cfif>
 <!--- check if there is a case sensitive exact match to a specified preferred agent name 
  @param pref_name the name to check 
  @param not_agent_id if specified, the current agent to exclude from the check
@@ -108,6 +136,7 @@ limitations under the License.
 <!--- obtain a block of html for displaying and editing members of a group agent 
  @param agent_id the agent for which to lookup group information 
  @return a block of html containing a list of group members with controls to remove or add members 
+  assuming this block will go within a section with a heading.
 --->
 <cffunction name="getGroupMembersHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="agent_id" type="string" required="yes">
@@ -121,32 +150,40 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="lookupAgent">
 					<cfif #lookupAgent.agent_type# IS "group" OR #lookupAgent.agent_type# IS "expedition" OR #lookupAgent.agent_type# IS "vessel">
-						<section class="row border rounded my-2 px-1 pt-1 pb-2">
-							<h2 class="h3">Group Members</h2>
-							<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
-								SELECT
-									member_agent_id,
-									member_order,
-									agent_name
-								FROM
-									group_member 
-									left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
-								WHERE
-									group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								ORDER BY
-									member_order
-							</cfquery>
-							<cfif groupMembers.recordcount EQ 0>
-								<ul><li>None</li></ul>
-							<cfelse>
-								<ul>
-									<cfloop query="groupMembers">
-										<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a> <a class="btn">Remove</a></li>
-									</cfloop>
-								</ul>
-							</cfif>
-							<!--- TODO: Ajax save of new group member --->
-							<!---
+						<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+							SELECT
+								member_agent_id,
+								member_order,
+								preferred_agent_name.agent_name,
+								substr(birth_date,0,4) as birth_date,
+								substr(death_date,0,4) as death_date,
+								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
+								decode(agent_edited,1,'*',null) as vetted
+							FROM
+								group_member 
+								left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+								left join agent on group_member.agent_id = agent.agent_id
+							WHERE
+								group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							ORDER BY
+								member_order
+						</cfquery>
+						<cfif groupMembers.recordcount EQ 0>
+							<ul><li>None</li></ul>
+						<cfelse>
+							<ul>
+								<cfset yearRange = assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=true)>
+								<cfloop query="groupMembers">
+									<li>
+										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
+										#vetted# #yearRange# #collections_scope#
+										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" onclick="removeAgentFromGroup(#getAgent.agent_id#);">Remove</a>
+									</li>
+								</cfloop>
+							</ul>
+						</cfif>
+						<!--- TODO: Ajax save of new group member --->
+						<!---
 							<form name="newGroupMember" method="post" action="editAllAgent.cfm">
 								<input type="hidden" name="agent_id" value="#agent_id#" />
 								<input type="hidden" name="action" value="makeNewGroupMemeber" />
@@ -160,8 +197,7 @@ limitations under the License.
 									<input type="submit" class="insBtn" value="Add Group Member">
 								</div>
 							</form>
-							--->
-						</section>
+						--->
 					</cfif>
 				</cfloop>
 			<cfcatch>

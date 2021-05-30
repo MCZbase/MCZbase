@@ -171,16 +171,7 @@ limitations under the License.
 							<cfset nameStr= listappend(nameStr,middle_name,' ')>
 							<cfset nameStr= listappend(nameStr,last_name,' ')>
 							<cfset nameStr= listappend(nameStr,suffix,' ')>
-							<cfif len(birth_date) gt 0>
-								<cfset nameStr="#nameStr# (#birth_date#">
-							<cfelse>
-								<cfset nameStr="#nameStr# (unknown">
-							</cfif>
-							<cfif len(death_date) gt 0>
-								<cfset nameStr="#nameStr# - #death_date#)">
-							<cfelse>
-								<cfset nameStr="#nameStr# - unknown)">
-							</cfif>
+							<cfset nameStr= assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false)>
 						<cfelse>
 							<!--- assemble display name from preferred name --->
 							<cfset nameStr=#getAgent.preferred_agent_name#>
