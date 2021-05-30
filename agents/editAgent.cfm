@@ -214,7 +214,8 @@ limitations under the License.
 										<label for="agent_type" class="data-entry-label">Type of Agent</label>
 										<cfset curAgentType = getAgent.agent_type>
 										<cfif curAgentType EQ "person">
-											<input type="text" name="agent_type" id="agent_type" class="data-entry-input reqdClr" value="#getAgent.agent_type#" disabled>
+											<input type="text"  id="agent_type" class="data-entry-input reqdClr" value="#getAgent.agent_type#" disabled>
+											<input type="hidden" name="agent_type" id="agent_type_hidden" value="#getAgent.agent_type#" >
 											<!--- TODO: functionality to allow change of person to non-person, handling names and dates --->
 										<cfelse>
 											<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
