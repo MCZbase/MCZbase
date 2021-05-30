@@ -117,7 +117,7 @@ limitations under the License.
 					SELECT 
 						agent.agent_id,
 						agent.agent_type, 
-						agent.edited as vetted, 
+						agent.edited, 
 						agent.agent_remarks, 
 						agent.biography,
 						agent.agentguid_guid_type, agentguid,
@@ -233,8 +233,8 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<label for="vetted" class="data-entry-label">Vetted</label>
 										<select name="vetted" size="1" id="vetted" class="data-entry-select">
-											<option value=1 <cfif #getAgent.vetted# EQ 1>selected</cfif>>yes *</option>
-											<option value=0 <cfif #getAgent.vetted# EQ 0 or #getAgent.vetted# EQ "">selected</cfif>>no</option>
+											<option value=1 <cfif #getAgent.edited# EQ 1>selected</cfif>>yes *</option>
+											<option value=0 <cfif #getAgent.edited# EQ 0 or #getAgent.edited# EQ "">selected</cfif>>no</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-4">
