@@ -159,7 +159,7 @@ limitations under the License.
 								substr(birth_date,0,4) as birth_date,
 								substr(death_date,0,4) as death_date,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
-								decode(agent_edited,1,'*',null) as vetted
+								decode(agent.edited,1,'*',null) as vetted
 							FROM
 								group_member 
 								left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
