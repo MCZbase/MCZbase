@@ -784,7 +784,7 @@ limitations under the License.
 					) VALUES (
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentID.nextAgentId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agent_type#">,
-						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>
+						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agentNameID.nextAgentNameId#'>,
 						<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#vetted#'>
 						<cfif isdefined("agentguid_guid_type") AND len(#agentguid_guid_type#) gt 0>
 							,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value="#agentguid_guid_type#">
@@ -883,6 +883,7 @@ limitations under the License.
 						<!--- allow possible optional creation of agents that duplicate the preferred name of other agents --->
 						<cfquery name="findPreferredNameDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select agent.agent_type, preferred_agent_name.agent_id, preferred_agent_name.agent_name,
+								agent.edited as vetted,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
 								substr(person.death_date,0,4) as death_date
@@ -908,7 +909,11 @@ limitations under the License.
 										<div class="col-12">
 											<ul>
 												<cfloop query="findPreferredNameDups">
-													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													<cfif findPreferredNameDups.vetted EQ 1>
+														<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name# *</strong>")>
+													<cfelse>
+														<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													</cfif>
 													<cfset dateString ="">
 													<cfif len(birth_date) gt 0>
 														<cfset dateString="#dateString# (#birth_date#">
@@ -932,6 +937,9 @@ limitations under the License.
 												<input type="hidden" name="agent_type" value="#agent_type#">
 												<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
 												<input type="hidden" name="pref_name" value="#pref_name#">
+												<cfif isdefined('vetted') AND len(vetted) GT 0>
+													<input type="hidden" name="vetted" value="#vetted#">
+												</cfif>
 												<cfif isdefined('prefix') AND len(prefix) GT 0>
 													<input type="hidden" name="prefix" value="#prefix#">
 												</cfif>
@@ -974,6 +982,7 @@ limitations under the License.
 						<!--- allow possible optional creation of agents that duplicate other names names of other agents --->
 						<cfquery name="findPotentialDups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT agent.agent_type,agent_name.agent_id,agent_name.agent_name,
+								agent.edited as vetted,
 								MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope,
 								substr(person.birth_date,0,4) as birth_date,
 								substr(person.death_date,0,4) as death_date
@@ -999,7 +1008,11 @@ limitations under the License.
 										<div class="col-12">
 											<ul>
 												<cfloop query="findPotentialDups">
-													<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													<cfif findPotentialDups.vetted EQ 1>
+														<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name# *</strong>")>
+													<cfelse>
+														<cfset displayname = replace(agent_name,pref_name,"<strong>#pref_name#</strong>")>
+													</cfif>
 													<cfset dateString ="">
 													<cfif len(birth_date) gt 0>
 														<cfset dateString="#dateString# (#birth_date#">
@@ -1023,6 +1036,9 @@ limitations under the License.
 												<input type="hidden" name="agent_type" value="#agent_type#">
 												<input type="hidden" name="LAST_NAME" value="#LAST_NAME#">
 												<input type="hidden" name="pref_name" value="#pref_name#">
+												<cfif isdefined('vetted') AND len(vetted) GT 0>
+													<input type="hidden" name="vetted" value="#vetted#">
+												</cfif>
 												<cfif isdefined('prefix') AND len(prefix) GT 0>
 													<input type="hidden" name="prefix" value="#prefix#">
 												</cfif>
