@@ -493,13 +493,13 @@ limitations under the License.
 				<cfelse>
 					,suffix=null
 				</cfif>
-				<cfif len(#birth_date#) gt 0>
-					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#birth_date#'>
+				<cfif len(#start_date#) gt 0>
+					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
 				  <cfelse>
 				  	,birth_date=null
 				</cfif>
-				<cfif len(#death_date#) gt 0>
-					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#death_date#'>
+				<cfif len(#end_date#) gt 0>
+					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
 				  <cfelse>
 				  	,death_date=null
 				</cfif>
