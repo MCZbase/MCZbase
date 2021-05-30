@@ -113,6 +113,21 @@ limitations under the License.
 	<cfelse>
 		<cfoutput>
 			<main class="container py-3" id="content">
+				<script>
+					function getAssembledName() {
+						var result = "";
+						if ($('##last_name').val()!="") {
+							result = $('##last_name').val();
+						}
+						if ($('##middle_name').val()!="") {
+							result = $('##middle_name').val() + " " + result;
+						}
+						if ($('##first_name').val()!="") {
+							result = $('##first_name').val() + " " + result;
+						}
+						return result;
+					}
+				</script>
 				<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 					SELECT 
 						agent.agent_id,
