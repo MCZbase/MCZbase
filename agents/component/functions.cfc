@@ -31,11 +31,11 @@ limitations under the License.
 	<cfif year_only>
 		<cfif len(start_year) GT 4>
 			<cfset start_year = left(start_year,4)>
-		<cfif>
+		</cfif>
 		<cfif len(end_year) GT 4>
 			<cfset end_year = left(end_year,4)>
-		<cfif>
-	<cfif>
+		</cfif>
+	</cfif>
 	<cfif len(start_year) gt 0>
 		<cfset yearStr="#yearStr# (#start_year#">
 	<cfelse>
