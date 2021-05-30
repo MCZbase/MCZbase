@@ -188,7 +188,7 @@ limitations under the License.
 						<div class="container">
 							<div class="form-row">
 								<div class="col-12">
-									<h1 class="h2 mb-0 mt-2">Edit <strong>#getAgent.agent_type#</strong> agent #nameStr#. [agentId: <a href="agents/Agent.cfm?agent_id=#getAgent.agent_id#"#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 mb-0 mt-2">Edit <strong>#getAgent.agent_type#</strong> agent #nameStr#. [agentId: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 								</div>
 							</div>
 						</div>
