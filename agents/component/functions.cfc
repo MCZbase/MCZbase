@@ -199,16 +199,14 @@ limitations under the License.
 										<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
-									<input type="hidden" name="new_group_agent_id" id="new_group_agent_id" value="">
+									<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
 								</div>
 								<script>
 									$(document).ready(function() {
-										$(makeRichAgentPicker('new_group_agent_name', 'new_group_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
+										$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
 									});
 								</script>
 								<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
-								<input type='button' class='btn btn-xs btn-warning mr-1' 
-									value='Remove Permit'>
 							</form>
 							<script>
 								$(document).ready(function() {
