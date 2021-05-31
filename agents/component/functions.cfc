@@ -279,7 +279,7 @@ limitations under the License.
 
 	<cftransaction>
 		<cftry>
-			<cfif NOT isdefined("member_order" OR len(member_order) EQ 0>
+			<cfif NOT isdefined("member_order") OR len(member_order) EQ 0>
 				<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
 					SELECT max(member_order) as max_order
 					FROM group_member
