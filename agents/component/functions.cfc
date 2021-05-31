@@ -281,12 +281,12 @@ limitations under the License.
 		<cftry>
 			<cfif NOT isdefined("member_order") OR len(member_order) EQ 0>
 				<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
-					SELECT max(member_order) as max_order
+					SELECT nvl(max(member_order),0) as max_order
 					FROM group_member
 					WHERE
 						GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<cfset currentMax = 0>
+				<cfset currentMax = 0 >
 				<cfloop query="getMaxOrder">
 					<cfset currentMax = getMaxOrder.max_order >
 				</cfloop>
@@ -319,7 +319,7 @@ limitations under the License.
 					<cfthrow message="Unable to add member, provided group agent (agent_id=[#encodeForHTML(agent_id)#] is a #getAgentType.agent_type#, but it must be a group, expedition, or vessel to take members.">
 				</cfif>
 			</cfloop>
-			<cfif removeGroupMember_result.recordcount eq 0>
+			<cfif newGroupMember_result.recordcount eq 0>
 				<cfthrow message="No agent added to group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
 			</cfif>
 			<cfif removeGroupMember_result.recordcount eq 1>
