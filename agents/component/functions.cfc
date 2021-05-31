@@ -168,7 +168,6 @@ limitations under the License.
 							<label for="preferred_name" class="">Preferred Name</label>
 							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class=""> 
 							<button type="button" id="" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
-							<span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
 							<span id="prefAgentNameFeedback"></span>
 						</form>
 					</li>
@@ -184,6 +183,7 @@ limitations under the License.
 
 				<cfset i=0>
 				<label>Other Names</label>
+				<span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
@@ -241,7 +241,7 @@ limitations under the License.
 						$(document).ready(function () {
 							$('##addAgentButton').click(function(evt){
 								evt.preventDefault;
-								addNameToAgent(agent_id,'new_agent_name','new_agent_name_type',updateAgentNames);
+								addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',updateAgentNames);
 							});
 						});
 					</script>
