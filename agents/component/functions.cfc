@@ -277,6 +277,7 @@ limitations under the License.
 	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to add to the group  --->
 	<cfargument name="member_order" type="string" required="no">
 
+	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
 			<cfif NOT isdefined("member_order") OR len(member_order) EQ 0>
