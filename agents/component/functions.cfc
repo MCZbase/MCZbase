@@ -402,7 +402,7 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="unknown direction [#encodeForHTML(direction)#]">
 			</cfif>
-			<cfquery name="moveAgentTwo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentOne_result">
+			<cfquery name="moveAgentTwo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentTwo_result">
 				UPDATE group_member
 				SET MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#currentPos#'>
 				WHERE
