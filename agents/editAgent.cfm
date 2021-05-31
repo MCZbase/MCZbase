@@ -215,6 +215,9 @@ limitations under the License.
 											$('##end_date').prop('disabled', true);
 										}
 									}
+									$(document).ready(function () {
+										changeType();
+									});
 								</script>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-4">
