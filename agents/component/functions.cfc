@@ -366,6 +366,7 @@ limitations under the License.
 	<cfargument name="member_agent_id" type="string" required="yes">
 	<cfargument name="direction" type="string" required="yes">
 
+	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
 			<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
