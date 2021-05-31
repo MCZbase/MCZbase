@@ -465,12 +465,74 @@ limitations under the License.
 											}
 										});
 									};
+									function suggestName(ntype,targetInput){
+										try {
+											var fName= $('##first_name').val();
+											var mName= $('##middle_name').val();
+											var lName= $('##last_name').val();
+											var name='';
+											if (ntype=='initials plus last'){
+												if (fName.length>0){
+													name=fName.substring(0,1) + '. ';
+												}
+												if (mName.length>0){
+													name+=mName.substring(0,1) + '. ';
+												}
+												if (lName.length>0){
+													name+=lName;
+												} else {
+													name='';
+												}
+											}
+											if (ntype=='last plus initials'){
+												if (lName.length>0){
+													name=lName + ', ';
+													if (fName.length>0){
+														name+=fName.substring(0,1) + '. ';
+													}
+													if (mName.length>0){
+														name+=mName.substring(0,1) + '. ';
+													}
+												} else {
+													name='';
+												}
+											}
+											if (name.length>0){
+												var rf = $('##agent_name');
+												var tName=name.replace(/^\s+|\s+$/g,""); // trim spaces
+												if ($('##'+targetInput).val().length==0){
+													$('##'+tergetInput).val(tName);
+												}
+											}
+										}
+										catch(e){
+										}
+									}
 								</script>
 							</form>
 						</section>
-						<section class="row border rounded my-2 px-1 pt-1 pb-2">
-							<h2 class="h3">Names for this agent</h2>
-						</section>
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<section class="row border rounded my-2 px-1 pt-1 pb-2">
+									<script>
+										// callback for ajax methods to reload names for agent
+										function reloadGroupMembers() { 
+											updateAgentNames(#getAgent.agent_id#,'namesDiv');
+										};
+									</script>
+									<h2 class="h3">Names for this agent</h2>
+									<cfset namesBlock = getAgentNamesHTML(agent_id="#agent_id#")>
+									<div id="namesDiv" class="col-12 px-0 pb-1">#namesBlock#</div>
+								</section>
+							</div>
+							<div class="col-12 col-md-6">
+								<section class="row border rounded my-2 px-1 pt-1 pb-2">
+									<h2 class="h3">Relationships for this agent</h2>
+									<cfset relationsBlock = "">
+									<div id="relationsDiv" class="col-12 px-0 pb-1">#relationsBlock#</div>
+								</section>
+							</div>
+						</div>
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 							<section class="row border rounded my-2 px-1 pt-1 pb-2">
 								<script>
@@ -481,14 +543,13 @@ limitations under the License.
 								</script>
 								<h2 class="h3">Group Members</h2>
 								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
-								<div id="groupMembersDiv">#groupMembersBlock#</div>
+								<div id="groupMembersDiv" class="col-12 px-0 pb-1">#groupMembersBlock#</div>
 							</section>
 						</cfif>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">
-							<h2 class="h3">Relationships for this agent</h2>
-						</section>
-						<section class="row border rounded my-2 px-1 pt-1 pb-2">
 							<h2 class="h3">Addresses for this agent</h2>
+							<cfset addressesBlock = "">
+							<div id="addressesDiv" class="col-12 px-0 pb-1">#addressesBlock#</div>
 						</section>
 					</cfloop>
 				</cfif>
@@ -618,7 +679,7 @@ limitations under the License.
 								<cfloop query="ctsuffix">
 									<option value="#suffix#">#suffix#</option>
 								</cfloop>
-						  	</select>
+							</select>
 						</div>
 					</div>
 					<div class="form-row mb-1">

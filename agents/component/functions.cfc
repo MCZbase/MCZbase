@@ -134,6 +134,295 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- obtain a block of html for displaying and editing names of an agent
+ @param agent_id the agent for which to lookup names
+ @return a block of html containing a list of names with controls to remove or add names
+  assuming this block will go within a section with a heading.
+--->
+<cffunction name="getAgentNamesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfthread name="namesThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+					SELECT
+						agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name
+					FROM agent_name
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfquery name="pname" dbtype="query">
+					select * from namesForAgent where agent_name_type = 'preferred'
+				</cfquery>
+				<cfquery name="npname" dbtype="query">
+					select * from namesForAgent where agent_name_type != 'preferred'
+				</cfquery>
+				<cfset i=1>
+				<ul>
+					<li>
+						<form id="preferredNameForm">
+							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
+							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
+							<label for="preferred_name" class="">Preferred Name</label>
+							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class=""> 
+							<button type="button" id="" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
+							<span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
+							<span id="prefAgentNameFeedback"></span>
+						</form>
+					</li>
+					<script>
+						$(document).ready(function () {
+							$('##preferredUpdateButton').click(function(evt){
+								evt.preventDefault;
+								saveAgentName(#agent_id#, 'preferred_name_agent_name_id','preferred_name','preferred_name_agent_name_type','prefAgentNameFeedback');
+							});
+						});
+					</script>
+				</ul>
+
+				<cfset i=0>
+				<label>Other Names</label>
+				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_name_type 
+					from ctagent_name_type 
+					where agent_name_type != 'preferred' 
+					order by agent_name_type
+				</cfquery>
+				<ul>
+					<cfloop query="npname">
+						<cfset i=i+1>
+						<li>
+							<form id="agentNameForm_#i#">
+								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
+								<input type="hidden" name="agent_id" value="#npname.agent_id#">
+								<select name="agent_name_type" id="agent_name_type_#i#">
+									<cfloop query="ctNameType">
+										<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+											value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+									</cfloop>
+								</select>
+								<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#">
+								<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
+								<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+								<span id="agentNameFeedback#i#"></span>
+							</form>
+						</li>
+						<script>
+							$(document).ready(function () {
+								$('##agentNameU#i#Button').click(function(evt){
+									evt.preventDefault;
+									saveAgentName(#agent_id#, 'agent_name_id_#i#','agent_name_#i#','agent_name_type_#i#','agentNameFeedback#i#');
+								});
+							});
+							$(document).ready(function () {
+								$('##agentNameDel#i#Button').click(function(evt){
+									evt.preventDefault;
+									deleteAgentName('agent_name_id_#i#',updateAgentNames);
+								});
+							});
+						</script>
+					</cfloop>
+				</ul>
+				<div id="newAgentNameDiv" class="col-12">
+					<label for="new_agent_name">Add agent name</label>
+					<form id="newNameForm">
+						<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
+						<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type">
+							<cfloop query="ctNameType">
+								<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+							</cfloop>
+						</select>
+						<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
+						<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
+					</form>
+					<script>
+						$(document).ready(function () {
+							$('##addAgentButton').click(function(evt){
+								evt.preventDefault;
+								addNameToAgent(agent_id,'new_agent_name','new_agent_name_type',updateAgentNames);
+							});
+						});
+					</script>
+				</div>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="namesThread" />
+	<cfreturn namesThread.output>
+</cffunction>
+
+<!--- given an agent and a name, add the name to the agent
+ @param agent_id the agent to which to add the name.
+ @param agent_name the name to add to the agent
+ @param agent_name_type the type of name to add.
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="addNameToAgent" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="agent_name" type="string" required="yes">
+	<cfargument name="agent_name_type" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
+				INSERT INTO agent_name (
+					agent_name_id,
+					agent_id,
+					agent_name_type,
+					agent_name)
+				VALUES (
+					sq_agent_name_id.nextval,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name_type#'>,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>)
+			</cfquery>
+			<cfif updateName_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Name added to Agent.", 1)>
+			<cfelse>
+				<cfthrow message="Error adding name to agent.">
+			</cfif>
+			</cfloop>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- given an agent name, update the name of the agent
+ @param agent_name_id the name to update.
+ @param agent_name the new value of the agent name
+ @param agent_name_type the new value of the agent name type
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="updateAgentName" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="agent_name" type="string" required="yes">
+	<cfargument name="agent_name_type" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfset provided_agent_name_type = agent_name_type>
+			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT agent_name_type 
+				FROM agent_name 
+				WHERE
+					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+			</cfquery>
+			<cfif provided_agent_name_type EQ 'preferred' and checkName.agent_name_type NEQ 'preferred'>
+				<cfthrow message="you can't change a preferred name to a different name type.">
+			</cfif>
+			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE agent_name
+				SET
+					agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
+					agent_name_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name_type#'>
+				WHERE
+					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+			</cfquery>
+			<cfif updateName_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Name added to Agent.", 1)>
+			<cfelse>
+				<cfthrow message="Error adding name to agent.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- given an agent name, update the name of the agent
+ @param agent_name_id the name to update.
+ @param agent_name the new value of the agent name
+ @param agent_name_type the new value of the agent name type
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="updateAgentName" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="agent_name" type="string" required="yes">
+	<cfargument name="agent_name_type" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfif agent_name_type EQ 'preferred'>
+				<cfthrow message="the preferred name for an agent cannot be deleted.">
+			</cfif>
+			<!--- Check if this name is in use by any tables that link to an agent_name. --->
+			<!--- TODO: This should be enforced by foreign keys --->
+			<cfquery name="delId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					PROJECT_AGENT.AGENT_NAME_ID,
+					PUBLICATION_AUTHOR_NAME.AGENT_NAME_ID,
+					project_sponsor.AGENT_NAME_ID
+				FROM
+					PROJECT_AGENT,
+					PUBLICATION_AUTHOR_NAME,
+					project_sponsor,
+					agent_name
+				WHERE
+					agent_name.agent_name_id = PROJECT_AGENT.AGENT_NAME_ID (+) and
+					agent_name.agent_name_id = PUBLICATION_AUTHOR_NAME.AGENT_NAME_ID (+) and
+					agent_name.agent_name_id = project_sponsor.AGENT_NAME_ID (+) and
+					agent_name.agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+			</cfquery>
+			<cfif #delId.recordcount# gt 1>
+				<cfthrow message="The agent name you are trying to delete is active in a project or publication.">
+			</cfif>
+			<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAgent_result">
+				DELETE FROM agent_name
+				WHERE 
+					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+			</cfquery>
+			<cfif deleteAgent_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Name deleted.", 1)>
+			<cfelse>
+				<cfthrow message="Error deleting agent name.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+
 <!--- obtain a block of html for displaying and editing members of a group agent 
  @param agent_id the agent for which to lookup group information 
  @return a block of html containing a list of group members with controls to remove or add members 

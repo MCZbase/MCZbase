@@ -130,6 +130,108 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
 
+/* Update the content of a div containing names for an agent.
+ *
+ * @param agent_id the agent_id of the agent for which to lookup group membership
+ * @param targetDiv the id div for which to replace the contents, without a leading # selector.
+ */
+function updateAgentNames(agent_id,targetDiv) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+			method : "getAgentNamesHTML",
+			agent_id: agent_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining names for an agent");
+		},
+		dataType: "html"
+	});
+};
+
+function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeControl,feedbackControl) {
+	var agent_name_id = $('#'+agentNameIdControl).val();
+	var agent_name = $('#'+nameValueControl).val();
+	var agent_name_type = $('#'+nameTypeControl).val();
+	feedbackControl.html("Saving...");
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "updateAgentName",
+			agent_id : agent_id,
+			agent_name_id : agent_name_id,
+			agent_name_type : agent_name_type,
+			agent_name : agent_name,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (result[0].STATUS==1) {
+				feedbackControl.html("Saved");
+			} else {
+				feedbackControl.html("Error");
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		feedbackControl.html("Error");
+		handleFail(jqXHR,textStatus,error,"updating agent name");
+	});
+}
+
+function deleteAgentName(agentNameIdControl, callback) {
+	var agent_name_id = $('#'+agentNameIdControl).val();
+	var agent_name = $('#'+nameValueControl).val();
+	var agent_name_type = $('#'+nameTypeControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "deleteAgentName",
+			agent_id : agent_id,
+			agent_name_id : agent_name_id,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"updating agent name");
+	});
+}
+
+function addNameToAgent(agent_id,nameValueControl,nameTypeControl,callback) {
+	var agent_name = $('#'+nameValueControl).val();
+	var agent_name_type = $('#'+nameTypeControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addNameToAgent",
+			agent_id : agent_id,
+			agent_name_type : agent_name_type,
+			agent_name : agent_name,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		feedbackControl.html("Error");
+		handleFail(jqXHR,textStatus,error,"adding name to agent");
+	});
+}
+
 /* Update the content of a div containing group membership for an agent.
  *
  * @param agent_id the agent_id of the agent for which to lookup group membership
