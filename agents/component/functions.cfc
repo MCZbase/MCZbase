@@ -145,7 +145,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAgent_result">
-					SELECT agent_type 
+					SELECT agent_type, agent_id
 					FROM agent
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
@@ -192,7 +192,7 @@ limitations under the License.
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
 											</cfif>
 											<cfif i EQ groupMembers.recordcount>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</buttona>
+												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown_#i#" 
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
@@ -225,7 +225,7 @@ limitations under the License.
 								$(document).ready(function() {
 									$('##addMemberButton').click(function (evt) {
 										evt.preventDefault();
-										addAgentToGroupCB(#getAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
+										addAgentToGroupCB(#lookupAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
 									});
 								});
 							</script>
