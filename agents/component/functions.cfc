@@ -153,6 +153,7 @@ limitations under the License.
 					<cfif #lookupAgent.agent_type# IS "group" OR #lookupAgent.agent_type# IS "expedition" OR #lookupAgent.agent_type# IS "vessel">
 						<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
 							SELECT
+								group_agent_id,
 								member_agent_id,
 								member_order,
 								preferred_agent_name.agent_name,
@@ -182,19 +183,19 @@ limitations under the License.
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup_#i#" 
-											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
+											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#getAgent.group_agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
 										<cfif groupMembers.recordcount GT 1>
 											<cfif i EQ 1>
 												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentUp_#i#" disabled>Move Up</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp_#i#" 
-													onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
+													onclick="moveAgentInGroupCB(#getAgent.group_agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
 											</cfif>
 											<cfif i EQ groupMembers.recordcount>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Up</buttona>
+												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</buttona>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown_#i#" 
-													onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
+													onclick="moveAgentInGroupCB(#getAgent.group_agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
 											</cfif>
 										</cfif>
 									</li>
