@@ -164,7 +164,9 @@ function addAgentToGroupCB(agent_id,member_agent_id,ordinal_position,callback) {
 			method : "addAgentToGroup",
 			agent_id : agent_id,
 			member_agent_id : member_agent_id,
-			member_position : ordinal_position
+			member_position : ordinal_position,
+			returnformat : "json",
+			queryformat : 'column'
 		},
 		function (result) {
 			if (result.DATA.STATUS==1) {
