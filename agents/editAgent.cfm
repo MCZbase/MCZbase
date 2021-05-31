@@ -395,7 +395,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-1">
-									<div class="col-12">
+									<div class="col-12 col-md-6" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
 										<script>
@@ -404,9 +404,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-								</div>
-								<div class="form-row mb-1">
-									<div class="col-12">
+									<div class="col-12 col-md-6">
 										<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
 										<script>
