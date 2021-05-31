@@ -357,21 +357,23 @@ limitations under the License.
 	<cfreturn #theResult#>
 </cffunction>
 
-<!--- given an agent name, update the name of the agent
- @param agent_name_id the name to update.
- @param agent_name the new value of the agent name
- @param agent_name_type the new value of the agent name type
+<!--- given an agent name, delete the agent name.
+ @param agent_name_id the name to delete
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="updateAgentName" returntype="any" access="remote" returnformat="json">
+<cffunction name="deleteAgentName" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_name_id" type="string" required="yes">
-	<cfargument name="agent_name" type="string" required="yes">
-	<cfargument name="agent_name_type" type="string" required="yes">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfif agent_name_type EQ 'preferred'>
+			<cfquery name="checkName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT agent_name_type 
+				FROM agent_name 
+				WHERE
+					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+			</cfquery>
+			<cfif checkName.agent_name_type EQ 'preferred'>
 				<cfthrow message="the preferred name for an agent cannot be deleted.">
 			</cfif>
 			<!--- Check if this name is in use by any tables that link to an agent_name. --->

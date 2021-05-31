@@ -183,12 +183,9 @@ function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeC
 
 function deleteAgentName(agentNameIdControl, callback) {
 	var agent_name_id = $('#'+agentNameIdControl).val();
-	var agent_name = $('#'+nameValueControl).val();
-	var agent_name_type = $('#'+nameTypeControl).val();
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "deleteAgentName",
-			agent_id : agent_id,
 			agent_name_id : agent_name_id,
 			returnformat : "json",
 			queryformat : 'struct'
