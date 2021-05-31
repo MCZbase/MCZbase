@@ -175,16 +175,22 @@ limitations under the License.
 						<cfelse>
 							<ul>
 								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
+								<cfset i = 0>
 								<cfloop query="groupMembers">
+									<cfset i = i + 1>
 									<li>
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" 
-											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } '>Remove</a>
-										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp" 
-											onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
-										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown" 
-											onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
+											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
+										<cfif groupMembers.recordcount GT 1>
+											<cfif i EQ 1><cfset disabled = "disabled"><cfelse><cfset disabled=""></cfif>
+											<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp" 
+												onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);" #disabled#>Move Up</a>
+											<cfif i EQ groupMembers.recordcount><cfset disabled = "disabled"><cfelse><cfset disabled=""></cfif>
+											<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown" 
+												onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers); #disabled#">Move Down</a>
+										</cfif>
 									</li>
 								</cfloop>
 							</ul>
@@ -264,7 +270,7 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
-	<cfreturn #serializeJSON(theResult)#>
+	<cfreturn #theResult#>
 </cffunction>
 
 <!--- given a group and an agent, add the agent from the group as a member
@@ -421,7 +427,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-	<cfreturn #serializeJSON(theResult)#>
+	<cfreturn #theResult#>
 </cffunction>
 
 <!--- Given various information create dialog to create a new address, by default a temporary address.

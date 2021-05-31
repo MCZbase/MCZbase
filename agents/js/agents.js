@@ -169,50 +169,56 @@ function addAgentToGroupCB(agent_id,member_agent_id,ordinal_position,callback) {
 			queryformat : 'struct'
 		},
 		function (result) {
-			if (result[0].STATUS==1) {
-				callback(1);
-			} else {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
 				alert(result[0].MESSAGE);
-				callback(0);
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"adding agent to group");
 	});
 };
+
 function removeAgentFromGroupCB(agent_id,member_agent_id,callback) {
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "removeAgentFromGroup",
 			agent_id : agent_id,
-			member_agent_id : member_agent_id
+			member_agent_id : member_agent_id,
+			returnformat : "json",
+			queryformat : 'struct'
 		},
 		function (result) {
-			if (result.DATA.STATUS==1) {
-				callback(1);
-			} else {
-				alert(result.DATA.MESSAGE);
-				callback(0);
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing agent from group");
 	});
 };
+
 function moveAgentInGroupCB(agent_id,member_agent_id,direction,callback) {
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "moveAgentInGroup",
 			agent_id : agent_id,
 			member_agent_id : member_agent_id,
-			direction: direction
+			direction: direction,
+			returnformat : "json",
+			queryformat : 'struct'
 		},
 		function (result) {
-			if (result.DATA.STATUS==1) {
-				callback(1);
-			} else {
-				alert(result.DATA.MESSAGE);
-				callback(0);
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
