@@ -290,7 +290,6 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="Error adding name to agent.">
 			</cfif>
-			</cfloop>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
