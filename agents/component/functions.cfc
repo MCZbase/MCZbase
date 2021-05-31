@@ -167,7 +167,7 @@ limitations under the License.
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
 							<label for="preferred_name" class="">Preferred Name</label>
 							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class=""> 
-							<button type="button" id="" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
+							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
 						</form>
 					</li>
@@ -219,7 +219,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentNameDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									deleteAgentName('agent_name_id_#i#',updateAgentNames);
+									deleteAgentName('agent_name_id_#i#',reloadAgentNames);
 								});
 							});
 						</script>
@@ -241,7 +241,7 @@ limitations under the License.
 						$(document).ready(function () {
 							$('##addAgentButton').click(function(evt){
 								evt.preventDefault;
-								addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',updateAgentNames);
+								addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',reloadAgentNames);
 							});
 						});
 					</script>

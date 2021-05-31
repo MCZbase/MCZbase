@@ -516,7 +516,7 @@ limitations under the License.
 								<section class="row border rounded my-2 px-1 pt-1 pb-2">
 									<script>
 										// callback for ajax methods to reload names for agent
-										function reloadGroupMembers() { 
+										function reloadAgentNames() { 
 											updateAgentNames(#getAgent.agent_id#,'namesDiv');
 										};
 									</script>
