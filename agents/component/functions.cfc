@@ -379,7 +379,7 @@ limitations under the License.
 				<cfset targetPos = currentPos-1>
 				<cfif targetPos LT 1>
 					<cfset targetPos = maxPos>
-				<cfif>
+				</cfif>
 			<cfelseif direction EQ "increment">
 				<cfset targetPos = currentPos+1>
 				<cfif targetPos GT maxPos>
