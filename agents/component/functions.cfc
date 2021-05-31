@@ -180,7 +180,7 @@ limitations under the License.
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" 
-											onclick="removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers);">Remove</a>
+											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } '>Remove</a>
 										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp" 
 											onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
 										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown" 
@@ -207,12 +207,14 @@ limitations under the License.
 									});
 								</script>
 								<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
+								<input type='button' class='btn btn-xs btn-warning mr-1' 
+									value='Remove Permit'>
 							</form>
 							<script>
 								$(document).ready(function() {
 									$('##addMemberButton').click(function (evt) {
 										evt.preventDefault();
-										addAgentToGroupCB(#getAgent.agent_id#,$('##new_member_agent_id'),null,reloadGroupMembers);
+										addAgentToGroupCB(#getAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
 									});
 								});
 							</script>
