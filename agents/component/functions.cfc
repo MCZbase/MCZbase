@@ -339,7 +339,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-	<cfreturn #serializeJSON(theResult)#>
+	<cfreturn #theResult#>
 </cffunction>
 
 <!--- given a group and an agent, move the agent in ordered position in a specified direction.

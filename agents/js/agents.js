@@ -166,13 +166,13 @@ function addAgentToGroupCB(agent_id,member_agent_id,ordinal_position,callback) {
 			member_agent_id : member_agent_id,
 			member_position : ordinal_position,
 			returnformat : "json",
-			queryformat : 'column'
+			queryformat : 'struct'
 		},
 		function (result) {
-			if (result.DATA.STATUS==1) {
+			if (result[0].STATUS==1) {
 				callback(1);
 			} else {
-				alert(result.DATA.MESSAGE);
+				alert(result[0].MESSAGE);
 				callback(0);
 			}
 		}
