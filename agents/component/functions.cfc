@@ -304,7 +304,7 @@ limitations under the License.
 			</cfif>
 			<cfloop query="getAgentType">
 				<cfif #getAgentType.agent_type# IS "group" OR #getAgentType.agent_type# IS "expedition" OR #getAgentType.agent_type# IS "vessel">
-					<cfquery name="newGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGroupMember_result">
+					<cfquery name="addGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGroupMember_result">
 						INSERT INTO group_member
 							(GROUP_AGENT_ID,
 							MEMBER_AGENT_ID,
@@ -318,15 +318,15 @@ limitations under the License.
 				<cfelse>
 					<cfthrow message="Unable to add member, provided group agent (agent_id=[#encodeForHTML(agent_id)#] is a #getAgentType.agent_type#, but it must be a group, expedition, or vessel to take members.">
 				</cfif>
+				<cfif addGroupMember_result.recordcount eq 0>
+					<cfthrow message="No agent added to group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
+				</cfif>
+				<cfif addGroupMember_result.recordcount eq 1>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "Agent Added To Group.", 1)>
+				</cfif>
 			</cfloop>
-			<cfif newGroupMember_result.recordcount eq 0>
-				<cfthrow message="No agent added to group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
-			</cfif>
-			<cfif removeGroupMember_result.recordcount eq 1>
-				<cfset t = queryaddrow(theResult,1)>
-				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Agent Added To Group.", 1)>
-			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
