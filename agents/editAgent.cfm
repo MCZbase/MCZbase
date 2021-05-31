@@ -476,7 +476,7 @@ limitations under the License.
 								<script>
 									// callback for ajax methods to reload group members for agent
 									function reloadGroupMembers() { 
-										updateGroupMembers('#agent_id#','greoupMembersDiv');
+										updateGroupMembers(#getAgent.agent_id#,'groupMembersDiv');
 									};
 								</script>
 								<h2 class="h3">Group Members</h2>
