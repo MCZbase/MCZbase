@@ -152,11 +152,18 @@ function updateAgentNames(agent_id,targetDiv) {
 	});
 };
 
+/* Save a change to an existing agent name.
+ *
+ * @param agent_name_id the name to update.
+ * @param agent_name the new value of the agent name.
+ * @param agent_name_type the new value of the agent name type.
+ * @param feedbackControl a control within which to display feedback, without a leading # selector.
+ */
 function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeControl,feedbackControl) {
 	var agent_name_id = $('#'+agentNameIdControl).val();
 	var agent_name = $('#'+nameValueControl).val();
 	var agent_name_type = $('#'+nameTypeControl).val();
-	feedbackControl.html("Saving...");
+	$('#'+feedbackControl).html("Saving...");
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "updateAgentName",
@@ -169,18 +176,23 @@ function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeC
 		},
 		function (result) {
 			if (result[0].STATUS==1) {
-				feedbackControl.html("Saved");
+				$('#'+feedbackControl).html("Saved");
 			} else {
-				feedbackControl.html("Error");
+				$('#'+feedbackControl).html("Error");
 				alert(result[0].MESSAGE);
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		feedbackControl.html("Error");
+		$('#'+feedbackControl).html("Error");
 		handleFail(jqXHR,textStatus,error,"updating agent name");
 	});
 }
 
+/* Delete an existing agent name from an agent
+ *
+ * @param agent_name_id the name to delete.
+ * @param callback a callback function to invoke on completion.
+ */
 function deleteAgentName(agentNameIdControl, callback) {
 	var agent_name_id = $('#'+agentNameIdControl).val();
 	jQuery.getJSON("/agents/component/functions.cfc",
@@ -203,6 +215,13 @@ function deleteAgentName(agentNameIdControl, callback) {
 	});
 }
 
+/* Add a new agent name to an agent.
+ *
+ * @param agent_id the agent to which to add the name.
+ * @param nameValueControl a control from which to get the value of the agent_name to add, without a leading # selector.
+ * @param nameTypeControl a control from which to get the value of the agent_name_type, without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
 function addNameToAgent(agent_id,nameValueControl,nameTypeControl,callback) {
 	var agent_name = $('#'+nameValueControl).val();
 	var agent_name_type = $('#'+nameTypeControl).val();
@@ -224,7 +243,6 @@ function addNameToAgent(agent_id,nameValueControl,nameTypeControl,callback) {
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		feedbackControl.html("Error");
 		handleFail(jqXHR,textStatus,error,"adding name to agent");
 	});
 }
