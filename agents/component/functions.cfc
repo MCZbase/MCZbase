@@ -328,7 +328,7 @@ limitations under the License.
 			<cfif provided_agent_name_type EQ 'preferred' and checkName.agent_name_type NEQ 'preferred'>
 				<cfthrow message="you can't change a preferred name to a different name type.">
 			</cfif>
-			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
 				UPDATE agent_name
 				SET
 					agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
