@@ -180,11 +180,11 @@ limitations under the License.
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" 
-											onclick="removeAgentFromGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers);">Remove</a>
-										<a class="btn btn-xs btn-warning" type="button" id="moveGroupAgentUp" 
-											onclick="moveAgentInGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
-										<a class="btn btn-xs btn-warning" type="button" id="moveGroupAgentDown" 
-											onclick="moveAgentInGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
+											onclick="removeAgentFromGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers);">Remove</a>
+										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp" 
+											onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
+										<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown" 
+											onclick="moveAgentInGroupCB(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
 									</li>
 								</cfloop>
 							</ul>
@@ -199,11 +199,11 @@ limitations under the License.
 										<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
-									<input type="hidden" name="new_group_agent_id" id="new_group_agent_id" value="#new_group_agent_id#">
+									<input type="hidden" name="new_group_agent_id" id="new_group_agent_id" value="">
 								</div>
 								<script>
 									$(document).ready(function() {
-										$(makeRichAgentPicker('new_group_agent_name', 'new_group_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', '#new_group_agent_id#'));
+										$(makeRichAgentPicker('new_group_agent_name', 'new_group_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
 									});
 								</script>
 								<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
