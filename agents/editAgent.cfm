@@ -473,15 +473,15 @@ limitations under the License.
 						</section>
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 							<section class="row border rounded my-2 px-1 pt-1 pb-2">
-								<h2 class="h3">Group Members</h2>
-								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
-								<div id="groupMembersDiv">#groupMembersBlock#</div>
 								<script>
 									// callback for ajax methods to reload group members for agent
 									function reloadGroupMembers() { 
 										updateGroupMembers('#agent_id#','greoupMembersDiv');
 									};
-							</script>
+								</script>
+								<h2 class="h3">Group Members</h2>
+								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
+								<div id="groupMembersDiv">#groupMembersBlock#</div>
 							</section>
 						</cfif>
 						<section class="row border rounded my-2 px-1 pt-1 pb-2">

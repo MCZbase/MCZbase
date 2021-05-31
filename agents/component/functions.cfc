@@ -179,27 +179,44 @@ limitations under the License.
 									<li>
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
-										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" onclick="removeAgentFromGroup(#getAgent.agent_id#);">Remove</a>
+										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup" 
+											onclick="removeAgentFromGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers);">Remove</a>
+										<a class="btn btn-xs btn-warning" type="button" id="moveGroupAgentUp" 
+											onclick="moveAgentInGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
+										<a class="btn btn-xs btn-warning" type="button" id="moveGroupAgentDown" 
+											onclick="moveAgentInGroup(#getAgent.agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
 									</li>
 								</cfloop>
 							</ul>
 						</cfif>
-						<!--- TODO: Ajax save of new group member --->
-						<!---
-							<form name="newGroupMember" method="post" action="editAllAgent.cfm">
-								<input type="hidden" name="agent_id" value="#agent_id#" />
-								<input type="hidden" name="action" value="makeNewGroupMemeber" />
-								<input type="hidden" name="member_order" value="#nOrd#" />
-								<input type="hidden" name="member_id">
-								<div class="newRec" style="margin-top: 1em;">
-									<label for="">Add Member to Group</label>
-										<input type="text" name="group_member" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
-											onchange="getAgent('member_id','group_member','newGroupMember',this.value); return false;"
-				 							onKeyPress="return noenter(event);">
-									<input type="submit" class="insBtn" value="Add Group Member">
+						<div>
+							<form name="newGroupMember">
+								<label for="new_group_agent_name" id="new_group_agent_name_label" class="data-entry-label">Add Member To Group
+									<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+								</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
+									<input type="hidden" name="new_group_agent_id" id="new_group_agent_id" value="#new_group_agent_id#">
 								</div>
+								<script>
+									$(document).ready(function() {
+										$(makeRichAgentPicker('new_group_agent_name', 'new_group_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', '#new_group_agent_id#'));
+									});
+								</script>
+								<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
 							</form>
-						--->
+							<script>
+								$(document).ready(function() {
+									$('##addMemberButton').click(function (evt) {
+										evt.preventDefault();
+										addAgentToGroupCB(#getAgent.agent_id#,$('##new_member_agent_id'),null,reloadGroupMembers);
+									});
+								});
+							</script>
+						</div>
 					</cfif>
 				</cfloop>
 			<cfcatch>
@@ -213,6 +230,198 @@ limitations under the License.
 	<cfreturn groupMembersThread.output>
 </cffunction>
 
+<!--- given a group and an agent, remove the agent from the group 
+ @param agent_id the group agent from which to remove the member.
+ @param member_agent_id the member agent to remove from the group 
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="removeAgentFromGroup">
+	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
+	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to remove from the group  --->
+
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
+			DELETE FROM group_member
+			WHERE
+				GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				AND
+				MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+		</cfquery>
+		<cfif removeGroupMember_result.recordcount eq 0>
+			<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
+		</cfif>
+		<cfif removeGroupMember_result.recordcount eq 1>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(theResult)#>
+</cffunction>
+
+<!--- given a group and an agent, add the agent from the group as a member
+ @param agent_id the group agent from which to remove the member.
+ @param member_agent_id the member agent to remove from the group 
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="addAgentToGroup">
+	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
+	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to add to the group  --->
+	<cfargument name="member_order" type="string" required="no">
+
+	<cftransaction>
+		<cftry>
+			<cfif NOT isdefined("member_order" OR len(member_order) EQ 0>
+				<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
+					SELECT max(member_order) as max_order
+					FROM group_member
+					WHERE
+						GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfset currentMax = 0>
+				<cfloop query="getMaxOrder">
+					<cfset currentMax = getMaxOrder.max_order >
+				</cfloop>
+				<cfset member_order = currentMax + 1>
+			</cfif>
+			<cfquery name="getAgentType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentType_result">
+				SELECT agent_type 
+				FROM agent
+				WHERE
+					agent_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<!--- Test that group agent specfied is an agent type that allows members --->
+			<cfif getAgentType.recordcount NEQ 1>
+				<cfthrow message="Group agent (agent_id=[#encodeForHTML(agent_id)#] not found, unable to add members.">
+			</cfif>
+			<cfloop query="getAgentType">
+				<cfif #getAgentType.agent_type# IS "group" OR #getAgentType.agent_type# IS "expedition" OR #getAgentType.agent_type# IS "vessel">
+					<cfquery name="newGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGroupMember_result">
+						INSERT INTO group_member
+							(GROUP_AGENT_ID,
+							MEMBER_AGENT_ID,
+							MEMBER_ORDER)
+						values
+							(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>,
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#member_agent_id#'>,
+							<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#member_order#'>
+						)
+					</cfquery>
+				<cfelse>
+					<cfthrow message="Unable to add member, provided group agent (agent_id=[#encodeForHTML(agent_id)#] is a #getAgentType.agent_type#, but it must be a group, expedition, or vessel to take members.">
+				</cfif>
+			</cfloop>
+			<cfif removeGroupMember_result.recordcount eq 0>
+				<cfthrow message="No agent added to group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
+			</cfif>
+			<cfif removeGroupMember_result.recordcount eq 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Agent Added To Group.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(theResult)#>
+</cffunction>
+
+<!--- given a group and an agent, move the agent in ordered position in a specified direction.
+ @param agent_id the group agent from which to remove the member.
+ @param member_agent_id the member agent to remove from the group 
+ @param direction decrement to move to next lowest number, increment to move to next highest number
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="moveAgentInGroup">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="member_agent_id" type="string" required="yes">
+	<cfargument name="direction" type="string" required="yes">
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="getMaxOrder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxOrder_result">
+				SELECT max(member_order) as max_order
+				FROM group_member
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfset maxPos = 0>
+			<cfloop query="getMaxOrder">
+				<cfset maxPos = getMaxOrder.max_order >
+			</cfloop>
+			<cfquery name="getCurrentPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentPosition_result">
+				SELECT member_order
+				FROM group_member
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#member_agent_id#">
+			</cfquery>
+			<cfloop query="getCurrentPosition">
+				<cfset currentPos = getCurrentPosition.member_order >
+			</cfloop>
+			<cfif direction EQ "decrement">
+				<cfset targetPos = currentPos-1>
+				<cfif targetPos LT 1>
+					<cfset targetPos = maxPos>
+				<cfif>
+			<cfelseif direction EQ "increment">
+				<cfset targetPos = currentPos+1>
+				<cfif targetPos GT maxPos>
+					<cfset targetPos = 1>
+				</cfif>
+			<cfelse>
+				<cfthrow message="unknown direction [#encodeForHTML(direction)#]">
+			</cfif>
+			<cfquery name="moveAgentTwo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentOne_result">
+				UPDATE group_member
+				SET MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#currentPos#'>
+				WHERE
+					MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#targetPos#'>
+			</cfquery>
+			<cfquery name="moveAgentOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveAgentOne_result">
+				UPDATE group_member
+				SET MEMBER_ORDER = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#targetPos#'>
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#member_agent_id#">
+			</cfquery>
+			<cfif moveAgentOne_result.recordcount EQ 1 AND moveAgentTwo_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Agent Moved in Group.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to move agent position in group.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(theResult)#>
+</cffunction>
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address
  @param shipment_id if given, the shipment for which this address is to be used for

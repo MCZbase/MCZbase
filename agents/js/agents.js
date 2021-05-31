@@ -151,3 +151,69 @@ function updateGroupMembers(agent_id,targetDiv) {
 		dataType: "html"
 	});
 };
+
+/* Add an agent to a group with an ordinal position and a callback function.
+ * @param agent_id the group to which to add the member
+ * @param member_agent_id the agent to add to the group as a member
+ * @param ordinal_position the 1 indexed position of the member in the group.
+ * @param callback the callback function to invoke on success.
+ */
+function addAgentToGroupCB(agent_id,member_agent_id,ordinal_position,callback) {
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addAgentToGroup",
+			agent_id : agent_id,
+			member_agent_id : member_agent_id,
+			member_position : ordinal_position
+		},
+		function (result) {
+			if (result.DATA.STATUS==1) {
+				callback(1);
+			} else {
+				alert(result.DATA.MESSAGE);
+				callback(0);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding agent to group");
+	});
+};
+function removeAgentFromGroupCB(agent_id,member_agent_id,callback) {
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "removeAgentFromGroup",
+			agent_id : agent_id,
+			member_agent_id : member_agent_id
+		},
+		function (result) {
+			if (result.DATA.STATUS==1) {
+				callback(1);
+			} else {
+				alert(result.DATA.MESSAGE);
+				callback(0);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing agent from group");
+	});
+};
+function moveAgentInGroupCB(agent_id,member_agent_id,direction,callback) {
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "moveAgentInGroup",
+			agent_id : agent_id,
+			member_agent_id : member_agent_id,
+			direction: direction
+		},
+		function (result) {
+			if (result.DATA.STATUS==1) {
+				callback(1);
+			} else {
+				alert(result.DATA.MESSAGE);
+				callback(0);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"moving position of agent in group");
+	});
+};
