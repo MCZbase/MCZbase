@@ -235,7 +235,7 @@ limitations under the License.
  @param member_agent_id the member agent to remove from the group 
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="removeAgentFromGroup">
+<cffunction name="removeAgentFromGroup" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
 	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to remove from the group  --->
 
@@ -272,7 +272,7 @@ limitations under the License.
  @param member_agent_id the member agent to remove from the group 
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="addAgentToGroup">
+<cffunction name="addAgentToGroup" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
 	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to add to the group  --->
 	<cfargument name="member_order" type="string" required="no">
@@ -347,7 +347,7 @@ limitations under the License.
  @param direction decrement to move to next lowest number, increment to move to next highest number
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="moveAgentInGroup">
+<cffunction name="moveAgentInGroup" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="member_agent_id" type="string" required="yes">
 	<cfargument name="direction" type="string" required="yes">
@@ -422,6 +422,7 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(theResult)#>
 </cffunction>
+
 <!--- Given various information create dialog to create a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address
  @param shipment_id if given, the shipment for which this address is to be used for
