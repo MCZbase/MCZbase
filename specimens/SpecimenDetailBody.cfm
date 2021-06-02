@@ -97,27 +97,23 @@ limitations under the License.
 		<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from rparts
 			</cfquery>
-<cfoutput>
+				<cfoutput>
 					<div class="container">
 						<div class="row">
-							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto" style="font-size: 12px">
+							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 								<li class="list-group-item px-0 mx-1">
-										<!---<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-									</li>--->
-					
-									<!---<div id="mediaDialog"></div>--->
 									<script>
 										function reloadMedia() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 											loadMedia(#collection_object_id#,'mediaCardBody');
 										}
 									</script>
-										<cfif listcontainsnocase(session.roles,"manage_media")>
-											<button type="button" class="btn btn-xs btn-powder-blue small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-										</cfif>
+									<cfif listcontainsnocase(session.roles,"manage_media")>
+										<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
+									</cfif>
 								</li>
 								<li class="list-group-item px-0 mx-1">
-									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
+									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 w-100" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
@@ -167,7 +163,7 @@ limitations under the License.
 						<div class="card-header" id="headingMedia">
 							<h3 class="h4 my-0 float-left text-dark">
 								Media
-								<span class="text-success small ml-2">(#ctmedia.ct# media records)</span>
+								<span class="text-success small">(#ctmedia.ct# media records)</span>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</button>
