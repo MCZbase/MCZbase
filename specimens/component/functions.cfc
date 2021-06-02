@@ -1696,116 +1696,7 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-<cffunction name="saveID" access="remote" returntype="any" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="identification_id" type="string" required="yes">
-	<cfargument name="scientific_name" type="string" required="no">
-	<cfargument name="accepted_ID_fg" type="string" required="yes">
-	<cfargument name="identified_by" type="string" required="yes">
-	<cfargument name="made_date" type="string" required="no">
-	<cfargument name="nature_of_id" type="string" required="yes">
-	<cfargument name="stored_as_fg" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftransaction>
-		<cftry>
-			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newIdentificationCheck_result">
-				SELECT count(*) as ct from identification
-				WHERE
-					IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#identification_id#'>
-			</cfquery>
-			<cfif updateIdentificationCheck.ct NEQ 1>
-				<cfthrow message = "Unable to update identification. Provided identification_id does not match a record in the ID table.">
-			</cfif>
-			<cfquery name="updateIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIdentification">
-				UPDATE identification SET
-					identification_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">,
-					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
-					NATURE_OF_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-					STORED_AS_FG = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STORED_AS_FG#">,
-					SORT_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sort_order#">,
-					Taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
-					<cfif isDefined("identification_remarks")>
-						, identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">
-					</cfif>
-				where
-					identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
-			</cfquery>
-			<cfloop from="1" to="#numAgents#" index="n">
-				<cfif IsDefined("identification_agent_id_" & n) >
-					<cfset trans_agent_id_ = evaluate("identification_agent_id_" & n)>
-					<cfset agent_id_ = evaluate("agent_id_" & n)>
-					<cftry>
-						<cfset del_agnt_=evaluate("del_agnt_" & n)>
-						<cfcatch>
-							<cfset del_agnt_=0>
-						</cfcatch>
-					</cftry>
-					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and identification_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from identification_agent 
-							where identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-						</cfquery>
-						<cfelse>
-						<cfif len(agent_id_) GT 0>
-							<!--- don't try to add/update a blank row --->
-							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									insert into identification_agent (
-										identification_id,
-										agent_id,
-										identification_order,
-										identification_agent_id
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_order_#">
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_agent_id_#">
-									)
-								</cfquery>
-								<cfelseif del_agnt_ is 0>
-								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									update identification_agent set
-										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										identification_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_id_#">
-									where
-										identification_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-								</cfquery>
-							</cfif>
-						</cfif>
-					</cfif>
-				</cfif>
-			</cfloop>
-			<cfset row = StructNew()>
-			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#identification_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfheader statusCode="500" statusText="#message#">
-				<cfoutput>
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfoutput>
-				<cfabort>
-			</cfcatch>
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
+
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
 	editor dialog.
@@ -2006,158 +1897,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-							
-<cffunction name="updateOtherIDs" returntype="any" access="remote" returnformat="json">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="number_of_ids" type="string" required="yes">
-	<cfoutput> 
-		<cftransaction>
-			<!--- perform the updates on the arbitary number of identifications --->
-			<cftry>
-				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
-					<cfset thisOtherIdType = #evaluate("other_id_type" & n)#>
-					<cfset thisOtherIDPrefix = #evaluate("other_id_prefix" & n)#>
-					<cfset thisOtherIDNumber = #evaluate("other_id_number" & n)#>
-					<cfset thisOtherIDID = #evaluate("coll_obj_other_id_num_id" & n)#>
-					<cfset thisDisplayValue = #evaluate("display_value" & n)#>
-					<cfset thisOtherIDSuffix = #evaluate("other_id_suffix" & n)#>
-					<cfif #NUMBER_OF_IDS# gt 1>
-						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE coll_obj_other_id_num SET
-								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDType#">,
-								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDPrefix#">,
-								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDNumber#">
-								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDSuffix#"
-							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisOtherIDID#">
-						</cfquery>
-					</cfif>
-				</cfloop>
-				<cftransaction action="commit">
-				<cfset data=queryNew("status, message, id")>
-				<cfset t = queryaddrow(data,1)>
-				<cfset t = QuerySetCell(data, "status", "1", 1)>
-				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
-				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
-				<cfreturn data>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
-			</cftry>
-		</cftransaction>
-		<cftry>
-			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg enable
-			</cfquery>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-</cffunction>
-<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfthread name="getOtherIDsThread">
-		<cftry>
-			<cfoutput>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					case when status = 1 and
-						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-						coll_obj_other_id_num.other_id_type = 'original identifier'
-						then 'Masked'
-					else
-						coll_obj_other_id_num.display_value
-					end display_value,
-					coll_obj_other_id_num.other_id_type,
-					case when base_url is not null then
-						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-					else
-						null
-					end link
-				FROM
-					coll_obj_other_id_num 
-					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-				where
-					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					other_id_type,
-					display_value
-			</cfquery>
-				<div id="otherIDHTML">
-					<cfloop query="theResult">
-						<div class="OtherIDExistingForm">
-							<form>
-								<div class="container pl-1">
-									<div class="col-12">
-										<cfif len(oid.other_id_type) gt 0>
-											<ul class="list-group">
-												<cfloop query="oid">
-													<li class="list-group-item">#other_id_type#:
-														<cfif len(display_value) gt 0>
-															<a class="external" href="##" target="_blank">#display_value#</a>
-															<cfelse>
-#display_value#
-														</cfif>
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
-										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getOtherIDThread" />
-	<cfreturn getOtherIDThread.output>
-</cffunction>
-<cffunction name="saveOtherIDs" access="remote" returntype="any" returnformat="json">
+<cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfargument name="scientific_name" type="string" required="no">
@@ -2267,10 +2007,74 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-						
-						
-						
-						
+<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+	<cfthread name="getOtherIDsThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					case when status = 1 and
+						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+						coll_obj_other_id_num.other_id_type = 'original identifier'
+						then 'Masked'
+					else
+						coll_obj_other_id_num.display_value
+					end display_value,
+					coll_obj_other_id_num.other_id_type,
+					case when base_url is not null then
+						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+					else
+						null
+					end link
+				FROM
+					coll_obj_other_id_num 
+					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+				where
+					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					other_id_type,
+					display_value
+			</cfquery>
+				<div id="otherIDHTML">
+					<cfloop query="theResult">
+						<div class="OtherIDExistingForm">
+							<form>
+								<div class="container pl-1">
+									<div class="col-12">
+										<cfif len(oid.other_id_type) gt 0>
+											<ul class="list-group">
+												<cfloop query="oid">
+													<li class="list-group-item">#other_id_type#:
+														<cfif len(display_value) gt 0>
+															<a class="external" href="##" target="_blank">#display_value#</a>
+															<cfelse>
+#display_value#
+														</cfif>
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
+										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</cfloop>
+					<!--- theResult ---> 
+				</div>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getOtherIDThread" />
+	<cfreturn getOtherIDThread.output>
+</cffunction>
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCollectorsThread">
