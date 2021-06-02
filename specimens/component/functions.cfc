@@ -1763,11 +1763,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="OtherIds" name="editOtherIdsForm" id="editOtherIdsForm">
-								<input type="hidden" name="method" value="updateOtherIds">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+							<form name="ids" method="post" action="Specimen.cfm">
 								<div class="mb-4">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="Action" value="saveCatEdits">
