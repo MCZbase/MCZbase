@@ -1763,7 +1763,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="editOtherIds" id="editOtherIdsForm">
+							<form name="editCatNumOtherIds" id="editCatNumOtherIdsForm">
 								<div class="mb-4">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="Action" value="saveCatEdits">
@@ -1783,7 +1783,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="oids">
 								<cfif len(#other_id_type#) gt 0>
-									<form name="oids#i#" method="post" action="Specimen.cfm">
+									<form name="oids#i#" id="otherIdsForm">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 										<input type="hidden" name="Action">
