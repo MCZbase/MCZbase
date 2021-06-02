@@ -2006,115 +2006,29 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
+							
 <cffunction name="updateOtherIDs" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
-		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
-		<cftry>
-			<cfquery datasource="uam_god">
-				alter trigger tr_stored_as_fg disable
-			</cfquery>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-				<cfabort>
-			</cfcatch>
-		</cftry>
 		<cftransaction>
 			<!--- perform the updates on the arbitary number of identifications --->
 			<cftry>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
-					<cfset thisAcceptedIdFg = #evaluate("ACCEPTED_ID_FG_" & n)#>
-					<cfset thisIdentificationId = #evaluate("IDENTIFICATION_ID_" & n)#>
-					<cfset thisIdRemark = #evaluate("IDENTIFICATION_REMARKS_" & n)#>
-					<cfset thisMadeDate = #evaluate("MADE_DATE_" & n)#>
-					<cfset thisNature = #evaluate("NATURE_OF_ID_" & n)#>
-					<cfset thisNumIds = #evaluate("NUMBER_OF_DETERMINERS_" & n)#>
-					<cfset thisPubId = #evaluate("publication_id_" & n)#>
-					<cfset thisSortOrder = #evaluate("sort_order_" & n)#>
-					<cfif #isdefined("storedas_" & n)#>
-						<cfset thisStoredAs = #evaluate("storedas_" & n)#>
-						<cfelse>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisAcceptedIdFg is 1>
-						<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newAcceptedId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET ACCEPTED_ID_FG=1, sort_order = null 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfset thisStoredAs = 0>
-					</cfif>
-					<cfif thisStoredAs is 1>
-						<cfquery name="upStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						</cfquery>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=1 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
-						<cfquery name="newStoredASID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification 
-							SET STORED_AS_FG=0 
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-					</cfif>
-					<cfif thisAcceptedIdFg is "DELETE">
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification_agent
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteTId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification_taxonomy 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfquery name="deleteId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM identification 
-							WHERE identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
-						</cfquery>
-						<cfelse>
+					<cfset thisOtherIdType = #evaluate("other_id_type" & n)#>
+					<cfset thisOtherIDPrefix = #evaluate("other_id_prefix" & n)#>
+					<cfset thisOtherIDNumber = #evaluate("other_id_number" & n)#>
+					<cfset thisOtherIDID = #evaluate("coll_obj_other_id_num_id" & n)#>
+					<cfset thisDisplayValue = #evaluate("display_value" & n)#>
+					<cfset thisOtherIDSuffix = #evaluate("other_id_suffix" & n)#>
+					<cfif #NUMBER_OF_IDS# gt 1>
 						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE identification SET
-								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
-								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
-								identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(thisIdRemark)#">
-								<cfif len(thisPubId) gt 0>
-									,publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPubId#">
-								<cfelse>
-									,publication_id = NULL
-								</cfif>
-								<cfif len(thisSortOrder) gt 0>
-									,sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisSortOrder#">
-								<cfelse>
-									,sort_order = NULL
-								</cfif>
-							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+							UPDATE coll_obj_other_id_num SET
+								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDType#">,
+								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDPrefix#">,
+								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDNumber#">
+								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDSuffix#"
+							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisOtherIDID#">
 						</cfquery>
 						<cfloop from="1" to="#thisNumIds#" index="nid">
 							<cftry>
@@ -2124,44 +2038,7 @@ limitations under the License.
 									<cfset thisIdId =-1>
 								</cfcatch>
 							</cftry>
-							<cftry>
-								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-								<cfcatch>
-									<cfset thisIdAgntId=-1>
-								</cfcatch>
-							</cftry>
-							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
-								<!--- new determiner --->
-								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									INSERT INTO identification_agent
-									( 
-										IDENTIFICATION_ID,
-										AGENT_ID,
-										IDENTIFIER_ORDER 
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-									)
-								</cfquery>
-								<cfelse>
-								<!--- update or delete --->
-								<cfif #thisIdId# is "DELETE">
-									<!--- delete --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										DELETE FROM identification_agent
-										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-									<cfelseif thisIdId gte 0>
-									<!--- update --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										UPDATE identification_agent sET
-											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-										 WHERE
-										 	identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-								</cfif>
+
 							</cfif>
 						</cfloop>
 					</cfif>
