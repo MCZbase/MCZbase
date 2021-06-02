@@ -1897,6 +1897,121 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
+<cffunction name="updateOtherIDs">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="number_of_ids" type="string" required="yes">
+	<cfoutput> 
+		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+		<cftry>
+			<cfquery datasource="uam_god">
+				alter trigger tr_collobjoidnum_aiud_flat disable
+			</cfquery>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+			<cftry>
+				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+					<cfset thisOtherIdType = #evaluate("other_id_type_" & n)#>
+					<cfset thisOtherIdPrefix = #evaluate("other_id_prefix_" & n)#>
+					<cfset thisOtherIdNumber = #evaluate("other_id_number_" & n)#>
+					<cfset thisOtherIdSuffix = #evaluate("other_id_suffix_" & n)#>
+					<cfset thisDisplayValue = #evaluate("display_value_" & n)#>
+					<cfset thisCollObjOtherIdNumId = #evaluate("coll_obj_other_id_num_id_" & n)#>
+					<cfif thisOtherIdFg is "DELETE">
+						<cfquery name="deleteOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							DELETE FROM coll_obj_other_id_num
+							WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
+						</cfquery>
+						<cfelse>
+						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE coll_obj_other_id_num SET
+								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdType#">,
+								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdPrefix#">,
+								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdNumber#">
+								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdSuffix#">
+								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdNumber#">
+							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cftransaction action="commit">
+				<cfset data=queryNew("status, message, id")>
+				<cfset t = queryaddrow(data,1)>
+				<cfset t = QuerySetCell(data, "status", "1", 1)>
+				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
+				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
+				<cfreturn data>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cftransaction>					
+		<cftry>
+			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
+			<cfquery datasource="uam_god">
+				alter trigger tr_collobjoidnum_aiud_flat enable
+			</cfquery>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+					<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+		</cftry>
+	</cfoutput>
+</cffunction>
+
+					
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
