@@ -2030,17 +2030,6 @@ limitations under the License.
 								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIDSuffix#"
 							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisOtherIDID#">
 						</cfquery>
-						<cfloop from="1" to="#thisNumIds#" index="nid">
-							<cftry>
-								<!--- couter does not increment backwards - may be a few empty loops in here ---->
-								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-								<cfcatch>
-									<cfset thisIdId =-1>
-								</cfcatch>
-							</cftry>
-
-							</cfif>
-						</cfloop>
 					</cfif>
 				</cfloop>
 				<cftransaction action="commit">
