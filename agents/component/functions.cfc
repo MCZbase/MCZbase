@@ -134,6 +134,143 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- given an agent and an email/phone, add the electronic address to the agent
+ @param agent_id the agent for which to add the electronic address.
+ @param address_typ the value for the type of electronic address to add.
+ @param address the value for the electronic address to add.
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="addElecAddr" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="address_type" type="string" required="yes">
+	<cfargument name="address" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="newElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newElecAddr_result" >
+				INSERT INTO electronic_address (
+					agent_id
+					,address_type
+				 	,address
+				 ) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>
+				 	,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
+				)
+			</cfquery>
+			<cfif newElectAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Electronic Address added.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to insert electronic address, other than one [#newElectAddr_result.recordcount#] address would be created.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- given an agent and an update to an email/phone, update the electronic address to the agent
+ @param agent_id the agent for which to update the electronic address.
+ @param address_type the new value for the type of electronic address
+ @param address the new value for the electronic address
+ @param orig_address the old value for the electronic address to be updated
+ @param orig_address_type the old value for the type of electronic address to be updated
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="updateElecAddr" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="address_type" type="string" required="yes">
+	<cfargument name="address" type="string" required="yes">
+	<cfargument name="orig_address_type" type="string" required="yes">
+	<cfargument name="orig_address" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="upElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upElecAddr_result">
+				UPDATE electronic_address SET
+					address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
+					address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
+				where
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					and address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#orig_address_type#'>
+					and address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#orig_address#'>
+			</cfquery>
+			<cfif upElectAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Electronic Address updated.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to delete electronic address, other than one [#upElectAddr_result.recordcount#] address would be affected.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- given an agent and an electronic address, delete the electronic address.
+ @param agent_id the agent for which to delete the electronic address.
+ @param address the value for the electronic address to be deleted.
+ @param address_type the value for the type of electronic address to be deleted.
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="deleteElecAddr" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="address_type" type="string" required="yes">
+	<cfargument name="address" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleElecAddr_result">
+				delete from electronic_address 
+				where
+					agent_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>
+					and address_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>
+					and address=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
+			</cfquery>
+			<cfif deleElectAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Address deleted.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to delete electronic address, other than one [#deleElectAddr_result.recordcount#] address would be affected.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+<!------------------------------------------------------------------------------------------------------------->
+
 <!--- obtain a block of html for displaying and editing names of an agent
  @param agent_id the agent for which to lookup names
  @return a block of html containing a list of names with controls to remove or add names
