@@ -1706,7 +1706,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
 		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getOtherIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					COLL_OBJ_OTHER_ID_NUM_ID,
 					cat_num,
@@ -1733,7 +1733,7 @@ limitations under the License.
 				select other_id_type from ctcoll_other_id_type
 			</cfquery>
 			<cfquery name="cataf" dbtype="query">
-				select cat_num from getIDs group by cat_num
+				select cat_num from getOtherIDs group by cat_num
 			</cfquery>
 			<cfquery name="oids" dbtype="query">
 				select 
@@ -1763,13 +1763,17 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="ids" method="post" action="Specimen.cfm">
+							<form name="getCatNum" name="editCatNumForm" id="editCatNumForm">
+								<input type="hidden" name="method" value="updateOtherIds">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<div class="mb-4">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									<input type="hidden" name="Action" value="saveCatEdits">
 									Catalog&nbsp;Number:
 									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
-										<cfset thisCollId=#getIDs.collection_id#>
+										<cfset thisCollId=#getOtherIDs.collection_id#>
 										<cfloop query="ctcoll_cde">
 											<option 
 											<cfif #thisCollId# is #collection_id#> selected </cfif>
