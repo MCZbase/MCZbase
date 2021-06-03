@@ -1350,7 +1350,6 @@ limitations under the License.
 --->
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 		<cftry>
