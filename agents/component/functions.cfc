@@ -134,13 +134,97 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- obtain a block of html for displaying and editing phones/emails of an agent
+ @param agent_id the agent for which to lookup electronic addresses
+ @return a block of html containing a list of names with controls to remove or add electronic addresses
+  assuming this block will go within a section with a heading.
+--->
+<cffunction name="getElectronicAddressesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfthread name="eaddrThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select address_type from ctelectronic_addr_type
+				</cfquery>
+				<cfquery name="elecAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="electAgentAddrs_result">
+					SELECT 
+						electronic_address_id
+						agent_id, 
+						address_type, 
+						address
+					FROM electronic_address
+					WHERE
+					agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<ul>
+					<cfset i=0>
+					<cfloop query="electAgentAddrs">
+						<cfset i=i+1>
+						<li>
+							<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
+								<cfloop query="ctElecAddrType">
+									<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
+								</cfloop>
+							</select>
+							<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+							<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+							<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+							<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+							<span id="electronicAddressFeedback#i#"></span>
+						</li>
+						<script>
+							$(document).ready(function () {
+								$('##agentEAddrU#i#Button').click(function(evt){
+									evt.preventDefault;
+									updateElectronicAddress(#agent_id#, 'electronic_address_id_#i#','address_#i#','eaddress_type_#i#','electronicAddressFeedback#i#');
+								});
+							});
+							$(document).ready(function () {
+								$('##agentEAddrDel#i#Button').click(function(evt){
+									evt.preventDefault;
+									deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
+								});
+							});
+						</script>
+					</cfloop>
+				</ul>
+				<div id="newEaddrDiv" class="col-12">
+					<label for="new_eaddress">Add Phone or Email</label>
+					<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
+						<cfloop query="ctElecAddrType">
+							<option value="#ctElecAddrType.address_type#">#ctElecAddrType.address_type#</option>
+						</cfloop>
+					</select>
+					<input type="text" name="address" id="new_eaddress" value="#encodeForHtml(address)#" class="data-entry-input">
+					<script>
+						$(document).ready(function () {
+							$('##addAgentButton').click(function(evt){
+								evt.preventDefault;
+								addElectronicAddressToAgent(#agent_id#,'new_eaddress','new_eaddress_type',reloadElectronicAddresses);
+							});
+						});
+					</script>
+				</div>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="eaddrThread" />
+	<cfreturn eaddrThread.output>
+</cffunction>
+
 <!--- given an agent and an email/phone, add the electronic address to the agent
  @param agent_id the agent for which to add the electronic address.
  @param address_typ the value for the type of electronic address to add.
  @param address the value for the electronic address to add.
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="addElecAddr" returntype="any" access="remote" returnformat="json">
+<cffunction name="addElectronicAddress" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="address_type" type="string" required="yes">
 	<cfargument name="address" type="string" required="yes">
@@ -181,19 +265,15 @@ limitations under the License.
 </cffunction>
 
 <!--- given an agent and an update to an email/phone, update the electronic address to the agent
- @param agent_id the agent for which to update the electronic address.
+ @param electronic_address_id the electronic address to update
  @param address_type the new value for the type of electronic address
  @param address the new value for the electronic address
- @param orig_address the old value for the electronic address to be updated
- @param orig_address_type the old value for the type of electronic address to be updated
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="updateElecAddr" returntype="any" access="remote" returnformat="json">
-	<cfargument name="agent_id" type="string" required="yes">
+<cffunction name="updateElectronicAddress" returntype="any" access="remote" returnformat="json">
+	<cfargument name="electronic_address_id" type="string" required="yes">
 	<cfargument name="address_type" type="string" required="yes">
 	<cfargument name="address" type="string" required="yes">
-	<cfargument name="orig_address_type" type="string" required="yes">
-	<cfargument name="orig_address" type="string" required="yes">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
@@ -203,9 +283,7 @@ limitations under the License.
 					address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
 					address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
 				where
-					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-					and address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#orig_address_type#'>
-					and address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#orig_address#'>
+					electronic_address_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#electronic_address_id#">
 			</cfquery>
 			<cfif upElectAddr_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
@@ -234,7 +312,7 @@ limitations under the License.
  @param address_type the value for the type of electronic address to be deleted.
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="deleteElecAddr" returntype="any" access="remote" returnformat="json">
+<cffunction name="deleteElectronicAddress" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="address_type" type="string" required="yes">
 	<cfargument name="address" type="string" required="yes">
@@ -269,7 +347,6 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #theResult#>
 </cffunction>
-<!------------------------------------------------------------------------------------------------------------->
 
 <!--- obtain a block of html for displaying and editing names of an agent
  @param agent_id the agent for which to lookup names

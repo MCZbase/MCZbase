@@ -132,7 +132,7 @@ function monitorForChanges(formId,changeFunction) {
 
 /* Update the content of a div containing names for an agent.
  *
- * @param agent_id the agent_id of the agent for which to lookup group membership
+ * @param agent_id the agent_id of the agent for which to lookup names
  * @param targetDiv the id div for which to replace the contents, without a leading # selector.
  */
 function updateAgentNames(agent_id,targetDiv) {
@@ -342,3 +342,123 @@ function moveAgentInGroupCB(agent_id,member_agent_id,direction,callback) {
 		handleFail(jqXHR,textStatus,error,"moving position of agent in group");
 	});
 };
+
+
+/* Update the content of a div containing emails/phone numbers for an agent.
+ *
+ * @param agent_id the agent_id of the agent for which to lookup electronic addresses
+ * @param targetDiv the id div for which to replace the contents, without a leading # selector.
+ */
+function updateElectronicAddresses(agent_id,targetDiv) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+			method : "getElectronicAddressesHTML",
+			agent_id: agent_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining phone numbers/emails for an agent");
+		},
+		dataType: "html"
+	});
+};
+
+/* Save a change to an existing email/phone number for an agent.
+ *
+ * @param electronicAddressIdControl the id of an input containing the PK value of the
+ *   email/phone to update, without a leading # selector.
+ * @param addressControl the id of an input containing the new value of the electronic address,
+ *   without a leading # selector.
+ * @param addressTypeControl the id of ain input containing the new value of the electronic address
+ *   type, without a leading # selector.
+ * @param feedbackControl a control within which to display feedback, without a leading # selector.
+ */
+function updateElectronicAddress(agent_id, electronicAddressIdControl, addressControl, addressTypeControl,feedbackControl) {
+	var electronic_address_id = $('#'+electronicAddressIdControl).val();
+	var address = $('#'+addressControl).val();
+	var address_type = $('#'+addressTypeControl).val();
+	$('#'+feedbackControl).html("Saving...");
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "updateElectronicAddress",
+			electronic_address_id: electronic_address_id,
+			address_type : address_type,
+			address : address,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (result[0].STATUS==1) {
+				$('#'+feedbackControl).html("Saved");
+			} else {
+				$('#'+feedbackControl).html("Error");
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		$('#'+feedbackControl).html("Error");
+		handleFail(jqXHR,textStatus,error,"updating electronic address (email/phone)");
+	});
+}
+
+/* Delete an existing email/phone from an agent
+ *
+ * @param electronicAddressIdControl input containing the email/phone to delete without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
+function deleteElectronicAddress(electronicAddressIdControl, callback) {
+	var electronic_address_id = $('#'+electronicAddressIdControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "deleteElectronicAddress",
+			electronic_address_id : electronic_address_id,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"updating deleting electronic address (phone/email)");
+	});
+}
+
+/* Add a new phone/email to an agent.
+ *
+ * @param agent_id the agent to which to add the electronic address.
+ * @param addressControl a control from which to get the value of the address to add, without a leading # selector.
+ * @param addressTypeControl a control from which to get the value of the address_type, without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
+function addNameToAgent(agent_id,addressControl,addressTypeControl,callback) {
+	var address = $('#'+addressControl).val();
+	var address_type = $('#'+addressTypeControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addNameToAgent",
+			agent_id : agent_id,
+			address_type : address_type,
+			address : address,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding electronic address (email/phone) to agent");
+	});
+}

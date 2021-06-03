@@ -547,11 +547,28 @@ limitations under the License.
 								<div id="groupMembersDiv" class="col-12 px-0 pb-1">#groupMembersBlock#</div>
 							</section>
 						</cfif>
-						<section class="row border rounded my-2 px-1 pt-1 pb-2">
-							<h2 class="h3">Addresses for this agent</h2>
-							<cfset addressesBlock = "">
-							<div id="addressesDiv" class="col-12 px-0 pb-1">#addressesBlock#</div>
-						</section>
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<section class="row border rounded my-2 px-1 pt-1 pb-2">
+									<h2 class="h3">Addresses for this agent</h2>
+									<cfset addressesBlock = "">
+									<div id="addressesDiv" class="col-12 px-0 pb-1">#addressesBlock#</div>
+								</section>
+							</div>
+							<div class="col-12 col-md-6">
+								<section class="row border rounded my-2 px-1 pt-1 pb-2">
+									<h2 class="h3">Phone numbers/Email addresses</h2>
+									<cfset electronicAddressesBlock = "">
+									<div id="electronicAddressesDiv" class="col-12 px-0 pb-1">#electronicAddressesBlock#</div>
+									<script>
+										// callback for ajax methods to reload 
+										function reloadElectronicAddresses() { 
+											updateElectronicAddresses(#getAgent.agent_id#,'electronicAddressesDiv');
+										};
+									</script>
+								</section>
+							</div>
+						</div>
 					</cfloop>
 				</cfif>
 			</main>
