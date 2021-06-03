@@ -2144,8 +2144,26 @@ limitations under the License.
 								display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisplayValue#">
 							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
 						</cfquery>
-			
+						<cfquery name="updateId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE identification SET
+								nature_of_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisNature#">,
+								made_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMadeDate#">,
+								identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(thisIdRemark)#">
+								<cfif len(thisPubId) gt 0>
+									,publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPubId#">
+								<cfelse>
+									,publication_id = NULL
+								</cfif>
+								<cfif len(thisSortOrder) gt 0>
+									,sort_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisSortOrder#">
+								<cfelse>
+									,sort_order = NULL
+								</cfif>
+							where identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+						</cfquery>
 				</cfloop>
+							
+
 				<cftransaction action="commit">
 				<cfset data=queryNew("status, message, id")>
 				<cfset t = queryaddrow(data,1)>
