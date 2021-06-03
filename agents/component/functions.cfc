@@ -155,7 +155,7 @@ limitations under the License.
 						address
 					FROM electronic_address
 					WHERE
-					agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
+					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<ul>
 					<cfset i=0>
