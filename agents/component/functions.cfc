@@ -197,7 +197,7 @@ limitations under the License.
 							<option value="#ctElecAddrType.address_type#">#ctElecAddrType.address_type#</option>
 						</cfloop>
 					</select>
-					<input type="text" name="address" id="new_eaddress" value="#encodeForHtml(address)#" class="data-entry-input">
+					<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input">
 					<script>
 						$(document).ready(function () {
 							$('##addAgentButton').click(function(evt){
