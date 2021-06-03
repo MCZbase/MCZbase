@@ -337,17 +337,17 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleElecAddr_result">
+			<cfquery name="deleteElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteElectronicAddress_result">
 				delete from electronic_address 
 				where
 					electronic_address_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#electronic_address_id#'>
 			</cfquery>
-			<cfif deleElectAddr_result.recordcount EQ 1>
+			<cfif deleteElectronicAddress_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Address deleted.", 1)>
 			<cfelse>
-				<cfthrow message="Unable to delete electronic address, other than one [#deleElectAddr_result.recordcount#] address would be affected.">
+				<cfthrow message="Unable to delete electronic address, other than one [#deleteElectronicAddress_result.recordcount#] address would be affected.">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
