@@ -1935,12 +1935,12 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="oids">
 								<cfif len(#other_id_type#) gt 0>
-									<form name="oids#i#" id="editOtherIDsForm">
+								<form name="oids#i#" id="editOtherIDsForm">
 									<input type="hidden" name="method" value="updateOtherID">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#oids.recordcount#">
+									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#oids.recordcount#">
 										<cfset thisType = #oids.other_id_type#>
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
