@@ -2387,11 +2387,11 @@ limitations under the License.
 			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID">
 				UPDATE coll_obj_other_id_num SET
 					coll_obj_other_id_num_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">,
-					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
-					other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
-					STORED_AS_FG = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STORED_AS_FG#">,
-					other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sort_order#">,
-					other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
+					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#other_id_type#">,
+					other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_prefix#">,
+					other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">,
+					other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_suffix#">,
+					display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
 				where
 					coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">
 			</cfquery>
