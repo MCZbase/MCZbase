@@ -2092,8 +2092,8 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-<cffunction name="updateOtherID">
-	<cfargument name="collection_object_id" type="string" required="yes" access="remote">
+<cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
