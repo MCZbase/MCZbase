@@ -196,15 +196,24 @@ limitations under the License.
 				</ul>
 				<div id="newEaddrDiv" class="col-12">
 					<label for="new_eaddress">Add Phone or Email</label>
-					<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
-						<cfloop query="ctElecAddrType">
-							<option value="#ctElecAddrType.address_type#">#ctElecAddrType.address_type#</option>
-						</cfloop>
-					</select>
-					<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input">
+					<div class="form-row">
+						<div class="col-12 col-md-5">
+							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
+								<cfloop query="ctElecAddrType">
+									<option value="#ctElecAddrType.address_type#">#ctElecAddrType.address_type#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-5">
+							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
+						</div>
+					</div>
 					<script>
 						$(document).ready(function () {
-							$('##addAgentButton').click(function(evt){
+							$('##addElectronicAddressButton').click(function(evt){
 								evt.preventDefault;
 								addElectronicAddressToAgent(#agent_id#,'new_eaddress','new_eaddress_type',reloadElectronicAddresses);
 							});
