@@ -2092,7 +2092,6 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
-		</cftransaction>					
 		<cftry>
 			<!--- reeable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 			<cfquery datasource="uam_god">
