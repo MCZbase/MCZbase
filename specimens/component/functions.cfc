@@ -1873,7 +1873,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="editCatNumOtherIds" id="editCatNumOtherIdsForm">
+							<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
 								<div class="mb-4">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 									Catalog&nbsp;Number:
@@ -1887,6 +1887,47 @@ limitations under the License.
 									</select>
 									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
 									<input type="submit" value="Save" class="btn btn-xs btn-primary">
+									<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+										onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editOtherIDsSubmit();  } ">
+										<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
+									</div>
+									<script>
+												function editCatNumOtherIDsSubmit(){
+													$('##saveCatNumOtherIDsResultDiv').html('Saving....');
+													$('##saveCatNumOtherIDsResultDiv').addClass('text-warning');
+													$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
+													$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editCatNumOtherIDsForm").serialize(),
+														success: function (result) {
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																$('##saveCatNumOtherIDsResultDiv').html('Saved');
+																$('##saveCatNumOtherIDsResultDiv').addClass('text-success');
+																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
+																$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
+															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																$('##saveCatNumOtherIDsResultDiv').html('Error');
+																$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
+																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
+																$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
+																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Cat Num Change ID.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															$('##saveCatNumOtherIDsResultDiv').html('Error');
+															$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
+															$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
+															$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
+															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
+														}
+													});
+												};
+											</script> 
 								</div>
 							</form>
 							<cfset i=1>
