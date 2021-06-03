@@ -1947,7 +1947,7 @@ limitations under the License.
 												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
-														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+														<cfif len(ctType.other_id_type) gt 0> selected </cfif>
 														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
 													</cfloop>
 												</select>
