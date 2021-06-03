@@ -2095,7 +2095,7 @@ limitations under the License.
 							
 							
 <cffunction name="updateOtherIDs">
-	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes" access="remote">
 	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
