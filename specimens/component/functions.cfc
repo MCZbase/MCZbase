@@ -1922,8 +1922,8 @@ limitations under the License.
 											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
-												<output id="saveOtherIDsResultDiv" class="text-danger">&nbsp;</output>
-												<input type="button" value="Delete" class="d-block btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
 											</div>
 											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 <!---												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
