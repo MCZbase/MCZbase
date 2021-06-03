@@ -2092,8 +2092,6 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-							
-							
 <cffunction name="updateOtherID">
 	<cfargument name="collection_object_id" type="string" required="yes" access="remote">
 	<cfargument name="number_of_ids" type="string" required="yes">
@@ -2201,7 +2199,7 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>
-<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
@@ -2257,7 +2255,7 @@ limitations under the License.
 						</div>
 					</cfloop>
 					<!--- theResult ---> 
-				</div>
+			<!--- 	</div>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
@@ -2268,7 +2266,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
-</cffunction>						
+</cffunction>--->
 <cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
@@ -2364,8 +2362,7 @@ limitations under the License.
 		<cfelse>
 		<cfreturn theResult>
 	</cfif>
-</cffunction>					
-
+</cffunction>
 <cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
