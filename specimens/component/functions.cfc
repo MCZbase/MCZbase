@@ -2229,7 +2229,7 @@ limitations under the License.
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
 </cffunction>						
-<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
