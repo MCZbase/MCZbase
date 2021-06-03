@@ -327,11 +327,7 @@ limitations under the License.
 											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/agents.cfm">Agent</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Agent</a> 
-											</cfif>
+											<a class="dropdown-item" href="/agents/editAgent.cfm?action=new">Agent</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<cfif targetMenu EQ "production">
