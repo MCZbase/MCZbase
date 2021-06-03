@@ -154,9 +154,9 @@ function updateAgentNames(agent_id,targetDiv) {
 
 /* Save a change to an existing agent name.
  *
- * @param agent_name_id the name to update.
- * @param agent_name the new value of the agent name.
- * @param agent_name_type the new value of the agent name type.
+ * @param agentNameIdControl id of an input containing the PK name to update, without a leading # selector.
+ * @param nameValueControl id of an input containing the new value of the agent name, without a leading # selector.
+ * @param nameTypeControl id of an input cotnaining the new value of the agent name type, without a leading # selector.
  * @param feedbackControl a control within which to display feedback, without a leading # selector.
  */
 function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeControl,feedbackControl) {
@@ -190,7 +190,7 @@ function saveAgentName(agent_id, agentNameIdControl, nameValueControl, nameTypeC
 
 /* Delete an existing agent name from an agent
  *
- * @param agent_name_id the name to delete.
+ * @param agentNameIdControl id of an input containing the PK of name to delete, without a leading # selector.
  * @param callback a callback function to invoke on completion.
  */
 function deleteAgentName(agentNameIdControl, callback) {
@@ -438,7 +438,7 @@ function deleteElectronicAddress(electronicAddressIdControl, callback) {
  * @param addressTypeControl a control from which to get the value of the address_type, without a leading # selector.
  * @param callback a callback function to invoke on completion.
  */
-function addNameToAgent(agent_id,addressControl,addressTypeControl,callback) {
+function addElectronicAddressToAgent(agent_id,addressControl,addressTypeControl,callback) {
 	var address = $('#'+addressControl).val();
 	var address_type = $('#'+addressTypeControl).val();
 	jQuery.getJSON("/agents/component/functions.cfc",
