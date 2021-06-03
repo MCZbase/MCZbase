@@ -1934,7 +1934,6 @@ limitations under the License.
 							</form>
 							<cfset i=1>
 							<cfloop query="oids">
-								<cfif len(#other_id_type#) gt 0>
 								<form name="oids#i#" id="editOtherIDsForm">
 									<input type="hidden" name="method" value="updateOtherID">
 									<input type="hidden" name="returnformat" value="json">
@@ -2012,7 +2011,6 @@ limitations under the License.
 										</div>
 									</form>
 									<cfset i=#i#+1>
-								</cfif>
 							</cfloop>
 						</div>
 						<div class="col-12 mt-4 px-0">
@@ -2034,7 +2032,7 @@ limitations under the License.
 														<select name="other_id_type" size="1" class="reqdClr data-entry-select">
 															<cfloop query="ctType">
 																<option 
-															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+															value="#ctType.other_id_type#">#ctType.other_id_type# 1</option>
 															</cfloop>
 														</select>
 													</div>
