@@ -1874,8 +1874,11 @@ limitations under the License.
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
 							<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
-								<div class="mb-4">
+									<input type="hidden" name="method" value="updateOtherIDs">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<div class="mb-4">
 									Catalog&nbsp;Number:
 									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
 										<cfset thisCollId=#getIDs.collection_id#>
@@ -1934,8 +1937,10 @@ limitations under the License.
 							<cfloop query="oids">
 								<cfif len(#other_id_type#) gt 0>
 									<form name="oids#i#" id="editOtherIDsForm">
-										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+									<input type="hidden" name="method" value="updateOtherIDs">
+									<input type="hidden" name="returnformat" value="json">
+									<input type="hidden" name="queryformat" value="column">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<cfset thisType = #oids.other_id_type#>
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
