@@ -1814,6 +1814,7 @@ limitations under the License.
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
+		<cfoutput>
 		<cftry>
 			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
@@ -2000,6 +2001,7 @@ limitations under the License.
 				</cfoutput>
 			</cfcatch>
 		</cftry>
+	</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
