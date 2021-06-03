@@ -176,7 +176,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
 							</div>
 							<div class="col-12 col-md-4">
 								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
