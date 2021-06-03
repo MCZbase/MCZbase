@@ -1806,8 +1806,7 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
-	editor dialog.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
  @return html for editing other ids for the specified cataloged item. 
 --->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
