@@ -1766,7 +1766,6 @@ limitations under the License.
 							<form name="editCatNumOtherIds" id="editCatNumOtherIdsForm">
 								<div class="mb-4">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="Action" value="saveCatEdits">
 									Catalog&nbsp;Number:
 									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
 										<cfset thisCollId=#getIDs.collection_id#>
@@ -1786,7 +1785,6 @@ limitations under the License.
 									<form name="oids#i#" id="otherIdsForm">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
-										<input type="hidden" name="Action">
 										<cfset thisType = #oids.other_id_type#>
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
@@ -2249,73 +2247,25 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="updateIdentificationCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newIdentificationCheck_result">
-				SELECT count(*) as ct from identification
+			<cfquery name="updateOtherIDCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newOtherIDCheck_result">
+				SELECT count(*) as ct from coll_obj_other_id_num
 				WHERE
-					IDENTIFICATION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#identification_id#'>
+					coll_obj_other_id_num_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#coll_obj_other_id_num_id#'>
 			</cfquery>
-			<cfif updateIdentificationCheck.ct NEQ 1>
-				<cfthrow message = "Unable to update identification. Provided identification_id does not match a record in the ID table.">
+			<cfif updateOtherIDCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update other ID. Provided coll_obj_other_num_id does not match a record in the ID table.">
 			</cfif>
-			<cfquery name="updateIdentification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIdentification">
-				UPDATE identification SET
-					identification_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">,
-					MADE_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
-					NATURE_OF_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
+			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIdentification">
+				UPDATE coll_obj_other_id_num SET
+					coll_obj_other_id_num_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">,
+					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
+					other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
 					STORED_AS_FG = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STORED_AS_FG#">,
-					SORT_ORDER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sort_order#">,
-					Taxa_formula = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
-					<cfif isDefined("identification_remarks")>
-						, identification_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">
-					</cfif>
+					other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sort_order#">,
+					other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
 				where
-					identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
+					coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">
 			</cfquery>
-			<cfloop from="1" to="#numAgents#" index="n">
-				<cfif IsDefined("identification_agent_id_" & n) >
-					<cfset trans_agent_id_ = evaluate("identification_agent_id_" & n)>
-					<cfset agent_id_ = evaluate("agent_id_" & n)>
-					<cftry>
-						<cfset del_agnt_=evaluate("del_agnt_" & n)>
-						<cfcatch>
-							<cfset del_agnt_=0>
-						</cfcatch>
-					</cftry>
-					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and identification_agent_id_ gt 0>
-						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from identification_agent 
-							where identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-						</cfquery>
-						<cfelse>
-						<cfif len(agent_id_) GT 0>
-							<!--- don't try to add/update a blank row --->
-							<cfif identification_agent_id_ is "new" and del_agnt_ is 0>
-								<cfquery name="newIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									insert into identification_agent (
-										identification_id,
-										agent_id,
-										identification_order,
-										identification_agent_id
-									) values (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_order_#">
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_agent_id_#">
-									)
-								</cfquery>
-								<cfelseif del_agnt_ is 0>
-								<cfquery name="upIdentificationAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									update identification_agent set
-										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-										identification_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_id_#">
-									where
-										identification_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_agent_id_#">
-								</cfquery>
-							</cfif>
-						</cfif>
-					</cfif>
-				</cfif>
-			</cfloop>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
 			<cfset row["id"] = "#identification_id#">
