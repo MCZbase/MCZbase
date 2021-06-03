@@ -1967,6 +1967,7 @@ limitations under the License.
 												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
 												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
+
 											<script>
 												function editOtherIDsSubmit(){
 													$('##saveOtherIDsResultDiv').html('Saving....');
@@ -2086,6 +2087,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
+							
 							
 <cffunction name="updateOtherIDs">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -2266,13 +2268,16 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
-</cffunction>
+</cffunction>						
 <cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="coll_obj_other_id_num" type="string" required="yes">
-	<cfthread name="getOtherIDThread">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+	<cfthread name="getOtherIDsThread">
 		<cftry>
-			<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 1 as status, concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+			<cfoutput>
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					case when status = 1 and
+						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
 						coll_obj_other_id_num.other_id_type = 'original identifier'
 						then 'Masked'
 					else
@@ -2293,40 +2298,30 @@ limitations under the License.
 					other_id_type,
 					display_value
 			</cfquery>
-			<cfoutput>
-				<div id="otherIDsHTML">
+				<div id="otherIDHTML">
 					<cfloop query="theResult">
-						<div class="otherIDExistingForm">
-							<div class="row mx-0">
-								<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
-									<label class="data-entry-label">Other ID Type</label>
-									<select name="other_id_type" class="data-entry-select" style="" size="1">
-										<cfloop query="ctType">
-											<option 
-											<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-											value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-										</cfloop>
-									</select>
+						<div class="OtherIDExistingForm">
+							<form>
+								<div class="container pl-1">
+									<div class="col-12">
+										<cfif len(oid.other_id_type) gt 0>
+											<ul class="list-group">
+												<cfloop query="oid">
+													<li class="list-group-item">#other_id_type#:
+														<cfif len(display_value) gt 0>
+															<a class="external" href="##" target="_blank">#display_value#</a>
+															<cfelse>
+#display_value#
+														</cfif>
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
+										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
+									</div>
 								</div>
-								<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-									<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-									<input class="data-entry-input" type="text" value="ZA15810" size="12" name="other_id_prefix">
-								</div>
-								<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
-									<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-									<input type="text" class="data-entry-input" value="" size="12" name="other_id_number">
-								</div>
-								<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-									<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-									<input type="text" class="data-entry-input" value="" size="12" name="other_id_suffix">
-								</div>
-								<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
-									<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary" onclick="if (checkFormValidity($('#editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
-
-									<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids1.Action.value='deleOID';confirmDelete('oids1');">
-									<output id="saveOtherIDsResultDiv" class="d-block text-danger">Error</output>
-								</div>
-							</div>
+							</form>
 						</div>
 					</cfloop>
 					<!--- theResult ---> 
@@ -2339,8 +2334,8 @@ limitations under the License.
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getIdentificationThread" />
-	<cfreturn getIdentificationThread.output>
+	<cfthread action="join" name="getOtherIDThread" />
+	<cfreturn getOtherIDThread.output>
 </cffunction>
 <cffunction name="getOtherIDTable" returntype="query" access="remote">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
