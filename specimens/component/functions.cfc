@@ -2136,7 +2136,7 @@ limitations under the License.
 					<cfif thisOtherIdFg is "DELETE">
 						<cfquery name="deleteOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							DELETE FROM coll_obj_other_id_num
-							WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">
+							WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
 						</cfquery>
 						<cfelse>
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2371,7 +2371,7 @@ limitations under the License.
 	</cfif>
 </cffunction>					
 
-<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">
+<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
