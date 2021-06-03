@@ -332,9 +332,7 @@ limitations under the License.
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
 <cffunction name="deleteElectronicAddress" returntype="any" access="remote" returnformat="json">
-	<cfargument name="agent_id" type="string" required="yes">
-	<cfargument name="address_type" type="string" required="yes">
-	<cfargument name="address" type="string" required="yes">
+	<cfargument name="electronic_address_id" type="string" required="yes">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
@@ -342,9 +340,7 @@ limitations under the License.
 			<cfquery name="deleElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleElecAddr_result">
 				delete from electronic_address 
 				where
-					agent_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>
-					and address_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>
-					and address=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
+					electronic_address_id=<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#electronic_address_id#'>
 			</cfquery>
 			<cfif deleElectAddr_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
