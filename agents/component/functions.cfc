@@ -165,18 +165,24 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<li>
-							<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
-								<cfloop query="ctElecAddrType">
-									<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
-								</cfloop>
-							</select>
-							<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-							<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-							<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
-							<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-							<span id="electronicAddressFeedback#i#"></span>
+						<li class="form-row">
+							<div class="col-12 col-md-4">
+								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
+									<cfloop query="ctElecAddrType">
+										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-4">
+								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-4">
+								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+								<span id="electronicAddressFeedback#i#"></span>
+							</div>
 						</li>
 						<script>
 							$(document).ready(function () {
