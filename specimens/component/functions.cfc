@@ -1874,7 +1874,7 @@ limitations under the License.
 						<div class="col-12 mt-2 bg-light border rounded p-3">
 							<h1 class="h3">Edit Existing Identifiers</h1>
 							<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
-									<input type="hidden" name="method" value="updateOtherIDs">
+									<input type="hidden" name="method" value="updateOtherID">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -1937,7 +1937,7 @@ limitations under the License.
 							<cfloop query="oids">
 								<cfif len(#other_id_type#) gt 0>
 									<form name="oids#i#" id="editOtherIDsForm">
-									<input type="hidden" name="method" value="updateOtherIDs">
+									<input type="hidden" name="method" value="updateOtherID">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
@@ -2094,7 +2094,7 @@ limitations under the License.
 </cffunction>
 							
 							
-<cffunction name="updateOtherIDs">
+<cffunction name="updateOtherID">
 	<cfargument name="collection_object_id" type="string" required="yes" access="remote">
 	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
