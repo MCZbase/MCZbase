@@ -44,7 +44,11 @@ limitations under the License.
 	<cfif len(end_year) gt 0>
 		<cfset yearStr="#yearStr# - #end_year#)">
 	<cfelse>
-		<cfset yearStr="#yearStr# - unknown)">
+		<cfif len(start_year) gt 0 and val(start_year) LT 1920 >
+			<cfset yearStr="#yearStr# - unknown)">
+		<cfelse>
+			<cfset yearStr="#yearStr# - &nbsp;)">
+		</cfif>
 	</cfif>
 	<cfreturn yearStr>
 </cffunction>
