@@ -1895,7 +1895,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-<!---<cffunction name="updateOtherIDs">
+<cffunction name="updateOtherIDs">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
@@ -1946,57 +1946,9 @@ limitations under the License.
 								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdPrefix#">,
 								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdNumber#">
 								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdSuffix#">
-								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdNumber#">
+								display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisplayValue#">
 							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
 						</cfquery>
-						<cfloop from="1" to="#thisNumIds#" index="nid">
-							<cftry>
-								<!--- couter does not increment backwards - may be a few empty loops in here ---->
-								<cfset thisIdId = evaluate("IdBy_" & n & "_" & nid & "_id")>
-								<cfcatch>
-									<cfset thisIdId =-1>
-								</cfcatch>
-							</cftry>
-							<cftry>
-								<cfset thisIdAgntId = evaluate("identification_agent_id_" & n & "_" & nid)>
-								<cfcatch>
-									<cfset thisIdAgntId=-1>
-								</cfcatch>
-							</cftry>
-							<cfif #thisIdAgntId# is -1 and (thisIdId is not "DELETE" and thisIdId gte 0)>
-								<!--- new determiner --->
-								<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									INSERT INTO identification_agent
-									( 
-										IDENTIFICATION_ID,
-										AGENT_ID,
-										IDENTIFIER_ORDER 
-									) VALUES (
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdentificationId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-									)
-								</cfquery>
-								<cfelse>
-								<!--- update or delete --->
-								<cfif #thisIdId# is "DELETE">
-									<!--- delete --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										DELETE FROM identification_agent
-										WHERE identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-									<cfelseif thisIdId gte 0>
-									<!--- update --->
-									<cfquery name="updateIdA" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										UPDATE identification_agent sET
-											agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdId#">,
-											identifier_order = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nid#">
-										 WHERE
-										 	identification_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisIdAgntId#">
-									</cfquery>
-								</cfif>
-							</cfif>
-						</cfloop>
 					</cfif>
 				</cfloop>
 				<cftransaction action="commit">
@@ -2055,7 +2007,7 @@ limitations under the License.
 			</cfcatch>
 		</cftry>
 	</cfoutput>
-</cffunction>--->
+</cffunction>
 
 					
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
@@ -2255,7 +2207,7 @@ limitations under the License.
 			<cfif updateOtherIDCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update other ID. Provided coll_obj_other_num_id does not match a record in the ID table.">
 			</cfif>
-			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIdentification">
+			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID">
 				UPDATE coll_obj_other_id_num SET
 					coll_obj_other_id_num_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">,
 					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(made_date,'yyyy-mm-dd')#">,
@@ -2268,7 +2220,7 @@ limitations under the License.
 			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#identification_id#">
+			<cfset row["id"] = "#coll_obj_other_id_num_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 			<cfcatch>
