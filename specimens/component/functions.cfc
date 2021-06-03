@@ -1945,7 +1945,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
 												<label class="data-entry-label">Other ID Type</label>
-												<cfset thisType = #other_id_type#>
+												<cfset thisType = #oids.other_id_type#>
 												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
@@ -2127,12 +2127,13 @@ limitations under the License.
 		</cftry>
 			<cftry>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
+					<cfset thisCollObjOtherIdNumId = #evaluate("coll_obj_other_id_num_id_" & n)#>
 					<cfset thisOtherIdType = #evaluate("other_id_type_" & n)#>
 					<cfset thisOtherIdPrefix = #evaluate("other_id_prefix_" & n)#>
 					<cfset thisOtherIdNumber = #evaluate("other_id_number_" & n)#>
 					<cfset thisOtherIdSuffix = #evaluate("other_id_suffix_" & n)#>
 					<cfset thisDisplayValue = #evaluate("display_value_" & n)#>
-					<cfset thisCollObjOtherIdNumId = #evaluate("coll_obj_other_id_num_id_" & n)#>
+					
 	
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_obj_other_id_num SET
