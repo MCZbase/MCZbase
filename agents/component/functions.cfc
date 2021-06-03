@@ -297,19 +297,19 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="upElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upElecAddr_result">
+			<cfquery name="updateElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateElectronicAddress_result">
 				UPDATE electronic_address SET
 					address_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address_type#'>,
 					address = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
 				where
 					electronic_address_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#electronic_address_id#">
 			</cfquery>
-			<cfif upElectAddr_result.recordcount EQ 1>
+			<cfif updateElectronicAddress_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Electronic Address updated.", 1)>
 			<cfelse>
-				<cfthrow message="Unable to delete electronic address, other than one [#upElectAddr_result.recordcount#] address would be affected.">
+				<cfthrow message="Unable to delete electronic address, other than one [#updateElectronicAddress_result.recordcount#] address would be affected.">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
