@@ -2133,12 +2133,7 @@ limitations under the License.
 					<cfset thisOtherIdSuffix = #evaluate("other_id_suffix_" & n)#>
 					<cfset thisDisplayValue = #evaluate("display_value_" & n)#>
 					<cfset thisCollObjOtherIdNumId = #evaluate("coll_obj_other_id_num_id_" & n)#>
-					<cfif thisOtherIdFg is "DELETE">
-						<cfquery name="deleteOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							DELETE FROM coll_obj_other_id_num
-							WHERE coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
-						</cfquery>
-						<cfelse>
+	
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_obj_other_id_num SET
 								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdType#">,
@@ -2148,7 +2143,7 @@ limitations under the License.
 								display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisplayValue#">
 							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
 						</cfquery>
-					</cfif>
+			
 				</cfloop>
 				<cftransaction action="commit">
 				<cfset data=queryNew("status, message, id")>
