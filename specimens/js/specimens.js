@@ -65,7 +65,29 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-
+function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getOtherIDsHTML",
+			identification_id : coll_obj_other_id_num_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are ";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 /** loadIdentifications populate an html block with the identification 
  * history for a cataloged item.
  * @param collection_object_id identifying the cataloged item for which 
