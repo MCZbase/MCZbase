@@ -558,7 +558,7 @@ limitations under the License.
 							<div class="col-12 col-md-6">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2">
 									<h2 class="h3">Phone numbers/Email addresses</h2>
-									<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#)">
+									<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
 									<div id="electronicAddressesDiv" class="col-12 px-0 pb-1">#electronicAddressesBlock#</div>
 									<script>
 										// callback for ajax methods to reload 
