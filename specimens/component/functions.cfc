@@ -23,7 +23,8 @@ limitations under the License.
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
  @param condition the new condition to update the part to 
- @return a json structure containing the part_id and a message, with "success" as the value of the message on a successful update.--->
+ @return a json structure containing the part_id and a message, with "success" as the value of the message on a successful update.
+--->
 <cffunction name="updateCondition" access="remote" returntype="query">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
@@ -51,10 +52,11 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<!---getEditMediaHTML obtain a block of html to populate an media to add/remove media for a specimen.
+<!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
- @return html for editing media for the specified cataloged item. --->
+ @return html for editing media for the specified cataloged item. 
+--->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
@@ -298,7 +300,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaThread" />
 	<cfreturn getEditMediaThread.output>
 </cffunction>
-<!---getEditMediaDetail --the dialog for editing one image--->
+							
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
@@ -612,9 +614,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaDetailsThread" />
 	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
-<!---getMediaHtml function - obtain an html block to popluate an edit dialog for a media object 
- @param media_id the media.media_id to edit.
- @return html for editing the media --->
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
+ @param identification-id the identification.identification_id to edit.
+ @return html for editing the identification 
+--->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfargument name="media_id" type="string" required="yes">
@@ -915,10 +918,11 @@ limitations under the License.
 	<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
-<!---getEditIdentificationsHTML function - obtain a block of html to populate an identification editor dialog for a specimen.
+<!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. --->
+ @return html for editing identifications for the specified cataloged item. 
+--->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditIdentsThread"> <cfoutput>
@@ -1340,9 +1344,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
-<!---updateIdentifications function -  update the identifications for an arbitrary number of identifications in the identification history of a collection object 
+<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
-	@param number_of_ids the number of determinations in the identification history--->
+	@param number_of_ids the number of determinations in the identification history
+--->
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfoutput> 
@@ -1559,9 +1564,10 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>
-<!---getIdentificationHtml function - obtain an html block to popluate an edit dialog for an identification 
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
- @return html for editing the identification --->
+ @return html for editing the identification 
+--->
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
@@ -1661,7 +1667,6 @@ limitations under the License.
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
 </cffunction>
-<!---getIdentificationTable function -  @param identification_id --->
 <cffunction name="getIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
@@ -1690,7 +1695,6 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-<!---saveID function - @param collection_object_id--->
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -1801,12 +1805,11 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-						
-						
-<!---START OTHER_IDS--->
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
- @return html for editing other ids for the specified cataloged item.--->
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
+	editor dialog.
+ @return html for editing other ids for the specified cataloged item. 
+--->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
@@ -2090,7 +2093,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-<!---updateOtherID function - @param collection_object_id- @param number_of_ids the number of other IDs -->
+
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfoutput> 
@@ -2144,9 +2147,9 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
+	
 	</cfoutput>
 </cffunction>
-<!---getOtherIDsHTML function - @param collection_object_id  @return html for editing the otherID--->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
@@ -2373,9 +2376,6 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-<!---END OTHER_IDS--->
-						
-						
 						
 						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
