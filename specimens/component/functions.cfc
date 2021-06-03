@@ -2092,7 +2092,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-
+<!---updateOtherID function
+ @param collection_object_id
+ @commit change
+--->
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfoutput> 
@@ -2149,75 +2152,11 @@ limitations under the License.
 	
 	</cfoutput>
 </cffunction>
-<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfthread name="getOtherIDsThread">
-		<cftry>
-			<cfoutput>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					case when status = 1 and
-						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-						coll_obj_other_id_num.other_id_type = 'original identifier'
-						then 'Masked'
-					else
-						coll_obj_other_id_num.display_value
-					end display_value,
-					coll_obj_other_id_num.other_id_type,
-					case when base_url is not null then
-						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-					else
-						null
-					end link
-				FROM
-					coll_obj_other_id_num 
-					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-				where
-					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					other_id_type,
-					display_value
-			</cfquery>
-				<div id="otherIDHTML">
-					<cfloop query="theResult">
-						<div class="OtherIDExistingForm">
-							<form>
-								<div class="container pl-1">
-									<div class="col-12">
-										<cfif len(oid.other_id_type) gt 0>
-											<ul class="list-group">
-												<cfloop query="oid">
-													<li class="list-group-item">#other_id_type#:
-														<cfif len(display_value) gt 0>
-															<a class="external" href="##" target="_blank">#display_value#</a>
-															<cfelse>
-#display_value#
-														</cfif>
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
-										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getOtherIDThread" />
-	<cfreturn getOtherIDThread.output>
-</cffunction>
+<!---updateOtherIDsHTML function
+ @param collection_object_id
+ @commit change
+--->
+
 <cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDs2Thread">
