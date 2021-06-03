@@ -443,7 +443,7 @@ function addElectronicAddressToAgent(agent_id,addressControl,addressTypeControl,
 	var address_type = $('#'+addressTypeControl).val();
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
-			method : "addNameToAgent",
+			method : "addElectronicAddressToAgent",
 			agent_id : agent_id,
 			address_type : address_type,
 			address : address,

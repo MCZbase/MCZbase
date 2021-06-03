@@ -237,7 +237,7 @@ limitations under the License.
  @param address the value for the electronic address to add.
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="addElectronicAddress" returntype="any" access="remote" returnformat="json">
+<cffunction name="addElectronicAddressToAgent" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="address_type" type="string" required="yes">
 	<cfargument name="address" type="string" required="yes">
