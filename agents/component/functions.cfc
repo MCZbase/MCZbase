@@ -153,7 +153,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="electAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="electAgentAddrs_result">
 					SELECT 
-						electronic_address_id
+						electronic_address_id,
 						agent_id, 
 						address_type, 
 						address
