@@ -1892,7 +1892,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="oids">
 								<cfif len(#other_id_type#) gt 0>
-									<form name="oids#i#" id="otherIdsForm">
+									<form name="oids#i#" id="editOtherIDsForm">
 										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
 										<cfset thisType = #oids.other_id_type#>
@@ -1923,6 +1923,47 @@ limitations under the License.
 												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
 												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
 											</div>
+											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
+												<output id="saveOtherIDsResultDiv" class="text-danger">&nbsp;</output>
+											</div>
+											<script>
+												function editOtherIDsSubmit(){
+													$('##saveOtherIDsResultDiv').html('Saving....');
+													$('##saveOtherIDsResultDiv').addClass('text-warning');
+													$('##saveOtherIDsResultDiv').removeClass('text-success');
+													$('##saveOtherIDsResultDiv').removeClass('text-danger');
+													$.ajax({
+														url : "/specimens/component/functions.cfc",
+														type : "post",
+														dataType : "json",
+														data: $("##editOtherIDsForm").serialize(),
+														success: function (result) {
+															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																$('##saveOtherIDsResultDiv').html('Saved');
+																$('##saveOtherIDsResultDiv').addClass('text-success');
+																$('##saveOtherIDsResultDiv').removeClass('text-warning');
+																$('##saveOtherIDsResultDiv').removeClass('text-danger');
+															} else {
+																// we shouldn't be able to reach this block, backing error should return an http 500 status
+																$('##saveOtherIDsResultDiv').html('Error');
+																$('##saveOtherIDsResultDiv').addClass('text-danger');
+																$('##saveOtherIDsResultDiv').removeClass('text-warning');
+																$('##saveOtherIDsResultDiv').removeClass('text-success');
+																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
+															}
+														},
+														error: function(jqXHR,textStatus,error){
+															$('##saveOtherIDsResultDiv').html('Error');
+															$('##saveOtherIDsResultDiv').addClass('text-danger');
+															$('##saveOtherIDsResultDiv').removeClass('text-warning');
+															$('##saveOtherIDsResultDiv').removeClass('text-success');
+															handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
+														}
+													});
+												};
+											</script> 
 										</div>
 									</form>
 									<cfset i=#i#+1>
@@ -2120,7 +2161,74 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>
-						
+<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getOtherIDsThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					case when status = 1 and
+						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+						coll_obj_other_id_num.other_id_type = 'original identifier'
+						then 'Masked'
+					else
+						coll_obj_other_id_num.display_value
+					end display_value,
+					coll_obj_other_id_num.other_id_type,
+					case when base_url is not null then
+						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
+					else
+						null
+					end link
+				FROM
+					coll_obj_other_id_num 
+					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
+				where
+					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				ORDER BY
+					other_id_type,
+					display_value
+			</cfquery>
+				<div id="otherIDHTML">
+					<cfloop query="theResult">
+						<div class="OtherIDExistingForm">
+							<form>
+								<div class="container pl-1">
+									<div class="col-12">
+										<cfif len(oid.other_id_type) gt 0>
+											<ul class="list-group">
+												<cfloop query="oid">
+													<li class="list-group-item">#other_id_type#:
+														<cfif len(display_value) gt 0>
+															<a class="external" href="##" target="_blank">#display_value#</a>
+															<cfelse>
+#display_value#
+														</cfif>
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
+										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</cfloop>
+					<!--- theResult ---> 
+				</div>
+			</cfoutput>
+			<cfcatch>
+				<cfoutput>
+					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getOtherIDThread" />
+	<cfreturn getOtherIDThread.output>
+</cffunction>						
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
