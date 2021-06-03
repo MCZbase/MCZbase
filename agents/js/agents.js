@@ -343,7 +343,62 @@ function moveAgentInGroupCB(agent_id,member_agent_id,direction,callback) {
 	});
 };
 
+/* Update the content of a div containing relationships for an agent.
+ *
+ * @param agent_id the agent_id of the agent for which to lookup relationships
+ * @param targetDiv the id div for which to replace the contents, without a leading # selector.
+ */
+function updateAgentRelationships(agent_id,targetDiv) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+			method : "getAgentRelationshipsHTML",
+			agent_id: agent_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining relationships for an agent");
+		},
+		dataType: "html"
+	});
+};
 
+/* Add a new relationship to an agent.
+ *
+ * @param agent_id the agent to which to add the relationship.
+ * @param relatedAgentIdControl a control from which to get the agent_id of the related agent, without a leading # selector/
+ * @param relationControl a control from which to get the type of relationship to add, without a leading # selector.
+ * @param remarksControl a control from which to get relationship remarks, without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
+function addRelationshipToAgent(agent_id,relatedAgentIdControl,relationControl,remarksControl,callback) {
+	var related_agent_id = $('#'+relatedAgentIdControl).val();
+	var relationship = $('#'+relationControl).val();
+	var agent_remarks = $('#'+remarksControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addRelationshipToAgent",
+			agent_id : agent_id,
+			related_agent_id : related_agent_id,
+			relationship : relationship,
+			agent_remarks : agent_remarks,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding relationship to agent");
+	});
+}
 /* Update the content of a div containing emails/phone numbers for an agent.
  *
  * @param agent_id the agent_id of the agent for which to lookup electronic addresses

@@ -138,6 +138,224 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+
+<!--- obtain a block of html for displaying and editing relationships of an agent
+ @param agent_id the agent for which to lookup relationships
+ @return a block of html containing a list of relationships for an agent with controls to insert/update/delete relationships
+  assuming this block will go within a section with a heading.
+--->
+<cffunction name="getAgentRelationshipsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfthread name="arelationThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="ctagent_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT agent_relationship
+					FROM ctagent_relationship 
+					ORDER BY agent_relationship
+				</cfquery>
+				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+					select
+						preferred_agent_name.agent_name
+						agent_relationship, agent_id, related_agent_id,
+						date_to_merge, on_hold, held_by,
+						agent_remarks, created_by
+					from agent_relations
+						left join preferred_agent_name on agent_relations.related_agent_id = preferred_agent_name.agent_id
+					where
+						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<ul>
+					<cfloop query="relations">
+						<li>#agent_name# #agent_relationship# #agent_remarks# #date_to_merge# #on_hold# #held_by#</li>
+					</cfloop>
+				</ul>
+
+				<div id="newRelationshipDiv" class="col-12">
+					<label for="new_relation">Add Relationship</label>
+					<div class="form-row">
+						<div class="col-12 col-md-3">
+							<label for="new_relation_type" class="data-entry-label">Relationship</label>
+							<select name="relation_type" id="new_relation_type" class="data-entry-select">
+								<cfloop query="ctagent_relationship">
+									<option value="#ctagent_relationship.agent_relationship#">#ctagent_relationship.agent_relationship#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="new_related_agent">To Related Agent</label>
+							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input">
+							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="new_relation">Remarks</label>
+							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
+						</div>
+					</div>
+					<script>
+						$(document).ready(function () {
+							makeAgentAutocompleteMeta("new_related_agent", "new_related_agent_id");
+							$("##addRelationshipButton").click(function(evt){
+								evt.preventDefault;
+								addRelationshipToAgent(#agent_id#,"new_related_agent_id","new_relation_type","new_agent_remarks",reloadRelationships);
+							});
+						});
+					</script>
+				</div>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="arelationThread" />
+	<cfreturn arelationThread.output>
+</cffunction>
+
+<!--- given an agent and a second agent, create a relationship between the two. 
+ @param agent_id the agent for which to add the relationship
+ @param related_agent_id the agent to be related to
+ @param relationship the nature of the relationship
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="addAgentRelationship" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="related_agent_id" type="string" required="yes">
+	<cfargument name="relationship" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
+				INSERT INTO agent_relations (
+					AGENT_ID,
+					RELATED_AGENT_ID,
+					AGENT_RELATIONSHIP)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>)
+			</cfquery>
+			<cfif newRelationship_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] added.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to insert relationship, other than one [#newRelationship_result.recordcount#] relation would be created.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- delete a relationship between two agents. 
+ @param agent_id the agent for which to delete the relationship
+ @param related_agent_id the agent in the relationship
+ @param relationship the nature of the relationship
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="deleteAgentRelationship" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="related_agent_id" type="string" required="yes">
+	<cfargument name="relationship" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteRelationship_result">
+				DELETE FROM agent_relations 
+				WHERE
+				agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				and related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">
+				and agent_relationship = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
+			</cfquery>
+			<cfif deleteRelationship_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] deleted.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to delete relationship, other than one [#deleteRelationship_result.recordcount#] relation would be deleted.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- update an existing relationship between two agents, a relationship a weak entinty and
+ * is identified by a  primary key consisting of agent_id, related_agent_id, and relationship.
+ @param agent_id the agent for the relationship
+ @param related_agent_id the new value for the related agent in the relationship
+ @param relationship the new value for the nature of the relationship
+ @param agent_remarks
+ @param old_related_agent_id the current value for the related agent
+ @param old_relationship the current value for the nature of the relationship
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="updateAgentRelationship" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="old_related_agent_id" type="string" required="yes">
+	<cfargument name="old_relationship" type="string" required="yes">
+	<cfargument name="related_agent_id" type="string" required="yes">
+	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="agent_remarks" type="string" required="no">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+		<cfquery name="updateRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelationship_result">
+			UPDATE agent_relations SET
+				related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">
+				, agent_relationship=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
+				<cfif isdefined(agent_remarks) and len(agent_remarks) GT 0>
+					, agent_remarks=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+				</cfif>
+			WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				AND related_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_related_agent_id#">
+				AND agent_relationship=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#old_relationship#'>
+		</cfquery>
+			<cfif updateRelationship_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] updated.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to update relationship, other than one [#updateRelationship_result.recordcount#] relation would be updated.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
 <!--- obtain a block of html for displaying and editing phones/emails of an agent
  @param agent_id the agent for which to lookup electronic addresses
  @return a block of html containing a list of names with controls to remove or add electronic addresses

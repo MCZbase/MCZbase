@@ -523,6 +523,12 @@ limitations under the License.
 									<h2 class="h3 px-1">Relationships for this agent</h2>
 									<cfset relationsBlock = "">
 									<div id="relationsDiv" class="col-12 px-0 pb-1">#relationsBlock#</div>
+									<script>
+										// callback for ajax methods to reload 
+										function reloadRelationships() { 
+											updateRelationships(#getAgent.agent_id#,'relationsDiv');
+										};
+									</script>
 								</section>
 							</div>
 						</div>
