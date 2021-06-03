@@ -177,7 +177,7 @@ function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
-			method : "updateOID",
+			method : "updateCOID",
 			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
 			returnformat : "json",
 			queryformat : 'column'
