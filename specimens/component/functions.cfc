@@ -1920,13 +1920,15 @@ limitations under the License.
 												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
 											</div>
 											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
-												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
-												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
-											</div>
-											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
 												<output id="saveOtherIDsResultDiv" class="text-danger">&nbsp;</output>
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+											</div>
+											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+<!---												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
+												<output id="saveOtherIDsResultDiv" class="text-danger">&nbsp;</output>--->
 											</div>
 											<script>
 												function editOtherIDsSubmit(){
@@ -1951,7 +1953,7 @@ limitations under the License.
 																$('##saveOtherIDsResultDiv').addClass('text-danger');
 																$('##saveOtherIDsResultDiv').removeClass('text-warning');
 																$('##saveOtherIDsResultDiv').removeClass('text-success');
-																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving identification history.');
+																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
 															}
 														},
 														error: function(jqXHR,textStatus,error){
