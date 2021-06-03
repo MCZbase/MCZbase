@@ -1940,6 +1940,7 @@ limitations under the License.
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<input type="hidden" name="number_of_ids" id="number_of_ids" value="#oids.recordcount#">
 										<cfset thisType = #oids.other_id_type#>
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
@@ -2091,9 +2092,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
+						
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-<!---	<cfargument name="number_of_ids" type="string" required="yes">--->
+	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 		<cftry>
@@ -2200,7 +2202,7 @@ limitations under the License.
 </cffunction>
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
 			<cfoutput>
