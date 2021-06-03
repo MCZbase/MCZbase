@@ -147,7 +147,7 @@ limitations under the License.
 				<cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select address_type from ctelectronic_addr_type
 				</cfquery>
-				<cfquery name="elecAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="electAgentAddrs_result">
+				<cfquery name="electAgentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="electAgentAddrs_result">
 					SELECT 
 						electronic_address_id
 						agent_id, 
