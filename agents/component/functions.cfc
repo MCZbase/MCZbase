@@ -245,7 +245,7 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
 		<cftry>
-			<cfquery name="newElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newElecAddr_result" >
+			<cfquery name="newElectronicAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newElectronicAddress_result" >
 				INSERT INTO electronic_address (
 					agent_id
 					,address_type
@@ -256,12 +256,12 @@ limitations under the License.
 				 	,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#address#'>
 				)
 			</cfquery>
-			<cfif newElectAddr_result.recordcount EQ 1>
+			<cfif newElectronicAddress_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Electronic Address added.", 1)>
 			<cfelse>
-				<cfthrow message="Unable to insert electronic address, other than one [#newElectAddr_result.recordcount#] address would be created.">
+				<cfthrow message="Unable to insert electronic address, other than one [#newElectronicAddress_result.recordcount#] address would be created.">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
