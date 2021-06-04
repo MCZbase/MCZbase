@@ -101,7 +101,7 @@ limitations under the License.
 												<cfset description=desc.label_value>
 											</cfif>
 										<cfif i eq 1>
-											<cfif #mediaS1.media_uri# contains "ids" and #mediaS1.media_type# eq "text">
+											<cfif #mediaS1.media_type# eq "text">
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
@@ -115,7 +115,7 @@ limitations under the License.
 											</div>
 											</div>
 											<cfelse>
-<p>hi</p>
+<p>hi there</p>
 											</cfif>
 										<cfelse>
 								
