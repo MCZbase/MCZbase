@@ -153,9 +153,9 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</cfif>
-									<cfif #mediaS1.media_type# neq "image" and mime_type EQ "text/html">	
+									<cfif #media.media_type# neq "image" and mime_type EQ "text/html">	
 										<cfset i=1>
-										<cfloop query="mediaS1">
+										<cfloop query="media">
 											<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
