@@ -294,7 +294,6 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
-										<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 										<cfset pattern = "">
 										<cfset placeholder = "">
 										<cfset regex = "">
@@ -313,7 +312,8 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
-										<div class="col-6 col-md-3 col-xl-3 px-0 float-left">
+										<div class="col-6 col-md-4 px-0 float-left">
+											<label for="agentguid"class="data-entry-label">GUID for Agent</label>
 											<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
 												<cfif searchtext EQ "">
 													<option value=""></option>
@@ -331,10 +331,10 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-6 col-md-7 col-xl-3 w-100 px-0 float-left"> 
+										<div class="col-6 col-md-2 w-100 px-0 float-left"> 
 											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
-										<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
+										<div class="col-12 col-md-6 pl-0 float-left">
 											<cfif len(regex) GT 0 >
 												<cfset link = REReplace(getAgent.agentguid,regex,replacement)>
 											<cfelse>
