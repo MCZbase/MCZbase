@@ -183,18 +183,18 @@ limitations under the License.
 					<cfloop query="relations">
 						<cfset i=i+1>
 						<li>#currAgent# 
-							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
+							<select name="relation_type" id="relation_type_#i#">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
+							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#">
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relationship#">
 							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
-							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" class="data-entry-input">
+							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#">
 							#date_to_merge# #on_hold# #held_by#
 							<button type="button" id="updateRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Save</button>
 							<output id="relationfeedback_#i#"></output>
