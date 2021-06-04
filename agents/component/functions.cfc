@@ -196,12 +196,12 @@ limitations under the License.
 							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks">
 							#date_to_merge# #on_hold# #held_by#
-							<button type="button" id="updateRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Save</button>
+							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
 									makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
-									$("##updateRelationshipButton").click(function(evt){
+									$("##updateRelationshipButton_#i#").click(function(evt){
 										evt.preventDefault;
 										updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
 									});
