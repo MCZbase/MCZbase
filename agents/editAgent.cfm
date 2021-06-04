@@ -308,7 +308,7 @@ limitations under the License.
 												</cfif>
 												<cfloop query="ctguid_type_agent">
 													<cfset sel="">
-													<cfif ctguid_type_agent.recordcount EQ 1 >
+													<cfif ctguid_type_agent.guidtype EQ getAgent.agentguid_guid_type OR ctguid_type_agent.recordcount EQ 1 >
 														<cfset sel="selected='selected'">
 														<cfset placeholder = "#ctguid_type_agent.placeholder#">
 														<cfset pattern = "#ctguid_type_agent.pattern_regex#">
