@@ -197,6 +197,7 @@ limitations under the License.
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks">
 							#date_to_merge# #on_hold# #held_by#
 							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
+							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs btn-warning">Remove</button>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
@@ -204,6 +205,10 @@ limitations under the License.
 									$("##updateRelationshipButton_#i#").click(function(evt){
 										evt.preventDefault;
 										updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
+									});
+									$("##deleteRelationshipButton_#i#").click(function(evt){
+										evt.preventDefault;
+										deleteAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#",reloadRelationships);
 									});
 								});
 							</script>
@@ -400,7 +405,7 @@ limitations under the License.
 			UPDATE agent_relations SET
 				related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">
 				, agent_relationship=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
-				<cfif isdefined(agent_remarks) and len(agent_remarks) GT 0>
+				<cfif isdefined("agent_remarks") and len(agent_remarks) GT 0>
 					, agent_remarks=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
 				</cfif>
 			WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
