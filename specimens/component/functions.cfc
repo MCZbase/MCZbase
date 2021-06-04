@@ -1887,12 +1887,9 @@ limitations under the License.
 										</cfloop>
 									</select>
 									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-									<input type="submit" value="Save" class="btn btn-xs btn-primary">
-									<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 										onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editOtherIDsSubmit();  } ">
 										<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-									</div>
 									<script>
 												function editCatNumOtherIDsSubmit(){
 													$('##saveCatNumOtherIDsResultDiv').html('Saving....');
