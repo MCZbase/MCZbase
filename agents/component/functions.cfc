@@ -179,39 +179,34 @@ limitations under the License.
 					<cfif relations.recordcount EQ 0 >
 						<li>None</li>
 					</cfif>
+					<cfset i=0>
 					<cfloop query="relations">
-						<li>#currAgent# #agent_relationship# <a href="/agents/editAgent.cfm?agent_id=#related_agent_id#">#agent_name#</a> 
-							#agent_remarks# 
+						<cfset i=i+1>
+						<li>#currAgent# 
+							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
+								<cfloop query="ctagent_relationship">
+									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
+								</cfloop>
+							</select>
+							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
+							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
+							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
+							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relationship#">
+							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
+							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" class="data-entry-input">
 							#date_to_merge# #on_hold# #held_by#
-						</li>
-					</cfloop>
-				</ul>
-				<h3 class="h3">Relationships from other agents</h3>
-				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
-					select
-						preferred_agent_name.agent_name,
-						agent_relationship, 
-						agent_relations.agent_id as from_agent_id, 
-						related_agent_id,
-						date_to_merge, on_hold, held_by,
-						agent_remarks, 
-						created_by
-					from agent_relations
-						left join preferred_agent_name on agent_relations.agent_id = preferred_agent_name.agent_id
-					where
-						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				</cfquery>
-				<ul>
-					<cfif revRelations.recordcount EQ 0 >
-						<li>None</li>
-					</cfif>
-					<cfloop query="revRelations">
-						<li>
-							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
-							#agent_relationship# 
-							#currAgent#
-							#agent_remarks# 
-							#date_to_merge# #on_hold# #held_by#
+							<button type="button" id="updateRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Save</button>
+							<output id="relationfeedback_#i#"></output>
+							<script>
+								$(document).ready(function () {
+									makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
+									$("##saveRelationshipButton").click(function(evt){
+										evt.preventDefault;
+										updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
+									});
+								});
+							</script>
 						</li>
 					</cfloop>
 				</ul>
@@ -220,6 +215,8 @@ limitations under the License.
 					<label for="new_relation">Add Relationship</label>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
+							<label class="data-entry-label">&nbsp;</label>
+							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 							<label for="new_relation_type" class="data-entry-label">Relationship</label>
 							<select name="relation_type" id="new_relation_type" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
@@ -250,6 +247,36 @@ limitations under the License.
 						});
 					</script>
 				</div>
+
+				<h3 class="h3">Relationships from other agents</h3>
+				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
+					select
+						preferred_agent_name.agent_name,
+						agent_relationship, 
+						agent_relations.agent_id as from_agent_id, 
+						related_agent_id,
+						date_to_merge, on_hold, held_by,
+						agent_remarks, 
+						created_by
+					from agent_relations
+						left join preferred_agent_name on agent_relations.agent_id = preferred_agent_name.agent_id
+					where
+						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<ul>
+					<cfif revRelations.recordcount EQ 0 >
+						<li>None</li>
+					</cfif>
+					<cfloop query="revRelations">
+						<li>
+							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
+							#agent_relationship# 
+							#currAgent#
+							#agent_remarks# 
+							#date_to_merge# #on_hold# #held_by#
+						</li>
+					</cfloop>
+				</ul>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
