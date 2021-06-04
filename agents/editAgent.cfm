@@ -335,6 +335,7 @@ limitations under the License.
 											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
 										<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
+											<label class="data-entry-label"><a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a></label>
 											<input class="data-entry-input" name="agentguid" id="agentguid" 
 												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 											<cfif len(regex) GT 0 >
@@ -342,7 +343,6 @@ limitations under the License.
 											<cfelse>
 												<cfset link = getAgent.agentguid>
 											</cfif>
-											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90">#agentguid#</a>
 										</div>
 										<script>
 											$(document).ready(function () {
