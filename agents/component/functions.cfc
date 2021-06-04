@@ -241,6 +241,7 @@ limitations under the License.
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-1">
+							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
