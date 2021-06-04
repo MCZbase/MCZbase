@@ -285,7 +285,7 @@ limitations under the License.
 			<cfif deleteRelationship_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] deleted.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship)#] deleted.", 1)>
 			<cfelse>
 				<cfthrow message="Unable to delete relationship, other than one [#deleteRelationship_result.recordcount#] relation would be deleted.">
 			</cfif>
@@ -338,7 +338,7 @@ limitations under the License.
 			<cfif updateRelationship_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] updated.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship)#] updated.", 1)>
 			<cfelse>
 				<cfthrow message="Unable to update relationship, other than one [#updateRelationship_result.recordcount#] relation would be updated.">
 			</cfif>
