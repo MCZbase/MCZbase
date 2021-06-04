@@ -228,7 +228,7 @@ limitations under the License.
  @param relationship the nature of the relationship
  @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
 --->
-<cffunction name="addAgentRelationship" returntype="any" access="remote" returnformat="json">
+<cffunction name="addRelationshipToAgent" returntype="any" access="remote" returnformat="json">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="related_agent_id" type="string" required="yes">
 	<cfargument name="relationship" type="string" required="yes">
