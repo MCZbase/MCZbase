@@ -306,10 +306,10 @@ limitations under the License.
 												<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(getAgent.first_name & ' ' & trim(getAgent.middle_name & ' ' & getAgent.last_name))),'+','%20') >
 												<cfif len(getAgent.agentguid) GT 0>
 													<cfset searchtext = "Edit" >
-													<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
+													<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 												<cfelse>
 													<cfset searchtext = "Find GUID" >
-													<cfset searchclass = 'class="btn btn-xs btn-info external"' >
+													<cfset searchclass = 'class="btn btn-xs btn-info findGuidButton external"' >
 												</cfif>
 											</cfif>
 										</cfloop>
