@@ -510,7 +510,7 @@ limitations under the License.
 							</form>
 						</section>
 						<div class="row">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-5">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<script>
 										// callback for ajax methods to reload names for agent
@@ -523,7 +523,7 @@ limitations under the License.
 									<div id="namesDiv" class="col-12 px-0 pb-1">#namesBlock#</div>
 								</section>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-7">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<h2 class="h3 px-1">Relationships for this agent</h2>
 									<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
