@@ -301,6 +301,18 @@ limitations under the License.
 										<cfset replacement = "">
 										<cfset searchlink = "" >
 										<cfset searchtext = "" >
+										<cfloop query="ctguid_type_agent">
+						 					<cfif getAgent.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
+												<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(getAgent.first_name & ' ' & trim(getAgent.middle_name & ' ' & getAgent.last_name))),'+','%20') >
+												<cfif len(getAgent.agentguid) GT 0>
+													<cfset searchtext = "Edit" >
+													<cfset searchclass = 'class="smallBtn editGuidButton"' >
+												<cfelse>
+													<cfset searchtext = "Find GUID" >
+													<cfset searchclass = 'class="smallBtn findGuidButton external"' >
+												</cfif>
+											</cfif>
+										</cfloop>
 										<div class="col-6 col-md-3 col-xl-3 px-0 float-left">
 											<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
 												<cfif searchtext EQ "">
@@ -320,7 +332,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-6 col-md-7 col-xl-3 w-100 px-0 float-left"> 
-											<a href="#searchlink#" id="agentguid_search" target="_blank" class="small90">#searchtext#</a>
+											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
 										<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
 											<input class="data-entry-input" name="agentguid" id="agentguid" 
