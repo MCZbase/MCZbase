@@ -326,9 +326,9 @@ limitations under the License.
 											<input class="data-entry-input" name="agentguid" id="agentguid" 
 												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 											<cfif len(regex) GT 0 >
-												<cfset link = REReplace(person.agentguid,regex,replacement)>
+												<cfset link = REReplace(getAgent.agentguid,regex,replacement)>
 											<cfelse>
-												<cfset link = person.agentguid>
+												<cfset link = getAgent.agentguid>
 											</cfif>
 											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90">#agentguid#</a>
 										</div>
