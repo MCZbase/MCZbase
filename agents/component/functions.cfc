@@ -226,6 +226,7 @@ limitations under the License.
 						<div class="col-12 col-md-3">
 							<label for="new_relation_type" class="data-entry-label">Relationship</label>
 							<select name="relation_type" id="new_relation_type" class="data-entry-select">
+								<option value"">Select a Relationship</option>
 								<cfloop query="ctagent_relationship">
 									<option value="#ctagent_relationship.agent_relationship#">#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
@@ -326,6 +327,9 @@ limitations under the License.
 			</cfif>
 			<cfif related_agent_id EQ agent_id>
 				<cfthrow message="Unable to insert relationship, an agent cannot be related to itself.">
+			</cfif>
+			<cfif NOT isdefined("relationship") OR len(relationship) EQ 0>
+				<cfthrow message="Unable to insert relationship, no relationship type selected.  You must pick a relationship.">
 			</cfif>
 			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
 				INSERT INTO agent_relations (
