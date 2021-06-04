@@ -423,7 +423,6 @@ function updateAgentRelationship(agent_id, relatedAgentIdControl, relationshipCo
 function deleteAgentRelationship(agent_id, relatedAgentIdControl, relationshipControl,callback) {
 	var related_agent_id = $('#'+relatedAgentIdControl).val();
 	var relationship = $('#'+relationshipControl).val();
-	var agent_id = $('#'+electronicAddressIdControl).val();
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "deleteAgentRelationship",
