@@ -74,7 +74,7 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfif #media.media_type# eq "image" and #media.mime_type# nEQ "text/html">	
+									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 												<!---div class="thumbs"--->
@@ -182,8 +182,9 @@ limitations under the License.
 										
 											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-12 px-1">
+													<cfset aForImHref = media_uri>
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
-													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
+													<a href="#aForImHref#" target="_blank" class="w-100 mb-2">
 														<img src="#media.media_uri#" class="w-100 mb-0">
 														<span class="smaller col-6 px-0">Media details</span>
 													</a>
