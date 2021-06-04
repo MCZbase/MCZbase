@@ -343,6 +343,141 @@ function moveAgentInGroupCB(agent_id,member_agent_id,direction,callback) {
 	});
 };
 
+/* Update the content of a div containing addresses for an agent
+ *
+ * @param agent_id the agent_id of the agent for which to lookup addresses
+ * @param targetDiv the id div for which to replace the contents, without a leading # selector.
+ */
+function updateAgentAddresses(agent_id,targetDiv) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+			method : "getAgentAddressesHTML",
+			agent_id: agent_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining relationships for an agent");
+		},
+		dataType: "html"
+	});
+};
+
+/* Save a change to an existing address for an agent, the record to be updated is identified by
+ * the addr_id
+ *
+ * @param agent_id the agent for which to update the address.
+ * @param addressIdControl the id of an input containing the addr_id for the address to update,
+ *   without a leading # selector.
+ * @param feedbackControl a control within which to display feedback, without a leading # selector.
+ */
+function updateAgentAddress(agent_id, addressIdControl, addTypCtl, vaCtl, st1Ctl, st2Ctl, insCtl, deptCtl, cityCtl, stateCtl, ccCtl, zipCtl, mastCtl, jtCtl, remCtl,feedbackControl) {
+	var addr_id = $('#'+addressIdControl).val();
+	var add_type = $('#'+addTypCtl).val();
+	var valid_addr_fg = $('#'+vaCtl).val();
+	var street_addr1 = $('#'+s1Ctl).val();
+	var street_addr2 = $('#'+s2Ctl).val();
+	var institution = $('#'+insCtl).val();
+	var department = $('#'+deptCtl).val();
+	var city = $('#'+cityCtl).val();
+	var state = $('#'+stateCtl).val();
+	var country_cde = $('#'+ccCtl).val();
+	var zip = $('#'+zipCtl).val();
+	var mail_stop = $('#'+mastCtl).val();
+	var job_title = $('#'+jtCtl).val();
+	var addr_remarks = $('#'+remCtl).val();
+	$('#'+feedbackControl).html("Saving...");
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "updateAddress",
+			agent_id: agent_id,
+			addr_id: addr_id,
+			addr_type: addr_type,
+			street_addr1: street_addr1,
+			street_addr2: street_addr2,
+			institution: institution,
+			department: department,
+			city: city,
+			country_cde: country_cde,
+			zip: zip,
+			mail_stop: mail_stop,
+			job_title: job_title,
+			addr_remarks: addr_remarks,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (result[0].STATUS==1) {
+				$('#'+feedbackControl).html("Saved");
+			} else {
+				$('#'+feedbackControl).html("Error");
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		$('#'+feedbackControl).html("Error");
+		handleFail(jqXHR,textStatus,error,"updating address");
+	});
+}
+
+/* Delete an existing address
+ *
+ * @param addrIdControl input containing the addr_id to delete without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
+function deleteAgentAddress(addrIdControl, callback) {
+	var addr_id = $('#'+addrIdControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "deleteAddress",
+			addr_id : addr_id,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"deleting address");
+	});
+}
+
+/* Add a new address to an agent.
+ *
+ * @param form_id a form containing fields with names matching the expected parameters for addAddressToAgent.
+ * @param callback a callback function to invoke on completion.
+ */
+function addAddressToAgent(form_id, callback) {
+   var formFields =  $('#'+form_id).serializeArray();
+   formFields.push({ 
+		method : "addAddressToAgent",
+		returnformat : "json",
+		queryformat : 'struct'
+	};
+	jQuery.getJSON("/agents/component/functions.cfc",
+		formFields,
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding address to agent");
+	});
+}
+
+
+
 /* Update the content of a div containing relationships for an agent.
  *
  * @param agent_id the agent_id of the agent for which to lookup relationships

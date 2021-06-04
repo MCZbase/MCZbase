@@ -138,6 +138,362 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- obtain a block of html for displaying and editing addresses of an agent
+ @param agent_id the agent for which to lookup addresses
+ @return a block of html containing a list of addresses for an agent with controls to insert/update/delete addresses
+  assuming this block will go within a section with a heading.
+--->
+<cffunction name="getAgentAddressesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfthread name="addressesThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT addr_type 
+					fROM ctaddr_type
+					WHERE addr_type <> 'temporary'
+				</cfquery>
+				<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						addr_id,
+						formatted_addr,
+						valid_addr_fg,
+						addr_remarks
+					FROM addr
+					WHERE 
+						agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
+						and addr.addr_type <> 'temporary'
+					order by valid_addr_fg DESC
+				</cfquery>
+				<h3 class="h3">Addresses</h3>
+				<ul>
+					<cfset i=0>
+					<cfloop query="agentAddrs">
+						<cfset i=i+1>
+						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+						<li>
+							#formatted_addr#
+							#rem#
+							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+						</li>
+					</cfloop>
+				</ul>
+
+
+				<h3 class="h3">Add new Addresse</h3>
+				<div class="form-row"</div>
+
+			<form name="newAddress" method="post" action="editAllAgent.cfm">
+				<input type="hidden" name="agent_id" value="#person.agent_id#">
+				<input type="hidden" name="Action" value="newAddress">
+				<table>
+					<tr>
+						<td>
+							<label for="addr_type">Address Type</label>
+							<select name="addr_type" id="addr_type" size="1">
+								<cfloop query="ctAddrType">
+								<option value="#ctAddrType.addr_type#">#ctAddrType.addr_type#</option>
+								</cfloop>
+							</select>
+						</td>
+						<td>
+							<label for="job_title">Job Title</label>
+							<input type="text" name="job_title" id="job_title">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="institution">Institution</label>
+							<input type="text" name="institution" id="institution"size="50" >
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="department">Department</label>
+							<input type="text" name="department" id="department" size="50" >
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="street_addr1">Street Address 1</label>
+							<input type="text" name="street_addr1" id="street_addr1" size="50" class="reqdClr">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="street_addr2">Street Address 2</label>
+							<input type="text" name="street_addr2" id="street_addr2" size="50">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="city">City</label>
+							<input type="text" name="city" id="city" class="reqdClr">
+						</td>
+						<td>
+							<label for="state">State</label>
+							<input type="text" name="state" id="state" class="reqdClr">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="zip">Zip</label>
+							<input type="text" name="zip" id="zip" class="reqdClr">
+						</td>
+                  				<td>
+						<script>
+						function handleCountrySelect(){
+						   var countrySelection =  $('input:radio[name=country]:checked').val();
+						   if (countrySelection == 'USA') {
+						      $("##textUS").css({"color": "black", "font-weight":"bold" });
+						      $("##other_country_cde").toggle("false");
+						      $("##country_cde").val("USA");
+						      $("##other_country_cde").removeClass("reqdClr");
+						   } else {
+						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
+						      $("##other_country_cde").toggle("true");
+						      $("##country_cde").val($("##other_country_cde").val());
+						      $("##other_country_cde").addClass("reqdClr");
+						   }
+						}
+						</script>
+				                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
+				                     <span>
+				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr" value="USA">
+				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
+				                     <input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
+				                     <span>
+				                  </td>
+					</tr>
+					<tr>
+						<td>
+							<label for="mail_stop">Mail Stop</label>
+							<input type="text" name="mail_stop" id="mail_stop">
+						</td>
+						<td>
+							<label for="valid_addr_fg">Valid?</label>
+							<select name="valid_addr_fg" id="valid_addr_fg" size="1">
+								<option value="1">yes</option>
+								<option value="0">no</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<label for="addr_remarks">Address Remark</label>
+							<input type="text" name="addr_remarks" id="addr_remarks" size="50">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="submit" class="insBtn" value="Create Address">
+						</td>
+					</tr>
+				</table>
+			</form>
+
+			<script>
+				$(document).ready(function () {
+					$("##newAddress").submit(function(evt){
+						evt.preventDefault();
+						addAddressToAgent("newAddress", callback);
+					});
+				});
+			</script>
+
+				</div>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="arelationThread" />
+	<cfreturn arelationThread.output>
+</cffunction>
+
+<!--- given an agent and details for an address, add the address to the agent.
+ @param agent_id the agent for which to add the address.
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="addAddressToAgent" returntype="any" access="remote" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="addr_type" type="string" required="yes">
+	<cfargument name="valid_addr_fg" type="string" required="yes">
+	<cfargument name="street_addr1" type="string" required="yes">
+	<cfargument name="street_addr2" type="string" required="yes">
+	<cfargument name="institution" type="string" required="yes">
+	<cfargument name="department" type="string" required="yes">
+	<cfargument name="city" type="string" required="yes">
+	<cfargument name="state" type="string" required="yes">
+	<cfargument name="country_cde" type="string" required="yes">
+	<cfargument name="zip" type="string" required="yes">
+	<cfargument name="mail_stop" type="string" required="yes">
+	<cfargument name="job_title" type="string" required="yes">
+	<cfargument name="addr_remarks" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAddr_result">
+				INSERT INTO addr (
+					ADDR_ID
+					,STREET_ADDR1
+					,STREET_ADDR2
+					,institution
+					,department
+					,CITY
+					,state
+					,ZIP
+					,COUNTRY_CDE
+					,MAIL_STOP
+					,agent_id
+					,addr_type
+					,job_title
+					,valid_addr_fg
+					,addr_remarks
+				) VALUES (
+					sq_addr_id.nextval
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#street_addr1#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#street_addr2#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#institution#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#department#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#city#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#state#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#zip#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#country_cde#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#mail_stop#'>
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#addr_type#'>
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#job_title#'>
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_addr_fg#">
+					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#addr_remarks#'>
+				)
+			</cfquery>
+			<cfif newAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Address added.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to insert address, other than one [#newAddr_result.recordcount#] address would be created.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+
+<!--- update an existing address
+ @param addr_id the address to update.
+ @param agent_id the agent for which this is an address
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="updateAddress" returntype="any" access="remote" returnformat="json">
+	<cfargument name="addr_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="addr_type" type="string" required="yes">
+	<cfargument name="valid_addr_fg" type="string" required="yes">
+	<cfargument name="street_addr1" type="string" required="yes">
+	<cfargument name="street_addr2" type="string" required="yes">
+	<cfargument name="institution" type="string" required="yes">
+	<cfargument name="department" type="string" required="yes">
+	<cfargument name="city" type="string" required="yes">
+	<cfargument name="state" type="string" required="yes">
+	<cfargument name="country_cde" type="string" required="yes">
+	<cfargument name="zip" type="string" required="yes">
+	<cfargument name="mail_stop" type="string" required="yes">
+	<cfargument name="job_title" type="string" required="yes">
+	<cfargument name="addr_remarks" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAddr_result">
+				UPDATE addr 
+				SET
+					AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
+					,STREET_ADDR1 = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STREET_ADDR1#'>
+					,STREET_ADDR2 = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STREET_ADDR2#'>
+					,department = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#department#'>
+					,institution = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#institution#'>
+					,CITY = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#CITY#'>
+					,STATE = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#STATE#'>
+					,ZIP = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ZIP#'>
+					,COUNTRY_CDE = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#COUNTRY_CDE#'>
+					,MAIL_STOP = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#MAIL_STOP#'>
+					,ADDR_TYPE = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ADDR_TYPE#'>
+					,JOB_TITLE = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#JOB_TITLE#'>
+					,VALID_ADDR_FG = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#VALID_ADDR_FG#'>
+					,ADDR_REMARKS = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ADDR_REMARKS#'>
+				WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
+			</cfquery>
+			<cfif updateAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Address updated.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to update address, other than one [#updateAddr_result.recordcount#] address would be updated.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
+<!--- delete an address
+ @param addr_id the address to delete
+ @return a json result containing status=1 and a message on success, otherwise a http 500 status with message.
+--->
+<cffunction name="deleteAddress" returntype="any" access="remote" returnformat="json">
+	<cfargument name="addr_id" type="string" required="yes">
+
+	<cfset theResult=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAddr_result">
+				DELETE FROM addr 
+				WHERE addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
+			</cfquery>
+			<cfif deletAddr_result.recordcount EQ 1>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Address deleted.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to delete address, other than one [#deleteAddr_result.recordcount#] address would be deleted.">
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #theResult#>
+</cffunction>
+
 
 <!--- obtain a block of html for displaying and editing relationships of an agent
  @param agent_id the agent for which to lookup relationships
@@ -225,8 +581,8 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="new_relation_type" class="data-entry-label">Relationship</label>
-							<select name="relation_type" id="new_relation_type" class="data-entry-select">
-								<option value"">Select a Relationship</option>
+							<select name="relation_type" id="new_relation_type" class="data-entry-select reqdClr">
+								<option value""></option>
 								<cfloop query="ctagent_relationship">
 									<option value="#ctagent_relationship.agent_relationship#">#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
@@ -234,7 +590,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="new_related_agent">To Related Agent</label>
-							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input">
+							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input reqdClr">
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
 						<div class="col-12 col-md-3">
