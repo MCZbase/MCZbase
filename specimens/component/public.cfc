@@ -114,7 +114,47 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-
+												<cfelse>
+											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<!---for media images -- remove absolute url after demo / test db issue?--->
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfelse>
+												<!---for DRS from library--->
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+												<cfset aForImHref = media_uri>
+												<cfset aForDetHref = "/media/#media_id#">
+											</cfif>
+											#one_thumb# <a href="#aForImHref#" target="_blank"> 
+											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
+											<p class="small">
+												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+												<span class="">#description#</span><br>
+													<script>
+														function reloadMedia() { 
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															loadMedia(#media_id#,'mediaCardBody');
+														}
+													</script>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												<cfif #media.media_type# eq "audio">
+													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select related_primary_key, media_id 
+														from media_relations 
+														where media_relations.media_relationship = 'transcript of media'
+														and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													</cfquery>
+													<cfquery name="transcript_uri" dbtype="query">
+														select related_primary_key from transcript_relation
+													</cfquery>
+														<cfif len(transcript_uri.related_primary_key) gt 0>
+															<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
+														</cfif>
+												</cfif>
+										
+											</p>
+											</div>
 											</cfif>
 										<cfelse>
 								<!---This is for all the thumbnails--->
