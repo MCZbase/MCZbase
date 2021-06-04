@@ -169,6 +169,9 @@ limitations under the License.
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
 				<ul>
+					<cfif relations.recordcount EQ 0 >
+						<li>None</li>
+					</cfif>
 					<cfloop query="relations">
 						<li>#agent_name# #agent_relationship# #agent_remarks# #date_to_merge# #on_hold# #held_by#</li>
 					</cfloop>
@@ -383,6 +386,9 @@ limitations under the License.
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<ul>
+					<cfif electAgentAddrs.recordcount EQ 0 >
+						<li>None</li>
+					</cfif>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
@@ -641,6 +647,9 @@ limitations under the License.
 					order by agent_name_type
 				</cfquery>
 				<ul>
+					<cfif npname.recordcount EQ 0 >
+						<li>No other names</li>
+					</cfif>
 					<cfloop query="npname">
 						<cfset i=i+1>
 						<li>
