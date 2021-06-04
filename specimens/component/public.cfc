@@ -114,6 +114,7 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
+												</cfif>
 												<cfif  i gt 1>
 											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 												<!---for media images -- remove absolute url after demo / test db issue?--->
