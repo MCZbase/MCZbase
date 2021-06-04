@@ -164,7 +164,8 @@ limitations under the License.
 								<h2 class="h3">Relationships to other agents</h2>
 								<ul>
 								<cfloop query="getAgentRel">
-									<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a></li>
+									<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+									<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
 								</cfloop>
 								</ul>
 							</section>
@@ -184,7 +185,7 @@ limitations under the License.
 									<h2 class="h3">Relationships from other agents</h2>
 									<ul>
 									<cfloop query="getRevAgentRel">
-										<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getREvAgenmtRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+										<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
 										<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
 									</cfloop>
 									</ul>
