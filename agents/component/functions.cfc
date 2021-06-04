@@ -243,7 +243,7 @@ limitations under the License.
 			<cfif newRelationship_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship#] added.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Relationship [#encodeForHtml(relationship)#] added.", 1)>
 			<cfelse>
 				<cfthrow message="Unable to insert relationship, other than one [#newRelationship_result.recordcount#] relation would be created.">
 			</cfif>
