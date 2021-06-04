@@ -70,102 +70,102 @@ limitations under the License.
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
-						<div class="form-row">			
-							<div class="col-12 px-0 mx-0 mt-1"> 
-									<!---div class="feature image using media_uri"--->
-									<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfset i=1>
-									<cfloop query="media">
-										<!---div class="thumbs"--->
-										<cfquery name="ctmedia" dbtype="query">
-											select count(*) as ct from media group by media_relationship order by media_id
-										</cfquery>
-										<cfset mt=media.mime_type>
-										<cfset altText = media.media_descriptor>
-										<cfset puri=getMediaPreview(preview_uri,mime_type)>
-										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												media_label,
-												label_value
-											FROM
-												media_labels
-											WHERE
-												media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-										</cfquery>
-										<cfquery name="desc" dbtype="query">
-											select label_value from labels where media_label='description'
-										</cfquery>
-										<cfset description="Media Preview Image">
-										<cfif desc.recordcount is 1>
-											<cfset description=desc.label_value>
-										</cfif>
-									<cfif i eq 1>
-								<!---		<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
-										<div class="col-12 px-1">
-											<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
-											<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-												<img src="#mediaS1.media_uri#" class="w-100 mb-0">
-												<span class="smaller col-6 px-0">Media details</span>
-											</a>
-										<div class="form-row mx-0">
-											<div class="small">#desc.label_value# 
-												<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-											</div>
-										</div>
-										</div>
-										<cfelse>
+							<div class="form-row">			
+								<div class="col-12 px-0 mx-0 mt-1"> 
+										<!---div class="feature image using media_uri"--->
+										<!--- to-do: Create checkbox for featured media on create media page--->
 
-										</cfif>
-									<cfelse>--->
-
-										<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-											<!---for media images -- remove absolute url after demo / test db issue?--->
-											<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
-											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-											<cfelse>
-											<!---for DRS from library--->
-											<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
-											<cfset aForImHref = media_uri>
-											<cfset aForDetHref = "/media/#media_id#">
-										<cfelse>
-										</cfif>
-										#one_thumb# <a href="#aForImHref#" target="_blank"> 
-										<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
-										<p class="small">
-											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-											<span class="">#description#</span><br>
-												<script>
-													function reloadMedia() { 
-														// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-														loadMedia(#media_id#,'mediaCardBody');
-													}
-												</script>
-												<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-											<cfif #media.media_type# eq "audio">
-												<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select related_primary_key, media_id 
-													from media_relations 
-													where media_relations.media_relationship = 'transcript of media'
-													and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												</cfquery>
-												<cfquery name="transcript_uri" dbtype="query">
-													select related_primary_key from transcript_relation
-												</cfquery>
-													<cfif len(transcript_uri.related_primary_key) gt 0>
-														<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
-													</cfif>
+										<cfset i=1>
+										<cfloop query="media">
+											<!---div class="thumbs"--->
+											<cfquery name="ctmedia" dbtype="query">
+												select count(*) as ct from media group by media_relationship order by media_id
+											</cfquery>
+											<cfset mt=media.mime_type>
+											<cfset altText = media.media_descriptor>
+											<cfset puri=getMediaPreview(preview_uri,mime_type)>
+											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													media_label,
+													label_value
+												FROM
+													media_labels
+												WHERE
+													media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+											</cfquery>
+											<cfquery name="desc" dbtype="query">
+												select label_value from labels where media_label='description'
+											</cfquery>
+											<cfset description="Media Preview Image">
+											<cfif desc.recordcount is 1>
+												<cfset description=desc.label_value>
 											</cfif>
+										<cfif i eq 1>
+											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+											<div class="col-12 px-1">
+												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
+													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+													<span class="smaller col-6 px-0">Media details</span>
+												</a>
+											<div class="form-row mx-0">
+												<div class="small">#desc.label_value# 
+													<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												</div>
+											</div>
+											</div>
+											<cfelse>
 
-										</p>
-										</div>
-									</cfif>
-									<cfset i=i+1>
-									</cfloop>
+											</cfif>
+										<cfelse>
+								
+											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<!---for media images -- remove absolute url after demo / test db issue?--->
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+												<cfelse>
+												<!---for DRS from library--->
+												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+												<cfset aForImHref = media_uri>
+												<cfset aForDetHref = "/media/#media_id#">
+											</cfif>
+											#one_thumb# <a href="#aForImHref#" target="_blank"> 
+											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
+											<p class="small">
+												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+												<span class="">#description#</span><br>
+													<script>
+														function reloadMedia() { 
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															loadMedia(#media_id#,'mediaCardBody');
+														}
+													</script>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												<cfif #media.media_type# eq "audio">
+													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select related_primary_key, media_id 
+														from media_relations 
+														where media_relations.media_relationship = 'transcript of media'
+														and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													</cfquery>
+													<cfquery name="transcript_uri" dbtype="query">
+														select related_primary_key from transcript_relation
+													</cfquery>
+														<cfif len(transcript_uri.related_primary_key) gt 0>
+															<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
+														</cfif>
+												</cfif>
+										
+											</p>
+											</div>
+										</cfif>
+										<cfset i=i+1>
+										</cfloop>
+									</div>
 								</div>
-							</div>
-					</cfoutput>
-				</cfif>
+							</cfoutput>
+						</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
