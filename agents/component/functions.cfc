@@ -310,8 +310,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="arelationThread" />
-	<cfreturn arelationThread.output>
+	<cfthread action="join" name="addressesThread" />
+	<cfreturn addressesThread.output>
 </cffunction>
 
 <!--- given an agent and details for an address, add the address to the agent.
