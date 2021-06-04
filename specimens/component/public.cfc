@@ -77,7 +77,6 @@ limitations under the License.
 									<cfif #mediaS1.media_type# eq "image" and mime_type nEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
-											<cfif i gt 0>
 												<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
@@ -101,7 +100,7 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-											</cfif>
+
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
@@ -157,7 +156,7 @@ limitations under the License.
 									<cfif #mediaS1.media_type# neq "image" and mime_type EQ "text/html">	
 										<cfset i=1>
 										<cfloop query="mediaS1">
-											<cfif i = 1><!---div class="thumbs"--->
+											<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
@@ -180,7 +179,8 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
+										
+											<cfif i = 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-12 px-1">
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
@@ -193,7 +193,7 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												</cfif>
+											
 											<cfelse>
 												<!---This is for all the thumbnails--->
 										
