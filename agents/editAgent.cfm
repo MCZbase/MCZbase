@@ -572,7 +572,7 @@ limitations under the License.
 									<script>
 										// callback for ajax methods to reload group members for agent
 										function reloadAddresses() { 
-											updateAgentAddresses(#getAgent.agent_id#,'groupMembersDiv');
+											updateAgentAddresses(#getAgent.agent_id#,'addressesDiv');
 										};
 									</script>
 								</section>
