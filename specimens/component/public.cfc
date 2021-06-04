@@ -114,8 +114,19 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-										
-												
+											<cfelse> 
+											<div class="col-12 px-1">
+												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
+													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+													<span class="smaller col-6 px-0">Media details</span>
+												</a>
+											<div class="form-row mx-0">
+												<div class="small">#desc.label_value# 
+													<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												</div>
+											</div>
+											</div>
 											</cfif>
 										<cfelse>
 								<!---This is for all the thumbnails--->
