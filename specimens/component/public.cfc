@@ -103,7 +103,7 @@ limitations under the License.
 												<cfset description=desc.label_value>
 											</cfif>
 										<cfif i eq 1>
-											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+<!---											<cfif #mediaS1.media_uri# contains "harvard" and #mediaS1.media_type# eq "image">
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
@@ -119,7 +119,7 @@ limitations under the License.
 											<cfelse>
 
 											</cfif>
-										<cfelse>
+										<cfelse>--->
 								
 											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 												<!---for media images -- remove absolute url after demo / test db issue?--->
@@ -161,6 +161,9 @@ limitations under the License.
 										
 											</p>
 											</div>
+											<cfelse>
+
+											</cfif>
 										</cfif>
 										<cfset i=i+1>
 										</cfloop>
