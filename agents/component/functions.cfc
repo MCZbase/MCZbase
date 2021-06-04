@@ -219,9 +219,11 @@ limitations under the License.
 				<div id="newRelationshipDiv" class="col-12">
 					<label for="new_relation">Add Relationship</label>
 					<div class="form-row">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
+						</div>
+						<div class="col-12 col-md-3">
 							<label for="new_relation_type" class="data-entry-label">Relationship</label>
 							<select name="relation_type" id="new_relation_type" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
@@ -238,7 +240,7 @@ limitations under the License.
 							<label for="new_relation">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-1">
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
