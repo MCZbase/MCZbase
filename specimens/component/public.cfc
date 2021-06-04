@@ -181,11 +181,11 @@ limitations under the License.
 												</cfif>
 										
 											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
-												<div class="col-12 px-1">
+												<div class="col-6 px-1">
 													<cfset aForImHref = media_uri>
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
 													<a href="#aForImHref#" target="_blank" class="w-100 mb-2">
-													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-50">
+													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100">
 														<span class="smaller col-6 px-0">Media details</span>
 													</a>
 													<div class="form-row mx-0">
