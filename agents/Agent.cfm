@@ -171,7 +171,8 @@ limitations under the License.
 						</cfif>
 						<cfif oneOfUs EQ 1>
 							<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name
+								select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+									agent_remarks
 								from agent_relations 
 								WHERE
 									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -183,7 +184,8 @@ limitations under the License.
 									<h2 class="h3">Relationships from other agents</h2>
 									<ul>
 									<cfloop query="getRevAgentRel">
-										<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name# </li>
+										<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getREvAgenmtRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+										<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
 									</cfloop>
 									</ul>
 								</div>
