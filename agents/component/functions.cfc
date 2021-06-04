@@ -150,9 +150,9 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_result">
-					SELECT agent_name 
-					FROM preferred_agent_name 
-					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					SELECT agent_name, edited
+					FROM agent left join preferred_agent_name on agent.agent_id = preferred_agent_name.agent_id
+					WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
 				<cfset currAgent = agent.agent_name>
 				<cfquery name="ctagent_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -248,9 +248,20 @@ limitations under the License.
 					<script>
 						$(document).ready(function () {
 							makeAgentAutocompleteMeta("new_related_agent", "new_related_agent_id");
+							function addRel () { 
+								 addRelationshipToAgent(#agent_id#,"new_related_agent_id","new_relation_type","new_agent_remarks",reloadRelationships);
+							}
 							$("##addRelationshipButton").click(function(evt){
 								evt.preventDefault;
-								addRelationshipToAgent(#agent_id#,"new_related_agent_id","new_relation_type","new_agent_remarks",reloadRelationships);
+								<cfif agent.edited EQ 1>
+									if ($('##new_relation_type').val() == 'bad duplicate of') { 
+										confirmDialog("This agent is marked as vetted *, do you really want to mark it as a bad duplicate of another agent?", "Confirm Bad Duplicate for Vetted Agent?", addRel);
+									} else { 
+										addRel();
+									}
+								<cfelse>
+									addRel();
+								</cfif>
 							});
 						});
 					</script>
