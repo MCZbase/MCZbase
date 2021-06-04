@@ -184,7 +184,7 @@ limitations under the License.
 				<div class="form-row"</div>
 
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
-				<input type="hidden" name="agent_id" value="#person.agent_id#">
+				<input type="hidden" name="agent_id" value="#encodeForHTML(agent_id)#">
 				<input type="hidden" name="Action" value="newAddress">
 				<table>
 					<tr>
