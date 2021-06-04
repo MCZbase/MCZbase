@@ -300,7 +300,7 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaThread" />
 	<cfreturn getEditMediaThread.output>
 </cffunction>
-							
+<!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
