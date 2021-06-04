@@ -308,7 +308,10 @@ limitations under the License.
 	<cfargument name="relationship" type="string" required="yes">
 
 	<cfif NOT isdefined("related_agent_id") OR len(related_agent_id) EQ 0>
-		<cfthrow message="Unable to insert relationship, no related agent specified.  You must pick a related agent from the pick list..">
+		<cfthrow message="Unable to insert relationship, no related agent specified.  You must pick a related agent from the pick list.">
+	</cfif>
+	<cfif related_agent_id EQ agent_id>
+		<cfthrow message="Unable to insert relationship, an agent cannot be related to itself.">
 	</cfif>
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
