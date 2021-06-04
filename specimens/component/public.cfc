@@ -180,7 +180,7 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 										
-											<cfif i = 1><!---This is for one large image at that top if it is not a ledger page or someother --->
+											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-12 px-1">
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
@@ -196,12 +196,10 @@ limitations under the License.
 											
 											<cfelse>
 												<!---This is for all the thumbnails--->
-										
 													<!---for DRS from library--->
 													<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 													<cfset aForImHref = media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
-											
 												#one_thumb# <a href="#aForImHref#" target="_blank"> 
 												<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
 												<p class="small">
