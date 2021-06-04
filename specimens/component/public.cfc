@@ -158,13 +158,13 @@ limitations under the License.
 											</cfif>
 										<cfelse>
 								<!---This is for all the thumbnails--->
-											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-												<!---for media images -- remove absolute url after demo / test db issue?--->
+<!---											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+										
 												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 												<cfelse>
-												<!---for DRS from library--->
+											
 												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 												<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
@@ -176,7 +176,6 @@ limitations under the License.
 												<span class="">#description#</span><br>
 													<script>
 														function reloadMedia() { 
-															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 															loadMedia(#media_id#,'mediaCardBody');
 														}
 													</script>
@@ -197,7 +196,7 @@ limitations under the License.
 												</cfif>
 										
 											</p>
-											</div>
+											</div>--->
 										</cfif>
 										<cfset i=i+1>
 										</cfloop>
