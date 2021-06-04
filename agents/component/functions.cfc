@@ -156,7 +156,7 @@ limitations under the License.
 				</cfquery>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
-						preferred_agent_name.agent_name
+						preferred_agent_name.agent_name,
 						agent_relationship, 
 						agent_relations.agent_id, 
 						related_agent_id,
