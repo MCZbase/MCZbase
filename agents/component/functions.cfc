@@ -328,7 +328,7 @@ limitations under the License.
 			<cfif related_agent_id EQ agent_id>
 				<cfthrow message="Unable to insert relationship, an agent cannot be related to itself.">
 			</cfif>
-			<cfif NOT isdefined("relationship") OR len(relationship) EQ 0>
+			<cfif NOT isdefined("relationship") OR len(relationship) EQ 0 OR ucase(relationship) EQ ucase("Select a Relationship")>
 				<cfthrow message="Unable to insert relationship, no relationship type selected.  You must pick a relationship.">
 			</cfif>
 			<cfquery name="newRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelationship_result">
