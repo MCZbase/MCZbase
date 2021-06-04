@@ -100,8 +100,8 @@ limitations under the License.
 											<cfif desc.recordcount is 1>
 												<cfset description=desc.label_value>
 											</cfif>
-										<cfif i eq 1><!---This is for one large image at that top--->
-											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image">
+										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or some other librar--->
+											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image" and mime_type NEQ "text/html">
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
@@ -114,7 +114,7 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-											<cfelse> 
+										
 												
 											</cfif>
 										<cfelse>
