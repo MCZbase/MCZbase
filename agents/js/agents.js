@@ -365,6 +365,87 @@ function updateAgentRelationships(agent_id,targetDiv) {
 	});
 };
 
+
+/* Save a change to an existing relationship for an agent, the record to be updated is identified by
+ * the agent_id, old_related_agent_id, and old_relationship.
+ *
+ * @param agent_id the agent for which to update the relationship.
+ * @param relatedAgentIdControl the id of an input containing the new value for the agent to be linked to,
+ *   without a leading # selector.
+ * @param relationshipControl the id of an input containing the new value for the relationship,
+ *   without a leading # selector.
+ * @param remarksControl the id of an input containing the new value for the remarks on the relationship,
+ *   without a leading # selector.
+ * @param oldRelatedAgentIdControl the id of an input containing the current value for the agent to be linked to,
+ *   without a leading # selector.
+ * @param oldRelationshipControl the id of an input containing the current value for the relationship,
+ *   without a leading # selector.
+ * @param feedbackControl a control within which to display feedback, without a leading # selector.
+ */
+function updateAgentRelationship(agent_id, relatedAgentIdControl, relationshipControl, remarksControl, oldRelatedAgentIdControl, oldRelationshipControl,feedbackControl) {
+	var related_agent_id = $('#'+relatedAgentIdControl).val();
+	var relationship = $('#'+relationshipControl).val();
+	var agent_remarks = $('#'+remarksControl).val();
+	var old_related_agent_id = $('#'+oldRelatedAgentIdControl).val();
+	var old_relationship = $('#'+oldRelationshipControl).val();
+	$('#'+feedbackControl).html("Saving...");
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "updateAgentRelationship",
+			agent_id: agent_id,
+			related_agent_id: related_agent_id,
+			relationship : relationship,
+			agent_remarks : agent_remarks,
+			old_related_agent_id: old_related_agent_id,
+			old_relationship : old_relationship,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (result[0].STATUS==1) {
+				$('#'+feedbackControl).html("Saved");
+			} else {
+				$('#'+feedbackControl).html("Error");
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		$('#'+feedbackControl).html("Error");
+		handleFail(jqXHR,textStatus,error,"updating agent relationship");
+	});
+}
+
+/* Delete an existing relationship from an agent
+ *
+ * @param agentRelationshipIdControl input containing the email/phone to delete without a leading # selector.
+ * @param callback a callback function to invoke on completion.
+ */
+function deleteAgentRelationship(agent_id, relatedAgentIdControl, relationshipControl,callback) {
+	var related_agent_id = $('#'+relatedAgentIdControl).val();
+	var relationship = $('#'+relationshipControl).val();
+	var agent_id = $('#'+electronicAddressIdControl).val();
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "deleteAgentRelationship",
+			agent_id : agent_id,
+			related_agent_id : related_agent_id,
+			relationship : relationship,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"deleting agent relationship");
+	});
+}
+
 /* Add a new relationship to an agent.
  *
  * @param agent_id the agent to which to add the relationship.
@@ -399,6 +480,9 @@ function addRelationshipToAgent(agent_id,relatedAgentIdControl,relationControl,r
 		handleFail(jqXHR,textStatus,error,"adding relationship to agent");
 	});
 }
+
+
+
 /* Update the content of a div containing emails/phone numbers for an agent.
  *
  * @param agent_id the agent_id of the agent for which to lookup electronic addresses
@@ -482,7 +566,7 @@ function deleteElectronicAddress(electronicAddressIdControl, callback) {
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"updating deleting electronic address (phone/email)");
+		handleFail(jqXHR,textStatus,error,"deleting electronic address (phone/email)");
 	});
 }
 

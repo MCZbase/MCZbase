@@ -526,7 +526,7 @@ limitations under the License.
 									<script>
 										// callback for ajax methods to reload 
 										function reloadRelationships() { 
-											updateRelationships(#getAgent.agent_id#,'relationsDiv');
+											updateAgentRelationships(#getAgent.agent_id#,'relationsDiv');
 										};
 									</script>
 								</section>
