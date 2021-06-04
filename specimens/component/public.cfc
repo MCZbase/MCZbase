@@ -101,11 +101,7 @@ limitations under the License.
 												<cfset description=desc.label_value>
 											</cfif>
 										<cfif i lt 1>
-											<cfif #mediaS1.media_type# eq "text">
-										this
-											<cfelse>
-<p>hi there</p>
-											</cfif>
+
 										<cfelse>
 								
 											<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
