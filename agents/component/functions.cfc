@@ -192,7 +192,7 @@ limitations under the License.
 							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#">
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
-							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relationship#">
+							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
 							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#">
 							#date_to_merge# #on_hold# #held_by#
