@@ -74,6 +74,7 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
+									<cfif #mediaS1.media_type# neq "image" and mime_type EQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
@@ -161,8 +162,8 @@ limitations under the License.
 										</cfif>
 										<cfset i=i+1>
 										</cfloop>
-													
-													
+									</cfif>	
+									<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image" and mime_type NEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="mediaS1">
 											<!---div class="thumbs"--->
@@ -189,8 +190,7 @@ limitations under the License.
 												<cfset description=desc.label_value>
 											</cfif>
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
-											<cfif #mediaS1.media_uri# contains "specimen_images" and #mediaS1.media_type# eq "image" and mime_type NEQ "text/html">
-											<div class="col-12 px-1">
+																					<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
@@ -202,12 +202,11 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-											<cfelse> 
-												
+
 											</cfif>
 										<cfelse>
 								<!---This is for all the thumbnails--->
-											<cfif media_type neq "image" and mediaS1.media_relationship eq "shows cataloged_item">
+											<cfif media_type neq "image">
 												<!---for media images -- remove absolute url after demo / test db issue?--->
 												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
