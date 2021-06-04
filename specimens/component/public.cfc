@@ -45,7 +45,7 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
-			<cfquery name="ctmedia" dbtype="query">
+				<cfquery name="ctmedia" dbtype="query">
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
 				<cfif ctmedia.recordcount gt 0>
@@ -182,7 +182,7 @@ limitations under the License.
 										
 											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-12 px-1">
-													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
+													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
 													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 														<img src="#media.media_uri#" class="w-100 mb-0">
 														<span class="smaller col-6 px-0">Media details</span>
@@ -217,7 +217,7 @@ limitations under the License.
 															select related_primary_key, media_id 
 															from media_relations 
 															where media_relations.media_relationship = 'transcript of media'
-															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
+															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfquery name="transcript_uri" dbtype="query">
 															select related_primary_key from transcript_relation
@@ -257,9 +257,8 @@ limitations under the License.
 					</div>
 			</cfcatch>
 			</cftry>
-			
 		</cfthread>
-					</cfoutput>
+		</cfoutput>
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
