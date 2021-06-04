@@ -78,28 +78,29 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop query="media">
 											<cfif i gt 0>
-											<!---div class="thumbs"--->
-											<cfquery name="ctmedia" dbtype="query">
-												select count(*) as ct from media group by media_relationship order by media_id
-											</cfquery>
-											<cfset mt=media.mime_type>
-											<cfset altText = media.media_descriptor>
-											<cfset puri=getMediaPreview(preview_uri,mime_type)>
-											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT
-													media_label,
-													label_value
-												FROM
-													media_labels
-												WHERE
-													media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-											</cfquery>
-											<cfquery name="desc" dbtype="query">
-												select label_value from labels where media_label='description'
-											</cfquery>
-											<cfset description="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset description=desc.label_value>
+												<!---div class="thumbs"--->
+												<cfquery name="ctmedia" dbtype="query">
+													select count(*) as ct from media group by media_relationship order by media_id
+												</cfquery>
+												<cfset mt=media.mime_type>
+												<cfset altText = media.media_descriptor>
+												<cfset puri=getMediaPreview(preview_uri,mime_type)>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														media_label,
+														label_value
+													FROM
+														media_labels
+													WHERE
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												</cfquery>
+												<cfquery name="desc" dbtype="query">
+													select label_value from labels where media_label='description'
+												</cfquery>
+												<cfset description="Media Preview Image">
+												<cfif desc.recordcount is 1>
+													<cfset description=desc.label_value>
+												</cfif>
 											</cfif>
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 											<div class="col-12 px-1">
@@ -116,13 +117,10 @@ limitations under the License.
 											</div>
 										<cfelse>
 											<!---This is for all the thumbnails--->
-										
-												<!---for media images -- remove absolute url after demo / test db issue?--->
-												<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
-												<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-												<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-												
-									
+											<!---for media images -- remove absolute url after demo / test db issue?--->
+											<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 											#one_thumb# <a href="#aForImHref#" target="_blank"> 
 											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
 											<p class="small">
