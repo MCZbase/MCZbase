@@ -114,8 +114,7 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-											<cfelse> 
-												
+
 											</cfif>
 										<cfelse>
 								<!---This is for all the thumbnails--->
