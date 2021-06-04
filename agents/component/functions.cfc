@@ -149,11 +149,18 @@ limitations under the License.
 	<cfthread name="arelationThread">
 		<cfoutput>
 			<cftry>
+				<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_result">
+					SELECT agent_name 
+					FROM preferred_agent_name 
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfset currAgent = agent.agent_name>
 				<cfquery name="ctagent_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT agent_relationship
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
+				<h3 class="h3">Relationships to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -173,7 +180,39 @@ limitations under the License.
 						<li>None</li>
 					</cfif>
 					<cfloop query="relations">
-						<li>#agent_name# #agent_relationship# #agent_remarks# #date_to_merge# #on_hold# #held_by#</li>
+						<li>#currAgent# #agent_relationship# <a href="/agents/editAgent.cfm?agent_id=#related_agent_id#">#agent_name#</a> 
+							#agent_remarks# 
+							#date_to_merge# #on_hold# #held_by#
+						</li>
+					</cfloop>
+				</ul>
+				<h3 class="h3">Relationships from other agents</h3>
+				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
+					select
+						preferred_agent_name.agent_name,
+						agent_relationship, 
+						agent_relations.agent_id as from_agent_id, 
+						related_agent_id,
+						date_to_merge, on_hold, held_by,
+						agent_remarks, 
+						created_by
+					from agent_relations
+						left join preferred_agent_name on agent_relations.agent_id = preferred_agent_name.agent_id
+					where
+						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<ul>
+					<cfif revRelations.recordcount EQ 0 >
+						<li>None</li>
+					</cfif>
+					<cfloop query="revRelations">
+						<li>
+							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
+							#agent_relationship# 
+							#currAgent#
+							#agent_remarks# 
+							#date_to_merge# #on_hold# #held_by#
+						</li>
 					</cfloop>
 				</ul>
 
