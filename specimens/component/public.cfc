@@ -100,7 +100,7 @@ limitations under the License.
 											<cfif desc.recordcount is 1>
 												<cfset description=desc.label_value>
 											</cfif>
-										<cfif i eq 1>
+										<cfif i lt 1>
 											<cfif #mediaS1.media_type# eq "text">
 										this
 											<cfelse>
