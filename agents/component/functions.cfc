@@ -157,9 +157,12 @@ limitations under the License.
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name
-						agent_relationship, agent_id, related_agent_id,
+						agent_relationship, 
+						agent_relations.agent_id, 
+						related_agent_id,
 						date_to_merge, on_hold, held_by,
-						agent_remarks, created_by
+						agent_remarks, 
+						created_by
 					from agent_relations
 						left join preferred_agent_name on agent_relations.related_agent_id = preferred_agent_name.agent_id
 					where
