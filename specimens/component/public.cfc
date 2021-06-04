@@ -74,7 +74,7 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfif #media.media_type# eq "image" and mime_type nEQ "text/html">	
+									<cfif #media.media_type# eq "image" and #media.mime_type# nEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 												<!---div class="thumbs"--->
@@ -153,7 +153,7 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</cfif>
-									<cfif #media.media_type# neq "image" and mime_type EQ "text/html">	
+									<cfif #media.media_type# neq "image" and #media.mime_type# EQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 											<!---div class="thumbs"--->
