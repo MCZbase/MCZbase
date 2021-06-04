@@ -74,7 +74,7 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfif #mediaS1.media_type# eq "image" and mime_type nEQ "text/html">	
+									<cfif #media.media_type# eq "image" and mime_type nEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 												<!---div class="thumbs"--->
@@ -160,7 +160,7 @@ limitations under the License.
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
-												<cfset mt=mediaS1.mime_type>
+												<cfset mt=media.mime_type>
 												<cfset altText = media.media_descriptor>
 												<cfset puri=getMediaPreview(preview_uri,mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -184,7 +184,7 @@ limitations under the License.
 												<div class="col-12 px-1">
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 													<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-														<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+														<img src="#media.media_uri#" class="w-100 mb-0">
 														<span class="smaller col-6 px-0">Media details</span>
 													</a>
 													<div class="form-row mx-0">
