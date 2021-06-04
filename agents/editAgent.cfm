@@ -332,6 +332,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-6 col-md-2 w-100 px-0 float-left"> 
+											<label class="data-entry-label"></label>
 											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
 										<div class="col-12 col-md-6 pl-0 float-left">
