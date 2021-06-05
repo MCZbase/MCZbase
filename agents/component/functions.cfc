@@ -404,7 +404,7 @@ limitations under the License.
 				DELETE FROM addr 
 				WHERE addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
-			<cfif deletAddr_result.recordcount EQ 1>
+			<cfif deleteAddr_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Address deleted.", 1)>
