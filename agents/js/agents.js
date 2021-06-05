@@ -510,7 +510,7 @@ function addAddressToAgent(form_id, callback) {
 		method : "addAddressToAgent",
 		returnformat : "json",
 		queryformat : 'struct'
-	};
+	});
 	jQuery.getJSON("/agents/component/functions.cfc",
 		formFields,
 		function (result) {

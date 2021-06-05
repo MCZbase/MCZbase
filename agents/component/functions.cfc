@@ -196,6 +196,7 @@ limitations under the License.
 						<input type="hidden" id="newAddrAgentId" value="#agent_id#">
 					</div>
 					<div class="col-12 col-md-8">
+						<label for="addAddrButton">&nbsp;</label>
 						<button type="button" id="addAddrButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						<script>
 							$(document).ready(function () {
