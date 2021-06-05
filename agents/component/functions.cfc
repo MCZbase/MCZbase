@@ -812,7 +812,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentEAddrDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									confirmWarningDialog("Delete the #encodeForHTML(address)#?", "Confirm Delete?", doDeleteEA_#i#);
+									confirmWarningDialog("Delete the #encodeForHTML(address)# #address_type#?", "Confirm Delete?", doDeleteEA_#i#);
 								});
 							});
 						</script>
