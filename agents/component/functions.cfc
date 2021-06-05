@@ -1009,7 +1009,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<ul>
-					<li>
+					<li class="form-row">
 						<form id="preferredNameForm">
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
@@ -1044,7 +1044,7 @@ limitations under the License.
 					</cfif>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li>
+						<li class="form-row">
 							<form id="agentNameForm_#i#">
 								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
 								<input type="hidden" name="agent_id" value="#npname.agent_id#">

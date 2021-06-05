@@ -336,7 +336,7 @@ limitations under the License.
 											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
 										<div class="col-12 col-md-6 pl-0 float-left">
-											<label class="data-entry-label">&nbsp;<label>
+											<label class="data-entry-label">&nbsp;</label>
 											<input class="data-entry-input" name="agentguid" id="agentguid" 
 												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 											<cfif len(regex) GT 0 >
