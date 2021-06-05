@@ -1765,11 +1765,11 @@ limitations under the License.
 								</div>
 							</div>
 							<div class='form-row'>
-								<div class='col-12 col-md-6'>
+								<div class='col-12 col-md-4'>
 									<label for='zip' class="data-entry-label">Zip/Postcode</label>
 									<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
 								</div>
-								<div class='col-12 col-md-6'>
+								<div class='col-12 col-md-8'>
 									<script>
 										function handleCountrySelect(){
 										   var countrySelection =  $('input:radio[name=country]:checked').val();
@@ -1778,11 +1778,15 @@ limitations under the License.
 										      $("##other_country_cde").toggle("false");
 										      $("##country_cde").val("USA");
 									   	   $("##other_country_cde").removeClass("reqdClr");
+									   	   $("##other_country_cde").removeClass("data-entry-input");
+												$('##other_country_cde').removeAttr('required');
 										   } else {
 										      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
 										      $("##other_country_cde").toggle("true");
 										      $("##country_cde").val($("##other_country_cde").val());
 										      $("##other_country_cde").addClass("reqdClr");
+										      $("##other_country_cde").addClass("data-entry-input");
+												$('##other_country_cde').prop('required',true);
 										   }
 										}
 									</script>
