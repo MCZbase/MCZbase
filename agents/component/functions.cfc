@@ -156,6 +156,7 @@ limitations under the License.
 				<cfquery name="agentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						addr_id,
+						addr_type,
 						formatted_addr,
 						valid_addr_fg,
 						addr_remarks
@@ -175,9 +176,17 @@ limitations under the License.
 						<cfset i=i+1>
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 						<li>
+							#addr_type#
 							#formatted_addr#
 							#rem#
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+							<script>
+								$(document).ready(function () {
+									$("##editAddrButton_#i#").click(function(evt) { 
+										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
+									});
+								});
+							</script>
 						</li>
 					</cfloop>
 				</ul>

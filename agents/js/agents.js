@@ -415,6 +415,10 @@ function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callba
 	)
 };
 
+function editAddressForAgent(addr_id,"addressDialogDiv",callback){
+	messageDialog("Not yet implemented");
+};
+
 /* Save a change to an existing address for an agent, the record to be updated is identified by
  * the addr_id
  *
