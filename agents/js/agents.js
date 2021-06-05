@@ -415,8 +415,43 @@ function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callba
 	)
 };
 
-function editAddressForAgent(addr_id,"addressDialogDiv",callback){
-	messageDialog("Not yet implemented");
+function editAddressForAgent(addr_id,dialogDivId,callback){
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "addAddressHtml",
+			addr_id: addr_id
+		},
+		success: function (result) {
+			$("#"+dialogDivId).html(result);
+			$("#"+dialogDivId).dialog(
+				{ autoOpen: false, modal: true, stack: true, title: 'Add Address',
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#"+dialogDivId).dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#"+dialogDivId).dialog('destroy'); 
+						$("#"+dialogDivId).html(""); 
+					}
+				});
+				$("#"+dialogDivId).dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"opening dialog to edit an address");
+			},
+			dataType: "html"
+		}
+	)
 };
 
 /* Save a change to an existing address for an agent, the record to be updated is identified by

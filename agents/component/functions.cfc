@@ -1570,11 +1570,13 @@ limitations under the License.
 	<cfreturn #theResult#>
 </cffunction>
 
-<!--- Given various information create dialog to create a new address, by default a temporary address.
+<!--- Given various information create dialog to create a new address or edit an existing address, 
+ when creating a new address, by default a temporary address.
  @param agent_id if given, the agent for whom this is an address
  @param shipment_id if given, the shipment for which this address is to be used for
  @param create_from_address_id, if given, used to lookup the agent_id for whom this is an address for
  @param address_type shipping, mailing, or temporary, defaults to temporary if not provided.
+ @param addr_id if provided, the address to edit, overrides other parameters if provided.
  @return html to populate a dialog
 --->
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
@@ -1582,6 +1584,7 @@ limitations under the License.
 	<cfargument name="shipment_id" type="string" required="no"><!--- if given, the address is used for this shipment --->
 	<cfargument name="create_from_address_id" type="string" required="no"><!--- if given, use this address's agent for this address --->
 	<cfargument name="address_type" type="string" required="no"><!--- use temporary to create a temporary address, otherwise shipping or mailing --->
+	<cfargument name="addr_id" type="string" required="no">
 
 	<cfthread name="createAddressThread">
 		<cfoutput>
@@ -1595,6 +1598,65 @@ limitations under the License.
 						select agent_id from addr where addr_id = <cfqueryparam value="#create_from_address_id#" CFSQLTYPE="CF_SQL_VARCHAR">
 					</cfquery>
 					<cfset agent_id = qAgent.agent_id >
+				</cfif>
+				<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
+					<cfquery name="lookupAddress" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAddress_result">
+						SELECT 
+							addr_id,
+							street_addr1,
+							street_addr2,
+							institution,
+							department,
+							city,
+							state,
+							zip,
+							country_cde,
+							mail_stop,
+							agent_id,
+							addr_type,
+							job_title,
+							valid_addr_fg,
+							addr_remarks
+						FROM addr
+						WHERE
+							addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
+					</cfquery>
+					<cfif lookupAddress.recordcount NEQ 1>
+						<cfthrow message="No address found for provided addr_id [#encodeForHTML(addr_id)#].">
+					</cfif>
+					<cfloop query="lookupAddress">
+						<cfset addr_id = lookupAddress.addr_id>
+						<cfset street_addr1 = lookupAddress.street_addr1>
+						<cfset street_addr2 = lookupAddress.street_addr2>
+						<cfset institution = lookupAddress.institution>
+						<cfset department = lookupAddress.department>
+						<cfset city = lookupAddress.city>
+						<cfset state = lookupAddress.state>
+						<cfset zip = lookupAddress.zip>
+						<cfset country_cde = lookupAddress.country_cde>
+						<cfset mail_stop = lookupAddress.mail_stop>
+						<cfset agent_id = lookupAddress.agent_id>
+						<cfset address_type = lookupAddress.addr_type>
+						<cfset job_title = lookupAddress.job_title>
+						<cfset valid_addr_fg = lookupAddress.valid_addr_fg>
+						<cfset addr_remarks = lookupAddress.addr_remarks>
+						<cfset method = "updateAddress">
+					</cfloop>
+				<cfelse>
+						<cfset addr_id = "">
+						<cfset street_addr1 = "">
+						<cfset street_addr2 = "">
+						<cfset institution = "">
+						<cfset department = "">
+						<cfset city = "">
+						<cfset state = "">
+						<cfset zip = "">
+						<cfset country_cde = "">
+						<cfset mail_stop = "">
+						<cfset job_title = "">
+						<cfset valid_addr_fg = 0>
+						<cfset addr_remarks = "">
+						<cfset method = "addNewAddress">
 				</cfif>
 				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select addr_type from ctaddr_type where addr_type = <cfqueryparam value="#address_type#" CFSQLTYPE="CF_SQL_VARCHAR">
@@ -1618,10 +1680,13 @@ limitations under the License.
 						<div id='newAddressStatus'></div>
 						<form name='newAddress' id='newAddressForm'>
 							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
-							<input type='hidden' name='method' value='addNewAddress'>
+							<input type='hidden' name='method' value='#method#'>
 							<input type='hidden' name='returnformat' value='json'>
 							<input type='hidden' name='queryformat' value='struct'>
 							<input type='hidden' name='addr_type' value='#address_type#'>
+							<cfif len(addr_id) GT 0>
+								<input type='hidden' name='addr_id' value='#addr_id#'>
+							</cfif>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 		 							<strong>Address Type:</strong> #ctAddrType.addr_type#
@@ -1656,52 +1721,54 @@ limitations under the License.
 									<div class='col-12 col-md-6'>
 										<label for="valid_addr_fg">Valid?</label>
 											<select name="valid_addr_fg" id="valid_addr_fg" class="data-entry-select">
-												<option value="1" selected>yes</option>
-												<option value="0">no</option>
+												<cfif valid_addr_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="1" #selected#>yes</option>
+												<cfif valid_addr_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="0" #selected#>no</option>
 										</select>
 									</div>
 									<div class='col-12 col-md-6'>
 										<label for="job_title" class="data_entry_label">Job Title</label>
-										<input type="text" name="job_title" id="job_title" class="data-entry-input" value="">
+										<input type="text" name="job_title" id="job_title" class="data-entry-input" value="#job_title#">
 									</div>
 								</div>
 							</cfif>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 									<label for='institution' class="data-entry-label">Institution</label>
-									<input type='text' name='institution' id='institution'class="form-control data-entry-input". >
+									<input type='text' name='institution' id='institution'class="form-control data-entry-input" value="#institution#" >
 								</div>
 								<div class='col-12 col-md-6'>
 									<label for='department' class="data-entry-label">Department</label>
-									<input type='text' name='department' id='department' class="form-control data-entry-input". >
+									<input type='text' name='department' id='department' class="form-control data-entry-input" value="#department#" >
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12'>
 									<label for='street_addr1' class="data-entry-label">Street Address 1</label>
-									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input'>
+									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input' value="#street_addr1#" required>
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12'>
 									<label for='street_addr2'>Street Address 2</label>
-									<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input">
+									<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input" value="#street_addr2#">
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 									<label for='city' class="data-entry-label">City</label>
-									<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input'>
+									<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input' value="#city#" required>
 								</div>
 								<div class='col-12 col-md-6'>
-									<label for='state' class="data-entry-label">State</label>
-									<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input'>
+									<label for='state' class="data-entry-label">State/Province</label>
+									<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input' value="#state#" required>
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
-									<label for='zip' class="data-entry-label">Zip</label>
-									<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input'>
+									<label for='zip' class="data-entry-label">Zip/Postcode</label>
+									<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
 								</div>
 								<div class='col-12 col-md-6'>
 									<script>
@@ -1725,9 +1792,11 @@ limitations under the License.
 										<img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" style="margin-top: -10px;" alt="[ help ]">
 									</label>
 									<span class="data-entry-input form-control">
-										<input type="hidden" name="country_cde" id="country_cde" value="USA">
-										<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold">USA</span>
-										<input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
+										<input type="hidden" name="country_cde" id="country_cde" value="USA" value="#country_cde#">
+										<cfif country_cde EQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
+										<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+										<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
+										<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
 										<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
 									<span>
 								</div>
@@ -1735,14 +1804,20 @@ limitations under the License.
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 									<label for='mail_stop' class="data-entry-label">Mail Stop</label>
-									<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input">
+									<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input" value="#mail_stop#">
 								</div>
 								<div class='col-12 col-md-6'>
 									<label for='addr_remarks' class="data-entry-label">Address Remark</label>
-									<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input">
+									<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input" value="#addr_remarks#">
 								</div>
 							</div>
-							<input type='submit' class='insBtn' value='Create Address' >
+							<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
+								<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
+								<cfset errmsg = "updating an address for an agent">
+							<cfelse>
+								<input type='submit' class='btn btn-xs btn-primary' value='Create Address' >
+								<cfset errmsg = "adding an address to an agent">
+							</cfif>
 							<script>
 								$('##newAddressForm').submit( function (e) { 
 									$.ajax({
@@ -1759,7 +1834,7 @@ limitations under the License.
 											}
 										},
 										error: function (jqXHR, textStatus, error) {
-											handleFail(jqXHR,textStatus,error,"obtaining relationships for an agent");
+											handleFail(jqXHR,textStatus,error,"#errmsg#");
 										},
 										dataType: 'json'
 									});
