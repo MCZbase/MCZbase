@@ -513,11 +513,10 @@ function updateAgentAddress(agent_id, addressIdControl, addTypCtl, vaCtl, st1Ctl
 
 /* Delete an existing address
  *
- * @param addrIdControl input containing the addr_id to delete without a leading # selector.
+ * @param addr_id the address to delete.
  * @param callback a callback function to invoke on completion.
  */
-function deleteAgentAddress(addrIdControl, callback) {
-	var addr_id = $('#'+addrIdControl).val();
+function deleteAgentAddress(addr_id, callback) {
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "deleteAddress",

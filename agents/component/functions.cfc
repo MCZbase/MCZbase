@@ -187,7 +187,7 @@ limitations under the License.
 										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
 									});
 									$("##deleteAddrButton_#i#").click(function(evt) { 
-										deleteAddressForAgent(#agentAddrs.addr_id#,reloadAddresses);
+										deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
 									});
 								});
 							</script>
@@ -1782,14 +1782,12 @@ limitations under the License.
 										      $("##other_country_cde").toggle("false");
 										      $("##country_cde").val("USA");
 									   	   $("##other_country_cde").removeClass("reqdClr");
-									   	   $("##other_country_cde").removeClass("data-entry-input");
 												$('##other_country_cde').removeAttr('required');
 										   } else {
 										      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
 										      $("##other_country_cde").toggle("true");
 										      $("##country_cde").val($("##other_country_cde").val());
 										      $("##other_country_cde").addClass("reqdClr");
-										      $("##other_country_cde").addClass("data-entry-input");
 												$('##other_country_cde').prop('required',true);
 										   }
 										}
@@ -1804,7 +1802,7 @@ limitations under the License.
 										<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
 										<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
 										<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
-										<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
+										<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
 									<span>
 								</div>
 							</div>
