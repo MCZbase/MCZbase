@@ -1677,7 +1677,6 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<div>
-						<div id='newAddressStatus'></div>
 						<form name='newAddress' id='newAddressForm'>
 							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
 							<input type='hidden' name='method' value='#method#'>
@@ -1811,26 +1810,33 @@ limitations under the License.
 									<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input" value="#addr_remarks#">
 								</div>
 							</div>
-							<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
-								<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
-								<cfset errmsg = "updating an address for an agent">
-							<cfelse>
-								<input type='submit' class='btn btn-xs btn-primary' value='Create Address' >
-								<cfset errmsg = "adding an address to an agent">
-							</cfif>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
+										<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
+										<cfset errmsg = "updating an address for an agent">
+									<cfelse>
+										<input type='submit' class='btn btn-xs btn-primary' value='Create Address' >
+										<cfset errmsg = "adding an address to an agent">
+									</cfif>
+								</div>
+								<div class='col-12 col-md-6'>
+									<div id='newAddressStatus'></div>
+								</div>
+							</div>
 							<script>
 								$('##newAddressForm').submit( function (e) { 
 									$.ajax({
 										url: '/agents/component/functions.cfc',
 										data : $('##newAddressForm').serialize(),
 										success: function (result) {
-											if (result[0].STATUS[0]=='success') { 
-												$('##newAddressStatus').html('New Address Added');
-												$('##new_address_id').val(result[0].ADDRESS_ID[0]);
-												$('##new_address').val(result[0].ADDRESS[0]);
+											if (result[0].STATUS=='success') { 
+												$('##newAddressStatus').html(result[0].MESSAGE);
+												$('##new_address_id').val(result[0].ADDRESS_ID);
+												$('##new_address').val(result[0].ADDRESS);
 												$('##tempAddressDialog').dialog('close');
 											} else { 
-												$('##newAddressStatus').html(result[0].MESSAGE[0]);
+												$('##newAddressStatus').html(result[0].MESSAGE);
 											}
 										},
 										error: function (jqXHR, textStatus, error) {
