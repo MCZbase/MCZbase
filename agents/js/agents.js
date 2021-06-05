@@ -365,6 +365,56 @@ function updateAgentAddresses(agent_id,targetDiv) {
 	});
 };
 
+
+/** given a div with a specified id and an agent_id, create dialog to create a new
+ *  address of a specfied type for the given agent.  */
+function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callback) { 
+	var agent_id = $("#"+agentIdControl).val();
+	var address_type = $("#"+addressTypeControl).val();
+
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "addAddressHtml",
+			agent_id : agent_id,
+			address_type : address_type
+		},
+		success: function (result) {
+			$("#"+dialogDivId).html(result);
+			$("#"+dialogDivId).dialog(
+				{ autoOpen: false, modal: true, stack: true, title: 'Add Address',
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#"+dialogDivId).dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						var addr = $('#new_address').val();
+						if ($.trim(addr) != '') { 
+							$("#"+targetAddressControl).val(addr);
+						}
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#"+dialogDivId).dialog('destroy'); 
+						$("#"+dialogDivId).html(""); 
+					}
+				});
+				$("#dialogDivId").dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"opening dialog to add an address to an agent");
+			},
+			dataType: "html"
+		}
+	)
+};
+
 /* Save a change to an existing address for an agent, the record to be updated is identified by
  * the addr_id
  *
