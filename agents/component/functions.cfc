@@ -175,7 +175,7 @@ limitations under the License.
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li>
+						<li class="form-row">
 							#addr_type#:
 							#formatted_addr#
 							#rem#
@@ -472,7 +472,8 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li>#currAgent# 
+						<li class="form-row">
+							#currAgent# 
 							<select name="relation_type" id="relation_type_#i#">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -578,7 +579,7 @@ limitations under the License.
 						<li>None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li>
+						<li class="form-row">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#
@@ -829,7 +830,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-5">
-							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input">
+							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input reqdClr" required>
 						</div>
 						<div class="col-12 col-md-2">
 							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
@@ -1008,7 +1009,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<ul>
-					<li>
+					<li class="form-row">
 						<form id="preferredNameForm">
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
@@ -1043,7 +1044,7 @@ limitations under the License.
 					</cfif>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li>
+						<li class="form-row">
 							<form id="agentNameForm_#i#">
 								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
 								<input type="hidden" name="agent_id" value="#npname.agent_id#">
@@ -1060,6 +1061,9 @@ limitations under the License.
 							</form>
 						</li>
 						<script>
+							function doDeleteAgentName_#i#() { 
+								deleteAgentName('agent_name_id_#i#',reloadAgentNames);
+							};
 							$(document).ready(function () {
 								$('##agentNameU#i#Button').click(function(evt){
 									evt.preventDefault;
@@ -1069,7 +1073,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentNameDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									deleteAgentName('agent_name_id_#i#',reloadAgentNames);
+									confirmWarningDialog("Delete the name #encodeForHTML(npname.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
 								});
 							});
 						</script>
