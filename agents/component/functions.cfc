@@ -189,8 +189,11 @@ limitations under the License.
 					<div class="col-12 col-md-4">
 						<label for="new_address_type">Address Type</label>
 						<select name="address_type" id="new_address_type" class="data-entry-select">
+							<cfset i=0>
 							<cfloop query="ctAddrType">
-								<option value="#ctAddrType.addr_type#">#ctAddrType.addr_type#</option>
+								<cfif i EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="#ctAddrType.addr_type#" #selected#>#ctAddrType.addr_type#</option>
+								<cfset i=i+1>
 							</cfloop>
 						</select>
 						<input type="hidden" id="newAddrAgentId" value="#agent_id#">
@@ -1574,7 +1577,7 @@ limitations under the License.
 	<cfthread name="createAddressThread">
 		<cfoutput>
 			<cftry>
-				<cfif not isdefined("address_type") or len(#address_type#) gt 0>
+				<cfif NOT isdefined("address_type") OR NOT len(#address_type#) GT 0>
 					<cfset address_type = "temporary">
 				</cfif>
 				<cfif isdefined("create_from_address_id") AND (not isdefined("agent_id") AND len(agent_id) GT 0) >
