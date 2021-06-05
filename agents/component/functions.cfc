@@ -1613,7 +1613,6 @@ limitations under the License.
 							<input type='hidden' name='returnformat' value='json'>
 							<input type='hidden' name='queryformat' value='struct'>
 							<input type='hidden' name='addr_type' value='#address_type#'>
-							<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 		 							<strong>Address Type:</strong> #ctAddrType.addr_type#
@@ -1640,6 +1639,24 @@ limitations under the License.
 									</cfif>
 								</div>
 							</div>
+							<cfif address_type EQ "temporary">
+								<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
+								<input type="hidden" name="job_title" id="job_title" class="data-entry-input" value="">
+							<cfelse>
+								<div class='form-row'>
+									<div class='col-12 col-md-6'>
+										<label for="valid_addr_fg">Valid?</label>
+											<select name="valid_addr_fg" id="valid_addr_fg" class="data-entry-select">
+												<option value="1" selected>yes</option>
+												<option value="0">no</option>
+										</select>
+									</div>
+									<div class='col-12 col-md-6'>
+										<label for="job_title" class="data_entry_label">Job Title</label>
+										<input type="text" name="job_title" id="job_title" class="data-entry-input" value="">
+									</div>
+								</div>
+							</cfif>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
 									<label for='institution' class="data-entry-label">Institution</label>
