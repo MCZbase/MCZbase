@@ -1061,6 +1061,9 @@ limitations under the License.
 							</form>
 						</li>
 						<script>
+							function doDeleteAgentName_#i#() { 
+								deleteAgentName('agent_name_id_#i#',reloadAgentNames);
+							};
 							$(document).ready(function () {
 								$('##agentNameU#i#Button').click(function(evt){
 									evt.preventDefault;
@@ -1070,7 +1073,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentNameDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									deleteAgentName('agent_name_id_#i#',reloadAgentNames);
+									confirmWarningDialog("Delete the name #encodeForHTML(npname.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
 								});
 							});
 						</script>
