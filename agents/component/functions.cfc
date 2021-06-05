@@ -830,7 +830,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-5">
-							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input">
+							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input reqdClr" required>
 						</div>
 						<div class="col-12 col-md-2">
 							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
