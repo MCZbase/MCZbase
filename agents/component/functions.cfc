@@ -175,7 +175,7 @@ limitations under the License.
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li>
+						<li class="form-row">
 							#addr_type#:
 							#formatted_addr#
 							#rem#
@@ -472,7 +472,8 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li>#currAgent# 
+						<li class="form-row">
+							#currAgent# 
 							<select name="relation_type" id="relation_type_#i#">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -578,7 +579,7 @@ limitations under the License.
 						<li>None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li>
+						<li class="form-row">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#

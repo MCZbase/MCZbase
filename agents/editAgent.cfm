@@ -336,14 +336,15 @@ limitations under the License.
 											<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
 										</div>
 										<div class="col-12 col-md-6 pl-0 float-left">
+											<label class="data-entry-label">&nbsp;<label>
+											<input class="data-entry-input" name="agentguid" id="agentguid" 
+												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 											<cfif len(regex) GT 0 >
 												<cfset link = REReplace(getAgent.agentguid,regex,replacement)>
 											<cfelse>
 												<cfset link = getAgent.agentguid>
 											</cfif>
-											<label class="data-entry-label"><a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a></label>
-											<input class="data-entry-input" name="agentguid" id="agentguid" 
-												value="#getAgent.agentguid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a>
 										</div>
 										<script>
 											$(document).ready(function () {
@@ -531,14 +532,14 @@ limitations under the License.
 											updateAgentNames(#getAgent.agent_id#,'namesDiv');
 										};
 									</script>
-									<h2 class="h3 px-1">Names for this agent</h2>
+									<h2 class="h3 px-1 my-0">Names for this agent</h2>
 									<cfset namesBlock = getAgentNamesHTML(agent_id="#agent_id#")>
 									<div id="namesDiv" class="col-12 px-0 pb-1">#namesBlock#</div>
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-7">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1">Relationships for this agent</h2>
+									<h2 class="h3 px-1 my-0">Relationships for this agent</h2>
 									<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
 									<div id="relationsDiv" class="col-12 px-0 pb-1">#relationsBlock#</div>
 									<script>
@@ -558,7 +559,7 @@ limitations under the License.
 										updateGroupMembers(#getAgent.agent_id#,'groupMembersDiv');
 									};
 								</script>
-								<h2 class="h3 px-1">Group Members</h2>
+								<h2 class="h3 px-1 my-0">Group Members</h2>
 								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
 								<div id="groupMembersDiv" class="col-12 px-0 pb-1">#groupMembersBlock#</div>
 							</section>
@@ -566,7 +567,7 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 col-lg-12 col-xl-6">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1">Addresses for this agent</h2>
+									<h2 class="h3 px-1 my-0">Addresses for this agent</h2>
 									<cfset addressesBlock = getAgentAddressesHTML(agent_id="agent_id")>
 									<div id="addressesDiv" class="col-12 px-0 pb-1">#addressesBlock#</div>
 									<script>
@@ -579,7 +580,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-lg-12 col-xl-6">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1">Phone numbers/Email addresses</h2>
+									<h2 class="h3 px-1 my-0">Phone numbers/Email addresses</h2>
 									<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
 									<div id="electronicAddressesDiv" class="col-12 px-0 pb-1">#electronicAddressesBlock#</div>
 									<script>
