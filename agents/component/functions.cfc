@@ -176,14 +176,18 @@ limitations under the License.
 						<cfset i=i+1>
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 						<li>
-							#addr_type#
+							#addr_type#:
 							#formatted_addr#
 							#rem#
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 							<script>
 								$(document).ready(function () {
 									$("##editAddrButton_#i#").click(function(evt) { 
 										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
+									});
+									$("##deleteAddrButton_#i#").click(function(evt) { 
+										deleteAddressForAgent(#agentAddrs.addr_id#,reloadAddresses);
 									});
 								});
 							</script>
