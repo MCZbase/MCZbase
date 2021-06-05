@@ -523,7 +523,7 @@ limitations under the License.
 							</form>
 						</section>
 						<div class="row">
-							<div class="col-12 col-md-12 col-lg-5">
+							<div class="col-12 col-lg-12 col-xl-5">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<script>
 										// callback for ajax methods to reload names for agent
@@ -536,7 +536,7 @@ limitations under the License.
 									<div id="namesDiv" class="col-12 px-0 pb-1">#namesBlock#</div>
 								</section>
 							</div>
-							<div class="col-12 col-md-12 col-lg-7">
+							<div class="col-12 col-lg-12 col-xl-7">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<h2 class="h3 px-1">Relationships for this agent</h2>
 									<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
@@ -564,7 +564,7 @@ limitations under the License.
 							</section>
 						</cfif>
 						<div class="row">
-							<div class="col-12 col-md-12 col-lg-6">
+							<div class="col-12 col-lg-12 col-xl-6">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<h2 class="h3 px-1">Addresses for this agent</h2>
 									<cfset addressesBlock = getAgentAddressesHTML(agent_id="agent_id")>
@@ -577,7 +577,7 @@ limitations under the License.
 									</script>
 								</section>
 							</div>
-							<div class="col-12 col-md-12 col-lg-6">
+							<div class="col-12 col-lg-12 col-xl-6">
 								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
 									<h2 class="h3 px-1">Phone numbers/Email addresses</h2>
 									<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
