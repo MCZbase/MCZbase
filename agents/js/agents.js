@@ -405,7 +405,7 @@ function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callba
 						$("#"+dialogDivId).html(""); 
 					}
 				});
-				$("#dialogDivId").dialog('open');
+				$("#"+dialogDivId).dialog('open');
 			},
 			error: function (jqXHR, textStatus, error) {
 				handleFail(jqXHR,textStatus,error,"opening dialog to add an address to an agent");
