@@ -120,14 +120,14 @@
                      style="padding: 2px 6px;"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'"
-					onClick="window.open('editAllAgent.cfm?Action=newOtherAgent','_person');">
+					onClick="window.open('/agents/editAgent.cfm?action=new&agent_type=other%20agent','_blank');">
             <input type="button" 
 					value="New Person" 
 					class="insBtn"
                    style="padding: 2px 6px;"
 					onmouseover="this.className='insBtn btnhov'"
 					onmouseout="this.className='insBtn'"
-					onClick="window.open('editAllAgent.cfm?action=newPerson','_person');">
+					onClick="window.open('/agents/editAgent.cfm?action=new&agent_type=person','_blank');">
             <input type="reset" 
 				value="Clear Form" 
 				class="clrBtn"

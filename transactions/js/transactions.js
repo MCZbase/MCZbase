@@ -2149,7 +2149,7 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,targetAddressCo
 				$("#tempAddressDialog").dialog('open');
 			},
 			error: function (jqXHR, textStatus, error) {
-				handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+				handleFail(jqXHR,textStatus,error,"opening dialog to create a temporary address");
 			},
 			dataType: "html"
 		}

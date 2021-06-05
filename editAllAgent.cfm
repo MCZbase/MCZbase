@@ -271,6 +271,7 @@ function opendialogrank(page,id,title,agentId) {
 			middle_name,
 			birth_date,
 			death_date,
+			biography,
 			agent_remarks,
 			agent_type,
 			agent.edited edited,
@@ -311,7 +312,11 @@ function opendialogrank(page,id,title,agentId) {
 		<h3 class="wikilink" style="margin-bottom:.5em;"> Edit Agent Profile <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('Agent_Standards')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></h3>
 
 		<strong>#nameStr#</strong> (#agent_type#) {ID: <a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_id#</a>}
+		<cfif len(#person.biography#) gt 0>
+			#person.biography#
+		</cfif>
 		<cfif len(#person.agent_remarks#) gt 0>
+			<h4>Internal Remarks</h4>
 			#person.agent_remarks#
 		</cfif>
         <div style="margin-bottom: 1em;">
@@ -556,7 +561,14 @@ function opendialogrank(page,id,title,agentId) {
  						</tr>
  						<tr>
 							<td colspan="5">
- 								<label for="agent_remarks">Agent Remarks &nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Remarks')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></label>
+ 								<label for="biography">Biography (public) &nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Remarks')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></label>
+                     		<textarea name="biography" id="biography" style="height: 20em;">#biography#</textarea>
+                       		<script>CKEDITOR.replace( 'biography' );</script>
+ 							</td>
+ 						</tr>
+ 						<tr>
+							<td colspan="5">
+ 								<label for="agent_remarks">Internal Remarks &nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Remarks')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></label>
                        						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
                        						<script>CKEDITOR.replace( 'agent_remarks' );</script>
 
@@ -576,6 +588,13 @@ function opendialogrank(page,id,title,agentId) {
 
 					<table>
 						<tr>
+ 						<tr>
+							<td colspan="4">
+ 								<label for="biography">Biography (public) &nbsp;&nbsp;<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Remarks')" class="likeLink" style="margin-top: -15px;" alt="[ help ]"></label>
+                     		<textarea name="biography" id="biography" style="height: 20em;">#biography#</textarea>
+                       		<script>CKEDITOR.replace( 'biography' );</script>
+ 							</td>
+ 						</tr>
 							<td colspan="4">
 								<label for="agent_remarks">Agent Remarks</label>
                        						<textarea name="agent_remarks" id="agent_remarks" style="height: 20em;">#agent_remarks#</textarea>
@@ -596,7 +615,7 @@ function opendialogrank(page,id,title,agentId) {
 		</cfoutput>
 	</cfif>
 	<cfoutput>
-<!---------------------------- group handling ------------------------------>
+		<!----- group handling ---->
 		<cfif #person.agent_type# IS "group" OR #person.agent_type# IS "expedition" OR #person.agent_type# IS "vessel">
 			<cfquery name="grpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -647,6 +666,7 @@ function opendialogrank(page,id,title,agentId) {
 				</div>
 			</form>
 		</cfif>
+		<!--- agent names --->
 		<cfquery name="anames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from agent_name where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
@@ -1454,6 +1474,11 @@ function opendialogrank(page,id,title,agentId) {
 			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE agent SET
 					edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
+					<cfif len(#biography#) gt 0>
+						, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
+					<cfelse>
+					  	, biography = null
+					</cfif>
 					<cfif len(#agent_remarks#) gt 0>
 						, agent_remarks = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
 					<cfelse>
@@ -1485,9 +1510,14 @@ function opendialogrank(page,id,title,agentId) {
 			<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE agent SET
 					edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#editedPerson#'>
+					<cfif len(#biography#) gt 0>
+						, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
+					<cfelse>
+					  	, biography = null
+					</cfif>
 					<cfif len(#agent_remarks#) gt 0>
-						, agent_remarks = '#agent_remarks#'
-					  <cfelse>
+						, agent_remarks = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+					<cfelse>
 					  	, agent_remarks = null
 					</cfif>
 					<cfif len(#agentguid_guid_type#) gt 0>
@@ -1524,6 +1554,7 @@ function opendialogrank(page,id,title,agentId) {
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif action is "insertPerson">
+	<!--- Deprecated, replaced by /agents/editAgent.cfm --->
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1672,6 +1703,7 @@ function opendialogrank(page,id,title,agentId) {
 </cfif>
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #Action# is "makeNewAgent">
+	<!--- Deprecated, replaced by /agents/editAgent.cfm --->
 	<cfif not isdefined("agentguid")><cfset agentguid=""></cfif>
 	<cfif not isdefined("agentguid_guid_type")><cfset agentguid_guid_type=""></cfif>
 	<cfoutput>
