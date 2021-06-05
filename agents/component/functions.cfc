@@ -182,12 +182,15 @@ limitations under the License.
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
 							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 							<script>
+								function doDeleteAddr_#i#() { 
+									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
+								}
 								$(document).ready(function () {
 									$("##editAddrButton_#i#").click(function(evt) { 
 										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
 									});
 									$("##deleteAddrButton_#i#").click(function(evt) { 
-										deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
+										confirmWarningDialog("Delete This #addr_type# Address?", "Confirm Delete?", doDeleteAddr_#i#);
 									});
 								});
 							</script>
@@ -797,6 +800,9 @@ limitations under the License.
 							</div>
 						</li>
 						<script>
+							function doDeleteEA_#i#() { 
+								deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
+							};
 							$(document).ready(function () {
 								$('##agentEAddrU#i#Button').click(function(evt){
 									evt.preventDefault;
@@ -806,7 +812,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentEAddrDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
+									confirmWarningDialog("Delete the #encodeForHTML(address)#?", "Confirm Delete?", doDeleteEA_#i#);
 								});
 							});
 						</script>
