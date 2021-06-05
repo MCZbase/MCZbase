@@ -1810,6 +1810,11 @@ limitations under the License.
 										<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
 										<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
 									<span>
+									<script>
+										$(document).ready(function () {
+											handleCountrySelect();
+										});
+									</script>
 								</div>
 							</div>
 							<div class='form-row'>
