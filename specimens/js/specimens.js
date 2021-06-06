@@ -87,7 +87,7 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
+function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
