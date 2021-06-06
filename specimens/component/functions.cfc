@@ -1814,7 +1814,7 @@ limitations under the License.
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getOIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					COLL_OBJ_OTHER_ID_NUM_ID,
 					cat_num,
@@ -1843,7 +1843,7 @@ limitations under the License.
 			<cfquery name="cataf" dbtype="query">
 				select cat_num from getIDs group by cat_num
 			</cfquery>
-			<cfquery name="oids" dbtype="query">
+			<cfquery name="getOIDs" dbtype="query">
 				select 
 					COLL_OBJ_OTHER_ID_NUM_ID,
 					other_id_prefix,
@@ -1851,7 +1851,7 @@ limitations under the License.
 					other_id_suffix,
 					other_id_type 
 				from 
-					getIDs 
+					getOIDs 
 				group by 
 					COLL_OBJ_OTHER_ID_NUM_ID,
 					other_id_prefix,
@@ -2095,6 +2095,7 @@ limitations under the License.
 --->
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfoutput> 
 			<cftry>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
