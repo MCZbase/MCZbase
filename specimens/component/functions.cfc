@@ -1816,19 +1816,19 @@ limitations under the License.
 		<cftry>
 			<cfquery name="getOIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					cat_num,
-					cat_num_prefix,
-					cat_num_integer,
-					cat_num_suffix,
-					other_id_prefix,
-					other_id_number,
-					collection_id,
-					other_id_suffix,
-					other_id_type, 
+					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
+					cataloged_item.cat_num,
+					cataloged_item.cat_num_prefix,
+					cataloged_item.cat_num_integer,
+					cataloged_item.cat_num_suffix,
+					coll_obj_other_id_num.other_id_prefix,
+					coll_obj_other_id_num.other_id_number,
+					collection.collection_id,
+					coll_obj_other_id_num.other_id_suffix,
+					coll_obj_other_id_num.other_id_type, 
 					cataloged_item.collection_id,
 					collection.collection_cde,
-					institution_acronym
+					collection.institution_acronym
 				from 
 					cataloged_item, 
 					coll_obj_other_id_num,
