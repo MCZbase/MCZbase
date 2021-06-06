@@ -65,8 +65,7 @@ function loadOtherID(coll_obj_other_id_num_id,form) {
 	});
 };
 function updateIdentifications(identification_id,targetDiv) {
-	jQuery.ajax(
-	{
+	jQuery.ajax({
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
@@ -84,8 +83,7 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
-	)
+	});
 };
 function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
@@ -177,32 +175,32 @@ function updateIdentifications(identification_id,targetDiv) {
 	)
 };
 
-function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/transactions/component/functions.cfc",
-		data: { 
-			method : "updateOID",
-			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are " + result.DATA.PARTCOUNT[0];
-				message += " parts from " + result.DATA.CATITEMCOUNT[0];
-				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
-				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
-				$('#' + targetDiv).html(message);
-			}
-		}
-	},
-	)
-};
+//function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
+//	jQuery.ajax(
+//	{
+//		dataType: "json",
+//		url: "/transactions/component/functions.cfc",
+//		data: { 
+//			method : "updateID",
+//			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
+//			returnformat : "json",
+//			queryformat : 'column'
+//		},
+//		error: function (jqXHR, status, message) {
+//			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+//		},
+//		success: function (result) {
+//			if (result.DATA.STATUS[0]==1) {
+//				var message  = "There are " + result.DATA.PARTCOUNT[0];
+//				message += " parts from " + result.DATA.CATITEMCOUNT[0];
+//				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+//				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
+//				$('#' + targetDiv).html(message);
+//			}
+//		}
+//	},
+//	)
+//};
 /** openEditIdentificationsDialog (plural) open a dialog for editing 
  * identifications for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit identifications.

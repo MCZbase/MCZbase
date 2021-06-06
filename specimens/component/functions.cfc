@@ -614,9 +614,9 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaDetailsThread" />
 	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
-<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
- @param identification-id the identification.identification_id to edit.
- @return html for editing the identification 
+<!---function getMediaHTML obtain an html block to popluate an edit dialog for a media object 
+ @param media-id the media.media_id to edit.
+ @return html for editing the media 
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
