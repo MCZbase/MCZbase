@@ -102,6 +102,7 @@ limitations under the License.
 						<div class="row">
 							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 								<li class="list-group-item px-0 mx-1">
+									<div id="mediaDialog"></div>
 									<script>
 										function reloadMedia() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
