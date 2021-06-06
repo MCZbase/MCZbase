@@ -122,7 +122,7 @@ limitations under the License.
 								<li class="list-group-item px-0 mx-1">
 									<div id="otherIDsDialog"></div>
 									<script>
-										function reloadMedia() { 
+										function reloadOtherIDs() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 											loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 										}
