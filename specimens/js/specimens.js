@@ -65,7 +65,8 @@ function loadOtherID(coll_obj_other_id_num_id,form) {
 	});
 };
 function updateIdentifications(identification_id,targetDiv) {
-	jQuery.ajax({
+	jQuery.ajax(
+	{
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
@@ -83,7 +84,8 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	});
+	},
+	)
 };
 function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
