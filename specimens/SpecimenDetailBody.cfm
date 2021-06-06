@@ -120,6 +120,13 @@ limitations under the License.
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Citations</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
+									<div id="otherIDsDialog"></div>
+									<script>
+										function reloadMedia() { 
+											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+											loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+										}
+									</script>
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 								</li>
 								<li class="list-group-item px-0 mx-1">
