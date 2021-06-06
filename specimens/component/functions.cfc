@@ -1826,8 +1826,8 @@ limitations under the License.
 					collection.collection_id,
 					coll_obj_other_id_num.other_id_suffix,
 					coll_obj_other_id_num.other_id_type, 
-					cataloged_item.collection_id,
-					collection.collection_cde,
+					collection.collection_id,
+					cataloged_item.collection_cde,
 					collection.institution_acronym
 				from 
 					cataloged_item, 
