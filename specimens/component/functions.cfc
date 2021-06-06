@@ -1823,6 +1823,7 @@ limitations under the License.
 					cat_num_suffix,
 					other_id_prefix,
 					other_id_number,
+					collection_id,
 					other_id_suffix,
 					other_id_type, 
 					cataloged_item.collection_id,
