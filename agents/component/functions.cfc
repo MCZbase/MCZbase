@@ -472,7 +472,7 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li class="list-group-item">
+						<li class="list-group-item mb-3">
 							#currAgent# 
 							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
@@ -487,8 +487,8 @@ limitations under the License.
 							<div id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</div> 
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 							#date_to_merge# #on_hold# #held_by#
-							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
-							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs btn-warning">Remove</button>
+							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-secondary">Save</button>
+							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-warning">Remove</button>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
