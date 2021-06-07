@@ -507,8 +507,9 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation" class="data-entry-label mb-0 h5">Add Relationship</label>
+				<div id="newRelationshipDiv" class="col-12 px-0">
+					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
+					<h3 class="h4">Add Relationship to another agent</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0">&nbsp;</label>
@@ -529,7 +530,7 @@ limitations under the License.
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_relation">Remarks</label>
+							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-1">
@@ -559,7 +560,7 @@ limitations under the License.
 					</script>
 				</div>
 
-				<h3 class="h3">Relationships from other agents</h3>
+				<h3 class="h4">Relationships from other agents</h3>
 				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
 					select
 						preferred_agent_name.agent_name,
