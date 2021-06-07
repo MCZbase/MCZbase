@@ -166,7 +166,7 @@ limitations under the License.
 						and addr.addr_type <> 'temporary'
 					order by valid_addr_fg DESC
 				</cfquery>
-				<h3 class="h4">Addresses</h3>
+				<h3 class="h4 sr-only">Addresses</h3>
 				<ul class="list-group list-group-horizontal">
 					<cfif agentAddrs.recordcount EQ 0>
 						<li class="list-group-item">None</li>
@@ -175,17 +175,17 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
-					<ul class="list-group list-group-horizontal">
+					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item">
-							#addr_type#:
+						<li class="list-group-item w-100 px-0 py-1">
+							<span class="text-secondary font-weight-bold">#addr_type#:</span>
 							#formatted_addr#
 							#rem#
 							</li>
-						<li class="list-group-item">
+						<li class="list-group-item px-1">
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
 						</li>
-						<li class="list-group-item">
+						<li class="list-group-item px-0">
 							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 						</li>
 							<script>
@@ -532,7 +532,7 @@ limitations under the License.
 					<h3 class="h4">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label mb-0">&nbsp;Current Agent</label>
+							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 						</div>
 						<div class="col-12 col-md-3">
@@ -843,7 +843,7 @@ limitations under the License.
 						</ul>
 					</cfloop>
 		
-				<div id="newEaddrDiv" class="col-12 px-0">
+				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
 					<h3 class="h4">Add Phone or Email</h3>
 					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
 					<div class="form-row">
@@ -1091,7 +1091,7 @@ limitations under the License.
 								<li class="list-group-item px-0">
 									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
 								</li>
-								<li class="list-group-item px-0">
+								<li class="list-group-item px-1">
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
