@@ -92,7 +92,7 @@ function loadIdentifications(collection_object_id,targetDivId) {
 		},
 		dataType: "html"
 	});
-}
+};
 
 /** updateIdentifications function 
  * @method updateOID in functions.cfc
@@ -215,7 +215,7 @@ function loadOtherIDs(collection_object_id,targetDivId) {
 		},
 		dataType: "html"
 	});
-}
+};
 
 function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
@@ -280,7 +280,6 @@ function loadMedia(media_id,form) {
 };
 
 /** loadMedia populate an html block with the media 
- * @method getMediaHTML
  * @param collection_object_id 
  * @param targetDivId 
  **/
@@ -318,8 +317,8 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function openEditMediaDetailsDialog(media_id,dialogId,callback) {
-	var title = "Edit Media";
+function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
