@@ -473,7 +473,7 @@ limitations under the License.
 					<cfloop query="relations">
 						<cfset i=i+1>
 						<li class="list-group-item mb-3">
-							#currAgent# 
+							<span class="border text-success w-100">#currAgent#</span> 
 							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -494,11 +494,11 @@ limitations under the License.
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 						</li>
 							#date_to_merge# #on_hold# #held_by#
-						<li class="list-group-item mb-3">
-							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-secondary">Save</button>
+						<li class="list-group-item mb-3 px-1">
+							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-secondary">Save</button>
 						</li>
-						<li class="list-group-item mb-3">
-							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-warning">Remove</button>
+						<li class="list-group-item mb-3 px-0">
+							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-warning">Remove</button>
 						</li>
 							<output id="relationfeedback_#i#"></output>
 							<script>
