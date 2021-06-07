@@ -86,7 +86,7 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	},
+	}
 	)
 };
 function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
