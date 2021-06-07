@@ -85,7 +85,8 @@ limitations under the License.
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end
+					end,
+				html_description
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
