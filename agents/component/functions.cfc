@@ -843,7 +843,7 @@ limitations under the License.
 						</ul>
 					</cfloop>
 		
-				<div id="newEaddrDiv" class="col-12 px-0">
+				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
 					<h3 class="h4">Add Phone or Email</h3>
 					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
 					<div class="form-row">
