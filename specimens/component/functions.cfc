@@ -303,7 +303,6 @@ limitations under the License.
 <!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
