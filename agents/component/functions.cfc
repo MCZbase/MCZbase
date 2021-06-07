@@ -1053,8 +1053,9 @@ limitations under the License.
 		
 
 				<cfset i=0>
-				<label class="data-entry-label mb-0 font-weight-lessbold">Other Names</label>
-				<span class="hints text-success small px-2">(add a space between initials for all forms with two initials)</span>
+				<h3 class="h4">Other Names</h3>
+				<label class="data-entry-label mb-0 sr-only">Other Names</label>
+				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
@@ -1067,11 +1068,11 @@ limitations under the License.
 					</cfif>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li class="list-group-item">
+						<li class="list-group-item px-0">
 							<form id="agentNameForm_#i#">
 								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
 								<input type="hidden" name="agent_id" value="#npname.agent_id#">
-								<select name="agent_name_type" id="agent_name_type_#i#">
+								<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
 									<cfloop query="ctNameType">
 										<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
 											value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
