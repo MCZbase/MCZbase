@@ -23,7 +23,8 @@ limitations under the License.
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
  @param condition the new condition to update the part to 
- @return a json structure containing the part_id and a message, with "success" as the value of the message on a successful update.--->
+ @return a json structure containing the part_id and a message, with "success" as the value of the message on a successful update.
+--->
 <cffunction name="updateCondition" access="remote" returntype="query">
 	<cfargument name="part_id" type="numeric" required="yes">
 	<cfargument name="condition" type="string" required="yes">
@@ -51,10 +52,11 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<!---getEditMediaHTML obtain a block of html to populate an media to add/remove media for a specimen.
+<!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
- @return html for editing media for the specified cataloged item. --->
+ @return html for editing media for the specified cataloged item. 
+--->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
@@ -612,9 +614,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaDetailsThread" />
 	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
-<!---getMediaHtml function - obtain an html block to popluate an edit dialog for a media object 
- @param media_id the media.media_id to edit.
- @return html for editing the media --->
+<!---function getMediaHTML obtain an html block to popluate an edit dialog for a media object 
+ @param media-id the media.media_id to edit.
+ @return html for editing the media 
+--->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfargument name="media_id" type="string" required="yes">
@@ -915,10 +918,11 @@ limitations under the License.
 	<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
-<!---getEditIdentificationsHTML function - obtain a block of html to populate an identification editor dialog for a specimen.
+<!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
- @return html for editing identifications for the specified cataloged item. --->
+ @return html for editing identifications for the specified cataloged item. 
+--->
 <cffunction name="getEditIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditIdentsThread"> <cfoutput>
@@ -1340,9 +1344,10 @@ limitations under the License.
 	<cfthread action="join" name="getEditIdentsThread" />
 	<cfreturn getEditIdentsThread.output>
 </cffunction>
-<!---updateIdentifications function -  update the identifications for an arbitrary number of identifications in the identification history of a collection object 
+<!--- function updateIdentifications update the identifications for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
-	@param number_of_ids the number of determinations in the identification history--->
+	@param number_of_ids the number of determinations in the identification history
+--->
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfoutput> 
@@ -1559,9 +1564,10 @@ limitations under the License.
 		</cftry>
 	</cfoutput>
 </cffunction>
-<!---getIdentificationHtml function - obtain an html block to popluate an edit dialog for an identification 
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
  @param identification-id the identification.identification_id to edit.
- @return html for editing the identification --->
+ @return html for editing the identification 
+--->
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfthread name="getIdentificationThread">
@@ -1661,7 +1667,6 @@ limitations under the License.
 	<cfthread action="join" name="getIdentificationThread" />
 	<cfreturn getIdentificationThread.output>
 </cffunction>
-<!---getIdentificationTable function -  @param identification_id --->
 <cffunction name="getIdentificationTable" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cfset r=1>
@@ -1690,7 +1695,6 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-<!---saveID function - @param collection_object_id--->
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -1801,12 +1805,10 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-						
-						
-<!---START OTHER_IDS--->
 <!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
- @return html for editing other ids for the specified cataloged item.--->
+ @return html for editing other ids for the specified cataloged item. 
+--->
 <cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditOtherIDsThread">
@@ -1814,18 +1816,18 @@ limitations under the License.
 		<cftry>
 			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					cat_num,
-					cat_num_prefix,
-					cat_num_integer,
-					cat_num_suffix,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type, 
-					cataloged_item.collection_id,
-					collection.collection_cde,
-					institution_acronym
+					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
+					cataloged_item.cat_num,
+					cataloged_item.cat_num_prefix,
+					cataloged_item.cat_num_integer,
+					cataloged_item.cat_num_suffix,
+					coll_obj_other_id_num.other_id_prefix,
+					coll_obj_other_id_num.other_id_number,
+					coll_obj_other_id_num.other_id_suffix,
+					coll_obj_other_id_num.other_id_type, 
+					collection.collection_id,
+					cataloged_item.collection_cde,
+					collection.institution_acronym
 				from 
 					cataloged_item, 
 					coll_obj_other_id_num,
@@ -1841,7 +1843,7 @@ limitations under the License.
 			<cfquery name="cataf" dbtype="query">
 				select cat_num from getIDs group by cat_num
 			</cfquery>
-			<cfquery name="oids" dbtype="query">
+			<cfquery name="getOIDs" dbtype="query">
 				select 
 					COLL_OBJ_OTHER_ID_NUM_ID,
 					other_id_prefix,
@@ -1877,7 +1879,7 @@ limitations under the License.
 								<div class="mb-4">
 									Catalog&nbsp;Number:
 									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
-										<cfset thisCollId=#getIDs.collection_id#>
+										<cfset thisCollId=#getOIDs.collection_id#>
 										<cfloop query="ctcoll_cde">
 											<option 
 											<cfif #thisCollId# is #collection_id#> selected </cfif>
@@ -1885,12 +1887,9 @@ limitations under the License.
 										</cfloop>
 									</select>
 									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-									<input type="submit" value="Save" class="btn btn-xs btn-primary">
-									<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 										onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editOtherIDsSubmit();  } ">
 										<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-									</div>
 									<script>
 												function editCatNumOtherIDsSubmit(){
 													$('##saveCatNumOtherIDsResultDiv').html('Saving....');
@@ -2090,9 +2089,13 @@ limitations under the License.
 	<cfthread action="join" name="getEditOtherIDsThread" />
 	<cfreturn getEditOtherIDsThread.output>
 </cffunction>
-<!---updateOtherID function - @param collection_object_id- @param number_of_ids the number of other IDs -->
+<!---updateOtherID function
+ @param collection_object_id
+ @commit change
+--->
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfoutput> 
 			<cftry>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
@@ -2144,23 +2147,20 @@ limitations under the License.
 					</div>
 				</cfcatch>
 			</cftry>
+	
 	</cfoutput>
 </cffunction>
-<!---getOtherIDsHTML function - @param collection_object_id  @return html for editing the otherID--->
-<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+<!---getCatNumOtherIDHTML function
+ @param collection_object_id
+--->
+<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
 			<cfoutput>
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					case when status = 1 and
-						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-						coll_obj_other_id_num.other_id_type = 'original identifier'
-						then 'Masked'
-					else
-						coll_obj_other_id_num.display_value
+					coll_obj_other_id_num.display_value
 					end display_value,
 					coll_obj_other_id_num.other_id_type,
 					case when base_url is not null then
@@ -2190,7 +2190,7 @@ limitations under the License.
 														<cfif len(display_value) gt 0>
 															<a class="external" href="##" target="_blank">#display_value#</a>
 															<cfelse>
-#display_value#
+															#display_value#
 														</cfif>
 													</li>
 												</cfloop>
@@ -2216,6 +2216,9 @@ limitations under the License.
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
 </cffunction>
+<!---getCatNumOtherIDHTML function
+ @param collection_object_id
+--->
 <cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfthread name="getOtherIDs2Thread">
@@ -2373,9 +2376,6 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-<!---END OTHER_IDS--->
-						
-						
 						
 						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
