@@ -300,6 +300,7 @@ limitations under the License.
 										<cfset replacement = "">
 										<cfset searchlink = "" >
 										<cfset searchtext = "" >
+										<cfset searchclass = "" >
 										<cfloop query="ctguid_type_agent">
 						 					<cfif getAgent.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 												<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(getAgent.first_name & ' ' & trim(getAgent.middle_name & ' ' & getAgent.last_name))),'+','%20') >
