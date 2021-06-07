@@ -65,7 +65,7 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	}
+	},
 	)
 };
 
@@ -120,7 +120,7 @@ function updateIdentifications(identification_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	}
+	},
 	)
 };
 
@@ -159,10 +159,6 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 * @param targetDivId the id for the div in the dom, without a leading #
 *  selector, for which to replace the html content 
 */
-
-
-
-
 function loadOtherID(coll_obj_other_id_num_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -179,6 +175,7 @@ function loadOtherID(coll_obj_other_id_num_id,form) {
 		dataType: "html"
 	});
 };
+
 function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -199,7 +196,7 @@ function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 				$('#' + targetDiv).html(message);
 			}
 		}
-	}
+	},
 	)
 };
 
@@ -220,14 +217,13 @@ function loadOtherIDs(collection_object_id,targetDivId) {
 	});
 }
 
-
 function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
 		data: { 
-			method : "updateOtherID",
+			method : "updateOID",
 			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
 			returnformat : "json",
 			queryformat : 'column'
@@ -237,10 +233,7 @@ function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are " + result.DATA.PARTCOUNT[0];
-				message += " parts from " + result.DATA.CATITEMCOUNT[0];
-				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
-				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types in this loan."
+				var message  = "There are otherIDs";
 				$('#' + targetDiv).html(message);
 			}
 		}
@@ -266,6 +259,16 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
+
+
+
+
+
+
+
+
+
 
 
 function loadCitations(collection_object_id,targetDivId) { 
@@ -356,10 +359,6 @@ function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-
-
-
-
 
 function loadRelations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
@@ -470,20 +469,13 @@ function addIdentAgentToForm (id,name,formid) {
 	});
 }
 
-/** loadIdentifications populate an html block with the identification 
-* history for a cataloged item.
-* @param collection_object_id identifying the cataloged item for which 
-*  to list the identification history.
-* @param targetDivId the id for the div in the dom, without a leading #
-*  selector, for which to replace the html content with the identification 
-*  history.
-*/
-function loadMedia(identification_id,form) {
+
+function loadMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getMediaHtml",
-			identification_id: identification_id,
+			media_id: media_id,
 		},
 		success: function (result) {
 			$("#mediaHTML").html(result);
