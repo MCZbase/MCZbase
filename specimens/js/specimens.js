@@ -318,14 +318,14 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
+function openEditMediaDetailsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditMediaDetailsHTML",
-			media_id: media_id,
+			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
