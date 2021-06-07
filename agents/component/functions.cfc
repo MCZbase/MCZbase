@@ -490,7 +490,7 @@ limitations under the License.
 								<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 								<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
 							<li class="list-group-item px-0">
-								<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
+								<div id="view_rel_#i#" <!---href="/agents/editAgent.cfm?agent_id=#related_agent_id#"--->>View</div> 
 							</li>
 							<li class="list-group-item px-0">
 								<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
