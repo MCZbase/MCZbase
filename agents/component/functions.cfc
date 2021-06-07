@@ -166,21 +166,28 @@ limitations under the License.
 						and addr.addr_type <> 'temporary'
 					order by valid_addr_fg DESC
 				</cfquery>
-				<h3 class="h3">Addresses</h3>
-				<ul>
+				<h3 class="h4">Addresses</h3>
+				<ul class="list-group list-group-horizontal">
 					<cfif agentAddrs.recordcount EQ 0>
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
+				</ul>
 					<cfset i=0>
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
+					<ul class="list-group list-group-horizontal">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="form-row">
+						<li class="list-group-item">
 							#addr_type#:
 							#formatted_addr#
 							#rem#
+							</li>
+						<li class="list-group-item">
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+						</li>
+						<li class="list-group-item">
 							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+						</li>
 							<script>
 								function doDeleteAddr_#i#() { 
 									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
@@ -194,16 +201,16 @@ limitations under the License.
 									});
 								});
 							</script>
-						</li>
+						</ul>
 					</cfloop>
-				</ul>
+	
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h3">Add new Address</h3>
+				<h3 class="h4">Add new Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
-						<label for="new_address_type">Address Type</label>
+						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
 						<select name="address_type" id="new_address_type" class="data-entry-select">
 							<cfset i=0>
 							<cfloop query="ctAddrType">
@@ -1053,7 +1060,7 @@ limitations under the License.
 		
 
 				<cfset i=0>
-				<h3 class="h4">Other Names</h3>
+				<h3 class="h4 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
 				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
