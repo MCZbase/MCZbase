@@ -541,7 +541,7 @@ limitations under the License.
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-7">
-								<section class="row border rounded my-2 mx-0 px-1 py-2">
+								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<h2 class="h3">Relationships for this agent</h2>
 										<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
@@ -573,7 +573,7 @@ limitations under the License.
 						</cfif>
 						<div class="row">
 							<div class="col-12 col-lg-12 col-xl-6">
-								<section class="row border rounded mx-0 my-2 px-1 py-2">
+								<section class="row border rounded mx-0 my-2 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<h2 class="h3">Addresses for this agent</h2>
 										<cfset addressesBlock = getAgentAddressesHTML(agent_id="agent_id")>
@@ -588,7 +588,7 @@ limitations under the License.
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-6">
-								<section class="row border rounded my-2 px-1 py-3 mx-0">
+								<section class="row border rounded my-2 px-1 pt-2 pb-3 mx-0">
 									<div class="col-12">
 										<h2 class="h3">Phone numbers/Email addresses</h2>
 										<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>

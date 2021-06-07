@@ -175,9 +175,9 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
-					<ul class="list-group list-group-horizontal form-row">
+					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item px-0 py-1">
+						<li class="list-group-item w-100 px-0 py-1">
 							<span class="text-secondary font-weight-bold">#addr_type#:</span>
 							#formatted_addr#
 							#rem#
@@ -1091,7 +1091,7 @@ limitations under the License.
 								<li class="list-group-item px-0">
 									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
 								</li>
-								<li class="list-group-item px-0">
+								<li class="list-group-item px-1">
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
