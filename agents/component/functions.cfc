@@ -1107,14 +1107,20 @@ limitations under the License.
 						<h3 class="h4">Add agent name</h3>
 						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
 						<form id="newNameForm">
-							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#" class>
-							<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
-								<cfloop query="ctNameType">
-									<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-								</cfloop>
-							</select>
-							<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
-							<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
+							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
+							<div class="col-12 col-md-5">
+								<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
+									<cfloop query="ctNameType">
+										<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-5">
+								<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-2">
+								<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
+							</div>
 						</form>
 						<script>
 							$(document).ready(function () {
