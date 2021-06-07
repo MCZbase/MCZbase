@@ -588,9 +588,9 @@ limitations under the License.
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-6">
-								<section class="row border rounded my-2 px-1 py-2 mx-0">
+								<section class="row border rounded my-2 px-1 py-3 mx-0">
 									<div class="col-12">
-										<h2 class="h3 px-1 my-0">Phone numbers/Email addresses</h2>
+										<h2 class="h3">Phone numbers/Email addresses</h2>
 										<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
 										<div id="electronicAddressesDiv" class="pb-1">#electronicAddressesBlock#</div>
 										<script>
