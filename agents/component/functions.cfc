@@ -465,7 +465,7 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-unstyled list-group-horizontal">
+				<ul class="list-group list-group-horizontal">
 					<cfif relations.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
