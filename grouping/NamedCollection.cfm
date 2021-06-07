@@ -18,6 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
+
 <cfif not isdefined("action")>
 	<cfset action="search">
 </cfif>
@@ -36,6 +37,7 @@ limitations under the License.
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
+<cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
 <cfswitch expression="#action#">
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
@@ -63,6 +65,9 @@ limitations under the License.
 			</cfif>
 			<cfif not isdefined("description")>
 				<cfset description="">
+			</cfif>
+			<cfif not isdefined("html_description")>
+				<cfset html_description="">
 			</cfif>
 			<cfif not isdefined("guid")>
 				<cfset guid="">
@@ -92,7 +97,7 @@ limitations under the License.
 								<div class="col-12 px-4 pt-3 pb-2">
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getCollections" class="keeponclear">
-										<div class="form-row mb-2">
+										<div class="form-row mt-1 mb-2">
 											<div class="col-md-5">
 												<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
 												<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
@@ -130,11 +135,11 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 col-md-6">
+											<div class="col-12 mt-1 col-md-6">
 												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
-											<div class="col-12 col-md-2">
+											<div class="col-12 mt-1 col-md-2">
 												<label for="coll" class="data-entry-label" id="coll_label">Collection holding cataloged items</label>
 												<select id="coll" name="collection_id" class="data-entry-select" aria-labelledby="coll_label" >
 													<!--- NOTE: current UI support is for just one collection, though backing method can take list of collection_id values --->
@@ -149,8 +154,8 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
+											<div class="col-12 mt-1 col-md-4">
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
@@ -167,8 +172,8 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="form-row my-2 mx-0">
-											<div class="col-12 px-0 pt-2">
+										<div class="form-row mt-2 mx-0">
+											<div class="col-12 px-0 pt-0">
 												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
@@ -208,11 +213,19 @@ limitations under the License.
 					</section>
 				</main>
 		
+				<cfset cellRenderClasses = "ml-1">
 				<script>
 						var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
 						};
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+							var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">Edit</a></span>';
+								return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+							};
+						</cfif>
 	
 	
 						$(document).ready(function() {
@@ -236,7 +249,8 @@ limitations under the License.
 										{ name: 'DESCRIPTION', type: 'string' },
 										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 										{ name: 'AGENTNAME', type: 'string' },
-										{ name: 'SPECIMEN_COUNT', type: 'string' }
+										{ name: 'SPECIMEN_COUNT', type: 'string' },
+										{ name: 'HTML_DESCRIPTION', type: 'string' }
 									],
 									updaterow: function (rowid, rowdata, commit) {
 										commit(true);
@@ -291,12 +305,17 @@ limitations under the License.
 									altrows: true,
 									showtoolbar: false,
 									columns: [
-										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
 										{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+											{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: false, cellsrenderer: editCellRenderer },
+										<cfelse>
+											{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
+										</cfif>
 										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
+										{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: true },
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
@@ -394,7 +413,7 @@ limitations under the License.
 								} 
 							});
 							$("##columnPickDialogButton").html(
-								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-2 mx-3' >Show/Hide Columns</button>"
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
 							);
 							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -402,7 +421,7 @@ limitations under the License.
 							$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 						}
 					</script> 
 			</cfoutput>
@@ -446,10 +465,24 @@ limitations under the License.
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
 									</div>
-								</div>
-								<script>
-										$('##description').keyup(autogrow);
+									<script>
+										$(document).ready(function() {
+											$('##description').keyup(autogrow);
+										});
 									</script>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
+										<textarea id="html_description" name="html_description" class="w-100"
+											aria-labelledby="html_description_label" ></textarea>
+									</div>
+									<script>
+										$(document).ready(function () {
+											$('##html_description').jqxEditor();
+										});
+									</script>
+								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
 										<span>
@@ -470,6 +503,8 @@ limitations under the License.
 											});
 										</script> 
 									</div>
+								</div>
+								<div class="form-row mb-1">
 									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
 													value="Create" title="Create" aria-label="Create"
@@ -501,22 +536,22 @@ limitations under the License.
 					<cfif isdefined("description")>
 						,description
 					</cfif>
+					<cfif isdefined("html_description")>
+						,html_description
+					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,underscore_agent_id
-					</cfif>
-					<cfif isdefined("mask_fg")>
-						,mask_fg
 					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
 					<cfif isdefined("description")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					</cfif>
+					<cfif isdefined("html_description")>
+						,<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
+					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-					</cfif>
-					<cfif isdefined("mask_fg")>
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 				)
 			</cfquery>
@@ -535,11 +570,11 @@ limitations under the License.
 		<cfif not isDefined("underscore_collection_id")>
 			<cfset underscore_collection_id = "">
 		</cfif>
-		<cfif len("underscore_collection_id") EQ 0>
+		<cfif len(underscore_collection_id) EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection_id, collection_name, description, underscore_agent_id,
+				select underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 					case 
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -586,16 +621,27 @@ limitations under the License.
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#description#</textarea>
 									</div>
+									<script>
+										// make selected textareas autogrow as text is entered.
+										$(document).ready(function() {
+											// bind the autogrow function to the keyup event
+											$('textarea.autogrow').keyup(autogrow);
+											// trigger keyup event to size textareas to existing text
+											$('textarea.autogrow').keyup();
+										});
+									</script>
 								</div>
-								<script>
-									// make selected textareas autogrow as text is entered.
-									$(document).ready(function() {
-										// bind the autogrow function to the keyup event
-										$('textarea.autogrow').keyup(autogrow);
-										// trigger keyup event to size textareas to existing text
-										$('textarea.autogrow').keyup();
-									});
-								</script>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
+										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
+									</div>
+									<script>
+										$(document).ready(function () {
+											$('##html_description').jqxEditor();
+										});
+									</script>
+								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
@@ -818,7 +864,7 @@ limitations under the License.
 			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
 			</cfif>
-			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 					delete from underscore_collection 
 					where
 					 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
