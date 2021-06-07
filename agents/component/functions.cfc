@@ -574,12 +574,12 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="form-group list-unstyled">
+				<ul class="list-group list-group-horizontal">
 					<cfif revRelations.recordcount EQ 0 >
-						<li class="list-item">None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li class="list-item">
+						<li class="list-group-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#
