@@ -517,7 +517,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				<div id="newRelationshipDiv" class="col-12 px-0">
+				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
 					<h3 class="h4">Add Relationship to another agent</h3>
 					<div class="form-row">
@@ -585,7 +585,7 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-group-horizontal">
+				<ul class="list-group list-group-horizontal form-row mb-3">
 					<cfif revRelations.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
