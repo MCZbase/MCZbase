@@ -450,7 +450,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h3">Relationships to other agents</h3>
+				<h3 class="h5">Relationships to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -465,27 +465,27 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul>
+				<ul class="list-group list-unstyled list-group-horizontal">
 					<cfif relations.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-item">None</li>
 					</cfif>
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li class="form-row">
+						<li class="list-item">
 							#currAgent# 
-							<select name="relation_type" id="relation_type_#i#">
+							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#">
+							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
 							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
-							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks">
+							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 							#date_to_merge# #on_hold# #held_by#
 							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
 							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs btn-warning">Remove</button>
@@ -508,14 +508,14 @@ limitations under the License.
 				</ul>
 
 				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation">Add Relationship</label>
+					<label for="new_relation" class="data-entry-label mb-0">Add Relationship</label>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label">&nbsp;</label>
+							<label class="data-entry-label mb-0">&nbsp;</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_relation_type" class="data-entry-label">Relationship</label>
+							<label for="new_relation_type" class="data-entry-label mb-0">Relationship</label>
 							<select name="relation_type" id="new_relation_type" class="data-entry-select reqdClr">
 								<option value""></option>
 								<cfloop query="ctagent_relationship">
@@ -534,7 +534,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-1">
 							<label class="data-entry-label">&nbsp;</label>
-							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
+							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary mt-1">Add</button>
 						</div>
 					</div>
 					<script>
@@ -574,12 +574,12 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul>
+				<ul class="form-group list-unstyled">
 					<cfif revRelations.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-item">None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li class="form-row">
+						<li class="list-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#
@@ -1030,8 +1030,8 @@ limitations under the License.
 				</ul>
 
 				<cfset i=0>
-				<label>Other Names</label>
-				<span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
+				<label class="data-entry-label mb-0">Other Names</label>
+				<span class="hints text-success small">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
