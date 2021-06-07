@@ -450,7 +450,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h4">Relationships of #currAgent# to other agents</h3>
+					<h3 class="h4">Relationships of <span class="text-secondary">#currAgent#</span> to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
