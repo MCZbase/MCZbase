@@ -508,7 +508,7 @@ limitations under the License.
 				</ul>
 
 				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation" class="data-entry-label mb-0">Add Relationship</label>
+					<label for="new_relation" class="data-entry-label mb-0 h5">Add Relationship</label>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0">&nbsp;</label>
@@ -524,7 +524,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_related_agent">To Related Agent</label>
+							<label for="new_related_agent" class="data-entry-label mb-0">To Related Agent</label>
 							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input reqdClr">
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
