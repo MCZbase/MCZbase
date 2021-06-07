@@ -465,7 +465,7 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-					<ul class="list-group list-group-horizontal form-row">
+					<ul class="list-group list-group-horizontal form-row mx-0">
 					<cfif relations.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
@@ -473,8 +473,8 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<ul class="list-group list-group-horizontal form-row">
-							<li class="list-group-item mb-3">
+						<ul class="list-group list-group-horizontal mb-3 form-row mx-0">
+							<li class="list-group-item px-0">
 								<label class="border sr-only">#currAgent#</label> 
 								<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 									<cfloop query="ctagent_relationship">
@@ -483,23 +483,23 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</li>
-							<li class="list-group-item mb-3">
+							<li class="list-group-item px-0">
 								<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
 							</li>
 								<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 								<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 								<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
-							<li class="list-group-item mb-3">
+							<li class="list-group-item px-0">
 								<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
 							</li>
-							<li class="list-group-item mb-3">
+							<li class="list-group-item px-0">
 								<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 							</li>
 								#date_to_merge# #on_hold# #held_by#
-							<li class="list-group-item mb-3 px-1">
+							<li class="list-group-item px-0">
 								<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-secondary">Save</button>
 							</li>
-							<li class="list-group-item mb-3 px-0">
+							<li class="list-group-item px-0">
 								<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-warning">Remove</button>
 							</li>
 								<output id="relationfeedback_#i#"></output>
