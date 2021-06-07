@@ -1957,7 +1957,7 @@ limitations under the License.
 											</div>
 											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
 												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(ogetOIDs.other_id_number)#" size="12" name="other_id_number">
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_number)#" size="12" name="other_id_number">
 											</div>
 											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
 												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
