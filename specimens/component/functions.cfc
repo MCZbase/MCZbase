@@ -1930,19 +1930,19 @@ limitations under the License.
 								</div>
 							</form>
 							<cfset i=1>
-							<cfloop query="oids">
+							<cfloop query="getOIDs">
 								<cfif len(other_id_type) gt 0>
-									<form name="oids#i#" id="editOtherIDsForm">
+									<form name="getOIDs#i#" id="editOtherIDsForm">
 									<input type="hidden" name="method" value="updateOtherID">
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#oids.recordcount#">
+									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOIDs.recordcount#">
 										
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
 												<label class="data-entry-label">Other ID Type</label>
-												<cfset thisType = #oids.other_id_type#>
+												<cfset thisType = #getOIDs.other_id_type#>
 												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
@@ -1953,21 +1953,21 @@ limitations under the License.
 											</div>
 											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
 												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-												<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
+												<input class="data-entry-input" type="text" value="#encodeForHTML(getOIDs.other_id_prefix)#" size="12" name="other_id_prefix">
 											</div>
 											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
 												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
+												<input type="text" class="data-entry-input" value="#encodeForHTML(ogetOIDs.other_id_number)#" size="12" name="other_id_number">
 											</div>
 											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
 												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
+												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_suffix)#" size="12" name="other_id_suffix">
 											</div>
 											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
 												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
 													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
 												
-												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getOIDs#i#.Action.value='deleOID';confirmDelete('getOIDs#i#');">
 												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
 											</div>
 
