@@ -465,7 +465,7 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-group-horizontal w-100">
+				<ul class="list-group list-group-horizontal form-row">
 					<cfif relations.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
@@ -473,7 +473,7 @@ limitations under the License.
 					<cfloop query="relations">
 						<cfset i=i+1>
 						<li class="list-group-item mb-3">
-							<span class="border text-success w-100">#currAgent#</span> 
+							<label class="border sr-only">#currAgent#</label> 
 							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
 									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
