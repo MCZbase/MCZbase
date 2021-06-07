@@ -1031,12 +1031,12 @@ limitations under the License.
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
 						<li class="list-group-item px-0">
-							<label for="preferred_name" class="data-entry-label mb-0">Preferred Name</label>
+							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0">	
 							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
-						<li class="list-group-item px-0">
+						<li class="list-group-item px-1">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
 						</li>
@@ -1053,7 +1053,7 @@ limitations under the License.
 		
 
 				<cfset i=0>
-				<label class="data-entry-label mb-0">Other Names</label>
+				<label class="data-entry-label mb-0 font-weight-lessbold">Other Names</label>
 				<span class="hints text-success small">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
@@ -1061,13 +1061,13 @@ limitations under the License.
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<ul>
+				<ul class="list-group list-group-horizontal mx-0 form-row">
 					<cfif npname.recordcount EQ 0 >
-						<li>No other names</li>
+						<li list-group-item>No other names</li>
 					</cfif>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li class="form-row">
+						<li class="list-group-item">
 							<form id="agentNameForm_#i#">
 								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
 								<input type="hidden" name="agent_id" value="#npname.agent_id#">
