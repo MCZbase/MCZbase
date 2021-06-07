@@ -522,7 +522,7 @@ limitations under the License.
 
 				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
-					<h3 class="h4">Add Relationship to another agent</h3>
+					<h3 class="h4">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0">&nbsp;Current Agent</label>
@@ -788,51 +788,55 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group list-group-horizontal">
+					<ul class="list-group list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
+					</ul>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<li class="list-group-item">
-							<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
-								<cfloop query="ctElecAddrType">
-									<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
-								</cfloop>
-							</select>
-						</li>
-						<li class="list-group-item">
-							<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-							<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
-						</li>
-						<li class="list-group-item">
-							<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
-							<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-							<span id="electronicAddressFeedback#i#"></span>
-						</li>
-						<script>
-							function doDeleteEA_#i#() { 
-								deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
-							};
-							$(document).ready(function () {
-								$('##agentEAddrU#i#Button').click(function(evt){
-									evt.preventDefault;
-									updateElectronicAddress(#agent_id#, 'electronic_address_id_#i#','address_#i#','eaddress_type_#i#','electronicAddressFeedback#i#');
+						<ul class="list-group list-group-horizontal form-row mx-0">
+							<li class="list-group-item">
+								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
+									<cfloop query="ctElecAddrType">
+										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
+									</cfloop>
+								</select>
+							</li>
+							<li class="list-group-item">
+								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
+							</li>
+							<li class="list-group-item">
+								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+								<span id="electronicAddressFeedback#i#"></span>
+							</li>
+							<script>
+								function doDeleteEA_#i#() { 
+									deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
+								};
+								$(document).ready(function () {
+									$('##agentEAddrU#i#Button').click(function(evt){
+										evt.preventDefault;
+										updateElectronicAddress(#agent_id#, 'electronic_address_id_#i#','address_#i#','eaddress_type_#i#','electronicAddressFeedback#i#');
+									});
 								});
-							});
-							$(document).ready(function () {
-								$('##agentEAddrDel#i#Button').click(function(evt){
-									evt.preventDefault;
-									confirmWarningDialog("Delete the #encodeForHTML(address)# #address_type#?", "Confirm Delete?", doDeleteEA_#i#);
+								$(document).ready(function () {
+									$('##agentEAddrDel#i#Button').click(function(evt){
+										evt.preventDefault;
+										confirmWarningDialog("Delete the #encodeForHTML(address)# #address_type#?", "Confirm Delete?", doDeleteEA_#i#);
+									});
 								});
-							});
-						</script>
+							</script>
+						</ul>
 					</cfloop>
-				</ul>
+		
 				<div id="newEaddrDiv" class="col-12">
-					<label for="new_eaddress">Add Phone or Email</label>
+					<h3 class="h4">Add Phone or Email</h3>
+					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
 					<div class="form-row">
 						<div class="col-12 col-md-5">
 							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
