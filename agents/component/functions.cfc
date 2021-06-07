@@ -177,7 +177,7 @@ limitations under the License.
 						<cfset i=i+1>
 					<ul class="list-group list-group-horizontal form-row">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item">
+						<li class="list-group-item px-0 py-1">
 							<span class="text-secondary font-weight-bold">#addr_type#:</span>
 							#formatted_addr#
 							#rem#
