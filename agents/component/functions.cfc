@@ -1053,8 +1053,9 @@ limitations under the License.
 		
 
 				<cfset i=0>
-				<label class="data-entry-label mb-0 font-weight-lessbold">Other Names</label>
-				<span class="hints text-success small px-2">(add a space between initials for all forms with two initials)</span>
+				<h3 class="h4">Other Names</h3>
+				<label class="data-entry-label mb-0 sr-only">Other Names</label>
+				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
@@ -1065,24 +1066,27 @@ limitations under the License.
 					<cfif npname.recordcount EQ 0 >
 						<li list-group-item>No other names</li>
 					</cfif>
+				</ul>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li class="list-group-item">
-							<form id="agentNameForm_#i#">
-								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
-								<input type="hidden" name="agent_id" value="#npname.agent_id#">
-								<select name="agent_name_type" id="agent_name_type_#i#">
-									<cfloop query="ctNameType">
-										<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
-											value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-									</cfloop>
-								</select>
-								<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#">
-								<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
-								<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-								<span id="agentNameFeedback#i#"></span>
-							</form>
-						</li>
+						<ul class="list-group list-group-horizontal mx-0 form-row">
+							<li class="list-group-item px-0">
+								<form id="agentNameForm_#i#">
+									<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
+									<input type="hidden" name="agent_id" value="#npname.agent_id#">
+									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
+										<cfloop query="ctNameType">
+											<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+										</cfloop>
+									</select>
+									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
+									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<span id="agentNameFeedback#i#"></span>
+								</form>
+							</li>
+						</ul>
 						<script>
 							function doDeleteAgentName_#i#() { 
 								deleteAgentName('agent_name_id_#i#',reloadAgentNames);
