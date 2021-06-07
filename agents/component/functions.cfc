@@ -1072,20 +1072,20 @@ limitations under the License.
 						<form id="agentNameForm_#i#">
 							<ul class="list-group list-group-horizontal mx-0 form-row">
 								<li class="list-group-item px-0">
-
-										<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
-										<input type="hidden" name="agent_id" value="#npname.agent_id#">
-										<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
-											<cfloop query="ctNameType">
-												<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
-													value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-											</cfloop>
-										</select>
-										<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
-										<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
-										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-										<span id="agentNameFeedback#i#"></span>
-
+									<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
+									<input type="hidden" name="agent_id" value="#npname.agent_id#">
+									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
+										<cfloop query="ctNameType">
+											<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+										</cfloop>
+									</select>
+								</li>
+								<li class="list-group-item px-0">
+									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
+									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<span id="agentNameFeedback#i#"></span>
 								</li>
 							</ul>
 						</form>
