@@ -951,6 +951,7 @@ limitations under the License.
 													institution_acronym,
 													identification.scientific_name,
 													cat_num,
+													collection_id,
 													cataloged_item.collection_cde,
 													made_date,
 													nature_of_id,
