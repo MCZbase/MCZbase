@@ -1031,10 +1031,10 @@ limitations under the License.
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
 						<li class="list-group-item px-0">
-							<label for="preferred_name" class="">Preferred Name</label>
+							<label for="preferred_name" class="data-entry-label mb-0">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0">	
-							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="">
+							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-0">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
