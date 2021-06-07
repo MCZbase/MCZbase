@@ -2585,7 +2585,12 @@ limitations under the License.
 	   // Workaround, expansion sits below row in zindex.
 	   var maxZIndex = getMaxZIndex();
 	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
-	};
+	}
+
+	window.columnHiddenSettings = new Object();
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		lookupColumnVisiblities ('/Transactions.cfm?action=#action#','Default');
+	</cfif>
 
 
 $(document).ready(function() {
@@ -3501,6 +3506,18 @@ $(document).ready(function() {
 });
 
 function gridLoaded(gridId, searchType) { 
+	var targetAction = "findAll"
+	if (searchType == "transaction") { targetAction = "findAll"; }
+	if (searchType == "loan") { targetAction = "findLoans"; }
+	if (searchType == "accn") { targetAction = "findAccessions"; }
+	if (searchType == "deacc") { targetAction = "findDeaccessions"; }
+	if (searchType == "borrow") { targetAction = "findBorrows"; }
+	if (Object.keys(window.columnHiddenSettings).length == 0) { 
+		window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			saveColumnVisibilities('/Transactions.cfm?action=' + targetAction,window.columnHiddenSettings,'Default');
+		</cfif>
+	}
 	$("##overlay").hide();
 	var now = new Date();
 	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -3569,6 +3586,10 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
+			window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
+			</cfif>
 			Ok: function(){ $(this).dialog("close"); }
 		},
 		open: function (event, ui) { 

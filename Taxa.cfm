@@ -542,7 +542,11 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
-
+			
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisiblities ('/Transactions.cfm','Default');
+			</cfif>
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -737,6 +741,12 @@ limitations under the License.
 			}); /* End document.ready */
 
 			function gridLoaded(gridId, searchType) { 
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
 				$("##overlay").hide();
 				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
 				var now = new Date();
@@ -817,6 +827,10 @@ limitations under the License.
 					reszable: true, 
 					buttons: [
 						{
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+							</cfif>
 							text: "Ok",
 							click: function(){ $(this).dialog("close"); },
 							tabindex: 0
