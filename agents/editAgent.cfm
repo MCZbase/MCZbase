@@ -525,70 +525,80 @@ limitations under the License.
 						</section>
 						<div class="row">
 							<div class="col-12 col-lg-12 col-xl-5">
-								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<script>
-										// callback for ajax methods to reload names for agent
-										function reloadAgentNames() { 
-											updateAgentNames(#getAgent.agent_id#,'namesDiv');
-										};
-									</script>
-									<h2 class="h3 px-1 my-0">Names for this agent</h2>
-									<cfset namesBlock = getAgentNamesHTML(agent_id="#agent_id#")>
-									<div id="namesDiv" class="col-12 px-0 pb-1">#namesBlock#</div>
+								<section class="row border rounded my-2 mx-0 px-1 py-2">
+									<div class="col-12">
+										<script>
+											// callback for ajax methods to reload names for agent
+											function reloadAgentNames() { 
+												updateAgentNames(#getAgent.agent_id#,'namesDiv');
+											};
+										</script>
+										<h2 class="h3">Names for this agent</h2>
+										<cfset namesBlock = getAgentNamesHTML(agent_id="#agent_id#")>
+										<div id="namesDiv" class="pb-1">#namesBlock#</div>
+									</div>
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-7">
-								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1 my-0">Relationships for this agent</h2>
-									<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
-									<div id="relationsDiv" class="col-12 px-0 pb-1">#relationsBlock#</div>
-									<script>
-										// callback for ajax methods to reload 
-										function reloadRelationships() { 
-											updateAgentRelationships(#getAgent.agent_id#,'relationsDiv');
-										};
-									</script>
+								<section class="row border rounded my-2 mx-0 px-1 py-2">
+									<div class="col-12">
+										<h2 class="h3">Relationships for this agent</h2>
+										<cfset relationsBlock = getAgentRelationshipsHTML(agent_id="#agent_id#")>
+										<div id="relationsDiv" class="pb-1">#relationsBlock#</div>
+										<script>
+											// callback for ajax methods to reload 
+											function reloadRelationships() { 
+												updateAgentRelationships(#getAgent.agent_id#,'relationsDiv');
+											};
+										</script>
+									</div>
 								</section>
 							</div>
 						</div>
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-							<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-								<script>
-									// callback for ajax methods to reload group members for agent
-									function reloadGroupMembers() { 
-										updateGroupMembers(#getAgent.agent_id#,'groupMembersDiv');
-									};
-								</script>
-								<h2 class="h3 px-1 my-0">Group Members</h2>
-								<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
-								<div id="groupMembersDiv" class="col-12 px-0 pb-1">#groupMembersBlock#</div>
+							<section class="row border rounded my-2 px-1 py-2 mx-0">
+								<div class="col-12">
+									<script>
+										// callback for ajax methods to reload group members for agent
+										function reloadGroupMembers() { 
+											updateGroupMembers(#getAgent.agent_id#,'groupMembersDiv');
+										};
+									</script>
+									<h2 class="h3">Group Members</h2>
+									<cfset groupMembersBlock = getGroupMembersHTML(agent_id="#agent_id#")>
+									<div id="groupMembersDiv" class="pb-1">#groupMembersBlock#</div>
+								</div>
 							</section>
 						</cfif>
 						<div class="row">
 							<div class="col-12 col-lg-12 col-xl-6">
-								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1 my-0">Addresses for this agent</h2>
-									<cfset addressesBlock = getAgentAddressesHTML(agent_id="agent_id")>
-									<div id="addressesDiv" class="col-12 px-0 pb-1">#addressesBlock#</div>
-									<script>
-										// callback for ajax methods to reload group members for agent
-										function reloadAddresses() { 
-											updateAgentAddresses(#getAgent.agent_id#,'addressesDiv');
-										};
-									</script>
+								<section class="row border rounded mx-0 my-2 px-1 py-2">
+									<div class="col-12">
+										<h2 class="h3">Addresses for this agent</h2>
+										<cfset addressesBlock = getAgentAddressesHTML(agent_id="agent_id")>
+										<div id="addressesDiv" class="pb-1">#addressesBlock#</div>
+										<script>
+											// callback for ajax methods to reload group members for agent
+											function reloadAddresses() { 
+												updateAgentAddresses(#getAgent.agent_id#,'addressesDiv');
+											};
+										</script>
+									</div>
 								</section>
 							</div>
 							<div class="col-12 col-lg-12 col-xl-6">
-								<section class="row border rounded my-2 px-1 pt-1 pb-2 h-100">
-									<h2 class="h3 px-1 my-0">Phone numbers/Email addresses</h2>
-									<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
-									<div id="electronicAddressesDiv" class="col-12 px-0 pb-1">#electronicAddressesBlock#</div>
-									<script>
-										// callback for ajax methods to reload 
-										function reloadElectronicAddresses() { 
-											updateElectronicAddresses(#getAgent.agent_id#,'electronicAddressesDiv');
-										};
-									</script>
+								<section class="row border rounded my-2 px-1 py-2 mx-0">
+									<div class="col-12">
+										<h2 class="h3 px-1 my-0">Phone numbers/Email addresses</h2>
+										<cfset electronicAddressesBlock = getElectronicAddressesHTML(agent_id="#agent_id#")>
+										<div id="electronicAddressesDiv" class="pb-1">#electronicAddressesBlock#</div>
+										<script>
+											// callback for ajax methods to reload 
+											function reloadElectronicAddresses() { 
+												updateElectronicAddresses(#getAgent.agent_id#,'electronicAddressesDiv');
+											};
+										</script>
+									</div>
 								</section>
 							</div>
 						</div>
