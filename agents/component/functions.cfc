@@ -450,7 +450,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h5">Relationships to other agents</h3>
+				<h3 class="h4">Relationships to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -465,14 +465,14 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-unstyled list-group-horizontal">
+				<ul class="list-group list-group-horizontal">
 					<cfif relations.recordcount EQ 0 >
-						<li class="list-item">None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li class="list-item">
+						<li class="list-group-item mb-3">
 							#currAgent# 
 							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
@@ -484,11 +484,11 @@ limitations under the License.
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
-							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
+							<div id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</div> 
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
 							#date_to_merge# #on_hold# #held_by#
-							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
-							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs btn-warning">Remove</button>
+							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-secondary">Save</button>
+							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-warning">Remove</button>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
@@ -508,7 +508,7 @@ limitations under the License.
 				</ul>
 
 				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation" class="data-entry-label mb-0">Add Relationship</label>
+					<label for="new_relation" class="data-entry-label mb-0 h5">Add Relationship</label>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0">&nbsp;</label>
@@ -524,7 +524,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_related_agent">To Related Agent</label>
+							<label for="new_related_agent" class="data-entry-label mb-0">To Related Agent</label>
 							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input reqdClr">
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
@@ -574,12 +574,12 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="form-group list-unstyled">
+				<ul class="list-group list-group-horizontal">
 					<cfif revRelations.recordcount EQ 0 >
-						<li class="list-item">None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li class="list-item">
+						<li class="list-group-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#
