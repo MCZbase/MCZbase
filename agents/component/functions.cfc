@@ -480,15 +480,26 @@ limitations under the License.
 									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
 							</select>
+						</li>
+						<li class="list-group-item mb-3">
 							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
+						</li>
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
-							<div id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</div> 
+						<li class="list-group-item mb-3">
+							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
+						</li>
+						<li class="list-group-item mb-3">
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
+						</li>
 							#date_to_merge# #on_hold# #held_by#
+						<li class="list-group-item mb-3">
 							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-secondary">Save</button>
+						</li>
+						<li class="list-group-item mb-3">
 							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-warning">Remove</button>
+						</li>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
@@ -503,12 +514,12 @@ limitations under the License.
 									});
 								});
 							</script>
-						</li>
 					</cfloop>
 				</ul>
 
-				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation" class="data-entry-label mb-0 h5">Add Relationship</label>
+				<div id="newRelationshipDiv" class="col-12 px-0">
+					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
+					<h3 class="h4">Add Relationship to another agent</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0">&nbsp;</label>
@@ -529,12 +540,12 @@ limitations under the License.
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_relation">Remarks</label>
+							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-1">
 							<label class="data-entry-label">&nbsp;</label>
-							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary mt-1">Add</button>
+							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
 					<script>
@@ -559,7 +570,7 @@ limitations under the License.
 					</script>
 				</div>
 
-				<h3 class="h3">Relationships from other agents</h3>
+				<h3 class="h4">Relationships from other agents</h3>
 				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -774,31 +785,29 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul>
+				<ul class="list-group list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<li class="form-row">
-							<div class="col-12 col-md-4">
-								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
-									<cfloop query="ctElecAddrType">
-										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4">
-								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
-							</div>
-							<div class="col-12 col-md-4">
-								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
-								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-								<span id="electronicAddressFeedback#i#"></span>
-							</div>
+						<li class="list-group-item">
+							<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
+								<cfloop query="ctElecAddrType">
+									<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
+								</cfloop>
+							</select>
+						</li>
+						<li class="list-group-item">
+							<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+							<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
+						</li>
+						<li class="list-group-item">
+							<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+							<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+							<span id="electronicAddressFeedback#i#"></span>
 						</li>
 						<script>
 							function doDeleteEA_#i#() { 
