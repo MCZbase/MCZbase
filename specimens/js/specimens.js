@@ -299,6 +299,8 @@ function loadMedia(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
@@ -317,8 +319,8 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
+function openEditMediaDetailsDialog(media_id,dialogId,callback) {
+	var title = "Edit Media for Item";
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
