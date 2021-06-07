@@ -532,7 +532,7 @@ limitations under the License.
 					<h3 class="h4">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label mb-0">&nbsp;Current Agent</label>
+							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 						</div>
 						<div class="col-12 col-md-3">
