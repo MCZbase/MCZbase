@@ -535,7 +535,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-1">
 							<label class="data-entry-label">&nbsp;</label>
-							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary mt-1">Add</button>
+							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
 					<script>
@@ -775,31 +775,29 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul>
+				<ul class="list-group list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<li class="form-row">
-							<div class="col-12 col-md-4">
-								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
-									<cfloop query="ctElecAddrType">
-										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4">
-								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
-								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
-							</div>
-							<div class="col-12 col-md-4">
-								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
-								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-								<span id="electronicAddressFeedback#i#"></span>
-							</div>
+						<li class="list-group-item">
+							<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
+								<cfloop query="ctElecAddrType">
+									<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
+								</cfloop>
+							</select>
+						</li>
+						<li class="list-group-item">
+							<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
+							<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
+						</li>
+						<li class="list-group-item">
+							<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+							<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+							<span id="electronicAddressFeedback#i#"></span>
 						</li>
 						<script>
 							function doDeleteEA_#i#() { 
