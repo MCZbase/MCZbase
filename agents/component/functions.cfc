@@ -1083,7 +1083,11 @@ limitations under the License.
 								</li>
 								<li class="list-group-item px-0">
 									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+								</li>
+								<li class="list-group-item px-0">
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
+								</li>
+								<li class="list-group-item px-0">
 									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 									<span id="agentNameFeedback#i#"></span>
 								</li>
