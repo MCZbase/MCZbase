@@ -480,15 +480,26 @@ limitations under the License.
 									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
 								</cfloop>
 							</select>
+						</li>
+						<li class="list-group-item mb-3">
 							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
+						</li>
 							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
-							<div id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</div> 
+						<li class="list-group-item mb-3">
+							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
+						</li>
+						<li class="list-group-item mb-3">
 							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
+						</li>
 							#date_to_merge# #on_hold# #held_by#
+						<li class="list-group-item mb-3">
 							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-secondary">Save</button>
+						</li>
+						<li class="list-group-item mb-3">
 							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-2 btn-warning">Remove</button>
+						</li>
 							<output id="relationfeedback_#i#"></output>
 							<script>
 								$(document).ready(function () {
@@ -503,7 +514,6 @@ limitations under the License.
 									});
 								});
 							</script>
-						</li>
 					</cfloop>
 				</ul>
 
