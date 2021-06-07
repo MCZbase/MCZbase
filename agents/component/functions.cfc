@@ -450,7 +450,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h5">Relationships to other agents</h3>
+				<h3 class="h4">Relationships to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -467,12 +467,12 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-group list-unstyled list-group-horizontal">
 					<cfif relations.recordcount EQ 0 >
-						<li class="list-item">None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li class="list-item">
+						<li class="list-group-item">
 							#currAgent# 
 							<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
 								<cfloop query="ctagent_relationship">
