@@ -450,7 +450,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h4">Relationships to other agents</h3>
+				<h3 class="h4">Relationships of #currAgent# to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -490,7 +490,7 @@ limitations under the License.
 								<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
 								<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
 							<li class="list-group-item">
-								<div id="view_rel_#i#" <!---href="/agents/editAgent.cfm?agent_id=#related_agent_id#"--->>View</div> 
+								<div id="view_rel_#i#" class="mt-1" <!---href="/agents/editAgent.cfm?agent_id=#related_agent_id#"--->>View</div> 
 							</li>
 							<li class="list-group-item px-0">
 								<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
@@ -499,7 +499,7 @@ limitations under the License.
 							<li class="list-group-item px-1">
 								<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-secondary">Save</button>
 							</li>
-							<li class="list-group-item px-1">
+							<li class="list-group-item px-0">
 								<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-warning">Remove</button>
 							</li>
 								<output id="relationfeedback_#i#"></output>
@@ -525,7 +525,7 @@ limitations under the License.
 					<h3 class="h4">Add Relationship to another agent</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label mb-0">&nbsp;</label>
+							<label class="data-entry-label mb-0">&nbsp;Current Agent</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 						</div>
 						<div class="col-12 col-md-3">
@@ -546,7 +546,7 @@ limitations under the License.
 							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-1">
+						<div class="col-12 col-md-1 px-1">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
@@ -1092,15 +1092,16 @@ limitations under the License.
 					</cfloop>
 				</ul>
 				<div id="newAgentNameDiv" class="col-12">
-					<label for="new_agent_name">Add agent name</label>
+					<h3 class="h4">Add agent name</h3>
+					<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
 					<form id="newNameForm">
 						<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
-						<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type">
+						<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
 							<cfloop query="ctNameType">
 								<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 							</cfloop>
 						</select>
-						<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
+						<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
 						<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
 					</form>
 					<script>
