@@ -545,7 +545,7 @@ limitations under the License.
 			
 			window.columnHiddenSettings = new Object();
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				lookupColumnVisiblities ('/Transactions.cfm','Default');
+				lookupColumnVisiblities ('/Taxa.cfm','Default');
 			</cfif>
 
 			$(document).ready(function() {
