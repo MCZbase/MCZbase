@@ -175,7 +175,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<section class="row border rounded my-2 px-1 pt-1 pb-2">
+						<section class="row mx-0 border rounded my-2 py-3">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
@@ -641,7 +641,7 @@ limitations under the License.
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
 					<div class="form-row mb-1">
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 py-2">
 							<script>
 								function changeType() { 
 									var selectedType = $('##agent_type').val();
