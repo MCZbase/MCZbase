@@ -166,7 +166,7 @@ limitations under the License.
 						and addr.addr_type <> 'temporary'
 					order by valid_addr_fg DESC
 				</cfquery>
-				<h3 class="h4">Addresses</h3>
+				<h3 class="h4 sr-only">Addresses</h3>
 				<ul class="list-group list-group-horizontal">
 					<cfif agentAddrs.recordcount EQ 0>
 						<li class="list-group-item">None</li>
