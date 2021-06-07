@@ -1814,7 +1814,7 @@ limitations under the License.
 	<cfthread name="getEditOtherIDsThread">
 		<cfoutput>
 		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getOIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select 
 					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
 					cataloged_item.cat_num,
@@ -1841,7 +1841,7 @@ limitations under the License.
 				select other_id_type from ctcoll_other_id_type
 			</cfquery>
 			<cfquery name="cataf" dbtype="query">
-				select cat_num from getIDs group by cat_num
+				select cat_num from getOIDs group by cat_num
 			</cfquery>
 			<cfquery name="getOIDs" dbtype="query">
 				select 
@@ -1879,7 +1879,7 @@ limitations under the License.
 								<div class="mb-4">
 									Catalog&nbsp;Number:
 									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
-										<cfset thisCollId=#collection_id#>
+										<cfset thisCollId=#getOIDs.collection_id#>
 										<cfloop query="ctcoll_cde">
 											<option 
 											<cfif #thisCollId# is #collection_id#> selected </cfif>
