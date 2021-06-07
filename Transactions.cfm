@@ -3586,11 +3586,13 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
-			window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
-			</cfif>
-			Ok: function(){ $(this).dialog("close"); }
+			Ok: function(){ 
+				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
+				</cfif>
+				$(this).dialog("close");
+			 }
 		},
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();
