@@ -1054,7 +1054,7 @@ limitations under the License.
 
 				<cfset i=0>
 				<label class="data-entry-label mb-0 font-weight-lessbold">Other Names</label>
-				<span class="hints text-success small">(add a space between initials for all forms with two initials)</span>
+				<span class="hints text-success small px-2">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
@@ -1102,27 +1102,29 @@ limitations under the License.
 						</script>
 					</cfloop>
 				</ul>
-				<div id="newAgentNameDiv" class="col-12">
-					<h3 class="h4">Add agent name</h3>
-					<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
-					<form id="newNameForm">
-						<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
-						<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
-							<cfloop query="ctNameType">
-								<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-							</cfloop>
-						</select>
-						<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
-						<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
-					</form>
-					<script>
-						$(document).ready(function () {
-							$('##addAgentButton').click(function(evt){
-								evt.preventDefault;
-								addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',reloadAgentNames);
+				<div class="form-row">
+					<div id="newAgentNameDiv" class="col-12">
+						<h3 class="h4">Add agent name</h3>
+						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
+						<form id="newNameForm">
+							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#" class>
+							<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
+								<cfloop query="ctNameType">
+									<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+								</cfloop>
+							</select>
+							<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
+							<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
+						</form>
+						<script>
+							$(document).ready(function () {
+								$('##addAgentButton').click(function(evt){
+									evt.preventDefault;
+									addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',reloadAgentNames);
+								});
 							});
-						});
-					</script>
+						</script>
+					</div>
 				</div>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
