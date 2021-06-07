@@ -41,7 +41,8 @@ limitations under the License.
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname
+				as agentname,
+				html_description
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
@@ -92,8 +93,12 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
-			<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-		</cfloop>
+				<cfif ucase(columnName) is "HTML_DESCRIPTION">
+					<cfset row["#columnName#"] = "#encodeForJavaScript(REReplace(search[columnName][currentrow],”<[^>]*>”,””,”All”))#">
+				<cfelse>
+					<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+				</cfif>
+			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
