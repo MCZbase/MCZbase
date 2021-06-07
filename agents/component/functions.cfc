@@ -178,14 +178,14 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 						<li class="list-group-item">
-							#addr_type#:
+							<span class="text-secondary font-weight-bold">#addr_type#:</span>
 							#formatted_addr#
 							#rem#
 							</li>
-						<li class="list-group-item">
+						<li class="list-group-item px-1">
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
 						</li>
-						<li class="list-group-item">
+						<li class="list-group-item px-0">
 							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 						</li>
 							<script>
