@@ -2097,6 +2097,7 @@ limitations under the License.
 --->
 <cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfoutput> 
 			<cftry>
 				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
