@@ -1937,6 +1937,7 @@ limitations under the License.
 									<input type="hidden" name="returnformat" value="json">
 									<input type="hidden" name="queryformat" value="column">
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
 									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOIDs.recordcount#">
 										
 										<div class="row mx-0">
