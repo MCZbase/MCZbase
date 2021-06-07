@@ -42,8 +42,7 @@ limitations under the License.
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname,
-				html_description
+				as agentname
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
@@ -86,8 +85,7 @@ limitations under the License.
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end,
-				html_description
+					end
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -95,11 +93,16 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
-				<cfif ucase(columnName) is "HTML_DESCRIPTION">
-					<cfset row["#columnName#"] = "#encodeForJavaScript(REReplace(search[columnName][currentrow],'<[^>]*>','','All'))#">
-				<cfelse>
-					<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-				</cfif>
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
+					SELECT html_description 
+					FROM underscore_collection
+					WHERE
+						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.underscore_collection_id#">
+				</cfquery>
+				<cfloop query="getClob">
+					<cfset row["HTML_DESCRIPTION"] = "#encodeForJavaScript(REReplace(getClob.html_descripton,'<[^>]*>','','All'))#">
+				</cfloop>
 			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
