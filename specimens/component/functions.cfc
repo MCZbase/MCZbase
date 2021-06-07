@@ -1941,7 +1941,7 @@ limitations under the License.
 										<div class="row mx-0">
 											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
 												<label class="data-entry-label">Other ID Type</label>
-												<cfset thisType = #oids.other_id_type#>
+												<cfset thisType = #ids.other_id_type#>
 												<select name="other_id_type" class="data-entry-select" style="" size="1">
 													<cfloop query="ctType">
 														<option 
