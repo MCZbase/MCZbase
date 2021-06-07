@@ -1062,7 +1062,9 @@ function lookupColumnVisiblities (pageFilePath,label) {
 		success: function (result) {
 			console.log(result[0]);
 			var settings = result[0];
-			window.columnHiddenSettings = JSON.parse(settings.columnhiddensettings);
+			if (typeof settings !== "undefined" && settings!=null) { 
+				window.columnHiddenSettings = JSON.parse(settings.columnhiddensettings);
+			}
 		}
 	});
 }

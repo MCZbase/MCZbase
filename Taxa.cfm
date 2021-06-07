@@ -827,12 +827,14 @@ limitations under the License.
 					reszable: true, 
 					buttons: [
 						{
-							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
-							</cfif>
 							text: "Ok",
-							click: function(){ $(this).dialog("close"); },
+							click: function(){ 
+								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+								</cfif>
+								$(this).dialog("close"); 
+							},
 							tabindex: 0
 						}
 					],
