@@ -1102,11 +1102,11 @@ limitations under the License.
 						</script>
 					</cfloop>
 				</ul>
-				<div class="form-row">
+				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
 						<h3 class="h4">Add agent name</h3>
 						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
-						<form id="newNameForm">
+						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
 							<div class="col-12 col-md-5">
 								<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
