@@ -101,7 +101,7 @@ limitations under the License.
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.underscore_collection_id#">
 				</cfquery>
 				<cfloop query="getClob">
-					<cfset row["HTML_DESCRIPTION"] = "#encodeForJavaScript(REReplace(getClob.html_description,'<[^>]*>','','All'))#">
+					<cfset row["HTML_DESCRIPTION"] = "#replace(encodeForHTML(REReplace(getClob.html_description,'<[^>]*>','','All')),'\n','')#">
 				</cfloop>
 			</cfloop>
 			<cfset data[i]  = row>

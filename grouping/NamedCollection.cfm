@@ -217,7 +217,7 @@ limitations under the License.
 				<script>
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisiblities ('/grouping/NamedCollection.cfm.cfm','Default');
+						lookupColumnVisiblities ('/grouping/NamedCollection.cfm','Default');
 					</cfif>
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
