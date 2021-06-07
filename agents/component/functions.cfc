@@ -1026,8 +1026,8 @@ limitations under the License.
 					select * from namesForAgent where agent_name_type != 'preferred'
 				</cfquery>
 				<cfset i=1>
-				<ul class="list-group list-group-horizontal form-row mx-0">
 					<form id="preferredNameForm">
+					<ul class="list-group list-group-horizontal form-row mx-0">
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
 						<li class="list-group-item px-0">
@@ -1040,6 +1040,7 @@ limitations under the License.
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
 						</li>
+					</ul>
 					</form>
 					<script>
 						$(document).ready(function () {
@@ -1049,7 +1050,7 @@ limitations under the License.
 							});
 						});
 					</script>
-				</ul>
+		
 
 				<cfset i=0>
 				<label class="data-entry-label mb-0">Other Names</label>
