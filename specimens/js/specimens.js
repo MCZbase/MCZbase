@@ -159,87 +159,87 @@ function openEditIdentificationsDialog(collection_object_id,dialogId,guid,callba
 * @param targetDivId the id for the div in the dom, without a leading #
 *  selector, for which to replace the html content 
 */
-//function loadOtherID(coll_obj_other_id_num_id,form) {
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getOtherIDHtml",
-//			coll_obj_other_id_num_id: coll_obj_other_id_num_id,
-//		},
-//		success: function (result) {
-//			$("#otherIDsHTML").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"removing Other IDs");
-//		},
-//		dataType: "html"
-//	});
-//};
-//
-//function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
-//	jQuery.ajax(
-//	{
-//		dataType: "json",
-//		url: "/transactions/component/functions.cfc",
-//		data: { 
-//			method : "getOtherIDsHTML",
-//			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
-//			returnformat : "json",
-//			queryformat : 'column'
-//		},
-//		error: function (jqXHR, status, message) {
-//			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-//		},
-//		success: function (result) {
-//			if (result.DATA.STATUS[0]==1) {
-//				var message  = "There are ";
-//				$('#' + targetDiv).html(message);
-//			}
-//		}
-//	},
-//	)
-//};
+function loadOtherID(coll_obj_other_id_num_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getOtherIDHtml",
+			coll_obj_other_id_num_id: coll_obj_other_id_num_id,
+		},
+		success: function (result) {
+			$("#otherIDsHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing Other IDs");
+		},
+		dataType: "html"
+	});
+};
 
-//function loadOtherIDs(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/public.cfc",
-//		data : {
-//			method : "getOtherIDsHTML",
-//			collection_object_id: collection_object_id,
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading other ids");
-//		},
-//		dataType: "html"
-//	});
-//};
+function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getOtherIDsHTML",
+			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are ";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 
-//function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
-//	jQuery.ajax(
-//	{
-//		dataType: "json",
-//		url: "/transactions/component/functions.cfc",
-//		data: { 
-//			method : "updateOID",
-//			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
-//			returnformat : "json",
-//			queryformat : 'column'
-//		},
-//		error: function (jqXHR, status, message) {
-//			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-//		},
-//		success: function (result) {
-//			if (result.DATA.STATUS[0]==1) {
-//				var message  = "There are otherIDs";
-//				$('#' + targetDiv).html(message);
-//			}
-//		}
-//	},
-//	)
-//};
+function loadOtherIDs(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getOtherIDsHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading other ids");
+		},
+		dataType: "html"
+	});
+};
+
+function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "updateOID",
+			coll_obj_other_id_num_id : coll_obj_other_id_num_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are otherIDs";
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 
 function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Other IDs for " + guid;
