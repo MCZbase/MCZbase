@@ -283,22 +283,22 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
  * @param collection_object_id 
  * @param targetDivId 
  **/
-//function loadMedia(collection_object_id,targetDivId) { 
-//	jQuery.ajax({
-//		url: "/specimens/component/public.cfc",
-//		data : {
-//			method : "getMediaHTML",
-//			collection_object_id: collection_object_id
-//		},
-//		success: function (result) {
-//			$("#" + targetDivId ).html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading media");
-//		},
-//		dataType: "html"
-//	});
-//};
+function Media(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	});
+};
 function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Media for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
