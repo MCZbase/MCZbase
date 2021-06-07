@@ -64,6 +64,8 @@ function loadOtherID(coll_obj_other_id_num_id,form) {
 		dataType: "html"
 	});
 };
+
+
 function updateIdentifications(identification_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -87,7 +89,7 @@ function updateIdentifications(identification_id,targetDiv) {
 	},
 	)
 };
-function updateOtherID(coll_obj_other_id_num_id,targetDiv) {
+function updateOtherIDs(coll_obj_other_id_num_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
