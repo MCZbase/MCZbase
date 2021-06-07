@@ -1026,17 +1026,21 @@ limitations under the License.
 					select * from namesForAgent where agent_name_type != 'preferred'
 				</cfquery>
 				<cfset i=1>
-				<ul>
-					<li class="form-row">
-						<form id="preferredNameForm">
+				<ul class="list-group list-group-horizontal form-row mx-0">
+					<form id="preferredNameForm">
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
+						<li class="list-group-item px-0">
 							<label for="preferred_name" class="">Preferred Name</label>
-							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class=""> 
+						</li>
+						<li class="list-group-item px-0">	
+							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="">
+						</li>
+						<li class="list-group-item px-0">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
-						</form>
-					</li>
+						</li>
+					</form>
 					<script>
 						$(document).ready(function () {
 							$('##preferredUpdateButton').click(function(evt){
