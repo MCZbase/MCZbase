@@ -94,7 +94,7 @@ limitations under the License.
 			<cfset columnNames = ListToArray(search.columnList)>
 			<cfloop array="#columnNames#" index="columnName">
 				<cfif ucase(columnName) is "HTML_DESCRIPTION">
-					<cfset row["#columnName#"] = "#encodeForJavaScript(REReplace(search[columnName][currentrow],”<[^>]*>”,””,”All”))#">
+					<cfset row["#columnName#"] = "#encodeForJavaScript(REReplace(search[columnName][currentrow],'<[^>]*>','','All'))#">
 				<cfelse>
 					<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
 				</cfif>
