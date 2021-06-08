@@ -442,7 +442,7 @@ limitations under the License.
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
+						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
