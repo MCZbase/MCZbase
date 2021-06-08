@@ -129,6 +129,7 @@
 		<input type="hidden" name="Action">
 			<input type="hidden" value="#publication_id#" name="publication_id">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+			<input type="hidden" name="cited_taxon_name_id" value="#cited_taxon_name_id#">
 			<tr><td style="border-bottom: none;">
 			<input type="button"
 				value="Delete"
@@ -372,7 +373,8 @@
 
 		WHERE
 			publication_id = #publication_id# AND
-			collection_object_id = #collection_object_id#
+			collection_object_id = #collection_object_id# AND
+			cited_taxon_name_id = #cited_taxon_name_id#
 		</cfquery>
 		<cflocation url="Citation.cfm?publication_id=#publication_id#">
 	</cfoutput>
@@ -412,7 +414,8 @@
 		identification.accepted_id_fg = 1 AND
 		citation.publication_id = publication.publication_id AND
 		citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> AND
-		citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> AND
+		citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 </cfquery>
 
 
@@ -424,6 +427,7 @@
 		<input type="hidden" name="publication_id" value="#publication_id#">
 
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+
 <table border>
 
 <tr>
@@ -498,10 +502,11 @@
 <cfif #Action# is "deleCitation">
 <cfoutput>
 	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from citation 
-	where 
+	delete from citation
+	where
 		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">
 	</cfquery>
 	<cflocation url="Citation.cfm?publication_id=#publication_id#">
 </cfoutput>
