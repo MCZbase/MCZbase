@@ -207,7 +207,7 @@ limitations under the License.
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h4">Add new Address</h3>
+				<h3 class="h4 pt-1">Add New Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
 						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
@@ -480,7 +480,7 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<ul class="list-group list-group-horizontal mb-3 form-row mx-0">
+						<ul class="list-group list-group-horizontal form-row mx-0">
 							<li class="list-group-item px-0">
 								<label class="border sr-only">#currAgent#</label> 
 								<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
@@ -529,7 +529,7 @@ limitations under the License.
 
 				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
-					<h3 class="h4">Add Relationship</h3>
+					<h3 class="h4 pt-1">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
@@ -595,11 +595,13 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-group-horizontal form-row mb-3">
-					<cfif revRelations.recordcount EQ 0 >
-						<li class="list-group-item">None</li>
-					</cfif>
+					<ul class="list-group list-group-horizontal form-row mb-0">
+						<cfif revRelations.recordcount EQ 0 >
+							<li class="list-group-item">None</li>
+						</cfif>
+					</ul>
 					<cfloop query="revRelations">
+					<ul class="list-group list-group-horizontal form-row mb-0">
 						<li class="list-group-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
@@ -607,8 +609,9 @@ limitations under the License.
 							#agent_remarks# 
 							#date_to_merge# #on_hold# #held_by#
 						</li>
+					</ul>
 					</cfloop>
-				</ul>
+				
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
@@ -795,7 +798,7 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-					<ul class="list-group list-group-horizontal">
+					<ul class="list-group list-unstyled list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
@@ -803,7 +806,7 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<ul class="list-group list-group-horizontal form-row mx-0">
+						<ul class="list-group list-unstyled list-group-horizontal form-row mx-0">
 							<li class="list-group-item px-0">
 								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
 									<cfloop query="ctElecAddrType">
@@ -844,8 +847,7 @@ limitations under the License.
 					</cfloop>
 		
 				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
-					<h3 class="h4">Add Phone or Email</h3>
-					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
+				<label for="new_eaddress" class="pt-1 h4">Add Phone or Email</label>
 					<div class="form-row">
 						<div class="col-12 col-md-5">
 							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
@@ -1069,9 +1071,9 @@ limitations under the License.
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<ul class="list-group list-group-horizontal mx-0 form-row">
+				<ul class="list-group list-unstyled list-group-horizontal mx-0 form-row">
 					<cfif npname.recordcount EQ 0 >
-						<li list-group-item>No other names</li>
+						<li class="list-group-item">No other names</li>
 					</cfif>
 				</ul>
 					<cfloop query="npname">
@@ -1121,8 +1123,7 @@ limitations under the License.
 				</ul>
 				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
-						<h3 class="h4">Add agent name</h3>
-						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
+						<label for="new_agent_name" class="h4 pt-1">Add agent name</label>
 						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
 							<div class="col-12 col-md-5">
@@ -1365,55 +1366,66 @@ limitations under the License.
 								member_order
 						</cfquery>
 						<cfif groupMembers.recordcount EQ 0>
-							<ul><li>None</li></ul>
+							<ul class="list-group list-group-horizontal"><li class="list-group-item">None</li></ul>
 						<cfelse>
-							<ul>
+							
 								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 								<cfset i = 0>
 								<cfloop query="groupMembers">
+								<ul class="list-group list-group-horizontal form-row mx-0">
 									<cfset i = i + 1>
-									<li>
+									<li class="list-group-item px-0">
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
-										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup_#i#" 
+										<a class="btn btn-xs btn-warning ml-2" type="button" id="removeAgentFromGroup_#i#" 
 											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
 										<cfif groupMembers.recordcount GT 1>
 											<cfif i EQ 1>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentUp_#i#" disabled>Move Up</button>
+												<button class="btn btn-xs btn-secondary disabled" type="button" id="moveGroupAgentUp_#i#" disabled>Move Up</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp_#i#" 
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
 											</cfif>
 											<cfif i EQ groupMembers.recordcount>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</button>
+												<button class="btn btn-xs btn-secondary disabled" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown_#i#" 
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
 											</cfif>
 										</cfif>
 									</li>
+								</ul>
 								</cfloop>
-							</ul>
+							
 						</cfif>
 						<div>
-							<form name="newGroupMember">
-								<label for="new_group_agent_name" id="new_group_agent_name_label" class="data-entry-label">Add Member To Group
-									<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-								</label>
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-									</div>
-									<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
-									<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
+						<div class="row">
+							<div class="col-12">
+								<form name="newGroupMember" class="form-row">
+								<div class="col-12 col-md-12">
+									<label for="new_group_agent_name" id="new_group_agent_name_label" class="h4">Add Member To Group
+										<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+									</label>
 								</div>
-								<script>
-									$(document).ready(function() {
-										$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
-									});
-								</script>
-								<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
-							</form>
+								<div class="col-12 col-md-6">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										</div>
+										<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
+										<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
+									</div>
+								</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
+										});
+									</script>
+									<div class="col-12 col-md-5">
+										<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
+									</div>
+								</form>
+							</div>
 							<script>
 								$(document).ready(function() {
 									$('##addMemberButton').click(function (evt) {

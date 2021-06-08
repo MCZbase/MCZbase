@@ -179,7 +179,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<section class="row mx-0 border rounded my-2 py-3">
+						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
@@ -257,7 +257,7 @@ limitations under the License.
 										</div>
 									<div class="col-12 col-md-2">
 										<label for="name_matches" class="data-entry-label">Duplicate check</label>
-										<div id="name_matches"></div>
+										<div id="name_matches" class="text-success p-1"></div>
 									</div>
 								</div>
 								<div id="personRow" class="form-row mb-1">
@@ -530,7 +530,7 @@ limitations under the License.
 						</section>
 						<div class="row">
 							<div class="col-12 col-lg-12 col-xl-5 pr-xl-2">
-								<section class="row border rounded my-2 mx-0 px-1 py-2">
+								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<script>
 											// callback for ajax methods to reload names for agent
@@ -561,7 +561,7 @@ limitations under the License.
 							</div>
 						</div>
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-							<section class="row border rounded my-2 px-1 py-2 mx-0">
+							<section class="row border rounded my-2 px-1 pt-2 pb-3 mx-0">
 								<div class="col-12">
 									<script>
 										// callback for ajax methods to reload group members for agent
