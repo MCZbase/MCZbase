@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---   Function getCollections  --->
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
@@ -26,7 +27,6 @@ limitations under the License.
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
-	<cfargument name="mask_fg" type="string" required="no">
 	<cfargument name="collection_id" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
@@ -38,7 +38,6 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
-				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -61,13 +60,11 @@ limitations under the License.
 					and 
 					( underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 					<cfif isDefined("underscore_agent_name") and underscore_agent_name EQ "[no agent data]">
-					   or underscore_agent_id IS NULL	
+					 or underscore_agent_id IS NULL	
 					</cfif>
 					)
 				</cfif>
-				<cfif isDefined("mask_fg") and len(mask_fg) gt 0>
-					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
-				</cfif>
+
 				<cfif isDefined("collection_id") and len(collection_id) gt 0>
 					and #session.flatTableName#.collection_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">)
 				</cfif>
@@ -85,7 +82,6 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
-				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -95,19 +91,29 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-         <cfset columnNames = ListToArray(search.columnList)>
-         <cfloop array="#columnNames#" index="columnName">
-            <cfset row["#columnName#"] = "#search[columnName][currentrow]#">
-         </cfloop>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+				<cfquery name="getClob" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getClob_result">
+					SELECT html_description 
+					FROM underscore_collection
+					WHERE
+						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#search.underscore_collection_id#">
+				</cfquery>
+				<cfloop query="getClob">
+					<cfset row["HTML_DESCRIPTION"] = "#replace(encodeForHTML(REReplace(getClob.html_description,'<[^>]*>','','All')),'\n','')#">
+				</cfloop>
+			</cfloop>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getCollections: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-      <cfheader statusCode="500" statusText="#message#">
-	   <cfabort>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
@@ -126,7 +132,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-      <cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
@@ -137,8 +143,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					else
 						description
 					end
-					as description_trim,
-				mask_fg
+					as description_trim
 			FROM 
 				underscore_collection
 			WHERE

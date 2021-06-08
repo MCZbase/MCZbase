@@ -2585,7 +2585,12 @@ limitations under the License.
 	   // Workaround, expansion sits below row in zindex.
 	   var maxZIndex = getMaxZIndex();
 	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
-	};
+	}
+
+	window.columnHiddenSettings = new Object();
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		lookupColumnVisiblities ('/Transactions.cfm?action=#action#','Default');
+	</cfif>
 
 
 $(document).ready(function() {
@@ -2686,26 +2691,26 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: true },
+				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: getColHidProp('number', true) },
 				{text: 'Transaction', datafield: 'id_link', width: 120},
-				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
+				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true) },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: true },
+				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: getColHidProp('collection', true) },
 				{text: 'Transaction', datafield: 'transaction_type', width: 150},
 				{text: 'Type', datafield: 'type', width: 80},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Status', datafield: 'status', width: 100},
-				{text: 'Entered By', datafield: 'entered_by', width: 100, hideable: true, hidden: false },
-				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: true },
-				{text: 'Outside Authorized By', datafield: 'outside_authorized_by', width: 80, hideable: true, hidden: true },
-				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: true },
-				{text: 'For Use By', datafield: 'for_use_by', width: 80, hideable: true, hidden: true },
-				{text: 'In-house Contact', datafield: 'inhouse_contact', width: 80, hideable: true, hidden: true },
-				{text: 'Additional In-house Contact', datafield: 'additional_inhouse_contact', width: 80, hideable: true, hidden: true },
-				{text: 'Additional Outside Contact', datafield: 'additional_outside_contact', width: 80, hideable: true, hidden: true },
-				{text: 'Recipient Institution', datafield: 'recipient_institution', width: 80, hideable: true, hidden: true },
-				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: true },
-				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: false }
+				{text: 'Entered By', datafield: 'entered_by', width: 100, hideable: true, hidden: getColHidProp('entered_by', false) },
+				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: getColHidProp('authorized_by', true) },
+				{text: 'Outside Authorized By', datafield: 'outside_authorized_by', width: 80, hideable: true, hidden: getColHidProp('outside_authorized_by', true) },
+				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: getColHidProp('received_by', true) },
+				{text: 'For Use By', datafield: 'for_use_by', width: 80, hideable: true, hidden: getColHidProp('for_use_by', true) },
+				{text: 'In-house Contact', datafield: 'inhouse_contact', width: 80, hideable: true, hidden: getColHidProp('inhouse_contact', true) },
+				{text: 'Additional In-house Contact', datafield: 'additional_inhouse_contact', width: 80, hideable: true, hidden: getColHidProp('additional_inhouse_contact', true) },
+				{text: 'Additional Outside Contact', datafield: 'additional_outside_contact', width: 80, hideable: true, hidden: getColHidProp('additional_outside_contact', true) },
+				{text: 'Recipient Institution', datafield: 'recipient_institution', width: 80, hideable: true, hidden: getColHidProp('recipient_institution', true) },
+				{text: 'Nature of Material', datafield: 'nature_of_material', width: 130, hideable:true, hidden: getColHidProp('nature_of_material', true) },
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', false) }
 			],
 			rowdetails: true,
 			rowdetailstemplate: {
@@ -2896,33 +2901,33 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
+				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: getColHidProp('loan_number', true) },
 				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Loan Items', datafield: 'item_count', width: 100, hideable: true, hidden: true, cellsrenderer: itemCountCellRenderer },
-				{text: 'Citation Count', datafield: 'citation_count', width: 110, hideable: true, hidden: true, cellsrenderer: ciationCountCellRenderer },
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
+				{text: 'Loan Items', datafield: 'item_count', width: 100, hideable: true, hidden: getColHidProp('item_count', true), cellsrenderer: itemCountCellRenderer },
+				{text: 'Citation Count', datafield: 'citation_count', width: 110, hideable: true, hidden: getColHidProp('citation_count', true), cellsrenderer: ciationCountCellRenderer },
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer}, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details dialog
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: getColHidProp('dueindays', true), cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details dialog
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
-				{text: 'For Use By', datafield: 'foruseby_agent', hideable: true, hidden: true },
-				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
-				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
-				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: getColHidProp('auth_agent', true) },
+				{text: 'For Use By', datafield: 'foruseby_agent', hideable: true, hidden: getColHidProp('foruseby_agent', true) },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: getColHidProp('inHouse_agent', true) },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: getColHidProp('addInhouse_agen', true) },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: getColHidProp('addOutside_agent', true) },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
-				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
-				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: true },
-				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
-				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', true) },
+				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: getColHidProp('loan_type_scope', true) },
+				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: getColHidProp('loan_instructions', true) },
+				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: getColHidProp('loan_description', true) },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: getColHidProp('project_name', true), cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: getColHidProp('transaction_id', true) }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: getColHidProp('nature_of_material', false) }
 			],
 			rowdetails: true,
 			rowdetailstemplate: {
@@ -3058,31 +3063,31 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: true },
+				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: getColHidProp('accn_number', true) },
 				{text: 'Accession', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsCellRenderer },
-				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
-				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: false, width: 100},
-				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: false, width: 90},
-				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
-				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: false },
-				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
-				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
-				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
-				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
-				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
-				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
-				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90, cellsrenderer: catitemsCellRenderer },
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: getColHidProp('estimated_count', false), width: 90 },
+				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: getColHidProp('accn_type', false), width: 100},
+				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: getColHidProp('accn_status', false), width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', false) },
+				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: getColHidProp('rec_from_agent', false) },
+				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: getColHidProp('rec_agent', true) },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: getColHidProp('auth_agent', true) },
+				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: getColHidProp('outside_auth_agnent', true) },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: getColHidProp('inHouse_agent', true) },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: getColHidProp('addInhouse_agent', true) },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: getColHidProp('addOutside_agent', true) },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
-				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
-				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', true) },
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: getColHidProp('permits', true) }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: getColHidProp('project_name', true), cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: getColHidProp('transaction_id', true) }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: getColHidProp('nature_of_material', false) }
 			],
 			rowdetails: true,
 			rowdetailstemplate: {
@@ -3221,34 +3226,34 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Deacc Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
+				{text: 'Deacc Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: getColHidProp('deacc_number', true) },
 				{text: 'Deaccession', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsDeaccCellRenderer},
-				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: false, width: 100},
-				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: false, width: 90},
-				{text: 'Deaccession Reason', datafield: 'deac_reason', hideable: true, hidden: true, width: 150},
-				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: true, width: 90},
-				{text: 'Value', datafield: 'value', hideable: true, hidden: true, width: 90},
-				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
-			//	{text: 'Date Closed', datafield: 'closed_date', width: 100, hideable: true, hidden: false },
-			//	{text: 'Closed By', datafield: 'closed_by', width: 100, hideable: true, hidden: true },
-				{text: 'Recipient Institution', datafield: 'recipient_institution_agent', width: 100, hidable: true, hidden: false },
-				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
-				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
-				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
-				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
-				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90, cellsrenderer: catitemsDeaccCellRenderer},
+				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: getColHidProp('deacc_type', false), width: 100},
+				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: getColHidProp('deacc_status', false), width: 90},
+				{text: 'Deaccession Reason', datafield: 'deacc_reason', hideable: true, hidden: getColHidProp('deacc_reason', true), width: 150},
+				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: getColHidProp('method', true), width: 90},
+				{text: 'Value', datafield: 'value', hideable: true, hidden: getColHidProp('value', true), width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+			//	{text: 'Date Closed', datafield: 'closed_date', width: 100, hideable: true, hidden: getColHidProp('closed_date', false) },
+			//	{text: 'Closed By', datafield: 'closed_by', width: 100, hideable: true, hidden: getColHidProp('closed_by', true) },
+				{text: 'Recipient Institution', datafield: 'recipient_institution_agent', width: 100, hidable: true, hidden: getColHidProp('recipient_institution_agent', false) },
+				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: getColHidProp('rec_agent', true) },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: getColHidProp('auth_agent', true) },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: getColHidProp('inHouse_agent', true) },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: getColHidProp('addInhouse_agent', true) },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: getColHidProp('addOutside_agent', true) },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
-				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
-				{text: 'Deaccession Remarks', datafield: 'deac_remarks', hideable: true, hidden: true},
-				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', true) },
+				{text: 'Deaccession Remarks', datafield: 'deacc_remarks', hideable: true, hidden: getColHidProp('deacc_remarks', true)},
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: getColHidProp('permits', true) }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: getColHidProp('project_name', true), cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: getColHidProp('transaction_id', true) }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: getColHidProp('nature_of_material', false) }
 			],
 			rowdetails: true,
 			rowdetailstemplate: {
@@ -3412,42 +3417,42 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Borrow Number', datafield: 'borrow_number', width: 120, hideable: true, hidden: true },
+				{text: 'Borrow Number', datafield: 'borrow_number', width: 120, hideable: true, hidden: getColHidProp('borrow_number', true) },
 				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
-				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
-				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: false, width: 90 },
-				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: true, width: 100},
-				{text: 'Lender Loan Num.', datafield: 'lenders_trans_num_cde', hidable: true, hidden: false, width: 110},
-				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: false, width: 90},
-				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
-				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
-				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
-				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
-				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false, cellsrenderer: returnAckCellRenderer },
-				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
-				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
-				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
-				{text: 'Outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
-				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: false },
-				{text: 'Overseen By', datafield: 'borrowoverseenby_agent', width: 100, hidable: true, hidden: false },
-				{text: 'For Use By', datafield: 'foruse_agent', width: 100, hidable: true, hidden: false },
-				{text: 'Received From', datafield: 'recfrom_agent', width: 100, hidable: true, hidden: true },
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
-				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
-				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
-				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
-				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
-				{text: 'Entered By', datafield: 'ent_agent', hideable: true, hidden: false, width: 100 },
-				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
-				{text: 'Instructions', datafield: 'lenders_instructions', hideable: true, hidden: false, width: 120 },
-				{text: 'Description', datafield: 'description_of_borrow', hideable: true, hidden: true},
-				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: getColHidProp('collection', true) },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: getColHidProp('shipment_count', true) },
+				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90 },
+				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: getColHidProp('no_of_specimens', false), width: 90 },
+				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: getColHidProp('lender_loan_type', true), width: 100},
+				{text: 'Lender Loan Num.', datafield: 'lenders_trans_num_cde', hidable: true, hidden: getColHidProp('lenders_trans_num_cde', false), width: 110},
+				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: getColHidProp('borrow_status', false), width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
+				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: getColHidProp('lenders_loan_date', false) },
+				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', true) },
+				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: getColHidProp('due_date', false) },
+				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: getColHidProp('lenders_invoice_returned', false), cellsrenderer: returnAckCellRenderer },
+				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: getColHidProp('return_acknowledged_date', false) },
+				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: getColHidProp('ret_acknowledged_by', true), width: 150},
+				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: getColHidProp('lending_institution_agent', false) },
+				{text: 'Outside contact', datafield: 'outside_agent', hideable: true, hidden: getColHidProp('outside_agent', true) },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: getColHidProp('rec_agent', false) },
+				{text: 'Overseen By', datafield: 'borrowoverseenby_agent', width: 100, hidable: true, hidden: getColHidProp('borrowoverseenby_agent', false) },
+				{text: 'For Use By', datafield: 'foruse_agent', width: 100, hidable: true, hidden: getColHidProp('foruse_agent', false) },
+				{text: 'Received From', datafield: 'recfrom_agent', width: 100, hidable: true, hidden: getColHidProp('recfrom_agent', true) },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: getColHidProp('auth_agent', true) },
+				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: getColHidProp('outside_auth_agent', true) },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: getColHidProp('inHouse_agent', true) },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: getColHidProp('addInhouse_agent', true) },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: getColHidProp('addOutside_agent', true) },
+				{text: 'Entered By', datafield: 'ent_agent', hideable: true, hidden: getColHidProp('ent_agent', false), width: 100 },
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: getColHidProp('trans_remarks', true) },
+				{text: 'Instructions', datafield: 'lenders_instructions', hideable: true, hidden: getColHidProp('lenders_instructions', false), width: 120 },
+				{text: 'Description', datafield: 'description_of_borrow', hideable: true, hidden: getColHidProp('description_of_borrow', true)},
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: getColHidProp('permits', true) }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: getColHidProp('project_name', true), cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: getColHidProp('transaction_id', true) }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: getColHidProp('nature_of_material', false) }
 			],
 			rowdetails: true,
 			rowdetailstemplate: {
@@ -3501,6 +3506,18 @@ $(document).ready(function() {
 });
 
 function gridLoaded(gridId, searchType) { 
+	var targetAction = "findAll"
+	if (searchType == "transaction") { targetAction = "findAll"; }
+	if (searchType == "loan") { targetAction = "findLoans"; }
+	if (searchType == "accn") { targetAction = "findAccessions"; }
+	if (searchType == "deacc") { targetAction = "findDeaccessions"; }
+	if (searchType == "borrow") { targetAction = "findBorrows"; }
+	if (Object.keys(window.columnHiddenSettings).length == 0) { 
+		window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			saveColumnVisibilities('/Transactions.cfm?action=' + targetAction,window.columnHiddenSettings,'Default');
+		</cfif>
+	}
 	$("##overlay").hide();
 	var now = new Date();
 	var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -3569,7 +3586,13 @@ function gridLoaded(gridId, searchType) {
 		modal: true, 
 		reszable: true, 
 		buttons: { 
-			Ok: function(){ $(this).dialog("close"); }
+			Ok: function(){ 
+				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					saveColumnVisibilities('/Transactions.cfm?action='+targetAction,window.columnHiddenSettings,'Default');
+				</cfif>
+				$(this).dialog("close");
+			 }
 		},
 		open: function (event, ui) { 
 			var maxZIndex = getMaxZIndex();

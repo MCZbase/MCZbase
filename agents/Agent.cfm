@@ -49,7 +49,8 @@ limitations under the License.
 	<!--- TODO: Add full implementation of agent details. --->
 	<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
-			agent.agent_type, agent.edited, 
+			agent.agent_type, 
+			agent.edited as vetted, 
 			agent_remarks, 
 			biography,
 			agentguid_guid_type, agentguid,
@@ -66,8 +67,8 @@ limitations under the License.
 			<div class="row">
 				<div id="agentDiv" class="col-12 my-4">
 					<cfloop query="getAgent">
-						<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-						<h2>#preferred_agent_name# #edited_marker#</h2>
+						<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
+						<h2>#preferred_agent_name# #vetted_marker#</h2>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 							<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
 						</cfif>
@@ -85,6 +86,33 @@ limitations under the License.
 						<div>#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<div>#agent_remarks#</div>
+						</cfif>
+						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+							<section class="row border rounded my-2 px-1 pt-1 pb-2">
+								<h2 class="h3">Group Members</h2>
+								<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+									SELECT
+										member_agent_id,
+										member_order,
+										agent_name
+									FROM
+										group_member 
+										left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+									WHERE
+										group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									ORDER BY
+										member_order
+								</cfquery>
+								<cfif groupMembers.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="groupMembers">
+											<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</section>
 						</cfif>
 						<cfif oneOfUs EQ 1>
 							<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -114,17 +142,18 @@ limitations under the License.
 								order by addr_type
 							</cfquery>
 							<cfif getAgentAddr.recordcount GT 0>
-								<div>
+								<section>
 									<h2 class="h3">Postal Addresses</h2>
 									<cfloop query="getAgentAddr">
 										<h3 class="h4">#addr_type# address</h3>
 										<div>#formatted_addr#</div>
 									</cfloop>
-								</div>
+								</section>
 							</cfif>
 						</cfif>
 						<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name
+							select agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
+								agent_remarks
 							from agent_relations 
 							WHERE
 								agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
@@ -132,18 +161,20 @@ limitations under the License.
 							order by agent_relationship
 						</cfquery>
 						<cfif getAgentRel.recordcount GT 0>
-							<div>
+							<section>
 								<h2 class="h3">Relationships to other agents</h2>
 								<ul>
 								<cfloop query="getAgentRel">
-									<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a></li>
+									<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+									<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
 								</cfloop>
 								</ul>
-							</div>
+							</section>
 						</cfif>
 						<cfif oneOfUs EQ 1>
 							<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name
+								select agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+									agent_remarks
 								from agent_relations 
 								WHERE
 									related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -155,7 +186,8 @@ limitations under the License.
 									<h2 class="h3">Relationships from other agents</h2>
 									<ul>
 									<cfloop query="getRevAgentRel">
-										<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name# </li>
+										<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+										<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
 									</cfloop>
 									</ul>
 								</div>

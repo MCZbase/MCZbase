@@ -86,7 +86,8 @@
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
-								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
+								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>
+								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
 								<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
 								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
@@ -118,7 +119,7 @@
 										<a class="dropdown-item" target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 									</cfif>
 									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-										<a class="dropdown-item" target="_top" href="/agents.cfm">Agent Record</a>
+										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new">Agent Record</a>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 										<a class="dropdown-item" target="_top" href="/Publication.cfm?action=newPub">Publication Record</a>
@@ -150,9 +151,10 @@
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
-										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
+										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Events</a>
 									</cfif>
 									<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+									<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 33.2%;">
@@ -164,6 +166,8 @@
 											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLocality">Locality</a>
 										</cfif>
 										<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a>
+										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a>
+										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new&agent_type=organization">Organization Agent</a>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>

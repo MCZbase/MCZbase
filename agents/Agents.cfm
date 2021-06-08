@@ -309,6 +309,7 @@ limitations under the License.
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/agents/Agents.cfm';" >New Search</button>
+										<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new agent" onclick="window.location.href='#Application.serverRootUrl#/agents/editAgent.cfm?action=new';" >Create New Agent</button>
 									</div>
 								</div>
 							</form>
@@ -352,6 +353,11 @@ limitations under the License.
 		</main>
 
 		<script>
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisiblities ('/agents/Agents.cfm','Default');
+			</cfif>
+
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var vetted = rowData['edited'];
@@ -475,50 +481,50 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: false, cellsrenderer: editIdCellRenderer },
+								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: getColHidProp('agent_name', false), cellsrenderer: linkIdCellRenderer },
+								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: getColHidProp('agent_id', false), cellsrenderer: editIdCellRenderer },
 							<cfelse>
-								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: true },
-								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+								{text: 'ID', datafield: 'agent_id', width:100, hideable: true, hidden: getColHidProp('agent_id', true) },
+								{text: 'Name', datafield: 'agent_name', width: 300, hidable: true, hidden: getColHidProp('agent_name', false), cellsrenderer: linkIdCellRenderer },
 							</cfif>
-							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: false },
+							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: getColHidProp('edited', false) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: false },
+								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: getColHidProp('worstagentrank', false) },
 							</cfif>
-							{text: 'Prefix', datafield: 'prefix', width: 60, hidable: true, hidden: true },
-							{text: 'First', datafield: 'first_name', width: 100, hidable: true, hidden: true },
-							{text: 'Middle', datafield: 'middle_name', width: 100, hidable: true, hidden: true },
-							{text: 'Last', datafield: 'last_name', width: 100, hidable: true, hidden: true },
-							{text: 'Suffix', datafield: 'suffix', width: 60, hidable: true, hidden: true },
-							{text: 'Type', datafield: 'agent_type', width: 150, hidable: true, hidden: false },
-							{text: 'Birth', datafield: 'birth_date', width:100, hideable: true, hidden: false },
-							{text: 'Death', datafield: 'death_date', width:100, hideable: true, hidden: false },
-							{text: 'Collections Scope', datafield: 'collections_scope', width:180, hideable: true, hidden: true },
-							{text: 'preferred', datafield: 'preferred', width:100, hideable: true, hidden: true },
-							{text: 'abbreviation', datafield: 'abbreviation', width:100, hideable: true, hidden: true },
-							{text: 'acronym', datafield: 'acronym', width:100, hideable: true, hidden: true },
-							{text: 'aka', datafield: 'aka', width:100, hideable: true, hidden: true },
-							{text: 'author', datafield: 'author', width:100, hideable: true, hidden: true },
-							{text: 'second_author', datafield: 'second_author', width:100, hideable: true, hidden: true },
-							{text: 'expanded', datafield: 'expanded', width:100, hideable: true, hidden: true },
-							{text: 'maiden', datafield: 'maiden', width:100, hideable: true, hidden: true },
-							{text: 'married', datafield: 'married', width:100, hideable: true, hidden: true },
-							{text: 'full', datafield: 'full', width:100, hideable: true, hidden: true },
-							{text: 'initials', datafield: 'initials', width:100, hideable: true, hidden: true },
-							{text: 'initials_plus_last', datafield: 'initials_plus_last', width:100, hideable: true, hidden: true },
-							{text: 'last_plus_initials', datafield: 'last_plus_initials', width:100, hideable: true, hidden: true },
+							{text: 'Prefix', datafield: 'prefix', width: 60, hidable: true, hidden: getColHidProp('prefix', true) },
+							{text: 'First', datafield: 'first_name', width: 100, hidable: true, hidden: getColHidProp('first_name', true) },
+							{text: 'Middle', datafield: 'middle_name', width: 100, hidable: true, hidden: getColHidProp('middle_name', true) },
+							{text: 'Last', datafield: 'last_name', width: 100, hidable: true, hidden: getColHidProp('last_name', true) },
+							{text: 'Suffix', datafield: 'suffix', width: 60, hidable: true, hidden: getColHidProp('suffix', true) },
+							{text: 'Type', datafield: 'agent_type', width: 150, hidable: true, hidden: getColHidProp('agent_type', false) },
+							{text: 'Birth', datafield: 'birth_date', width:100, hideable: true, hidden: getColHidProp('birth_date', false) },
+							{text: 'Death', datafield: 'death_date', width:100, hideable: true, hidden: getColHidProp('death_date', false) },
+							{text: 'Collections Scope', datafield: 'collections_scope', width:180, hideable: true, hidden: getColHidProp('collections_scope', true) },
+							{text: 'preferred', datafield: 'preferred', width:100, hideable: true, hidden: getColHidProp('preferred', true) },
+							{text: 'abbreviation', datafield: 'abbreviation', width:100, hideable: true, hidden: getColHidProp('abbreviation', true) },
+							{text: 'acronym', datafield: 'acronym', width:100, hideable: true, hidden: getColHidProp('acronym', true) },
+							{text: 'aka', datafield: 'aka', width:100, hideable: true, hidden: getColHidProp('aka', true) },
+							{text: 'author', datafield: 'author', width:100, hideable: true, hidden: getColHidProp('author', true) },
+							{text: 'second_author', datafield: 'second_author', width:100, hideable: true, hidden: getColHidProp('second_author', true) },
+							{text: 'expanded', datafield: 'expanded', width:100, hideable: true, hidden: getColHidProp('expanded', true) },
+							{text: 'maiden', datafield: 'maiden', width:100, hideable: true, hidden: getColHidProp('maiden', true) },
+							{text: 'married', datafield: 'married', width:100, hideable: true, hidden: getColHidProp('married', true) },
+							{text: 'full', datafield: 'full', width:100, hideable: true, hidden: getColHidProp('full', true) },
+							{text: 'initials', datafield: 'initials', width:100, hideable: true, hidden: getColHidProp('initials', true) },
+							{text: 'initials_plus_last', datafield: 'initials_plus_last', width:100, hideable: true, hidden: getColHidProp('initials_plus_last', true) },
+							{text: 'last_plus_initials', datafield: 'last_plus_initials', width:100, hideable: true, hidden: getColHidProp('last_plus_initials', true) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: true },
+								{text: 'login', datafield: 'login', width:100, hideable: true, hidden: getColHidProp('login', true) },
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'EmailAddresses', datafield: 'emails', width:150, hideable: true, hidden: true },
-								{text: 'PhoneNumbers', datafield: 'phones', width:120, hideable: true, hidden: true },
+								{text: 'EmailAddresses', datafield: 'emails', width:150, hideable: true, hidden: getColHidProp('emails', true) },
+								{text: 'PhoneNumbers', datafield: 'phones', width:120, hideable: true, hidden: getColHidProp('phones', true) },
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: false },
-								{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: false }
+								{text: 'Guid', datafield: 'agentguid', width:150, hideable: true, hidden: getColHidProp('agentguid', false) },
+								{text: 'Remarks', datafield: 'agent_remarks', hideable: true, hidden: getColHidProp('agent_remarks', false) }
 							<cfelse>
-								{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: false }
+								{text: 'Guid', datafield: 'agentguid', hideable: true, hidden: getColHidProp('agentguid', false) }
 							</cfif>
 						],
 						rowdetails: true,
@@ -556,6 +562,12 @@ limitations under the License.
 			}); /* End document.ready */
 
 			function gridLoaded(gridId, searchType) { 
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('/agents/Agents.cfm',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
 				$("##overlay").hide();
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -632,7 +644,13 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: { 
-						Ok: function(){ $(this).dialog("close"); }
+						Ok: function(){ 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('/agents/Agents.cfm',window.columnHiddenSettings,'Default');
+							</cfif>
+							$(this).dialog("close");
+						}
 					},
 					open: function (event, ui) { 
 						var maxZIndex = getMaxZIndex();

@@ -542,7 +542,11 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
-
+			
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisiblities ('/Taxa.cfm','Default');
+			</cfif>
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -659,48 +663,48 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid('selectrow', 0);
 						},
 						columns: [
-							{ text: 'Taxon', datafield: 'PLAIN_NAME_AUTHOR', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							{ text: 'Taxon', datafield: 'PLAIN_NAME_AUTHOR', width:300, hideable: true, hidden: getColHidProp('PLAIN_NAME_AUTHOR', false), cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: getColHidProp('TAXON_NAME_ID', false), cellsrenderer: idCellRenderer }, 
 							<cfelse>
-								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: getColHidProp('TAXON_NAME_ID', true) }, 
 							</cfif>
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 105,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
-							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
-							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
-							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
-							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: false },
-							{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: true },
-							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
-							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
-							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
-							{ text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: true },
-							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
-							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
-							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
-							{ text: 'Infraorder', datafield: 'INFRAORDER', width:100, hideable: true, hidden: true },
-							{ text: 'Superfamily', datafield: 'SUPERFAMILY', width:120, hideable: true, hidden: true },
-							{ text: 'Family', datafield: 'FAMILY', width:120, hideable: true, hidden: false },
-							{ text: 'Subfamily', datafield: 'SUBFAMILY', width:120, hideable: true, hidden:true },
-							{ text: 'Tribe', datafield: 'TRIBE', width:100, hideable: true, hidden: true },
-							{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: false },
-							{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: false },
-							{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: false },
-							{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: false },
-							{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: false },
-							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
-							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: false },
-							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
-							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
-							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
-							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
-							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
-							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
-							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
-							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
-							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 105,  hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false), cellsrenderer: specimenCellRenderer },
+							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: getColHidProp('FULL_TAXON_NAME', true) },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: getColHidProp('VALID_CATALOG_TERM', false), cellsrenderer: validCellRenderer },
+							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: getColHidProp('COMMON_NAMES', true) },
+							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: getColHidProp('KINGDOM', true) },
+							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: getColHidProp('PHULUM', false) },
+							{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: getColHidProp('SUBPHYLUM', true) },
+							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: getColHidProp('SUPERCLASS', true) },
+							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: getColHidProp('PHYLCLASS', false) },
+							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: getColHidProp('SUBCLASS', true) },
+							{ text: 'Infraclass', datafield: 'INFRACLASS', width:100, hideable: true, hidden: getColHidProp('INFRACLASS', true) },
+							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: getColHidProp('SUPERORDER', true) },
+							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: getColHidProp('PHYLORDER', false) },
+							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: getColHidProp('SUBORDER', true) },
+							{ text: 'Infraorder', datafield: 'INFRAORDER', width:100, hideable: true, hidden: getColHidProp('INFRAORDER', true) },
+							{ text: 'Superfamily', datafield: 'SUPERFAMILY', width:120, hideable: true, hidden: getColHidProp('SUPERFAMILY', true) },
+							{ text: 'Family', datafield: 'FAMILY', width:120, hideable: true, hidden: getColHidProp('FAMILY', false) },
+							{ text: 'Subfamily', datafield: 'SUBFAMILY', width:120, hideable: true, hidden: getColHidProp('SUBFAMILY',true) },
+							{ text: 'Tribe', datafield: 'TRIBE', width:100, hideable: true, hidden: getColHidProp('TRIBE', true) },
+							{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: getColHidProp('GENUS', false) },
+							{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: getColHidProp('SUBGENUS', false) },
+							{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: getColHidProp('SPECIES', false) },
+							{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: getColHidProp('SUBSPECIES', false) },
+							{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: getColHidProp('INFRASPECIFIC_RANK', false) },
+							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: getColHidProp('SCIENTIFIC_NAME', true) },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: getColHidProp('AUTHOR_TEXT', false) },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: getColHidProp('DISPLAY_NAME', true) },
+							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: getColHidProp('NOMENCLATURAL_CODE', true) },
+							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: getColHidProp('DIVISION', true) },
+							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: getColHidProp('SUBDIVISION', true) },
+							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: getColHidProp('INFRASPECIFIC_AUTHOR', true) },
+							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: getColHidProp('SOURCE_AUTHORITY', true) },
+							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: getColHidProp('SCIENTIFICNAMEID', true) },
+							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: getColHidProp('TAXONID', true) },
+							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: getColHidProp('TAXON_STATUS', true) },
+							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: getColHidProp('TAXON_REMARKS', true) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -737,6 +741,12 @@ limitations under the License.
 			}); /* End document.ready */
 
 			function gridLoaded(gridId, searchType) { 
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
 				$("##overlay").hide();
 				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
 				var now = new Date();
@@ -818,7 +828,13 @@ limitations under the License.
 					buttons: [
 						{
 							text: "Ok",
-							click: function(){ $(this).dialog("close"); },
+							click: function(){ 
+								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+								</cfif>
+								$(this).dialog("close"); 
+							},
 							tabindex: 0
 						}
 					],
