@@ -17,49 +17,54 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<!---   Function getSpecimens  --->
+<cf_rolecheck>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+
+<!---   Function getSpecimens backing method for specimen search --->
 <cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 	<cfargument name="searchText" type="string" required="no">
-	<!---change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
+	<cfargument name="collmultiselect" type="string" required="no">
 
-	<!---conditional to handle different search methods keyword/querybuilder&fixed--->
-	<cfif isDefined("searchText") and len(searchText) gt 0>
-		<cfquery name="search" datasource="uam_god">
-			SELECT f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date, f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
-			FROM FLAT F, FLAT_TEXT FT
-      		where f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
-			and contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
-			<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
-				and f.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
-			</cfif>
-		</cfquery>
-	<!---cfelse querybuilder handler goes here--->
-	</cfif>
-	<!---query for returning selected columns here--->
+	<cftry>
+		<!---change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
+
+		<!---conditional to handle different search methods keyword/querybuilder&fixed--->
+		<cfif isDefined("searchText") and len(searchText) gt 0>
+			<cfquery name="search" datasource="uam_god">
+				SELECT f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date, 
+					f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
+				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> F
+					left join FLAT_TEXT FT ON f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
+				WHERE contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
+					<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
+						and f.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
+					</cfif>
+			</cfquery>
+		<!---cfelse querybuilder handler goes here--->
+		</cfif>
+		<!---query for returning selected columns here--->
+
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
-		<cfset i = 1>
 
+		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["IMAGEURL"] = "#search.imageurl#">
-			<cfset row["COLLECTION_OBJECT_ID"] = "#search.collection_object_id#">
-			<cfset row["COLLECTION"] = "#search.collection#">
-			<cfset row["CAT_NUM"] = "#search.cat_num#">
-			<cfset row["BEGAN_DATE"] = "#search.began_date#">
-			<cfset row["ENDED_DATE"] = "#search.ended_date#">
-			<cfset row["SCIENTIFIC_NAME"] = "#search.scientific_name#">
-			<cfset row["SPEC_LOCALITY"] = "#search.spec_locality#">
-			<cfset row["LOCALITY_ID"] = "#search.locality_id#">
-			<cfset row["HIGHER_GEOG"] = "#search.higher_geog#">
-			<cfset row["COLLECTORS"] = "#search.collectors#">
-			<cfset row["VERBATIM_DATE"] = "#search.verbatim_date#">
-			<cfset row["COLL_OBJ_DISPOSITION"] = "#search.coll_obj_disposition#">
-			<cfset row["OTHERCATALOGNUMBERS"] = "#search.othercatalognumbers#">
-			<cfset data[i] = row>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
-		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!---
