@@ -146,7 +146,8 @@ limitations under the License.
 						person.birth_date,
 						person.death_date,
 						null as start_date,
-						null as end_date
+						null as end_date,
+						MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 					FROM 
 						agent
 						left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
@@ -172,6 +173,9 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12">
 									<h1 class="h2 mb-0 mt-2">Edit #getAgent.agent_type# agent #nameStr#. [agentId: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<cfif len(getAgent.collections_scope) GT 0>
+										<p>#collections_scope#</p>
+									</cfif>
 								</div>
 							</div>
 						</div>
