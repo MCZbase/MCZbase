@@ -210,7 +210,7 @@ limitations under the License.
 											$('##start_date').prop('disabled', true);
 											$('##end_date').prop('disabled', true);
 										}
-									}
+									};
 									$(document).ready(function () {
 										changeType();
 									});
