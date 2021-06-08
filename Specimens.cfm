@@ -111,523 +111,522 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 </cfif>
 
 <div id="overlaycontainer" style="position: relative;">
-<main id="content">
-	<!--- Search form --->
-	<section class="container-fluid" role="search">
-		<div class="row">
-			<div class="col-12 pt-1 pb-3">
-				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count  font-italic color-green mx-0"><small> #getCount.cnt# records</small></span></h1>
-					<!--- Tab header div --->
-				<div class="tabs card-header tab-card-header pb-0">
-						<cfswitch expression="#action#">
-							<cfcase value="keywordSearch">
-								<cfset keywordTabActive = "active">
-								<cfset keywordTabShow = "">
-								<cfset builderTabActive = "">
-								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
-								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							</cfcase>
-							<cfcase value="builderSearch">
-								<cfset keywordTabActive = "">
-								<cfset keywordTabShow = "hidden">
-								<cfset builderTabActive = "active">
-								<cfset builderTabShow = "">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
-								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							</cfcase>
-							<cfcase value="fixedSearch">
-								<cfset keywordTabActive = "">
-								<cfset keywordTabShow = "hidden">
-								<cfset builderTabActive = "">
-								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "active">
-								<cfset fixedTabShow = "">
-								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
-							</cfcase>
-							<cfdefaultcase>
-								<cfset keywordTabActive = "active">
-								<cfset keywordTabShow = "">
-								<cfset builderTabActive = "">
-								<cfset builderTabShow = "hidden">
-								<cfset fixedTabActive = "">
-								<cfset fixedTabShow = "hidden">
-								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
-								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
-							</cfdefaultcase>
-						</cfswitch>
-					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-						<button class="px-5 #keywordTabActive#" id="1" role="tab" aria-controls="panel-1" #keywordTabAria# >Keyword Search</button>
-						<button class="px-5 #builderTabActive#" id="2" role="tab" aria-controls="panel-2" #builderTabAria#>Search Builder</button>
-						<button class="px-5 #fixedTabActive#" id="3" role="tab" aria-controls="panel-3" #fixedTabAria#>Custom Fixed Search</button>
-					</div>
-					<!--- End tab header div --->
-					<!--- Tab content div --->
-					<div class="tab-content">
-					<!---Keyword Search tab panel--->
-					<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#"  #keywordTabShow#>
-						<form name= "searchForm" id="searchForm">
-							<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
-							<input type="hidden" name="action" value="search">
-							<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
-								<div class="row">
-									<div class="input-group mt-1 px-3">
-										<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
-											<label for="collmultiselect" class="sr-only">Collection</label>
-											<select class="custom-select-sm bg-white multiselect2 w-100" name="collmultiselect" multiple="multiple" size="10">
-												<cfloop query="collSearch">
-													<option value="#collSearch.collection_id#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
-												</cfloop>
+	<main id="content">
+		<!--- Search form --->
+		<section class="container-fluid" role="search">
+			<div class="row">
+				<div class="col-12 pt-1 pb-3">
+					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count  font-italic color-green mx-0"><small> #getCount.cnt# records</small></span></h1>
+						<!--- Tab header div --->
+					<div class="tabs card-header tab-card-header pb-0">
+							<cfswitch expression="#action#">
+								<cfcase value="keywordSearch">
+									<cfset keywordTabActive = "active">
+									<cfset keywordTabShow = "">
+									<cfset builderTabActive = "">
+									<cfset builderTabShow = "hidden">
+									<cfset fixedTabActive = "">
+									<cfset fixedTabShow = "hidden">
+									<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								</cfcase>
+								<cfcase value="builderSearch">
+									<cfset keywordTabActive = "">
+									<cfset keywordTabShow = "hidden">
+									<cfset builderTabActive = "active">
+									<cfset builderTabShow = "">
+									<cfset fixedTabActive = "">
+									<cfset fixedTabShow = "hidden">
+									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								</cfcase>
+								<cfcase value="fixedSearch">
+									<cfset keywordTabActive = "">
+									<cfset keywordTabShow = "hidden">
+									<cfset builderTabActive = "">
+									<cfset builderTabShow = "hidden">
+									<cfset fixedTabActive = "active">
+									<cfset fixedTabShow = "">
+									<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								</cfcase>
+								<cfdefaultcase>
+									<cfset keywordTabActive = "active">
+									<cfset keywordTabShow = "">
+									<cfset builderTabActive = "">
+									<cfset builderTabShow = "hidden">
+									<cfset fixedTabActive = "">
+									<cfset fixedTabShow = "hidden">
+									<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+									<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+									<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								</cfdefaultcase>
+							</cfswitch>
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+							<button class="px-5 #keywordTabActive#" id="1" role="tab" aria-controls="panel-1" #keywordTabAria# >Keyword Search</button>
+							<button class="px-5 #builderTabActive#" id="2" role="tab" aria-controls="panel-2" #builderTabAria#>Search Builder</button>
+							<button class="px-5 #fixedTabActive#" id="3" role="tab" aria-controls="panel-3" #fixedTabAria#>Custom Fixed Search</button>
+						</div>
+						<!--- End tab header div --->
+						<!--- Tab content div --->
+						<div class="tab-content">
+						<!---Keyword Search tab panel--->
+						<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#"  #keywordTabShow#>
+							<form name= "searchForm" id="searchForm">
+								<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
+								<input type="hidden" name="action" value="search">
+								<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
+									<div class="row">
+										<div class="input-group mt-1 px-3">
+											<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
+												<label for="collmultiselect" class="sr-only">Collection</label>
+												<select class="custom-select-sm bg-white multiselect2 w-100" name="collmultiselect" multiple="multiple" size="10">
+													<cfloop query="collSearch">
+														<option value="#collSearch.collection_id#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-sm-5 col-md-6 px-md-0">
+												<label for="searchText" class="sr-only">Keyword input field </label>
+												<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
+											</div>
+											<div class="col-12 col-sm-3 col-md-3 input-group-btn">
+												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
+												<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<script>
+							$("select.multiselect2").multiselect({
+								selectedList: 10 // 0-based index
+							});
+							$("select.multiselect2").multiselect({
+								selectedText: function(numChecked, numTotal, checkedItems){
+									return numChecked + ' of ' + numTotal + ' checked';
+								}
+							});
+						</script>
+						<!---Query Builder tab panel--->
+						<div id="panel-2" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
+						<form id="searchForm2">
+						<div class="bg-0 col-sm-12 col-md-12 p-0">
+							<div class="input-group">
+								<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
+									<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
+										<div class="col-md-3 col-sm-12 p-0 mx-1">
+											<label for="selectType" class="sr-only">Select type</label>
+											<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
+												<option>Select Type...</option>
+												<optgroup label="Identifiers">
+												<option>MCZ Catalog (Collection)</option>
+												<option>Catalog Number</option>
+												<option>Number plus other identifiers?</option>
+												<option>Other Identifier Type</option>
+												<option>Accession</option>
+												<option>Accession Agency</option>
+												</optgroup>
+												<optgroup label="Taxonomy">
+												<option>Any Taxonomic Element</option>
+												<option>Scientific Name</option>
+												<option>Genus</option>
+												<option>Subgenus</option>
+												<option>Species</option>
+												<option>Subspecies</option>
+												<option>Author Text</option>
+												<option>Infraspecific Author Text</option>
+												<option>Class</option>
+												<option>Superclass</option>
+												<option>Subclass</option>
+												<option>Order</option>
+												<option>Superorder</option>
+												<option>Suborder</option>
+												<option>Infraorder</option>
+												<option>Family</option>
+												<option>Superfamily</option>
+												<option>Subfamily</option>
+												<option>Tribe</option>
+												<option>Authority</option>
+												<option>Taxon Status</option>
+												<option>Nomenclatural Code</option>
+												<option>Common Name</option>
+												</optgroup>
+												<optgroup label="Locality">
+												<option>Any Geographic Element</option>
+												<option>Continent/Ocean</option>
+												<option>Ocean Region</option>
+												<option>Ocean Subregion</option>
+												<option>Country</option>
+												<option>State/Province</option>
+												<option>County</option>
+												<option>Island Group</option>
+												<option>Island</option>
+												<option>Land Feature</option>
+												<option>Water Feature</option>
+												<option>Specific Locality</option>
+												<option>Elevation</option>
+												<option>Depth</option>
+												<option>Verification Status</option>
+												<option>Maximum Uncertainty</option>
+												<option>USGS Quad Map</option>
+												<option>Geology Attribute</option>
+												<option>Geology Hierarchy</option>
+												<option>Geog Auth Rec ID</option>
+												<option>Locality Remarks</option>
+												<option>Select on Google Map</option>
+												<option>Locality ID</option>
+												<option>Geolocate Precision</option>
+												<option>Geolocate Score</option>
+												<option>Is Locality Georeferenced?</option>
+												<option>Accepted Georeference?</option>
+												<option>Not Georeferenced Because</option>
+												</optgroup>
+												<optgroup label="Collecting Event">
+												<option>Collector/Agent/Inst.</option>
+												<option>Verbatim Locality</option>
+												<option>Began Date</option>
+												<option>Ended Date</option>
+												<option>Verbatim Date</option>
+												<option>Verbatim Coordinates</option>
+												<option>Collecting Method</option>
+												<option>Collecting Event Remarks</option>
+												<option>Verbatim Coordinate System</option>
+												<option>Habitat</option>
+												<option>Collecting Source</option>
+												<option>Verbatim SRS (Datum)</option>
+												<option>Collecting Event ID</option>
+												</optgroup>
+												<optgroup label="Media">
+												<option>Any Media Type</option>
+												<option>Image</option>
+												<option>Audible</option>
+												<option>Video</option>
+												<option>Spectrometer Data</option>
+												<option>Media URI</option>
+												<option>Any Media Relationship</option>
+												<option>Created By Agent</option>
+												<option>Document for Permit</option>
+												<option>Document for Loan</option>
+												<option>Shows Accession</option>
+												<option>Shows Borrows</option>
+												<option>Shows Cataloged Items</option>
+												<option>Shows Collecting Event</option>
+												<option>Shows Deaccession</option>
+												<option>Shows Locality</option>
+												<option>Shows Permit</option>
+												<option>Shows Project</option>
+												<option>Shows Publication</option>
+												<option>Any Media Label</option>
+												<option>Aspect</option>
+												<option>Credit</option>
+												<option>Description</option>
+												<option>Height</option>
+												<option>Internal Remarks</option>
+												<option>Light Source</option>
+												<option>Made Date</option>
+												<option>md5hash</option>
+												<option>Original Filename</option>
+												<option>Owner</option>
+												<option>Remarks</option>
+												<option>Spectrometer</option>
+												<option>Spectrometer Reading Location</option>
+												<option>Subject</option>
+												<option>Width</option>
+												</optgroup>
+												<optgroup label="Publications">
+												<option>Accepted Scientific Name</option>
+												<option>Any Publication Type</option>
+												<option>Annual Report</option>
+												<option>Author (agent)</option>
+												<option>Book</option>
+												<option>Book Section</option>
+												<option>Cites Collection</option>
+												<option>Cites Specimens</option>
+												<option>Data Release</option>
+												<option>Editor (agent)</option>
+												<option>Journal Article</option>
+												<option>Journal Name</option>
+												<option>Journal Section</option>
+												<option>Newsletter</option>
+												<option>Peer Reviewed Only?</option>
+												<option>Publication Remarks</option>
+												<option>Serial Monograph</option>
+												<option>Title</option>
+												<option>Year (or Years as range)</option>
+												</optgroup>
+												<optgroup label="Usage">
+												<option>Any Type</option>
+												<option>Additional Material</option>
+												<option>Allolectotype</option>
+												<option>Allotype</option>
+												<option>Cotype</option>
+												<option>Erroneous Citation</option>
+												<option>Figured</option>
+												<option>Genetic Voucher</option>
+												<option>Genotype</option>
+												<option>Holotype</option>
+												<option>Ideotype</option>
+												<option>Lectotype</option>
+												<option>Neotype</option>
+												</optgroup>
+												<optgroup label="Biological Individual">
+												<option>Part Name</option>
+												<option>Preserve Method</option>
+												<option>Relationship</option>
+												<option>Disposition</option>
+												<option>Condition</option>
+												<option>Lot Number</option>
+												<option>Uniquie Container ID</option>
+												<option>Part Remarks</option>
+												<option>Part Attribute</option>
+												<option>Part Relationships</option>
+												<option>Specimen Attributes</option>
+												</optgroup>
+												<optgroup label="Curatorial">
+												<option>Loan Number</option>
+												<option>Permit Issued By</option>
+												<option>Permit Issued To</option>
+												<option>Permit Type</option>
+												<option>Permit Number</option>
+												<option>Print Flag</option>
+												<option>Entered By</option>
+												<option>Entered Date</option>
+												<option>Last Edited By</option>
+												<option>Last Edited Date</option>
+												<option>Missing (Flags)</option>
+												<option>Specimen Remarks</option>
+												</optgroup>
 											</select>
 										</div>
-										<div class="col-12 col-sm-5 col-md-6 px-md-0">
-											<label for="searchText" class="sr-only">Keyword input field </label>
-											<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
+										<div class="col-md-2 col-sm-12 p-0 mx-1">
+											<label for="comparator" class="sr-only">Select Comparator</label>
+											<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select-sm bg-white form-control-sm border d-flex">
+												<option>Compare with...</option>
+												<option label="contains" value="like">contains</option>
+												<option label="eq" value="eq">is</option>
+											</select>
 										</div>
-										<div class="col-12 col-sm-3 col-md-3 input-group-btn">
-											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-											<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+										<div class="col p-0 mx-1">
+											<label for="srchTxt" class="sr-only">Search Text</label>
+											<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
 										</div>
+										<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> </div>
+									</div>
+								</div>
+								<span class="d-flex justify-content-center col-sm-12 px-1">
+								<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+								<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
+								<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-fixed-search" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
+								</span> </div>
+						</div>
+						</div>
+						<!---Fixed Search tab panel--->
+						<div id="panel-3" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
+						<form id="searchForm3">
+							<div class="container">
+								<div class="form-row col-12 px-0 mx-0 mb-2">
+									<label for="multi-select" class="col-sm-2 data-entry-label align-right-center">Collection</label>
+									<div class="col-sm-4">
+										<select class="custom-select-sm bg-white multiselect w-100" name="multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
+											<cfloop query="collSearch">
+												<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<label for="catalogNum" class="col-sm-2 data-entry-label align-right-center">Catalog Number</label>
+									<div class="col-sm-4">
+										<input id="catalogNum" type="text" rows="1" name="cat_num" class="data-entry-input" placeholder="Catalog ##(s)">
+										</input>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0 mx-0 mb-2">
+									<label for="otherID" class="col-sm-2 data-entry-label align-right-center">Other ID Type</label>
+									<div class="col-sm-4">
+										<select title="otherID" name="otherID" id="otherID" class="data-entry-select col-sm-12 pl-2">
+											<option value="">Other ID Type</option>
+											<option value="Collector Number">Collector Number </option>
+											<option value="field number">Field Number</option>
+										</select>
+									</div>
+									<label for="otherIDnumber" class="col-sm-2 data-entry-label align-right-center">Other ID Text</label>
+									<div class="col-sm-4">
+										<input type="text" class="data-entry-input" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
+									</div>
+								</div>
+								<div class="form-row col-12 px-0 mx-0 mb-2">
+									<label for="taxa" class="mb-1 col-sm-2 data-entry-label align-right-center">Any Taxonomy</label>
+									<div class="col-sm-4">
+										<input id="taxa" class="data-entry-input" aria-label="any taxonomy" >
+									</div>
+									<label for="geography" class="col-sm-2 data-entry-label align-right-center">Any Geography</label>
+									<div class="col-sm-4">
+										<input type="text" class="data-entry-input" id="geography" aria-label="any geography">
+									</div>
+								</div>
+								<div class="form-row col-12 px-0 mx-0 mb-2">
+									<label for="collectors_prep" class="col-sm-2 data-entry-label align-right-center">Collectors/ Preparators</label>
+									<div class="col-sm-4">
+										<input id="collectors_prep" type="text" class="data-entry-input">
+									</div>
+									<label for="part_name" class="col-sm-2 data-entry-label align-right-center">Part Name</label>
+									<div class="col-sm-4">
+										<input type="text" id="part_name" name="part_name" class="data-entry-input">
+									</div>
+								</div>
+								<div class="form-row col-12 px-0 mx-0 mb-2">
+									<label for="place" class="col-sm-2 data-entry-label align-right-center">Loan Number</label>
+									<div class="col-sm-4">
+										<input type="text" name="place" class="data-entry-input" id="place">
+									</div>
+									<label class="col-sm-2 data-entry-label align-right-center" for="when">Verbatim Date</label>
+									<div class="col-sm-4">
+										<input type="text" class="data-entry-input" id="when">
+									</div>
+								</div>
+								<div class="form-row mt-1">
+									<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
+									<div class="col-sm-10">
+										<button type="submit" class="btn-sm mr-1 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
 									</div>
 								</div>
 							</div>
+							<div class="menu_results"> </div>
 						</form>
 					</div>
-					<script>
-						$("select.multiselect2").multiselect({
-							selectedList: 10 // 0-based index
-						});
-						$("select.multiselect2").multiselect({
-							selectedText: function(numChecked, numTotal, checkedItems){
-								return numChecked + ' of ' + numTotal + ' checked';
-							}
-						});
-					</script>
-					<!---Query Builder tab panel--->
-					<div id="panel-2" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
-					<form id="searchForm2">
-					<div class="bg-0 col-sm-12 col-md-12 p-0">
-						<div class="input-group">
-							<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
-								<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
-									<div class="col-md-3 col-sm-12 p-0 mx-1">
-										<label for="selectType" class="sr-only">Select type</label>
-										<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
-											<option>Select Type...</option>
-											<optgroup label="Identifiers">
-											<option>MCZ Catalog (Collection)</option>
-											<option>Catalog Number</option>
-											<option>Number plus other identifiers?</option>
-											<option>Other Identifier Type</option>
-											<option>Accession</option>
-											<option>Accession Agency</option>
-											</optgroup>
-											<optgroup label="Taxonomy">
-											<option>Any Taxonomic Element</option>
-											<option>Scientific Name</option>
-											<option>Genus</option>
-											<option>Subgenus</option>
-											<option>Species</option>
-											<option>Subspecies</option>
-											<option>Author Text</option>
-											<option>Infraspecific Author Text</option>
-											<option>Class</option>
-											<option>Superclass</option>
-											<option>Subclass</option>
-											<option>Order</option>
-											<option>Superorder</option>
-											<option>Suborder</option>
-											<option>Infraorder</option>
-											<option>Family</option>
-											<option>Superfamily</option>
-											<option>Subfamily</option>
-											<option>Tribe</option>
-											<option>Authority</option>
-											<option>Taxon Status</option>
-											<option>Nomenclatural Code</option>
-											<option>Common Name</option>
-											</optgroup>
-											<optgroup label="Locality">
-											<option>Any Geographic Element</option>
-											<option>Continent/Ocean</option>
-											<option>Ocean Region</option>
-											<option>Ocean Subregion</option>
-											<option>Country</option>
-											<option>State/Province</option>
-											<option>County</option>
-											<option>Island Group</option>
-											<option>Island</option>
-											<option>Land Feature</option>
-											<option>Water Feature</option>
-											<option>Specific Locality</option>
-											<option>Elevation</option>
-											<option>Depth</option>
-											<option>Verification Status</option>
-											<option>Maximum Uncertainty</option>
-											<option>USGS Quad Map</option>
-											<option>Geology Attribute</option>
-											<option>Geology Hierarchy</option>
-											<option>Geog Auth Rec ID</option>
-											<option>Locality Remarks</option>
-											<option>Select on Google Map</option>
-											<option>Locality ID</option>
-											<option>Geolocate Precision</option>
-											<option>Geolocate Score</option>
-											<option>Is Locality Georeferenced?</option>
-											<option>Accepted Georeference?</option>
-											<option>Not Georeferenced Because</option>
-											</optgroup>
-											<optgroup label="Collecting Event">
-											<option>Collector/Agent/Inst.</option>
-											<option>Verbatim Locality</option>
-											<option>Began Date</option>
-											<option>Ended Date</option>
-											<option>Verbatim Date</option>
-											<option>Verbatim Coordinates</option>
-											<option>Collecting Method</option>
-											<option>Collecting Event Remarks</option>
-											<option>Verbatim Coordinate System</option>
-											<option>Habitat</option>
-											<option>Collecting Source</option>
-											<option>Verbatim SRS (Datum)</option>
-											<option>Collecting Event ID</option>
-											</optgroup>
-											<optgroup label="Media">
-											<option>Any Media Type</option>
-											<option>Image</option>
-											<option>Audible</option>
-											<option>Video</option>
-											<option>Spectrometer Data</option>
-											<option>Media URI</option>
-											<option>Any Media Relationship</option>
-											<option>Created By Agent</option>
-											<option>Document for Permit</option>
-											<option>Document for Loan</option>
-											<option>Shows Accession</option>
-											<option>Shows Borrows</option>
-											<option>Shows Cataloged Items</option>
-											<option>Shows Collecting Event</option>
-											<option>Shows Deaccession</option>
-											<option>Shows Locality</option>
-											<option>Shows Permit</option>
-											<option>Shows Project</option>
-											<option>Shows Publication</option>
-											<option>Any Media Label</option>
-											<option>Aspect</option>
-											<option>Credit</option>
-											<option>Description</option>
-											<option>Height</option>
-											<option>Internal Remarks</option>
-											<option>Light Source</option>
-											<option>Made Date</option>
-											<option>md5hash</option>
-											<option>Original Filename</option>
-											<option>Owner</option>
-											<option>Remarks</option>
-											<option>Spectrometer</option>
-											<option>Spectrometer Reading Location</option>
-											<option>Subject</option>
-											<option>Width</option>
-											</optgroup>
-											<optgroup label="Publications">
-											<option>Accepted Scientific Name</option>
-											<option>Any Publication Type</option>
-											<option>Annual Report</option>
-											<option>Author (agent)</option>
-											<option>Book</option>
-											<option>Book Section</option>
-											<option>Cites Collection</option>
-											<option>Cites Specimens</option>
-											<option>Data Release</option>
-											<option>Editor (agent)</option>
-											<option>Journal Article</option>
-											<option>Journal Name</option>
-											<option>Journal Section</option>
-											<option>Newsletter</option>
-											<option>Peer Reviewed Only?</option>
-											<option>Publication Remarks</option>
-											<option>Serial Monograph</option>
-											<option>Title</option>
-											<option>Year (or Years as range)</option>
-											</optgroup>
-											<optgroup label="Usage">
-											<option>Any Type</option>
-											<option>Additional Material</option>
-											<option>Allolectotype</option>
-											<option>Allotype</option>
-											<option>Cotype</option>
-											<option>Erroneous Citation</option>
-											<option>Figured</option>
-											<option>Genetic Voucher</option>
-											<option>Genotype</option>
-											<option>Holotype</option>
-											<option>Ideotype</option>
-											<option>Lectotype</option>
-											<option>Neotype</option>
-											</optgroup>
-											<optgroup label="Biological Individual">
-											<option>Part Name</option>
-											<option>Preserve Method</option>
-											<option>Relationship</option>
-											<option>Disposition</option>
-											<option>Condition</option>
-											<option>Lot Number</option>
-											<option>Uniquie Container ID</option>
-											<option>Part Remarks</option>
-											<option>Part Attribute</option>
-											<option>Part Relationships</option>
-											<option>Specimen Attributes</option>
-											</optgroup>
-											<optgroup label="Curatorial">
-											<option>Loan Number</option>
-											<option>Permit Issued By</option>
-											<option>Permit Issued To</option>
-											<option>Permit Type</option>
-											<option>Permit Number</option>
-											<option>Print Flag</option>
-											<option>Entered By</option>
-											<option>Entered Date</option>
-											<option>Last Edited By</option>
-											<option>Last Edited Date</option>
-											<option>Missing (Flags)</option>
-											<option>Specimen Remarks</option>
-											</optgroup>
-										</select>
-									</div>
-									<div class="col-md-2 col-sm-12 p-0 mx-1">
-										<label for="comparator" class="sr-only">Select Comparator</label>
-										<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select-sm bg-white form-control-sm border d-flex">
-											<option>Compare with...</option>
-											<option label="contains" value="like">contains</option>
-											<option label="eq" value="eq">is</option>
-										</select>
-									</div>
-									<div class="col p-0 mx-1">
-										<label for="srchTxt" class="sr-only">Search Text</label>
-										<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
-									</div>
-									<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> </div>
-								</div>
-							</div>
-							<span class="d-flex justify-content-center col-sm-12 px-1">
-							<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
-							<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
-							<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-fixed-search" type="submit" aria-label="searchbuilder custom search">Save to Custom Fixed Search</i></button>
-							</span> </div>
 					</div>
 					</div>
-					<!---Fixed Search tab panel--->
-					<div id="panel-3" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
-					<form id="searchForm3">
-						<div class="container">
-							<div class="form-row col-12 px-0 mx-0 mb-2">
-								<label for="multi-select" class="col-sm-2 data-entry-label align-right-center">Collection</label>
-								<div class="col-sm-4">
-									<select class="custom-select-sm bg-white multiselect w-100" name="multi-select" multiple="multiple" style="padding: .25em .5em" size="10">
-										<cfloop query="collSearch">
-											<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
-										</cfloop>
-									</select>
-								</div>
-								<label for="catalogNum" class="col-sm-2 data-entry-label align-right-center">Catalog Number</label>
-								<div class="col-sm-4">
-									<input id="catalogNum" type="text" rows="1" name="cat_num" class="data-entry-input" placeholder="Catalog ##(s)">
-									</input>
-								</div>
-							</div>
-							<div class="form-row col-12 px-0 mx-0 mb-2">
-								<label for="otherID" class="col-sm-2 data-entry-label align-right-center">Other ID Type</label>
-								<div class="col-sm-4">
-									<select title="otherID" name="otherID" id="otherID" class="data-entry-select col-sm-12 pl-2">
-										<option value="">Other ID Type</option>
-										<option value="Collector Number">Collector Number </option>
-										<option value="field number">Field Number</option>
-									</select>
-								</div>
-								<label for="otherIDnumber" class="col-sm-2 data-entry-label align-right-center">Other ID Text</label>
-								<div class="col-sm-4">
-									<input type="text" class="data-entry-input" id="otherIDnumber" aria-label="Other ID number" placeholder="Other ID(s)">
-								</div>
-							</div>
-							<div class="form-row col-12 px-0 mx-0 mb-2">
-								<label for="taxa" class="mb-1 col-sm-2 data-entry-label align-right-center">Any Taxonomy</label>
-								<div class="col-sm-4">
-									<input id="taxa" class="data-entry-input" aria-label="any taxonomy" >
-								</div>
-								<label for="geography" class="col-sm-2 data-entry-label align-right-center">Any Geography</label>
-								<div class="col-sm-4">
-									<input type="text" class="data-entry-input" id="geography" aria-label="any geography">
-								</div>
-							</div>
-							<div class="form-row col-12 px-0 mx-0 mb-2">
-								<label for="collectors_prep" class="col-sm-2 data-entry-label align-right-center">Collectors/ Preparators</label>
-								<div class="col-sm-4">
-									<input id="collectors_prep" type="text" class="data-entry-input">
-								</div>
-								<label for="part_name" class="col-sm-2 data-entry-label align-right-center">Part Name</label>
-								<div class="col-sm-4">
-									<input type="text" id="part_name" name="part_name" class="data-entry-input">
-								</div>
-							</div>
-							<div class="form-row col-12 px-0 mx-0 mb-2">
-								<label for="place" class="col-sm-2 data-entry-label align-right-center">Loan Number</label>
-								<div class="col-sm-4">
-									<input type="text" name="place" class="data-entry-input" id="place">
-								</div>
-								<label class="col-sm-2 data-entry-label align-right-center" for="when">Verbatim Date</label>
-								<div class="col-sm-4">
-									<input type="text" class="data-entry-input" id="when">
-								</div>
-							</div>
-							<div class="form-row mt-1">
-								<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
-								<div class="col-sm-10">
-									<button type="submit" class="btn-sm mr-1 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
-								</div>
-							</div>
-						</div>
-						<div class="menu_results"> </div>
-					</form>
-				</div>
-				</div>
 				</div>
 			</div>
-		</div>
-		</div>
-	</section>
-	<script>
-		//// script for multiselect dropdown for collections
-		//// on keyword
-
-		$("select.multiselect").multiselect({
-		selectedList: 10 // 0-based index
-		});
-		$("select.multiselect").multiselect({
-			selectedText: function(numChecked, numTotal, checkedItems){
-				return numChecked + ' of ' + numTotal + ' checked';
-			}
-		});
-	</script>
-
-	<!--Grid Related code below along with search handler for keyword search-->
-	<section class="container-fluid">
-		<div class="row">
-			<div class="col-12">
-				<div id="jqxWidget">
-					<div class="mb-5">
-						<div class="row mx-0">
-						<div id="searchResultsGrid" class="jqxGrid"></div>
-						<div class="mt-005" id="enableselection"></div>
-						<div style="margin-top: 30px;">
-							<div id="cellbegineditevent"></div>
-							<div style="margin-top: 10px;" id="cellendeditevent"></div>
-						</div>
-						<div id="popupWindow" style="display:none;">
-							<div style="padding:.25em;">Edit</div>
-							<div style="overflow: hidden;">
-								<div class="container-fluid">
-									<div class="row">
-										<fieldset>
-											<legend class="sr-only">Editable fields</legend>
-											<label for="imageurl">Image:</label>
-											<input id="imageurl" class="fs-13 mx-1 px-1 border-0">
-											<label for="collection">Collection:</label>
-											<input id="collection" class="mx-1 px-1 border-0">
-											<label for="cat_num">Catalog Number:</label>
-											<input id="cat_num" class="mx-1 px-1 border-0">
-											<label for="began_date">Began Date:</label>
-											<input id="began_date" class="mx-1">
-											<label for="ended_date">Ended Date:</label>
-											<input id="ended_date" class="mx-1">
-											<label for="scientific_name">Scientific Name:</label>
-											<input id="scientific_name" class="mx-1 px-1 border-0">
-											<label for="higher_geog">Higher Geography:</label>
-											<input id="higher_geog" class="mx-1 px-1 border-0">
-											<label for="spec_locality">Specific Locality:</label>
-											<input id="spec_locality" class="mx-1 px-1 border-0">
-											<label for="collectors">Collectors:</label>
-											<input id="collectors" class="mx-1 border-0" />
-											<label for="verbatim_date">Verbatim Date:</label>
-											<input id="verbatim_date" class="mx-1 border-0">
-											<label for="coll_obj_disposition">Disposition:</label>
-											<input id="coll_obj_disposition" class="mx-1 border-0">
-											<label for="othercatalognumbers">Other Cat Nums:</label>
-											<textarea id="othercatalognumbers" class="mx-1 border-0"></textarea>
-											<input aria-label="save button" class="mr-1" type="button" id="Save" value="Save" />
-											<input aria-label="cancel button" id="Cancel" type="button" value="Cancel" />
-										</fieldset>
+			</div>
+		</section>
+		<script>
+			//// script for multiselect dropdown for collections
+			//// on keyword
+	
+			$("select.multiselect").multiselect({
+			selectedList: 10 // 0-based index
+			});
+			$("select.multiselect").multiselect({
+				selectedText: function(numChecked, numTotal, checkedItems){
+					return numChecked + ' of ' + numTotal + ' checked';
+				}
+			});
+		</script>
+	
+		<!--Grid Related code below along with search handler for keyword search-->
+		<section class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div id="jqxWidget">
+						<div class="mb-5">
+							<div class="row mx-0">
+							<div id="searchResultsGrid" class="jqxGrid"></div>
+							<div class="mt-005" id="enableselection"></div>
+							<div style="margin-top: 30px;">
+								<div id="cellbegineditevent"></div>
+								<div style="margin-top: 10px;" id="cellendeditevent"></div>
+							</div>
+							<div id="popupWindow" style="display:none;">
+								<div style="padding:.25em;">Edit</div>
+								<div style="overflow: hidden;">
+									<div class="container-fluid">
+										<div class="row">
+											<fieldset>
+												<legend class="sr-only">Editable fields</legend>
+												<label for="imageurl">Image:</label>
+												<input id="imageurl" class="fs-13 mx-1 px-1 border-0">
+												<label for="collection">Collection:</label>
+												<input id="collection" class="mx-1 px-1 border-0">
+												<label for="cat_num">Catalog Number:</label>
+												<input id="cat_num" class="mx-1 px-1 border-0">
+												<label for="began_date">Began Date:</label>
+												<input id="began_date" class="mx-1">
+												<label for="ended_date">Ended Date:</label>
+												<input id="ended_date" class="mx-1">
+												<label for="scientific_name">Scientific Name:</label>
+												<input id="scientific_name" class="mx-1 px-1 border-0">
+												<label for="higher_geog">Higher Geography:</label>
+												<input id="higher_geog" class="mx-1 px-1 border-0">
+												<label for="spec_locality">Specific Locality:</label>
+												<input id="spec_locality" class="mx-1 px-1 border-0">
+												<label for="collectors">Collectors:</label>
+												<input id="collectors" class="mx-1 border-0" />
+												<label for="verbatim_date">Verbatim Date:</label>
+												<input id="verbatim_date" class="mx-1 border-0">
+												<label for="coll_obj_disposition">Disposition:</label>
+												<input id="coll_obj_disposition" class="mx-1 border-0">
+												<label for="othercatalognumbers">Other Cat Nums:</label>
+												<textarea id="othercatalognumbers" class="mx-1 border-0"></textarea>
+												<input aria-label="save button" class="mr-1" type="button" id="Save" value="Save" />
+												<input aria-label="cancel button" id="Cancel" type="button" value="Cancel" />
+											</fieldset>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					</div>
-					<nav aria-label="filter_menu" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
-					<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button" aria-label="refine results slider">Refine Results</a> </section>
-					<h3 class="filters">Refine Results</h3>
-					<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
-						<div class="float-left">
-							<label for="columnchooser" class="mt-1"><em>By Columns in Dropdown</em></label>
-							<div id="columnchooser" class="mb-1"></div>
-							<div class="mt-2"><em>Then by checkboxes of values</em></div>
-							<div class="mt-1 ml-0 d-inline float-left w-257" id="filterbox">
-								<p>Search for something to filter</p>
-							</div>
-							<div>
-								<input type="button" id="applyfilter" class="d-inline float-left ml-0 mr-3 mt-2 py-1 px-2 fs-14" aria-label="apply filter" value="Apply Filter"/>
-								<input type="button" id="clearfilter" class="d-inline ml-0 mt-2 py-1 px-2 fs-14" value="Clear Filter"/>
-							</div>
 						</div>
-					</nav>
-					<nav aria-label="choose_columns" class="cbp-spmenu cbp-spmenu-vertical-left cbp-spmenu-left zindex-sticky" id="cbp-spmenu-s3">
-						<section> <a id="showLeftPush" class="btn black-columns-btn hiddenclass" aria-label="display column selections" role="button">Columns</a> </section>
-						<h3 class="columns">Display Columns</h3>
-						<div class="col-md-3 mb-3 pl-1 mt-2">
-							<ul class="checks">
-								<li>
-									<input type="radio" aria-label="check all">
-									Check all </li>
-								<li>
-									<input type="radio" aria-label="most often displayed">
-									Minimum</li>
-							</ul>
-							<div class="float-left zindex-sticky bg-white">
-								<div id="jqxlistbox2" class="ml-1 mt-3"></div>
+						<nav aria-label="filter_menu" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
+						<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button" aria-label="refine results slider">Refine Results</a> </section>
+						<h3 class="filters">Refine Results</h3>
+						<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
+							<div class="float-left">
+								<label for="columnchooser" class="mt-1"><em>By Columns in Dropdown</em></label>
+								<div id="columnchooser" class="mb-1"></div>
+								<div class="mt-2"><em>Then by checkboxes of values</em></div>
+								<div class="mt-1 ml-0 d-inline float-left w-257" id="filterbox">
+									<p>Search for something to filter</p>
+								</div>
+								<div>
+									<input type="button" id="applyfilter" class="d-inline float-left ml-0 mr-3 mt-2 py-1 px-2 fs-14" aria-label="apply filter" value="Apply Filter"/>
+									<input type="button" id="clearfilter" class="d-inline ml-0 mt-2 py-1 px-2 fs-14" value="Clear Filter"/>
+								</div>
 							</div>
-						</div>
-					</nav>
+						</nav>
+						<nav aria-label="choose_columns" class="cbp-spmenu cbp-spmenu-vertical-left cbp-spmenu-left zindex-sticky" id="cbp-spmenu-s3">
+							<section> <a id="showLeftPush" class="btn black-columns-btn hiddenclass" aria-label="display column selections" role="button">Columns</a> </section>
+							<h3 class="columns">Display Columns</h3>
+							<div class="col-md-3 mb-3 pl-1 mt-2">
+								<ul class="checks">
+									<li>
+										<input type="radio" aria-label="check all">
+										Check all </li>
+									<li>
+										<input type="radio" aria-label="most often displayed">
+										Minimum</li>
+								</ul>
+								<div class="float-left zindex-sticky bg-white">
+									<div id="jqxlistbox2" class="ml-1 mt-3"></div>
+								</div>
+							</div>
+						</nav>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-</main>
+		</section>
+	</main>
 	<script>
-			window.columnHiddenSettings = new Object();
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				lookupColumnVisibilities ('#cgi.script_name#','Default');
-			</cfif>
+		window.columnHiddenSettings = new Object();
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			lookupColumnVisibilities ('#cgi.script_name#','Default');
+		</cfif>
 
-			$(document).ready(function() {
-				/* Setup jqxgrid for Search */
-				$('##searchForm').bind('submit', function(evt){
-					evt.preventDefault();
+		$(document).ready(function() {
+			/* Setup jqxgrid for Search */
+			$('##searchForm').bind('submit', function(evt){
+				evt.preventDefault();
 
+				$("##overlay").show();
 
-					$("##overlay").show();
-
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-					$('##resultCount').html('');
-					$('##resultLink').html('');
-					/*var debug = $('##searchForm').serialize();
+				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$('##resultCount').html('');
+				$('##resultLink').html('');
+				/*var debug = $('##searchForm').serialize();
 					alert(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 
@@ -660,9 +659,9 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						timeout: 30000,  // units not specified, miliseconds?
 						loadError: function(jqXHR, status, error) {
 							$("##overlay").hide();
-						var message = "";
+							var message = "";
 							if (error == 'timeout') {
-						   message = ' Server took too long to respond.';
+						   	message = ' Server took too long to respond.';
 							} else {
 								message = jqXHR.responseText;
 							}
@@ -675,23 +674,23 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						return '<img style="margin-left: 5px;" height="60" width="50" src="' + value + '"/></a>';
 					}
 
-				var dataAdapter = new $.jqx.dataAdapter(search);
+					var dataAdapter = new $.jqx.dataAdapter(search);
 
-				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-					var details = $($(parentElement).children()[0]);
-					details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+						var details = $($(parentElement).children()[0]);
+						details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
-					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-					// Workaround, expansion sits below row in zindex.
-					var maxZIndex = getMaxZIndex();
-					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-				}
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+					}
 
-				var editrow = -1;
-				// grid rendering starts below
+					var editrow = -1;
+					// grid rendering starts below
 
-				$("##searchResultsGrid").jqxGrid({
+					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
 						autoheight: 'true',
 						source: dataAdapter,
@@ -714,8 +713,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						ready: function () {
 							$("##searchResultsGrid").jqxGrid('selectrow', 0);
 						},
-					// This part needs to be dynamic.
-					columns: [
+						// This part needs to be dynamic.
+						columns: [
 							{text: 'Link', datafield: 'COLLECTION_OBJECT_ID', width: 100,
 								createwidget: function  (row, column, value, htmlElement) {
 									var datarecord = value;
@@ -737,43 +736,43 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
 							{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
 							{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
-					],
+						],
 						rowdetails: true,
 						rowdetailstemplate: {
 							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 							rowdetailsheight:  1 // row details will be placed in popup dialog
 						},
 						initrowdetails: initRowDetails
-				});
+					});
 
-				$("##searchResultsGrid").on("bindingcomplete", function(event) {
-					// add a link out to this search, serializing the form as http get parameters
-					$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-					gridLoaded('searchResultsGrid','taxon record');
-				});
-				$('##searchResultsGrid').on('rowexpand', function (event) {
-					//  Create a content div, add it to the detail row, and make it into a dialog.
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					var datarecord = args.owner.source.records[rowIndex];
-					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-				});
-				$('##searchResultsGrid').on('rowcollapse', function (event) {
-					// remove the dialog holding the row details
-					var args = event.args;
-					var rowIndex = args.rowindex;
-					$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-				});
-				// display selected row index.
-				$("##searchResultsGrid").on('rowselect', function (event) {
-					$("##selectrowindex").text(event.args.rowindex);
-				});
-				// display unselected row index.
-				$("##searchResultsGrid").on('rowunselect', function (event) {
-					$("##unselectrowindex").text(event.args.rowindex);
+					$("##searchResultsGrid").on("bindingcomplete", function(event) {
+						// add a link out to this search, serializing the form as http get parameters
+						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','taxon record');
+					});
+					$('##searchResultsGrid').on('rowexpand', function (event) {
+						//  Create a content div, add it to the detail row, and make it into a dialog.
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						var datarecord = args.owner.source.records[rowIndex];
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					});
+					$('##searchResultsGrid').on('rowcollapse', function (event) {
+						// remove the dialog holding the row details
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+					});
+					// display selected row index.
+					$("##searchResultsGrid").on('rowselect', function (event) {
+						$("##selectrowindex").text(event.args.rowindex);
+					});
+					// display unselected row index.
+					$("##searchResultsGrid").on('rowunselect', function (event) {
+						$("##unselectrowindex").text(event.args.rowindex);
+					});
 				});
 			});
-		});
 
 		function gridLoaded(gridId, searchType) {
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
