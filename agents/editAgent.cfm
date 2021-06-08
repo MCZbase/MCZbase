@@ -167,12 +167,12 @@ limitations under the License.
 						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
-							<cfset nameStr = nameStr & "&nbsp;" & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
+							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
 						<div class="container">
 							<div class="form-row">
 								<div class="col-12">
-									<h1 class="h2 mb-0 mt-2">Edit #getAgent.agent_type# agent: #nameStr#  [agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 mb-0 mt-2">Edit #getAgent.agent_type# agent: #nameStr# [agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
 										<p>Collector of MCZ material: #collections_scope#</p>
 									</cfif>
@@ -349,7 +349,7 @@ limitations under the License.
 											<cfelse>
 												<cfset link = getAgent.agentguid>
 											</cfif>
-											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a>
+											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 pt-0 pb-3 d-block line-height-sm small90">#agentguid#</a>
 										</div>
 										<script>
 											$(document).ready(function () {
