@@ -520,6 +520,40 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 	
 		<!--Grid Related code below along with search handler for keyword search-->
 		<section class="container-fluid">
+			<div class="row mx-0">
+				<div class="col-12">
+					<div class="mb-5">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+							<h1 class="h4">Results: </h1>
+							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+							<div id="columnPickDialog">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-12 col-md-6">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-6">
+											<div id="columnPick1" class="px-1"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="columnPickDialogButton"></div>
+							<div id="resultDownloadButtonContainer"></div>
+						</div>
+						<div class="row mt-0"> 
+							<!--- Grid Related code is below along with search handlers --->
+							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+							<div id="enableselection"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+		<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
+		<section class="container-fluid">
 			<div class="row">
 				<div class="col-12">
 					<div id="jqxWidget">
@@ -610,11 +644,39 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 			</div>
 		</section>
 	</main>
+	--->
+
 	<script>
+		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			lookupColumnVisibilities ('#cgi.script_name#','Default');
 		</cfif>
+
+		// ***** cell renderers *****
+		// cell renderer to display a thumbnail with alt tag given columns preview_uri, media_uri, and ac_description 
+		var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+			var puri = rowData['preview_uri'];
+			var muri = rowData['media_uri'];
+			var alt = rowData['ac_description'];
+			if (puri != "") { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100"></a></span>';
+			} else { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+			}
+		};
+	
+		// cell renderer to link out to specimen details page by specimen id
+		var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+
+		// cell renderer to link out to specimen details page by guid, when value is guid.
+		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
+		};
 
 		$(document).ready(function() {
 			/* Setup jqxgrid for Search */
@@ -627,152 +689,143 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				$('##resultCount').html('');
 				$('##resultLink').html('');
 				/*var debug = $('##searchForm').serialize();
-					alert(debug);*/
+				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 
 				var search =
-					{
-						datatype: "json",
-						datafields:
-						[
-							{name: 'IMAGEURL', type: 'string' },
-							{name: 'COLLECTION_OBJECT_ID', type: 'n' },
-							{name: 'COLLECTION', type: 'string' },
-							{name: 'CAT_NUM', type: 'string' },
-							{name: 'BEGAN_DATE', type: 'string' },
-							{name: 'ENDED_DATE', type: 'string' },
-							{name: 'SCIENTIFIC_NAME', type: 'string' },
-							{name: 'SPEC_LOCALITY', type: 'string' },
-							{name: 'LOCALITY_ID', type: 'n' },
-							{name: 'HIGHER_GEOG', type: 'string' },
-							{name: 'COLLECTORS', type: 'string' },
-							{name: 'VERBATIM_DATE', type: 'string' },
-							{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
-							{name: 'OTHERCATALOGNUMBERS', type: 'string' }
-						],
-						updaterow: function (rowid, rowdata, commit) {
-							commit(true);
-						},
-						root: 'specimenRecord',
-						id: 'collection_object_id',
-						url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 30000,  // units not specified, miliseconds?
-						loadError: function(jqXHR, status, error) {
-							$("##overlay").hide();
-							var message = "";
-							if (error == 'timeout') {
-						   	message = ' Server took too long to respond.';
-							} else {
-								message = jqXHR.responseText;
-							}
-						messageDialog('Error:' + message ,'Error: ' + error);
-						},
-						async: true
-					};
+				{
+					datatype: "json",
+					datafields:
+					[
+						{name: 'GUID', type: 'string' },
+						{name: 'IMAGEURL', type: 'string' },
+						{name: 'COLLECTION_OBJECT_ID', type: 'n' },
+						{name: 'COLLECTION', type: 'string' },
+						{name: 'CAT_NUM', type: 'string' },
+						{name: 'BEGAN_DATE', type: 'string' },
+						{name: 'ENDED_DATE', type: 'string' },
+						{name: 'SCIENTIFIC_NAME', type: 'string' },
+						{name: 'SPEC_LOCALITY', type: 'string' },
+						{name: 'LOCALITY_ID', type: 'n' },
+						{name: 'HIGHER_GEOG', type: 'string' },
+						{name: 'COLLECTORS', type: 'string' },
+						{name: 'VERBATIM_DATE', type: 'string' },
+						{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
+						{name: 'OTHERCATALOGNUMBERS', type: 'string' }
+					],
+					updaterow: function (rowid, rowdata, commit) {
+						commit(true);
+					},
+					root: 'specimenRecord',
+					id: 'collection_object_id',
+					url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
+					timeout: 30000,  // units not specified, miliseconds?
+					loadError: function(jqXHR, status, error) {
+						$("##overlay").hide();
+						var message = "";
+						if (error == 'timeout') {
+					   	message = ' Server took too long to respond.';
+						} else {
+							message = jqXHR.responseText;
+						}
+					messageDialog('Error:' + message ,'Error: ' + error);
+					},
+					async: true
+				};
 
-					var imagerenderer = function (row, datafield, value) {
-						return '<img style="margin-left: 5px;" height="60" width="50" src="' + value + '"/></a>';
-					}
+				var dataAdapter = new $.jqx.dataAdapter(search);
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 
-					var dataAdapter = new $.jqx.dataAdapter(search);
+				$("##searchResultsGrid").jqxGrid({
+					width: '100%',
+					autoheight: 'true',
+					source: dataAdapter,
+					filterable: true,
+					sortable: true,
+					pageable: true,
+					editable: false,
+					pagesize: '50',
+					pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+					showaggregates: true,
+					columnsresize: true,
+					autoshowfiltericon: true,
+					autoshowcolumnsmenubutton: false,
+					autoshowloadelement: false,  // overlay acts as load element for form+results
+					columnsreorder: true,
+					groupable: true,
+					selectionmode: 'singlerow',
+					altrows: true,
+					showtoolbar: false,
+					ready: function () {
+						$("##searchResultsGrid").jqxGrid('selectrow', 0);
+					},
+					// This part needs to be dynamic.
+					columns: [
+						{text: 'Link', datafield: 'GUID', width: 100, hidable: false, cellsrenderer: linkGuidCellRenderer },
+						{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
+						{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
+						{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
+						{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
+						{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
+						{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
+						{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
+						{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100, hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
+						{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
+						{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
+						{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
+						{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
+					],
+					rowdetails: true,
+					rowdetailstemplate: {
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+						rowdetailsheight:  1 // row details will be placed in popup dialog
+					},
+					initrowdetails: initRowDetails
+				});
 
-					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-						var details = $($(parentElement).children()[0]);
-						details.html("<div id='rowDetailsTarget" + index + "'></div>");
-
-						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-						// Workaround, expansion sits below row in zindex.
-						var maxZIndex = getMaxZIndex();
-						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-					}
-
-					var editrow = -1;
-					// grid rendering starts below
-
-					$("##searchResultsGrid").jqxGrid({
-						width: '100%',
-						autoheight: 'true',
-						source: dataAdapter,
-						filterable: true,
-						sortable: true,
-						pageable: true,
-						editable: false,
-						pagesize: '50',
-						pagesizeoptions: ['5','50','100'], // reset in gridLoaded
-						showaggregates: true,
-						columnsresize: true,
-						autoshowfiltericon: true,
-						autoshowcolumnsmenubutton: false,
-						autoshowloadelement: false,  // overlay acts as load element for form+results
-						columnsreorder: true,
-						groupable: true,
-						selectionmode: 'singlerow',
-						altrows: true,
-						showtoolbar: false,
-						ready: function () {
-							$("##searchResultsGrid").jqxGrid('selectrow', 0);
-						},
-						// This part needs to be dynamic.
-						columns: [
-							{text: 'Link', datafield: 'COLLECTION_OBJECT_ID', width: 100,
-								createwidget: function  (row, column, value, htmlElement) {
-									var datarecord = value;
-									var linkurl = '/specimens/Specimen.cfm?collection_object_id=' + value;
-									var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a aria-label="specimen detail" href="' + linkurl + '">';
-									var button = $(link + "<span>View Record</span></a></div>");
-								$(htmlElement).append(button);
-								},
-								initwidget: function (row, column, value, htmlElement) {  }
-							},
-							{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
-							{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
-							{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
-							{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
-							{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
-							{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
-							{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100, hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
-							{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
-							{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
-							{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
-							{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
-						],
-						rowdetails: true,
-						rowdetailstemplate: {
-							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-							rowdetailsheight:  1 // row details will be placed in popup dialog
-						},
-						initrowdetails: initRowDetails
-					});
-
-					$("##searchResultsGrid").on("bindingcomplete", function(event) {
-						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','taxon record');
-					});
-					$('##searchResultsGrid').on('rowexpand', function (event) {
-						//  Create a content div, add it to the detail row, and make it into a dialog.
-						var args = event.args;
-						var rowIndex = args.rowindex;
-						var datarecord = args.owner.source.records[rowIndex];
-						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-					});
-					$('##searchResultsGrid').on('rowcollapse', function (event) {
-						// remove the dialog holding the row details
-						var args = event.args;
-						var rowIndex = args.rowindex;
-						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-					});
-					// display selected row index.
-					$("##searchResultsGrid").on('rowselect', function (event) {
-						$("##selectrowindex").text(event.args.rowindex);
-					});
-					// display unselected row index.
-					$("##searchResultsGrid").on('rowunselect', function (event) {
-						$("##unselectrowindex").text(event.args.rowindex);
-					});
+				$("##searchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+					gridLoaded('searchResultsGrid','taxon record');
+				});
+				$('##searchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##searchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##searchResultsGrid").on('rowselect', function (event) {
+					$("##selectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##searchResultsGrid").on('rowunselect', function (event) {
+					$("##unselectrowindex").text(event.args.rowindex);
 				});
 			});
+			/* End Setup jqxgrid for Search ******************************/
+ 
+			// If requested in uri, execute search immediately.
+			<cfif isdefined("execute")>
+				$('##searchForm').submit();
+			</cfif>
+		}); /* End document.ready */
+
 
 		function gridLoaded(gridId, searchType) {
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
