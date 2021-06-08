@@ -257,7 +257,7 @@ limitations under the License.
 										</div>
 									<div class="col-12 col-md-2">
 										<label for="name_matches" class="data-entry-label">Duplicate check</label>
-										<div id="name_matches" class="text-success p-1"></div>
+										<div id="name_matches" class="text-success p-1 small90"></div>
 									</div>
 								</div>
 								<div id="personRow" class="form-row mb-1">
@@ -414,7 +414,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-1">
-									<div class="col-12 col-md-6" >
+									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
 										<script>
@@ -423,7 +423,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
 										<script>
