@@ -268,10 +268,10 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message,address_id, address")>
 	<cftransaction>
 		<cftry>
-        <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select sq_addr_id.nextval as id from dual
-        </cfquery>
-        <cfset pk = addrNextId.id>
+			<cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_addr_id.nextval as id from dual
+			</cfquery>
+			<cfset pk = addrNextId.id>
 			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAddr_result">
 				INSERT INTO addr (
 					ADDR_ID
@@ -307,10 +307,11 @@ limitations under the License.
 					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#addr_remarks#'>
 				)
 			</cfquery>
-        <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
-            select formatted_addr from addr 
-            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
-        </cfquery>
+			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+				SELECT formatted_addr
+				FROM addr 
+				WHERE addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
 			<cfif newAddr_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
@@ -1847,20 +1848,20 @@ limitations under the License.
 								<div class='col-12 col-md-8'>
 									<script>
 										function handleCountrySelect(){
-										   var countrySelection =  $('input:radio[name=country]:checked').val();
-										   if (countrySelection == 'USA') {
-										      $("##textUS").css({"color": "black", "font-weight":"bold" });
-										      $("##other_country_cde").toggle("false");
-										      $("##country_cde").val("USA");
-									   	   $("##other_country_cde").removeClass("reqdClr");
+											var countrySelection = $('input:radio[name=country]:checked').val();
+											if (countrySelection == 'USA') {
+												$("##textUS").css({"color": "black", "font-weight":"bold" });
+												$("##other_country_cde").toggle("false");
+												$("##country_cde").val("USA");
+												$("##other_country_cde").removeClass("reqdClr");
 												$('##other_country_cde').removeAttr('required');
-										   } else {
-										      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
-										      $("##other_country_cde").toggle("true");
-										      $("##country_cde").val($("##other_country_cde").val());
-										      $("##other_country_cde").addClass("reqdClr");
+											} else {
+												$("##textUS").css({"color": "##999999", "font-weight": "normal" });
+												$("##other_country_cde").toggle("true");
+												$("##country_cde").val($("##other_country_cde").val());
+												$("##other_country_cde").addClass("reqdClr");
 												$('##other_country_cde').prop('required',true);
-										   }
+											}
 										}
 									</script>
 									<label for="country_cde" class="data-entry-label">
@@ -1995,22 +1996,22 @@ limitations under the License.
 						<cfif len(#biography#) gt 0>
 							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
 						<cfelse>
-						  	, biography = null
+							, biography = null
 						</cfif>
 						<cfif len(#agent_remarks#) gt 0>
 							, agent_remarks = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
 						<cfelse>
-						  	, agent_remarks = null
+							, agent_remarks = null
 						</cfif>
 						<cfif len(#agentguid_guid_type#) gt 0>
 							, agentguid_guid_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid_guid_type#'>
 						<cfelse>
-						  	, agentguid_guid_type = null
+							, agentguid_guid_type = null
 						</cfif>
 						<cfif len(#agentguid#) gt 0>
 							, agentguid = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid#'>
 						<cfelse>
-						  	, agentguid = null
+							, agentguid = null
 						</cfif>
 					WHERE
 						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2100,13 +2101,13 @@ limitations under the License.
 				</cfif>
 				<cfif len(#start_date#) gt 0>
 					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
-				  <cfelse>
-				  	,birth_date=null
+				<cfelse>
+					,birth_date=null
 				</cfif>
 				<cfif len(#end_date#) gt 0>
 					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
-				  <cfelse>
-				  	,death_date=null
+				<cfelse>
+					,death_date=null
 				</cfif>
 					WHERE
 						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
