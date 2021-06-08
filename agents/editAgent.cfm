@@ -525,7 +525,7 @@ limitations under the License.
 							</form>
 						</section>
 						<div class="row">
-							<div class="col-12 col-lg-12 col-xl-6">
+							<div class="col-12 col-lg-12 col-xl-5">
 								<section class="row border rounded my-2 mx-0 px-1 py-2">
 									<div class="col-12">
 										<script>
@@ -540,7 +540,7 @@ limitations under the License.
 									</div>
 								</section>
 							</div>
-							<div class="col-12 col-lg-12 col-xl-6">
+							<div class="col-12 col-lg-12 col-xl-7">
 								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<h2 class="h3">Relationships for this agent</h2>
