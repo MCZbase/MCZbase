@@ -595,11 +595,13 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul class="list-group list-group-horizontal form-row mb-3">
-					<cfif revRelations.recordcount EQ 0 >
-						<li class="list-group-item">None</li>
-					</cfif>
+					<ul class="list-group list-group-horizontal form-row mb-0">
+						<cfif revRelations.recordcount EQ 0 >
+							<li class="list-group-item">None</li>
+						</cfif>
+					</ul>
 					<cfloop query="revRelations">
+					<ul class="list-group list-group-horizontal form-row mb-0">
 						<li class="list-group-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
@@ -607,8 +609,9 @@ limitations under the License.
 							#agent_remarks# 
 							#date_to_merge# #on_hold# #held_by#
 						</li>
+					</ul>
 					</cfloop>
-				</ul>
+				
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
@@ -795,7 +798,7 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-					<ul class="list-group list-group-horizontal">
+					<ul class="list-group list-unstyled list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
 					</cfif>
@@ -803,7 +806,7 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<ul class="list-group list-group-horizontal form-row mx-0">
+						<ul class="list-group list-unstyled list-group-horizontal form-row mx-0">
 							<li class="list-group-item px-0">
 								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
 									<cfloop query="ctElecAddrType">
@@ -1069,9 +1072,9 @@ limitations under the License.
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<ul class="list-group list-group-horizontal mx-0 form-row">
+				<ul class="list-group list-unstyled list-group-horizontal mx-0 form-row">
 					<cfif npname.recordcount EQ 0 >
-						<li list-group-item>No other names</li>
+						<li class="list-group-item">No other names</li>
 					</cfif>
 				</ul>
 					<cfloop query="npname">
@@ -1365,27 +1368,27 @@ limitations under the License.
 								member_order
 						</cfquery>
 						<cfif groupMembers.recordcount EQ 0>
-							<ul><li>None</li></ul>
+							<ul class="list-group list-group-horizontal"><li class="list-group-item">None</li></ul>
 						<cfelse>
-							<ul>
+							<ul class="list-group list-group-horizontal">
 								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 								<cfset i = 0>
 								<cfloop query="groupMembers">
 									<cfset i = i + 1>
-									<li>
+									<li class="list-group-item">
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup_#i#" 
 											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
 										<cfif groupMembers.recordcount GT 1>
 											<cfif i EQ 1>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentUp_#i#" disabled>Move Up</button>
+												<button class="btn btn-xs btn-secondary disabled" type="button" id="moveGroupAgentUp_#i#" disabled>Move Up</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentUp_#i#" 
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'decrement',reloadGroupMembers);">Move Up</a>
 											</cfif>
 											<cfif i EQ groupMembers.recordcount>
-												<button class="btn btn-xs btn-light" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</button>
+												<button class="btn btn-xs btn-secondary disabled" type="button" id="moveGroupAgentDown_#i#" disabled>Move Down</button>
 											<cfelse>
 												<a class="btn btn-xs btn-secondary" type="button" id="moveGroupAgentDown_#i#" 
 													onclick="moveAgentInGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,'increment',reloadGroupMembers);">Move Down</a>
