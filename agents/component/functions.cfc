@@ -221,7 +221,7 @@ limitations under the License.
 						</select>
 						<input type="hidden" id="newAddrAgentId" value="#agent_id#">
 					</div>
-					<div class="col-12 col-md-8 pt-2 pt-md-0">
+					<div class="col-12 col-md-8 pt-1 pt-md-0">
 						<label for="addAddrButton" class="data-entry-label">&nbsp;</label>
 						<button type="button" id="addAddrButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						<script>
@@ -553,7 +553,7 @@ limitations under the License.
 							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-1 px-1 pt-2 pt-md-0">
+						<div class="col-12 col-md-1 px-1 pt-1 pt-md-0">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
@@ -859,7 +859,7 @@ limitations under the License.
 						<div class="col-12 col-md-5">
 							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input reqdClr" required>
 						</div>
-						<div class="col-12 col-md-2 pt-2 pt-md-0">
+						<div class="col-12 col-md-2 pt-1 pt-md-0">
 							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
