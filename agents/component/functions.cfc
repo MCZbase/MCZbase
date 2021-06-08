@@ -847,8 +847,7 @@ limitations under the License.
 					</cfloop>
 		
 				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
-					<h3 class="h4">Add Phone or Email</h3>
-					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
+				<label for="new_eaddress" class="data-entry-label mb-0 h4">Add Phone or Email</label>
 					<div class="form-row">
 						<div class="col-12 col-md-5">
 							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
@@ -1124,8 +1123,7 @@ limitations under the License.
 				</ul>
 				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
-						<h3 class="h4 pt-1">Add agent name</h3>
-						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
+						<label for="new_agent_name" class="data-entry-label h4 pt-1">Add agent name</label>
 						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
 							<div class="col-12 col-md-5">
