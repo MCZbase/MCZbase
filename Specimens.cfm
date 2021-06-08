@@ -606,7 +606,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 	</section>
 </main>
 	<script>
-
+			window.columnHiddenSettings = new Object();
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				lookupColumnVisibilities ('#cgi.script_name#','Default');
+			</cfif>
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -718,17 +721,17 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								},
 								initwidget: function (row, column, value, htmlElement) {  }
 							},
-							{text: 'Collection', datafield: 'COLLECTION', width: 150},
-							{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130},
-							{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date'},
-							{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180},
-							{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250},
-							{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250},
-							{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100},
-							{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280},
-							{text: 'Collectors', datafield: 'COLLECTORS', width: 180},
-							{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190},
-							{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', width: 280}
+							{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
+							{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130 hidable: true, hidden: getColHidProp('CAT_NUM', false) },
+							{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
+							{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
+							{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
+							{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
+							{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100,hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
+							{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
+							{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
+							{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
+							{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
 					],
 						rowdetails: true,
 						rowdetailstemplate: {
@@ -768,6 +771,12 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 		});
 
 		function gridLoaded(gridId, searchType) {
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
+					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+					</cfif>
+				}
 				$("##overlay").hide();
 				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
 				var now = new Date();
@@ -849,7 +858,13 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 					buttons: [
 						{
 							text: "Ok",
-							click: function(){ $(this).dialog("close"); },
+							click: function(){ 
+								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+								</cfif>
+								$(this).dialog("close"); 
+							},
 							tabindex: 0
 						}
 					],
@@ -880,7 +895,17 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
-</script>
+	</script>
+
+	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
+		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
+			<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
+			<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
+		</div>
+	</div>	
+</div><!--- end overlaycontainer --->	
+
+
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
