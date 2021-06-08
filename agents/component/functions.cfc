@@ -1368,12 +1368,13 @@ limitations under the License.
 						<cfif groupMembers.recordcount EQ 0>
 							<ul class="list-group list-group-horizontal"><li class="list-group-item">None</li></ul>
 						<cfelse>
-							<ul class="list-group list-group-horizontal">
+							
 								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
 								<cfset i = 0>
 								<cfloop query="groupMembers">
+								<ul class="list-group list-group-horizontal form-row mx-0">
 									<cfset i = i + 1>
-									<li class="list-group-item">
+									<li class="list-group-item px-0">
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
 										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup_#i#" 
@@ -1393,8 +1394,9 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</li>
+								</ul>
 								</cfloop>
-							</ul>
+							
 						</cfif>
 						<div>
 						<div class="row">
@@ -1405,7 +1407,7 @@ limitations under the License.
 										<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 									</label>
 								</div>
-								<div class="col-12 col-md-8">
+								<div class="col-12 col-md-6">
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -1419,7 +1421,7 @@ limitations under the License.
 											$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
 										});
 									</script>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-5">
 										<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
 									</div>
 								</form>
