@@ -365,6 +365,12 @@ limitations under the License.
 							function removeLoanItem(item_collection_object_id) { 
 								openRemoveLoanItemDialog(item_collection_object_id, #transaction_id#,'removeItemDialog',reloadGrid);
 							};
+
+							window.columnHiddenSettings = new Object();
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								lookupColumnVisibilities ('#cgi.script_name#','Default');
+							</cfif>
+
 							$(document).ready(function() {
 								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 								$('##resultCount').html('');
@@ -372,6 +378,12 @@ limitations under the License.
 							});
 		
 							function gridLoaded(gridId, searchType) { 
+								if (Object.keys(window.columnHiddenSettings).length == 0) { 
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+									</cfif>
+								}
 								$("##overlay").hide();
 								var now = new Date();
 								var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -427,7 +439,13 @@ limitations under the License.
 									modal: true, 
 									reszable: true, 
 									buttons: { 
-										Ok: function(){ $(this).dialog("close"); }
+										Ok: function(){ 
+											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+											</cfif>
+											$(this).dialog("close");
+										}
 									},
 									open: function (event, ui) { 
 										var maxZIndex = getMaxZIndex();
@@ -586,42 +604,42 @@ limitations under the License.
 										$("##searchResultsGrid").jqxGrid('selectrow', 0);
 									},
 									columns: [
-										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true, editable: false },
-										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: false, cellsrenderer: deleteCellRenderer, editable: false },
-										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: true, editable: false },
-										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: true, editable: false  },
-										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: false, editable: false  },
-										{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: false, editable: false, cellsrenderer: specimenCellRenderer },
-										{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: true, editable: false  },
-										{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: true, editable: false },
-										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: false, editable: false },
-										{text: 'Stored As', datafield: 'stored_as_name', width:210, hideable: true, hidden: true, editable: false },
-										{text: 'Storage Location', datafield: 'short_location', width:210, hideable: true, hidden: true, editable: false },
-										{text: 'Full Storage Location', datafield: 'location', width:210, hideable: true, hidden: true, editable: false },
-										{text: 'Room', datafield: 'location_room', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Fixture', datafield: 'location_fixture', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Tank', datafield: 'location_tank', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Freezer', datafield: 'location_freezer', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Cryovat', datafield: 'location_cryovat', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Compartment', datafield: 'location_compartment', width:90, hideable: true, hidden: true, editable: false },
-										{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: false, editable: false },
-										{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: false, editable: false },
-										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: true, editable: false },
-										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: false, editable: false },
-										{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
-										{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: true, editable: false, 
+										{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: getColHidProp('transaction_id', true), editable: false },
+										{text: 'PartID', datafield: 'part_id', width: 80, hideable: true, hidden: getColHidProp('part_id', false), cellsrenderer: deleteCellRenderer, editable: false },
+										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },
+										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: getColHidProp('collection', true), editable: false  },
+										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: getColHidProp('collection_cde', false), editable: false  },
+										{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: getColHidProp('catalog_number', false), editable: false, cellsrenderer: specimenCellRenderer },
+										{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: getColHidProp('guid', true), editable: false  },
+										{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: getColHidProp('#session.CustomOtherIdentifier#', true), editable: false },
+										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: getColHidProp('scientific_name', false), editable: false },
+										{text: 'Stored As', datafield: 'stored_as_name', width:210, hideable: true, hidden: getColHidProp('stored_as_name', true), editable: false },
+										{text: 'Storage Location', datafield: 'short_location', width:210, hideable: true, hidden: getColHidProp('short_location', true), editable: false },
+										{text: 'Full Storage Location', datafield: 'location', width:210, hideable: true, hidden: getColHidProp('location', true), editable: false },
+										{text: 'Room', datafield: 'location_room', width:90, hideable: true, hidden: getColHidProp('location_room', true), editable: false },
+										{text: 'Fixture', datafield: 'location_fixture', width:90, hideable: true, hidden: getColHidProp('location_fixture', true), editable: false },
+										{text: 'Tank', datafield: 'location_tank', width:90, hideable: true, hidden: getColHidProp('location_tank', true), editable: false },
+										{text: 'Freezer', datafield: 'location_freezer', width:90, hideable: true, hidden: getColHidProp('location_freezer', true), editable: false },
+										{text: 'Cryovat', datafield: 'location_cryovat', width:90, hideable: true, hidden: getColHidProp('location_cryovat', true), editable: false },
+										{text: 'Compartment', datafield: 'location_compartment', width:90, hideable: true, hidden: getColHidProp('location_compartment', true), editable: false },
+										{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: getColHidProp('part_name', false), editable: false },
+										{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
+										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: getColHidProp('item_descr', true), editable: false },
+										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: getColHidProp('sampled_from_obj_id', false), editable: false },
+										{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
+										{text: 'History', datafield: 'History', width:80, columntype: 'button', hideable: true, hidden: getColHidProp('History', true), editable: false, 
 											cellsrenderer: historyCellRenderer, buttonclick: historyButtonClick
 										},
-										{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
-										{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: false, editable: true, cellclassname: editableCellClass },
-										{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: false, editable: true, 
+										{text: 'Item Instructions', datafield: 'item_instructions', width:180, hideable: false, hidden: getColHidProp('item_instructions', false), editable: true, cellclassname: editableCellClass },
+										{text: 'Item Remarks', datafield: 'loan_item_remarks', width:180, hideable: false, hidden: getColHidProp('loan_item_remarks', false), editable: true, cellclassname: editableCellClass },
+										{text: 'Disposition', datafield: 'coll_obj_disposition', width:180, hideable: false, hidden: getColHidProp('coll_obj_disposition', false), editable: true, 
 											cellclassname: editableCellClass, 
 											columntype: 'dropdownlist',
 											initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 										},
-										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: false, editable: false },
-										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: true, editable: false },
-										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: false, editable: false }
+										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
+										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
+										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }
 									],
 									rowdetails: true,
 									rowdetailstemplate: {
