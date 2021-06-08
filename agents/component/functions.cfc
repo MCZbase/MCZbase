@@ -1402,7 +1402,7 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12">
 								<form name="newGroupMember" class="form-row">
-								<div class="col-12 col-8">
+								<div class="col-12 col-md-8">
 									<label for="new_group_agent_name" id="new_group_agent_name_label" class="data-entry-label h4">Add Member To Group
 										<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 									</label>
@@ -1419,7 +1419,7 @@ limitations under the License.
 											$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
 										});
 									</script>
-									<div class="col-4">
+									<div class="col-12 col-md-4">
 										<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
 									</div>
 								</form>
