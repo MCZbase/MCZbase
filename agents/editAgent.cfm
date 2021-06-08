@@ -146,7 +146,8 @@ limitations under the License.
 						person.birth_date,
 						person.death_date,
 						null as start_date,
-						null as end_date
+						null as end_date,
+						MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 					FROM 
 						agent
 						left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
@@ -172,6 +173,9 @@ limitations under the License.
 							<div class="form-row">
 								<div class="col-12">
 									<h1 class="h2 mb-0 mt-2">Edit #getAgent.agent_type# agent #nameStr#. [agentId: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<cfif len(getAgent.collections_scope) GT 0>
+										<p>Collector of MCZ material: #collections_scope#</p>
+									</cfif>
 								</div>
 							</div>
 						</div>
@@ -525,7 +529,7 @@ limitations under the License.
 							</form>
 						</section>
 						<div class="row">
-							<div class="col-12 col-lg-12 col-xl-5">
+							<div class="col-12 col-lg-12 col-xl-5 pr-xl-2">
 								<section class="row border rounded my-2 mx-0 px-1 py-2">
 									<div class="col-12">
 										<script>
@@ -540,7 +544,7 @@ limitations under the License.
 									</div>
 								</section>
 							</div>
-							<div class="col-12 col-lg-12 col-xl-7">
+							<div class="col-12 col-lg-12 col-xl-7 pl-xl-2">
 								<section class="row border rounded my-2 mx-0 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<h2 class="h3">Relationships for this agent</h2>
@@ -572,7 +576,7 @@ limitations under the License.
 							</section>
 						</cfif>
 						<div class="row">
-							<div class="col-12 col-lg-12 col-xl-6">
+							<div class="col-12 col-lg-12 col-xl-6 pr-xl-2">
 								<section class="row border rounded mx-0 my-2 px-1 pt-2 pb-3">
 									<div class="col-12">
 										<h2 class="h3">Addresses for this agent</h2>
@@ -587,7 +591,7 @@ limitations under the License.
 									</div>
 								</section>
 							</div>
-							<div class="col-12 col-lg-12 col-xl-6">
+							<div class="col-12 col-lg-12 col-xl-6 pl-xl-2">
 								<section class="row border rounded my-2 px-1 pt-2 pb-3 mx-0">
 									<div class="col-12">
 										<h2 class="h3">Phone numbers/Email addresses</h2>
