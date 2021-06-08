@@ -207,7 +207,7 @@ limitations under the License.
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h4">Add new Address</h3>
+				<h3 class="h4 pt-1">Add new Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
 						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
@@ -480,7 +480,7 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<ul class="list-group list-group-horizontal mb-3 form-row mx-0">
+						<ul class="list-group list-group-horizontal form-row mx-0">
 							<li class="list-group-item px-0">
 								<label class="border sr-only">#currAgent#</label> 
 								<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
@@ -529,7 +529,7 @@ limitations under the License.
 
 				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
-					<h3 class="h4">Add Relationship</h3>
+					<h3 class="h4 pt-1">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
@@ -1124,7 +1124,7 @@ limitations under the License.
 				</ul>
 				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
-						<h3 class="h4">Add agent name</h3>
+						<h3 class="h4 pt-1">Add agent name</h3>
 						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
 						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">

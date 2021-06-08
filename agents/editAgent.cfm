@@ -179,7 +179,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<section class="row mx-0 border rounded my-2 pt-2 pb-3">
+						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
 							<form class="col-12" name="editAgentForm" id="editAgentForm" action="/agents/editAgent.cfm" method="post">
 								<input type="hidden" name="method" value="saveAgent">
 								<input type="hidden" name="agent_id" value="#getAgent.agent_id#">
