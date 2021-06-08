@@ -16,7 +16,7 @@ function checkPrefNameExists(preferred_name,target) {
 			var matchcount = matches.length;
 			console.log(matches);
 			if (matchcount==0) { 
-         	$("#" + target).html("no duplicates.");
+         	$("#" + target).html("No duplicates.");
 			} else {
 				var s = "s";
 				if (matchcount==1) { 
@@ -54,7 +54,7 @@ function checkNameExists(preferred_name,target,expect_one) {
 			console.log(matches);
 			if (expect_one===true) {
 				if (matchcount==0) { 
-   	      	$("#" + target).html("no agents with this name.");
+   	      	$("#" + target).html("No agents with this name.");
 				} else {
 					if (matchcount==1) { 
    	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
@@ -102,7 +102,7 @@ function checkNameExistsAlso(preferred_name,target,agent_id) {
 			var matchcount = matches.length;
 			console.log(matches);
 			if (matchcount==0) { 
-   	     	$("#" + target).html("no duplicates.");
+   	     	$("#" + target).html("No duplicates.");
 			} else {
 				var s = "s";
 				if (matchcount==1) { 
