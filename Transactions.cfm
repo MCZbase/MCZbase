@@ -2589,7 +2589,7 @@ limitations under the License.
 
 	window.columnHiddenSettings = new Object();
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		lookupColumnVisiblities ('/Transactions.cfm?action=#action#','Default');
+		lookupColumnVisibilities ('/Transactions.cfm?action=#action#','Default');
 	</cfif>
 
 

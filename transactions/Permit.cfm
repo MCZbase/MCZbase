@@ -262,7 +262,7 @@ limitations under the License.
 
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisiblities ('#cgi.script_name#','Default');
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					</cfif>
 
 					/* Supporting cell renderers for Permit Search *****************************/

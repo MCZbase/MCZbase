@@ -116,7 +116,7 @@ limitations under the License.
 				<script>
 					window.columnHiddenSettings = new Object();
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisiblities ('/vocabularies/CollEventNumberSeries.cfm','Default');
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
 					</cfif>
 
 					$(document).ready(function() {
@@ -243,7 +243,7 @@ limitations under the License.
 						if (Object.keys(window.columnHiddenSettings).length == 0) { 
 							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								saveColumnVisibilities('/vocabularies/CollEventNumberSeries.cfm',window.columnHiddenSettings,'Default');
+								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 							</cfif>
 						}
 						$("##overlay").hide();
@@ -300,7 +300,7 @@ limitations under the License.
 								Ok: function(){ 
 									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										saveColumnVisibilities('/vocabularies/CollEventNumberSeries.cfm',window.columnHiddenSettings,'Default');
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
 									$(this).dialog("close"); 
 								}
