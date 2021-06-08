@@ -17,78 +17,49 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<!---   Function getDataTable  --->
-<cffunction name="getDataTable" access="remote" returntype="any" returnformat="json">
+<!---   Function getSpecimens  --->
+<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 	<cfargument name="searchText" type="string" required="no">
+	<!---change this to create a table of collection_object_ids, then a query to get preferred columns for user using the coll object table--->
+
+	<!---conditional to handle different search methods keyword/querybuilder&fixed--->
 	<cfif isDefined("searchText") and len(searchText) gt 0>
-		<!---<cfquery name="qryLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">--->
-		<!---TODO:Permission for flat text search--->
-		<cfquery name="qryLoc" datasource="uam_god">
-			SELECT 
-				substr(imageurl, 1, instr(imageurl, '|')-1) imageurl,
-				ff.collection_object_id, ff.collection, ff.cat_num, 
-				ff.began_date, ff.ended_date, ff.scientific_name, 
-				ff.spec_locality, ff.locality_id, ff.higher_geog, ff.collectors, ff.verbatim_date, 
-				ff.coll_obj_disposition, ff.othercatalognumbers
-			FROM 
-				#session.flatTableName# ff 
-				left join FLAT_TEXT ft on ff.collection_object_id = ft.collection_object_id
-			WHERE 
-				ff.collectors = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">
-				<!---OR
-				 CONTAINS(ft.lithostratigraphicterms, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 1) > 0 OR
-				CONTAINS(ft.verbatUimlocality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 2) > 0 OR
-				CONTAINS(ft.cat_num, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 3) > 0 OR
-				CONTAINS(ft.preparators, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 5) > 0 OR
-				CONTAINS(ft.othercatalognumbers, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 6) > 0 OR
-				CONTAINS(ft.typestatusplain, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 7) > 0 OR
-				CONTAINS(ft.sex, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 8) > 0 OR
-				CONTAINS(ft.partdetail, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 9) > 0 OR
-				CONTAINS(ft.verbatimdate, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 10) > 0 OR
-				CONTAINS(ft.higher_geog, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 11) > 0 OR
-				CONTAINS(ft.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 12) > 0 OR
-				CONTAINS(ft.scientific_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#searchText#">, 13) > 0 --->
+		<cfquery name="search" datasource="uam_god">
+			SELECT f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date, f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
+			FROM FLAT F, FLAT_TEXT FT
+      		where f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
+			and contains(ft.cat_num, <cfqueryparam value="#searchText#" CFSQLType="CF_SQL_VARCHAR">, 1) > 0
+			<cfif isDefined("collmultiselect") and len(collmultiselect) gt 0>
+				and f.collection_id in (<cfqueryparam value="#collmultiselect#" cfsqltype="cf_sql_integer" list="true">)
+			</cfif>
 		</cfquery>
-	<cfelse>
-		<cfquery name="qryLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT  
-				substr(imageurl, 1, instr(imageurl, '|')-1) imageurl,
-				ff.collection_object_id, ff.collection, ff.cat_num, 
-				ff.began_date, ff.ended_date, ff.scientific_name, 
-				ff.spec_locality, ff.locality_id, ff.higher_geog, ff.collectors, ff.verbatim_date, 
-				ff.coll_obj_disposition, ff.othercatalognumbers
-			FROM
-				FILTERED_FLAT ff
-			WHERE
-				rownum <= 50 and spec_locality like '%Massachusetts%'
-		</cfquery>
+	<!---cfelse querybuilder handler goes here--->
 	</cfif>
-	<cfoutput>
-		<cfset i = 1>
+	<!---query for returning selected columns here--->
+		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
-		<cfloop query="qryLoc">
+		<cfset i = 1>
+
+		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["imageurl"] = "#qryLoc.imageurl#">
-			<cfset row["collection_object_id"] = "#qryLoc.collection_object_id#">
-			<cfset row["collection"] = "#qryLoc.collection#">
-			<cfset row["cat_num"] = "#qryLoc.cat_num#">
-			<cfset row["began_date"] = "#qryLoc.began_date#">
-			<cfset row["ended_date"] = "#qryLoc.ended_date#">
-			<cfset row["scientific_name"] = "#qryLoc.scientific_name#">
-			<cfset row["spec_locality"] = "#qryLoc.spec_locality#">
-			<cfset row["locality_id"] = "#qryLoc.locality_id#">
-			<cfset row["higher_geog"] = "#qryLoc.higher_geog#">
-			<cfset row["collectors"] = "#qryLoc.collectors#">
-			<cfset row["verbatim_date"] = "#qryLoc.verbatim_date#">
-			<cfset row["coll_obj_disposition"] = "#qryLoc.coll_obj_disposition#">
-			<cfset row["othercatalognumbers"] = "#qryLoc.othercatalognumbers#">
+			<cfset row["IMAGEURL"] = "#search.imageurl#">
+			<cfset row["COLLECTION_OBJECT_ID"] = "#search.collection_object_id#">
+			<cfset row["COLLECTION"] = "#search.collection#">
+			<cfset row["CAT_NUM"] = "#search.cat_num#">
+			<cfset row["BEGAN_DATE"] = "#search.began_date#">
+			<cfset row["ENDED_DATE"] = "#search.ended_date#">
+			<cfset row["SCIENTIFIC_NAME"] = "#search.scientific_name#">
+			<cfset row["SPEC_LOCALITY"] = "#search.spec_locality#">
+			<cfset row["LOCALITY_ID"] = "#search.locality_id#">
+			<cfset row["HIGHER_GEOG"] = "#search.higher_geog#">
+			<cfset row["COLLECTORS"] = "#search.collectors#">
+			<cfset row["VERBATIM_DATE"] = "#search.verbatim_date#">
+			<cfset row["COLL_OBJ_DISPOSITION"] = "#search.coll_obj_disposition#">
+			<cfset row["OTHERCATALOGNUMBERS"] = "#search.othercatalognumbers#">
 			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
-	<cfoutput>
-	</cfoutput>
 		<cfreturn #serializeJSON(data)#>
-	</cfoutput>
 </cffunction>
 
 <!---
@@ -107,7 +78,7 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			SELECT distinct
 				f.collection_object_id, f.guid,
 				f.scientific_name, f.spec_locality
-			FROM 
+			FROM
 				#session.flatTableName# f
 			WHERE
 				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
@@ -138,7 +109,7 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							<p><a href="/info/bugs.cfm">â€œFeedback/Report Errorsâ€�</a></p>
 						</div>
 					</div>
 				</div>
@@ -166,7 +137,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 				f.locality_id,
 				f.spec_locality,
 				f.higher_geog
-			FROM 
+			FROM
 				#session.flatTableName# f
 			WHERE
 				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
@@ -193,7 +164,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							<p><a href="/info/bugs.cfm">â€œFeedback/Report Errorsâ€�</a></p>
 						</div>
 					</div>
 				</div>
@@ -218,12 +189,12 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
-				f.collecting_event_id, 
+				f.collecting_event_id,
 				f.began_date, f.ended_date,
 				f.collecting_source, f.collecting_method,
 				f.verbatimlocality,
 				f.spec_locality
-			FROM 
+			FROM
 				#session.flatTableName# f
 			WHERE
 				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
@@ -256,7 +227,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							<p><a href="/info/bugs.cfm">â€œFeedback/Report Errorsâ€�</a></p>
 						</div>
 					</div>
 				</div>

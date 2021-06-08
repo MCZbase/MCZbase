@@ -32,7 +32,12 @@ limitations under the License.
 	</cfscript>
 </cfif>
 <!--- **** End temporary block ******************************************************************************** --->
+
 <cfinclude template = "/shared/_header.cfm">
+
+<cfset title = "Search Specimens">
+<cfset metaDesc = "Search MCZbase for specimens.">
+
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 	<cfset isClicky = "likeLink">
@@ -45,7 +50,8 @@ limitations under the License.
 	<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT count(collection_object_id) as cnt FROM cataloged_item
 </cfquery>
-	<cfquery name="collSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+<cfquery name="collSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collection.institution,
 		collection.collection,
@@ -91,32 +97,90 @@ select verificationstatus from ctverificationstatus group by verificationstatus 
 	<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
 select media_type from ctmedia_type order by media_type
 </cfquery>
-	<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
-<main>
-	<section class="container-fluid pb-3 px-3" id="content" role="search">
+<cfif not isdefined("action")>
+	<cfset action="keywordSearch">
+</cfif>
+
+<div id="overlaycontainer" style="position: relative;">
+<main id="content">
+	<!--- Search form --->
+	<section class="container-fluid" role="search">
 		<div class="row">
-			<div class="col-12 col-lg-11 mb-3">
-				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
+			<div class="col-12 pt-1 pb-3">
+				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count  font-italic color-green mx-0"><small> #getCount.cnt# records</small></span></h1>
+					<!--- Tab header div --->
 				<div class="tabs card-header tab-card-header pb-0">
-					<div class="tab-headers" role="tablist" aria-label="search panel tabs">
-						<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" aria-selected="true" >Keyword Search</button>
-						<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-selected="panel-2" aria-selected="false">Search Builder</button>
-						<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-selected="panel-3" aria-select="false">Custom Fixed Search</button>
+						<cfswitch expression="#action#">
+							<cfcase value="keywordSearch">
+								<cfset keywordTabActive = "active">
+								<cfset keywordTabShow = "">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="builderSearch">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "active">
+								<cfset builderTabShow = "">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfcase>
+							<cfcase value="fixedSearch">
+								<cfset keywordTabActive = "">
+								<cfset keywordTabShow = "hidden">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabActive = "active">
+								<cfset fixedTabShow = "">
+								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset fixedTabAria = "aria-selected=""true"" tabindex=""0"" ">
+							</cfcase>
+							<cfdefaultcase>
+								<cfset keywordTabActive = "active">
+								<cfset keywordTabShow = "">
+								<cfset builderTabActive = "">
+								<cfset builderTabShow = "hidden">
+								<cfset fixedTabActive = "">
+								<cfset fixedTabShow = "hidden">
+								<cfset keywordTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset builderTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset fixedTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+							</cfdefaultcase>
+						</cfswitch>
+					<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+						<button class="px-5 #keywordTabActive#" id="1" role="tab" aria-controls="panel-1" #keywordTabAria# >Keyword Search</button>
+						<button class="px-5 #builderTabActive#" id="2" role="tab" aria-controls="panel-2" #builderTabAria#>Search Builder</button>
+						<button class="px-5 #fixedTabActive#" id="3" role="tab" aria-controls="panel-3" #fixedTabAria#>Custom Fixed Search</button>
 					</div>
-					<div class="tab-content"> 
-					<!---Keyword Search--->
-					<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="py-3 mx-0">
-						<form id="searchForm">
+					<!--- End tab header div --->
+					<!--- Tab content div --->
+					<div class="tab-content">
+					<!---Keyword Search tab panel--->
+					<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#"  #keywordTabShow#>
+						<form name= "searchForm" id="searchForm">
+							<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
+							<input type="hidden" name="action" value="search">
 							<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
 								<div class="row">
 									<div class="input-group mt-1 px-3">
 										<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
-											<label for="col-multi-select" class="sr-only">Collection</label>
-											<select class="custom-select-sm bg-white multiselect2 w-100" name="col-multi-select" multiple="multiple" size="10">
+											<label for="collmultiselect" class="sr-only">Collection</label>
+											<select class="custom-select-sm bg-white multiselect2 w-100" name="collmultiselect" multiple="multiple" size="10">
 												<cfloop query="collSearch">
-													<option value="#collSearch.collection#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
+													<option value="#collSearch.collection_id#"> #collSearch.collection# (#collSearch.guid_prefix#)</option>
 												</cfloop>
 											</select>
 										</div>
@@ -141,10 +205,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							selectedText: function(numChecked, numTotal, checkedItems){
 								return numChecked + ' of ' + numTotal + ' checked';
 							}
-						});	
-					</script> 
-					<!---Search Builder--->
-					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="py-3 mx-0" tabindex="0" hidden>
+						});
+					</script>
+					<!---Query Builder tab panel--->
+					<div id="panel-2" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 					<form id="searchForm2">
 					<div class="bg-0 col-sm-12 col-md-12 p-0">
 						<div class="input-group">
@@ -356,8 +420,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							</span> </div>
 					</div>
 					</div>
-					<!---custom fixed search--->
-					<div id="panel-3" aria-labelledby="tab-3" role="tabpanel" class="py-3 mx-0" tabindex="0" hidden>
+					<!---Fixed Search tab panel--->
+					<div id="panel-3" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
 					<form id="searchForm3">
 						<div class="container">
 							<div class="form-row col-12 px-0 mx-0 mb-2">
@@ -433,22 +497,22 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				</div>
 			</div>
 		</div>
+		</div>
 	</section>
 	<script>
-//// script for multiselect dropdown for collections
-//// on keyword
+		//// script for multiselect dropdown for collections
+		//// on keyword
 
-$("select.multiselect").multiselect({
-selectedList: 10 // 0-based index
-});
-$("select.multiselect").multiselect({
-	selectedText: function(numChecked, numTotal, checkedItems){
-		return numChecked + ' of ' + numTotal + ' checked';
-	}
-});	
-		
+		$("select.multiselect").multiselect({
+		selectedList: 10 // 0-based index
+		});
+		$("select.multiselect").multiselect({
+			selectedText: function(numChecked, numTotal, checkedItems){
+				return numChecked + ' of ' + numTotal + ' checked';
+			}
+		});
+	</script>
 
-		</script>
 	<!--Grid Related code below along with search handler for keyword search-->
 	<section class="container-fluid">
 		<div class="row">
@@ -456,7 +520,7 @@ $("select.multiselect").multiselect({
 				<div id="jqxWidget">
 					<div class="mb-5">
 						<div class="row mx-0">
-						<div id="jqxgrid" class="jqxGrid"></div>
+						<div id="searchResultsGrid" class="jqxGrid"></div>
 						<div class="mt-005" id="enableselection"></div>
 						<div style="margin-top: 30px;">
 							<div id="cellbegineditevent"></div>
@@ -542,393 +606,281 @@ $("select.multiselect").multiselect({
 	</section>
 </main>
 	<script>
-///   JQXGRID -- for Keyword Search /////
-$(document).ready(function() {
-
-	$('##searchForm').bind('submit', function(evt){
-	var searchParam = $('##searchText').val();
-	var element = document.getElementById("showRightPush");
-	element.classList.remove("hiddenclass");
-	var element = document.getElementById("showLeftPush");
-	element.classList.remove("hiddenclass");
-	$('##searchText').jqxGrid('showloadelement');
-	$("##jqxgrid").jqxGrid('clearfilters');
-
-		var datafieldlist = [ ];//add synchronous call to cf component
-
-	var search =
-		{
-			datatype: "json",
-			datafields: datafieldlist,
-			updaterow: function (rowid, rowdata, commit) {
-			// synchronize with the server - send update command
-			// call commit with parameter true if the synchronization with the server is successful
-			// and with parameter false if the synchronization failder.
-			commit(true);
-			},
-			root: 'specimenRecord',
-			id: 'collection_object_id',
-			url: '/specimens/component/search.cfc?method=getDataTable&searchText=' + searchParam,
-			async: false
-			};
-
-		var imagerenderer = function (row, datafield, value) {
-			return '<img style="margin-left: 5px;" height="60" width="50" src="' + value + '"/></a>';
-		}
-
-		var dataAdapter = new $.jqx.dataAdapter(search);
-
-		evt.preventDefault();
 
 
-		$(document).ready(function () {
-			$(".jqxDateTimeInput").jqxDateTimeInput({ width: '250px', height: '25px', theme: 'summer' });
-		});
+			$(document).ready(function() {
+				/* Setup jqxgrid for Search */
+				$('##searchForm').bind('submit', function(evt){
+					evt.preventDefault();
 
-		var editrow = -1;
-		// grid rendering starts below
 
-		$("##jqxgrid").jqxGrid({
-			width: '100%',
-			autoheight: 'true',
-			source: dataAdapter,
-			filterable: true,
-			//showfilterrow: true,
-			sortable: true,
-			pageable: true,
-			autoheight: true,
-			editable: true,
-			pagesize: '10',
-			showaggregates: true,
-			columnsresize: true,
-			autoshowfiltericon: false,
-			autoshowcolumnsmenubutton: false,
-			selectionmode: 'multiplecellsextended',
-			columnsreorder: true,
-			groupable: true,
-			selectionmode: 'checkbox',
-			altrows: true,
-			showtoolbar: true,
-			rendertoolbar: function (toolbar) {
-				var me = this;
-				var container = $("<div style='margin: .25em 1em .25em .5em;'></div>");
-				toolbar.append(container);
-				container.append('<h2 class="h3 float-left mt-0 pt-1 mr-4">Results</h2>');
-				container.append('<input id="deleterowbutton" class="btn btn-sm ml-2 fs-13 py-1 px-2" type="button" value="Delete Selected Row(s)"/>');
-				container.append('<input id="csvExport" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Download Full Record(s)"/>');
-				container.append('<input id="csvExportDisplayed" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Download Displayed Columns"/>');
-				container.append('<input id="clearfilter1" class="btn btn-sm ml-3 fs-13 py-1 px-2" type="button" value="Clear Filters"/>');
+					$("##overlay").show();
 
-				//$("##csvExport").jqxButton();
-				$("##csvExportDisplayed").jqxButton();
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+					$('##resultCount').html('');
+					$('##resultLink').html('');
+					/*var debug = $('##searchForm').serialize();
+					alert(debug);*/
+				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 
-				//delete row.
-				$("##deleterowbutton").jqxButton();
-				$("##deleterowbutton").click(function () {
-					var rowIndexes = $('##jqxgrid').jqxGrid('getselectedrowindexes');
-					var rowIds = new Array();
-					for (var i = 0; i < rowIndexes.length; i++) {
-						var currentId = $('##jqxgrid').jqxGrid('getrowid', rowIndexes[i]);
-						rowIds.push(currentId);
-					};
-					$('##jqxgrid').jqxGrid('deleterow', rowIds);
-					$('##jqxgrid').jqxGrid('clearselection');
-				});
-			},
-			// This part needs to be dynamic.
-			columns: [
-			{ text: 'Edit',
-				datafield: 'Edit',
-				columntype: 'button',
-				cellsrenderer: function () {
-				return "Edit";
-				},
-
-				buttonclick: function (row) {
-					editrow = row;
-
-					var offset = $("##jqxgrid").offset();
-					$("##popupWindow").jqxWindow({ position: { x: ($(window).width() - $("##popupWindow").jqxWindow('width')) / 2 + $(window).scrollLeft(), y: ($(window).height() - $("##popupWindow").jqxWindow('height')) / 2 + $(window).scrollTop() } });
-					//var rowID = $('##jqxgrid').jqxGrid('getrowid', editrow);
-							 // get the clicked row's data and initialize the input fields.
-							 var dataRecord = $("##jqxgrid").jqxGrid('getrowdata', editrow);
-							 $("##imageurl").val(dataRecord.imageurl);
-							 $("##collection").val(dataRecord.collection);
-							 $("##cat_num").val(dataRecord.cat_num);
-							 $("##began_date").val(dataRecord.began_date);
-							 $("##ended_date").val(dataRecord.ended_date);
-							 $("##scientific_name").val(dataRecord.scientific_name);
-							 $("##spec_locality").val(dataRecord.spec_locality);
-							 $("##locality_id").val(dataRecord.locality_id);
-							 $("##higher_geog").val(dataRecord.higher_geog);
-							 $("##collectors").val(dataRecord.collectors);
-							 $("##verbatim_date").val(dataRecord.verbatim_date);
-							 $("##coll_obj_disposition").val(dataRecord.coll_obj_disposition);
-							 $("##othercatalognumbers").val(dataRecord.othercatalognumbers);
-							// show the popup window.
-							 $("##popupWindow").jqxWindow('show');
-						 }
-					},
-					{text: 'Image URLs', datafield: 'imageurl', width: 50, cellsrenderer: imagerenderer},
-
-					{text: 'Link', datafield: 'collection_object_id', width: 100,
-						createwidget: function  (row, column, value, htmlElement) {
-							var datarecord = value;
-							var linkurl = '/specimens/Specimen.cfm?collection_object_id=' + value;
-							var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a aria-label="specimen detail" href="' + linkurl + '">';
-							var button = $(link + "<span>View Record</span></a></div>");
-						$(htmlElement).append(button);
+				var search =
+					{
+						datatype: "json",
+						datafields:
+						[
+							{name: 'IMAGEURL', type: 'string' },
+							{name: 'COLLECTION_OBJECT_ID', type: 'n' },
+							{name: 'COLLECTION', type: 'string' },
+							{name: 'CAT_NUM', type: 'string' },
+							{name: 'BEGAN_DATE', type: 'string' },
+							{name: 'ENDED_DATE', type: 'string' },
+							{name: 'SCIENTIFIC_NAME', type: 'string' },
+							{name: 'SPEC_LOCALITY', type: 'string' },
+							{name: 'LOCALITY_ID', type: 'n' },
+							{name: 'HIGHER_GEOG', type: 'string' },
+							{name: 'COLLECTORS', type: 'string' },
+							{name: 'VERBATIM_DATE', type: 'string' },
+							{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
+							{name: 'OTHERCATALOGNUMBERS', type: 'string' }
+						],
+						updaterow: function (rowid, rowdata, commit) {
+							commit(true);
 						},
-						initwidget: function (row, column, value, htmlElement) {  }
-					},
-					{text: 'Collection', datafield: 'collection', width: 150},
-					{text: 'Catalog Number', datafield: 'cat_num', width: 130},
-					{text: 'Began Date', datafield: 'began_date', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date'},
-					{text: 'Ended Date', datafield: 'ended_date',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180},
-					{text: 'Scientific Name', datafield: 'scientific_name', width: 250},
-					{text: 'Specific Locality', datafield: 'spec_locality', width: 250},
-					{text: 'Locality by ID', datafield: 'locality_id', width: 100},
-					{text: 'Higher Geography', datafield: 'higher_geog', width: 280},
-					{text: 'Collectors', datafield: 'collectors', width: 180},
-					{text: 'Verbatim Date', datafield: 'verbatim_date', width: 190},
-					{text: 'Disposition', datafield: 'coll_obj_disposition', width: 120},
-					{text: 'Other IDs', datafield: 'othercatalognumbers', width: 280}
-			]
-		});
-			// initialize the popup window and buttons.
-			$("##popupWindow").jqxWindow({
-				width: 850, resizable: false, isModal: true, autoOpen: false, cancelButton: $("##Cancel"), modalOpacity: 0.5
-			});
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc?' + $('##searchForm').serialize(),
+						timeout: 30000,  // units not specified, miliseconds?
+						loadError: function(jqXHR, status, error) {
+							$("##overlay").hide();
+						var message = "";
+							if (error == 'timeout') {
+						   message = ' Server took too long to respond.';
+							} else {
+								message = jqXHR.responseText;
+							}
+						messageDialog('Error:' + message ,'Error: ' + error);
+						},
+						async: true
+					};
 
-			$("##popupWindow").on('open', function () {
-				$("##imageurl").jqxInput('selectAll');
-			});
+					var imagerenderer = function (row, datafield, value) {
+						return '<img style="margin-left: 5px;" height="60" width="50" src="' + value + '"/></a>';
+					}
 
-			$("##Cancel").jqxButton({ theme: theme });
-			$("##Save").jqxButton({ theme: theme });
+				var dataAdapter = new $.jqx.dataAdapter(search);
 
-			// update the edited row when the user clicks the 'Save' button.
-			$("##Save").click(function () {
-				if (editrow >= 0) {
-					var row = {
-						imageurl: $("##imageurl").val(),
-						collection: $("##collection").val(),
-						began_date: $("##began_date").val(),
-						ended_date: $("##ended_date").val(),
-						scientific_name: $("##scientific_name").val(),
-						spec_locality: $("##spec_locality").val(),
-						locality_id: $("##locality_id").val(),
-						higher_geog: $("##higher_geog").val(),
-						collectors: $("##collectors").val(),
-						verbatim_date: $("##verbatim_date").val(),
-						coll_obj_disposition: $("##coll_obj_disposition").val(),
-						othercatalognumbers: $("##othercatalognumbers").val()
-				};
-				var rowID = $('##jqxgrid').jqxGrid('getrowid', editrow);
-				$('##jqxgrid').jqxGrid('updaterow', rowID, row);
-				$("##popupWindow").jqxWindow('hide');
-			}
-		});
-		// You can drag and drop the columns into a new order.  The event log reminds you what you just did --but it only shows the last move.
-		$("##jqxgrid").on('columnreordered', function (event) {
-			var column = event.args.columntext;
-			var newindex = event.args.newindex
-			var oldindex = event.args.oldindex;
-			$("##eventlog").text("Column: " + column + ", " + "New Index: " + newindex + ", Old Index: " + oldindex);
-		});
-		//button to download records and delete selected rows
-		$("##csvExport").jqxButton();
-			$("##csvExport").click(function () {
-			$("##jqxgrid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-		});
-	
-		//This code starts the filters on the refine results tray (right of page)
+				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+					var details = $($(parentElement).children()[0]);
+					details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
-				$("##clearfilter1").jqxButton({theme: 'Classic'});
+					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+					// Workaround, expansion sits below row in zindex.
+					var maxZIndex = getMaxZIndex();
+					$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+				}
 
-				$("##clearfilter1").click(function (datafield) {
-				//we added datafield to pass to the function
-				$("##jqxgrid").jqxGrid('clearfilters');
-				$("##filterbox").jqxListBox('uncheckAll');
-				//we added this line to the code
+				var editrow = -1;
+				// grid rendering starts below
+
+				$("##searchResultsGrid").jqxGrid({
+						width: '100%',
+						autoheight: 'true',
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: false,
+						pagesize: '50',
+						pagesizeoptions: ['5','50','100'], // reset in gridLoaded
+						showaggregates: true,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						autoshowloadelement: false,  // overlay acts as load element for form+results
+						columnsreorder: true,
+						groupable: true,
+						selectionmode: 'singlerow',
+						altrows: true,
+						showtoolbar: false,
+						ready: function () {
+							$("##searchResultsGrid").jqxGrid('selectrow', 0);
+						},
+					// This part needs to be dynamic.
+					columns: [
+							{text: 'Link', datafield: 'COLLECTION_OBJECT_ID', width: 100,
+								createwidget: function  (row, column, value, htmlElement) {
+									var datarecord = value;
+									var linkurl = '/specimens/Specimen.cfm?collection_object_id=' + value;
+									var link = '<div class="justify-content-center p-1 pl-2 mt-1"><a aria-label="specimen detail" href="' + linkurl + '">';
+									var button = $(link + "<span>View Record</span></a></div>");
+								$(htmlElement).append(button);
+								},
+								initwidget: function (row, column, value, htmlElement) {  }
+							},
+							{text: 'Collection', datafield: 'COLLECTION', width: 150},
+							{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130},
+							{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date'},
+							{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180},
+							{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250},
+							{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250},
+							{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100},
+							{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280},
+							{text: 'Collectors', datafield: 'COLLECTORS', width: 180},
+							{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190},
+							{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', width: 280}
+					],
+						rowdetails: true,
+						rowdetailstemplate: {
+							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+							rowdetailsheight:  1 // row details will be placed in popup dialog
+						},
+						initrowdetails: initRowDetails
 				});
 
-		$("##applyfilter").jqxButton({theme: 'Classic'});
-	$("##clearfilter").jqxButton({theme: 'Classic'});
-	$("##filterbox").jqxListBox({ checkboxes: true, width: 257, height: 240 });
-	$("##columnchooser").jqxDropDownList({ autoDropDownHeight: true, selectedIndex: 0, width: 257, height: 25,
-		source: [
-			{label: 'Collectors', value: 'collectors'},
-			{label: 'Collection Object ID', value: 'collection_object_id'},
-			{label: 'Collection', value: 'collection'},
-			{label: 'Cat Num', value: 'cat_num'},
-			{label: 'Scientific Name', value: 'scientific_name'},
-			{label: 'Locality', value: 'spec_locality'},
-			{label: 'Higher Geography', value: 'higher_geog'},
-			{label: 'Verbatim Date',value: 'verbatim_date'},
-			{label: 'Disposition', value: 'coll_obj_disposition'},
-			{label: 'Other IDs', value: 'othercatalognumbers'}
-			]
+				$("##searchResultsGrid").on("bindingcomplete", function(event) {
+					// add a link out to this search, serializing the form as http get parameters
+					$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+					gridLoaded('searchResultsGrid','taxon record');
+				});
+				$('##searchResultsGrid').on('rowexpand', function (event) {
+					//  Create a content div, add it to the detail row, and make it into a dialog.
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					var datarecord = args.owner.source.records[rowIndex];
+					createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				});
+				$('##searchResultsGrid').on('rowcollapse', function (event) {
+					// remove the dialog holding the row details
+					var args = event.args;
+					var rowIndex = args.rowindex;
+					$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				});
+				// display selected row index.
+				$("##searchResultsGrid").on('rowselect', function (event) {
+					$("##selectrowindex").text(event.args.rowindex);
+				});
+				// display unselected row index.
+				$("##searchResultsGrid").on('rowunselect', function (event) {
+					$("##unselectrowindex").text(event.args.rowindex);
+				});
+			});
 		});
-	var updateFilterBox = function (datafield) {
-	var filterBoxAdapter = new $.jqx.dataAdapter(search,
-	{
-		uniqueDataFields: [datafield],
-		autoBind: true
-	});
-	var uniqueRecords = filterBoxAdapter.records;
-	uniqueRecords.splice(0, 0, '(All or None)');
-	$("##filterbox").jqxListBox({ source: uniqueRecords, displayMember: datafield });
-	$("##filterbox").jqxListBox('checkAll');
-	}
-	updateFilterBox('collectors');
-	var handleCheckChange = true;
-	$("##filterbox").on('checkChange', function (event) {
-		if (!handleCheckChange)
-			return;
-		if (event.args.label != '(All or None)') {
-			handleCheckChange = false;
-			$("##filterbox").jqxListBox('checkIndex', 0);
-			var checkedItems = $("##filterbox").jqxListBox('getCheckedItems');
-			var items = $("##filterbox").jqxListBox('getItems');
-			if (checkedItems.length == 1) {
-				$("##filterbox").jqxListBox('uncheckIndex', 0);
-			}
-			else if (items.length != checkedItems.length) {
-				$("##filterbox").jqxListBox('indeterminateIndex', 0);
-			}
-			handleCheckChange = true;
-		}
-		else {
-			handleCheckChange = false;
-			if (event.args.checked) {
-				$("##filterbox").jqxListBox('checkAll');
-			}
-			else {
-				$("##filterbox").jqxListBox('uncheckAll');
-			}
-			handleCheckChange = true;
-		}
-	});
-		// handle columns selection.
-	$("##columnchooser").on('select', function (event) {
-	//	console.log(event);
-		updateFilterBox(event.args.item.value);
-	});
-			// builds and applies the filter.
-			var applyFilter = function (datafield) {
-			//	console.log(datafield);
-			$("##jqxgrid").jqxGrid('clearfilters');
-			var filtertype = 'stringfilter';
-			if (datafield == 'collection_object_id' || datafield == 'locality_id') filtertype = 'numericfilter';
 
-			var filtergroup = new $.jqx.filter();
-			var checkedItems = $("##filterbox").jqxListBox('getCheckedItems');
-			if (checkedItems.length == 0) {
-				var filter_or_operator = 1;
-				var filtervalue = "Empty";
-				var filtercondition = 'equal';
-				var filter = filtergroup.createfilter(filtertype, filtervalue, filtercondition);
-				filtergroup.addfilter(filter_or_operator, filter);
-			}
-			else {
-				for (var i = 0; i < checkedItems.length; i++) {
-					var filter_or_operator = 1;
-					var filtervalue = checkedItems[i].label;
-					var filtercondition = 'equal';
-					var filter = filtergroup.createfilter(filtertype, filtervalue, filtercondition);
-					filtergroup.addfilter(filter_or_operator, filter);
+		function gridLoaded(gridId, searchType) {
+				$("##overlay").hide();
+				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
+				var now = new Date();
+				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+				var filename = searchType + '_results_' + nowstring + '.csv';
+				// display the number of rows found
+				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				if (rowcount == 1) {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+				} else {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 				}
+				// set maximum page size
+				if (rowcount > 100) {
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else if (rowcount > 50) {
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else {
+					$('##' + gridId).jqxGrid({ pageable: false });
+				}
+				// add a control to show/hide columns
+				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var halfcolumns = Math.round(columns.length/2);
+				var columnListSource = [];
+				for (i = 1; i < halfcolumns; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource.push(listRow);
+					}
+				}
+				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				var columnListSource1 = [];
+				for (i = halfcolumns; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) {
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource1.push(listRow);
+					}
+				}
+				$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick1").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				$("##columnPickDialog").dialog({
+					height: 'auto',
+					width: 'auto',
+					adaptivewidth: true,
+					title: 'Show/Hide Columns',
+					autoOpen: false,
+					modal: true,
+					reszable: true,
+					buttons: [
+						{
+							text: "Ok",
+							click: function(){ $(this).dialog("close"); },
+							tabindex: 0
+						}
+					],
+					open: function (event, ui) {
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					}
+				});
+				$("##columnPickDialogButton").html(
+					`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
+					</span>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
+					`
+				);
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
-			$("##jqxgrid").jqxGrid('addfilter', datafield, filtergroup);
-			$("##jqxgrid").jqxGrid('applyfilters');
-			}
-			$("##clearfilter").click(function (datafield) {
-			//we added datafield to pass to the function
-			$("##jqxgrid").jqxGrid('clearfilters');
-			$("##filterbox").jqxListBox('uncheckAll');
-			//we added this line to the code
-			});
-			$("##applyfilter").click(function () {
-			var dataField = $("##columnchooser").jqxDropDownList('getSelectedItem').value;
-			applyFilter(dataField);
-		});
-			var listSource = [
-				{ label: 'Image URL', value: 'imageurl' },
-				{ label: 'Collection Object ID', value: 'collection_object_id' },
-				{ label: 'Collection', value: 'collection' },
-				{ label: 'Cat Num', value: 'cat_num' },
-				{ label: 'Scientific Name', value: 'scientific_name'},
-				{ label: 'Locality', value: 'spec_locality' },
-				{ label: 'Locality ID', value: 'locality_id' },
-				{ label: 'Higher Geography', value: 'higher_geog' },
-				{ label: 'Collectors', value: 'collectors' },
-				{ label: 'Verbatim Date',value: 'verbatim_date'},
-				{ label: 'Disposition', value: 'coll_obj_disposition' },
-				{ label: 'Other IDs', value: 'originalcatalognumbers'}
-			];
-		// jqxlistbox2 is the show/hide column filter
-			$("##jqxlistbox2").jqxListBox({ source: listSource, width: 198, height: 300, theme: theme, checkboxes: true });
-			$("##jqxlistbox2").jqxListBox('checkAll');
-			$("##jqxlistbox2").on('checkChange', function (event) {
-			$("##jqxgrid").jqxGrid('beginupdate');
-			if (event.args.checked) {
-				$("##jqxgrid").jqxGrid('showcolumn', event.args.value);
-			}
-				else {
-				$("##jqxgrid").jqxGrid('hidecolumn', event.args.value);
-			}
-				$("##jqxgrid").jqxGrid('endupdate');
-			});
-		$("##clearselectionbutton").jqxButton({ theme: theme });
-		$("##enableselection").jqxDropDownList({
-			autoDropDownHeight: true, dropDownWidth: 230, width: 120, height: 25, selectedIndex: 1, source: ['none', 'single row', 'multiple rows',
-			'multiple rows extended', 'multiple rows advanced']
-		});
-		$("##enablehover").jqxCheckBox({  checked: true });
-		// clears the selection.
-		$("##clearselectionbutton").click(function () {
-			$("##jqxgrid").jqxGrid('clearselection');
-		});
-		// enable or disable the selection.  Used for Delete selected row button.
-		$("##enableselection").on('select', function (event) {
-			var index = event.args.index;
-			console.log(event.args.index);
-			$("##selectrowbutton").jqxButton({ disabled: false });
-			switch (index) {
-				case 0:
-					$("##jqxgrid").jqxGrid('selectionmode', 'none');
-					$("##selectrowbutton").jqxButton({ disabled: true });
-					break;
-				case 1:
-					$("##jqxgrid").jqxGrid('selectionmode', 'singlerow');
-					break;
-				case 2:
-					$("##jqxgrid").jqxGrid('selectionmode', 'multiplerows');
-					break;
-				case 3:
-					$("##jqxgrid").jqxGrid('selectionmode', 'multiplerowsextended');
-					break;
-				case 4:
-					$("##jqxgrid").jqxGrid('selectionmode', 'multiplerowsadvanced');
-					break;
-			}
-		});
-		// enable or disable the hover state.
-		$("##enablehover").on('change', function (event) {
-			$("##jqxgrid").jqxGrid('enablehover', event.args.checked);
-		});
-		// display selected row index.
-		$("##jqxgrid").on('rowselect', function (event) {
-			$("##selectrowindex").text(event.args.rowindex);
-		});
-		// display unselected row index.
-		$("##jqxgrid").on('rowunselect', function (event) {
-			$("##unselectrowindex").text(event.args.rowindex);
-		});
-	});
-});
-</script> 
+</script>
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 $(document).ready(function(){
@@ -938,7 +890,7 @@ $(document).ready(function(){
 		});
 	});
 });
-</script> 
+</script>
 	<script>
 //// script for DatePicker
 //$(function() {
@@ -977,7 +929,7 @@ function saveSearch(returnURL){
 }
 
 
-</script> 
+</script>
 <script>
 
 var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
@@ -990,17 +942,17 @@ var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
 	classie.toggle( this, 'active' );
 	classie.toggle( body, 'cbp-spmenu-push-toleft' );
 	classie.toggle( menuRight, 'cbp-spmenu-open' );
-	
+
 	disableOther( 'showRightPush' );
     };
-		
+
 	showLeftPush.onclick = function() {
 		classie.toggle( this, 'active' );
 		classie.toggle( body, 'cbp-spmenu-push-toright');
 		classie.toggle( menuLeft, 'cbp-spmenu-open' );
 		disableOther( 'showLeftPush' );
 	};
-	
+
 	function disableOther( button ) {
 	if( button !== 'showLeftPush' ) {
 		classie.toggle( showLeftPush, 'disabled' );
@@ -1012,7 +964,7 @@ var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
 /*!
  * classie - class helper functions
  * from bonzo https://github.com/ded/bonzo
- * 
+ *
  * classie.has( elem, 'my-class' ) -> true/false
  * classie.add( elem, 'my-new-class' )
  * classie.remove( elem, 'my-unwanted-class' )
@@ -1078,6 +1030,6 @@ window.classie = {
 };
 
 })( window );
-</script> 
+</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
