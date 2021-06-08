@@ -211,7 +211,7 @@ limitations under the License.
 											$('##end_date').prop('disabled', true);
 										}
 									};
-									$(document).ready(function () {
+									$(document).ready(function(){
 										changeType();
 									});
 								</script>
@@ -864,7 +864,7 @@ limitations under the License.
 						<!--- change elements appropriately --->
 						<script>
 							$(document).ready(function () {
-								$('##agent_remarks').changeType();
+								changeType();
 							});
 						</script>
 					</cfif>
