@@ -45,14 +45,14 @@ limitations under the License.
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
-<cfset Session.gitBranch = gitBranch>
-<cfif findNoCase('master',Session.gitBranch) GT 0>
-	<cfthrow message="Page not ready for production use.">
-</cfif>
 
 <cfswitch expression="#action#">
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
+	<cfset Session.gitBranch = gitBranch>
+	<cfif findNoCase('master',Session.gitBranch) GT 0>
+		<cfthrow message="Page not ready for production use.">
+	</cfif>
 </cfcase>
 <cfcase value="new">
 	<cfset pageTitle = "New Agent">
@@ -210,8 +210,8 @@ limitations under the License.
 											$('##start_date').prop('disabled', true);
 											$('##end_date').prop('disabled', true);
 										}
-									}
-									$(document).ready(function () {
+									};
+									$(document).ready(function(){
 										changeType();
 									});
 								</script>
@@ -864,7 +864,7 @@ limitations under the License.
 						<!--- change elements appropriately --->
 						<script>
 							$(document).ready(function () {
-								$('##agent_remarks').changeType();
+								changeType();
 							});
 						</script>
 					</cfif>

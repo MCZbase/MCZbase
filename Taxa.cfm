@@ -545,7 +545,7 @@ limitations under the License.
 			
 			window.columnHiddenSettings = new Object();
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				lookupColumnVisiblities ('/Taxa.cfm','Default');
+				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
 
 			$(document).ready(function() {
@@ -744,7 +744,7 @@ limitations under the License.
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+						saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 					</cfif>
 				}
 				$("##overlay").hide();
@@ -831,7 +831,7 @@ limitations under the License.
 							click: function(){ 
 								window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									saveColumnVisibilities('/Taxa.cfm',window.columnHiddenSettings,'Default');
+									saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 								</cfif>
 								$(this).dialog("close"); 
 							},
