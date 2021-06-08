@@ -30,7 +30,7 @@ limitations under the License.
 
 		<!---conditional to handle different search methods keyword/querybuilder&fixed--->
 		<cfif isDefined("searchText") and len(searchText) gt 0>
-			<cfquery name="search" datasource="uam_god">
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 				SELECT f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date, 
 					f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> F
