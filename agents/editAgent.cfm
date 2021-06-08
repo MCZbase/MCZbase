@@ -349,7 +349,7 @@ limitations under the License.
 											<cfelse>
 												<cfset link = getAgent.agentguid>
 											</cfif>
-											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a>
+											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 pt-0 pb-3 d-block line-height-sm small90">#agentguid#</a>
 										</div>
 										<script>
 											$(document).ready(function () {

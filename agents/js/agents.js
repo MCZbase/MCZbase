@@ -5,31 +5,31 @@
  * @param target id of a dom element into which to place the results of the check.
  */
 function checkPrefNameExists(preferred_name,target) {
-   jQuery.ajax({
-      url: "/agents/component/functions.cfc",
-      data : {
-         method : "checkPrefNameExists",
-         pref_name: preferred_name
-      },
-      success: function (result) {
+	jQuery.ajax({
+	url: "/agents/component/functions.cfc",
+		data : {
+		method : "checkPrefNameExists",
+		pref_name: preferred_name
+	},
+		success: function (result) {
 			var matches = jQuery.parseJSON(result);
 			var matchcount = matches.length;
 			console.log(matches);
 			if (matchcount==0) { 
-         	$("#" + target).html("No duplicates.");
+			$("#" + target).html("No duplicates.");
 			} else {
 				var s = "s";
 				if (matchcount==1) { 
 					s = "";
 				}
-         	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
-			}
-      },
-      error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+				$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+				}
 		},
-      dataType: "html"
-   });
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+			},
+		dataType: "html"
+	});
 };
 
 /** function checkNameExists check to see if there is a case insensitive exact 
