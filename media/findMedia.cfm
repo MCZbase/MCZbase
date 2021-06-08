@@ -918,11 +918,7 @@ limitations under the License.
 			}); /* End document.ready */
 
 			function gridLoaded(gridId, searchType) { 
-				// <!--- TODO: load hide/show column preferences from persistent store --->
-				if (Object.keys(window.columnHiddenSettings).length > 0) { 
-					// too slow for all but a few rows, iterates through the columns with an update for each
-					// setColumnVisibilities(window.columnHiddenSettings,'searchResultsGrid');		
-				} else {	
+				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						saveColumnVisibilities('/media/findMedia.cfm',window.columnHiddenSettings,'Default');
