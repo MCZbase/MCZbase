@@ -126,6 +126,9 @@ limitations under the License.
 						if ($('##first_name').val()!="") {
 							result = $('##first_name').val() + " " + result;
 						}
+						if (result == "") {
+							result = $('##pref_name').val();
+						}
 						return result;
 					}
 				</script>
@@ -378,6 +381,10 @@ limitations under the License.
 													getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 												});
 												$('##last_name').change(function () {
+													// On changing prefered name, update search.
+													getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+												});
+												$('##pref_name').change(function () {
 													// On changing prefered name, update search.
 													getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 												});
@@ -803,6 +810,10 @@ limitations under the License.
 										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 									});
 									$('##last_name').change(function () {
+										// On changing prefered name, update search.
+										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+									});
+									$('##pref_name').change(function () {
 										// On changing prefered name, update search.
 										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 									});
