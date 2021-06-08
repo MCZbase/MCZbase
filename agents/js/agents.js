@@ -6,28 +6,28 @@
  */
 function checkPrefNameExists(preferred_name,target) {
 	jQuery.ajax({
-	url: "/agents/component/functions.cfc",
+		url: "/agents/component/functions.cfc",
 		data : {
 		method : "checkPrefNameExists",
 		pref_name: preferred_name
 	},
-		success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (matchcount==0) { 
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (matchcount==0) { 
 			$("#" + target).html("No duplicates.");
-			} else {
-				var s = "s";
-				if (matchcount==1) { 
-					s = "";
-				}
-				$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
-				}
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-			},
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
+			}
+			$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
 		dataType: "html"
 	});
 };
@@ -42,43 +42,43 @@ function checkPrefNameExists(preferred_name,target) {
  *  adding a new agent.
  */
 function checkNameExists(preferred_name,target,expect_one) {
-   jQuery.ajax({
-      url: "/agents/component/functions.cfc",
-      data : {
-         method : "checkPrefNameExists",
-         pref_name: preferred_name
-      },
-      success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (expect_one===true) {
-				if (matchcount==0) { 
-   	      	$("#" + target).html("No agents with this name.");
-				} else {
-					if (matchcount==1) { 
-   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
-					} else { 
-   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agents with this name</a>");
-					}
-				}
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+		method : "checkPrefNameExists",
+		pref_name: preferred_name
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (expect_one===true) {
+			if (matchcount==0) { 
+				$("#" + target).html("No agents with this name.");
 			} else {
-				if (matchcount==0) { 
-   	      	$("#" + target).html("no duplicates.");
-				} else {
-					var s = "s";
-					if (matchcount==1) { 
-						s = "";
-					}
-   	      	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+				if (matchcount==1) { 
+					$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
+				} else { 
+					$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agents with this name</a>");
 				}
 			}
-      },
-      error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-		},
-      dataType: "html"
-   });
+		} else {
+			if (matchcount==0) { 
+				$("#" + target).html("no duplicates.");
+			} else {
+				var s = "s";
+				if (matchcount==1) { 
+					s = "";
+				}
+				$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+			}
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
+		dataType: "html"
+	});
 };
 /** function checkNameExistsAlso check to see if there is a case insensitive exact 
  * match for a specified name against any agent name.
@@ -90,32 +90,32 @@ function checkNameExists(preferred_name,target,expect_one) {
  *  adding a new agent.
  */
 function checkNameExistsAlso(preferred_name,target,agent_id) {
-   jQuery.ajax({
-      url: "/agents/component/functions.cfc",
-      data : {
-         method : "checkPrefNameExists",
-         pref_name: preferred_name,
-			not_agent_id: agent_id
-      },
-      success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (matchcount==0) { 
-   	     	$("#" + target).html("No duplicates.");
-			} else {
-				var s = "s";
-				if (matchcount==1) { 
-					s = "";
-				}
-   	     	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " other agent"+s+" with same name</a>");
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+		method : "checkPrefNameExists",
+		pref_name: preferred_name,
+		not_agent_id: agent_id
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (matchcount==0) { 
+			$("#" + target).html("No duplicates.");
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
 			}
-      },
-      error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-		},
-      dataType: "html"
-   });
+			$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " other agent"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
+	dataType: "html"
+});
 };
 
 /** function monitorForChanges bind a change monitoring function to inputs 
