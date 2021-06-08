@@ -102,7 +102,7 @@ function checkNameExistsAlso(preferred_name,target,agent_id) {
 			var matchcount = matches.length;
 			console.log(matches);
 			if (matchcount==0) { 
-   	     	$("#" + target).html("no duplicates.");
+   	     	$("#" + target).html("No duplicates.");
 			} else {
 				var s = "s";
 				if (matchcount==1) { 
