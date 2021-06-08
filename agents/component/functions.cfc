@@ -1377,7 +1377,7 @@ limitations under the License.
 									<li class="list-group-item px-0">
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
-										<a class="btn btn-xs btn-warning" type="button" id="removeAgentFromGroup_#i#" 
+										<a class="btn btn-xs btn-warning ml-2" type="button" id="removeAgentFromGroup_#i#" 
 											onclick=' confirmDialog("Remove this agent from this group?", "Confirm Remove Group Member", function() { removeAgentFromGroupCB(#groupMembers.group_agent_id#,#groupMembers.member_agent_id#,reloadGroupMembers); } ); '>Remove</a>
 										<cfif groupMembers.recordcount GT 1>
 											<cfif i EQ 1>
