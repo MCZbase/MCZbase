@@ -164,7 +164,7 @@ limitations under the License.
 						<cfelse>
 							<cfset vetted="">
 						</cfif>
-						<cfset nameStr = "<strong>#getAgent.preferred_agent_name# #vetted#</strong>">
+						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & "&nbsp;" & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
