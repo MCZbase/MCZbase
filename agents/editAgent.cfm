@@ -627,6 +627,9 @@ limitations under the License.
 				if ($('##first_name').val()!="") {
 					result = $('##first_name').val() + " " + result;
 				}
+				if (result == "") {
+					result = $('##pref_name').val();
+				}
 				return result;
 			}
 		</script>
