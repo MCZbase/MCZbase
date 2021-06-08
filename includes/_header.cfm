@@ -87,7 +87,8 @@
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
-								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
+								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>
+								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
 								<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
 								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>

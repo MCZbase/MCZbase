@@ -114,6 +114,11 @@ limitations under the License.
 				</main>
 		
 				<script>
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisiblities ('/vocabularies/CollEventNumberSeries.cfm','Default');
+					</cfif>
+
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
 						$('##searchForm').bind('submit', function(evt){
@@ -235,6 +240,12 @@ limitations under the License.
 					}); /* End document.ready */
 	
 					function gridLoaded(gridId, searchType) { 
+						if (Object.keys(window.columnHiddenSettings).length == 0) { 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('/vocabularies/CollEventNumberSeries.cfm',window.columnHiddenSettings,'Default');
+							</cfif>
+						}
 						$("##overlay").hide();
 						var now = new Date();
 						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -258,7 +269,7 @@ limitations under the License.
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
+						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
@@ -286,7 +297,13 @@ limitations under the License.
 							modal: true, 
 							reszable: true, 
 							buttons: { 
-								Ok: function(){ $(this).dialog("close"); }
+								Ok: function(){ 
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('/vocabularies/CollEventNumberSeries.cfm',window.columnHiddenSettings,'Default');
+									</cfif>
+									$(this).dialog("close"); 
+								}
 							},
 							open: function (event, ui) { 
 								var maxZIndex = getMaxZIndex();

@@ -166,21 +166,28 @@ limitations under the License.
 						and addr.addr_type <> 'temporary'
 					order by valid_addr_fg DESC
 				</cfquery>
-				<h3 class="h3">Addresses</h3>
-				<ul>
+				<h3 class="h4 sr-only">Addresses</h3>
+				<ul class="list-group list-group-horizontal">
 					<cfif agentAddrs.recordcount EQ 0>
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
+				</ul>
 					<cfset i=0>
 					<cfloop query="agentAddrs">
 						<cfset i=i+1>
+					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="form-row">
-							#addr_type#:
+						<li class="list-group-item w-100 px-0 py-1">
+							<span class="text-secondary font-weight-bold">#addr_type#:</span>
 							#formatted_addr#
 							#rem#
+							</li>
+						<li class="list-group-item px-1">
 							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+						</li>
+						<li class="list-group-item px-0">
 							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+						</li>
 							<script>
 								function doDeleteAddr_#i#() { 
 									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
@@ -194,16 +201,16 @@ limitations under the License.
 									});
 								});
 							</script>
-						</li>
+						</ul>
 					</cfloop>
-				</ul>
+	
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h3">Add new Address</h3>
+				<h3 class="h4">Add new Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
-						<label for="new_address_type">Address Type</label>
+						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
 						<select name="address_type" id="new_address_type" class="data-entry-select">
 							<cfset i=0>
 							<cfloop query="ctAddrType">
@@ -450,7 +457,7 @@ limitations under the License.
 					FROM ctagent_relationship 
 					ORDER BY agent_relationship
 				</cfquery>
-				<h3 class="h3">Relationships to other agents</h3>
+					<h3 class="h4">Relationships of <span class="text-secondary">#currAgent#</span> to other agents</h3>
 				<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -465,57 +472,71 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul>
+					<ul class="list-group list-group-horizontal form-row mx-0">
 					<cfif relations.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
+					</ul>
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
-						<li class="form-row">
-							#currAgent# 
-							<select name="relation_type" id="relation_type_#i#">
-								<cfloop query="ctagent_relationship">
-									<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
-								</cfloop>
-							</select>
-							<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#">
-							<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
-							<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
-							<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
-							<a id="view_rel_#i#" href="/agents/editAgent.cfm?agent_id=#related_agent_id#">View</a> 
-							<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks">
-							#date_to_merge# #on_hold# #held_by#
-							<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs btn-secondary">Save</button>
-							<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs btn-warning">Remove</button>
-							<output id="relationfeedback_#i#"></output>
-							<script>
-								$(document).ready(function () {
-									makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
-									$("##updateRelationshipButton_#i#").click(function(evt){
-										evt.preventDefault;
-										updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
+						<ul class="list-group list-group-horizontal mb-3 form-row mx-0">
+							<li class="list-group-item px-0">
+								<label class="border sr-only">#currAgent#</label> 
+								<select name="relation_type" id="relation_type_#i#" class="data-entry-select">
+									<cfloop query="ctagent_relationship">
+										<cfif relations.agent_relationship EQ ctagent_relationship.agent_relationship><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="#ctagent_relationship.agent_relationship#" #selected#>#ctagent_relationship.agent_relationship#</option>
+									</cfloop>
+								</select>
+							</li>
+							<li class="list-group-item px-0">
+								<input type="text" name="related_agent" id="related_agent_#i#" value="#agent_name#" class="data-entry-input">
+							</li>
+								<input type="hidden" name="related_agent" id="related_agent_id_#i#" value="#related_agent_id#">
+								<input type="hidden" name="related_agent" id="old_related_agent_id_#i#" value="#related_agent_id#">
+								<input type="hidden" name="related_agent" id="old_relationship_#i#" value="#relations.agent_relationship#">
+							<li class="list-group-item">
+								<div id="view_rel_#i#" class="mt-1" <!---href="/agents/editAgent.cfm?agent_id=#related_agent_id#"--->>View</div> 
+							</li>
+							<li class="list-group-item px-0">
+								<input type="text" name="agent_remarks" id="agent_remarks_#i#" value="#agent_remarks#" placeholder="remarks" class="data-entry-input">
+							</li>
+								#date_to_merge# #on_hold# #held_by#
+							<li class="list-group-item px-1">
+								<button type="button" id="updateRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-secondary">Save</button>
+							</li>
+							<li class="list-group-item px-0">
+								<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-warning">Remove</button>
+							</li>
+								<output id="relationfeedback_#i#"></output>
+								<script>
+									$(document).ready(function () {
+										makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
+										$("##updateRelationshipButton_#i#").click(function(evt){
+											evt.preventDefault;
+											updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
+										});
+										$("##deleteRelationshipButton_#i#").click(function(evt){
+											evt.preventDefault;
+											deleteAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#",reloadRelationships);
+										});
 									});
-									$("##deleteRelationshipButton_#i#").click(function(evt){
-										evt.preventDefault;
-										deleteAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#",reloadRelationships);
-									});
-								});
-							</script>
-						</li>
+								</script>
+						</ul>
 					</cfloop>
-				</ul>
+			
 
-				<div id="newRelationshipDiv" class="col-12">
-					<label for="new_relation">Add Relationship</label>
+				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
+					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
+					<h3 class="h4">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label">&nbsp;</label>
+							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
 							<input type="text" name="current_agent" value="#currAgent#" class="data-entry-input" disabled >
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_relation_type" class="data-entry-label">Relationship</label>
+							<label for="new_relation_type" class="data-entry-label mb-0">Relationship</label>
 							<select name="relation_type" id="new_relation_type" class="data-entry-select reqdClr">
 								<option value""></option>
 								<cfloop query="ctagent_relationship">
@@ -524,15 +545,15 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_related_agent">To Related Agent</label>
+							<label for="new_related_agent" class="data-entry-label mb-0">To Related Agent</label>
 							<input type="text" name="related_agent" id="new_related_agent" value="" class="data-entry-input reqdClr">
 							<input type="hidden" name="related_agent" id="new_related_agent_id" value="">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="new_relation">Remarks</label>
+							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-1">
+						<div class="col-12 col-md-1 px-1">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
@@ -559,7 +580,7 @@ limitations under the License.
 					</script>
 				</div>
 
-				<h3 class="h3">Relationships from other agents</h3>
+				<h3 class="h4">Relationships from other agents</h3>
 				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -574,12 +595,12 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<ul>
+				<ul class="list-group list-group-horizontal form-row mb-3">
 					<cfif revRelations.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
 					<cfloop query="revRelations">
-						<li class="form-row">
+						<li class="list-group-item">
 							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
 							#agent_relationship# 
 							#currAgent#
@@ -774,53 +795,57 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul>
+					<ul class="list-group list-group-horizontal">
 					<cfif electAgentAddrs.recordcount EQ 0 >
-						<li>None</li>
+						<li class="list-group-item">None</li>
 					</cfif>
+					</ul>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
-						<li class="form-row">
-							<div class="col-12 col-md-4">
+						<ul class="list-group list-group-horizontal form-row mx-0">
+							<li class="list-group-item px-0">
 								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
 									<cfloop query="ctElecAddrType">
 										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="#ctElecAddrType.address_type#" #selected#>#ctElecAddrType.address_type#</option>
 									</cfloop>
 								</select>
-							</div>
-							<div class="col-12 col-md-4">
+							</li>
+							<li class="list-group-item px-0">
 								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
 								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
-							</div>
-							<div class="col-12 col-md-4">
+							</li>
+							<li class="list-group-item px-1">
 								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
+							</li>
+							<li class="list-group-item px-0">
 								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 								<span id="electronicAddressFeedback#i#"></span>
-							</div>
-						</li>
-						<script>
-							function doDeleteEA_#i#() { 
-								deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
-							};
-							$(document).ready(function () {
-								$('##agentEAddrU#i#Button').click(function(evt){
-									evt.preventDefault;
-									updateElectronicAddress(#agent_id#, 'electronic_address_id_#i#','address_#i#','eaddress_type_#i#','electronicAddressFeedback#i#');
+							</li>
+							<script>
+								function doDeleteEA_#i#() { 
+									deleteElectronicAddress('electronic_address_id_#i#',reloadElectronicAddresses);
+								};
+								$(document).ready(function () {
+									$('##agentEAddrU#i#Button').click(function(evt){
+										evt.preventDefault;
+										updateElectronicAddress(#agent_id#, 'electronic_address_id_#i#','address_#i#','eaddress_type_#i#','electronicAddressFeedback#i#');
+									});
 								});
-							});
-							$(document).ready(function () {
-								$('##agentEAddrDel#i#Button').click(function(evt){
-									evt.preventDefault;
-									confirmWarningDialog("Delete the #encodeForHTML(address)# #address_type#?", "Confirm Delete?", doDeleteEA_#i#);
+								$(document).ready(function () {
+									$('##agentEAddrDel#i#Button').click(function(evt){
+										evt.preventDefault;
+										confirmWarningDialog("Delete the #encodeForHTML(address)# #address_type#?", "Confirm Delete?", doDeleteEA_#i#);
+									});
 								});
-							});
-						</script>
+							</script>
+						</ul>
 					</cfloop>
-				</ul>
-				<div id="newEaddrDiv" class="col-12">
-					<label for="new_eaddress">Add Phone or Email</label>
+		
+				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
+					<h3 class="h4">Add Phone or Email</h3>
+					<label for="new_eaddress" class="data-entry-label mb-0 sr-only">Add Phone or Email</label>
 					<div class="form-row">
 						<div class="col-12 col-md-5">
 							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
@@ -1008,17 +1033,22 @@ limitations under the License.
 					select * from namesForAgent where agent_name_type != 'preferred'
 				</cfquery>
 				<cfset i=1>
-				<ul>
-					<li class="form-row">
-						<form id="preferredNameForm">
+					<form id="preferredNameForm">
+					<ul class="list-group list-group-horizontal form-row mx-0">
 							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
 							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
-							<label for="preferred_name" class="">Preferred Name</label>
-							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class=""> 
+						<li class="list-group-item px-0">
+							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
+						</li>
+						<li class="list-group-item px-0">	
+							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
+						</li>
+						<li class="list-group-item px-1">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
-						</form>
-					</li>
+						</li>
+					</ul>
+					</form>
 					<script>
 						$(document).ready(function () {
 							$('##preferredUpdateButton').click(function(evt){
@@ -1027,39 +1057,49 @@ limitations under the License.
 							});
 						});
 					</script>
-				</ul>
+		
 
 				<cfset i=0>
-				<label>Other Names</label>
-				<span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
+				<h3 class="h4 mb-0">Other Names</h3>
+				<label class="data-entry-label mb-0 sr-only">Other Names</label>
+				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select agent_name_type 
 					from ctagent_name_type 
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<ul>
+				<ul class="list-group list-group-horizontal mx-0 form-row">
 					<cfif npname.recordcount EQ 0 >
-						<li>No other names</li>
+						<li list-group-item>No other names</li>
 					</cfif>
+				</ul>
 					<cfloop query="npname">
 						<cfset i=i+1>
-						<li class="form-row">
-							<form id="agentNameForm_#i#">
-								<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
-								<input type="hidden" name="agent_id" value="#npname.agent_id#">
-								<select name="agent_name_type" id="agent_name_type_#i#">
-									<cfloop query="ctNameType">
-										<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
-											value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-									</cfloop>
-								</select>
-								<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#">
-								<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
-								<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-								<span id="agentNameFeedback#i#"></span>
-							</form>
-						</li>
+						<form id="agentNameForm_#i#">
+							<ul class="list-group list-group-horizontal mx-0 form-row">
+								<li class="list-group-item px-0">
+									<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
+									<input type="hidden" name="agent_id" value="#npname.agent_id#">
+									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
+										<cfloop query="ctNameType">
+											<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+										</cfloop>
+									</select>
+								</li>
+								<li class="list-group-item px-0">
+									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+								</li>
+								<li class="list-group-item px-1">
+									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
+								</li>
+								<li class="list-group-item px-0">
+									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<span id="agentNameFeedback#i#"></span>
+								</li>
+							</ul>
+						</form>
 						<script>
 							function doDeleteAgentName_#i#() { 
 								deleteAgentName('agent_name_id_#i#',reloadAgentNames);
@@ -1079,26 +1119,35 @@ limitations under the License.
 						</script>
 					</cfloop>
 				</ul>
-				<div id="newAgentNameDiv" class="col-12">
-					<label for="new_agent_name">Add agent name</label>
-					<form id="newNameForm">
-						<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
-						<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type">
-							<cfloop query="ctNameType">
-								<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
-							</cfloop>
-						</select>
-						<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
-						<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
-					</form>
-					<script>
-						$(document).ready(function () {
-							$('##addAgentButton').click(function(evt){
-								evt.preventDefault;
-								addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',reloadAgentNames);
+				<div class="row">
+					<div id="newAgentNameDiv" class="col-12">
+						<h3 class="h4">Add agent name</h3>
+						<label for="new_agent_name" class="data-entry-label sr-only">Add agent name</label>
+						<form id="newNameForm" class="form-row">
+							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
+							<div class="col-12 col-md-5">
+								<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
+									<cfloop query="ctNameType">
+										<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-5">
+								<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-2">
+								<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
+							</div>
+						</form>
+						<script>
+							$(document).ready(function () {
+								$('##addAgentButton').click(function(evt){
+									evt.preventDefault;
+									addNameToAgent(#agent_id#,'new_agent_name','new_agent_name_type',reloadAgentNames);
+								});
 							});
-						});
-					</script>
+						</script>
+					</div>
 				</div>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 

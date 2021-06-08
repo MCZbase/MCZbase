@@ -259,6 +259,12 @@ limitations under the License.
 			<cfoutput>
 				<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 				<script>
+
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisiblities ('#cgi.script_name#','Default');
+					</cfif>
+
 					/* Supporting cell renderers for Permit Search *****************************/
 					var pdfCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -357,20 +363,20 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Permit ID', datafield: 'permit_id', width:100, hideable: true, hidden: true },
+									{text: 'Permit ID', datafield: 'permit_id', width:100, hideable: true, hidden: getColHidProp('permit_id', true) },
 									{text: 'Link', datafield: 'id_link', width: 150},
-									{text: 'Title', datafield: 'permit_title', width:150, hideable: true, hidden: false },
-									{text: 'Number', datafield: 'permit_num', width:150, hideable: true, hidden: false },
-									{text: 'Issued', datafield: 'issued_date', width:110, hideable: true, hidden: false },
-									{text: 'Category', datafield: 'permit_type', width:200, hideable: true, hidden: false },
-									{text: 'Specific Type', datafield: 'specific_type', width:200, hideable: true, hidden: false },
-									{text: 'Issued By', datafield: 'issuedbyagent', width:100, hideable: true, hidden: false },
-									{text: 'Issued To', datafield: 'issuedtoagent', width:100, hideable: true, hidden: false },
-									{text: 'Contact', datafield: 'contactagent', width:100, hideable: true, hidden: true },
-									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: true },
-									{text: 'Expires', datafield: 'exp_date', width:80, hideable: true, hidden: true },
-									{text: 'PDF', datafield: 'pdf', width:200, hideable: true, hidden: true, cellsrenderer: pdfCellRenderer},
-									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: false }
+									{text: 'Title', datafield: 'permit_title', width:150, hideable: true, hidden: getColHidProp('permit_title', false) },
+									{text: 'Number', datafield: 'permit_num', width:150, hideable: true, hidden: getColHidProp('permit_num', false) },
+									{text: 'Issued', datafield: 'issued_date', width:110, hideable: true, hidden: getColHidProp('issued_date', false) },
+									{text: 'Category', datafield: 'permit_type', width:200, hideable: true, hidden: getColHidProp('permit_type', false) },
+									{text: 'Specific Type', datafield: 'specific_type', width:200, hideable: true, hidden: getColHidProp('specific_type', false) },
+									{text: 'Issued By', datafield: 'issuedbyagent', width:100, hideable: true, hidden: getColHidProp('issuedbyagent', false) },
+									{text: 'Issued To', datafield: 'issuedtoagent', width:100, hideable: true, hidden: getColHidProp('issuedtoagent', false) },
+									{text: 'Contact', datafield: 'contactagent', width:100, hideable: true, hidden: getColHidProp('contactagent', true) },
+									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: getColHidProp('renewed_date', true) },
+									{text: 'Expires', datafield: 'exp_date', width:80, hideable: true, hidden: getColHidProp('exp_date', true) },
+									{text: 'PDF', datafield: 'pdf', width:200, hideable: true, hidden: getColHidProp('pdf', true), cellsrenderer: pdfCellRenderer},
+									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: getColHidProp('permit_remarks', false) }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -407,6 +413,12 @@ limitations under the License.
 					}); /* End document.ready */
 	
 					function gridLoaded(gridId, searchType) { 
+						if (Object.keys(window.columnHiddenSettings).length == 0) { 
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+							</cfif>
+						}
 						$("##overlay").hide();
 						var now = new Date();
 						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
@@ -430,7 +442,7 @@ limitations under the License.
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
+						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
@@ -458,7 +470,13 @@ limitations under the License.
 							modal: true, 
 							reszable: true, 
 							buttons: { 
-								Ok: function(){ $(this).dialog("close"); }
+								Ok: function(){ 
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+									</cfif>
+									$(this).dialog("close"); 
+								}
 							},
 							open: function (event, ui) { 
 								var maxZIndex = getMaxZIndex();
