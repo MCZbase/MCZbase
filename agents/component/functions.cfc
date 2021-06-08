@@ -221,7 +221,7 @@ limitations under the License.
 						</select>
 						<input type="hidden" id="newAddrAgentId" value="#agent_id#">
 					</div>
-					<div class="col-12 col-md-8">
+					<div class="col-12 col-md-8 pt-2 pt-md-0">
 						<label for="addAddrButton" class="data-entry-label">&nbsp;</label>
 						<button type="button" id="addAddrButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						<script>
@@ -553,7 +553,7 @@ limitations under the License.
 							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-1 px-1">
+						<div class="col-12 col-md-1 px-1 pt-2 pt-md-0">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
@@ -859,7 +859,7 @@ limitations under the License.
 						<div class="col-12 col-md-5">
 							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input reqdClr" required>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 pt-2 pt-md-0">
 							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
@@ -1042,7 +1042,7 @@ limitations under the License.
 						<li class="list-group-item px-0">
 							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
-						<li class="list-group-item px-0">	
+						<li class="list-group-item px-0 col-12 col-md-7">	
 							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-1">
@@ -1421,7 +1421,7 @@ limitations under the License.
 											$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
 										});
 									</script>
-									<div class="col-12 col-md-5">
+									<div class="col-12 col-md-5 pt-2 pt-md-0">
 										<button type="button" id="addMemberButton" class="btn btn-xs btn-secondary" value="Add Group Member">Add Group Member</button>
 									</div>
 								</form>

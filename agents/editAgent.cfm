@@ -164,17 +164,17 @@ limitations under the License.
 						<cfelse>
 							<cfset vetted="">
 						</cfif>
-						<cfset nameStr = "<strong>#getAgent.preferred_agent_name# #vetted#</strong>">
+						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
-							<cfset nameStr = nameStr & "&nbsp;" & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
+							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
 						</cfif>
 						<div class="container">
 							<div class="form-row">
 								<div class="col-12">
-									<h1 class="h2 mb-0 mt-2">Edit #getAgent.agent_type# agent #nameStr#. [agentId: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
+									<h1 class="h2 my-2">Edit #getAgent.agent_type# agent: #nameStr# [agent ID: <a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_id#</a>]</h1>
 									<cfif len(getAgent.collections_scope) GT 0>
-										<p>Collector of MCZ material: #collections_scope#</p>
+										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
 								</div>
 							</div>
@@ -257,7 +257,7 @@ limitations under the License.
 										</div>
 									<div class="col-12 col-md-2">
 										<label for="name_matches" class="data-entry-label">Duplicate check</label>
-										<div id="name_matches" class="text-success p-1"></div>
+										<div id="name_matches" class="text-success p-1 small90"></div>
 									</div>
 								</div>
 								<div id="personRow" class="form-row mb-1">
@@ -349,7 +349,7 @@ limitations under the License.
 											<cfelse>
 												<cfset link = getAgent.agentguid>
 											</cfif>
-											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm small90">#agentguid#</a>
+											<a id="agentguid_link" href="#link#" target="_blank" class="px-1 pt-0 pb-3 d-block line-height-sm small90">#agentguid#</a>
 										</div>
 										<script>
 											$(document).ready(function () {
@@ -414,7 +414,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-1">
-									<div class="col-12 col-md-6" >
+									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
 										<script>
@@ -423,7 +423,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 mt-1">
 										<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
 										<script>
