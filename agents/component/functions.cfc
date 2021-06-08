@@ -207,7 +207,7 @@ limitations under the License.
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h4 pt-1">Add new Address</h3>
+				<h3 class="h4 pt-1">Add New Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
 						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
@@ -847,7 +847,7 @@ limitations under the License.
 					</cfloop>
 		
 				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
-				<label for="new_eaddress" class="data-entry-label mb-0 h4">Add Phone or Email</label>
+				<label for="new_eaddress" class="pt-1 h4">Add Phone or Email</label>
 					<div class="form-row">
 						<div class="col-12 col-md-5">
 							<select name="eaddress_type" id="new_eaddress_type" class="data-entry-select">
@@ -1123,7 +1123,7 @@ limitations under the License.
 				</ul>
 				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
-						<label for="new_agent_name" class="data-entry-label h4 pt-1">Add agent name</label>
+						<label for="new_agent_name" class="h4 pt-1">Add agent name</label>
 						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
 							<div class="col-12 col-md-5">
@@ -1400,10 +1400,12 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12">
 								<form name="newGroupMember" class="form-row">
-								<div class="col-12 col-md-8">
-									<label for="new_group_agent_name" id="new_group_agent_name_label" class="data-entry-label h4">Add Member To Group
+								<div class="col-12 col-md-12">
+									<label for="new_group_agent_name" id="new_group_agent_name_label" class="h4">Add Member To Group
 										<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 									</label>
+								</div>
+								<div class="col-12 col-md-8">
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
