@@ -1439,7 +1439,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
+											<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="reqdClr form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="" >
 											<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
 										</div>
 									</div>
@@ -1457,7 +1457,11 @@ limitations under the License.
 								$(document).ready(function() {
 									$('##addMemberButton').click(function (evt) {
 										evt.preventDefault();
-										addAgentToGroupCB(#lookupAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
+										if ($("##new_member_agent_id").val() == "") { 
+											messageDialog("Unable to save.  You must pick an agent name from the picklist.", "Unable to add group member.");
+										} else {
+											addAgentToGroupCB(#lookupAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
+										}
 									});
 								});
 							</script>
