@@ -137,16 +137,16 @@
 											</div>
 											<a class="carousel-control-prev box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="prev" style="top: -46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 										</div>
-										<cfset specimenImageCount = specimenImageQuery.recordcount>
+										<cfset localityImageCount = localityImageQuery.recordcount>
 										<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Locality Images</h2>
-									<p>#specimenImageCount# Locality Images</p>
+									<p>#localityImageCount# Locality Images</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 										<!--Indicators-->
 										<ol class="carousel-indicators">
 											<cfset active = 'class="active"' >
-											<cfloop index="i" from="0" to="#specimenImageCount#">
+											<cfloop index="i" from="0" to="#localityImageCount#">
 												<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
 												<cfset active = '' >
 											</cfloop>
