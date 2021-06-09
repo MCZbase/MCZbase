@@ -167,7 +167,7 @@ limitations under the License.
 							FROM all_constraints
 								left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
 							WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
-							ORDER_BY all_constraints.table_name;
+							ORDER BY all_constraints.table_name
 						</cfquery>
 						<cfset okToDelete = true>
 						<cfloop query="getFKFields">
