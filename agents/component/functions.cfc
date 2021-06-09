@@ -358,7 +358,7 @@ limitations under the License.
 	<cfargument name="job_title" type="string" required="yes">
 	<cfargument name="addr_remarks" type="string" required="yes">
 
-	<cfset theResult=queryNew("status, message")>
+	<cfset theResult=queryNew("status, message, address")>
 	<cftransaction>
 		<cftry>
 			<cfquery name="updateAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAddr_result">
