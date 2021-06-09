@@ -1761,7 +1761,7 @@ limitations under the License.
 							<cfset agent_name = query.agent_name>
 						</cfif>
 					</cfif>
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12 border rounded bg-light" id="formattedAddressDisplayDiv">#formatted_addr#</div>
 						<div class="col-12">
 						<form name='newAddress' id='newAddressForm'>
@@ -1924,7 +1924,7 @@ limitations under the License.
 										url: '/agents/component/functions.cfc',
 										data : $('##newAddressForm').serialize(),
 										success: function (result) {
-											if (result[0].STATUS=='success') { 
+											if (result[0].STATUS==1) { 
 												$('##newAddressStatus').html(result[0].MESSAGE);
 												$('##new_address_id').val(result[0].ADDRESS_ID);
 												$('##new_address').val(result[0].ADDRESS);
