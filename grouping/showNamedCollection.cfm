@@ -59,9 +59,10 @@
 									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 										<!--Indicators-->
 										<ol class="carousel-indicators">
+											<cfset #i# = 6>
 											<cfset active = 'class="active"' >
-											<cfloop index="6" from="0" to="#specimenImageCount#">
-												<li data-target="##carousel-example-2" data-slide-to="#6#" #active#></li>
+											<cfloop index="i" from="0" to="#specimenImageCount#">
+												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
 												<cfset active = '' >
 											</cfloop>
 										</ol>
