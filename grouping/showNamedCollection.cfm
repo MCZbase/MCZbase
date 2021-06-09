@@ -155,15 +155,15 @@
 										<!--Slides-->
 										<div class="carousel-inner" role="listbox">
 											<cfset active = "active" >
-											<cfloop query="specimenImageQuery">
+											<cfloop query="localityImageQuery">
 												<div class="carousel-item #active#">
 													<div class="view">
-														<img class="d-block w-100" src="#specimenImageQuery.media_uri#" alt="#specimenImageQuery.alt#"/>
+														<img class="d-block w-100" src="#localityImageQuery.media_uri#" alt="#localityImageQuery.alt#"/>
 													   <div class="mask rgba-black-strong"></div>
 													</div>
 													<div class="carousel-caption">
-														<h3 class="h3-responsive">#specimenImageQuery.alt#</h3>
-														<p>#specimenImageQuery.credit#</p>
+														<h3 class="h3-responsive">#localityImageQuery.alt#</h3>
+														<p>#localityImageQuery.credit#</p>
 													</div>
 												</div>
 												<cfset active = "" >
