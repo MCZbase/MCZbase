@@ -60,8 +60,8 @@
 										<!--Indicators-->
 										<ol class="carousel-indicators">
 											<cfset active = 'class="active"' >
-											<cfloop index="i" from="0" to="#specimenImageCount#">
-												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
+											<cfloop index="6" from="0" to="#specimenImageCount#">
+												<li data-target="##carousel-example-2" data-slide-to="#6#" #active#></li>
 												<cfset active = '' >
 											</cfloop>
 										</ol>
