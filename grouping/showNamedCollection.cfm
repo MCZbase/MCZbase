@@ -99,16 +99,17 @@
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
 									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
+										underscore_collection, 
+										underscore_relation,
+										media, 
+										locality, 
+										media_relations,
+										flat
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows locality'
-										AND media.media_type = 'image'
+										media.media_id = media_relations.media_id
+										and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										and underscore_relation.COLLECTION_OBJECT_ID = flat.collection_object_id
+										and media_relations.related_primary_key = locality.locality_id 
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 									ORDER BY flat.guid asc
 								</cfquery>
