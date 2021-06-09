@@ -173,16 +173,16 @@ limitations under the License.
 					</cfif>
 				</ul>
 				<cfset i=0>
-				<cfloop query="agentAddrs">
-					<cfset i=i+1>
-					<ul class="list-group form-row mx-0 pr-2">
+				<ul class="list-group form-row mx-0 pr-2">
+					<cfloop query="agentAddrs">
+						<cfset i=i+1>
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 						<cfif valid_addr_fg EQ 1>
 							<cfset addressCurrency="Valid">
-							<cfset listgroupclass="list-group-item-success">
+							<cfset listgroupclass="border-success">
 						<cfelse>
 							<cfset addressCurrency="Invalid">
-							<cfset listgroupclass="list-group-item-light">
+							<cfset listgroupclass="border-secondary">
 						</cfif>
 						<li class="list-group-item #listgroupclass# w-100 px-0 py-1 border">
 							<div class="form-row">
@@ -215,8 +215,8 @@ limitations under the License.
 								});
 							</script>
 						</li>
-					</ul>
-				</cfloop>
+					</cfloop>
+				</ul>
 
 				<div id="addressDialogDiv"></div>
 
