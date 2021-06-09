@@ -2029,7 +2029,7 @@ limitations under the License.
 				where group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			</cfquery>
 			<cfif lookupType.existing_agent_type IS "group" OR lookupType.existing_agent_type IS "expedition" OR lookupType.existing_agent_type IS "vessel">
-				<cfif lookupGroupMembers.count_of_group_members GT 0 AND NOT (provided_agent_type IS "group" OR provided_agent_type is "expedition" OR provided_agent_type IS "vessel">
+				<cfif lookupGroupMembers.count_of_group_members GT 0 AND NOT (provided_agent_type IS "group" OR provided_agent_type is "expedition" OR provided_agent_type IS "vessel")>
 					<cfthrow message="Unable to convert agent type, agent has #lookupGroupMembers.count_of_group_members# group members and new type  [#encodeForHTML(provided_agent_type)#] does not support group members.">
 				</cfif>
 			</cfif>
