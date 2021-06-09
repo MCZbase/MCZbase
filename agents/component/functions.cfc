@@ -381,9 +381,15 @@ limitations under the License.
 				WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
 			<cfif updateAddr_result.recordcount EQ 1>
+				<cfquery name="getUpdatedAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getUpdatedAddr_result">
+					SELECT formatted_addr 
+					FROM addr
+					WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
+				</cfquery>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Address updated.", 1)>
+				<cfset t = QuerySetCell(theResult, "address", "#getUpdatedAddr.formatted_addr#", 1)>
 			<cfelse>
 				<cfthrow message="Unable to update address, other than one [#updateAddr_result.recordcount#] address would be updated.">
 			</cfif>
@@ -1692,7 +1698,8 @@ limitations under the License.
 							addr_type,
 							job_title,
 							valid_addr_fg,
-							addr_remarks
+							addr_remarks,
+							formatted_addr
 						FROM addr
 						WHERE
 							addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
@@ -1716,6 +1723,7 @@ limitations under the License.
 						<cfset job_title = lookupAddress.job_title>
 						<cfset valid_addr_fg = lookupAddress.valid_addr_fg>
 						<cfset addr_remarks = lookupAddress.addr_remarks>
+						<cfset formatted_addr = replace(lookupAddress.formatted_addr,CHR(10),"<br>","All")>
 						<cfset method = "updateAddress">
 					</cfloop>
 				<cfelse>
@@ -1732,6 +1740,7 @@ limitations under the License.
 						<cfset job_title = "">
 						<cfset valid_addr_fg = 0>
 						<cfset addr_remarks = "">
+						<cfset formatted_addr = "">
 						<cfset method = "addNewAddress">
 				</cfif>
 				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1752,7 +1761,9 @@ limitations under the License.
 							<cfset agent_name = query.agent_name>
 						</cfif>
 					</cfif>
-					<div>
+					<div class="row">
+						<div class="col-12 border rounded bg-light" id="formattedAddressDisplayDiv">#formatted_addr#</div>
+						<div class="col-12">
 						<form name='newAddress' id='newAddressForm'>
 							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
 							<input type='hidden' name='method' value='#method#'>
@@ -1918,6 +1929,7 @@ limitations under the License.
 												$('##new_address_id').val(result[0].ADDRESS_ID);
 												$('##new_address').val(result[0].ADDRESS);
 												$('##tempAddressDialog').dialog('close');
+												$('##formattedAddressDisplayDiv').html(result[0].ADDRESS.replace(/\n/g, "<br>"));
 											} else { 
 												$('##newAddressStatus').html(result[0].MESSAGE);
 											}
@@ -1933,6 +1945,7 @@ limitations under the License.
 							<input type='hidden' name='new_address_id' id='new_address_id' value=''>
 							<input type='hidden' name='new_address' id='new_address' value=''>
 						</form>
+						</div>
 					</div>
 				</cfif> <!--- known address type provided --->
 			<cfcatch>
