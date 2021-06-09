@@ -80,10 +80,10 @@ table td .small {
 	border: 1px solid white;
 }
 .border-wide-green { 
-	border: 2px solid green;
+	border: 2px solid green !important;
 }
 .border-wide-grey { 
-	border: 2px solid darkgrey;
+	border: 2px solid darkgrey !important;
 }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
