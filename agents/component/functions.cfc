@@ -1517,8 +1517,6 @@ limitations under the License.
 					WHERE
 						GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						AND
-						MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
-						AND
 						MEMBER_ORDER > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#removedMemberOrder#">
 				</cfquery>
 				<cfset t = queryaddrow(theResult,1)>
