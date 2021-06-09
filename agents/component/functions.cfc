@@ -172,22 +172,27 @@ limitations under the License.
 						<li class="list-group-item">None</li>
 					</cfif>
 				</ul>
-					<cfset i=0>
-					<cfloop query="agentAddrs">
-						<cfset i=i+1>
-					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
+				<cfset i=0>
+				<cfloop query="agentAddrs">
+					<cfset i=i+1>
+					<ul class="list-group form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item w-100 px-0 py-1">
-							<span class="text-secondary font-weight-bold text-capitalize">#addr_type#:</span>
-							#replace(formatted_addr,chr(10)," ","All")#
-							#rem#
-							</li>
-						<li class="list-group-item px-1">
-							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
-						</li>
-						<li class="list-group-item px-0">
-							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-						</li>
+						<li class="list-group-item w-100 px-0 py-1 border">
+							<div class="form-row">
+								<div class="col-12 col-md-6 col-xl-3">
+									<span class="text-secondary font-weight-bold text-capitalize">#addr_type#:</span>
+								</div>
+								<div class="col-12 col-md-6 col-xl-5">
+									#replace(formatted_addr,chr(10),"<br>","All")#
+								</div>
+								<div class="col-12 col-md-6 col-xl-2">
+									#rem#
+								</div>
+								<div class="col-12 col-md-6 col-xl-2">
+									<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+									<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+								</div>
+							</div>
 							<script>
 								function doDeleteAddr_#i#() { 
 									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
@@ -201,9 +206,9 @@ limitations under the License.
 									});
 								});
 							</script>
-						</ul>
-					</cfloop>
-	
+						</li>
+					</ul>
+				</cfloop>
 
 				<div id="addressDialogDiv"></div>
 
