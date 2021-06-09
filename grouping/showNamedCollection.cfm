@@ -96,17 +96,17 @@
 								<cfquery name="localityImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit
+										MCZBASE.get_media_credit(media.media_id) as credit,
+										flat.guid
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join media_relations on media_relations.related_primary_key = underscore_collection_id
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
 										AND media_relations.media_relationship = 'shows locality'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-									ORDER BY flat.guid asc
 								</cfquery>
 								<div class="row">
 									<div class="col-12 col-md-4">
