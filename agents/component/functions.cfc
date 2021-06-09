@@ -184,7 +184,7 @@ limitations under the License.
 								<cfset addressCurrency="Invalid">
 								<cfset listgroupclass="border-wide-grey">
 							</cfif>
-							<li class="list-group-item #listgroupclass# w-100 px-0 py-1">
+							<li class="list-group-item #listgroupclass# w-100 px-1 py-1">
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-xl-3">
 										<span class="font-weight-bold text-capitalize">#addr_type#:</span>
