@@ -393,7 +393,7 @@ function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callba
 					},
 					beforeClose: function(event,ui) { 
 						var addr = $('#new_address').val();
-						if ($.trim(addr) != '') { 
+						if ($.trim(addr) != '' && targetAddressControl) { 
 							$("#"+targetAddressControl).val(addr);
 						}
 						if (jQuery.type(callback)==='function') {
