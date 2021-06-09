@@ -1490,6 +1490,15 @@ limitations under the License.
 
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
+		<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentNum_result">
+			SELECT member_order
+			FROM group_member
+			WHERE
+				GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				AND
+				MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+		</cfquery>
+		<cfset removedMemberOrder = getCurrentNum.member_order>
 		<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
 			DELETE FROM group_member
 			WHERE
@@ -1501,6 +1510,16 @@ limitations under the License.
 			<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
 		</cfif>
 		<cfif removeGroupMember_result.recordcount eq 1>
+			<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveDown_result">
+				UPDATE group_member
+				SET member_order = member_order - 1
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+					AND
+					MEMBER_ORDER > <cfqueryparam cfsqltyle="CF_SQL_DECIMAL" value="#removedMemberOrder#">
+			</cfquery>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
