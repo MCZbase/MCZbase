@@ -1660,7 +1660,7 @@ limitations under the License.
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Agent Moved in Group.", 1)>
 			<cfelse>
-				<cfthrow message="Unable to move agent position in group.  Error switching positions [#current_pos#][#targetPos#].">
+				<cfthrow message="Unable to move agent position in group.  Error switching positions [#currentPos#][#targetPos#].">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
