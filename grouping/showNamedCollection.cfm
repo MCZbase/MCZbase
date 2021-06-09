@@ -111,7 +111,7 @@
 									<div class="col-12 col-md-4">
 										<h3>Localities</h3>
 										<p>Maps and location images</p>
-										<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+								<!---		<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
 													   <div class="mask rgba-black-strong"></div>
@@ -134,9 +134,9 @@
 													</div>
 												</div>
 												
-											</div>
-											<a class="carousel-control-prev box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="prev" style="top: -46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
-										</div>
+											</div>--->
+							<!---				<a class="carousel-control-prev box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="prev" style="top: -46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> --->
+									<!---	</div>--->
 										<cfset localityImageCount = localityImageQuery.recordcount>
 										<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Locality Images</h2>
