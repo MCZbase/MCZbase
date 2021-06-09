@@ -167,55 +167,56 @@ limitations under the License.
 					order by valid_addr_fg DESC, addr_type
 				</cfquery>
 				<h3 class="h4 sr-only">Addresses</h3>
-				<ul class="list-group list-group-horizontal">
-					<cfif agentAddrs.recordcount EQ 0>
+				<cfif agentAddrs.recordcount EQ 0>
+					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item">None</li>
+					</ul>
+				<cfelse>
+					<cfset i=0>
+					<ul class="list-group form-row mx-0 pr-2">
+						<cfloop query="agentAddrs">
+							<cfset i=i+1>
+							<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+							<cfif valid_addr_fg EQ 1>
+								<cfset addressCurrency="Valid">
+								<cfset listgroupclass="border-wide-green">
+							<cfelse>
+								<cfset addressCurrency="Invalid">
+								<cfset listgroupclass="border-wide-grey">
+							</cfif>
+							<li class="list-group-item #listgroupclass# w-100 px-0 py-1">
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-3">
+										<span class="font-weight-bold text-capitalize">#addr_type#:</span>
+										<span class="">(#addressCurrency#)</span>
+									</div>
+									<div class="col-12 col-md-6 col-xl-5">
+										#replace(formatted_addr,chr(10),"<br>","All")#
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										#rem#
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									</div>
+								</div>
+								<script>
+									function doDeleteAddr_#i#() { 
+										deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
+									}
+									$(document).ready(function () {
+										$("##editAddrButton_#i#").click(function(evt) { 
+											editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
+										});
+										$("##deleteAddrButton_#i#").click(function(evt) { 
+											confirmWarningDialog("Delete This #addr_type# Address?", "Confirm Delete?", doDeleteAddr_#i#);
+										});
+									});
+								</script>
+							</li>
+						</cfloop>
 					</cfif>
-				</ul>
-				<cfset i=0>
-				<ul class="list-group form-row mx-0 pr-2">
-					<cfloop query="agentAddrs">
-						<cfset i=i+1>
-						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<cfif valid_addr_fg EQ 1>
-							<cfset addressCurrency="Valid">
-							<cfset listgroupclass="border-success">
-						<cfelse>
-							<cfset addressCurrency="Invalid">
-							<cfset listgroupclass="border-secondary">
-						</cfif>
-						<li class="list-group-item #listgroupclass# w-100 px-0 py-1 border">
-							<div class="form-row">
-								<div class="col-12 col-md-6 col-xl-3">
-									<span class="font-weight-bold text-capitalize">#addr_type#:</span>
-									<span class="">(#addressCurrency#)</span>
-								</div>
-								<div class="col-12 col-md-6 col-xl-5">
-									#replace(formatted_addr,chr(10),"<br>","All")#
-								</div>
-								<div class="col-12 col-md-6 col-xl-2">
-									#rem#
-								</div>
-								<div class="col-12 col-md-6 col-xl-2">
-									<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
-									<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-								</div>
-							</div>
-							<script>
-								function doDeleteAddr_#i#() { 
-									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
-								}
-								$(document).ready(function () {
-									$("##editAddrButton_#i#").click(function(evt) { 
-										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
-									});
-									$("##deleteAddrButton_#i#").click(function(evt) { 
-										confirmWarningDialog("Delete This #addr_type# Address?", "Confirm Delete?", doDeleteAddr_#i#);
-									});
-								});
-							</script>
-						</li>
-					</cfloop>
 				</ul>
 
 				<div id="addressDialogDiv"></div>

@@ -79,6 +79,12 @@ table td .small {
 .border-white { 
 	border: 1px solid white;
 }
+.border-wide-green { 
+	border: 2px solid green;
+}
+.border-wide-grey { 
+	border: 2px solid darkgrey;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
