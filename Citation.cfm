@@ -374,7 +374,7 @@
 		WHERE
 			publication_id = #publication_id# AND
 			collection_object_id = #collection_object_id# AND
-			cited_taxon_name_id = #cited_taxon_name_id#
+			cited_taxon_name_id = #current_cited_taxon_name_id#
 		</cfquery>
 		<cflocation url="Citation.cfm?publication_id=#publication_id#">
 	</cfoutput>
@@ -425,8 +425,8 @@
 <cfform name="editCitation" id="editCitation" method="post" action="Citation.cfm">
 		<input type="hidden" name="Action" value="saveEdits">
 		<input type="hidden" name="publication_id" value="#publication_id#">
-
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+		<input type="hidden" name="current_cited_taxon_name_id" value="#cited_taxon_name_id#">
 
 <table border>
 
