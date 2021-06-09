@@ -105,7 +105,7 @@
 										locality, 
 										media_relations,
 										flat
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getNamedGroup.underscore_collection_id#">
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										and media.media_id = media_relations.media_id
 										and underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 										and underscore_relation.COLLECTION_OBJECT_ID = flat.collection_object_id
