@@ -96,14 +96,10 @@
 								<cfquery name="localityImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
+										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
