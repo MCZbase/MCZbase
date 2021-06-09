@@ -139,7 +139,6 @@
 									<!---	</div>--->
 										<cfset localityImageCount = localityImageQuery.recordcount>
 										<cfif specimenImageCount GT 0>
-									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Locality Images</h2>
 									<p>#localityImageCount# Locality Images</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
