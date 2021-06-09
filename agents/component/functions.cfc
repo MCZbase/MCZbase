@@ -652,6 +652,7 @@ limitations under the License.
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="related_agent_id" type="string" required="yes">
 	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="agent_remarks" type="string" required="no">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
@@ -669,11 +670,19 @@ limitations under the License.
 				INSERT INTO agent_relations (
 					AGENT_ID,
 					RELATED_AGENT_ID,
-					AGENT_RELATIONSHIP)
+					AGENT_RELATIONSHIP
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						,AGENT_REMARKS
+					</cfif>
+				)
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>)
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+					</cfif>
+				)
 			</cfquery>
 			<cfif newRelationship_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
