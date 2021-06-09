@@ -164,7 +164,7 @@ limitations under the License.
 					WHERE 
 						agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 						and addr.addr_type <> 'temporary'
-					order by valid_addr_fg DESC
+					order by valid_addr_fg DESC, addr_type
 				</cfquery>
 				<h3 class="h4 sr-only">Addresses</h3>
 				<ul class="list-group list-group-horizontal">
@@ -177,10 +177,18 @@ limitations under the License.
 					<cfset i=i+1>
 					<ul class="list-group form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item w-100 px-0 py-1 border">
+						<cfif valid_addr_fg EQ 1>
+							<cfset addressCurrency="Valid">
+							<cfset listgroupclass="list-group-item-success">
+						<cfelse>
+							<cfset addressCurrency="Invalid">
+							<cfset listgroupclass="list-group-item-light">
+						</cfif>
+						<li class="list-group-item #listgroupclass# w-100 px-0 py-1 border">
 							<div class="form-row">
 								<div class="col-12 col-md-6 col-xl-3">
-									<span class="text-secondary font-weight-bold text-capitalize">#addr_type#:</span>
+									<span class="font-weight-bold text-capitalize">#addr_type#:</span>
+									<span class="">(#addressCurrency#)</span>
 								</div>
 								<div class="col-12 col-md-6 col-xl-5">
 									#replace(formatted_addr,chr(10),"<br>","All")#
