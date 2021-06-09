@@ -17,7 +17,7 @@
 	<cfloop query="getNamedGroup">
 		<cfif getNamedGroup.mask_fg EQ 0 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
 			 <cflocation url="/errors/forbidden.cfm" addtoken="false">
-		</cfif>
+		</cfif> 
 		<main class="container-fluid py-3">
 			<div class="row mx-0">
 				<article class="w-100">
@@ -93,55 +93,98 @@
 
 								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
+								<cfquery name="localityImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImageQuery_result">
+									SELECT DISTINCT media_uri, preview_uri,media_type,
+										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_media_credit(media.media_id) as credit,
+										flat.guid
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows locality'
+										AND media.media_type = 'image'
+										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+									ORDER BY flat.guid asc
+								</cfquery>
 								<div class="row">
 									<div class="col-12 col-md-4">
 										<h3>Localities</h3>
 										<p>Maps and location images</p>
-										<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-											<div class="carousel-inner">
-												<div class="carousel-item active"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Democratic_Republic_of_the_Congo_(orthographic_projection).svg.png" alt="First slide">
-													   <div class="mask rgba-black-strong"></div>
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Location of Democratic Republic of the Congo (dark green)</h3>
-														<p>Photo by Radio Okapi</p>
-													</div>
+										<cfset localityImageCount = localityImageQuery.recordcount>
+										<cfif localityImageCount GT 0>
+											<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Locality Images</h2>
+											<p>#localityImageCount# Locality Images</p>
+											<!--Carousel Wrapper-->
+											<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+												<!--Indicators-->
+												<ol class="carousel-indicators">
+													<cfset active = 'class="active"' >
+													<cfloop index="i" from="0" to="#localityImageCount#">
+														<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
+														<cfset active = '' >
+													</cfloop>
+												</ol>
+												<!--/.Indicators---> 
+												<!--Slides-->
+												<div class="carousel-inner" role="listbox">
+													<cfset active = "active" >
+													<cfloop query="localityImageQuery">
+														<div class="carousel-item #active#">
+															<div class="view">
+																<img class="d-block w-100" src="#localityImageQuery.media_uri#" alt="#localityImageQuery.alt#"/>
+															   <div class="mask rgba-black-strong"></div>
+															</div>
+															<div class="carousel-caption">
+																<h3 class="h3-responsive">#localityImageQuery.alt#</h3>
+																<p>#localityImageQuery.credit#</p>
+															</div>
+														</div>
+														<cfset active = "" >
+													</cfloop>
 												</div>
-												<div class="carousel-item"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/La_rivière_Lulilaka,_parc_national_de_Salonga,_2005.jpg" alt="second slide">
-													   <div class="mask rgba-black-strong"></div>
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Salonga National Park</h3>
-														<p>Photo by Radio Okapi</p>
-													</div>
-												</div>
-												<div class="carousel-item"> <img class="d-block col-10 col-md-12 px-0 mx-auto" src="/shared/images/800px-Okapi2.jpg" alt="third slide">   <div class="mask rgba-black-strong"></div>
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">An Okapi</h3>
-														<p>Photo by Raul654</p>
-													</div>
-												</div>
-												
+												<!--/.Slides--> 
+												<!--Controls--> 
+												<a class="carousel-control-prev" href="##carousel-example-4" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-4" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+												<!--/.Controls--> 
 											</div>
-											<a class="carousel-control-prev box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="prev" style="top: -46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next box-shadow-0" href="##carouselExampleControls4" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+											<!--/.Carousel Wrapper-->
+										</cfif><!--- end locality image loop --->
 									</div>
 									<div class="col-12 col-md-4">
 										<h3>Journals, Notes, Ledgers</h3>
 										<p>Library scans of written material</p>
 										<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
-												<div class="carousel-item active"> <img class="d-block w-100" src="/images/ledger.PNG" alt="First slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+												<div class="carousel-item active"> 
+													<img class="d-block w-100" src="/images/ledger.PNG" alt="First slide">
+													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Ledger Scan</h3>
 														<p>MCZ/Ernst Mayr Library</p>
-													</div> </div>
-												<div class="carousel-item"> <img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+													</div> 
+												</div>
+												<div class="carousel-item"> 
+													<img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide">
+													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Annotation of Map/ Collecting route</h3>
 														<p>MCZ note example</p>
-													</div> </div>
-												<div class="carousel-item"> <img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide"><div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+													</div> 
+												</div>
+												<div class="carousel-item"> 
+													<img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide">
+													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Semliki Notes</h3>
 														<p>MCZ IP dept.</p>
-													</div> </div>
+													</div> 
+												</div>
 											</div>
-											<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+											<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+										</div>
 									</div>
 									<div class="col-12 col-md-4 ">
 										<h3>Collectors and other agents</h3>
