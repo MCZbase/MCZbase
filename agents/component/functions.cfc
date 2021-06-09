@@ -178,8 +178,8 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
 						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 						<li class="list-group-item w-100 px-0 py-1">
-							<span class="text-secondary font-weight-bold">#addr_type#:</span>
-							#formatted_addr#
+							<span class="text-secondary font-weight-bold text-capitalize">#addr_type#:</span>
+							#replace(formatted_addr,chr(10)," ","All")#
 							#rem#
 							</li>
 						<li class="list-group-item px-1">
