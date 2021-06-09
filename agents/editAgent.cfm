@@ -162,6 +162,26 @@ limitations under the License.
 					<h1>No such agent as agent_id = #encodeForHtml(agent_id)#.</h1>
 				<cfelse>
 					<cfloop query="getAgent">
+						<cfquery name="getFKFields" datasource="uam_god">
+							SELECT all_constraints.table_name, column_name, delete_rule 
+							FROM all_constraints
+								left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
+							WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
+							ORDER_BY all_constraints.table_name;
+						</cfquery>
+						<cfset okToDelete = true>
+						<cfloop query="getFKFields">
+							<cfif getFKFields.delete_rule EQ "NO ACTION">
+								<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+									SELECT count(*) as ct 
+									FROM #getFKFields.table_name#
+									WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+								</cfquery>
+								<cfif getRels.ct GT 0>
+									<cfset okToDelete = false>
+								</cfif>
+							</cfif>
+						</cfloop>
 						<cfif getAgent.edited EQ 1>
 							<cfset vetted="*">
 						<cfelse>
@@ -448,8 +468,10 @@ limitations under the License.
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 										<!--- TODO: Implement delete agent, when no linked data --->
-										<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
+										<cfif okToDelete>
+											<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
 											onClick=" $('##action').val('editAgent'); confirmDialog('Delete this Agent?','Confirm Delete Agent', function() { $('##action').val('deleAgent'); $('##editAgentForm').submit(); } );">
+										</cfif>
 									</div>
 								</div>
 								<script>
