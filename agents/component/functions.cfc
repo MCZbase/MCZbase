@@ -1488,50 +1488,55 @@ limitations under the License.
 	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
 	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to remove from the group  --->
 
-	<cfset theResult=queryNew("status, message")>
-	<cftry>
-		<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentNum_result">
-			SELECT member_order
-			FROM group_member
-			WHERE
-				GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				AND
-				MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
-		</cfquery>
-		<cfset removedMemberOrder = getCurrentNum.member_order>
-		<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
-			DELETE FROM group_member
-			WHERE
-				GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				AND
-				MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
-		</cfquery>
-		<cfif removeGroupMember_result.recordcount eq 0>
-			<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
-		</cfif>
-		<cfif removeGroupMember_result.recordcount eq 1>
-			<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveDown_result">
-				UPDATE group_member
-				SET member_order = member_order - 1
+	<cfset theResult=queryNew("status, message, renumbered")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentNum_result">
+				SELECT member_order
+				FROM group_member
 				WHERE
 					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 					AND
 					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
-					AND
-					MEMBER_ORDER > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#removedMemberOrder#">
 			</cfquery>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
-		</cfif>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
+			<cfset removedMemberOrder = getCurrentNum.member_order>
+			<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
+				DELETE FROM group_member
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+			</cfquery>
+			<cfif removeGroupMember_result.recordcount eq 0>
+				<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
+			</cfif>
+			<cfif removeGroupMember_result.recordcount eq 1>
+				<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveDown_result">
+					UPDATE group_member
+					SET member_order = member_order - 1
+					WHERE
+						GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						AND
+						MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+						AND
+						MEMBER_ORDER > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#removedMemberOrder#">
+				</cfquery>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
+				<cfset t = QuerySetCell(theResult, "renumbered", "#moveDown_result.recordcount#", 1)>
+				<cftransaction action="commit">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	<cftransaction>
 	<cfreturn #theResult#>
 </cffunction>
 
