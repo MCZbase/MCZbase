@@ -33,7 +33,7 @@
 								<h2 class="h2">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT DISTINCT media_uri, preview_uri,media_type,
+									SELECT DISTINCT rand() as rand, media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
