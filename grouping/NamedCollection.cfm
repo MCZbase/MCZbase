@@ -659,7 +659,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function () {
-											$('##html_description').jqxEditor({height: '100%', width: '100%'});
+											$('##html_description').jqxEditor({height: 'auto', width: '100%'});
 										});
 									</script>
 								</div>
