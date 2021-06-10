@@ -49,16 +49,27 @@
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+										and rownum <= 10
 									ORDER BY flat.guid asc
 								</cfquery>
-								<cfquery name="specImageCt" dbtype="query">
+								<cfquery name="specImageCt">
 									SELECT DISTINCT media_uri
 									FROM
-										specimenImageQuery
-									WHERE 
-										and rownum <= 15
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows cataloged_item'
+										AND media.media_type = 'image'
+										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+										and rownum <= 10
+									ORDER BY flat.guid asc
 								</cfquery>
-								<cfset specimenImageCount = specimenImageQuery.recordcount>
+								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
 									<p>#specimenImageCount# Specimen Images</p>
