@@ -655,39 +655,13 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
+										<textarea id="html_description" name="html_description" class="w-100" style="min-height: " aria-labelledby="html_description_label" >#html_description#</textarea>
 									</div>
 									<script>
 										$(document).ready(function () {
-											$('##html_description').jqxEditor();
+											$('##html_description').jqxEditor({height: '100%', width: '100%'});
 										});
 									</script>
-								<button id="openButton">Open Editor</button>
-								<div id="window">
-									<div>
-										jqxEditor
-									</div>
-									<div>
-										<div id="editor"></div>
-									</div>
-								</div>
-								<script type="text/javascript">
-									$(document).ready(function () {
-										// create button.
-										$("##openButton").jqxButton();
-										// create window.
-										$('##window123').jqxWindow({
-											autoOpen: false, width: 500, position: 'top, left', height: 400, maxWidth: 800, resizable: true,
-											initContent: function () {
-												// create editor.
-												$("##editor").jqxEditor({ width: '100%', height: '100%' });
-										}
-										});
-										$("##openButton").click(function () {
-											$('##window123').jqxWindow('open');
-										});
-									});
-								</script>
 								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
