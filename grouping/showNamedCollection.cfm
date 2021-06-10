@@ -49,8 +49,14 @@
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										and rownum <= 10
 									ORDER BY flat.guid asc
+								</cfquery>
+								<cfquery name="specImageCt" dbtype="query">
+									SELECT DISTINCT media_uri
+									FROM
+										specimenImageQuery
+									WHERE 
+										and rownum <= 15
 								</cfquery>
 								<cfset specimenImageCount = specimenImageQuery.recordcount>
 								<cfif specimenImageCount GT 0>
