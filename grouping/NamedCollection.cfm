@@ -660,16 +660,16 @@ limitations under the License.
 											overflow:auto;
 											padding: 10px;*/
 										}
-										.jqx-widget-content {
-											min-height:500px;
-											resize:both;
-											overflow:auto;
+										.jqx-editor-content {
+											min-height:400px;
+											resize:vertical;
+											overflow:hidden;
 											padding: 10px;
 										}
 									</style>
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
+										<textarea id="html_description" name="html_description" class="" aria-labelledby="html_description_label" >#html_description#</textarea>
 									</div>
 									<script>
 										$(document).ready(function () {
