@@ -53,7 +53,7 @@
 									ORDER BY flat.guid asc
 								</cfquery>
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT DISTINCT media_uri
+									SELECT media_uri
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -67,7 +67,7 @@
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										and rownum <= 10
-									ORDER BY flat.guid asc
+									
 								</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
