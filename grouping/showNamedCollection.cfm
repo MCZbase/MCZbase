@@ -49,9 +49,10 @@
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										and rownum <= 10
 									ORDER BY flat.guid asc
+									FETCH first 20 PERCENT ROWS ONLY
 								</cfquery>
+							
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT media_uri
 									FROM
