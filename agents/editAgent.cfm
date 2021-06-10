@@ -181,8 +181,8 @@ limitations under the License.
 								<cfif getRels.ct GT 0>
 									<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
 									<cfset okToDelete = false>
+									<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
 								</cfif>
-								<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
 							</cfif>
 						</cfloop>
 						<cfif getAgent.edited EQ 1>
