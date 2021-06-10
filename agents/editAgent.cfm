@@ -486,7 +486,7 @@ limitations under the License.
 													$(document).ready(function() {
 														$('##showRelatedDataBtn').click(function (evt) {
 															messageDialog("#relations#","Numbers of related records for this agent");
-														}
+														});
 													});
 												</script>
 											</div>

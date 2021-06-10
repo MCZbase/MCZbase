@@ -100,7 +100,6 @@ function checkNameExistsAlso(preferred_name,target,agent_id) {
 	success: function (result) {
 		var matches = jQuery.parseJSON(result);
 		var matchcount = matches.length;
-		console.log(matches);
 		if (matchcount==0) { 
 			$("#" + target).html("No duplicates.");
 		} else {
