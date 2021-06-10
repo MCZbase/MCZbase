@@ -660,7 +660,7 @@ limitations under the License.
 											overflow:auto;
 											padding: 10px;*/
 										}
-										.jqx-widget {
+										.jqx-widget-content {
 											min-height:500px;
 											resize:both;
 											overflow:auto;
