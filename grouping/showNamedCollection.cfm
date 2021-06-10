@@ -66,7 +66,6 @@
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										and rownum <= 10
 									
 								</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
