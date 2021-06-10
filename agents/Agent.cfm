@@ -135,18 +135,29 @@ limitations under the License.
 						</cfif>
 						<cfif oneOfUs EQ 1>
 							<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select addr_type, REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR
+								select addr_type, 
+									REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
+									valid_addr_fg,
+									addr_remarks
 								from addr
 								WHERE
 									addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-								order by addr_type
+								order by addr_type, valid_addr_fg desc
 							</cfquery>
 							<cfif getAgentAddr.recordcount GT 0>
 								<section>
 									<h2 class="h3">Postal Addresses</h2>
 									<cfloop query="getAgentAddr">
-										<h3 class="h4">#addr_type# address</h3>
-										<div>#formatted_addr#</div>
+										<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+										<cfif valid_addr_fg EQ 1>
+											<cfset addressCurrency="Valid">
+												<cfset listgroupclass="bg-verylightgreen">
+											<cfelse>
+												<cfset addressCurrency="Invalid">
+											<cfset listgroupclass="">
+										</cfif>
+										<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
+										<div class="#listgroupclass#">#formatted_addr#</div>
 									</cfloop>
 								</section>
 							</cfif>
