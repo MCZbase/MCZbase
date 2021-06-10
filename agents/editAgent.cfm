@@ -169,6 +169,7 @@ limitations under the License.
 							WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
 							ORDER BY all_constraints.table_name
 						</cfquery>
+						<cfset relatedTo = StructNew() >
 						<cfset okToDelete = true>
 						<cfloop query="getFKFields">
 							<cfif getFKFields.delete_rule EQ "NO ACTION">
@@ -178,8 +179,10 @@ limitations under the License.
 									WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 								</cfquery>
 								<cfif getRels.ct GT 0>
+									<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
 									<cfset okToDelete = false>
 								</cfif>
+								<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
 							</cfif>
 						</cfloop>
 						<cfif getAgent.edited EQ 1>
@@ -467,10 +470,26 @@ limitations under the License.
 											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
-										<!--- TODO: Implement delete agent, when no linked data --->
 										<cfif okToDelete>
 											<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
 											onClick=" $('##action').val('editAgent'); confirmDialog('Delete this Agent?','Confirm Delete Agent', function() { $('##action').val('deleAgent'); $('##editAgentForm').submit(); } );">
+										<cfelse>
+											<div class="float-right">
+												<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #StructCount(relatedTo)# other tables</button>
+												<cfset relations = "">
+												<cfset sep = "">
+												<cfloop collection="#relatedTo#" item="key">
+													<cfset relations = "#relations##sep##key# (#relatedTo[key]#)">
+													<cfset sep = "; <br>">
+												</cfloop>
+												<script>
+													$(document).ready(function() {
+														$('##showRelatedDataBtn').click(function (evt) {
+															messageDialog("#relations#","Numbers of related records for this agent");
+														}
+													});
+												</script>
+											</div>
 										</cfif>
 									</div>
 								</div>
