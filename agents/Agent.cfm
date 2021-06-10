@@ -88,6 +88,7 @@ limitations under the License.
 							<div>#agent_remarks#</div>
 						</cfif>
 
+						<!--- agent names --->
 						<h2 class="h3">Names for this agent</h2>
 						<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
 							SELECT
@@ -98,7 +99,6 @@ limitations under the License.
 							FROM agent_name
 							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						</cfquery>
-						<!--- preferred name --->
 						<cfquery name="pname" dbtype="query">
 							select * from namesForAgent where agent_name_type = 'preferred'
 						</cfquery>
@@ -106,6 +106,7 @@ limitations under the License.
 							select * from namesForAgent where agent_name_type != 'preferred'
 						</cfquery>
 						<ul>
+							<!--- preferred name --->
 							<cfloop query="pname">
 								<li>#pname.agent_name# (#pname.agent_name_type#)</li>
 							</cfloop>
@@ -117,8 +118,9 @@ limitations under the License.
 									<cfif pname.agent_name_type NEQ "login">
 										<li>#pname.agent_name# (#pname.agent_name_type#)</li>
 									</cfif>
+								</cfif>
 							</cfloop>
-						</li>
+						</ul>
 
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 							<section class="row border rounded my-2 px-1 pt-1 pb-2">
