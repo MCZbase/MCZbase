@@ -653,7 +653,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-2">
-									<style>.jqx-editor {height:900px;}</style>
+									<style>.jqx-editor {height:auto;}</style>
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
 										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
