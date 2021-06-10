@@ -653,7 +653,20 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-2">
-									<style>.jqx-editor {min-height:500px;resize:both;overflow:auto;padding: 10px;}</style>
+									<style>
+										.jqx-editor {
+/*											min-height:500px;
+											resize:both;
+											overflow:auto;
+											padding: 10px;*/
+										}
+										.jqx-widget {
+											min-height:500px;
+											resize:both;
+											overflow:auto;
+											padding: 10px;
+										}
+									</style>
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
 										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
