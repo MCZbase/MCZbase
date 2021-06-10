@@ -660,7 +660,7 @@ limitations under the License.
 									<script>
 										$(document).ready(function () {
 											$('##html_description').jqxEditor({
-												resizable: 'true'
+												resize: 'true'
 											});
 										});
 									</script>
