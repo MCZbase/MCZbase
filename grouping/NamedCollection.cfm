@@ -683,8 +683,8 @@ limitations under the License.
 												$("##editor").jqxEditor({ width: '100%', height: '100%' });
 										}
 										});
-										$("#openButton").click(function () {
-											$('#window').jqxWindow('open');
+										$("##openButton").click(function () {
+											$('##window').jqxWindow('open');
 										});
 									});
 								</script>
