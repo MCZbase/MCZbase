@@ -87,6 +87,39 @@ limitations under the License.
 						<cfif oneOfUs EQ 1>
 							<div>#agent_remarks#</div>
 						</cfif>
+
+						<h2 class="h3">Names for this agent</h2>
+						<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+							SELECT
+								agent_name_id,
+								agent_id,
+								agent_name_type,
+								agent_name
+							FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						</cfquery>
+						<!--- preferred name --->
+						<cfquery name="pname" dbtype="query">
+							select * from namesForAgent where agent_name_type = 'preferred'
+						</cfquery>
+						<cfquery name="npname" dbtype="query">
+							select * from namesForAgent where agent_name_type != 'preferred'
+						</cfquery>
+						<ul>
+							<cfloop query="pname">
+								<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+							</cfloop>
+							<cfloop query="npname">
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+									<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+								<cfelse>
+									<!--- don't display login name to non-admin users --->
+									<cfif pname.agent_name_type NEQ "login">
+										<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+									</cfif>
+							</cfloop>
+						</li>
+
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 							<section class="row border rounded my-2 px-1 pt-1 pb-2">
 								<h2 class="h3">Group Members</h2>
@@ -397,7 +430,7 @@ limitations under the License.
 							</div>
 						</cfif>
 
-						<cfif oneOfUs EQ 1>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 							<!--- foreign key relationships to other tables --->
 							<div>
 								<cfquery name="getFKFields" datasource="uam_god">
