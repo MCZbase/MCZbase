@@ -676,7 +676,7 @@ limitations under the License.
 										// create button.
 										$("##openButton").jqxButton();
 										// create window.
-										$('##window').jqxWindow({
+										$('##window123').jqxWindow({
 											autoOpen: false, width: 500, position: 'top, left', height: 400, maxWidth: 800, resizable: true,
 											initContent: function () {
 												// create editor.
@@ -684,7 +684,7 @@ limitations under the License.
 										}
 										});
 										$("##openButton").click(function () {
-											$('##window').jqxWindow('open');
+											$('##window123').jqxWindow('open');
 										});
 									});
 								</script>
