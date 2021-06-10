@@ -658,7 +658,7 @@ limitations under the License.
 											resize:vertical;
 											overflow:hidden;
 											padding: 10px;
-											height: 350px;
+											height: 250px;
 										}
 									</style>
 									<div class="col-md-12">
