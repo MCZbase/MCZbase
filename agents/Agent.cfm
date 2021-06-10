@@ -432,6 +432,11 @@ limitations under the License.
 							</div>
 						</cfif>
 
+						<!--- transactions roles --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<!--- TODO: Add transaction roles from /info/agentActivity.cfm --->
+						</cfif>
+
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 							<!--- foreign key relationships to other tables --->
 							<div>

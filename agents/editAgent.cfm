@@ -203,6 +203,38 @@ limitations under the License.
 										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
 								</div>
+ 								<cfif listcontainsnocase(session.roles, "manage_transactions")>
+									<div class="col-12 col-md-4">
+										<!--- TODO: When all data from the agentActivity.cfm page has moved onto /agents/Agent.cfm, then this link can go away ---> 
+										<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT count(*) || ' ' || agent_rank agent_rank
+											FROM agent_rank
+											WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by agent_rank
+										</cfquery>
+										<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
+											<cfif rank.recordcount gt 0>
+												Previous Ranking: #valuelist(rank.agent_rank,"; ")#
+												<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
+													<img src='/images/flag-red.svg.png' width='16'>
+												</cfif>
+											</cfif>
+										</span>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+ 											<input type="button" class="lnkBtn" value="Rank" 
+												onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
+											&nbsp;&nbsp;
+											<img src="/images/icon_info.gif" border="0" onClick="getMCZDocs('Agent_Ranking')" class="likeLink" style="margin-top: -15px;" alt="[ help ]">
+										</cfif>
+										<div id="agentRankDlg_#agent_id#"></div>
+									</div>
+								</cfif>
 							</div>
 						</div>
 						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
