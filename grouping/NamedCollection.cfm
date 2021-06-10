@@ -500,9 +500,12 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function () {
-											$('##html_description').jqxEditor();
+											$('##html_description').jqxEditor({
+												resize: 'true'
+											});
 										});
 									</script>
+
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
