@@ -207,7 +207,6 @@ limitations under the License.
 									<div class="col-12 col-md-4">
 										<!--- TODO: When all data from the agentActivity.cfm page has moved onto /agents/Agent.cfm, then this link can go away ---> 
 										<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
-										</cfif>
 									</div>
 									<div class="col-12 col-md-4">
 										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
