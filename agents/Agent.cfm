@@ -193,6 +193,8 @@ limitations under the License.
 								</div>
 							</cfif>
 						</cfif>
+
+						<!--- Collector --->
 						<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 							select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 							from (
@@ -288,36 +290,37 @@ limitations under the License.
 							</cfquery>
 							<cfif getAgentFamilyScope.recordcount GT 0>
 								<div>
-								<h2 class="h3">Families Collected</h2>
-								<ul>
-								<cfset earlyeststart = "">
-								<cfset latestend = "">
-								<cfloop query="getAgentFamilyScope">
-									<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
-									<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
-									<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
-										<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
-									</cfif>
-									<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
-									<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-									<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
-										<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
-											<cfset yearbit=" none known to year">
-										<cfelse>
-											<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
-										</cfif>
-									<cfelse>
-										<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
-									</cfif>
-									<cfif len(getAgentFamilyScope.family) GT 0>
-										<li>#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
-									</cfif>
-								</cfloop>
-								</ul>
-							</div>
-						</cfif>
+									<h2 class="h3">Families Collected</h2>
+									<ul>
+										<cfset earlyeststart = "">
+										<cfset latestend = "">
+										<cfloop query="getAgentFamilyScope">
+											<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
+											<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
+											<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
+												<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
+											</cfif>
+											<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
+											<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+											<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
+												<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
+													<cfset yearbit=" none known to year">
+												<cfelse>
+													<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
+												</cfif>
+											<cfelse>
+												<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
+											</cfif>
+											<cfif len(getAgentFamilyScope.family) GT 0>
+												<li>#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+											</cfif>
+										</cfloop>
+									</ul>
+								</div>
+							</cfif>
+						</cfif><!--- getAgentCollScope.recordcount > 1 --->
 
-						</cfif>
+						<!--- Preparator--->
 						<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 							select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 							from (
@@ -382,7 +385,41 @@ limitations under the License.
 								</cfif>
 							</div>
 						</cfif>
-					</cfloop>
+
+						<cfif oneOfUs EQ 1>
+							<!--- foreign key relationships to other tables --->
+							<div>
+								<cfset relatedTo = StructNew() >
+								<cfset okToDelete = true>
+								<cfloop query="getFKFields">
+									<cfif getFKFields.delete_rule EQ "NO ACTION">
+										<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+											SELECT count(*) as ct 
+											FROM #getFKFields.table_name#
+											WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+										</cfquery>
+										<cfif getRels.ct GT 0>
+											<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+											<cfset okToDelete = false>
+											<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+										</cfif>
+									</cfif>
+								</cfloop>
+								<h2 class="h3">This Agent record is linked to:</h2>
+								<cfif okToDelete>
+									<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
+								<cfelse>
+									<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
+								</cfif>
+								<ul>
+									<cfloop collection="#relatedTo#" item="key">
+										<li>#key# (#relatedTo[key]#)"</li>
+									</cfloop>
+								</ul>
+							</div>
+
+						</cfif>
+					</cfloop><!--- getAgent --->
 				</div>
 			</div>
 		</div>

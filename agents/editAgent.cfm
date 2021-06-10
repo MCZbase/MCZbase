@@ -475,7 +475,9 @@ limitations under the License.
 											onClick=" $('##action').val('editAgent'); confirmDialog('Delete this Agent?','Confirm Delete Agent', function() { $('##action').val('deleAgent'); $('##editAgentForm').submit(); } );">
 										<cfelse>
 											<div class="float-right">
-												<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #StructCount(relatedTo)# other tables</button>
+												<cfset relCount = StructCount(relatedTo)>
+												<cfif relCount EQ 1 ><cfset plural = ""><cfelse><cfset plural="s"></cfif>
+												<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
 												<cfset relations = "">
 												<cfset sep = "">
 												<cfloop collection="#relatedTo#" item="key">
