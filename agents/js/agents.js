@@ -819,3 +819,55 @@ function addElectronicAddressToAgent(agent_id,addressControl,addressTypeControl,
 		handleFail(jqXHR,textStatus,error,"adding electronic address (email/phone) to agent");
 	});
 }
+
+// *** functions for dealing with agent ranks ****
+
+function loadAgentRankSummary(targetId,agentId) {
+   jQuery.getJSON("/agents/component/functions.cfc",
+      {
+         method : "getAgentRanks",
+         agent_id : agentId,
+         returnformat : 'json',
+         queryformat : 'column'
+      },
+      function (result) {
+         if (result.DATA.STATUS[0]==1) {
+            var output = "Ranking: " ;
+  	    for (a=0; a<result.ROWCOUNT; ++a) {
+               output =  output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a]
+               if (result.DATA.AGENT_RANK[a]=='F') {
+                  output = output + "<img src='/images/flag-red.svg.png' width='16'>" ;
+               }
+               if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
+            }
+            $("#" + targetId).html(output);
+         } else {
+            $("#" + targetId).html(result.DATA.MESSAGE[0]);
+         }
+      }
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"looking up agent rankings");
+	});
+}
+function saveAgentRank(){
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "saveAgentRank",
+			agent_id : $('#agent_id').val(),
+			agent_rank : $('#agent_rank').val(),
+			remark : $('#remark').val(),
+			transaction_type : $('#transaction_type').val(),
+			returnformat : 'json',
+			queryformat : 'column'
+		},
+		function (data) {
+			if(data.length>0 && data.substring(0,4)=='fail'){
+				alert(data);
+				$('#saveAgentRankFeedback').append(d);
+			} else {
+				var ih = 'Thank you for adding an agent rank.';
+				$('#saveAgentRankFeedback').append(ih);
+			}
+		}
+	);
+}

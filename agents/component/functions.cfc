@@ -2212,4 +2212,223 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
+<!--- Obtain the ranks for an agent 
+ @param agent_id the agent for whom to retrieve the ranks
+ @return data structure containing ct, agent_rank, and status (1 on success) (count of that rank for the agent and the rank)
+    or http 500 status on an error.
+--->
+<cffunction name="getAgentRanks" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"admin_transactions")>
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank
+				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				group by agent_rank
+			</cfquery>
+			<cfreturn rankCount>
+		<cfelse>
+			<cfthrow message="Not Authorized">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- Add an agent ranking for an agent 
+ @param agent_id the agent for whom to add an agent ranking
+ @param agent_rank the rank asserted for this agent
+ @param remark a remark about this ranking.
+ @param transaction_type the transaction type to which this ranking applies
+ @return the agent_id of the agent, or http 500 status on an error.
+--->
+<cffunction name="saveAgentRank" access="remote">
+	<cfargument name="agent_id" type="numeric" required="yes">
+	<cfargument name="agent_rank" type="string" required="yes">
+	<cfargument name="remark" type="string" required="no">
+	<cfargument name="transaction_type" type="string" required="yes">
+
+	<cftry>
+		<cfif NOT listcontainsnocase(session.roles,"admin_transactions")>
+			<cfthrow message="Not Authorized">
+		</cfif>
+		<cfquery name="addRanking" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRankingResult">
+			insert into agent_rank (
+				agent_id,
+				agent_rank,
+				ranked_by_agent_id,
+				remark,
+				transaction_type
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_rank#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#transaction_type#">
+			)
+		</cfquery>
+		<cfif addRankingResult.recordcount NEQ 1>
+			<cfthrow message="Unable to add ranking, other than one [#addRanking_result.recordcount#] ranking would be added.">
+		</cfif>
+		<cfreturn agent_id>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<cffunction name="getAgentRankDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="no">
+
+	<cfthread name="agentRankDialogThread">
+		<cfoutput>
+			<cftry>
+				<cfif NOT listcontainsnocase(session.roles,"manage_agent_ranking")>
+				 	<cfthrow message="Not Authorized">
+				</cfif>
+
+				<cfquery name="getAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentName_result">
+					SELECT agent_name 
+					FROM preferred_agent_name 
+					WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+				</cfquery>
+				<cfif getAgentName.recordcount EQ 0>
+				 	<cfthrow message="specified agent [#encodeForHtml(agent_id)#] not found">
+				</cfif>
+				<h2 class="h2">Agent Rankings for #getAgentName.agent_name#</h2>
+				<cfquery name="getRankDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRankDetails_result">
+					SELECT 
+						agent_rank,
+						transaction_type,
+						rank_date,
+						agent_name ranker, 
+						remark
+					FROM 
+						agent_rank
+						left join preferred_agent_name on ranked_by_agent_id=preferred_agent_name.agent_id
+					WHERE 
+						agent_rank.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+					ORDER BY
+						agent_rank, rank_date
+				</cfquery>
+				<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_rank from ctagent_rank order by agent_rank
+					</cfquery>
+				<cfelse>
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
+					</cfquery>
+				</cfif>
+				<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select transaction_type from cttransaction_type order by transaction_type
+				</cfquery>
+				<h3 class="h3">
+					<strong><a href='/agents/Agent.cfm?agent_id=#agent_id#' target='_blank'>#getAgentName.agent_name#</a></strong> 
+					has been ranked #getRankDetails.recordcount# times.
+				</h3>
+				<cfif getRankDetails.recordcount gt 0>
+					<cfquery name="getRankSummary" dbtype="query">
+						SELECT agent_rank, count(*) ct 
+						FROM getRankDetails
+						GROUP BY agent_rank
+					</cfquery>
+					<table border>
+						<tr>
+							<th>rank</th>
+							<th>##</th>
+							<th>%</th>
+						</tr>
+						<cfloop query="getRankSummary">
+							<cfset portion=round((getRankSummary.ct/getRankDetails.recordcount) * 100)>
+							<tr>
+								<td>#getRankSummary.agent_rank#</td>
+								<td>#getRankSummary.ct#</td>
+								<td>#portion#</td>
+							</tr>
+						</cfloop>
+					</table>
+					<span class="infoLink" id="t_agentRankDetails" onclick="tog_AgentRankDetail(1)">Show Details</span>
+					<div id="agentRankDetails" style="display:none">
+						<table border>
+							<tr>
+								<th>Rank</th>
+								<th>Trans</th>
+								<th>Date</th>
+								<th>Ranker</th>
+								<th>Remark</th>
+							</tr>
+							<cfloop query="getRankDetails">
+								<tr>
+									<td>#agent_rank#</td>
+									<td>#transaction_type#</td>
+									<td nowrap="nowrap">#dateformat(rank_date,"yyyy-mm-dd")#</td>
+									<td nowrap="nowrap">#replace(ranker," ", "&nbsp;","all")#</td>
+									<td>#remark#</td>
+								</tr>					 
+							</cfloop>
+						</table>
+					</div>
+				</cfif><!--- has any rankings --->
+
+				<span class="infoLink" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
+				<form name="a" method="post" action="agentrank.cfm">
+					<div id="agentRankCreate" class="form-row">
+						<div class="col-12">
+							<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
+							<input type="hidden" name="action" id="action" value="saveRank">
+							<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
+							<select name="agent_rank" id="agent_rank" class="data-entry-select">
+								<cfloop query="ctagent_rank">
+									<option value="#agent_rank#">#agent_rank#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
+							<select name="transaction_type" id="transaction_type" class="data-entry-select">
+								<cfloop query="cttransaction_type">
+									<option value="#transaction_type#">#transaction_type#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label class="data-entry-label" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
+							<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
+						</div>
+						<div class="col-12">
+								<input type="button" class="savBtn" value="Save" onclick="saveAgentRank()">
+								<input type="button" class="qutBtn" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
+						</div>
+					</div>
+				</form>
+				<output id="saveAgentRankFeedback"></output>
+				<script>
+					$( document ).ready(function() { 
+						$('##agentRankCreate').hide(); 
+					});
+				</script>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="createAddressThread" />
+	<cfreturn createAddressThread.output>
+</cffunction>
+</cfif><!--- has role manage agent ranking --->
+
 </cfcomponent>
