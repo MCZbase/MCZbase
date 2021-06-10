@@ -33,7 +33,7 @@
 								<h2 class="h2">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT DISTINCT rand() as rand, media_uri, preview_uri,media_type,
+									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
@@ -50,7 +50,7 @@
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										and rownum <= 10
-									order by rand
+									ORDER BY flat.guid asc
 								</cfquery>
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT media_uri
