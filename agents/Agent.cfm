@@ -420,7 +420,7 @@ limitations under the License.
 								</cfif>
 								<ul>
 									<cfloop collection="#relatedTo#" item="key">
-										<li>#key# (#relatedTo[key]#)"</li>
+										<li>#key# (#relatedTo[key]#)</li>
 									</cfloop>
 								</ul>
 							</div>
