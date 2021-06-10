@@ -495,12 +495,12 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description"	aria-labelledby="html_description_label" ></textarea>
+										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" ></textarea>
 									</div>
 									<script>
 										$(document).ready(function () {
 											$('##html_description').jqxEditor({
-												height: 800, width: 800, resizable: true
+												resizable: true
 											});
 										});
 									</script>
@@ -662,7 +662,7 @@ limitations under the License.
 									<script>
 										$(document).ready(function () {
 											$('##html_description').jqxEditor({
-												height: 800, width: 800, resizable: true
+												resizable: true
 											});
 										});
 									</script>
