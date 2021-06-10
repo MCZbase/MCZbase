@@ -389,6 +389,13 @@ limitations under the License.
 						<cfif oneOfUs EQ 1>
 							<!--- foreign key relationships to other tables --->
 							<div>
+								<cfquery name="getFKFields" datasource="uam_god">
+									SELECT all_constraints.table_name, column_name, delete_rule 
+									FROM all_constraints
+										left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
+									WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
+									ORDER BY all_constraints.table_name
+								</cfquery>
 								<cfset relatedTo = StructNew() >
 								<cfset okToDelete = true>
 								<cfloop query="getFKFields">
