@@ -52,7 +52,7 @@
 										and rownum <= 10
 									ORDER BY flat.guid asc
 								</cfquery>
-								<cfquery name="specImageCt">
+								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT DISTINCT media_uri
 									FROM
 										underscore_collection
