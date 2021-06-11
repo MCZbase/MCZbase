@@ -30,10 +30,10 @@
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
 								<cfif len(html_description)gt 0>
-								<div class="" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
-									</cfif>
+									<div class="" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
+								</cfif>
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
-								<h2 class="mt-4 pt-3">Description</h2>
+								<h2 class="pt-3">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri,media_type,
