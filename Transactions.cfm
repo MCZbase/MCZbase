@@ -140,149 +140,150 @@ limitations under the License.
 	order by ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-	from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'accn'
-	group by ctpermit_type.permit_type
-	order by ctpermit_type.permit_type
+	WHERE 
+		trans.transaction_type = 'accn'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'accn'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+	WHERE
+		trans.transaction_type = 'accn'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-	from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'loan'
-	group by ctpermit_type.permit_type
-	order by ctpermit_type.permit_type
+	WHERE 
+		trans.transaction_type = 'loan'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'loan'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+	WHERE
+		trans.transaction_type = 'loan'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-	from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'deaccession'
-	group by ctpermit_type.permit_type
-	order by ctpermit_type.permit_type
+	WHERE 
+		trans.transaction_type = 'deaccession'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'deaccession'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+	WHERE
+		trans.transaction_type = 'deaccession'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-	from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'borrow'
-	group by ctpermit_type.permit_type
-	order by ctpermit_type.permit_type
+	WHERE 
+		trans.transaction_type = 'borrow'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-	where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-		and permit.permit_id = permit_trans.permit_id (+)
-		and permit.permit_id = permit_shipment.permit_id (+)
-		and permit_shipment.shipment_id = shipment.shipment_id (+)
-		and (
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			or
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
-		and trans.transaction_type = 'borrow'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+	WHERE
+		trans.transaction_type = 'borrow'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as cnt, ct.trans_agent_role 
-	from cttrans_agent_role ct left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
-	group by ct.trans_agent_role
-	order by ct.trans_agent_role
+	SELECT count(*) as cnt, ct.trans_agent_role 
+	FROM cttrans_agent_role ct 
+		left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
+	GROUP BY ct.trans_agent_role
+	ORDER BY ct.trans_agent_role
 </cfquery>
 <cfset selectedCollection = ''>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
@@ -599,8 +600,8 @@ limitations under the License.
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 								<button class="px-5 #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="3" role="tab"  aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button> 	
+								<button class="px-5 #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
 								<button class="px-5 #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
 								<button class="px-5 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
 							</div>
@@ -608,7 +609,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#" #allTabShow#>
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -788,7 +789,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0" #loanTabShow#>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -796,7 +797,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'loan') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Loan'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1180,7 +1181,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'accn') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1446,7 +1447,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%'  });
+																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
 																setAccnDispositionValues();
 															});
 														</script> 
@@ -1496,7 +1497,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0"  aria-label="pick a permit" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 														<script>
 															function handleAPermitPickAction(event) {
 																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
@@ -1622,7 +1623,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'deaccession') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1894,7 +1895,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%'  });
+																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
 																setDeaccDispositionValues();
 															});
 														</script> 
@@ -1945,7 +1946,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append"> <span role="button" class="data-entry-addon"  aria-label="pick a permit" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" aria-label="pick a permit" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
 															function handleDePermitPickAction(event) {
 																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
