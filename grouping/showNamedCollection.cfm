@@ -337,10 +337,7 @@
 										
 									
 									</cfif>
-						<form id="searchNGForm" class="mt-2" action="">
-  								<input type="text" placeholder="Search.." name="search">
- 									 <button type="submit"><i class="fa fa-search"></i></button>
-								</form>
+				
 									<script>
 									$('##searchNGForm').bind('getNamedGroups', function(evt){
 										evt.preventDefault();
