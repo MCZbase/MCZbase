@@ -396,8 +396,7 @@
 												$("##searchNGResultsGrid").jqxGrid('selectrow', 0);
 											},
 											columns: [
-												{text: 'Collection Object ID', datafield: 'collection_object_id', width:120},
-												{text: 'Collection', datafield: 'collection', width: 120},
+												{text: 'GUID', datafield: 'GUID', width:120},
 												{text: 'Cataloged Item', datafield: 'cat_num', width: 100},
 												{text: 'Scientific Name', datafield: 'sci_name', width: 250},
 												{text: 'Began Date', datafield: 'began_date', width: 80 },
