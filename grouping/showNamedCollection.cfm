@@ -337,7 +337,7 @@
 										
 									
 									</cfif>
-							<form id="searchNGForm" class="mt-2" action="showNamedCollection.cfm?action=search&underscore_collection_id=#underscore_collection_id#">
+						<form id="searchNGForm" class="mt-2" action="/grouping/showNamedCollection.cfm?action=search&underscore_collection_id=#underscore_collection_id#">
   								<input type="text" placeholder="Search.." name="search">
  									 <button type="submit"><i class="fa fa-search"></i></button>
 								</form>
