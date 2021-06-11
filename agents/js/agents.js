@@ -878,7 +878,7 @@ function saveAgentRank(agent_id, agent_rank, remark, transaction_type,feedbackDi
 		},
 		function (data) {
 			if(data.length>0 && data.substring(0,4)=='fail'){
-				console.(data);
+				console.log(data);
 				$('#' + feedbackDivId).append(data);
 			} else {
 				var feedback = 'Thank you for adding an agent rank.';
