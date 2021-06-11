@@ -1971,6 +1971,10 @@ limitations under the License.
 
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="no">
+	<cfargument name="GUID" type="string" required="no">
+	<cfargument name="SCIENTIFIC_NAME" type="string" required="no">
+	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
