@@ -2426,7 +2426,7 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="agentRankDialogThread">
+	<cfthread action="join" name="agentRankDialogThread" />
 	<cfreturn agentRankDialogThread.output>
 </cffunction>
 
