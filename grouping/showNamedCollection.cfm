@@ -323,7 +323,7 @@
 											and flat.guid is not null
 										ORDER BY flat.guid asc
 									</cfquery>
-									<cfif agents.recordcount GT 0>
+									<cfif specimens.recordcount GT 0>
 										<div class="col-12">
 											<h3>Specimen Records</h3>
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
@@ -335,7 +335,72 @@
 											</ul>
 										</div>
 									</cfif>
-										
+									<script>
+									$('##searchNGForm').bind('submit', function(evt){
+										evt.preventDefault();
+
+										$("##searchNGResultsGrid").replaceWith('<div id="searchNGResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+
+										var search =
+										{
+											datatype: "json",
+											datafields:
+											[
+												{ name: 'guid', type: 'string' },
+												{ name: 'scientific_name', type: 'string' },
+												{ name: 'verbatim_date', type: 'string' },
+												{ name: 'spec_locality', type: 'string' }
+											],
+											updaterow: function (rowid, rowdata, commit) {
+												commit(true);
+											},
+											root: 'namedGroupRecord',
+											id: 'collection_object_id',
+											url: '/specimens/component/public.cfc?' + $('##searchNGForm').serialize(),
+											timeout: 30000, // units not specified, miliseconds? 
+											loadError: function(jqXHR, textStatus, error) { 
+												handleFail(jqXHR,textStatus,error,"running named group search");
+											},
+											async: true
+										};
+
+										var dataAdapter = new $.jqx.dataAdapter(search);
+										}
+										$("##searchNGResultsGrid").jqxGrid({
+											width: '100%',
+											autoheight: 'true',
+											source: dataAdapter,
+											filterable: true,
+											sortable: true,
+											pageable: true,
+											editable: false,
+											pagesize: 50,
+											pagesizeoptions: ['5','50','100'],
+											showaggregates: true,
+											columnsresize: true,
+											autoshowfiltericon: true,
+											autoshowcolumnsmenubutton: false,
+											autoshowloadelement: false, // overlay acts as load element for form+results
+											columnsreorder: true,
+											groupable: true,
+											selectionmode: 'singlerow',
+											altrows: true,
+											showtoolbar: false,
+											ready: function () {
+												$("##searchNGResultsGrid").jqxGrid('selectrow', 0);
+											},
+											columns: [
+												{text: 'Collection Object ID', datafield: 'collection_object_id', width:120},
+												{text: 'Collection', datafield: 'collection', width: 120},
+												{text: 'Cataloged Item', datafield: 'cat_num', width: 100},
+												{text: 'Scientific Name', datafield: 'sci_name', width: 250},
+												{text: 'Began Date', datafield: 'began_date', width: 80 },
+												{text: 'Ended Date', datafield: 'ended_date', width: 80},
+												{text: 'Locality', datafield: 'spec_locality', width: 170}
+											]
+										});
+									});
+									</script>	
 								
 								</div>
 							</div>
