@@ -80,6 +80,9 @@
 									from underscore_collection
 									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>
+									<cfquery name="getAgent" dbtype="query">
+									select agent_name from undColl
+									</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
@@ -94,7 +97,7 @@
 												<cfset active = '' >
 											</cfloop>
 										</ol>
-												#underscore_agent_id#
+											
 										<!--/.Indicators---> 
 										<!--Slides-->
 										<div class="carousel-inner" role="listbox">
