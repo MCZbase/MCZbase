@@ -384,7 +384,7 @@ limitations under the License.
 					} else if (rank=="B") {
 						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag'</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag + '</span>';
 				};
 			</cfif>
 	
