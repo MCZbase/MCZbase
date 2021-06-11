@@ -659,6 +659,7 @@ limitations under the License.
 											overflow:scroll;
 											padding: 10px;
 											height: 500px;
+											width: 900px;
 										}
 									</style>
 									<div class="col-md-12">
