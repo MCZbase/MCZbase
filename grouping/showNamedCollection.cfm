@@ -336,14 +336,14 @@
 											</ul>
 										</div>
 									</cfif>
-<cfoutput>		
-<style>
-		#toolbar {
+										<cfoutput>		
+								   <style>
+		##toolbar {
 			display: flex;
 			height: 100%;
 			padding: 0 1rem;
 		}
-			#toolbar.warning:after {
+			##toolbar.warning:after {
 				content: 'Selected data cannot be used to create a chart.';
 				position: absolute;
 				top: 50%;
@@ -351,7 +351,7 @@
 				transform: translateY(-50%);
 				color: var(--smart-error);
 			}
-			#toolbar > div {
+			##toolbar > div {
 				display: flex;
 				align-items: flex-end;
 				justify-content: center;
@@ -365,31 +365,31 @@
 				user-select: none;
 				cursor: pointer;
 			}
-				#toolbar > div:hover {
+				##toolbar > div:hover {
 					background-color: var(--smart-grid-column-header-background-hover);
 				}
-				#toolbar > div:active {
+				##toolbar > div:active {
 					background-color: var(--smart-grid-column-header-background-active);
 				}
-				#toolbar > div.warning {
+				##toolbar > div.warning {
 					outline: 2px solid var(--smart-error);
 				}
-		#column {
+		##column {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-column.png");
 		}
-		#line {
+		##line {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-line.png");
 		}
-		#pie {
+		##pie {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-pie.png");
 		}
-		#bar {
+		##bar {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-bar.png");
 		}
-		#area {
+		##area {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-area.png");
 		}
-		#scatter {
+		##scatter {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-scatter.png");
 		}
 		[theme="dark"] #column {
@@ -499,7 +499,7 @@
             <div id="scatter">Scatter</div>
         </div>
 	</template>
-	<div id="jqxgrid"></div></cfoutput>
+    <div id="jqxgrid"></div>
 								</div>
 							</div>
 						</div>
