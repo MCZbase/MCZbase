@@ -673,7 +673,6 @@ limitations under the License.
 											var resizable = $('##html_description').jqxEditor({
 												width:"auto", 
 												height:"500px"
-												
 											}); 
 										});
 									</script>

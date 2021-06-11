@@ -69,6 +69,17 @@
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										
 								</cfquery>
+								<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
+									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
+										case 
+											when underscore_agent_id is null then '[No Agent]'
+											else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
+											end
+										as agentname,
+										mask_fg
+									from underscore_collection
+									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
 									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
@@ -83,6 +94,7 @@
 												<cfset active = '' >
 											</cfloop>
 										</ol>
+												#agentname#
 										<!--/.Indicators---> 
 										<!--Slides-->
 										<div class="carousel-inner" role="listbox">
