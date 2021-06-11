@@ -30,7 +30,7 @@
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
 								<cfif len(html_description)gt 0>
-									<div class="" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
+									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
 								</cfif>
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								<h2 class="pt-3">Description</h2>
