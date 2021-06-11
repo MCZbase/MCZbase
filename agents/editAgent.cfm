@@ -231,7 +231,7 @@ limitations under the License.
 													loadAgentRankSummary('agentRankSummary',agentId);
 												}
 											</script>
- 											<input type="button" class="btn btn-secondary" value="Rank" 
+ 											<input type="button" class="btn btn-xs btn-secondary" value="Rank" 
 												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#, reloadAgentRanks); ">
 											&nbsp;&nbsp;
 											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>

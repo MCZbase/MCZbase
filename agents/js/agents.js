@@ -881,7 +881,7 @@ function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {
 		dataType : "json",
 		data : {
 			method : "getAgentRankDialogHtml",
-			agent_id : agent_id
+			agent_id : agentId
 		},
 		success: function (result) {
 			$("#"+dialogDivId).html(result);
@@ -897,7 +897,6 @@ function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {
 						}
 					},
 					beforeClose: function(event,ui) { 
-						var addr = $('#new_address').val();
 						if (jQuery.type(callback)==='function') {
 							callback();
 						}
