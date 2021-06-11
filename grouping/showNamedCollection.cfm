@@ -34,7 +34,7 @@
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif len(html_description)gt 0>
-									<div class="pb-2" style="border-top: 8px solid ##000">#getNamedGroup.html_description# </div>
+									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
 								</cfif>
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								
@@ -337,7 +337,7 @@
 										
 									
 									</cfif>
-							<form id="searchNGForm" class="mt-2" action="showNamedCollection.cfm">
+							<form id="searchNGForm" class="mt-2" action="showNamedCollection.cfm?action=search&underscore_collection_id=#underscore_collection_id#">
   								<input type="text" placeholder="Search.." name="search">
  									 <button type="submit"><i class="fa fa-search"></i></button>
 								</form>
