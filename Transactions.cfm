@@ -121,7 +121,7 @@ limitations under the License.
 		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
 		left join trans on (
 			shipment.transaction_id = trans.transaction_id
-			ON
+			OR
 			permit_trans.transaction_id = trans.transaction_id
 		)
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
