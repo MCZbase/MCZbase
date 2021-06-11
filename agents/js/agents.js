@@ -870,7 +870,7 @@ function saveAgentRank(agent_id, agent_rank, remark, transaction_type,feedbackDi
 			agent_id : agent_id,
 			agent_rank : agent_rank,
 			remark : remark,
-			transaction_type : #transaction_type,
+			transaction_type : transaction_type,
 			returnformat : 'json',
 			queryformat : 'column'
 		},
