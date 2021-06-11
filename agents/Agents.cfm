@@ -195,7 +195,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -206,7 +206,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -217,7 +217,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-1">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
@@ -254,7 +254,12 @@ limitations under the License.
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#phone#" aria-labelledby="phone_label" >
 										</div>
-										<div class="col-12 col-md-2">
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<cfset vcollmd = "col-md-1">
+										<cfelse>
+											<cfset vcollmd = "col-md-2">
+										</cfif>
+										<div class="col-12 #vcolmd#">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
@@ -264,6 +269,18 @@ limitations under the License.
 												<option value="0" #sel#>No</option>
 											</select>
 										</div>
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<div class="col-12 col-md-1">
+												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
+												<select id="ranking" name="ranking" class="data-entry-select">
+													<option></option>
+													<cfif ranking EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="none" #sel# >None (A)</option>
+													<cfif ranking EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="any" #sel#>Any (B-F)</option>
+												</select>
+											</div>
+										</cfif>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>

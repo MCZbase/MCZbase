@@ -40,6 +40,7 @@ limitations under the License.
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
+	<cfargument name="ranking" type="string" required="no">
 
 	<!--- clear any arguments where only an operator is given without a search term --->
 	<cfif isdefined("first_name") AND first_name IS "="><cfset first_name = ""></cfif>
@@ -401,6 +402,15 @@ limitations under the License.
 							where upper(address) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(phone)#%">
 								and address_type <> 'email'
 						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfif isdefined("ranking") AND len(#ranking#) gt 0>
+						<cfif ranking EQ "any">
+							AND MCZBASE.get_worstagentrank(agent.agent_id) <> 'A'
+						<cfelseif ranking EQ "none">
+							AND MCZBASE.get_worstagentrank(agent.agent_id) = 'A'
+					 	</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY 
