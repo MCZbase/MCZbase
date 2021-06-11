@@ -342,7 +342,7 @@
  									 <button type="submit"><i class="fa fa-search"></i></button>
 								</form>
 									<script>
-									$('##searchNGForm').bind('submit', function(evt){
+									$('##searchNGForm').bind('getNamedGroups', function(evt){
 										evt.preventDefault();
 
 										$("##searchNGResultsGrid").replaceWith('<div id="searchNGResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
