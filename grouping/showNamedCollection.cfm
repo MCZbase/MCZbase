@@ -335,7 +335,7 @@
 											</ul>
 										</div>
 										
-										<div id="##searchNGResultsGrid"></div>
+									
 									</cfif>
 									<script>
 									$('##searchNGForm').bind('submit', function(evt){
@@ -403,7 +403,7 @@
 										});
 									});
 									</script>	
-								
+									<div id="##searchNGResultsGrid"></div>
 								</div>
 							</div>
 						</div>
