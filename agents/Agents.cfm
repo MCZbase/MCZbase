@@ -95,6 +95,9 @@ limitations under the License.
 	<cfif not isdefined("edited")> 
 		<cfset edited="">
 	</cfif>
+	<cfif not isdefined("ranking")> 
+		<cfset ranking="">
+	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
