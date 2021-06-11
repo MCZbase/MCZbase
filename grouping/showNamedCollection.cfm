@@ -392,22 +392,22 @@
 		##scatter {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-scatter.png");
 		}
-		[theme="dark"] #column {
+		[theme="dark"] ##column {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-column-dark.png");
 		}
-		[theme="dark"] #line {
+		[theme="dark"] ##line {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-line-dark.png");
 		}
-		[theme="dark"] #pie {
+		[theme="dark"] ##pie {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-pie-dark.png");
 		}
-		[theme="dark"] #bar {
+		[theme="dark"] ##bar {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-bar-dark.png");
 		}
-		[theme="dark"] #area {
+		[theme="dark"] ##area {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-area-dark.png");
 		}
-		[theme="dark"] #scatter {
+		[theme="dark"] ##scatter {
 			background-image: url("/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/styles/images/create-scatter-dark.png");
 		}
 	</style>
