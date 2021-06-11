@@ -838,11 +838,11 @@ function loadAgentRankSummary(targetId,agentId) {
 					output = output + result.DATA.CT[a] + "&nbsp;" + result.DATA.AGENT_RANK[a];
 					if (result.DATA.AGENT_RANK[a]=='F') {
 						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>";
-					} else if (result.DATA.AGENT_RANK[a]=='B' and flag=="") { 
+					} else if (result.DATA.AGENT_RANK[a]=='B' && flag=="") { 
 						flag ="&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
-					} else if (result.DATA.AGENT_RANK[a]=='C' and flag=="") { 
+					} else if (result.DATA.AGENT_RANK[a]=='C' && flag=="") { 
 						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
-					} else if (result.DATA.AGENT_RANK[a]=='D' and flag=="") { 
+					} else if (result.DATA.AGENT_RANK[a]=='D' && flag=="") { 
 						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					}
 					if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
