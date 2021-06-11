@@ -336,8 +336,7 @@
 											</ul>
 										</div>
 									</cfif>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.js"></script>	
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.0.4/jqwidgets/jqxgrid.chart.js"></script>	
+
 		
 		<style>
 		##toolbar {
