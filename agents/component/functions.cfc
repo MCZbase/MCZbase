@@ -2394,8 +2394,8 @@ limitations under the License.
 							<input type="hidden" name="action" id="action" value="saveRank">
 							<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
 							<select name="agent_rank" id="agent_rank" class="data-entry-select reqdClr" required>
+								<option value=""></option>
 								<cfloop query="ctagent_rank">
-									<option value=""></option>
 									<option value="#agent_rank#">#agent_rank#</option>
 								</cfloop>
 							</select>
@@ -2403,8 +2403,8 @@ limitations under the License.
 						<div class="col-12">
 							<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
 							<select name="transaction_type" id="transaction_type" class="data-entry-select reqdClr" required>
+								<option value=""></option>
 								<cfloop query="cttransaction_type">
-									<option value=""></option>
 									<option value="#transaction_type#">#transaction_type#</option>
 								</cfloop>
 							</select>
