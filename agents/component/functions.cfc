@@ -2430,7 +2430,7 @@ limitations under the License.
 						$("##addRankingButton").click(function(evt) { 
 							evt.preventDefault();
 							var okToSave = true;
-							if ($('##remark').val()=="" && ($('##agent_rank').val=='C' || $('##agent_rank').val=='D' || $('##agent_rank').val=='F')) {
+							if ($('##remark').val()=="" && ($('##agent_rank').val()=='C' || $('##agent_rank').val()=='D' || $('##agent_rank').val()=='F')) {
 								okToSave = false;
 								messageDialog("A remark is required for unsatisfacotry rankings.","Remark Required");
 							}
