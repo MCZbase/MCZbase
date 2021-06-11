@@ -29,7 +29,7 @@
 						</div>
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
-								<div class="mt-4 pt-3" style="border-bottom: 8px solid ##000">
+								<div class="mb-4 pb-3" style="border-bottom: 8px solid ##000">
 									<h2 class="">Description</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
