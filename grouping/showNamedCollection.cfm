@@ -362,7 +362,7 @@
 											},
 											root: 'namedGroupRecord',
 											id: 'collection_object_id',
-											url: '/specimens/component/public.cfc?' + $('##searchNGForm').serialize(),
+											url: '/specimens/component/public.cfc?',
 											timeout: 30000, // units not specified, miliseconds? 
 											loadError: function(jqXHR, textStatus, error) { 
 												handleFail(jqXHR,textStatus,error,"running named group search");
