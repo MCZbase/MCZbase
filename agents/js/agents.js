@@ -872,6 +872,20 @@ function saveAgentRank(){
 	);
 }
 
+// Toggle the agent rank details block on the agent rank dialog.
+function tog_AgentRankDetail(toState){
+	if(toState==1){
+		document.getElementById('agentRankDetails').style.display='block';
+		jQuery('#t_agentRankDetails').text('Hide Details').removeAttr('onclick').bind("click", function() {
+			tog_AgentRankDetail(0);
+		});
+	} else {
+		document.getElementById('agentRankDetails').style.display='none';
+		jQuery('#t_agentRankDetails').text('Show Details').removeAttr('onclick').bind("click", function() {
+			tog_AgentRankDetail(1);
+		});
+	}
+}
 /** given a div with a specified id and an agent_id, create dialog to view/add agent 
  *  rankings  */
 function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {

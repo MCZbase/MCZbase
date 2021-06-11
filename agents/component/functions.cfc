@@ -2288,6 +2288,10 @@ limitations under the License.
 	</cftry>
 </cffunction>
 
+<!--- ** return an html to populate an agent ranking dialog for an agent.
+ * @param agent_id the agent for which to look up agent rankings and create the dialgo content.
+ * @return a block of html suitable for populating a dialog, or html containing an error message.
+--->
 <cffunction name="getAgentRankDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="agent_id" type="string" required="no">
 
