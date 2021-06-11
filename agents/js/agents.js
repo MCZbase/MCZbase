@@ -832,18 +832,18 @@ function loadAgentRankSummary(targetId,agentId) {
 		},
 		function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				var output = "Ranking: " ;
-				var flag = "" ;
+				var output = "Ranking: ";
+				var flag = "";
 				for (a=0; a<result.ROWCOUNT; ++a) {
-					output = output + result.DATA.CT[a] + "&nbsp;" + result.DATA.AGENT_RANK[a] ;
+					output = output + result.DATA.CT[a] + "&nbsp;" + result.DATA.AGENT_RANK[a];
 					if (result.DATA.AGENT_RANK[a]=='F') {
-						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>" ;
+						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>";
 					} else if (result.DATA.AGENT_RANK[a]=='B' and flag=="") { 
-						output = output + "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+						flag ="&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} else if (result.DATA.AGENT_RANK[a]=='C' and flag=="") { 
-						output = output + "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} else if (result.DATA.AGENT_RANK[a]=='D' and flag=="") { 
-						output = output + "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					}
 					if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
 				}
