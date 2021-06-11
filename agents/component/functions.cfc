@@ -2412,7 +2412,7 @@ limitations under the License.
 							<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
 						</div>
 						<div class="col-12">
-							<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addAddrButton">
+							<input type="button" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
 							<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
 						</div>
 					</div>
@@ -2421,8 +2421,11 @@ limitations under the License.
 				<script>
 					$(document).ready(function () {
 						$('##agentRankCreate').hide(); 
+						$("##addAgentRankForm").submit(function(evt) { 
+							evt.preventDefault();
+						});
 
-						$("##addAddrButton").click(function(evt) { 
+						$("##addRankingButton").click(function(evt) { 
 							evt.preventDefault();
 							var agent_id = $('##agent_id').val(),
 							var agent_rank = $('##agent_rank').val(),
