@@ -374,15 +374,15 @@ limitations under the License.
 				var rankCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var rank = rowData['worstagentrank'];
-					var flag = ""
+					var flag = "";
 					if (rank=="F") { 
-						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>"
+						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>";
 					} else if (rank=="D") {
-						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} else if (rank=="C") {
-						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} else if (rank=="B") {
-						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
 					} 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag'</span>';
 				};
