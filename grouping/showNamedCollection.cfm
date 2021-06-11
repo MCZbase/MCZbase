@@ -336,8 +336,8 @@
 											</ul>
 										</div>
 									</cfif>
-										<cfoutput>		
-								   <style>
+									
+		<style>
 		##toolbar {
 			display: flex;
 			height: 100%;
