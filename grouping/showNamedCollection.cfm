@@ -241,6 +241,7 @@
 	<!---  WARNING: indentation is not clean, nesting of divs may be broken.  Clean up indentation and verify nesting of tags. --->
 						
 							<div class="col-12 col-md-6 mt-1 float-left">
+						
 								<div class="row">
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxa_class_result">
 										SELECT DISTINCT flat.phylclass as phylclass 
@@ -335,8 +336,8 @@
 											</ul>
 										</div>
 									</cfif>
-										
-								   <style>
+<cfoutput>		
+<style>
 		#toolbar {
 			display: flex;
 			height: 100%;
@@ -498,7 +499,7 @@
             <div id="scatter">Scatter</div>
         </div>
 	</template>
-    <div id="jqxgrid"></div>
+	<div id="jqxgrid"></div></cfoutput>
 								</div>
 							</div>
 						</div>
