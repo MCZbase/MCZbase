@@ -226,31 +226,13 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
-<script>
-function opendialogrank(page,id,title,agentId) {
-  var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-  var adialog = $(id)
-  .html(content)
-  .dialog({
-    title: title,
-    autoOpen: false,
-    dialogClass: 'dialog_fixed,ui-widget-header',
-    modal: true,
-    position: { my: "top", at: "center", of: id },
-    height: 450,
-    width: 550,
-    minWidth: 300,
-    minHeight: 250,
-    draggable:true,
-    resizable:true,
-    buttons: { "Ok": function () { $(this).dialog("destroy"); $(id).html(''); loadAgentRankSummary('agentRankSummary',agentId);  } },
-    close: function() {  $(this).dialog("destroy"); $(id).html(''); loadAgentRankSummary('agentRankSummary',agentId); }
-  });
-  adialog.dialog('open');
-};
-</script>
- 											<input type="button" class="lnkBtn" value="Rank" 
-												onclick="opendialogrank('/form/agentrank.cfm?agent_id=#agent_id#','##agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#);">
+											<script>
+												function reloadAgentRanks() { 
+													loadAgentRankSummary('agentRankSummary',agentId);
+												}
+											</script>
+ 											<input type="button" class="btn btn-secondary" value="Rank" 
+												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#, reloadAgentRanks); ">
 											&nbsp;&nbsp;
 											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
 										</cfif>

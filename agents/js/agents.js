@@ -871,3 +871,48 @@ function saveAgentRank(){
 		}
 	);
 }
+
+/** given a div with a specified id and an agent_id, create dialog to view/add agent 
+ *  rankings  */
+function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "getAgentRankDialogHtml",
+			agent_id : agent_id
+		},
+		success: function (result) {
+			$("#"+dialogDivId).html(result);
+			$("#"+dialogDivId).dialog(
+				{ autoOpen: false, 
+					modal: true, 
+					stack: true, 
+					title: dialogTitle,
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#"+dialogDivId).dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						var addr = $('#new_address').val();
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#"+dialogDivId).dialog('destroy'); 
+						$("#"+dialogDivId).html(""); 
+					}
+				});
+				$("#"+dialogDivId).dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"opening dialog to rank an agent");
+			},
+			dataType: "html"
+		}
+	)
+};
