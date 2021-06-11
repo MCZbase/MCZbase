@@ -34,7 +34,7 @@
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif len(html_description)gt 0>
-									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
+									<div class="pb-2">#getNamedGroup.html_description# </div>
 								</cfif>
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								
