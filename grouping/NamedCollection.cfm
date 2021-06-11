@@ -671,8 +671,8 @@ limitations under the License.
 										$(document).ready(function () {
 											$('##html_description').jqxEditor();
 											var resizable = $('##html_description').jqxEditor({
-												width:"1800px", 
-												height:"500px",
+												width:"auto", 
+												height:"500px"
 												
 											}); 
 										});
