@@ -334,6 +334,8 @@
 												</cfloop>
 											</ul>
 										</div>
+										
+										<div id="##searchNGResultsGrid"></div>
 									</cfif>
 									<script>
 									$('##searchNGForm').bind('submit', function(evt){
