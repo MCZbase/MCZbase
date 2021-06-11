@@ -670,7 +670,11 @@ limitations under the License.
 									<script>
 										$(document).ready(function () {
 											$('##html_description').jqxEditor();
-											var resizable = $('##html_description').jqxEditor({width:"auto", height:"500px"}); 
+											var resizable = $('##html_description').jqxEditor({
+												width:"1800px", 
+												height:"500px",
+												
+											}); 
 										});
 									</script>
 								</div>
