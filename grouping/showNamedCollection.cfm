@@ -30,7 +30,7 @@
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
 								#getNamedGroup.html_description# <!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
-								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Description</h2>
+								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Description</h2>
 								<p class="">#getNamedGroup.description#</p>
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri,media_type,
@@ -81,11 +81,11 @@
 									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 									and underscore_collection.underscore_agent_id = agent_name.agent_id
 								</cfquery>
-								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Associated Agent</h2>
+								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Associated Agent</h2>
 									<p class="">#undColl.agent_name#</p>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
-									<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
+									<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
 									<p>#specimenImageCount# Specimen Images</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
@@ -124,7 +124,7 @@
 									<!--/.Carousel Wrapper-->
 								</cfif><!--- end specimen image loop --->
 
-								<h2 class="mt-5 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
+								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
 								<cfquery name="localityImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImageQuery_result">
 									SELECT DISTINCT media_uri, preview_uri,media_type,
