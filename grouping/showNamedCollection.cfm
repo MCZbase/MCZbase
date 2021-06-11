@@ -81,7 +81,7 @@
 									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>
 									<cfquery name="getAgent" dbtype="query">
-									select agent_name from undColl
+									select agent_name from agent_name, undColl where undColl.underscore_agent_id = agent_name.agent_id
 									</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
