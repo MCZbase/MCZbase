@@ -413,7 +413,7 @@
 	</style>
 	<script type="text/javascript">
         window.onload = function() {
-            var grid = new jqxGrid("#jqxgrid", {
+            var grid = new jqxGrid("##jqxgrid", {
                 width: '100%',
 				autoheight: true,
 				rendertoolbar: function(toolbar){
@@ -423,22 +423,22 @@
 					
 					toolbarElement.appendChild(chartToolbar);	
 					
-				    toolbarElement.querySelector('#column').addEventListener('click', function () {
+				    toolbarElement.querySelector('##column').addEventListener('click', function () {
 						grid.createChart('column');
 					});
-					toolbarElement.querySelector('#line').addEventListener('click', function () {
+					toolbarElement.querySelector('##line').addEventListener('click', function () {
 						grid.createChart('line');
 					});
-					toolbarElement.querySelector('#pie').addEventListener('click', function () {
+					toolbarElement.querySelector('##pie').addEventListener('click', function () {
 						grid.createChart('pie');
 					});
-					toolbarElement.querySelector('#bar').addEventListener('click', function () {
+					toolbarElement.querySelector('##bar').addEventListener('click', function () {
 						grid.createChart('bar');
 					});
-					toolbarElement.querySelector('#area').addEventListener('click', function () {
+					toolbarElement.querySelector('##area').addEventListener('click', function () {
 						grid.createChart('area');
 					});
-					toolbarElement.querySelector('#scatter').addEventListener('click', function () {
+					toolbarElement.querySelector('##scatter').addEventListener('click', function () {
 						grid.createChart('scatter');
 					});
 				},
