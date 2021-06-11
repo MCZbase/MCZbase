@@ -656,10 +656,10 @@ limitations under the License.
 									<style>
 										.jqx-editor-content {
 											resize:both;
-											overflow:scroll;
+											overflow:hidden;
 											padding: 10px;
 											height: 500px;
-											width: 900px;
+											width: auto;
 										}
 									</style>
 									<div class="col-md-12">
