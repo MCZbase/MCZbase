@@ -70,7 +70,7 @@
 										
 								</cfquery>
 								<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name
+									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,
 										case 
 											when underscore_agent_id is null then '[No Agent]'
 											else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
