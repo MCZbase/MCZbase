@@ -823,56 +823,74 @@ function addElectronicAddressToAgent(agent_id,addressControl,addressTypeControl,
 // *** functions for dealing with agent ranks ****
 
 function loadAgentRankSummary(targetId,agentId) {
-   jQuery.getJSON("/agents/component/functions.cfc",
-      {
-         method : "getAgentRanks",
-         agent_id : agentId,
-         returnformat : 'json',
-         queryformat : 'column'
-      },
-      function (result) {
-         if (result.DATA.STATUS[0]==1) {
-            var output = "Ranking: " ;
-  	    for (a=0; a<result.ROWCOUNT; ++a) {
-               output =  output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a]
-               if (result.DATA.AGENT_RANK[a]=='F') {
-                  output = output + "<img src='/images/flag-red.svg.png' width='16'>" ;
-               }
-               if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
-            }
-            $("#" + targetId).html(output);
-         } else {
-            $("#" + targetId).html(result.DATA.MESSAGE[0]);
-         }
-      }
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "getAgentRanks",
+			agent_id : agentId,
+			returnformat : 'json',
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var output = "Ranking: " ;
+				for (a=0; a<result.ROWCOUNT; ++a) {
+					output = output + result.DATA.AGENT_RANK[a] + "&nbsp;" + result.DATA.CT[a]
+					if (result.DATA.AGENT_RANK[a]=='F') {
+						output = output + "<img src='/agents/images/flag-red.svg.png' width='16'>" ;
+					} else if (result.DATA.AGENT_RANK[a]=='B') { 
+						output = output + "<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+					} else if (result.DATA.AGENT_RANK[a]=='C') { 
+						output = output + "<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+					} else if (result.DATA.AGENT_RANK[a]=='D') { 
+						output = output + "<img src='/agents/images/flag-yellow.svg.png' width='16'>" ;
+					}
+					if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
+				}
+				$("#" + targetId).html(output);
+			} else {
+				$("#" + targetId).html(result.DATA.MESSAGE[0]);
+			}
+		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"looking up agent rankings");
 	});
 }
-function saveAgentRank(){
+/** insert a new record for the ranking of an agent into the agent_rank table 
+ * @param agent_id the agent for which to add the ranking.
+ * @param agent_rank the new rank value to add for the specified agent.
+ * @param remark a remark concerning the ranking.
+ * @param transaction_type the transaction type to which the ranking applies.
+ * @param feedbackDivId the id in the dom, without a leading # selector into which to 
+ *   place feedback from this function.
+ */
+function saveAgentRank(agent_id, agent_rank, remark, transaction_type,feedbackDivId) { 
 	jQuery.getJSON("/component/functions.cfc",
 		{
 			method : "saveAgentRank",
-			agent_id : $('#agent_id').val(),
-			agent_rank : $('#agent_rank').val(),
-			remark : $('#remark').val(),
-			transaction_type : $('#transaction_type').val(),
+			agent_id : agent_id,
+			agent_rank : agent_rank,
+			remark : remark,
+			transaction_type : #transaction_type,
 			returnformat : 'json',
 			queryformat : 'column'
 		},
 		function (data) {
 			if(data.length>0 && data.substring(0,4)=='fail'){
 				alert(data);
-				$('#saveAgentRankFeedback').append(d);
+				$('#' + feedbackDivId).append(d);
 			} else {
-				var ih = 'Thank you for adding an agent rank.';
-				$('#saveAgentRankFeedback').append(ih);
+				var feedback = 'Thank you for adding an agent rank.';
+				$('#' + feedbackDivId).append(feedback);
 			}
 		}
-	);
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"looking up agent rankings");
+	});
 }
 
-// Toggle the agent rank details block on the agent rank dialog.
+/** Toggle the agent rank details block on the agent rank dialog.
+ * @param toState if 1, change state to visible, otherwise change state to hidden.
+ */
 function tog_AgentRankDetail(toState){
 	if(toState==1){
 		document.getElementById('agentRankDetails').style.display='block';

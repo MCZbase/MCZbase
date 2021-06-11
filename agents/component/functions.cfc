@@ -2348,11 +2348,11 @@ limitations under the License.
 						FROM getRankDetails
 						GROUP BY agent_rank
 					</cfquery>
-					<table border>
+					<table border class="table table-responsive d-sm-table">
 						<tr>
-							<th>rank</th>
-							<th>##</th>
-							<th>%</th>
+							<th>Rank</th>
+							<th>Number of Rankings</th>
+							<th>% of Rankings</th>
 						</tr>
 						<cfloop query="getRankSummary">
 							<cfset portion=round((getRankSummary.ct/getRankDetails.recordcount) * 100)>
@@ -2363,9 +2363,9 @@ limitations under the License.
 							</tr>
 						</cfloop>
 					</table>
-					<span class="infoLink" id="t_agentRankDetails" onclick="tog_AgentRankDetail(1)">Show Details</span>
+					<span class="btn btn-xs btn-info" id="t_agentRankDetails" onclick="tog_AgentRankDetail(1)">Show Details</span>
 					<div id="agentRankDetails" style="display:none">
-						<table border>
+						<table border class="table table-responsive d-xx-table">
 							<tr>
 								<th>Rank</th>
 								<th>Trans</th>
@@ -2386,8 +2386,8 @@ limitations under the License.
 					</div>
 				</cfif><!--- has any rankings --->
 
-				<span class="infoLink" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
-				<form name="a" method="post" action="agentrank.cfm">
+				<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
+				<form name="addAgentRankForm">
 					<div id="agentRankCreate" class="form-row">
 						<div class="col-12">
 							<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
@@ -2412,15 +2412,24 @@ limitations under the License.
 							<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
 						</div>
 						<div class="col-12">
-								<input type="button" class="savBtn" value="Save" onclick="saveAgentRank()">
-								<input type="button" class="qutBtn" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
+							<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addAddrButton">
+							<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
 						</div>
 					</div>
 				</form>
 				<output id="saveAgentRankFeedback"></output>
 				<script>
-					$( document ).ready(function() { 
+					$(document).ready(function () {
 						$('##agentRankCreate').hide(); 
+
+						$("##addAddrButton").click(function(evt) { 
+							evt.preventDefault();
+							var agent_id = $('##agent_id').val(),
+							var agent_rank = $('##agent_rank').val(),
+							var remark = $('##remark').val(),
+							var transaction_type = $('##transaction_type').val(),
+							saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
+						});
 					});
 				</script>
 			<cfcatch>

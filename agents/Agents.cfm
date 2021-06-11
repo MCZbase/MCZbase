@@ -370,6 +370,23 @@ limitations under the License.
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
 				};
 			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				var rankCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var rank = rowData['worstagentrank'];
+					var flag = ""
+					if (rank=="F") { 
+						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>"
+					} else if (rank=="D") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+					} else if (rank=="C") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+					} else if (rank=="B") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>"
+					} 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag'</span>';
+				};
+			</cfif>
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -489,7 +506,7 @@ limitations under the License.
 							</cfif>
 							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: getColHidProp('edited', false) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: getColHidProp('worstagentrank', false) },
+								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: getColHidProp('worstagentrank', false), cellsrenderer: rankCellRenderer },
 							</cfif>
 							{text: 'Prefix', datafield: 'prefix', width: 60, hidable: true, hidden: getColHidProp('prefix', true) },
 							{text: 'First', datafield: 'first_name', width: 100, hidable: true, hidden: getColHidProp('first_name', true) },

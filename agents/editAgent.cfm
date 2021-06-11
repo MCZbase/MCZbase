@@ -219,7 +219,13 @@ limitations under the License.
 											<cfif rank.recordcount gt 0>
 												Previous Ranking: #valuelist(rank.agent_rank,"; ")#
 												<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
-													<img src='/images/flag-red.svg.png' width='16'>
+													<img src='/agents/images/flag-red.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'D'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'C'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'B'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
 												</cfif>
 											</cfif>
 										</span>
