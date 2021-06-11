@@ -660,7 +660,7 @@ limitations under the License.
 											padding: 10px;
 											height: 500px;
 											width: auto;
-											max-width: 1200px;
+											max-width: 1800px;
 										}
 									</style>
 									<div class="col-md-12">
