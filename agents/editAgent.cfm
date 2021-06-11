@@ -228,7 +228,7 @@ limitations under the License.
 										<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
 											<script>
 												function reloadAgentRanks() { 
-													loadAgentRankSummary('agentRankSummary',agentId);
+													loadAgentRankSummary('agentRankSummary',#agent_id#);
 												}
 											</script>
  											<input type="button" class="btn btn-xs btn-secondary" value="Rank" 
