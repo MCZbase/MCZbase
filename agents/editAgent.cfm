@@ -238,7 +238,7 @@ limitations under the License.
 												}
 											</script>
  											<input type="button" class="btn btn-xs btn-secondary" value="Rank" 
-												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #nameStr#',#agent_id#, reloadAgentRanks); ">
+												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #getAgent.preferred_agent_name#',#agent_id#, reloadAgentRanks); ">
 											&nbsp;&nbsp;
 											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
 										</cfif>
