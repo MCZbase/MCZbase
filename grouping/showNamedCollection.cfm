@@ -95,7 +95,7 @@
 												<cfset active = '' >
 											</cfloop>
 										</ol>
-										#undColl.underscore_agent_id#	
+										#undColl.agent_name#	
 										<!--/.Indicators---> 
 										<!--Slides-->
 										<div class="carousel-inner" role="listbox">
