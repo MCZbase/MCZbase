@@ -656,6 +656,7 @@ limitations under the License.
 									<style>
 										.jqx-editor-content {
 											resize:both;
+											overflow:scroll;
 											padding: 10px;
 											height: 500px;
 										}
