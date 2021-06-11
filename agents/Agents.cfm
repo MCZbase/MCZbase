@@ -259,7 +259,7 @@ limitations under the License.
 										<cfelse>
 											<cfset vcollmd = "col-md-2">
 										</cfif>
-										<div class="col-12 #vcolmd#">
+										<div class="col-12 #vcollmd#">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
