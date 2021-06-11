@@ -2426,9 +2426,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="createAddressThread" />
-	<cfreturn createAddressThread.output>
+	<cfthread action="join" name="agentRankDialogThread">
+	<cfreturn agentRankDialogThread.output>
 </cffunction>
-</cfif><!--- has role manage agent ranking --->
 
 </cfcomponent>
