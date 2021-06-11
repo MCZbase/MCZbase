@@ -70,15 +70,16 @@
 										
 								</cfquery>
 								<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
+									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name
 										case 
 											when underscore_agent_id is null then '[No Agent]'
 											else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 											end
 										as agentname,
 										mask_fg
-									from underscore_collection
+									from underscore_collection, agent_name
 									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and underscore_collection.underscore_agent_id = agent_name.agent_id
 								</cfquery>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
