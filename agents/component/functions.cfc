@@ -2387,22 +2387,24 @@ limitations under the License.
 				</cfif><!--- has any rankings --->
 
 				<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
-				<form name="addAgentRankForm">
+				<form name="addAgentRankForm" id="addAgentRankForm">
 					<div id="agentRankCreate" class="form-row">
 						<div class="col-12">
 							<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
 							<input type="hidden" name="action" id="action" value="saveRank">
 							<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
-							<select name="agent_rank" id="agent_rank" class="data-entry-select">
+							<select name="agent_rank" id="agent_rank" class="data-entry-select reqdClr" required>
 								<cfloop query="ctagent_rank">
+									<option value=""></option>
 									<option value="#agent_rank#">#agent_rank#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12">
 							<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
-							<select name="transaction_type" id="transaction_type" class="data-entry-select">
+							<select name="transaction_type" id="transaction_type" class="data-entry-select reqdClr" required>
 								<cfloop query="cttransaction_type">
+									<option value=""></option>
 									<option value="#transaction_type#">#transaction_type#</option>
 								</cfloop>
 							</select>
@@ -2412,7 +2414,7 @@ limitations under the License.
 							<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
 						</div>
 						<div class="col-12">
-							<input type="button" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
+							<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
 							<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
 						</div>
 					</div>
@@ -2427,11 +2429,18 @@ limitations under the License.
 
 						$("##addRankingButton").click(function(evt) { 
 							evt.preventDefault();
-							var agent_id = $('##agent_id').val();
-							var agent_rank = $('##agent_rank').val();
-							var remark = $('##remark').val();
-							var transaction_type = $('##transaction_type').val();
-							saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
+							var okToSave = true;
+							if ($('##remark').val()=="" && ($('##agent_rank').val=='C' || $('##agent_rank').val=='D' || $('##agent_rank').val=='F')) {
+								okToSave = false;
+								messageDialog("A remark is required for unsatisfacotry rankings.","Remark Required");
+							}
+							if (okToSave) { 
+								var agent_id = $('##agent_id').val();
+								var agent_rank = $('##agent_rank').val();
+								var remark = $('##remark').val();
+								var transaction_type = $('##transaction_type').val();
+								saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
+							}
 						});
 					});
 				</script>
