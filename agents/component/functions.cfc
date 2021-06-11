@@ -2427,10 +2427,10 @@ limitations under the License.
 
 						$("##addRankingButton").click(function(evt) { 
 							evt.preventDefault();
-							var agent_id = $('##agent_id').val(),
-							var agent_rank = $('##agent_rank').val(),
-							var remark = $('##remark').val(),
-							var transaction_type = $('##transaction_type').val(),
+							var agent_id = $('##agent_id').val();
+							var agent_rank = $('##agent_rank').val();
+							var remark = $('##remark').val();
+							var transaction_type = $('##transaction_type').val();
 							saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
 						});
 					});
