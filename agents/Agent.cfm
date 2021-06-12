@@ -484,6 +484,49 @@ limitations under the License.
 							</div>
 						</section>
 
+						<cfif oneOfUs EQ 1>
+							<!--- Project sponsor and other project roles --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Project Roles</h2>
+								</div>
+								<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
+									SELECT distinct
+										'sponsor' as role,
+										project_name,
+										project.project_id
+									FROM
+										project_sponsor 
+										left join project on project.project_id=project_sponsor.project_id
+										left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
+									WHERE
+										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									UNION
+									SELECT distinct
+										project_agent_role as role, 
+										project_name,
+										project.project_id
+									FROM
+										project_agent
+										left join project on project.project_id=project_agent.project_id
+										left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
+									WHERE
+										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-body">
+									<cfif getProjRoles.recordcount EQ 0>
+										<h2 class="h3">No project roles in MCZbase</h2>
+									<cfelse>
+										<ul>
+											<cfloop query="getProjRoles">
+												<li>#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</section>
+						</cfif>
+
 						<!--- Author --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
@@ -526,7 +569,7 @@ limitations under the License.
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
 							<section class="card mb-2 bg-light">
 								<cfquery name="getTransCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
-									SELECT count(transaction_view.transaction_id) ct
+									SELECT count(distinct transaction_view.transaction_id) ct
 									FROM trans_agent
 										left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
 									WHERE
