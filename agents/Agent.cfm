@@ -90,16 +90,7 @@ limitations under the License.
 
 						<!--- agent names --->
 						<h2 class="h3">Names for this agent</h2>
-						<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
-							SELECT
-								agent_name_id,
-								agent_id,
-								agent_name_type,
-								agent_name
-							FROM agent_name
-							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-						</cfquery>
-						<cfquery name="pname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+						<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 							SELECT
 								agent_name_id,
 								agent_id,
@@ -109,7 +100,7 @@ limitations under the License.
 							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								AND agent_name_type = 'preferred'
 						</cfquery>
-						<cfquery name="npname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+						<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
 							SELECT
 								agent_name_id,
 								agent_id,
@@ -121,16 +112,16 @@ limitations under the License.
 						</cfquery>
 						<ul>
 							<!--- preferred name --->
-							<cfloop query="pname">
-								<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+							<cfloop query="preferredNames">
+								<li>#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
 							</cfloop>
-							<cfloop query="npname">
+							<cfloop query="notPrefNames">
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-									<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+									<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 								<cfelse>
 									<!--- don't display login name to non-admin users --->
-									<cfif pname.agent_name_type NEQ "login">
-										<li>#pname.agent_name# (#pname.agent_name_type#)</li>
+									<cfif notPrefNames.agent_name_type NEQ "login">
+										<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 									</cfif>
 								</cfif>
 							</cfloop>
