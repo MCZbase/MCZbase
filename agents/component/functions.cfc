@@ -2396,75 +2396,75 @@ limitations under the License.
 					</ul>
 				</div>
 
-				<cfif listcontainsnocase(session.roles,"manage_agent_ranking") OR listcontainsnocase(session.roles,"admin_agent_ranking" >
-				<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
-				<form name="addAgentRankForm" id="addAgentRankForm">
-					<div id="agentRankCreate" class="form-row">
-						<div class="col-12">
+				<cfif listcontainsnocase(session.roles,"manage_agent_ranking") OR listcontainsnocase(session.roles,"admin_agent_ranking") >
+					<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
+					<form name="addAgentRankForm" id="addAgentRankForm">
+						<div id="agentRankCreate" class="form-row">
+							<div class="col-12">
+							</div>
+							<div class="col-12">
+								<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
+								<input type="hidden" name="action" id="action" value="saveRank">
+								<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
+								<select name="agent_rank" id="agent_rank" class="data-entry-select reqdClr" required>
+									<option value=""></option>
+									<cfloop query="ctagent_rank">
+										<option value="#agent_rank#">#agent_rank#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12">
+								<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
+								<select name="transaction_type" id="transaction_type" class="data-entry-select reqdClr" required>
+									<option value=""></option>
+									<cfloop query="cttransaction_type">
+										<option value="#transaction_type#">#transaction_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12">
+								<label class="data-entry-label" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
+								<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
+							</div>
+							<div class="col-12">
+								<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
+								<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
+							</div>
 						</div>
-						<div class="col-12">
-							<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
-							<input type="hidden" name="action" id="action" value="saveRank">
-							<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
-							<select name="agent_rank" id="agent_rank" class="data-entry-select reqdClr" required>
-								<option value=""></option>
-								<cfloop query="ctagent_rank">
-									<option value="#agent_rank#">#agent_rank#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12">
-							<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
-							<select name="transaction_type" id="transaction_type" class="data-entry-select reqdClr" required>
-								<option value=""></option>
-								<cfloop query="cttransaction_type">
-									<option value="#transaction_type#">#transaction_type#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12">
-							<label class="data-entry-label" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
-							<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
-						</div>
-						<div class="col-12">
-							<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
-							<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
-						</div>
-					</div>
-				</form>
-				<output id="saveAgentRankFeedback"></output>
-				<script>
-					$(document).ready(function () {
-						$('##agentRankCreate').hide(); 
-						$("##addAgentRankForm").submit(function(evt) { 
-							evt.preventDefault();
+					</form>
+					<output id="saveAgentRankFeedback"></output>
+					<script>
+						$(document).ready(function () {
+							$('##agentRankCreate').hide(); 
+							$("##addAgentRankForm").submit(function(evt) { 
+								evt.preventDefault();
+							});
+	
+							$("##addRankingButton").click(function(evt) { 
+								evt.preventDefault();
+								var okToSave = true;
+								if ($('##agent_rank').val()=="") {
+									okToSave = false;
+									messageDialog("You must select a rank to rank the agent.","Rank Required");
+								}
+								if ($('##transaction_type').val()=="") {
+									okToSave = false;
+									messageDialog("You must select the transaction type from which the reason for the ranking arose.","Transaction Type Required");
+								}
+								if ($('##remark').val()=="" && ($('##agent_rank').val()=='C' || $('##agent_rank').val()=='D' || $('##agent_rank').val()=='F')) {
+									okToSave = false;
+									messageDialog("A remark is required for unsatisfactory rankings.","Remark Required");
+								}
+								if (okToSave) { 
+									var agent_id = $('##agent_id').val();
+									var agent_rank = $('##agent_rank').val();
+									var remark = $('##remark').val();
+									var transaction_type = $('##transaction_type').val();
+									saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
+								}
+							});
 						});
-
-						$("##addRankingButton").click(function(evt) { 
-							evt.preventDefault();
-							var okToSave = true;
-							if ($('##agent_rank').val()=="") {
-								okToSave = false;
-								messageDialog("You must select a rank to rank the agent.","Rank Required");
-							}
-							if ($('##transaction_type').val()=="") {
-								okToSave = false;
-								messageDialog("You must select the transaction type from which the reason for the ranking arose.","Transaction Type Required");
-							}
-							if ($('##remark').val()=="" && ($('##agent_rank').val()=='C' || $('##agent_rank').val()=='D' || $('##agent_rank').val()=='F')) {
-								okToSave = false;
-								messageDialog("A remark is required for unsatisfactory rankings.","Remark Required");
-							}
-							if (okToSave) { 
-								var agent_id = $('##agent_id').val();
-								var agent_rank = $('##agent_rank').val();
-								var remark = $('##remark').val();
-								var transaction_type = $('##transaction_type').val();
-								saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
-							}
-						});
-					});
-				</script>
+					</script>
 				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
