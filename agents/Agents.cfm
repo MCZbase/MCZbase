@@ -345,7 +345,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
 										<select id="collector_collection" name="collector_collection" class="data-entry-select">
 											<option></option>
@@ -355,7 +355,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
 										<select id="author_collection" name="author_collection" class="data-entry-select">
 											<option></option>
@@ -366,7 +366,7 @@ limitations under the License.
 										</select>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
 											<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
 												<option></option>
@@ -376,7 +376,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
 											<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
 												<option></option>
