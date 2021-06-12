@@ -1048,7 +1048,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<!--- preferred name --->
-				<cfquery name="preferredName" dbtype="query">
+				<cfquery name="preferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredName_result">
 					SELECT
 						agent_name_id,
 						agent_id,
@@ -1085,7 +1085,7 @@ limitations under the License.
 					});
 				</script>
 				<!--- other names --->
-				<cfquery name="notPrefName" dbtype="query">
+				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
 					SELECT
 						agent_name_id,
 						agent_id,
