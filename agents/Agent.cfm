@@ -38,9 +38,9 @@ limitations under the License.
 	<cfset oneOfUs = 0>
 </cfif>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
-   where applies_to like '%agent.agentguid%'
+	SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+	FROM ctguid_type 
+	WHERE applies_to like '%agent.agentguid%'
 </cfquery>
 
 <cfif len(agent_id) EQ 0>
@@ -437,9 +437,61 @@ limitations under the License.
 							</div>
 						</cfif>
 
+						<!--- Author --->
+						<div>
+							<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+								SELECT
+									count(citation.collection_object_id) citation_count,
+									formatted_publication.publication_id,
+									formatted_publication.formatted_publication
+								FROM
+									publication_author_name 
+									left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
+									left join citation on publication.publication_id = citation.publication_id
+								where
+									formatted_publication.format_style = 'long'
+									publication_author_name.agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+								group by
+									formatted_publication.publication_id,
+									formatted_publication.formatted_publication
+							</cfquery>
+							<cfif len(publicationAuthor.PUBLICATION_TITLE) gt 0>
+								<h2 class="h3">Publications</h2>
+								<ul>
+									<cfloop query="publicationAuthor">
+										<li>
+											<a href="/Publication.cfm?PUBLICATION_ID=#publication_id#">#formatted_publication#</a>
+											(#citation_count# citations)
+										</li>
+									</cfloop>
+								</ul>
+							</cfif>
+						</div>
+
 						<!--- transactions roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
-							<!--- TODO: Add transaction roles from /info/agentActivity.cfm --->
+							<div>
+								<h2 class="h3">Roles in Transactions:</h2>
+								<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(trans_date,'YYYY-MM-DD') trans_date,
+										collection_cde, 
+										transaction_view.specific_number,
+										trans_agent_role
+									FROM trans_agent
+										left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
+									WHERE
+										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									ORDER BY transaction_view.transaction_type, transaction_view.specific_number
+								</cfquery>
+								<ul>
+									<cfloop query="getTransactions">
+										<li><a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a> #trans_agent_role# (#transaction_type# #trans_date#) </li>
+									</cfloop>
+								</ul>
+							</div>
 						</cfif>
 
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
