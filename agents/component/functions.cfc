@@ -1121,7 +1121,7 @@ limitations under the License.
 									<input type="hidden" name="agent_id" value="#notPrefName.agent_id#">
 									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
 										<cfloop query="ctNameType">
-											<option  <cfif ctNameType.agent_name_type is notPrefName.agent_name_type> selected="selected" </cfif>
+											<option  <cfif ctNameType.agent_name_type IS "#notPrefName.agent_name_type#"> selected="selected" </cfif>
 												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 										</cfloop>
 									</select>
