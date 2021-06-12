@@ -1047,28 +1047,28 @@ limitations under the License.
 	<cfthread name="namesThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+				<!--- preferred name --->
+				<cfquery name="preferredName" dbtype="query">
 					SELECT
 						agent_name_id,
 						agent_id,
 						agent_name_type,
-						agent_name
+						agent_name,
+						publication_author_name_id
 					FROM agent_name
+						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				</cfquery>
-				<!--- preferred name --->
-				<cfquery name="pname" dbtype="query">
-					select * from namesForAgent where agent_name_type = 'preferred'
+						and  agent_name_type = 'preferred'
 				</cfquery>
 				<form id="preferredNameForm">
 					<ul class="list-group list-group-horizontal form-row mx-0">
-						<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
-						<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
+						<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#preferredName.agent_name_id#">
+						<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#preferredName.agent_name_type#">
 						<li class="list-group-item px-0">
 							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0 col-12 col-md-7">	
-							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
+							<input type="text" value="#preferredName.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-1">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
@@ -1085,8 +1085,17 @@ limitations under the License.
 					});
 				</script>
 				<!--- other names --->
-				<cfquery name="npname" dbtype="query">
-					select * from namesForAgent where agent_name_type != 'preferred'
+				<cfquery name="notPrefName" dbtype="query">
+					SELECT
+						agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name,
+						publication_author_name_id
+					FROM agent_name
+						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and  agent_name_type <> 'preferred'
 				</cfquery>
 				<h3 class="h4 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
@@ -1097,34 +1106,38 @@ limitations under the License.
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<cfif npname.recordcount EQ 0 >
+				<cfif notPrefName.recordcount EQ 0 >
 					<ul class="list-group list-unstyled list-group-horizontal mx-0 form-row">
 						<li class="list-group-item">No other names</li>
 					</ul>
 				<cfelse>
 					<cfset i=0>
-					<cfloop query="npname">
+					<cfloop query="notPrefName">
 						<cfset i=i+1>
 						<form id="agentNameForm_#i#">
 							<ul class="list-group list-group-horizontal mx-0 form-row">
 								<li class="list-group-item px-0">
-									<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
-									<input type="hidden" name="agent_id" value="#npname.agent_id#">
+									<input type="hidden" name="agent_name_id" value="#notPrefName.agent_name_id#" id="agent_name_id_#i#">
+									<input type="hidden" name="agent_id" value="#notPrefName.agent_id#">
 									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
 										<cfloop query="ctNameType">
-											<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+											<option  <cfif ctNameType.agent_name_type is notPrefName.agent_name_type> selected="selected" </cfif>
 												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 										</cfloop>
 									</select>
 								</li>
 								<li class="list-group-item px-0">
-									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+									<input type="text" value="#notPrefName.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
 								</li>
 								<li class="list-group-item px-1">
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
-									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<cfif len(notPrefName.publication_id) EQ 0) >
+										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<cfelse>
+										<span>Publication Author</span>
+									</cfif>
 									<span id="agentNameFeedback#i#"></span>
 								</li>
 							</ul>
@@ -1142,7 +1155,7 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentNameDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									confirmWarningDialog("Delete the name #encodeForHTML(npname.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
+									confirmWarningDialog("Delete the name #encodeForHTML(notPrefName.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
 								});
 							});
 						</script>
