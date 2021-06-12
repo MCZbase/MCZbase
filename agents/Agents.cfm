@@ -344,54 +344,56 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-3">
-										<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
-										<select id="collector_collection" name="collector_collection" class="data-entry-select">
-											<option></option>
-											<cfloop query="collections">
-												<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
-										<select id="author_collection" name="author_collection" class="data-entry-select">
-											<option></option>
-											<cfloop query="collections">
-												<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
-											</cfloop>
-										</select>
-									</div>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
-											<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
-											<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
+											<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
+											<select id="collector_collection" name="collector_collection" class="data-entry-select">
 												<option></option>
 												<cfloop query="collections">
-													<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
 												</cfloop>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
-											<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+											<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
+											<select id="author_collection" name="author_collection" class="data-entry-select">
 												<option></option>
-												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="issued by" #sel# >Issued By</option>
-												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="issued to" #sel# >Issued To</option>
-												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="contact" #sel# >Contact Agent</option>
-												<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="any" #sel#>Any</option>
+												<cfloop query="collections">
+													<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+												</cfloop>
 											</select>
 										</div>
-									</cfif>
-								</div>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+											<div class="col-12 col-md-3">
+												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
+												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
+													<option></option>
+													<cfloop query="collections">
+														<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
+												<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+													<option></option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="issued by" #sel# >Issued By</option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="issued to" #sel# >Issued To</option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="contact" #sel# >Contact Agent</option>
+													<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="any" #sel#>Any</option>
+												</select>
+											</div>
+										</cfif>
+									</div>
+								</cfif>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
