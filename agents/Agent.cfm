@@ -450,7 +450,7 @@ limitations under the License.
 									left join citation on publication.publication_id = citation.publication_id
 								where
 									formatted_publication.format_style = 'long'
-									publication_author_name.agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
+									publication_author_name.agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								group by
 									formatted_publication.publication_id,
 									formatted_publication.formatted_publication
