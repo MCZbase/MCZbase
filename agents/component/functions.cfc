@@ -2383,6 +2383,12 @@ limitations under the License.
 								</tr>					 
 							</cfloop>
 						</table>
+						<cfif listcontainsnocase(session.roles,"admin_agent_ranking") >
+							<!--- TODO: Implement edit agent rankings for role admin_agent_ranking --->
+							<p>If there is a need to edit an existing agent ranking, please 
+								<a href="/info/bugs.cfm" aria-label="bug_report_link" target="_blank">file a bug report</a>
+							</p>
+						</cfif>
 					</div>
 				</cfif><!--- has any rankings --->
 				<div class="form-row">
