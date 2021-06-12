@@ -478,16 +478,23 @@ limitations under the License.
 										transaction_view.transaction_type,
 										to_char(trans_date,'YYYY-MM-DD') trans_date,
 										transaction_view.specific_number,
+										transaction_view.status,
+										collection.collection_cde,
 										trans_agent_role
 									FROM trans_agent
 										left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
+										left outer join collection on transaction_view.collection_id = collection.collection_id
 									WHERE
 										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									ORDER BY transaction_view.transaction_type, transaction_view.specific_number
 								</cfquery>
 								<ul>
 									<cfloop query="getTransactions">
-										<li><a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a> #trans_agent_role# (#transaction_type# #trans_date#) </li>
+										<li>
+											<span class="text-capitalize">#transaction_type#</span> 
+											<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+											#trans_agent_role# (#getTransactions.status# #trans_date#)
+										</li>
 									</cfloop>
 								</ul>
 							</div>
