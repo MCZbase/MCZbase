@@ -231,13 +231,20 @@ limitations under the License.
 										</span>
 									</div>
 									<div class="col-12 col-md-4">
-										<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
 											<script>
 												function reloadAgentRanks() { 
 													loadAgentRankSummary('agentRankSummary',#agent_id#);
 												}
 											</script>
- 											<input type="button" class="btn btn-xs btn-secondary" value="Rank" 
+											<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+												<cfset rankButtonText = "View/Add Rankings">
+												<cfset rankButtonLabel = "View or Add Rankings for this agent">
+											<cfelse>
+												<cfset rankButtonText = "View Rankings">
+												<cfset rankButtonLabel = "View Rankings for this agent">
+											</cfif>
+ 											<input type="button" class="btn btn-xs btn-secondary" value="#rankButtonText#" aria-label="#rankButtonLabel#" 
 												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #getAgent.preferred_agent_name#',#agent_id#, reloadAgentRanks); ">
 											&nbsp;&nbsp;
 											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
