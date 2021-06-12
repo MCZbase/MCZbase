@@ -455,7 +455,7 @@ limitations under the License.
 									formatted_publication.publication_id,
 									formatted_publication.formatted_publication
 							</cfquery>
-							<cfif len(publicationAuthor.PUBLICATION_TITLE) gt 0>
+							<cfif publicationAuthor.recordcount gt 0>
 								<h2 class="h3">Publications</h2>
 								<ul>
 									<cfloop query="publicationAuthor">
