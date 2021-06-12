@@ -1091,7 +1091,7 @@ limitations under the License.
 						agent_id,
 						agent_name_type,
 						agent_name,
-						publication_author_name_id
+						publication_id
 					FROM agent_name
 						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
