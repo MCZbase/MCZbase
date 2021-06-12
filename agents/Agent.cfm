@@ -487,7 +487,7 @@ limitations under the License.
 						<!--- Author --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
-								<h2 class="h3">Publications</h2>
+								<h2 class="h3">Publications Citing MCZ material</h2>
 							</div>
 							<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 								SELECT
@@ -580,6 +580,7 @@ limitations under the License.
 												<cfelse>
 														, #trans_agent_role#
 												</cfif>
+												<cfset lastTrans ="#getTransactions.specific_number#">
 											</cfloop>
 										</ul>
 									</cfif>
