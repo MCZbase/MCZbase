@@ -1054,11 +1054,16 @@ limitations under the License.
 						agent_id,
 						agent_name_type,
 						agent_name,
-						publication_author_name_id
+						count(publication_id) as publication_count
 					FROM agent_name
 						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						and  agent_name_type = 'preferred'
+					GROUP BY
+						agent_name.agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name
 				</cfquery>
 				<form id="preferredNameForm">
 					<ul class="list-group list-group-horizontal form-row mx-0">
@@ -1086,16 +1091,21 @@ limitations under the License.
 				</script>
 				<!--- other names --->
 				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
-					SELECT
+					SELECT distinct
 						agent_name.agent_name_id,
 						agent_id,
 						agent_name_type,
 						agent_name,
-						publication_id
+						count(publication_id) as publication_count
 					FROM agent_name
 						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						and  agent_name_type <> 'preferred'
+					GROUP BY
+						agent_name.agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name
 				</cfquery>
 				<h3 class="h4 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
@@ -1133,7 +1143,7 @@ limitations under the License.
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
-									<cfif len(notPrefName.publication_id) EQ 0 >
+									<cfif notPrefName.publication_count GT 0 >
 										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 									<cfelse>
 										<span>Publication Author</span>
