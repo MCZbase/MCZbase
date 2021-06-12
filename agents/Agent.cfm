@@ -477,7 +477,6 @@ limitations under the License.
 										transaction_view.transaction_id, 
 										transaction_view.transaction_type,
 										to_char(trans_date,'YYYY-MM-DD') trans_date,
-										collection_cde, 
 										transaction_view.specific_number,
 										trans_agent_role
 									FROM trans_agent
