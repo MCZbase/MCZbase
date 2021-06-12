@@ -1050,7 +1050,7 @@ limitations under the License.
 				<!--- preferred name --->
 				<cfquery name="preferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredName_result">
 					SELECT
-						agent_name_id,
+						agent_name.agent_name_id,
 						agent_id,
 						agent_name_type,
 						agent_name,
@@ -1087,7 +1087,7 @@ limitations under the License.
 				<!--- other names --->
 				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
 					SELECT
-						agent_name_id,
+						agent_name.agent_name_id,
 						agent_id,
 						agent_name_type,
 						agent_name,
