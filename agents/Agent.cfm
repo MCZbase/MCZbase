@@ -99,11 +99,25 @@ limitations under the License.
 							FROM agent_name
 							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						</cfquery>
-						<cfquery name="pname" dbtype="query">
-							select * from namesForAgent where agent_name_type = 'preferred'
+						<cfquery name="pname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+							SELECT
+								agent_name_id,
+								agent_id,
+								agent_name_type,
+								agent_name
+							FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								AND agent_name_type = 'preferred'
 						</cfquery>
-						<cfquery name="npname" dbtype="query">
-							select * from namesForAgent where agent_name_type != 'preferred'
+						<cfquery name="npname" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+							SELECT
+								agent_name_id,
+								agent_id,
+								agent_name_type,
+								agent_name
+							FROM agent_name
+							WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								AND agent_name_type <> 'preferred'
 						</cfquery>
 						<ul>
 							<!--- preferred name --->
