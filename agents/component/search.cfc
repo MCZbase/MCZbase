@@ -455,22 +455,22 @@ limitations under the License.
 									union
 									select contact_agent_id as agent_id from permit
 								)
-								where agent_id is not null;
+								where agent_id is not null
 							)
 						<cfelseif permit_agent_role EQ "issued by">
 							AND agent.agent_id IN (
 								select issued_by_agent_id as agent_id from permit
-								where agent_id is not null;
+								where agent_id is not null
 							)
 						<cfelseif permit_agent_role EQ "issued to">
 							AND agent.agent_id IN (
 								select issued_to_agent_id as agent_id from permit
-								where agent_id is not null;
+								where agent_id is not null
 							)
 						<cfelseif permit_agent_role EQ "contact">
 							AND agent.agent_id IN (
 								select contact_agent_id as agent_id from permit
-								where agent_id is not null;
+								where agent_id is not null
 							)
 						</cfif>
 					</cfif>
