@@ -350,8 +350,8 @@ limitations under the License.
 										<select id="collector_collection" name="collector_collection" class="data-entry-select">
 											<option></option>
 											<cfloop query="collections">
-												<cfif collector_collection EQ collections.collection_cde ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="#collections.collection_cde#" #sel# >#collections.collection_cde#</option>
+												<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
 											</cfloop>
 										</select>
 									</div>
@@ -360,8 +360,8 @@ limitations under the License.
 										<select id="author_collection" name="author_collection" class="data-entry-select">
 											<option></option>
 											<cfloop query="collections">
-												<cfif author_collection EQ collections.collection_cde ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-												<option value="#collections.collection_cde#" #sel# >#collections.collection_cde#</option>
+												<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
 											</cfloop>
 										</select>
 									</div>

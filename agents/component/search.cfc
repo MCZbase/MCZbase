@@ -422,7 +422,7 @@ limitations under the License.
 						select agent_id 
 						from collector
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on collector.collection_object_id = flat.collection_object_id
-						where flat.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector_collection#">
+						where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_collection#">
 					)
 				</cfif>
 				<cfif isdefined("author_collection") AND len(#author_collection#) gt 0>
@@ -433,7 +433,7 @@ limitations under the License.
 							left join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
 							left join citation on publication_author_name.publication_id = citation.PUBLICATION_ID
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
-						where flat.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_collection#">
+						where flat.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_collection#">
 					)
 				</cfif>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
