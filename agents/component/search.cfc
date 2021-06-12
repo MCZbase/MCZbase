@@ -41,6 +41,10 @@ limitations under the License.
 	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
 	<cfargument name="ranking" type="string" required="no">
+	<cfargument name="collector_collection" type="string" required="no">
+	<cfargument name="author_collection" type="string" required="no">
+	<cfargument name="trans_agent_collection" type="string" required="no">
+	<cfargument name="permit_agent_role" type="string" required="no">
 
 	<!--- clear any arguments where only an operator is given without a search term --->
 	<cfif isdefined("first_name") AND first_name IS "="><cfset first_name = ""></cfif>
@@ -411,6 +415,64 @@ limitations under the License.
 						<cfelseif ranking EQ "none">
 							AND MCZBASE.get_worstagentrank(agent.agent_id) = 'A'
 					 	</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("collector_collection") AND len(#collector_collection#) gt 0>
+					AND agent.agent_id IN (
+						select agent_id 
+						from collector
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on collector.collection_object_id = flat.collection_object_id
+						where flat.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector_collection#">
+					)
+				</cfif>
+				<cfif isdefined("author_collection") AND len(#author_collection#) gt 0>
+					AND agent.agent_id IN (
+						select agent_name.agent_id 
+						from 
+							publication_author_name 
+							left join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
+							left join citation on publication_author_name.publication_id = citation.PUBLICATION_ID
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
+						where flat.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_collection#">
+					)
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfif isdefined("trans_agent_collection") AND len(#trans_agent_collection#) gt 0>
+						AND agent.agent_id IN (
+							SELECT agent_id 
+							FROM trans_agent
+								left join trans on trans_agent.transaction_id = trans.transaction_id
+							WHERE trans.collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_collection#">
+						)
+					</cfif>
+					<cfif isdefined("permit_agent_role") AND len(#permit_agent_role#) gt 0>
+						<cfif permit_agent_role EQ "any">
+							AND agent.agent_id IN (
+								select distinct agent_id from (
+									select issued_by_agent_id as agent_id from permit
+									union
+									select issued_to_agent_id as agent_id from permit
+									union
+									select contact_agent_id as agent_id from permit
+								)
+								where agent_id is not null;
+							)
+						<cfelseif permit_agent_role EQ "issued by">
+							AND agent.agent_id IN (
+								select issued_by_agent_id as agent_id from permit
+								where agent_id is not null;
+							)
+						<cfelseif permit_agent_role EQ "issued to">
+							AND agent.agent_id IN (
+								select issued_to_agent_id as agent_id from permit
+								where agent_id is not null;
+							)
+						<cfelseif permit_agent_role EQ "contact">
+							AND agent.agent_id IN (
+								select contact_agent_id as agent_id from permit
+								where agent_id is not null;
+							)
+						</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY 

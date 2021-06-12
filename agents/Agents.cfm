@@ -30,6 +30,9 @@ limitations under the License.
 <cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select agent_type  from ctagent_type
 </cfquery>
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection_cde, collection_id from collection
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -97,6 +100,23 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("ranking")> 
 		<cfset ranking="">
+	</cfif>
+	<cfif not isdefined("collector_collection">
+		<cfset collector_collection = "">
+	</cfif>
+	<cfif not isdefined("author_collection">
+		<cfset author_collection = "">
+	</cfif>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		<cfif not isdefined("trans_agent_collection">
+			<cfset trans_agent_collection = "">
+		</cfif>
+		<cfif not isdefined("permit_agent_role">
+			<cfset permit_agent_role = "">
+		</cfif>
+	<cfelse>
+		<cfset trans_agent_collection = "">
+		<cfset permit_agent_role = "">
 	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
@@ -323,6 +343,54 @@ limitations under the License.
 											<input type="text" name="to_collected_date" id="to_collected_date" value="#to_collected_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-4">
+										<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
+										<select id="collector_collection" name="collector_collection" class="data-entry-select">
+											<option></option>
+											<cfloop query="collections">
+												<cfif collector_collection EQ collections.collection_cde ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="#collections.collection_cde#" #sel# >#collections.collection_cde#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
+										<select id="author_collection" name="author_collection" class="data-entry-select">
+											<option></option>
+											<cfloop query="collections">
+												<cfif author_collection EQ collections.collection_cde ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="#collections.collection_cde#" #sel# >#collections.collection_cde#</option>
+											</cfloop>
+										</select>
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+										<div class="col-12 col-md-4">
+											<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
+											<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
+												<option></option>
+												<cfloop query="collections">
+													<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
+											<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+												<option></option>
+												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="issued by" #sel# >Issued By</option>
+												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="issued to" #sel# >Issued To</option>
+												<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="contact" #sel# >Contact Agent</option>
+												<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+												<option value="any" #sel#>Any</option>
+											</select>
+										</div>
+									</cfif>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
