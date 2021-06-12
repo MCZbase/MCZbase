@@ -2386,7 +2386,10 @@ limitations under the License.
 					</div>
 				</cfif><!--- has any rankings --->
 				<div class="form-row">
-					<h4 class="h5">Key to Rankings</h4>
+					<h4 class="h5">
+						Key to Rankings
+						<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
+					</h4>
 					<ul>
 						<li><strong>F</strong> Director has become involved due to overdue loans; This ranking is not available for general use; Director use only</li>
 						<li><strong>D</strong> Loans past due for multiple years, does not respond when contacted by any means -OR- Department must be consulted, detail in Rank Remarks</li>
