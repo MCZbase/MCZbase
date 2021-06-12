@@ -2298,7 +2298,7 @@ limitations under the License.
 	<cfthread name="agentRankDialogThread">
 		<cfoutput>
 			<cftry>
-				<cfif NOT listcontainsnocase(session.roles,"manage_agent_ranking")>
+				<cfif NOT listcontainsnocase(session.roles,"manage_transactions")>
 				 	<cfthrow message="Not Authorized">
 				</cfif>
 
@@ -2385,10 +2385,23 @@ limitations under the License.
 						</table>
 					</div>
 				</cfif><!--- has any rankings --->
+				<div class="form-row">
+					<h4 class="h5">Key to Rankings</h4>
+					<ul>
+						<li><strong>F</strong> Director has become involved due to overdue loans; This ranking is not available for general use; Director use only</li>
+						<li><strong>D</strong> Loans past due for multiple years, does not respond when contacted by any means -OR- Department must be consulted, detail in Rank Remarks</li>
+						<li><strong>C</strong> Loans past due; Agent has previously been in contact but no response in over a year, detail in Rank Remarks</li>
+						<li><strong>B</strong> Does not respond to automated loan notification; Responds if contacted personally</li>
+						<li><strong>A</strong> If there isn't any ranking, the assumption is that they return loans and would get an "A"</li>
+					</ul>
+				</div>
 
+				<cfif listcontainsnocase(session.roles,"manage_agent_ranking") OR listcontainsnocase(session.roles,"admin_agent_ranking" >
 				<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
 				<form name="addAgentRankForm" id="addAgentRankForm">
 					<div id="agentRankCreate" class="form-row">
+						<div class="col-12">
+						</div>
 						<div class="col-12">
 							<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
 							<input type="hidden" name="action" id="action" value="saveRank">
@@ -2430,9 +2443,17 @@ limitations under the License.
 						$("##addRankingButton").click(function(evt) { 
 							evt.preventDefault();
 							var okToSave = true;
+							if ($('##agent_rank').val()=="") {
+								okToSave = false;
+								messageDialog("You must select a rank to rank the agent.","Rank Required");
+							}
+							if ($('##transaction_type').val()=="") {
+								okToSave = false;
+								messageDialog("You must select the transaction type from which the reason for the ranking arose.","Transaction Type Required");
+							}
 							if ($('##remark').val()=="" && ($('##agent_rank').val()=='C' || $('##agent_rank').val()=='D' || $('##agent_rank').val()=='F')) {
 								okToSave = false;
-								messageDialog("A remark is required for unsatisfacotry rankings.","Remark Required");
+								messageDialog("A remark is required for unsatisfactory rankings.","Remark Required");
 							}
 							if (okToSave) { 
 								var agent_id = $('##agent_id').val();
@@ -2444,6 +2465,7 @@ limitations under the License.
 						});
 					});
 				</script>
+				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
