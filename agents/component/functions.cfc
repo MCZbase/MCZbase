@@ -1144,9 +1144,9 @@ limitations under the License.
 								</li>
 								<li class="list-group-item px-0">
 									<cfif notPrefName.publication_count GT 0 >
-										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-									<cfelse>
 										<span>Publication Author</span>
+									<cfelse>
+										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 									</cfif>
 									<span id="agentNameFeedback#i#"></span>
 								</li>
