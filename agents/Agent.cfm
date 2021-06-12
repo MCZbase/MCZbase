@@ -446,7 +446,7 @@ limitations under the License.
 									formatted_publication.formatted_publication
 								FROM
 									agent_name 
-									left join publication_author_name on agent_name.agent_id = publication_author_name.agent_id
+									left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 									left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
 									left join citation on formatted_publication.publication_id = citation.publication_id
 								where
