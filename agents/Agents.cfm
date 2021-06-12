@@ -101,17 +101,17 @@ limitations under the License.
 	<cfif not isdefined("ranking")> 
 		<cfset ranking="">
 	</cfif>
-	<cfif not isdefined("collector_collection">
+	<cfif not isdefined("collector_collection")>
 		<cfset collector_collection = "">
 	</cfif>
-	<cfif not isdefined("author_collection">
+	<cfif not isdefined("author_collection")>
 		<cfset author_collection = "">
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-		<cfif not isdefined("trans_agent_collection">
+		<cfif not isdefined("trans_agent_collection")>
 			<cfset trans_agent_collection = "">
 		</cfif>
-		<cfif not isdefined("permit_agent_role">
+		<cfif not isdefined("permit_agent_role")>
 			<cfset permit_agent_role = "">
 		</cfif>
 	<cfelse>
