@@ -1133,7 +1133,7 @@ limitations under the License.
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
-									<cfif len(notPrefName.publication_id) EQ 0) >
+									<cfif len(notPrefName.publication_id) EQ 0 >
 										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 									<cfelse>
 										<span>Publication Author</span>

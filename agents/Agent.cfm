@@ -461,7 +461,7 @@ limitations under the License.
 								<ul>
 									<cfloop query="publicationAuthor">
 										<li>
-											<a href="/Publication.cfm?PUBLICATION_ID=#publication_id#">#formatted_publication#</a>
+											<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
 											(#citation_count# citations)
 										</li>
 									</cfloop>
