@@ -874,7 +874,7 @@ limitations under the License.
 								<div class="card-header" id="shipmentHeader">
 									<h2 class="h3">
 										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
-											Roles in #totalShipCount# Shipment#plural#
+											Roles in Shipment#plural# (#totalShipCount#)
 										</button>
 									</h2>
 								</div>
@@ -1118,18 +1118,6 @@ limitations under the License.
 									WHERE
 										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-header">
-									<cfif getTransCount.ct EQ 0>
-										<h2 class="h3">Roles in Transactions:</h2>
-									<cfelse>
-										<h2 class="h3">
-											Roles in 
-											<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
-											#getTransCount.ct# Transactions
-											</a>:
-										</h2>
-									</cfif>
-								</div>
 								<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 									SELECT
 										transaction_view.transaction_id, 
@@ -1146,30 +1134,62 @@ limitations under the License.
 										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									ORDER BY transaction_view.transaction_type, transaction_view.specific_number
 								</cfquery>
-								<div class="card-body">
-									<cfif getTransactions.recordcount EQ 0>
-										<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+								<cfset totalTransCount = getTransCount.ct>
+								<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalTransCount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded--->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="transactionsHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
+											Roles in Transactions#plural# (#totalTransCount#)
+										</button>
+									</h2>
+								</div>
+								<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">
+									<cfif getTransCount.ct EQ 0>
+										<h3 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 									<cfelse>
-										<ul>
-											<cfset lastTrans ="">
-											<cfset statusDate ="">
-											<cfloop query="getTransactions">
-												<cfif lastTrans NEQ getTransactions.specific_number>
-													<cfif lastTrans NEQ "">
-														#statusDate#</li>
-													</cfif>
-													<li>
-														<span class="text-capitalize">#transaction_type#</span> 
-														<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
-														#trans_agent_role#
-														<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-												<cfelse>
-														, #trans_agent_role#
-												</cfif>
-												<cfset lastTrans ="#getTransactions.specific_number#">
-											</cfloop>
-										</ul>
+										<h3 class="h4 card-title">
+											#prefName# has some role in 
+											<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
+											#getTransCount.ct# Transaction#plural#
+											</a>:
+										</h3>
 									</cfif>
+									<div class="card-body">
+										<cfif getTransactions.recordcount EQ 0>
+											<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+										<cfelse>
+											<ul>
+												<cfset lastTrans ="">
+												<cfset statusDate ="">
+												<cfloop query="getTransactions">
+													<cfif lastTrans NEQ getTransactions.specific_number>
+														<cfif lastTrans NEQ "">
+															#statusDate#</li>
+														</cfif>
+														<li>
+															<span class="text-capitalize">#transaction_type#</span> 
+															<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+															#trans_agent_role#
+															<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+													<cfelse>
+															, #trans_agent_role#
+													</cfif>
+													<cfset lastTrans ="#getTransactions.specific_number#">
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
