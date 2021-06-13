@@ -663,6 +663,7 @@ limitations under the License.
 								FROM media_relations 
 									left join media on media_relations.related_primary_key = media.media_id
 								WHERE media_relationship like '% agent'
+									and media_relationship <> 'created by agent'
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									and mczbase.is_media_encumbered(media.media_id) < 1
 							</cfquery>
