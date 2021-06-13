@@ -746,8 +746,131 @@ limitations under the License.
 							</section>
 						</cfif>
 
+						<!--- loan item reconciliation --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+									SELECT
+										count(*) cnt,
+										trans.transaction_id,
+										loan_number,
+										collection
+									FROM
+										trans
+										left join loan on trans.transaction_id=loan.transaction_id
+										left join loan_item on loan.transaction_id=loan_item.transaction_id
+										left join collection on trans.collection_id=collection.collection_id
+									WHERE
+										RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY
+										trans.transaction_id,
+										loan_number,
+										collection				
+								</cfquery>
+								<div class="card-header">
+									<h2 class="h3">Reconciled loan items:</h2>
+								</div>
+								<div class="card-body">
+									<ul>
+										<cfif loan_item.recordcount EQ 0>
+											<li>None.</li>
+										<cfelse>
+											<cfloop query="loan_item">
+												<li>Reconciled #cnt# items for Loan 
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+												</li>		
+											</cfloop>
+										</cfif>
+									</ul>
+								</div>
+							</section>
+						</cfif>
+
+						<!--- shipments --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Roles in Shipments</h2>
+								</div>
+								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+									WHERE
+										PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="shippedTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedTo_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+										left join addr on shipment.shipped_to_addr_id = addr.addr_id
+									WHERE
+										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="shippedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedFrom_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+										left join addr on shipment.shipped_from_addr_id = addr.addr_id
+									WHERE
+										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-body">
+									<ul>
+										<cfif packedBy.recordcount EQ 0>
+											<li>Packed no shipments for transactions</li>
+										</cfif>
+										<cfloop query="packedBy">
+											<li>
+												Packed Shipment for #transaction_type#
+												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+													#collection# #specific_number#
+												</a>
+											</li>
+										</cfloop>
+										<cfif shippedTo.recordcount EQ 0>
+											<li>Recipient of no shipments for transactions</li>
+										</cfif>
+										<cfloop query="shippedFrom">
+											<li>
+												Sender of shipment for #transaction_type#
+												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+													#collection# #specific_number#
+												</a>
+											</li>
+										</cfloop>
+									</ul>
+								</div>
+							</section>
+						</cfif>
+
+
 					</div>
-					<!--- split between left and right agent columns --->
+					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
 
 						<!--- Media --->
@@ -1007,45 +1130,6 @@ limitations under the License.
 							</section>
 						</cfif>
 
-						<!--- loan item reconciliation --->
-						<cfif listcontainsnocase(session.roles, "manage_transactions")>
-							<section class="card mb-2 bg-light">
-								<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
-									SELECT
-										count(*) cnt,
-										trans.transaction_id,
-										loan_number,
-										collection
-									FROM
-										trans
-										left join loan on trans.transaction_id=loan.transaction_id
-										left join loan_item on loan.transaction_id=loan_item.transaction_id
-										left join collection on trans.collection_id=collection.collection_id
-									WHERE
-										RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									GROUP BY
-										trans.transaction_id,
-										loan_number,
-										collection				
-								</cfquery>
-								<div class="card-header">
-									<h2 class="h3">Reconciled loan items:</h2>
-								</div>
-								<div class="card-body">
-									<ul>
-										<cfif loan_item.recordcount EQ 0>
-											<li>None.</li>
-										<cfelse>
-											<cfloop query="loan_item">
-												<li>Reconciled #cnt# items for Loan 
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
-												</li>		
-											</cfloop>
-										</cfif>
-									</ul>
-								</div>
-							</section>
-						</cfif>
 
 						<!--- permissions and rights roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
@@ -1137,87 +1221,6 @@ limitations under the License.
 							</section>
 						</cfif>
 
-						<!--- shipments --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Roles in Shipments</h2>
-								</div>
-								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
-									SELECT
-										transaction_view.transaction_id, 
-										transaction_view.transaction_type,
-										to_char(shipped_date,'YYYY-MM-DD') trans_date,
-										transaction_view.specific_number,
-										transaction_view.collection_id,
-										collection
-									FROM
-										shipment
-										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
-										left join collection on transaction_view.collection_id=collection.collection_id
-									WHERE
-										PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<cfquery name="shippedTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedTo_result">
-									SELECT
-										transaction_view.transaction_id, 
-										transaction_view.transaction_type,
-										to_char(shipped_date,'YYYY-MM-DD') trans_date,
-										transaction_view.specific_number,
-										transaction_view.collection_id,
-										collection
-									FROM
-										shipment
-										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
-										left join collection on transaction_view.collection_id=collection.collection_id
-										left join addr on shipment.shipped_to_addr_id = addr.addr_id
-									WHERE
-										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<cfquery name="shippedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedFrom_result">
-									SELECT
-										transaction_view.transaction_id, 
-										transaction_view.transaction_type,
-										to_char(shipped_date,'YYYY-MM-DD') trans_date,
-										transaction_view.specific_number,
-										transaction_view.collection_id,
-										collection
-									FROM
-										shipment
-										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
-										left join collection on transaction_view.collection_id=collection.collection_id
-										left join addr on shipment.shipped_from_addr_id = addr.addr_id
-									WHERE
-										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<div class="card-body">
-									<ul>
-										<cfif packedBy.recordcount EQ 0>
-											<li>Packed no shipments for transactions</li>
-										</cfif>
-										<cfloop query="packedBy">
-											<li>
-												Packed Shipment for #transaction_type#
-												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-													#collection# #specific_number#
-												</a>
-											</li>
-										</cfloop>
-										<cfif shippedTo.recordcount EQ 0>
-											<li>Recipient of no shipments for transactions</li>
-										</cfif>
-										<cfloop query="shippedFrom">
-											<li>
-												Sender of shipment for #transaction_type#
-												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-													#collection# #specific_number#
-												</a>
-											</li>
-										</cfloop>
-									</ul>
-								</div>
-							</section>
-						</cfif>
 
 						<!--- foreign key relationships to other tables --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
