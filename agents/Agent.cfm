@@ -118,7 +118,7 @@ limitations under the License.
 					</cfif>
 				</div>
 				<div class="col-12 mb-2 clearfix float-left" id="agentTwoCollsWrapper">
-					<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
+					<div class="col-12 col-md-6 px-1 float-left accordion" id="leftAgentColl">
 					
 						<!--- agent names --->
 						<section class="card mb-2 bg-light">
@@ -788,10 +788,7 @@ limitations under the License.
 
 						<!--- shipments --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Roles in Shipments</h2>
-								</div>
+							<section class="card mb-2 bg-light" id="shipmentSection">
 								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
 									SELECT
 										transaction_view.transaction_id, 
@@ -839,31 +836,54 @@ limitations under the License.
 									WHERE
 										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-body">
-									<ul>
-										<cfif packedBy.recordcount EQ 0>
-											<li>Packed no shipments for transactions</li>
-										</cfif>
-										<cfloop query="packedBy">
-											<li>
-												Packed Shipment for #transaction_type#
-												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-													#collection# #specific_number#
-												</a>
-											</li>
-										</cfloop>
-										<cfif shippedTo.recordcount EQ 0>
-											<li>Recipient of no shipments for transactions</li>
-										</cfif>
-										<cfloop query="shippedFrom">
-											<li>
-												Sender of shipment for #transaction_type#
-												<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-													#collection# #specific_number#
-												</a>
-											</li>
-										</cfloop>
-									</ul>
+								<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
+								<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalShipCount GT 10>
+									<cfset cardState = "collapsed">
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+								<cfelse>
+									<cfset cardState = "expanded">
+									<cfset headerClass = "btn-link-">
+									<cfset bodyClass = "collapse show">
+								</cfif>
+								<div class="card-header">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="true" aria-controls="shipmentCardBody">
+											Roles in #totalShipCount# Shipment#plural#
+										</button>
+									</h2>
+								</div>
+								<div id="shipmentCardBody" class="collapse show" aria-labelledby="headingOne" data-parent="##shipmentsSection">
+									<cfif totalShipCount GT 0>
+										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+									</cfif>
+									<div class="card-body">
+										<ul>
+											<cfif packedBy.recordcount EQ 0>
+												<li>Packed no shipments for transactions</li>
+											</cfif>
+											<cfloop query="packedBy">
+												<li>
+													Packed Shipment for #transaction_type#
+													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+														#collection# #specific_number#
+													</a>
+												</li>
+											</cfloop>
+											<cfif shippedTo.recordcount EQ 0>
+												<li>Recipient of no shipments for transactions</li>
+											</cfif>
+											<cfloop query="shippedFrom">
+												<li>
+													Sender of shipment for #transaction_type#
+													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+														#collection# #specific_number#
+													</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
 								</div>
 							</section>
 						</cfif>
@@ -871,7 +891,7 @@ limitations under the License.
 
 					</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
-					<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
+					<div class="col-12 col-md-6 px-1 float-left accordion" id="rightAgentColl">
 
 						<!--- Media --->
 						<section class="card mb-2 bg-light">
