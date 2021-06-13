@@ -439,6 +439,43 @@ limitations under the License.
 							</div>
 						</section>
 
+						<!--- Determiner --->
+						<section class="card mb-2 bg-light">
+							<div class="card-header">
+								<h2 class="h3">Determiner</h2>
+							</div>
+							<cfquery name="identification" datasource="uam_god">
+								SELECT
+									count(*) cnt, 
+									count(distinct(identification.collection_object_id)) specs,
+									collection.collection_id,
+									collection.collection
+								FROM
+									identification
+									left join identification_agent on identification.identification_id=identification_agent.identification_id
+									left join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
+									left join collection on cataloged_item.collection_id = collection.collection_id
+								WHERE
+									identification_agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								GROUP BY
+									collection.collection_id,
+									collection.collection
+								</cfquery>
+								<cfif entered.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="identification">
+											<li>
+												#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
+												#specs# #collection#</a> cataloged items
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</section>
+
 						
 						<cfif oneOfUs EQ 1>
 							<!--- records entered --->
