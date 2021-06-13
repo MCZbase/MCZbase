@@ -1006,6 +1006,96 @@ limitations under the License.
 							</section>
 						</cfif>
 
+						<!--- permissions and rights roles --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Roles in Permissions and Rights Documents</h2>
+								</div>
+								<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsFrom_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										ISSUED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitContacts_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-body">
+									<ul>
+										<cfif getPermitsTo.recordcount EQ 0>
+											<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
+										<cfelse>
+											<cfloop query="getPermitsTo">
+												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+												<li>
+													Document 
+													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+														#pnrDoc#
+													</a> (#permit_type#:#specific_type#)
+													was issued to #encodeForHtml(prefName)#
+												</li>
+											</cfloop>
+										</cfif>
+										<cfif getPermitsFrom.recordcount EQ 0>
+											<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
+										<cfelse>
+											<cfloop query="getPermitsFrom">
+												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+												<li>
+													Document 
+													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+														#pnrDoc#
+													</a> (#permit_type#:#specific_type#)
+													was issued by #encodeForHtml(prefName)#
+												</li>
+											</cfloop>
+										</cfif>
+										<cfif getPermitContacts.recordcount EQ 0>
+											<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
+										<cfelse>
+											<cfloop query="getPermitContacts">
+												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+												<li>
+													#encodeForHtml(prefName)# is contact for 
+													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+														#pnrDoc#
+													</a> (#permit_type#:#specific_type#)
+												</li>
+											</cfloop>
+										</cfif>
+									</ul>
+								</div>
+							</section>
+						</cfif>
+
 						<!--- foreign key relationships to other tables --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 							<section class="card mb-2 bg-light">
