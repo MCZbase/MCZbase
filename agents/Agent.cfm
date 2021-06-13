@@ -683,8 +683,8 @@ limitations under the License.
 									<ul class="list-group">
 										<cfloop query="publicationAuthor">
 											<li class="list-group-item d-flex justify-content-between align-items-center">
-											<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-											<span class="badge badge-primary badge-pill">(#citation_count# citations)</span>
+												<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
+												<span class="badge badge-primary badge-pill">#citation_count# citations</span>
 											</li>
 										</cfloop>
 									</ul>
