@@ -460,7 +460,8 @@ limitations under the License.
 								GROUP BY
 									collection.collection_id,
 									collection.collection
-								</cfquery>
+							</cfquery>
+							<div class="card-body">
 								<cfif identification.recordcount EQ 0>
 									<ul><li>None</li></ul>
 								<cfelse>
