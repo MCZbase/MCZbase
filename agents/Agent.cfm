@@ -931,14 +931,16 @@ limitations under the License.
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									and mczbase.is_media_encumbered(media.media_id) < 1
 							</cfquery>
+							<div class="card-header">
+								<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+								<h2 class="h3">Subject of #getMedia.recordcount# media record#plural#.</h2>
+							</div>
 							<cfif getMedia.recordcount eq 0>
-								<cfset mediaLink = "Media records">
+								<cfset mediaLink = "No Media records">
 							<cfelse>
 								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Records</a>">
 							</cfif>
-							<div class="card-header">
-								<h2 class="h3">Subject of #mediaLink#.</h2>
-							</div>
+							<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
 							<div class="card-body">
 								<cfif getMedia.recordcount EQ 0>
 									<ul><li>None</li></ul>
