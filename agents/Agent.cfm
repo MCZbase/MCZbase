@@ -31,6 +31,7 @@ limitations under the License.
 </cfif>
 
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/agents/component/functions.cfc" runOnce="true">
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
