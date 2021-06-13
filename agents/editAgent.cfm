@@ -37,22 +37,9 @@ limitations under the License.
 	<cfif action IS "newAgent"><cfset action = "new"></cfif>
 </cfif>
 
-<!--- TODO: Temporary test for non-production deployment, remove when ready --->
-<cftry>
-	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-<cfcatch>
-	<cfset gitBranch = "unknown">
-</cfcatch>
-</cftry>
-
 <cfswitch expression="#action#">
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
-	<cfset Session.gitBranch = gitBranch>
-	<cfif findNoCase('master',Session.gitBranch) GT 0>
-		<cfthrow message="Page not ready for production use.">
-	</cfif>
 </cfcase>
 <cfcase value="new">
 	<cfset pageTitle = "New Agent">
