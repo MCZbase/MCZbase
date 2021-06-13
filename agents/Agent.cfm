@@ -681,7 +681,7 @@ limitations under the License.
 								<cfelse>
 									<ul class="list-group">
 										<cfloop query="getMedia">
-											<cfif getMedia.media_type EQ "image">
+											<cfif getMedia.media_type IS "image">
 												<li class="border list-group-item d-flex justify-content-between align-items-center">
 													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
 													<span>#getMedia.descriptor#</span>
