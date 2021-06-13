@@ -785,7 +785,7 @@ limitations under the License.
 								</div>
 								<div>
 								<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
-									<cfif totalShipCount GT 0>
+									<cfif loan_item.recordcount GT 0>
 										<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 									</cfif>
 									<div class="card-body">
