@@ -538,10 +538,146 @@ limitations under the License.
 							</div>
 						</section>
 
+						<cfif oneOfUs EQ 1>
+							<!--- media relationships and labels --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Media Records Edited</h2>
+								</div>
+								<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
+									SELECT count(distinct media_id) as ct
+									FROM media_relations 
+									WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
+									SELECT count(distinct media_id) ct,
+										media_label
+									FROM media_labels 
+									WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY media_label
+								</cfquery>
+								<div class="card-body">
+									<ul>
+										<cfif media_assd_relations.ct EQ 0>
+											<li>Created No Media Relationships.</li>
+										<cfelse>
+											<li>Created #media_assd_relations.ct# Media Relationships.</li>
+										<cfif>
+										<cfif media_labels.recordcount EQ 0>
+											<li>Assigned no media label values.</li>
+										<cfelse>
+											<cfloop query="media_labels">
+												<li>#media_labels.media_label# (#media_labels.ct#)</li>
+											</cfquery>
+										<cfif>
+									</ul>
+								</div>
+							</section>
+						</cfif>
+
+						<cfif oneOfUs EQ 1>
+							<!--- records last edited by --->
+							<section class="card mb-2 bg-light">
+								<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
+									SELECT count(*) as ct,
+									FROM encumbrance 
+									WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-header">
+									<cfif getEncumbCount.ct GT 0>
+										<cfset encumbCount = "(#getEncumbCount.ct#)">
+									<cfelse>
+										<cfset encumbCount = "">
+									</cfif>
+									<h2 class="h3">Encumbrances #encumbCount#</h2>
+								</div>
+								<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+									SELECT count(*) as ct,
+										ENCUMBRANCE
+									FROM encumbrance 
+									WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY ENCUMBRANCE
+								</cfquery>
+								<cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+									SELECT 
+										count(distinct(coll_object_encumbrance.collection_object_id)) specs,
+										collection,
+										collection.collection_id
+									FROM
+										encumbrance
+										left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
+										left join cataloged_item on coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id
+										left join collection on cataloged_item.collection_id=collection.collection_id
+									WHERE
+										encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY
+										collection,
+										collection.collection_id
+								</cfquery>
+								<div class="card-body">
+									<ul>
+										<cfif getEncumbCount.ct EQ 0>
+											<li>Owns No Encumbrances</li>
+										<cfelse>
+											<cfloop query="getEncumb">
+												<li>#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+											</cfloop>
+										</cfif>
+										<cfloop query="coll_object_encumbrance">
+											<li>
+												Encumbered 
+												<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
+												#specs# #collection#</a> records
+											</li>
+										</cfloop>
+									</ul>
+								</div>
+							</section>
+						</cfif>
 
 					</div>
 					<!--- split between left and right agent columns --->
 					<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
+
+						<!--- Media --->
+						<section class="card mb-2 bg-light">
+							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+								SELECT media.media_id,
+									mczbase.get_media_descriptor(media.media_id) as descriptor,
+									media.media_uri,
+									media.media_type
+								FROM media_relations 
+									left join media on media_relations.related_primary_key = media.media_id
+								WHERE media_relationship like '% agent'
+									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and mczbase.is_media_encumbered(media.media_id) < 1
+							</cfquery>
+							<cfif getMedia.recordcount eq 0>
+								<cfset mediaLink = "">
+							<cfelse>
+								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent'>#getMedia.recordcount#</a>">
+							</cfif>
+							<div class="card-header">
+								<h2 class="h3">Subject of Media #mediaLink# records.</h2>
+							</div>
+							<div class="card-body">
+								<cfif getMedia.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul class="list-group">
+										<cfloop query="getMedia">
+											<cfif getMedia.media_type EQ "image">
+												<li class="border list-group-item d-flex justify-content-between align-items-center">
+													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
+													<span>#getMedia.descriptor#</span>
+													<span>&nbsp;</span>
+												</li>
+											</cfif>
+										</cfloop>
+									<ul>
+								</cfif>
+							</div>
+						</section>
 
 						<!--- Preparator--->
 						<section class="card mb-2 bg-light">
