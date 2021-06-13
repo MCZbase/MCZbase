@@ -1251,7 +1251,7 @@ limitations under the License.
 								<div class="card-header" id="permitsHeader">
 									<h2 class="h3">
 										<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBody" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBody">
-											Roles in Permissions and Rights Documents#plural# (#totalPermitCount#)
+											Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 										</button>
 									</h2>
 								</div>
