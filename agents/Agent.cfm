@@ -780,9 +780,11 @@ limitations under the License.
 									<cfset ariaExpanded ="true">
 								</cfif>
 								<div class="card-header" id="loanItemHeader">
-									<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
-										<h2 class="h3">Reconciled loan items (#loan_item.recordcount#):</h2>
-									</button>
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
+											Reconciled loan items (#loan_item.recordcount#):
+										</button>
+									</h2>
 								</div>
 								<div>
 								<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
