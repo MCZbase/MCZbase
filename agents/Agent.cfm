@@ -922,6 +922,7 @@ limitations under the License.
 							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
 								SELECT media.media_id,
 									mczbase.get_media_descriptor(media.media_id) as descriptor,
+									mczbase.get_media_label(media.media_id,'subject') as subject,
 									media.media_uri,
 									media.media_type
 								FROM media_relations 
@@ -938,7 +939,7 @@ limitations under the License.
 							<cfif getMedia.recordcount eq 0>
 								<cfset mediaLink = "No Media records">
 							<cfelse>
-								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Records</a>">
+								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 							</cfif>
 							<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
 							<div class="card-body">
@@ -951,6 +952,7 @@ limitations under the License.
 												<li class="border list-group-item d-flex justify-content-between align-items-center">
 													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
 													<span>#getMedia.descriptor#</span>
+													<span>#getMedia.subject#</span>
 													<span>&nbsp;</span>
 												</li>
 											</cfif>
@@ -1152,7 +1154,7 @@ limitations under the License.
 								<div class="card-header" id="transactionsHeader">
 									<h2 class="h3">
 										<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
-											Roles in Transactions#plural# (#totalTransCount#)
+											Roles in Transaction#plural# (#totalTransCount#)
 										</button>
 									</h2>
 								</div>
@@ -1200,9 +1202,6 @@ limitations under the License.
 						<!--- permissions and rights roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
 							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Roles in Permissions and Rights Documents</h2>
-								</div>
 								<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
 									SELECT
 										permit_num,
@@ -1236,53 +1235,76 @@ limitations under the License.
 									WHERE 
 										CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-body">
-									<ul>
-										<cfif getPermitsTo.recordcount EQ 0>
-											<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
-										<cfelse>
-											<cfloop query="getPermitsTo">
-												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
-												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-												<li>
-													Document 
-													<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
-														#pnrDoc#
-													</a> (#permit_type#:#specific_type#)
-													was issued to #encodeForHtml(prefName)#
-												</li>
-											</cfloop>
-										</cfif>
-										<cfif getPermitsFrom.recordcount EQ 0>
-											<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
-										<cfelse>
-											<cfloop query="getPermitsFrom">
-												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
-												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-												<li>
-													Document 
-													<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
-														#pnrDoc#
-													</a> (#permit_type#:#specific_type#)
-													was issued by #encodeForHtml(prefName)#
-												</li>
-											</cfloop>
-										</cfif>
-										<cfif getPermitContacts.recordcount EQ 0>
-											<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
-										<cfelse>
-											<cfloop query="getPermitContacts">
-												<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
-												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-												<li>
-													#encodeForHtml(prefName)# is contact for 
-													<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
-														#pnrDoc#
-													</a> (#permit_type#:#specific_type#)
-												</li>
-											</cfloop>
-										</cfif>
-									</ul>
+								<cfset totalPermitCount = getPermitsTo.recordcount + getPermitsFrom.recordCount + getPermitContacts.recordcount>
+								<cfif totalPermitCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalPermitCount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded--->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="permitsHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBody" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBody">
+											Roles in Permissions and Rights Documents#plural# (#totalPermitCount#)
+										</button>
+									</h2>
+								</div>
+								<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
+									<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
+									<div class="card-body">
+										<ul>
+											<cfif getPermitsTo.recordcount EQ 0>
+												<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
+											<cfelse>
+												<cfloop query="getPermitsTo">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														Document 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+														was issued to #encodeForHtml(prefName)#
+													</li>
+												</cfloop>
+											</cfif>
+											<cfif getPermitsFrom.recordcount EQ 0>
+												<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
+											<cfelse>
+												<cfloop query="getPermitsFrom">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														Document 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+														was issued by #encodeForHtml(prefName)#
+													</li>
+												</cfloop>
+											</cfif>
+											<cfif getPermitContacts.recordcount EQ 0>
+												<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
+											<cfelse>
+												<cfloop query="getPermitContacts">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														#encodeForHtml(prefName)# is contact for 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+													</li>
+												</cfloop>
+											</cfif>
+										</ul>
+									</div>
 								</div>
 							</section>
 						</cfif>
