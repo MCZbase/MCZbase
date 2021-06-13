@@ -544,6 +544,12 @@ limitations under the License.
 								<div class="card-header">
 									<h2 class="h3">Media Records Edited</h2>
 								</div>
+								<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
+									SELECT count(distinct media_id) as ct
+									FROM media_relations 
+									WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										and media_relationship = 'created by agent'
+								</cfquery>
 								<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
 									SELECT count(distinct media_id) as ct
 									FROM media_relations 
@@ -558,18 +564,26 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<ul>
+										<cfif getMediaCreation.ct EQ 0>
+											<li>Created No Media Relationships.</li>
+										<cfelse>
+											<li>
+												Created #getMediaCreation.ct# 
+												<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURI(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
+											</li>
+										</cfif>
 										<cfif media_assd_relations.ct EQ 0>
 											<li>Created No Media Relationships.</li>
 										<cfelse>
 											<li>Created #media_assd_relations.ct# Media Relationships.</li>
-										<cfif>
+										</cfif>
 										<cfif media_labels.recordcount EQ 0>
 											<li>Assigned no media label values.</li>
 										<cfelse>
 											<cfloop query="media_labels">
 												<li>#media_labels.media_label# (#media_labels.ct#)</li>
-											</cfquery>
-										<cfif>
+											</cfloop>
+										</cfif>
 									</ul>
 								</div>
 							</section>
