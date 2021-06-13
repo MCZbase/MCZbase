@@ -685,6 +685,7 @@ limitations under the License.
 											<li class="list-group-item d-flex justify-content-between align-items-center">
 												<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
 												<span class="badge badge-primary badge-pill">#citation_count# citations</span>
+												<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
 											</li>
 										</cfloop>
 									</ul>

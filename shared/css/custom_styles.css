@@ -1625,6 +1625,7 @@ tr.line-top:first-child {
 }
 .card-body li.list-group-item span:last-child {
 	display:none;
+   /* Caution, this directive will have unexpected side effects */  
 }
 input#readMore_check_id {
 	display:none;
