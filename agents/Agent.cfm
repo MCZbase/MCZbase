@@ -922,7 +922,7 @@ limitations under the License.
 							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
 								SELECT media.media_id,
 									mczbase.get_media_descriptor(media.media_id) as descriptor,
-									mczbase.get_media_label(media.media_id,'subject') as subject,
+									mczbase.get_medialabel(media.media_id,'subject') as subject,
 									media.media_uri,
 									media.media_type
 								FROM media_relations 
