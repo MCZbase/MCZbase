@@ -680,13 +680,13 @@ limitations under the License.
 								<cfif publicationAuthor.recordcount EQ 0>
 									<h3 class="h3">No Publication Citing MCZ material</h3>
 								<cfelse>
-									<ul>
+									<ul class="list-group">
 										<cfloop query="publicationAuthor">
-											<li>
+											<li class="list-group-item d-flex justify-content-between align-items-center">
 											<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-											(#citation_count# citations)
-										</li>
-									</cfloop>
+											<span class="badge badge-primary badge-pill">(#citation_count# citations)</span>
+											</li>
+										</cfloop>
 									</ul>
 								</cfif>
 							</div>
