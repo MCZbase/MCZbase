@@ -55,10 +55,20 @@ limitations under the License.
 		agent_remarks, 
 		biography,
 		agentguid_guid_type, agentguid,
-		prefername.agent_name as preferred_agent_name
+		prefername.agent_name as preferred_agent_name,
+		person.prefix,
+		person.suffix,
+		person.first_name,
+		person.last_name,
+		person.middle_name,
+		person.birth_date,
+		person.death_date,
+		null as start_date,
+		null as end_date
 	FROM 
 		agent
 		left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+		left join person on agent.agent_id = person.person_id
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
@@ -71,8 +81,18 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 my-4">
 					<div class="row">
 						<div class="col-12 col-sm-10">
+							<cfset dates ="">
+							<cfif getAgent.agent_type EQ "person">
+								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
+									<!--- add birth death dates --->
+									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false) >
+								</cfif>
+							<cfelse>
+								<!--- add start and end years when implemented --->
+								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
+							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h2>#preferred_agent_name# #vetted_marker#</h2>
+							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
 						</div>
 						<div class="col-12 col-sm-2">
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
