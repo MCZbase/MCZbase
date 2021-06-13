@@ -682,7 +682,7 @@ limitations under the License.
 								<cfelse>
 									<ul class="list-group">
 										<cfloop query="publicationAuthor">
-											<li class="list-group-item d-flex justify-content-between align-items-center">
+											<li class="border list-group-item d-flex justify-content-between align-items-center">
 												<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
 												<span class="badge badge-primary badge-pill">#citation_count# citations</span>
 												<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
