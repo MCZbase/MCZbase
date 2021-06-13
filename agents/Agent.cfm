@@ -565,7 +565,7 @@ limitations under the License.
 								<div class="card-body">
 									<ul>
 										<cfif getMediaCreation.ct EQ 0>
-											<li>Created No Media Relationships.</li>
+											<li>Created No Media Records.</li>
 										<cfelse>
 											<li>
 												Created #getMediaCreation.ct# 
