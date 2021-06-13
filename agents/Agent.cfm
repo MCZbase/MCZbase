@@ -767,21 +767,40 @@ limitations under the License.
 										loan_number,
 										collection				
 								</cfquery>
+								<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif loan_item.recordcount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded --->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
 								<div class="card-header">
+									<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
 									<h2 class="h3">Reconciled loan items:</h2>
 								</div>
-								<div class="card-body">
-									<ul>
-										<cfif loan_item.recordcount EQ 0>
-											<li>None.</li>
-										<cfelse>
-											<cfloop query="loan_item">
-												<li>Reconciled #cnt# items for Loan 
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
-												</li>		
-											</cfloop>
-										</cfif>
-									</ul>
+								<div>
+								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
+									<cfif totalShipCount GT 0>
+										<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+									</cfif>
+									<div class="card-body">
+										<ul>
+											<cfif loan_item.recordcount EQ 0>
+												<li>None.</li>
+											<cfelse>
+												<cfloop query="loan_item">
+													<li>Reconciled #cnt# items for Loan 
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+													</li>		
+												</cfloop>
+											</cfif>
+										</ul>
+									</div>
 								</div>
 							</section>
 						</cfif>
