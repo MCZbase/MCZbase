@@ -1007,6 +1007,46 @@ limitations under the License.
 							</section>
 						</cfif>
 
+						<!--- loan item reconciliation --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+									SELECT
+										count(*) cnt,
+										trans.transaction_id,
+										loan_number,
+										collection
+									FROM
+										trans
+										left join loan on trans.transaction_id=loan.transaction_id
+										left loan_item on loan.transaction_id=loan_item.transaction_id
+										left join collection on trans.collection_id=collection.collection_id
+									WHERE
+										RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY
+										trans.transaction_id,
+										loan_number,
+										collection				
+								</cfquery>
+								<div class="card-header">
+									<h2 class="h3">Reconciled loan items:</h2>
+								</div>
+								<div class="card-body">
+									<ul>
+										<cfif loan_item.recordcount EQ 0>
+											<li>None.</li>
+										<cfelse>
+											<cfloop query="loan_item">
+												<li>Reconciled #cnt# items for Loan 
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+												</li>		
+											</cfloop>
+										</cfif>
+									</ul>
+								</div>
+							</section>
+						</cfif>
+
 						<!--- permissions and rights roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
 							<section class="card mb-2 bg-light">
