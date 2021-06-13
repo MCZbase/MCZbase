@@ -69,11 +69,17 @@ limitations under the License.
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 my-4">
-					<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-					<h2>#preferred_agent_name# #vetted_marker#</h2>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-						<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
-					</cfif>
+					<div class="row">
+						<div class="col-12 col-sm-10">
+							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
+							<h2>#preferred_agent_name# #vetted_marker#</h2>
+						</div>
+						<div class="col-12 col-sm-2">
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+							</cfif>
+						</div>
+					</div>
 					<ul class="mt-3 list-unstyled">
 						<li>#agent_type#</li>
 						<cfif len(agentguid) GT 0>
