@@ -1056,7 +1056,7 @@ limitations under the License.
 												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 												<li>
 													Document 
-													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+													<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 														#pnrDoc#
 													</a> (#permit_type#:#specific_type#)
 													was issued to #encodeForHtml(prefName)#
@@ -1071,7 +1071,7 @@ limitations under the License.
 												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 												<li>
 													Document 
-													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+													<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
 														#pnrDoc#
 													</a> (#permit_type#:#specific_type#)
 													was issued by #encodeForHtml(prefName)#
@@ -1086,7 +1086,7 @@ limitations under the License.
 												<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 												<li>
 													#encodeForHtml(prefName)# is contact for 
-													<a href="/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+													<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 														#pnrDoc#
 													</a> (#permit_type#:#specific_type#)
 												</li>
