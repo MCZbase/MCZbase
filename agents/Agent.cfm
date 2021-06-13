@@ -842,19 +842,21 @@ limitations under the License.
 									<cfset cardState = "collapsed">
 									<cfset headerClass = "btn-link-collapsed">
 									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false"
 								<cfelse>
 									<cfset cardState = "expanded">
-									<cfset headerClass = "btn-link-">
+									<cfset headerClass = "btn-link">
 									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true"
 								</cfif>
-								<div class="card-header">
+								<div class="card-header" id="shipmentHeader">
 									<h2 class="h3">
-										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="true" aria-controls="shipmentCardBody">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
 											Roles in #totalShipCount# Shipment#plural#
 										</button>
 									</h2>
 								</div>
-								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="headingOne" data-parent="##shipmentsSection">
+								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
 									<cfif totalShipCount GT 0>
 										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 									</cfif>
