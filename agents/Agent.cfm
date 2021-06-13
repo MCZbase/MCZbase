@@ -1108,7 +1108,7 @@ limitations under the License.
 										transaction_view.transaction_type,
 										to_char(shipped_date,'YYYY-MM-DD') trans_date,
 										transaction_view.specific_number,
-										trasaction_view.collection_id
+										transaction_view.collection_id,
 										collection
 									FROM
 										shipment
@@ -1123,7 +1123,7 @@ limitations under the License.
 										transaction_view.transaction_type,
 										to_char(shipped_date,'YYYY-MM-DD') trans_date,
 										transaction_view.specific_number,
-										trasaction_view.collection_id
+										transaction_view.collection_id,
 										collection
 									FROM
 										shipment
@@ -1139,7 +1139,7 @@ limitations under the License.
 										transaction_view.transaction_type,
 										to_char(shipped_date,'YYYY-MM-DD') trans_date,
 										transaction_view.specific_number,
-										trasaction_view.collection_id
+										transaction_view.collection_id,
 										collection
 									FROM
 										shipment
