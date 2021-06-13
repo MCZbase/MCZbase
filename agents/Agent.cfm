@@ -842,12 +842,12 @@ limitations under the License.
 									<cfset cardState = "collapsed">
 									<cfset headerClass = "btn-link-collapsed">
 									<cfset bodyClass = "collapse">
-									<cfset ariaExpanded ="false"
+									<cfset ariaExpanded ="false">
 								<cfelse>
 									<cfset cardState = "expanded">
 									<cfset headerClass = "btn-link">
 									<cfset bodyClass = "collapse show">
-									<cfset ariaExpanded ="true"
+									<cfset ariaExpanded ="true">
 								</cfif>
 								<div class="card-header" id="shipmentHeader">
 									<h2 class="h3">
