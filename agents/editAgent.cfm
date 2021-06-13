@@ -126,6 +126,9 @@ limitations under the License.
 						if ($('##first_name').val()!="") {
 							result = $('##first_name').val() + " " + result;
 						}
+						if (result == "") {
+							result = $('##pref_name').val();
+						}
 						return result;
 					}
 				</script>
@@ -159,6 +162,29 @@ limitations under the License.
 					<h1>No such agent as agent_id = #encodeForHtml(agent_id)#.</h1>
 				<cfelse>
 					<cfloop query="getAgent">
+						<cfquery name="getFKFields" datasource="uam_god">
+							SELECT all_constraints.table_name, column_name, delete_rule 
+							FROM all_constraints
+								left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
+							WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
+							ORDER BY all_constraints.table_name
+						</cfquery>
+						<cfset relatedTo = StructNew() >
+						<cfset okToDelete = true>
+						<cfloop query="getFKFields">
+							<cfif getFKFields.delete_rule EQ "NO ACTION">
+								<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+									SELECT count(*) as ct 
+									FROM #getFKFields.table_name#
+									WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+								</cfquery>
+								<cfif getRels.ct GT 0>
+									<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+									<cfset okToDelete = false>
+									<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+								</cfif>
+							</cfif>
+						</cfloop>
 						<cfif getAgent.edited EQ 1>
 							<cfset vetted="*">
 						<cfelse>
@@ -177,6 +203,55 @@ limitations under the License.
 										<p class="mb-1">Collector of MCZ material: #collections_scope#</p>
 									</cfif>
 								</div>
+ 								<cfif listcontainsnocase(session.roles, "manage_transactions")>
+									<div class="col-12 col-md-4">
+										<!--- TODO: When all data from the agentActivity.cfm page has moved onto /agents/Agent.cfm, then this link can go away ---> 
+										<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT count(*) || ' ' || agent_rank agent_rank
+											FROM agent_rank
+											WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by agent_rank
+										</cfquery>
+										<span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">
+											<cfif rank.recordcount gt 0>
+												Previous Ranking: #valuelist(rank.agent_rank,"; ")#
+												<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
+													<img src='/agents/images/flag-red.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'D'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'C'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'B'>
+													<img src='/agents/images/flag-yellow.svg.png' width='16'>
+												</cfif>
+											</cfif>
+										</span>
+									</div>
+									<div class="col-12 col-md-4">
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<script>
+												function reloadAgentRanks() { 
+													loadAgentRankSummary('agentRankSummary',#agent_id#);
+												}
+											</script>
+											<cfif listcontainsnocase(session.roles,"manage_agent_ranking")>
+												<cfset rankButtonText = "View/Add Rankings">
+												<cfset rankButtonLabel = "View or Add Rankings for this agent">
+											<cfelse>
+												<cfset rankButtonText = "View Rankings">
+												<cfset rankButtonLabel = "View Rankings for this agent">
+											</cfif>
+ 											<input type="button" class="btn btn-xs btn-secondary" value="#rankButtonText#" aria-label="#rankButtonLabel#" 
+												onclick="openRankDialog('agentRankDlg_#agent_id#','Rank Agent #getAgent.preferred_agent_name#',#agent_id#, reloadAgentRanks); ">
+											&nbsp;&nbsp;
+											<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
+										</cfif>
+										<div id="agentRankDlg_#agent_id#"></div>
+									</div>
+								</cfif>
 							</div>
 						</div>
 						<section class="row mx-0 border rounded my-2 pt-3 pb-0">
@@ -257,7 +332,7 @@ limitations under the License.
 										</div>
 									<div class="col-12 col-md-2">
 										<label for="name_matches" class="data-entry-label">Duplicate check</label>
-										<div id="name_matches" class="text-success p-1 small90"></div>
+										<div id="name_matches" class="text-success p-1 small90 font-weight-lessbold"></div>
 									</div>
 								</div>
 								<div id="personRow" class="form-row mb-1">
@@ -381,6 +456,10 @@ limitations under the License.
 													// On changing prefered name, update search.
 													getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 												});
+												$('##pref_name').change(function () {
+													// On changing prefered name, update search.
+													getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+												});
 											});
 										</script>
 									</div>
@@ -440,9 +519,29 @@ limitations under the License.
 											onClick="if (checkFormValidity($('##editAgentForm')[0])) { saveEdits();  } " 
 											id="submitButton" >
 										<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
-										<!--- TODO: Implement delete agent, when no linked data --->
-										<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
+										<cfif okToDelete>
+											<input type="button" value="Delete Agent" class="btn btn-xs btn-danger float-right"
 											onClick=" $('##action').val('editAgent'); confirmDialog('Delete this Agent?','Confirm Delete Agent', function() { $('##action').val('deleAgent'); $('##editAgentForm').submit(); } );">
+										<cfelse>
+											<div class="float-right">
+												<cfset relCount = StructCount(relatedTo)>
+												<cfif relCount EQ 1 ><cfset plural = ""><cfelse><cfset plural="s"></cfif>
+												<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
+												<cfset relations = "">
+												<cfset sep = "">
+												<cfloop collection="#relatedTo#" item="key">
+													<cfset relations = "#relations##sep##key# (#relatedTo[key]#)">
+													<cfset sep = "; <br>">
+												</cfloop>
+												<script>
+													$(document).ready(function() {
+														$('##showRelatedDataBtn').click(function (evt) {
+															messageDialog("#relations#","Numbers of related records for this agent");
+														});
+													});
+												</script>
+											</div>
+										</cfif>
 									</div>
 								</div>
 								<script>
@@ -627,6 +726,9 @@ limitations under the License.
 				if ($('##first_name').val()!="") {
 					result = $('##first_name').val() + " " + result;
 				}
+				if (result == "") {
+					result = $('##pref_name').val();
+				}
 				return result;
 			}
 		</script>
@@ -800,6 +902,10 @@ limitations under the License.
 										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 									});
 									$('##last_name').change(function () {
+										// On changing prefered name, update search.
+										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+									});
+									$('##pref_name').change(function () {
 										// On changing prefered name, update search.
 										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 									});

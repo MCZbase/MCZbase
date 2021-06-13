@@ -7,7 +7,7 @@
 			to /transactions/component/search.cfm.  When invoking with execute=true method does not
 			need to be included in the call, but it will be included in the URI parameter list when
 			clicking on the "Link to this search" link.
-	  --->
+	--->
 	<cfcase value="findLoans">
 		<cfset pageTitle = "Search Loans">
 		<cfif isdefined("execute")>
@@ -98,34 +98,32 @@ limitations under the License.
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
 <cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
-			permit_trans.transaction_id = trans.transaction_id
-   	)
-   group by ctpermit_type.permit_type
-   order by ctpermit_type.permit_type
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+			left join permit on ctpermit_type.permit_type = permit.permit_type
+			left join permit_trans on permit.permit_id = permit_trans.permit_id
+			left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+			left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+			left join trans on (
+				shipment.transaction_id = trans.transaction_id
+				OR
+				permit_trans.transaction_id = trans.transaction_id
+			)
+	group by ctpermit_type.permit_type
+	order by ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
+		)
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
@@ -142,149 +140,150 @@ limitations under the License.
 	order by ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'accn'
-   group by ctpermit_type.permit_type
-   order by ctpermit_type.permit_type
+		)
+	WHERE 
+		trans.transaction_type = 'accn'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'accn'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+		)
+	WHERE
+		trans.transaction_type = 'accn'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'loan'
-   group by ctpermit_type.permit_type
-   order by ctpermit_type.permit_type
+		)
+	WHERE 
+		trans.transaction_type = 'loan'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'loan'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+		)
+	WHERE
+		trans.transaction_type = 'loan'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'deaccession'
-   group by ctpermit_type.permit_type
-   order by ctpermit_type.permit_type
+		)
+	WHERE 
+		trans.transaction_type = 'deaccession'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'deaccession'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+		)
+	WHERE
+		trans.transaction_type = 'deaccession'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
-   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctpermit_type.permit_type = permit.permit_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+	FROM ctpermit_type
+		left join permit on ctpermit_type.permit_type = permit.permit_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'borrow'
-   group by ctpermit_type.permit_type
-   order by ctpermit_type.permit_type
+		)
+	WHERE 
+		trans.transaction_type = 'borrow'
+	GROUP BY ctpermit_type.permit_type
+	ORDER BY ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
-   where 
- 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
-   	and permit.permit_id = permit_trans.permit_id (+)
-	   and permit.permit_id = permit_shipment.permit_id (+)
-   	and permit_shipment.shipment_id = shipment.shipment_id (+)
-	   and (
-   	   shipment.transaction_id = trans.transaction_id
-			or
+	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	FROM ctspecific_permit_type 
+		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+		left join permit_trans on permit.permit_id = permit_trans.permit_id
+		left join permit_shipment on permit.permit_id = permit_shipment.permit_id
+		left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+		left join trans on (
+			shipment.transaction_id = trans.transaction_id
+			OR
 			permit_trans.transaction_id = trans.transaction_id
-   	)
-		and trans.transaction_type = 'borrow'
-	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
-	order by ctspecific_permit_type.specific_type
+		)
+	WHERE
+		trans.transaction_type = 'borrow'
+	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as cnt, ct.trans_agent_role 
-	from cttrans_agent_role ct left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
-	group by ct.trans_agent_role
-	order by ct.trans_agent_role
+	SELECT count(*) as cnt, ct.trans_agent_role 
+	FROM cttrans_agent_role ct 
+		left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
+	GROUP BY ct.trans_agent_role
+	ORDER BY ct.trans_agent_role
 </cfquery>
 <cfset selectedCollection = ''>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
@@ -601,8 +600,8 @@ limitations under the License.
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 								<button class="px-5 #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="3" role="tab"  aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button> 	
+								<button class="px-5 #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
 								<button class="px-5 #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
 								<button class="px-5 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
 							</div>
@@ -790,7 +789,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0" #loanTabShow#>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -798,7 +797,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'loan') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Loan'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1182,7 +1181,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'accn') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1448,7 +1447,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%'  });
+																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
 																setAccnDispositionValues();
 															});
 														</script> 
@@ -1498,7 +1497,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0"  aria-label="pick a permit" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 														<script>
 															function handleAPermitPickAction(event) {
 																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
@@ -1624,7 +1623,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'deaccession') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -1896,7 +1895,7 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%'  });
+																$("##deacc_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
 																setDeaccDispositionValues();
 															});
 														</script> 
@@ -1947,7 +1946,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append"> <span role="button" class="data-entry-addon"  aria-label="pick a permit" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" aria-label="pick a permit" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
 															function handleDePermitPickAction(event) {
 																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
@@ -2057,7 +2056,7 @@ limitations under the License.
 								</cfquery>
 								<cfquery name="cttrans_agent_role_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'borrow') cnt, cttrans_agent_role.trans_agent_role
-									from cttrans_agent_role  
+									from cttrans_agent_role
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Borrow'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
@@ -2438,27 +2437,27 @@ limitations under the License.
 		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
 	 */
 	function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
-	   var columns = $('##' + gridId).jqxGrid('columns').records;
-	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns pl-md-3'>";
-	   if (columns.length < 21) {
-	      // don't split into columns for shorter sets of columns.
-	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
-	   }
+		var columns = $('##' + gridId).jqxGrid('columns').records;
+		var content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul class='card-columns pl-md-3'>";
+		if (columns.length < 21) {
+			// don't split into columns for shorter sets of columns.
+			content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+		}
 		var daysdue = datarecord['dueindays'];
 		var loanstatus = datarecord['loan_status'];
-	   var gridWidth = $('##' + gridId).width();
-	   var dialogWidth = Math.round(gridWidth/2);
+		var gridWidth = $('##' + gridId).width();
+		var dialogWidth = Math.round(gridWidth/2);
 		var pid = datarecord['pid'];
 		var transaction_id = datarecord['transaction_id'];
-	   if (dialogWidth < 299) { dialogWidth = 300; }
-	   for (i = 1; i < columns.length; i++) {
-	      var text = columns[i].text;
-	      var datafield = columns[i].datafield;
+		if (dialogWidth < 299) { dialogWidth = 300; }
+		for (i = 1; i < columns.length; i++) {
+			var text = columns[i].text;
+			var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</button></li>";
+	 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] + "</button></li>";
 				} else { 
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'dueindays') { 
 				var daysoverdue = -(datarecord[datafield]);
@@ -2471,51 +2470,51 @@ limitations under the License.
 	 				} else {
 						overdue = daysoverdue + " days";
 					} 
-	      		content = content + "<li class='text-danger pr-3'><strong>Overdue:</strong> <strong>by " + overdue +  "</strong></li>";
+					content = content + "<li class='text-danger pr-3'><strong>Overdue:</strong> <strong>by " + overdue + "</strong></li>";
 				} else { 
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'return_due_date') { 
 				if (daysdue < 0 && loanstatus != 'closed') {
-	      		content = content + "<li class='text-danger pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li class='text-danger pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				} else { 
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 				} else { 
-	      		content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'id_link') {
 				// don't show to user (duplicates loan number)
-				console.log(datarecord[datafield]);  
+				console.log(datarecord[datafield]);
 			} else if (datafield == 'transaction_id') {
 				// don't show to user
-				console.log(datarecord[datafield]);  
+				console.log(datarecord[datafield]);
 			} else {
-	      	content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 			}
-	   }
-	   content = content + "</ul>";
+		}
+		content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
-		content = content + "<ul class='list-group list-group-horizontal'><li  class='list-group-item'><a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
+		content = content + "<ul class='list-group list-group-horizontal'><li class='list-group-item'><a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a></li>";
 		content = content + "<li class='list-group-item'><a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li></ul>";
-	   content = content + "</div>";
-	   $("##" + rowDetailsTargetId + rowIndex).html(content);
-	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
-	      {
-	         autoOpen: true,
-	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
-	         width: dialogWidth,
-	         title: 'Loan Details'
-	      }
-	   );
-	   // Workaround, expansion sits below row in zindex.
-	   var maxZIndex = getMaxZIndex();
-	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+		content = content + "</div>";
+		$("##" + rowDetailsTargetId + rowIndex).html(content);
+		$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+			{
+				autoOpen: true,
+				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+				width: dialogWidth,
+				title: 'Loan Details'
+			}
+		);
+		// Workaround, expansion sits below row in zindex.
+		var maxZIndex = getMaxZIndex();
+		$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 	};
 	/** createAccnRowDetailsDialog, create a custom accession specific popup dialog to show details for
 		a row of accession data from the accession reults grid.
@@ -2523,68 +2522,68 @@ limitations under the License.
 		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
 	 */
 	function createAccnRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
-	   var columns = $('##' + gridId).jqxGrid('columns').records;
-	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
-	   if (columns.length < 21) {
-	      // don't split into columns for shorter sets of columns.
-	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
-	   }
-	   var gridWidth = $('##' + gridId).width();
-	   var dialogWidth = Math.round(gridWidth/2);
+		var columns = $('##' + gridId).jqxGrid('columns').records;
+		var content = "<div id='" + gridId + "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+		if (columns.length < 21) {
+			// don't split into columns for shorter sets of columns.
+			content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+		}
+		var gridWidth = $('##' + gridId).width();
+		var dialogWidth = Math.round(gridWidth/2);
 		var pid = datarecord['pid'];
 		var transaction_id = datarecord['transaction_id'];
-	   if (dialogWidth < 150) { dialogWidth = 150; }
-	   for (i = 1; i < columns.length; i++) {
-	      var text = columns[i].text;
-	      var datafield = columns[i].datafield;
+		if (dialogWidth < 150) { dialogWidth = 150; }
+		for (i = 1; i < columns.length; i++) {
+			var text = columns[i].text;
+			var datafield = columns[i].datafield;
 			if (datafield == 'accn_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
 			} else if (datafield == 'permits') { 
 				permits = datarecord[datafield];
 				if (permits.length > 0) { 
 					permits = permits.replaceAll('|','</li><li>');
-	      		content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + permits +  "</li></ul></li>";
+		 			content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + permits + "</li></ul></li>";
 				}
 			} else if (datafield == 'id_link') {
 				// don't show to user (duplicates accn number)
-				console.log(datarecord[datafield]);  
+				console.log(datarecord[datafield]);
 			} else if (datafield == 'transaction_id') {
 				// don't show to user
-				console.log(datarecord[datafield]);  
+				console.log(datarecord[datafield]);
 			} else {
-	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 			}
-	   }
-	   content = content + "</ul>";
+		}
+		content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
 		var accn_number = datarecord['accn_number'];
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
 		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
 		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
-	   content = content + "</div>";
-	   $("##" + rowDetailsTargetId + rowIndex).html(content);
-	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
-	      {
-	         autoOpen: true,
-	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
-	         width: dialogWidth,
-	         title: 'Accession Details'
-	      }
-	   );
-	   // Workaround, expansion sits below row in zindex.
-	   var maxZIndex = getMaxZIndex();
-	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+		content = content + "</div>";
+		$("##" + rowDetailsTargetId + rowIndex).html(content);
+		$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+			{
+				autoOpen: true,
+				buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+				width: dialogWidth,
+				title: 'Accession Details'
+			}
+		);
+		// Workaround, expansion sits below row in zindex.
+		var maxZIndex = getMaxZIndex();
+		$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 	}
 
 	window.columnHiddenSettings = new Object();
@@ -2911,7 +2910,7 @@ $(document).ready(function() {
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer}, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: getColHidProp('dueindays', true), cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details dialog
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: getColHidProp('dueindays', true), cellsrenderer: overdueCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
@@ -3287,8 +3286,8 @@ $(document).ready(function() {
 	var trueYesCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var v = String(value);
-		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }  
-		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }  
+		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }
+		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }
 		if (v.toUpperCase().trim()=='YES') { 
 			color = 'text-success'; 
 			bg = '';
@@ -3302,8 +3301,8 @@ $(document).ready(function() {
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var borrowstatus = rowData['borrow_status'];
 		var v = String(value);
-		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }  
-		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }  
+		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }
+		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }
 		if (v.toUpperCase().trim()=='YES') { 
 			color = 'text-success'; 
 			bg = '';
@@ -3528,7 +3527,7 @@ function gridLoaded(gridId, searchType) {
 	var items = "";
 	if (searchType == 'accn') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-      if (item_summary['sum']==1){ 
+		if (item_summary['sum']==1){ 
 			items = ' ' + item_summary['sum'] + ' cataloged_item';
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
@@ -3536,7 +3535,7 @@ function gridLoaded(gridId, searchType) {
 	}
 	if (searchType == 'deacc') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
-      if (item_summary['sum']==1){ 
+		if (item_summary['sum']==1){ 
 			items = ' ' + item_summary['sum'] + ' cataloged_item';
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';

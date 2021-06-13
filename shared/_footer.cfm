@@ -25,7 +25,7 @@ limitations under the License.
         		<a HREF="mailto:bhaley@oeb.harvard.edu" aria-label="email_to_system_admin">System Administrator</a>
 			</div>
        		<div class="col-sm-12 col-md-4 col-lg-4 text-center">
-        		<a href="/info/bugs.cfm" aria-label="bug_report_link">Feedback&#8202;/&#8202;Report Errors</a>
+        		<a href="/info/bugs.cfm" aria-label="bug_report_link" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
 			</div>
         	<div class="col-sm-12 col-md-4 col-lg-4 text-center">
         		<a href="/Collections/index.cfm" aria-label="data_providers">Data Providers</a> 

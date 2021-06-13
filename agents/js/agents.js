@@ -6,28 +6,28 @@
  */
 function checkPrefNameExists(preferred_name,target) {
 	jQuery.ajax({
-	url: "/agents/component/functions.cfc",
+		url: "/agents/component/functions.cfc",
 		data : {
 		method : "checkPrefNameExists",
 		pref_name: preferred_name
 	},
-		success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (matchcount==0) { 
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (matchcount==0) { 
 			$("#" + target).html("No duplicates.");
-			} else {
-				var s = "s";
-				if (matchcount==1) { 
-					s = "";
-				}
-				$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
-				}
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-			},
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
+			}
+			$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
 		dataType: "html"
 	});
 };
@@ -42,43 +42,43 @@ function checkPrefNameExists(preferred_name,target) {
  *  adding a new agent.
  */
 function checkNameExists(preferred_name,target,expect_one) {
-   jQuery.ajax({
-      url: "/agents/component/functions.cfc",
-      data : {
-         method : "checkPrefNameExists",
-         pref_name: preferred_name
-      },
-      success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (expect_one===true) {
-				if (matchcount==0) { 
-   	      	$("#" + target).html("No agents with this name.");
-				} else {
-					if (matchcount==1) { 
-   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
-					} else { 
-   	      		$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agents with this name</a>");
-					}
-				}
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+		method : "checkPrefNameExists",
+		pref_name: preferred_name
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (expect_one===true) {
+			if (matchcount==0) { 
+				$("#" + target).html("No agents with this name.");
 			} else {
-				if (matchcount==0) { 
-   	      	$("#" + target).html("no duplicates.");
-				} else {
-					var s = "s";
-					if (matchcount==1) { 
-						s = "";
-					}
-   	      	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+				if (matchcount==1) { 
+					$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'> one agent with this name</a>");
+				} else { 
+					$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agents with this name</a>");
 				}
 			}
-      },
-      error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-		},
-      dataType: "html"
-   });
+		} else {
+			if (matchcount==0) { 
+				$("#" + target).html("no duplicates.");
+			} else {
+				var s = "s";
+				if (matchcount==1) { 
+					s = "";
+				}
+				$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " agent"+s+" with same name</a>");
+			}
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
+		dataType: "html"
+	});
 };
 /** function checkNameExistsAlso check to see if there is a case insensitive exact 
  * match for a specified name against any agent name.
@@ -90,32 +90,31 @@ function checkNameExists(preferred_name,target,expect_one) {
  *  adding a new agent.
  */
 function checkNameExistsAlso(preferred_name,target,agent_id) {
-   jQuery.ajax({
-      url: "/agents/component/functions.cfc",
-      data : {
-         method : "checkPrefNameExists",
-         pref_name: preferred_name,
-			not_agent_id: agent_id
-      },
-      success: function (result) {
-			var matches = jQuery.parseJSON(result);
-			var matchcount = matches.length;
-			console.log(matches);
-			if (matchcount==0) { 
-   	     	$("#" + target).html("No duplicates.");
-			} else {
-				var s = "s";
-				if (matchcount==1) { 
-					s = "";
-				}
-   	     	$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " other agent"+s+" with same name</a>");
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		data : {
+		method : "checkPrefNameExists",
+		pref_name: preferred_name,
+		not_agent_id: agent_id
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		if (matchcount==0) { 
+			$("#" + target).html("No duplicates.");
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
 			}
-      },
-      error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
-		},
-      dataType: "html"
-   });
+			$("#" + target).html("<a href='/agents/Agents.cfm?execute=true&method=getAgents&anyName=%3D" + preferred_name + "' target='_blank'>" + matchcount + " other agent"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of preferred name: "); 
+	},
+	dataType: "html"
+});
 };
 
 /** function monitorForChanges bind a change monitoring function to inputs 
@@ -393,9 +392,6 @@ function addAddressForAgent(agentIdControl,addressTypeControl,dialogDivId,callba
 					},
 					beforeClose: function(event,ui) { 
 						var addr = $('#new_address').val();
-						if ($.trim(addr) != '') { 
-							$("#"+targetAddressControl).val(addr);
-						}
 						if (jQuery.type(callback)==='function') {
 							callback();
 						}
@@ -823,3 +819,133 @@ function addElectronicAddressToAgent(agent_id,addressControl,addressTypeControl,
 		handleFail(jqXHR,textStatus,error,"adding electronic address (email/phone) to agent");
 	});
 }
+
+// *** functions for dealing with agent ranks ****
+
+function loadAgentRankSummary(targetId,agentId) {
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "getAgentRanks",
+			agent_id : agentId,
+			returnformat : 'json',
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var output = "Ranking: ";
+				var flag = "";
+				for (a=0; a<result.ROWCOUNT; ++a) {
+					output = output + result.DATA.CT[a] + "&nbsp;" + result.DATA.AGENT_RANK[a];
+					if (result.DATA.AGENT_RANK[a]=='F') {
+						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>";
+					} else if (result.DATA.AGENT_RANK[a]=='B' && flag=="") { 
+						flag ="&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					} else if (result.DATA.AGENT_RANK[a]=='C' && flag=="") { 
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					} else if (result.DATA.AGENT_RANK[a]=='D' && flag=="") { 
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					}
+					if (a<result.ROWCOUNT-1) { output = output + ";&nbsp;"; }
+				}
+				output = output + flag;
+				$("#" + targetId).html(output);
+			} else {
+				$("#" + targetId).html(result.DATA.MESSAGE[0]);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"looking up agent rankings");
+	});
+}
+/** insert a new record for the ranking of an agent into the agent_rank table 
+ * @param agent_id the agent for which to add the ranking.
+ * @param agent_rank the new rank value to add for the specified agent.
+ * @param remark a remark concerning the ranking.
+ * @param transaction_type the transaction type to which the ranking applies.
+ * @param feedbackDivId the id in the dom, without a leading # selector into which to 
+ *   place feedback from this function.
+ */
+function saveAgentRank(agent_id, agent_rank, remark, transaction_type,feedbackDivId) { 
+	jQuery.getJSON("/component/functions.cfc",
+		{
+			method : "saveAgentRank",
+			agent_id : agent_id,
+			agent_rank : agent_rank,
+			remark : remark,
+			transaction_type : transaction_type,
+			returnformat : 'json',
+			queryformat : 'column'
+		},
+		function (data) {
+			if(data.length>0 && data.substring(0,4)=='fail'){
+				console.log(data);
+				$('#' + feedbackDivId).append(data);
+			} else {
+				var feedback = 'Thank you for adding an agent rank.';
+				$('#' + feedbackDivId).append(feedback);
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"looking up agent rankings");
+	});
+}
+
+/** Toggle the agent rank details block on the agent rank dialog.
+ * @param toState if 1, change state to visible, otherwise change state to hidden.
+ */
+function tog_AgentRankDetail(toState){
+	if(toState==1){
+		document.getElementById('agentRankDetails').style.display='block';
+		jQuery('#t_agentRankDetails').text('Hide Details').removeAttr('onclick').bind("click", function() {
+			tog_AgentRankDetail(0);
+		});
+	} else {
+		document.getElementById('agentRankDetails').style.display='none';
+		jQuery('#t_agentRankDetails').text('Show Details').removeAttr('onclick').bind("click", function() {
+			tog_AgentRankDetail(1);
+		});
+	}
+}
+/** given a div with a specified id and an agent_id, create dialog to view/add agent 
+ *  rankings  */
+function openRankDialog(dialogDivId,dialogTitle,agentId,callback) {
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "getAgentRankDialogHtml",
+			agent_id : agentId
+		},
+		success: function (result) {
+			$("#"+dialogDivId).html(result);
+			$("#"+dialogDivId).dialog(
+				{ autoOpen: false, 
+					modal: true, 
+					stack: true, 
+					title: dialogTitle,
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#"+dialogDivId).dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#"+dialogDivId).dialog('destroy'); 
+						$("#"+dialogDivId).html(""); 
+					}
+				});
+				$("#"+dialogDivId).dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"opening dialog to rank an agent");
+			},
+			dataType: "html"
+		}
+	)
+};

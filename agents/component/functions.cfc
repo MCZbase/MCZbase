@@ -164,46 +164,60 @@ limitations under the License.
 					WHERE 
 						agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 						and addr.addr_type <> 'temporary'
-					order by valid_addr_fg DESC
+					order by valid_addr_fg DESC, addr_type
 				</cfquery>
 				<h3 class="h4 sr-only">Addresses</h3>
-				<ul class="list-group list-group-horizontal">
-					<cfif agentAddrs.recordcount EQ 0>
+				<cfif agentAddrs.recordcount EQ 0>
+					<ul class="list-group list-group-horizontal">
 						<li class="list-group-item">None</li>
+					</ul>
+				<cfelse>
+					<cfset i=0>
+					<ul class="list-group form-row mx-0 pr-2">
+						<cfloop query="agentAddrs">
+							<cfset i=i+1>
+							<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+							<cfif valid_addr_fg EQ 1>
+								<cfset addressCurrency="Valid">
+								<cfset listgroupclass="border-green bg-verylightgreen">
+							<cfelse>
+								<cfset addressCurrency="Invalid">
+								<cfset listgroupclass="border-wide-grey">
+							</cfif>
+							<li class="list-group-item #listgroupclass# w-100 px-1 py-1">
+								<div class="form-row">
+									<div class="col-12 col-md-6 col-xl-3">
+										<span class="font-weight-bold text-capitalize">#addr_type#:</span>
+										<span class="">(#addressCurrency#)</span>
+									</div>
+									<div class="col-12 col-md-6 col-xl-5">
+										#replace(formatted_addr,chr(10),"<br>","All")#
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										#rem#
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
+										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									</div>
+								</div>
+								<script>
+									function doDeleteAddr_#i#() { 
+										deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
+									}
+									$(document).ready(function () {
+										$("##editAddrButton_#i#").click(function(evt) { 
+											editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
+										});
+										$("##deleteAddrButton_#i#").click(function(evt) { 
+											confirmWarningDialog("Delete This #addr_type# Address?", "Confirm Delete?", doDeleteAddr_#i#);
+										});
+									});
+								</script>
+							</li>
+						</cfloop>
 					</cfif>
 				</ul>
-					<cfset i=0>
-					<cfloop query="agentAddrs">
-						<cfset i=i+1>
-					<ul class="list-group list-group-horizontal form-row mx-0 pr-2">
-						<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-						<li class="list-group-item w-100 px-0 py-1">
-							<span class="text-secondary font-weight-bold">#addr_type#:</span>
-							#formatted_addr#
-							#rem#
-							</li>
-						<li class="list-group-item px-1">
-							<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
-						</li>
-						<li class="list-group-item px-0">
-							<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
-						</li>
-							<script>
-								function doDeleteAddr_#i#() { 
-									deleteAgentAddress(#agentAddrs.addr_id#,reloadAddresses);
-								}
-								$(document).ready(function () {
-									$("##editAddrButton_#i#").click(function(evt) { 
-										editAddressForAgent(#agentAddrs.addr_id#,"addressDialogDiv",reloadAddresses);
-									});
-									$("##deleteAddrButton_#i#").click(function(evt) { 
-										confirmWarningDialog("Delete This #addr_type# Address?", "Confirm Delete?", doDeleteAddr_#i#);
-									});
-								});
-							</script>
-						</ul>
-					</cfloop>
-	
 
 				<div id="addressDialogDiv"></div>
 
@@ -221,7 +235,7 @@ limitations under the License.
 						</select>
 						<input type="hidden" id="newAddrAgentId" value="#agent_id#">
 					</div>
-					<div class="col-12 col-md-8 pt-2 pt-md-0">
+					<div class="col-12 col-md-8 pt-1 pt-md-0">
 						<label for="addAddrButton" class="data-entry-label">&nbsp;</label>
 						<button type="button" id="addAddrButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						<script>
@@ -268,10 +282,10 @@ limitations under the License.
 	<cfset theResult=queryNew("status, message,address_id, address")>
 	<cftransaction>
 		<cftry>
-        <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select sq_addr_id.nextval as id from dual
-        </cfquery>
-        <cfset pk = addrNextId.id>
+			<cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_addr_id.nextval as id from dual
+			</cfquery>
+			<cfset pk = addrNextId.id>
 			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAddr_result">
 				INSERT INTO addr (
 					ADDR_ID
@@ -307,10 +321,11 @@ limitations under the License.
 					,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#addr_remarks#'>
 				)
 			</cfquery>
-        <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
-            select formatted_addr from addr 
-            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
-        </cfquery>
+			<cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+				SELECT formatted_addr
+				FROM addr 
+				WHERE addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
 			<cfif newAddr_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
@@ -357,7 +372,7 @@ limitations under the License.
 	<cfargument name="job_title" type="string" required="yes">
 	<cfargument name="addr_remarks" type="string" required="yes">
 
-	<cfset theResult=queryNew("status, message")>
+	<cfset theResult=queryNew("status, message, address")>
 	<cftransaction>
 		<cftry>
 			<cfquery name="updateAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAddr_result">
@@ -380,9 +395,15 @@ limitations under the License.
 				WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
 			</cfquery>
 			<cfif updateAddr_result.recordcount EQ 1>
+				<cfquery name="getUpdatedAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getUpdatedAddr_result">
+					SELECT formatted_addr 
+					FROM addr
+					WHERE addr_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
+				</cfquery>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Address updated.", 1)>
+				<cfset t = QuerySetCell(theResult, "address", "#getUpdatedAddr.formatted_addr#", 1)>
 			<cfelse>
 				<cfthrow message="Unable to update address, other than one [#updateAddr_result.recordcount#] address would be updated.">
 			</cfif>
@@ -472,11 +493,11 @@ limitations under the License.
 					where
 						agent_relations.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
+				<cfif relations.recordcount EQ 0 >
 					<ul class="list-group list-group-horizontal form-row mx-0">
-					<cfif relations.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
-					</cfif>
 					</ul>
+				<cfelse>
 					<cfset i=0>
 					<cfloop query="relations">
 						<cfset i=i+1>
@@ -509,24 +530,23 @@ limitations under the License.
 							<li class="list-group-item px-0">
 								<button type="button" id="deleteRelationshipButton_#i#" value="Add" class="btn btn-xs mt-0 btn-warning">Remove</button>
 							</li>
-								<output id="relationfeedback_#i#"></output>
-								<script>
-									$(document).ready(function () {
-										makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
-										$("##updateRelationshipButton_#i#").click(function(evt){
-											evt.preventDefault;
-											updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
-										});
-										$("##deleteRelationshipButton_#i#").click(function(evt){
-											evt.preventDefault;
-											deleteAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#",reloadRelationships);
-										});
+							<output id="relationfeedback_#i#"></output>
+							<script>
+								$(document).ready(function () {
+									makeRichAgentPicker("related_agent_#i#", "related_agent_id_#i#", "related_agent_#i#", "view_rel_#i#", #related_agent_id#);
+									$("##updateRelationshipButton_#i#").click(function(evt){
+										evt.preventDefault;
+										updateAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#","agent_remarks_#i#", "old_related_agent_id_#i#", "old_relationship_#i#","relationfeedback_#i#");
 									});
-								</script>
+									$("##deleteRelationshipButton_#i#").click(function(evt){
+										evt.preventDefault;
+										deleteAgentRelationship(#agent_id#,"related_agent_id_#i#","relation_type_#i#",reloadRelationships);
+									});
+								});
+							</script>
 						</ul>
 					</cfloop>
-			
-
+				</cfif>
 				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
 					<h3 class="h4 pt-1">Add Relationship</h3>
@@ -553,7 +573,7 @@ limitations under the License.
 							<label for="new_relation" class="data-entry-label mb-0">Remarks</label>
 							<input type="text" name="agent_remarks" id="new_agent_remarks" value="" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-1 px-1 pt-2 pt-md-0">
+						<div class="col-12 col-md-1 px-1 pt-1 pt-md-0">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" id="addRelationshipButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
@@ -579,7 +599,6 @@ limitations under the License.
 						});
 					</script>
 				</div>
-
 				<h3 class="h4">Relationships from other agents</h3>
 				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
 					select
@@ -595,23 +614,23 @@ limitations under the License.
 					where
 						agent_relations.related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
+				<cfif revRelations.recordcount EQ 0 >
 					<ul class="list-group list-group-horizontal form-row mb-0">
-						<cfif revRelations.recordcount EQ 0 >
-							<li class="list-group-item">None</li>
-						</cfif>
+						<li class="list-group-item">None</li>
 					</ul>
+				<cfelse>
 					<cfloop query="revRelations">
-					<ul class="list-group list-group-horizontal form-row mb-0">
-						<li class="list-group-item">
-							<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
-							#agent_relationship# 
-							#currAgent#
-							#agent_remarks# 
-							#date_to_merge# #on_hold# #held_by#
-						</li>
-					</ul>
+						<ul class="list-group list-group-horizontal form-row mb-0">
+							<li class="list-group-item">
+								<a href="/agents/editAgent.cfm?agent_id=#from_agent_id#">#agent_name#</a> 
+								#agent_relationship# 
+								#currAgent#
+								#agent_remarks# 
+								#date_to_merge# #on_hold# #held_by#
+							</li>
+						</ul>
 					</cfloop>
-				
+				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
@@ -633,6 +652,7 @@ limitations under the License.
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="related_agent_id" type="string" required="yes">
 	<cfargument name="relationship" type="string" required="yes">
+	<cfargument name="agent_remarks" type="string" required="no">
 
 	<cfset theResult=queryNew("status, message")>
 	<cftransaction>
@@ -650,11 +670,19 @@ limitations under the License.
 				INSERT INTO agent_relations (
 					AGENT_ID,
 					RELATED_AGENT_ID,
-					AGENT_RELATIONSHIP)
+					AGENT_RELATIONSHIP
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						,AGENT_REMARKS
+					</cfif>
+				)
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_agent_id#">,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>)
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#relationship#'>
+					<cfif isdefined("agent_remarks") AND len(agent_remarks) GT 0>
+						,<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
+					</cfif>
+				)
 			</cfquery>
 			<cfif newRelationship_result.recordcount EQ 1>
 				<cfset t = queryaddrow(theResult,1)>
@@ -798,11 +826,11 @@ limitations under the License.
 					WHERE
 					agent_id = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+				<cfif electAgentAddrs.recordcount EQ 0 >
 					<ul class="list-group list-unstyled list-group-horizontal">
-					<cfif electAgentAddrs.recordcount EQ 0 >
 						<li class="list-group-item">None</li>
-					</cfif>
 					</ul>
+				<cfelse>
 					<cfset i=0>
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
@@ -845,7 +873,7 @@ limitations under the License.
 							</script>
 						</ul>
 					</cfloop>
-		
+				</cfif>
 				<div id="newEaddrDiv" class="col-12 pt-2 px-0">
 				<label for="new_eaddress" class="pt-1 h4">Add Phone or Email</label>
 					<div class="form-row">
@@ -859,7 +887,7 @@ limitations under the License.
 						<div class="col-12 col-md-5">
 							<input type="text" name="address" id="new_eaddress" value="" class="data-entry-input reqdClr" required>
 						</div>
-						<div class="col-12 col-md-2 pt-2 pt-md-0">
+						<div class="col-12 col-md-2 pt-1 pt-md-0">
 							<button type="button" id="addElectronicAddressButton" value="Add" class="btn btn-xs btn-secondary">Add</button>
 						</div>
 					</div>
@@ -1019,49 +1047,66 @@ limitations under the License.
 	<cfthread name="namesThread">
 		<cfoutput>
 			<cftry>
-				<cfquery name="namesForAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="namesForAgent_result">
+				<!--- preferred name --->
+				<cfquery name="preferredName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredName_result">
 					SELECT
-						agent_name_id,
+						agent_name.agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name,
+						count(publication_id) as publication_count
+					FROM agent_name
+						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and  agent_name_type = 'preferred'
+					GROUP BY
+						agent_name.agent_name_id,
 						agent_id,
 						agent_name_type,
 						agent_name
-					FROM agent_name
-					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				</cfquery>
-				<cfquery name="pname" dbtype="query">
-					select * from namesForAgent where agent_name_type = 'preferred'
-				</cfquery>
-				<cfquery name="npname" dbtype="query">
-					select * from namesForAgent where agent_name_type != 'preferred'
-				</cfquery>
-				<cfset i=1>
-					<form id="preferredNameForm">
+				<form id="preferredNameForm">
 					<ul class="list-group list-group-horizontal form-row mx-0">
-							<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#pname.agent_name_id#">
-							<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#pname.agent_name_type#">
+						<input type="hidden" name="agent_name_id" id="preferred_name_agent_name_id" value="#preferredName.agent_name_id#">
+						<input type="hidden" name="agent_name_type" id="preferred_name_agent_name_type" value="#preferredName.agent_name_type#">
 						<li class="list-group-item px-0">
 							<label for="preferred_name" class="data-entry-label mb-0 mt-1 font-weight-bold">Preferred Name</label>
 						</li>
 						<li class="list-group-item px-0 col-12 col-md-7">	
-							<input type="text" value="#pname.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
+							<input type="text" value="#preferredName.agent_name#" name="agent_name" id="preferred_name" class="data-entry-input">
 						</li>
 						<li class="list-group-item px-1">
 							<button type="button" id="preferredUpdateButton" value="preferredUpdateButton" class="btn btn-xs btn-secondary">Update</button>
 							<span id="prefAgentNameFeedback"></span>
 						</li>
 					</ul>
-					</form>
-					<script>
-						$(document).ready(function () {
-							$('##preferredUpdateButton').click(function(evt){
-								evt.preventDefault;
-								saveAgentName(#agent_id#, 'preferred_name_agent_name_id','preferred_name','preferred_name_agent_name_type','prefAgentNameFeedback');
-							});
+				</form>
+				<script>
+					$(document).ready(function () {
+						$('##preferredUpdateButton').click(function(evt){
+							evt.preventDefault;
+							saveAgentName(#agent_id#, 'preferred_name_agent_name_id','preferred_name','preferred_name_agent_name_type','prefAgentNameFeedback');
 						});
-					</script>
-		
-
-				<cfset i=0>
+					});
+				</script>
+				<!--- other names --->
+				<cfquery name="notPrefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefName_result">
+					SELECT distinct
+						agent_name.agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name,
+						count(publication_id) as publication_count
+					FROM agent_name
+						left outer join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and  agent_name_type <> 'preferred'
+					GROUP BY
+						agent_name.agent_name_id,
+						agent_id,
+						agent_name_type,
+						agent_name
+				</cfquery>
 				<h3 class="h4 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
 				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
@@ -1071,33 +1116,38 @@ limitations under the License.
 					where agent_name_type != 'preferred' 
 					order by agent_name_type
 				</cfquery>
-				<ul class="list-group list-unstyled list-group-horizontal mx-0 form-row">
-					<cfif npname.recordcount EQ 0 >
+				<cfif notPrefName.recordcount EQ 0 >
+					<ul class="list-group list-unstyled list-group-horizontal mx-0 form-row">
 						<li class="list-group-item">No other names</li>
-					</cfif>
-				</ul>
-					<cfloop query="npname">
+					</ul>
+				<cfelse>
+					<cfset i=0>
+					<cfloop query="notPrefName">
 						<cfset i=i+1>
 						<form id="agentNameForm_#i#">
 							<ul class="list-group list-group-horizontal mx-0 form-row">
 								<li class="list-group-item px-0">
-									<input type="hidden" name="agent_name_id" value="#npname.agent_name_id#" id="agent_name_id_#i#">
-									<input type="hidden" name="agent_id" value="#npname.agent_id#">
+									<input type="hidden" name="agent_name_id" value="#notPrefName.agent_name_id#" id="agent_name_id_#i#">
+									<input type="hidden" name="agent_id" value="#notPrefName.agent_id#">
 									<select name="agent_name_type" id="agent_name_type_#i#" class="data-entry-select">
 										<cfloop query="ctNameType">
-											<option  <cfif ctNameType.agent_name_type is npname.agent_name_type> selected="selected" </cfif>
+											<option  <cfif ctNameType.agent_name_type IS "#notPrefName.agent_name_type#"> selected="selected" </cfif>
 												value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 										</cfloop>
 									</select>
 								</li>
 								<li class="list-group-item px-0">
-									<input type="text" value="#npname.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
+									<input type="text" value="#notPrefName.agent_name#" name="agent_name" id="agent_name_#i#" class="data-entry-input">
 								</li>
 								<li class="list-group-item px-1">
 									<button type="button" id="agentNameU#i#Button" value="Update" class="btn btn-xs btn-secondary" >Update</button>
 								</li>
 								<li class="list-group-item px-0">
-									<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									<cfif notPrefName.publication_count GT 0 >
+										<span>Publication Author</span>
+									<cfelse>
+										<button type="button" id="agentNameDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+									</cfif>
 									<span id="agentNameFeedback#i#"></span>
 								</li>
 							</ul>
@@ -1115,18 +1165,18 @@ limitations under the License.
 							$(document).ready(function () {
 								$('##agentNameDel#i#Button').click(function(evt){
 									evt.preventDefault;
-									confirmWarningDialog("Delete the name #encodeForHTML(npname.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
+									confirmWarningDialog("Delete the name #encodeForHTML(notPrefName.agent_name)# ?", "Confirm Delete?", doDeleteAgentName_#i#);
 								});
 							});
 						</script>
 					</cfloop>
-				</ul>
+				</cfif>
 				<div class="row">
 					<div id="newAgentNameDiv" class="col-12">
 						<label for="new_agent_name" class="h4 pt-1">Add agent name</label>
 						<form id="newNameForm" class="form-row">
 							<input type="hidden" name="agent_id" id="new_agent_name_agent_id" value="#agent_id#">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<select name="agent_name_type" onchange="suggestName(this.value,'new_agent_name');" id="new_agent_name_type" class="data-entry-select">
 									<cfloop query="ctNameType">
 										<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
@@ -1136,7 +1186,7 @@ limitations under the License.
 							<div class="col-12 col-md-5">
 								<input type="text" name="agent_name" id="new_agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-3 mt-1 mt-md-0">
 								<button type="button" id="addAgentButton" class="btn btn-xs btn-secondary" value="Add Name">Add Name</button>
 							</div>
 						</form>
@@ -1366,14 +1416,15 @@ limitations under the License.
 								member_order
 						</cfquery>
 						<cfif groupMembers.recordcount EQ 0>
-							<ul class="list-group list-group-horizontal"><li class="list-group-item">None</li></ul>
+							<ul class="list-group list-group-horizontal">
+								<li class="list-group-item">None</li>
+							</ul>
 						<cfelse>
-							
-								<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
-								<cfset i = 0>
-								<cfloop query="groupMembers">
+							<cfset yearRange = assembleYearRange(start_year="#groupMembers.birth_date#",end_year="#groupMembers.death_date#",year_only=true)>
+							<cfset i = 0>
+							<cfloop query="groupMembers">
+								<cfset i = i + 1>
 								<ul class="list-group list-group-horizontal form-row mx-0">
-									<cfset i = i + 1>
 									<li class="list-group-item px-0">
 										<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
 										#vetted# #yearRange# #collections_scope#
@@ -1395,27 +1446,26 @@ limitations under the License.
 										</cfif>
 									</li>
 								</ul>
-								</cfloop>
-							
+							</cfloop>
 						</cfif>
 						<div>
 						<div class="row">
 							<div class="col-12">
 								<form name="newGroupMember" class="form-row">
-								<div class="col-12 col-md-12">
-									<label for="new_group_agent_name" id="new_group_agent_name_label" class="h4">Add Member To Group
-										<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
-									</label>
-								</div>
-								<div class="col-12 col-md-6">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-										</div>
-										<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="">
-										<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
+									<div class="col-12 col-md-12">
+										<label for="new_group_agent_name" id="new_group_agent_name_label" class="h4">Add Member To Group
+											<h5 id="new_group_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+										</label>
 									</div>
-								</div>
+									<div class="col-12 col-md-6">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller bg-lightgreen" id="new_group_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="new_group_agent_name" id="new_group_agent_name" class="reqdClr form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="new_group_agent_name_label" value="" >
+											<input type="hidden" name="new_member_agent_id" id="new_member_agent_id" value="">
+										</div>
+									</div>
 									<script>
 										$(document).ready(function() {
 											$(makeRichAgentPicker('new_group_agent_name', 'new_member_agent_id', 'new_group_agent_name_icon', 'new_group_agent_view', null));
@@ -1430,7 +1480,11 @@ limitations under the License.
 								$(document).ready(function() {
 									$('##addMemberButton').click(function (evt) {
 										evt.preventDefault();
-										addAgentToGroupCB(#lookupAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
+										if ($("##new_member_agent_id").val() == "") { 
+											messageDialog("Unable to save.  You must pick an agent name from the picklist.", "Unable to add group member.");
+										} else {
+											addAgentToGroupCB(#lookupAgent.agent_id#,$('##new_member_agent_id').val(),null,reloadGroupMembers);
+										}
 									});
 								});
 							</script>
@@ -1457,31 +1511,53 @@ limitations under the License.
 	<cfargument name="agent_id" type="string" required="yes"><!--- the group agent --->
 	<cfargument name="member_agent_id" type="string" required="yes"><!--- the member agent to remove from the group  --->
 
-	<cfset theResult=queryNew("status, message")>
-	<cftry>
-		<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
-			DELETE FROM group_member
-			WHERE
-				GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				AND
-				MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
-		</cfquery>
-		<cfif removeGroupMember_result.recordcount eq 0>
-			<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
-		</cfif>
-		<cfif removeGroupMember_result.recordcount eq 1>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
-		</cfif>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
+	<cfset theResult=queryNew("status, message, renumbered")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="getCurrentNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCurrentNum_result">
+				SELECT member_order
+				FROM group_member
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+			</cfquery>
+			<cfset removedMemberOrder = getCurrentNum.member_order>
+			<cfquery name="removeGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeGroupMember_result">
+				DELETE FROM group_member
+				WHERE
+					GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					AND
+					MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
+			</cfquery>
+			<cfif removeGroupMember_result.recordcount eq 0>
+				<cfthrow message="No agent removed from group. Group:[#encodeForHTML(agent_id)#] Member:[#encodeForHTML(member_agent_id)#] #removeGroupMember_result.sql#" >
+			</cfif>
+			<cfif removeGroupMember_result.recordcount eq 1>
+				<cfquery name="moveDown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveDown_result">
+					UPDATE group_member
+					SET member_order = member_order - 1
+					WHERE
+						GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						AND
+						MEMBER_ORDER > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#removedMemberOrder#">
+				</cfquery>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Agent Removed From Group.", 1)>
+				<cfset t = QuerySetCell(theResult, "renumbered", "#moveDown_result.recordcount#", 1)>
+				<cftransaction action="commit">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	<cftransaction>
 	<cfreturn #theResult#>
 </cffunction>
 
@@ -1629,7 +1705,7 @@ limitations under the License.
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Agent Moved in Group.", 1)>
 			<cfelse>
-				<cfthrow message="Unable to move agent position in group.">
+				<cfthrow message="Unable to move agent position in group.  Error switching positions [#currentPos#][#targetPos#].">
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -1691,7 +1767,8 @@ limitations under the License.
 							addr_type,
 							job_title,
 							valid_addr_fg,
-							addr_remarks
+							addr_remarks,
+							formatted_addr
 						FROM addr
 						WHERE
 							addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#addr_id#">
@@ -1715,6 +1792,7 @@ limitations under the License.
 						<cfset job_title = lookupAddress.job_title>
 						<cfset valid_addr_fg = lookupAddress.valid_addr_fg>
 						<cfset addr_remarks = lookupAddress.addr_remarks>
+						<cfset formatted_addr = replace(lookupAddress.formatted_addr,CHR(10),"<br>","All")>
 						<cfset method = "updateAddress">
 					</cfloop>
 				<cfelse>
@@ -1731,6 +1809,7 @@ limitations under the License.
 						<cfset job_title = "">
 						<cfset valid_addr_fg = 0>
 						<cfset addr_remarks = "">
+						<cfset formatted_addr = "">
 						<cfset method = "addNewAddress">
 				</cfif>
 				<cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1751,187 +1830,191 @@ limitations under the License.
 							<cfset agent_name = query.agent_name>
 						</cfif>
 					</cfif>
-					<div>
-						<form name='newAddress' id='newAddressForm'>
-							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
-							<input type='hidden' name='method' value='#method#'>
-							<input type='hidden' name='returnformat' value='json'>
-							<input type='hidden' name='queryformat' value='struct'>
-							<input type='hidden' name='addr_type' value='#address_type#'>
-							<cfif len(addr_id) GT 0>
-								<input type='hidden' name='addr_id' value='#addr_id#'>
-							</cfif>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-		 							<strong>Address Type:</strong> #ctAddrType.addr_type#
-								</div>
-								<div class='col-12 col-md-6'>
-									<cfif len(agent_name) GT 0 >
-										<strong>Address For:</strong> #agent_name#
-										<input type="hidden" name="agent_id" id="addr_agent_id" value="#agent_id#" >
-									<cfelse>
-										<span>
-											<label for="addr_agent_name" class="data-entry-label">Address For:</label>
-											<span id="addr_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required style="z-index: 120; position: relative;" >
-										</div>
-										<input type="hidden" name="agent_id" id="addr_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('addr_agent_name', 'addr_agent_id','addr_agent_icon','addr_agent_view',null))
-										</script> 
-									</cfif>
-								</div>
-							</div>
-							<cfif address_type EQ "temporary">
-								<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
-								<input type="hidden" name="job_title" id="job_title" class="data-entry-input" value="">
-							<cfelse>
+					<div class="form-row">
+						<div class="col-12 border rounded bg-light" id="formattedAddressDisplayDiv">#formatted_addr#</div>
+						<div class="col-12">
+							<form name='newAddress' id='newAddressForm'>
+								<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
+								<input type='hidden' name='method' value='#method#'>
+								<input type='hidden' name='returnformat' value='json'>
+								<input type='hidden' name='queryformat' value='struct'>
+								<input type='hidden' name='addr_type' value='#address_type#'>
+								<cfif len(addr_id) GT 0>
+									<input type='hidden' name='addr_id' value='#addr_id#'>
+								</cfif>
 								<div class='form-row'>
 									<div class='col-12 col-md-6'>
-										<label for="valid_addr_fg">Valid?</label>
-											<select name="valid_addr_fg" id="valid_addr_fg" class="data-entry-select">
-												<cfif valid_addr_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option value="1" #selected#>yes</option>
-												<cfif valid_addr_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option value="0" #selected#>no</option>
-										</select>
+			 							<strong>Address Type:</strong> #ctAddrType.addr_type#
 									</div>
 									<div class='col-12 col-md-6'>
-										<label for="job_title" class="data_entry_label">Job Title</label>
-										<input type="text" name="job_title" id="job_title" class="data-entry-input" value="#job_title#">
+										<cfif len(agent_name) GT 0 >
+											<strong>Address For:</strong> #agent_name#
+											<input type="hidden" name="agent_id" id="addr_agent_id" value="#agent_id#" >
+										<cfelse>
+											<span>
+												<label for="addr_agent_name" class="data-entry-label">Address For:</label>
+												<span id="addr_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required style="z-index: 120; position: relative;" >
+											</div>
+											<input type="hidden" name="agent_id" id="addr_agent_id" >
+											<script>
+												$(makeRichTransAgentPicker('addr_agent_name', 'addr_agent_id','addr_agent_icon','addr_agent_view',null))
+											</script> 
+										</cfif>
 									</div>
 								</div>
-							</cfif>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-									<label for='institution' class="data-entry-label">Institution</label>
-									<input type='text' name='institution' id='institution'class="form-control data-entry-input" value="#institution#" >
+								<cfif address_type EQ "temporary">
+									<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
+									<input type="hidden" name="job_title" id="job_title" class="data-entry-input" value="">
+								<cfelse>
+									<div class='form-row'>
+										<div class='col-12 col-md-6'>
+											<label for="valid_addr_fg">Valid?</label>
+												<select name="valid_addr_fg" id="valid_addr_fg" class="data-entry-select">
+													<cfif valid_addr_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="1" #selected#>yes</option>
+													<cfif valid_addr_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="0" #selected#>no</option>
+											</select>
+										</div>
+										<div class='col-12 col-md-6'>
+											<label for="job_title" class="data_entry_label">Job Title</label>
+											<input type="text" name="job_title" id="job_title" class="data-entry-input" value="#job_title#">
+										</div>
+									</div>
+								</cfif>
+								<div class='form-row'>
+									<div class='col-12 col-md-6'>
+										<label for='institution' class="data-entry-label">Institution</label>
+										<input type='text' name='institution' id='institution'class="form-control data-entry-input" value="#institution#" >
+									</div>
+									<div class='col-12 col-md-6'>
+										<label for='department' class="data-entry-label">Department</label>
+										<input type='text' name='department' id='department' class="form-control data-entry-input" value="#department#" >
+									</div>
 								</div>
-								<div class='col-12 col-md-6'>
-									<label for='department' class="data-entry-label">Department</label>
-									<input type='text' name='department' id='department' class="form-control data-entry-input" value="#department#" >
+								<div class='form-row'>
+									<div class='col-12'>
+										<label for='street_addr1' class="data-entry-label">Street Address 1</label>
+										<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input' value="#street_addr1#" required>
+									</div>
 								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12'>
-									<label for='street_addr1' class="data-entry-label">Street Address 1</label>
-									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input' value="#street_addr1#" required>
+								<div class='form-row'>
+									<div class='col-12'>
+										<label for='street_addr2'>Street Address 2</label>
+										<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input" value="#street_addr2#">
+									</div>
 								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12'>
-									<label for='street_addr2'>Street Address 2</label>
-									<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input" value="#street_addr2#">
+								<div class='form-row'>
+									<div class='col-12 col-md-6'>
+										<label for='city' class="data-entry-label">City</label>
+										<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input' value="#city#" required>
+									</div>
+									<div class='col-12 col-md-6'>
+										<label for='state' class="data-entry-label">State/Province</label>
+										<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input' value="#state#" required>
+									</div>
 								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-									<label for='city' class="data-entry-label">City</label>
-									<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input' value="#city#" required>
-								</div>
-								<div class='col-12 col-md-6'>
-									<label for='state' class="data-entry-label">State/Province</label>
-									<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input' value="#state#" required>
-								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12 col-md-4'>
-									<label for='zip' class="data-entry-label">Zip/Postcode</label>
-									<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
-								</div>
-								<div class='col-12 col-md-8'>
-									<script>
-										function handleCountrySelect(){
-										   var countrySelection =  $('input:radio[name=country]:checked').val();
-										   if (countrySelection == 'USA') {
-										      $("##textUS").css({"color": "black", "font-weight":"bold" });
-										      $("##other_country_cde").toggle("false");
-										      $("##country_cde").val("USA");
-									   	   $("##other_country_cde").removeClass("reqdClr");
-												$('##other_country_cde').removeAttr('required');
-										   } else {
-										      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
-										      $("##other_country_cde").toggle("true");
-										      $("##country_cde").val($("##other_country_cde").val());
-										      $("##other_country_cde").addClass("reqdClr");
-												$('##other_country_cde').prop('required',true);
-										   }
-										}
-									</script>
-									<label for="country_cde" class="data-entry-label">
-										Country 
-										<img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" style="margin-top: -10px;" alt="[ help ]">
-									</label>
-									<span class="data-entry-input form-control">
-										<input type="hidden" name="country_cde" id="country_cde" value="USA" value="#country_cde#">
-										<cfif country_cde EQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-										<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
-										<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-										<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
-										<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
-									<span>
-									<script>
-										$(document).ready(function () {
-											handleCountrySelect();
-										});
-									</script>
-								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-									<label for='mail_stop' class="data-entry-label">Mail Stop</label>
-									<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input" value="#mail_stop#">
-								</div>
-								<div class='col-12 col-md-6'>
-									<label for='addr_remarks' class="data-entry-label">Address Remark</label>
-									<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input" value="#addr_remarks#">
-								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-									<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
-										<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
-										<cfset errmsg = "updating an address for an agent">
-									<cfelse>
-										<input type='submit' class='btn btn-xs btn-primary' value='Create Address' >
-										<cfset errmsg = "adding an address to an agent">
-									</cfif>
-								</div>
-								<div class='col-12 col-md-6'>
-									<div id='newAddressStatus'></div>
-								</div>
-							</div>
-							<script>
-								$('##newAddressForm').submit( function (e) { 
-									$.ajax({
-										url: '/agents/component/functions.cfc',
-										data : $('##newAddressForm').serialize(),
-										success: function (result) {
-											if (result[0].STATUS=='success') { 
-												$('##newAddressStatus').html(result[0].MESSAGE);
-												$('##new_address_id').val(result[0].ADDRESS_ID);
-												$('##new_address').val(result[0].ADDRESS);
-												$('##tempAddressDialog').dialog('close');
-											} else { 
-												$('##newAddressStatus').html(result[0].MESSAGE);
+								<div class='form-row'>
+									<div class='col-12 col-md-4'>
+										<label for='zip' class="data-entry-label">Zip/Postcode</label>
+										<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
+									</div>
+									<div class='col-12 col-md-8'>
+										<script>
+											function handleCountrySelect(){
+												var countrySelection = $('input:radio[name=country]:checked').val();
+												if (countrySelection == 'USA') {
+													$("##textUS").css({"color": "black", "font-weight":"bold" });
+													$("##other_country_cde").toggle("false");
+													$("##country_cde").val("USA");
+													$("##other_country_cde").removeClass("reqdClr");
+													$('##other_country_cde').removeAttr('required');
+												} else {
+													$("##textUS").css({"color": "##999999", "font-weight": "normal" });
+													$("##other_country_cde").toggle("true");
+													$("##country_cde").val($("##other_country_cde").val());
+													$("##other_country_cde").addClass("reqdClr");
+													$('##other_country_cde').prop('required',true);
+												}
 											}
-										},
-										error: function (jqXHR, textStatus, error) {
-											handleFail(jqXHR,textStatus,error,"#errmsg#");
-										},
-										dataType: 'json'
+										</script>
+										<label for="country_cde" class="data-entry-label">
+											Country 
+											<img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" style="margin-top: -10px;" alt="[ help ]">
+										</label>
+										<span class="data-entry-input form-control">
+											<input type="hidden" name="country_cde" id="country_cde" value="USA" value="#country_cde#">
+											<cfif country_cde EQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
+											<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+											<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
+											<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
+											<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
+										<span>
+										<script>
+											$(document).ready(function () {
+												handleCountrySelect();
+											});
+										</script>
+									</div>
+								</div>
+								<div class='form-row'>
+									<div class='col-12 col-md-6'>
+										<label for='mail_stop' class="data-entry-label">Mail Stop</label>
+										<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input" value="#mail_stop#">
+									</div>
+									<div class='col-12 col-md-6'>
+										<label for='addr_remarks' class="data-entry-label">Address Remark</label>
+										<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input" value="#addr_remarks#">
+									</div>
+								</div>
+								<div class='form-row'>
+									<div class='col-12 col-md-6'>
+										<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
+											<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
+											<cfset errmsg = "updating an address for an agent">
+										<cfelse>
+											<input type='submit' class='btn btn-xs btn-primary' value='Create Address' >
+											<cfset errmsg = "adding an address to an agent">
+										</cfif>
+									</div>
+									<div class='col-12 col-md-6'>
+										<div id='newAddressStatus'></div>
+									</div>
+								</div>
+								<script>
+									$('##newAddressForm').submit( function (e) { 
+										$.ajax({
+											url: '/agents/component/functions.cfc',
+											data : $('##newAddressForm').serialize(),
+											success: function (result) {
+												if (result[0].STATUS==1) { 
+													$('##newAddressStatus').html(result[0].MESSAGE);
+													$('##new_address_id').val(result[0].ADDRESS_ID);
+													$('##new_address').val(result[0].ADDRESS);
+													$('##tempAddressDialog').dialog('close');
+													$('##formattedAddressDisplayDiv').html(result[0].ADDRESS.replace(/\n/g, "<br>"));
+												} else { 
+													$('##newAddressStatus').html(result[0].MESSAGE);
+												}
+											},
+											error: function (jqXHR, textStatus, error) {
+												handleFail(jqXHR,textStatus,error,"#errmsg#");
+											},
+											dataType: 'json'
+										});
+										e.preventDefault();
 									});
-									e.preventDefault();
-								});
-							</script>
-							<input type='hidden' name='new_address_id' id='new_address_id' value=''>
-							<input type='hidden' name='new_address' id='new_address' value=''>
-						</form>
+								</script>
+								<input type='hidden' name='new_address_id' id='new_address_id' value=''>
+								<input type='hidden' name='new_address' id='new_address' value=''>
+							</form>
+						</div>
 					</div>
 				</cfif> <!--- known address type provided --->
 			<cfcatch>
@@ -1962,6 +2045,16 @@ limitations under the License.
 			</cfquery>
 			<cfif lookupType.recordcount NEQ 1>
 				<cfthrow message="Unable to lookup agent_type from provided agent_id [#encodeForHTML(agent_id)#]">
+			</cfif>
+			<cfquery name="lookupGroupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) as count_of_group_members
+				from group_member
+				where group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfif lookupType.existing_agent_type IS "group" OR lookupType.existing_agent_type IS "expedition" OR lookupType.existing_agent_type IS "vessel">
+				<cfif lookupGroupMembers.count_of_group_members GT 0 AND NOT (provided_agent_type IS "group" OR provided_agent_type is "expedition" OR provided_agent_type IS "vessel")>
+					<cfthrow message="Unable to convert agent type, agent has #lookupGroupMembers.count_of_group_members# group members and new type  [#encodeForHTML(provided_agent_type)#] does not support group members.">
+				</cfif>
 			</cfif>
 			<cfset updateAgent = true>
 			<cfset updatePerson = false>
@@ -1995,22 +2088,22 @@ limitations under the License.
 						<cfif len(#biography#) gt 0>
 							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
 						<cfelse>
-						  	, biography = null
+							, biography = null
 						</cfif>
 						<cfif len(#agent_remarks#) gt 0>
 							, agent_remarks = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_remarks#'>
 						<cfelse>
-						  	, agent_remarks = null
+							, agent_remarks = null
 						</cfif>
 						<cfif len(#agentguid_guid_type#) gt 0>
 							, agentguid_guid_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid_guid_type#'>
 						<cfelse>
-						  	, agentguid_guid_type = null
+							, agentguid_guid_type = null
 						</cfif>
 						<cfif len(#agentguid#) gt 0>
 							, agentguid = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agentguid#'>
 						<cfelse>
-						  	, agentguid = null
+							, agentguid = null
 						</cfif>
 					WHERE
 						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2100,13 +2193,13 @@ limitations under the License.
 				</cfif>
 				<cfif len(#start_date#) gt 0>
 					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
-				  <cfelse>
-				  	,birth_date=null
+				<cfelse>
+					,birth_date=null
 				</cfif>
 				<cfif len(#end_date#) gt 0>
 					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
-				  <cfelse>
-				  	,death_date=null
+				<cfelse>
+					,death_date=null
 				</cfif>
 					WHERE
 						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2140,6 +2233,280 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- Obtain the ranks for an agent 
+ @param agent_id the agent for whom to retrieve the ranks
+ @return data structure containing ct, agent_rank, and status (1 on success) (count of that rank for the agent and the rank)
+    or http 500 status on an error.
+--->
+<cffunction name="getAgentRanks" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+
+	<cftry>
+		<cfif listcontainsnocase(session.roles,"admin_transactions")>
+			<cfquery name="rankCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) ct, agent_rank agent_rank, 1 as status from agent_rank
+				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				group by agent_rank
+			</cfquery>
+			<cfreturn rankCount>
+		<cfelse>
+			<cfthrow message="Not Authorized">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- Add an agent ranking for an agent 
+ @param agent_id the agent for whom to add an agent ranking
+ @param agent_rank the rank asserted for this agent
+ @param remark a remark about this ranking.
+ @param transaction_type the transaction type to which this ranking applies
+ @return the agent_id of the agent, or http 500 status on an error.
+--->
+<cffunction name="saveAgentRank" access="remote">
+	<cfargument name="agent_id" type="numeric" required="yes">
+	<cfargument name="agent_rank" type="string" required="yes">
+	<cfargument name="remark" type="string" required="no">
+	<cfargument name="transaction_type" type="string" required="yes">
+
+	<cftry>
+		<cfif NOT listcontainsnocase(session.roles,"admin_transactions")>
+			<cfthrow message="Not Authorized">
+		</cfif>
+		<cfquery name="addRanking" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRankingResult">
+			insert into agent_rank (
+				agent_id,
+				agent_rank,
+				ranked_by_agent_id,
+				remark,
+				transaction_type
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_rank#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#transaction_type#">
+			)
+		</cfquery>
+		<cfif addRankingResult.recordcount NEQ 1>
+			<cfthrow message="Unable to add ranking, other than one [#addRanking_result.recordcount#] ranking would be added.">
+		</cfif>
+		<cfreturn agent_id>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+</cffunction>
+
+<!--- ** return an html to populate an agent ranking dialog for an agent.
+ * @param agent_id the agent for which to look up agent rankings and create the dialgo content.
+ * @return a block of html suitable for populating a dialog, or html containing an error message.
+--->
+<cffunction name="getAgentRankDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="no">
+
+	<cfthread name="agentRankDialogThread">
+		<cfoutput>
+			<cftry>
+				<cfif NOT listcontainsnocase(session.roles,"manage_transactions")>
+				 	<cfthrow message="Not Authorized">
+				</cfif>
+
+				<cfquery name="getAgentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentName_result">
+					SELECT agent_name 
+					FROM preferred_agent_name 
+					WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+				</cfquery>
+				<cfif getAgentName.recordcount EQ 0>
+				 	<cfthrow message="specified agent [#encodeForHtml(agent_id)#] not found">
+				</cfif>
+				<h2 class="h2">Agent Rankings for #getAgentName.agent_name#</h2>
+				<cfquery name="getRankDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRankDetails_result">
+					SELECT 
+						agent_rank,
+						transaction_type,
+						rank_date,
+						agent_name ranker, 
+						remark
+					FROM 
+						agent_rank
+						left join preferred_agent_name on ranked_by_agent_id=preferred_agent_name.agent_id
+					WHERE 
+						agent_rank.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+					ORDER BY
+						agent_rank, rank_date
+				</cfquery>
+				<cfif listcontainsnocase(session.roles,"admin_agent_ranking")>
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_rank from ctagent_rank order by agent_rank
+					</cfquery>
+				<cfelse>
+					<cfquery name="ctagent_rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select agent_rank from ctagent_rank where agent_rank <> 'F' order by agent_rank
+					</cfquery>
+				</cfif>
+				<cfquery name="cttransaction_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select transaction_type from cttransaction_type order by transaction_type
+				</cfquery>
+				<h3 class="h3">
+					<strong><a href='/agents/Agent.cfm?agent_id=#agent_id#' target='_blank'>#getAgentName.agent_name#</a></strong> 
+					has been ranked #getRankDetails.recordcount# times.
+				</h3>
+				<cfif getRankDetails.recordcount gt 0>
+					<cfquery name="getRankSummary" dbtype="query">
+						SELECT agent_rank, count(*) ct 
+						FROM getRankDetails
+						GROUP BY agent_rank
+					</cfquery>
+					<table border class="table table-responsive d-sm-table">
+						<tr>
+							<th>Rank</th>
+							<th>Number of Rankings</th>
+							<th>% of Rankings</th>
+						</tr>
+						<cfloop query="getRankSummary">
+							<cfset portion=round((getRankSummary.ct/getRankDetails.recordcount) * 100)>
+							<tr>
+								<td>#getRankSummary.agent_rank#</td>
+								<td>#getRankSummary.ct#</td>
+								<td>#portion#</td>
+							</tr>
+						</cfloop>
+					</table>
+					<span class="btn btn-xs btn-info" id="t_agentRankDetails" onclick="tog_AgentRankDetail(1)">Show Details</span>
+					<div id="agentRankDetails" style="display:none">
+						<table border class="table table-responsive d-xx-table">
+							<tr>
+								<th>Rank</th>
+								<th>Trans</th>
+								<th>Date</th>
+								<th>Ranker</th>
+								<th>Remark</th>
+							</tr>
+							<cfloop query="getRankDetails">
+								<tr>
+									<td>#agent_rank#</td>
+									<td>#transaction_type#</td>
+									<td nowrap="nowrap">#dateformat(rank_date,"yyyy-mm-dd")#</td>
+									<td nowrap="nowrap">#replace(ranker," ", "&nbsp;","all")#</td>
+									<td>#remark#</td>
+								</tr>					 
+							</cfloop>
+						</table>
+						<cfif listcontainsnocase(session.roles,"admin_agent_ranking") >
+							<!--- TODO: Implement edit agent rankings for role admin_agent_ranking --->
+							<p>If there is a need to edit an existing agent ranking, please 
+								<a href="/info/bugs.cfm" aria-label="bug_report_link" target="_blank">file a bug report</a>
+							</p>
+						</cfif>
+					</div>
+				</cfif><!--- has any rankings --->
+				<div class="form-row">
+					<h4 class="h5">
+						Key to Rankings
+						<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Agent_Ranking')" aria-label="help link"></i>
+					</h4>
+					<ul>
+						<li><strong>F</strong> Director has become involved due to overdue loans; This ranking is not available for general use; Director use only</li>
+						<li><strong>D</strong> Loans past due for multiple years, does not respond when contacted by any means -OR- Department must be consulted, detail in Rank Remarks</li>
+						<li><strong>C</strong> Loans past due; Agent has previously been in contact but no response in over a year, detail in Rank Remarks</li>
+						<li><strong>B</strong> Does not respond to automated loan notification; Responds if contacted personally</li>
+						<li><strong>A</strong> If there isn't any ranking, the assumption is that they return loans and would get an "A"</li>
+					</ul>
+				</div>
+
+				<cfif listcontainsnocase(session.roles,"manage_agent_ranking") OR listcontainsnocase(session.roles,"admin_agent_ranking") >
+					<span class="btn btn-xs btn-secondary" id="t_agentRankDetails" onclick=" $('##agentRankCreate').show(); ">Add Rank</span>
+					<form name="addAgentRankForm" id="addAgentRankForm">
+						<div id="agentRankCreate" class="form-row">
+							<div class="col-12">
+							</div>
+							<div class="col-12">
+								<input type="hidden" name="agent_id" id="agent_id" value="#agent_id#">
+								<input type="hidden" name="action" id="action" value="saveRank">
+								<label class="data-entry-label" for="agent_rank">Add Rank of:</label>
+								<select name="agent_rank" id="agent_rank" class="data-entry-select reqdClr" required>
+									<option value=""></option>
+									<cfloop query="ctagent_rank">
+										<option value="#agent_rank#">#agent_rank#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12">
+								<label class="data-entry-label" for="transaction_type">for Transaction Type:</label>
+								<select name="transaction_type" id="transaction_type" class="data-entry-select reqdClr" required>
+									<option value=""></option>
+									<cfloop query="cttransaction_type">
+										<option value="#transaction_type#">#transaction_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12">
+								<label class="data-entry-label" for="remark">Remark: (required for unsatisfactory rankings; encouraged for all)</label>
+								<textarea name="remark" id="remark" rows="4" cols="60" class="data-entry-textarea"></textarea>
+							</div>
+							<div class="col-12">
+								<input type="submit" class="btn btn-xs btn-secondary" value="Save" id="addRankingButton">
+								<input type="button" class="btn btn-xs btn-warning" value="Cancel" onclick=" $('##agentRankCreate').hide(); ">
+							</div>
+						</div>
+					</form>
+					<output id="saveAgentRankFeedback"></output>
+					<script>
+						$(document).ready(function () {
+							$('##agentRankCreate').hide(); 
+							$("##addAgentRankForm").submit(function(evt) { 
+								evt.preventDefault();
+							});
+	
+							$("##addRankingButton").click(function(evt) { 
+								evt.preventDefault();
+								var okToSave = true;
+								if ($('##agent_rank').val()=="") {
+									okToSave = false;
+									messageDialog("You must select a rank to rank the agent.","Rank Required");
+								}
+								if ($('##transaction_type').val()=="") {
+									okToSave = false;
+									messageDialog("You must select the transaction type from which the reason for the ranking arose.","Transaction Type Required");
+								}
+								if ($('##remark').val()=="" && ($('##agent_rank').val()=='C' || $('##agent_rank').val()=='D' || $('##agent_rank').val()=='F')) {
+									okToSave = false;
+									messageDialog("A remark is required for unsatisfactory rankings.","Remark Required");
+								}
+								if (okToSave) { 
+									var agent_id = $('##agent_id').val();
+									var agent_rank = $('##agent_rank').val();
+									var remark = $('##remark').val();
+									var transaction_type = $('##transaction_type').val();
+									saveAgentRank(agent_id, agent_rank, remark, transaction_type,"saveAgentRankFeedback");
+								}
+							});
+						});
+					</script>
+				</cfif>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="agentRankDialogThread" />
+	<cfreturn agentRankDialogThread.output>
 </cffunction>
 
 </cfcomponent>
