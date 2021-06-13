@@ -461,7 +461,7 @@ limitations under the License.
 									collection.collection_id,
 									collection.collection
 								</cfquery>
-								<cfif entered.recordcount EQ 0>
+								<cfif identification.recordcount EQ 0>
 									<ul><li>None</li></ul>
 								<cfelse>
 									<ul>
