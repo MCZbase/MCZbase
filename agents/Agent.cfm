@@ -1019,7 +1019,7 @@ limitations under the License.
 									FROM
 										trans
 										left join loan on trans.transaction_id=loan.transaction_id
-										left loan_item on loan.transaction_id=loan_item.transaction_id
+										left join loan_item on loan.transaction_id=loan_item.transaction_id
 										left join collection on trans.collection_id=collection.collection_id
 									WHERE
 										RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
