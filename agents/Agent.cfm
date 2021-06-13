@@ -412,6 +412,127 @@ limitations under the License.
 							</div>
 						</section>
 
+						
+						<cfif oneOfUs EQ 1>
+							<!--- records entered --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">MCZbase Records Entered</h2>
+								</div>
+								<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
+									select
+										count(*) cnt,
+										collection,
+										collection.collection_id
+									from 
+										coll_object,
+										cataloged_item,
+										collection
+									where 
+										coll_object.collection_object_id = cataloged_item.collection_object_id and
+										cataloged_item.collection_id=collection.collection_id and
+										ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by
+										collection,
+										collection.collection_id
+								</cfquery>
+								<div class="card-body">
+									<cfif entered.recordcount EQ 0>
+										<ul><li>None</li></ul>
+									<cfelse>
+										<ul>
+											<cfloop query="entered">
+												<li>
+													<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+												</li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</section>
+						</cfif>
+
+						<cfif oneOfUs EQ 1>
+							<!--- records last edited by --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">MCZbase Records Last Edited By this agent</h2>
+								</div>
+								<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+									select 
+										count(*) cnt,
+										collection,
+										collection.collection_id
+									from 
+										coll_object,
+										cataloged_item,
+										collection
+									where 
+										coll_object.collection_object_id = cataloged_item.collection_object_id and
+										cataloged_item.collection_id=collection.collection_id and
+										LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by
+										collection,
+										collection.collection_id
+								</cfquery>
+								<div class="card-body">
+									<cfif lastEdit.recordcount EQ 0>
+										<ul><li>None</li></ul>
+									<cfelse>
+										<ul>
+											<cfloop query="lastEdit">
+												<li>
+													<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+												</li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</section>
+						</cfif>
+
+						<!--- attribute determinations --->
+						<section class="card mb-2 bg-light">
+							<div class="card-header">
+								<h2 class="h3">Attribute Determiner</h2>
+							</div>
+							<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+								select 
+									count(distinct(cataloged_item.collection_object_id)) colObjCount,
+									collection.collection_id,
+									collection,
+									attribute_type
+								from
+									attributes,
+									cataloged_item,
+									collection
+								where
+									cataloged_item.collection_object_id=attributes.collection_object_id and
+									cataloged_item.collection_id=collection.collection_id and
+									determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								group by
+									collection.collection_id,
+									collection,
+									attribute_type
+							</cfquery>
+							<div class="card-body">
+								<cfif attributes.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="attributes">
+											<li>
+												#attributes.attribute_type# for #attributes.colObjCount#
+												<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
+													#attributes.collection#</a> specimens
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</section>
+
+
 					</div>
 					<!--- split between left and right agent columns --->
 					<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
