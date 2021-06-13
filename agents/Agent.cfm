@@ -593,7 +593,7 @@ limitations under the License.
 							<!--- records last edited by --->
 							<section class="card mb-2 bg-light">
 								<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
-									SELECT count(*) as ct,
+									SELECT count(*) as ct
 									FROM encumbrance 
 									WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
@@ -667,12 +667,12 @@ limitations under the License.
 									and mczbase.is_media_encumbered(media.media_id) < 1
 							</cfquery>
 							<cfif getMedia.recordcount eq 0>
-								<cfset mediaLink = "">
+								<cfset mediaLink = "Media records">
 							<cfelse>
-								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent'>#getMedia.recordcount#</a>">
+								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Records</a>">
 							</cfif>
 							<div class="card-header">
-								<h2 class="h3">Subject of Media #mediaLink# records.</h2>
+								<h2 class="h3">Subject of #mediaLink#.</h2>
 							</div>
 							<div class="card-body">
 								<cfif getMedia.recordcount EQ 0>
