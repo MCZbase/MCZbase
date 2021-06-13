@@ -661,7 +661,7 @@ limitations under the License.
 									media.media_uri,
 									media.media_type
 								FROM media_relations 
-									left join media on media_relations.related_primary_key = media.media_id
+									left join media on media_relations.media_id = media.media_id
 								WHERE media_relationship like '% agent'
 									and media_relationship <> 'created by agent'
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
