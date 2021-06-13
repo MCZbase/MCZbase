@@ -444,7 +444,7 @@ limitations under the License.
 							<div class="card-header">
 								<h2 class="h3">Determiner</h2>
 							</div>
-							<cfquery name="identification" datasource="uam_god">
+							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
 								SELECT
 									count(*) cnt, 
 									count(distinct(identification.collection_object_id)) specs,
@@ -475,7 +475,6 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
-
 						
 						<cfif oneOfUs EQ 1>
 							<!--- records entered --->
@@ -595,6 +594,45 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
+
+						<cfif oneOfUs EQ 1>
+							<!--- Georeferences --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Georeferences</h2>
+								</div>
+								<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+									select 
+										count(*) cnt,
+										count(distinct(locality_id)) locs 
+										from lat_long 
+										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+									select 
+										count(*) cnt,
+										count(distinct(locality_id)) locs 
+										from lat_long 
+										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-body">
+									<cfif getLatLongDet.recordcount EQ 0>
+										<ul><li>Determiner for No Coordinates</li></ul>
+									<cfelse>
+										<ul>
+											<li>Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+										</ul>
+									</cfif>
+									<cfif getLatLongVer.recordcount EQ 0>
+										<ul><li>Verified No Coordinates</li></ul>
+									<cfelse>
+										<ul>
+											<li>Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+										</ul>
+									</cfif>
+								</div>
+							</section>
+						</cfif>
 
 						<cfif oneOfUs EQ 1>
 							<!--- media relationships and labels --->
