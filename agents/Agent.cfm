@@ -854,7 +854,7 @@ limitations under the License.
 										</button>
 									</h2>
 								</div>
-								<div id="shipmentCardBody" class="collapse show" aria-labelledby="headingOne" data-parent="##shipmentsSection">
+								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="headingOne" data-parent="##shipmentsSection">
 									<cfif totalShipCount GT 0>
 										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 									</cfif>
