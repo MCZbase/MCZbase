@@ -1625,7 +1625,7 @@ tr.line-top:first-child {
 }
 .card-body li.list-group-item span:last-child {
 	display:none;
-   /* Caution, this directive will have unexpected side effects */  
+   /* Caution, this directive will have unexpected side effects such as hiding badge spans */  
 }
 input#readMore_check_id {
 	display:none;
