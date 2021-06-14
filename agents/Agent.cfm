@@ -80,9 +80,9 @@ limitations under the License.
 		<div class="row">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 mt-4">
+				<div id="agentTopDiv" class="col-12 mt-3">
 					<div class="row">
-						<div class="col-12 col-sm-10">
+						<div class="col-12">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -96,12 +96,8 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
 						</div>
-						<div class="col-12 col-sm-2">
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-							</cfif>
-						</div>
 					</div>
+					<div class="col-12 col-sm-"
 					<ul class="my-2 list-unstyled">
 						<li>#agent_type# </li>
 						<cfif len(agentguid) GT 0>
@@ -120,12 +116,16 @@ limitations under the License.
 				</div>
 				<div class="col-12 form-row" id="agentTwoCollsWrapper">
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
-						<!--- agent names --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Names for this agent</h2>
-							</div>
-							<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
+						<section class="accordion" id="accordionB">
+							<div class="card mb-2 bg-light">
+						<div class="card-header" id="heading1">
+							 
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="#" role="button" data-toggle="collapse" data-target="#namesPane">Names for this Agent</a>
+							</h3>
+							
+						</div>
+						<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 								SELECT
 									agent_name_id,
 									agent_id,
@@ -145,7 +145,8 @@ limitations under the License.
 								WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									AND agent_name_type <> 'preferred'
 							</cfquery>
-							<div class="card-body">
+						<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="#accordionB">
+							<div class="card-body py-1 mb-1 float-left" id="namesCardBody">
 								<ul>
 									<!--- preferred name --->
 									<cfloop query="preferredNames">
@@ -163,40 +164,44 @@ limitations under the License.
 									</cfloop>
 								</ul>
 							</div>
-						</section>
+						</div>
+					</section>
 
-						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-							<!--- group members --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Group Members</h2>
-								</div>
-								<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
-									SELECT
-										member_agent_id,
-										member_order,
-										agent_name
-									FROM
-										group_member 
-										left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
-									WHERE
-										group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									ORDER BY
-										member_order
-								</cfquery>
-								<div class="card-body">
-									<cfif groupMembers.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="groupMembers">
-												<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</div>
-							</section>
-						</cfif>
+					<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+						<section class="accordion" id="accordionB">
+							<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading1">
+								 <!--- group members --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+								Group Members
+								</h3>
+							</div>
+							<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+								SELECT
+									member_agent_id,
+									member_order,
+									agent_name
+								FROM
+									group_member 
+									left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+								WHERE
+									group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								ORDER BY
+									member_order
+							</cfquery>
+							<div class="card-body py-1 mb-1 float-left">
+								<cfif groupMembers.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="groupMembers">
+											<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</section>
+					</cfif>
 
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
@@ -919,7 +924,6 @@ limitations under the License.
 				</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
-
 						<!--- Media --->
 						<section class="card mb-2 bg-light">
 							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
