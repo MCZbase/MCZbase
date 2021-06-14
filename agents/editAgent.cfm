@@ -198,7 +198,7 @@ limitations under the License.
 								</div>
  								<cfif listcontainsnocase(session.roles, "manage_transactions")>
 									<div class="col-12 col-md-4">
-										<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
+										<h2 class="h3"><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a></h2>
 									</div>
 									<div class="col-12 col-md-4">
 										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
