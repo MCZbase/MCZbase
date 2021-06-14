@@ -121,7 +121,7 @@ limitations under the License.
 						<div class="card-header" id="heading1">
 							 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="#namesPane">Names for this Agent</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Names for this Agent</a>
 							</h3>
 							
 						</div>
@@ -145,7 +145,7 @@ limitations under the License.
 								WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									AND agent_name_type <> 'preferred'
 							</cfquery>
-						<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="#accordionB">
+						<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body py-1 mb-1 float-left" id="namesCardBody">
 								<ul>
 									<!--- preferred name --->
