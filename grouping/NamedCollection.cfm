@@ -655,7 +655,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<style>
 										.jqx-editor-content {
-											resize:both;
+											resize:vertical;
 											overflow:hidden;
 											padding: 10px;
 											height: 150px;
