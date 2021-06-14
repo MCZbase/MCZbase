@@ -930,6 +930,7 @@ limitations under the License.
 									MCZBASE.get_media_credit(media.media_id) as credit 
 								FROM media_relations 
 									left join media on media_relations.media_id = media.media_id
+									left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 								WHERE media_relationship like '% agent'
 									and media_relationship <> 'created by agent'
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
