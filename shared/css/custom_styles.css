@@ -266,7 +266,7 @@ label {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-a.btn-xs {
+.btn-xs {
 	display: inline-block;
 	font-weight: 500;
 	color: #212529;
