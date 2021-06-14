@@ -1323,11 +1323,11 @@ limitations under the License.
 							<section class="card mb-2 bg-light">
 								<cftry>
 									<cfquery name="getFKFields" datasource="uam_god">
-										SELECT all_constraints.table_name, column_name, delete_rule 
-										FROM all_constraints
-											left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
-										WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
-										ORDER BY all_constraints.table_name
+										SELECT dba_constraints.table_name, column_name, delete_rule 
+										FROM dba_constraints
+											left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
+										WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
+										ORDER BY dba_constraints.table_name
 									</cfquery>
 									<div class="card-header">
 										<h2 class="h3">This Agent record is linked to:</h2>
@@ -1361,7 +1361,7 @@ limitations under the License.
 										</ul>
 									</div>
 								<cfcatch>
-									<!--- user doesn't have access to all_constraints --->
+									<!--- some issue with user access to metadata tables --->
 								</cfcatch>
 								</cftry>
 							</section>
