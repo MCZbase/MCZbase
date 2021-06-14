@@ -265,7 +265,7 @@ limitations under the License.
 									order by addr_type, valid_addr_fg desc
 								</cfquery>
 								<div id="postalPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
-									<div class="card-body py-1 mb-1 float-left" id="postalCardBody">
+									<div class="card-body pt-1 pb-2 pl-3 mb-1 float-left" id="postalCardBody">
 										<cfif getAgentAddr.recordcount EQ 0>
 											<ul><li>None</li></ul>
 										<cfelse>
@@ -349,7 +349,7 @@ limitations under the License.
 									<div class="card-header" id="heading5">
 										<!--- Phone/Email --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Collectors</a>
+											<a href="##" role="button" data-toggle="collapse" data-target="##collectorsPane">Collectors</a>
 										</h3>
 									</div>
 							<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
@@ -378,8 +378,8 @@ limitations under the License.
 								group by collection_cde, collection_id
 								order by ct desc
 							</cfquery>
-							<div id="collectorPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
-								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+							<div id="collectorsPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
+								<div class="card-body py-1 mb-1 float-left" id="collectorsCardBody">
 								<h4 class="card-title mt-2 mb-0">#getAgent.collections_scope#</h3>
 								<cfif getAgentCollScope.recordcount EQ 0>
 									<h4 class="card-title mt-2 mb-0">Not a collector of any material in MCZbase</h2>
@@ -477,10 +477,14 @@ limitations under the License.
 							</div>
 						</section>
 
-						<!--- Determiner --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Determiner</h2>
+					<!--- Determiner --->
+					<section  class="accordion" id="accordionG">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading6">
+								<!--- Phone/Email --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##determinersPane">Determiner</a>
+								</h3>
 							</div>
 							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
 								SELECT
@@ -499,19 +503,21 @@ limitations under the License.
 									collection.collection_id,
 									collection.collection
 							</cfquery>
-							<div class="card-body">
+							<div id="determinersPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionG">
+								<div class="card-body py-1 mb-1 float-left" id="determinersCardBody">
 								<cfif identification.recordcount EQ 0>
-									<ul><li>None</li></ul>
+									<ul class="list-group"><li class="list-group-item">None</li></ul>
 								<cfelse>
-									<ul>
+									<ul class="list-group">
 										<cfloop query="identification">
-											<li>
+											<li class="list-group-item">
 												#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
 												#specs# #collection#</a> cataloged items
 											</li>
 										</cfloop>
 									</ul>
 								</cfif>
+								</div>
 							</div>
 						</section>
 						
