@@ -4,7 +4,6 @@ Disallow: /cfide/
 Disallow: /CFIDE/
 Disallow: /.git/
 Disallow: /Admin/
-Disallow: /agents/
 Disallow: /ajax/
 Disallow: /ALA_Imaging/
 Disallow: /annotations/
@@ -52,9 +51,7 @@ Disallow: /a_deaccItemReview.cfm
 Disallow: /a_loanItemReview.cfm
 Disallow: /addAccn.cfm
 Disallow: /AdminUsers.cfm
-Disallow: /AgentGrid.cfm
-Disallow: /agents.cfm
-Disallow: /AgentSearch.cfm
+Disallow: /agents/editAgent.cfm
 Disallow: /allContainerLeafNodes.cfm
 Disallow: /Application.cfc
 Disallow: /Application_down.cfc
