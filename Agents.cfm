@@ -1,5 +1,5 @@
 <!---
-/agents/Agents.cfm
+/Agents.cfm
 
 Agent search/results 
 
@@ -398,7 +398,7 @@ limitations under the License.
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/agents/Agents.cfm';" >New Search</button>
+										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 										<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new agent" onclick="window.location.href='#Application.serverRootUrl#/agents/editAgent.cfm?action=new';" >Create New Agent</button>
 									</div>
 								</div>
@@ -643,7 +643,7 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/agents/Agents.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						$('##resultLink').html('<a href="/Agents.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 						gridLoaded('searchResultsGrid','agent');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {

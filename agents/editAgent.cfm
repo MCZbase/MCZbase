@@ -485,12 +485,21 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-1">
+										<style>
+											.jqx-editor-content {
+												resize: vertical;
+												overflow: hidden;
+												padding: 10px;
+												height: 150px;
+												width: auto;
+											}
+										</style>
 									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
 										<script>
 											$(document).ready(function () {
-												$('##biography').jqxEditor();
+												$('##biography').jqxEditor({width:'auto', height:'150px'});
 											});
 										</script>
 									</div>
@@ -499,7 +508,7 @@ limitations under the License.
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
 										<script>
 											$(document).ready(function () {
-												$('##agent_remarks').jqxEditor();
+												$('##agent_remarks').jqxEditor({width:'auto', height:'150px'});
 											});
 										</script>
 									</div>
@@ -1139,7 +1148,7 @@ limitations under the License.
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
 							<main class="container py-3" id="content">
-								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
+								<h2 class="h3">An <strong>exact match</strong> for the preferred name you provided <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> already exists.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
 										<div class="col-12">
@@ -1241,7 +1250,7 @@ limitations under the License.
 							<cftransaction action="rollback">
 							<cfset okToAddAgent = false>
 							<main class="container py-3" id="content">
-								<h2 class="h3">The agent <a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
+								<h2 class="h3">The agent <a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#" target="_blank">#encodeForHTML(pref_name)#</a> may already exist.</h2>
 								<section class="border rounded my-2 px-1 pt-1 pb-2">
 									<div class="form-row">
 										<div class="col-12">
@@ -1354,7 +1363,7 @@ limitations under the License.
 								<h1 class="h2">#encodeForHtml(cfcatch.message)#<h1>
 								<p>You cannot create a new agent record with a preferred name that duplicates an existing preferred name.</p>
 								<p></p>
-								<p><a href="/agents/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#">Search for Agents with this name</a></p>
+								<p><a href="/Agents.cfm?execute=true&anyName=#encodeForURL(pref_name)#">Search for Agents with this name</a></p>
 							</div>
 						</div>
 					<cfelse>

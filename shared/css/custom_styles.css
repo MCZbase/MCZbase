@@ -1677,6 +1677,13 @@ tr.line-top:first-child {
 	content: "\f068";
 	padding-right: 5px;
 	float: left !important;
+}
+.card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
+	font-family: "Font Awesome 5 Free"; 
+	font-weight: 900;
+	content:"\f068";
+	padding-right: 5px;
+	float:left!important;
 	cursor: pointer;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
@@ -1781,7 +1788,7 @@ input#readMore_check_id {
 	box-shadow: none;
 	border-right: 1px solid #96ECED;
 	border-left: 1px solid #96EcED;
-    outline: 0;
+	outline: 0;
 }
 .tab-headers button[aria-selected='true']:focus {
 	border-right: 1px solid rgb(38 143 255 / 50%);
@@ -1873,7 +1880,13 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 th {
 	font-weight: 500;
 }
-
+.jqx-editor-content {
+	resize: vertical;
+	overflow: hidden;
+	padding: 10px;
+	height: 150px;
+	width: auto;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/

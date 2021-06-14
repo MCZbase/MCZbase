@@ -279,7 +279,7 @@ limitations under the License.
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>	
-								<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
+								<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
@@ -379,7 +379,7 @@ limitations under the License.
 										</cfif>
 									
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/agents/Agents.cfm">Agents</a> 
+										<a class="dropdown-item" href="/Agents.cfm">Agents</a> 
 									</div>
 								</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
