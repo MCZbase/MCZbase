@@ -65,7 +65,8 @@ limitations under the License.
 		person.birth_date,
 		person.death_date,
 		null as start_date,
-		null as end_date
+		null as end_date,
+		MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 	FROM 
 		agent
 		left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
@@ -342,6 +343,7 @@ limitations under the License.
 								group by collection_cde, collection_id
 								order by ct desc
 							</cfquery>
+							<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
 							<div class="card-body">
 								<cfif getAgentCollScope.recordcount EQ 0>
 									<h2 class="h3">Not a collector of any material in MCZbase</h2>
@@ -924,9 +926,13 @@ limitations under the License.
 									mczbase.get_media_descriptor(media.media_id) as descriptor,
 									mczbase.get_medialabel(media.media_id,'subject') as subject,
 									media.media_uri,
-									media.media_type
+									media.media_type,
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+									MCZBASE.get_media_credit(media.media_id) as credit 
 								FROM media_relations 
 									left join media on media_relations.media_id = media.media_id
+									left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 								WHERE media_relationship like '% agent'
 									and media_relationship <> 'created by agent'
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -950,9 +956,11 @@ limitations under the License.
 										<cfloop query="getMedia">
 											<cfif getMedia.media_type IS "image">
 												<li class="border list-group-item d-flex justify-content-between align-items-center">
-													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
+													<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
 													<span>#getMedia.descriptor#</span>
 													<span>#getMedia.subject#</span>
+													<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
+													<span>#getMedia.credit#</span>
 													<span>&nbsp;</span>
 												</li>
 											</cfif>
