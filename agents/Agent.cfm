@@ -76,11 +76,11 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 my-4">
+				<div id="agentTopDiv" class="col-12 mt-4">
 					<div class="row">
 						<div class="col-12 col-sm-10">
 							<cfset dates ="">
@@ -102,8 +102,8 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-					<ul class="mt-3 list-unstyled">
-						<li>#agent_type# `</li>
+					<ul class="my-2 list-unstyled">
+						<li>#agent_type# </li>
 						<cfif len(agentguid) GT 0>
 							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
@@ -119,7 +119,7 @@ limitations under the License.
 					</cfif>
 				</div>
 				<div class="col-12 mb-2 clearfix float-left" id="agentTwoCollsWrapper">
-					<div class="col-12 col-md-6 px-1 float-left accordion" id="leftAgentColl">
+					<div class="col-12 col-md-4 px-1 float-left accordion" id="leftAgentColl">
 					
 						<!--- agent names --->
 						<section class="card mb-2 bg-light">
@@ -311,7 +311,8 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
-
+					</div>
+					<div class="col-12 col-md-4">
 						<!--- Collector --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
@@ -556,7 +557,8 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-
+					</div>
+					<div class="col-12 col-md-4">
 						<!--- attribute determinations --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
@@ -913,7 +915,6 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-
 
 					</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
