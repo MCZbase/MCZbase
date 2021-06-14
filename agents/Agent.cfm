@@ -273,10 +273,10 @@ limitations under the License.
 												<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 												<cfif valid_addr_fg EQ 1>
 													<cfset addressCurrency="Valid">
-														<cfset listgroupclass="bg-verylightgreen p-2 border-success w-100">
+														<cfset listgroupclass="bg-verylightgreen p-2 border-green w-100">
 													<cfelse>
 														<cfset addressCurrency="Invalid">
-													<cfset listgroupclass="w-100">
+													<cfset listgroupclass="w-100 p-2">
 												</cfif>
 												<h3 class="h4">#addr_type# address &ndash;&nbsp;#addressCurrency# &nbsp;#rem#</h3>
 												<div class="#listgroupclass# w-100">#formatted_addr#</div>
