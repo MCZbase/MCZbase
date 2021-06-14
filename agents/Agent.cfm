@@ -216,7 +216,9 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<div class="card-header" id="heading3">
 										<!--- Phone/Email --->
-										<h3 class="h4 my-0 float-left collapsed btn-link">Phone/Email</h3>
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Phone/Email</a>
+										</h3>
 									</div>
 									<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select address_type, address 
