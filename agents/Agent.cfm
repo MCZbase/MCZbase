@@ -212,8 +212,6 @@ limitations under the License.
 
 					<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-						<div class="col-12 form-row mt-2">
-						<div class="col-12 col-md-4 float-left">
 							<section  class="accordion" id="accordionC">
 								<div class="card mb-2 bg-light">
 									<div class="card-header" id="heading3">
