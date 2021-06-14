@@ -957,7 +957,7 @@ limitations under the License.
 													<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
 													<span>#getMedia.descriptor#</span>
 													<span>#getMedia.subject#</span>
-													<span><a href="#getMedia.licence_uri#">#getMedia.license_display#</a></span>
+													<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
 													<span>#getMedia.credit#</span>
 													<span>&nbsp;</span>
 												</li>
