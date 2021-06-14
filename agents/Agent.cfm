@@ -65,7 +65,8 @@ limitations under the License.
 		person.birth_date,
 		person.death_date,
 		null as start_date,
-		null as end_date
+		null as end_date,
+		MCZBASE.get_collectorscope(agent.agent_id,'collections') as collections_scope
 	FROM 
 		agent
 		left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
@@ -342,6 +343,7 @@ limitations under the License.
 								group by collection_cde, collection_id
 								order by ct desc
 							</cfquery>
+							<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
 							<div class="card-body">
 								<cfif getAgentCollScope.recordcount EQ 0>
 									<h2 class="h3">Not a collector of any material in MCZbase</h2>
