@@ -568,50 +568,103 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- records last edited by --->
-					<section  class="accordion" id="accordionH">
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="heading7">
-								<!--- Phone/Email --->
-								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##recordsPane">MCZbase Records Last Edited By This Agent</a>
-								</h3>
-							</div>
-								<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
-									select 
-										count(*) cnt,
-										collection,
-										collection.collection_id
-									from 
-										coll_object,
-										cataloged_item,
-										collection
-									where 
-										coll_object.collection_object_id = cataloged_item.collection_object_id and
-										cataloged_item.collection_id=collection.collection_id and
-										LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by
-										collection,
-										collection.collection_id
-								</cfquery>
-								<div id="recordsPane" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
-									<div class="card-body py-1 mb-1 float-left" id="recordsCardBody">
-										<cfif lastEdit.recordcount EQ 0>
-											<ul class="list-group"><li class="list-group-item">None</li></ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="lastEdit">
-													<li class="list-group-item">
-														<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
+							<section  class="accordion" id="accordionH">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading7">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##recordsPane">MCZbase Records Last Edited By This Agent</a>
+										</h3>
 									</div>
+										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+											select 
+												count(*) cnt,
+												collection,
+												collection.collection_id
+											from 
+												coll_object,
+												cataloged_item,
+												collection
+											where 
+												coll_object.collection_object_id = cataloged_item.collection_object_id and
+												cataloged_item.collection_id=collection.collection_id and
+												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by
+												collection,
+												collection.collection_id
+										</cfquery>
+										<div id="recordsPane" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
+											<div class="card-body py-1 mb-1 float-left" id="recordsCardBody">
+												<cfif lastEdit.recordcount EQ 0>
+													<ul class="list-group"><li class="list-group-item">None</li></ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="lastEdit">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div>
 								</div>
 							</section>
 						</cfif>
+						<section  class="accordion" id="accordionJ">
+							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+								SELECT media.media_id,
+									mczbase.get_media_descriptor(media.media_id) as descriptor,
+									mczbase.get_medialabel(media.media_id,'subject') as subject,
+									media.media_uri,
+									media.media_type,
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+									MCZBASE.get_media_credit(media.media_id) as credit 
+								FROM media_relations 
+									left join media on media_relations.media_id = media.media_id
+									left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+								WHERE media_relationship like '% agent'
+									and media_relationship <> 'created by agent'
+									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									and mczbase.is_media_encumbered(media.media_id) < 1
+							</cfquery>
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading9">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##media_subjectPane">Media Record Subject</a>
+									</h3>
+								</div>
+							<cfif getMedia.recordcount eq 0>
+								<cfset mediaLink = "No Media records">
+							<cfelse>
+								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+							</cfif>
+								<div id="media_subjectPane" class="collapse show" aria-labelledby="heading9" data-parent="##accordionJ">
+									<div class="card-body py-1 mb-1 float-left" id="media_subjectCardBody">
+								<cfif getMedia.recordcount EQ 0>
+									<ul class="list-group"><li class="list-group-item">#prefName# is the subject of #mediaLink#</li></ul>
+								<cfelse>
+									<ul class="list-group">
+										<cfloop query="getMedia">
+											<cfif getMedia.media_type IS "image">
+												<li class="border list-group-item d-flex justify-content-between align-items-center">
+													<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
+													<span>#getMedia.descriptor#</span>
+													<span>#getMedia.subject#</span>
+													<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
+													<span>#getMedia.credit#</span>
+													<span>&nbsp;</span>
+												</li>
+											</cfif>
+										</cfloop>
+									<ul>
+								</cfif>
+							</div>
+						</section>
 					</div>
-					<div class="col-12 col-md-4 float-left">
+						<div class="col-12 col-md-4 float-left">
 						<!--- attribute determinations --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
@@ -970,59 +1023,12 @@ limitations under the License.
 						</cfif>
 
 					</div>
-				</div>
+					</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
 						<!--- Media --->
-						<section class="card mb-2 bg-light">
-							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-								SELECT media.media_id,
-									mczbase.get_media_descriptor(media.media_id) as descriptor,
-									mczbase.get_medialabel(media.media_id,'subject') as subject,
-									media.media_uri,
-									media.media_type,
-									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-									MCZBASE.get_media_credit(media.media_id) as credit 
-								FROM media_relations 
-									left join media on media_relations.media_id = media.media_id
-									left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-								WHERE media_relationship like '% agent'
-									and media_relationship <> 'created by agent'
-									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									and mczbase.is_media_encumbered(media.media_id) < 1
-							</cfquery>
-							<div class="card-header">
-								<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-								<h2 class="h3">Subject of #getMedia.recordcount# media record#plural#.</h2>
-							</div>
-							<cfif getMedia.recordcount eq 0>
-								<cfset mediaLink = "No Media records">
-							<cfelse>
-								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-							</cfif>
-							<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
-							<div class="card-body">
-								<cfif getMedia.recordcount EQ 0>
-									<ul><li>None</li></ul>
-								<cfelse>
-									<ul class="list-group">
-										<cfloop query="getMedia">
-											<cfif getMedia.media_type IS "image">
-												<li class="border list-group-item d-flex justify-content-between align-items-center">
-													<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
-													<span>#getMedia.descriptor#</span>
-													<span>#getMedia.subject#</span>
-													<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
-													<span>#getMedia.credit#</span>
-													<span>&nbsp;</span>
-												</li>
-											</cfif>
-										</cfloop>
-									<ul>
-								</cfif>
-							</div>
-						</section>
+						
+						
 
 						<!--- Preparator--->
 						<section class="card mb-2 bg-light">
