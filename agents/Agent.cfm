@@ -155,15 +155,15 @@ limitations under the License.
 								<ul class="list-group">
 									<!--- preferred name --->
 									<cfloop query="preferredNames">
-										<li class="list-group-item pt-1">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+										<li class="list-group-item">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
 									</cfloop>
 									<cfloop query="notPrefNames">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-											<li class="list-group-item pt-1">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+											<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 										<cfelse>
 											<!--- don't display login name to non-admin users --->
 											<cfif notPrefNames.agent_name_type NEQ "login">
-												<li class="list-group-item pt-1">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 											</cfif>
 										</cfif>
 									</cfloop>
@@ -210,27 +210,30 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Phone/Email</h2>
-								</div>
-								<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select address_type, address 
-									from electronic_address 
-									WHERE
-										electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-									order by address_type
-								</cfquery>
-								<div class="card-body">
-									<cfif getAgentElecAddr.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="getAgentElecAddr">
-												<li>#address_type#: #address#</li>
-											</cfloop>
-										</ul>
-									</cfif>
+							<section class="accordion" id="accordionB">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading1">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">Phone/Email</h3>
+									</div>
+									<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select address_type, address 
+										from electronic_address 
+										WHERE
+											electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+										order by address_type
+									</cfquery>
+									<div class="card-body py-1 mb-1 float-left">
+										<cfif getAgentElecAddr.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">None</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<cfloop query="getAgentElecAddr">
+													<li class="list-group-item">#address_type#: #address#</li>
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
