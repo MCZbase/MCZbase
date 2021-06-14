@@ -945,7 +945,7 @@ limitations under the License.
 					</div>
 					<style>
 						.jqx-editor {
-							height: 170px;
+							height: 200px;
 						}
 						.jqx-editor-content {
 							resize: vertical;
@@ -961,7 +961,7 @@ limitations under the License.
 							<textarea name="biography" id="biography" class="w-100"></textarea>
 							<script>
 								$(document).ready(function () {
-									$('##biography').jqxEditor({width:"auto", height:"170px"});
+									$('##biography').jqxEditor({width:"auto", height:"200px"});
 								});
 							</script>
 						</div>
@@ -972,7 +972,7 @@ limitations under the License.
 							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
 							<script>
 								$(document).ready(function () {
-									$('##agent_remarks').jqxEditor({width:"auto", height:"170px"});
+									$('##agent_remarks').jqxEditor({width:"auto", height:"200px"});
 								});
 							</script>
 						</div>
