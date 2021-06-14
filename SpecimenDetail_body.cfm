@@ -1793,13 +1793,14 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 									<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											transcript.media_uri as transcript_uri,
-											transcript.media_id as trainscript_media_id
+											transcript.media_id as transcript_media_id
 										FROM
 											media_relations
 											left join media transcript on media_relations.related_primary_key = transcript.media_id
 										WHERE
 											media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
 											and media_relationship = 'transcript for audio media'
+											and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 									</cfquery>
 									<cfif checkforTranscript.recordcount GT 0>
 										<cfloop query="checkForTranscript">
