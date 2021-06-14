@@ -121,7 +121,7 @@ limitations under the License.
 						</cfif>
 						</div>
 					</div>
-				<div class="col-12 form-row" id="agentTwoCollsWrapper">
+				<div class="col-12 form-row mt-2" id="agentTwoCollsWrapper">
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
 						<section class="accordion" id="accordionB">
 							<div class="card mb-2 bg-light">
@@ -212,9 +212,9 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-							<section class="accordion" id="accordionB">
+							<section class="accordion" id="accordionC">
 								<div class="card mb-2 bg-light">
-									<div class="card-header" id="heading1">
+									<div class="card-header" id="heading2">
 										<!--- Phone/Email --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">Phone/Email</h3>
 									</div>
@@ -225,7 +225,8 @@ limitations under the License.
 											electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 										order by address_type
 									</cfquery>
-									<div class="card-body py-1 mb-1 float-left">
+									<div id="namesPane" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
+									<div class="card-body py-1 mb-1 float-left" id="electronicCardBody">
 										<cfif getAgentElecAddr.recordcount EQ 0>
 											<ul class="list-group"><li class="list-group-item">None</li></ul>
 										<cfelse>
