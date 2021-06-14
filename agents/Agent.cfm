@@ -551,11 +551,11 @@ limitations under the License.
 								<div id="enteredPane" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
 									<div class="card-body py-1 mb-1 float-left" id="enteredCardBody">
 										<cfif entered.recordcount EQ 0>
-											<ul><li>None</li></ul>
+											<ul class="list-group"><li class="list-group-item">None</li></ul>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfloop query="entered">
-													<li>
+													<li class="list-group-item">
 														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
 													</li>
 												</cfloop>
