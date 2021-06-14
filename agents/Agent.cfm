@@ -81,7 +81,7 @@ limitations under the License.
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-3">
-					<div class="row mx-0">
+					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12 col-sm-12 col-xl-6 float-left">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
