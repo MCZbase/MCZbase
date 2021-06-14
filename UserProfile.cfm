@@ -46,7 +46,7 @@ limitations under the License.
 		select count(*) as passwordMatchCount
 		from cf_users 
 		where 
-			username = '#session.username#' 
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
 	</cfquery>
 	<cfif exPw.passwordMatchCount NEQ 1 >
@@ -92,7 +92,7 @@ limitations under the License.
 				where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
-				Arctos user #session.username# has successfully created an Oracle account.
+				Arctos user #encodeForHtml(session.username)# has successfully created an Oracle account.
 				<br>
 				You now need to assign them roles and collection access.
 				<br>Contact the DBA immediately if you did not invite this user to become an operator.
@@ -145,21 +145,24 @@ limitations under the License.
 <div class="container-fluid">
 	<cfif action is "nothing">
 	<cfquery name="getPrefs" datasource="cf_dbuser">
-		select * from cf_users, user_loan_request,agent_name, person
-		where  cf_users.user_id = user_loan_request.user_id (+) and
-		agent_name.agent_name_type = 'login' and 
-		agent_name.agent_name = cf_users.username and
-		person.PERSON_ID = agent_name.agent_id and
-		username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
-		order by cf_users.user_id
+		SELECT * 
+		FROM cf_users
+			left join user_loan_request on cf_users.user_id = user_loan_request.user_id
+			left join agent_name on cf_users.username = agent_name.agent_name
+			left join person on agent_name.agent_id = person.person_id
+		WHERE 
+			agent_name.agent_name_type = 'login' and 
+			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
+		ORDER BY cf_users.user_id
 	</cfquery>
 	
 	<cfif getPrefs.recordcount is 0>
 		<cflocation url="/Specimens.cfm" addtoken="false">
 	</cfif>
 	<cfquery name="isInv" datasource="uam_god">
-		select allow from temp_allow_cf_user 
-		where user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
+		SELECT allow 
+		FROM temp_allow_cf_user 
+		WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 		<div class="container mt-4" id="content">
@@ -193,8 +196,8 @@ limitations under the License.
 				<div class="col-12 col-md-6 mb-2">
 	
 					
-			<h1 class="h2">Welcome back, <b>#getPrefs.first_name# #getPrefs.last_name#</b>!<br>
-						<small>(login: #getPrefs.username#)</small></h1>
+			<h1 class="h2">Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
+						<small>(login: #encodeForHtml(getPrefs.username)#)</small></h1>
 					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
 						<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
 						<cfset pwage = Application.max_pw_age - pwtime>
@@ -271,19 +274,19 @@ limitations under the License.
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
 				</div>
-            <input type="text" name="first_name" value="#getUserData.first_name#" class="form-control" placeholder="first_name" aria-label="first_name" aria-describedby="basic-addon1">
+            <input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="form-control" placeholder="first_name" aria-label="first_name" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" name="middle_name" id="basic-addon1">Middle Name</span>
 				</div>
-            	<input type="text" name="middle_name" value="#getUserData.middle_name#" class="form-control" placeholder="middle_name" aria-label="middle_name" aria-describedby="basic-addon1">
+            	<input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="form-control" placeholder="middle_name" aria-label="middle_name" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 			<div class="input-group-prepend">
 					<span class="input-group-text" name="last_name" id="basic-addon1">Last Name</span>
 				</div>
-            <input type="text" name="last_name" value="#getUserData.last_name#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
+            <input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
 			</div>
 		</div>
 		<div class="form-group col-md-12 col-sm-12 pl-0">
@@ -291,13 +294,13 @@ limitations under the License.
 			  <div class="input-group-prepend">
 				<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
 			  </div>
-			  <input type="text" name="affiliation" class="form-control" value="#getUserData.affiliation#" placeholder="Affiliation" aria-label="affiliation" aria-describedby="basic-addon1">
+			  <input type="text" name="affiliation" class="form-control" value="#encodeForHtml(getUserData.affiliation)#" placeholder="Affiliation" aria-label="affiliation" aria-describedby="basic-addon1">
 			</div>
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">
 				<span class="input-group-text" name="email" id="basic-addon1">Email</span>
 			  </div>
-			  <input type="text" name="email" class="form-control" value="#getUserData.email#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+			  <input type="text" name="email" class="form-control" value="#encodeForHtml(getUserData.email)#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
 			</div>
 		</div>
 			<div class="form-group col-md-12 col-sm-12 pl-0">

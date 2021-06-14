@@ -519,7 +519,7 @@ limitations under the License.
 												<cfset relCount = StructCount(relatedTo)>
 												<cfif relCount GT 0>
 													<cfif relCount EQ 1 ><cfset plural = ""><cfelse><cfset plural="s"></cfif>
-													<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
+													<button type="button" class="btn btn-xs btn-outline-primary" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
 													<cfset relations = "">
 													<cfset sep = "">
 													<cfloop collection="#relatedTo#" item="key">
