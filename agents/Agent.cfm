@@ -103,7 +103,7 @@ limitations under the License.
 						</div>
 					</div>
 					<ul class="mt-3 list-unstyled">
-						<li>#agent_type#</li>
+						<li>#agent_type# `</li>
 						<cfif len(agentguid) GT 0>
 							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
