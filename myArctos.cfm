@@ -130,7 +130,7 @@
 	<cfquery name="isInv" datasource="uam_god">
 		select allow 
 		from temp_allow_cf_user 
-		where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=""#getPrefs.user_id#">
+		where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPrefs.user_id#">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
