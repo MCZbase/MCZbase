@@ -951,7 +951,7 @@ limitations under the License.
 							resize: vertical;
 							overflow: hidden;
 							padding: 10px;
-							height: 150px;
+							height: 130px;
 							width: auto;
 						}
 					</style>
