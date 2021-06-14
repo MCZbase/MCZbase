@@ -155,15 +155,15 @@ limitations under the License.
 								<ul class="list-group">
 									<!--- preferred name --->
 									<cfloop query="preferredNames">
-										<li class="list-group-item">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+										<li class="list-group-item pt-1">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
 									</cfloop>
 									<cfloop query="notPrefNames">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-											<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+											<li class="list-group-item pt-1">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 										<cfelse>
 											<!--- don't display login name to non-admin users --->
 											<cfif notPrefNames.agent_name_type NEQ "login">
-												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<li class="list-group-item pt-1">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 											</cfif>
 										</cfif>
 									</cfloop>
