@@ -288,10 +288,14 @@ limitations under the License.
 						</cfif>
 
 						<!--- relationships --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Relationships with other agents</h2>
-							</div>
+						<section  class="accordion" id="accordionE">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading4">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Relationships with Other Agents</a>
+										</h3>
+									</div>
 							<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 									agent_remarks
@@ -301,39 +305,41 @@ limitations under the License.
 									and agent_relationship not like '% duplicate of'
 								ORDER BY agent_relationship
 							</cfquery>
-							<div class="card-body">
-								<cfif getAgentRel.recordcount EQ 0>
-									<ul><li>None to other agents</li></ul>
-								<cfelse>
-									<ul>
-										<cfloop query="getAgentRel">
-											<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-											<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
-										</cfloop>
-									</ul>
-								</cfif>
-								<cfif oneOfUs EQ 1>
-									<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
-											agent_remarks
-										FROM agent_relations 
-										WHERE
-											related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and agent_relationship not like '% duplicate of'
-										ORDER BY agent_relationship
-									</cfquery>
-									<cfif getRevAgentRel.recordcount EQ 0>
-										<ul><li>None from other agents</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="getRevAgentRel">
-												<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-												<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</cfif>
-							</div>
+								<div id="relationsPane" class="collapse show" aria-labelledby="heading4" data-parent="##accordionE">
+									<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+										<cfif getAgentRel.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">None to other agents</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<cfloop query="getAgentRel">
+													<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+													<li class="list-group-item">#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
+												</cfloop>
+											</ul>
+										</cfif>
+										<cfif oneOfUs EQ 1>
+											<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+													agent_remarks
+												FROM agent_relations 
+												WHERE
+													related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+													and agent_relationship not like '% duplicate of'
+												ORDER BY agent_relationship
+											</cfquery>
+											<cfif getRevAgentRel.recordcount EQ 0>
+												<ul class="list-group"><li class="list-group-item">None from other agents</li></ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getRevAgentRel">
+														<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+														<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</cfif>
+									</div>
+								</div>
 						</section>
 					</div>
 					<div class="col-12 col-md-4 float-left">
