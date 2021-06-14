@@ -102,7 +102,7 @@ limitations under the License.
 					</div>
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12">
-							<ul class="my-0 py-0 list-unstyled">
+							<ul class="mb-2 py-0 list-unstyled">
 								<li>#agent_type# </li>
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
