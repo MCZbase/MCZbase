@@ -96,9 +96,11 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
 						</div>
-						<div class="col-12 col-sm-12 col-xl-6 float-left">
+						<cfif oneOfUs EQ 1>
+							<div class="col-12 col-sm-12 col-xl-6 float-left">
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-						</div>
+							</div>
+						</cfif>
 					</div>
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12">
