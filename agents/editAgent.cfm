@@ -492,7 +492,7 @@ limitations under the License.
 										resize: vertical;
 										overflow: hidden;
 										padding: 10px;
-										height: 150px;
+										height: 97px;
 										width: auto;
 									}
 								</style>
