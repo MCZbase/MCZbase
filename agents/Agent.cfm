@@ -273,7 +273,7 @@ limitations under the License.
 												<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 												<cfif valid_addr_fg EQ 1>
 													<cfset addressCurrency="Valid">
-														<cfset listgroupclass="bg-verylightgreen p-2 border-green w-100">
+														<cfset listgroupclass="bg-verylightgreen rounded p-2 border-green w-100">
 													<cfelse>
 														<cfset addressCurrency="Invalid">
 													<cfset listgroupclass="w-100 p-2">
