@@ -100,23 +100,25 @@ limitations under the License.
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 						</div>
 					</div>
-					<div class="col-12">
-					<ul class="my-0 py-0 list-unstyled">
-						<li>#agent_type# </li>
-						<cfif len(agentguid) GT 0>
-							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
-								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
-							<cfelse>
-								<cfset guidLink = agentguid >
-							</cfif>
-							<li><a href="#guidLink#">#agentguid#</a></li>
+					<div class="row mx-0 px-0 px-md-4">
+						<div class="col-12">
+							<ul class="my-0 py-0 list-unstyled">
+								<li>#agent_type# </li>
+								<cfif len(agentguid) GT 0>
+									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+									<cfelse>
+										<cfset guidLink = agentguid >
+									</cfif>
+									<li><a href="#guidLink#">#agentguid#</a></li>
+								</cfif>
+							</ul>
+						<div>#biography#</div>
+						<cfif oneOfUs EQ 1>
+							<div>#agent_remarks#</div>
 						</cfif>
-					</ul>
-					<div>#biography#</div>
-					<cfif oneOfUs EQ 1>
-						<div>#agent_remarks#</div>
-					</cfif>
-				</div>
+						</div>
+					</div>
 				<div class="col-12 form-row" id="agentTwoCollsWrapper">
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
 						<section class="accordion" id="accordionB">
