@@ -121,7 +121,7 @@ limitations under the License.
 						<div class="card-header" id="heading1">
 							 
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="#" role="button" data-toggle="collapse" data-target="#namesPane">Names for this Agent</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="#namesPane">Names for this Agent</a>
 							</h3>
 							
 						</div>
