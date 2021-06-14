@@ -73,7 +73,6 @@
 										AND media_relations.media_relationship = 'shows cataloged_item'
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										
 								</cfquery>
 								<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,

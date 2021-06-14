@@ -145,7 +145,8 @@ limitations under the License.
 																left join media transcript on media_relations.related_primary_key = transcript.media_id
 															WHERE
 																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-															and media_relationship = 'transcript for audio media'
+																and media_relationship = 'transcript for audio media'
+																and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 														</cfquery>
 														<cfif checkforTranscript.recordcount GT 0>
 															<cfloop query="checkForTranscript">
@@ -231,7 +232,8 @@ limitations under the License.
 																	left join media transcript on media_relations.related_primary_key = transcript.media_id
 																WHERE
 																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-																and media_relationship = 'transcript for audio media'
+																	and media_relationship = 'transcript for audio media'
+																	and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 															</cfquery>
 															<cfif checkforTranscript.recordcount GT 0>
 																<cfloop query="checkForTranscript">
@@ -594,7 +596,8 @@ limitations under the License.
 								RELATED_PRIMARY_KEY = c.publication_id and
 								c.publication_id = fp.publication_id and
 								fp.format_style='short' and
-								c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+								MCZBASE.is_media_encumbered(m.media_id) < 1
 							ORDER by substr(formatted_publication, -4)
 						</cfquery>
 					<cfset i = 1>
@@ -1318,7 +1321,8 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '% accn' and
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MCZBASE.is_media_encumbered(media.media_id) < 1
 				</cfquery>
 			<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
