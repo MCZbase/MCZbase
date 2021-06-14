@@ -523,9 +523,13 @@ limitations under the License.
 						
 						<cfif oneOfUs EQ 1>
 							<!--- records entered --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">MCZbase Records Entered</h2>
+						<section  class="accordion" id="accordionI">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading8">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##enteredPane">MCZbase Records Entered</a>
+									</h3>
 								</div>
 								<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
 									select
@@ -544,18 +548,20 @@ limitations under the License.
 										collection,
 										collection.collection_id
 								</cfquery>
-								<div class="card-body">
-									<cfif entered.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="entered">
-												<li>
-													<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-												</li>
-											</cfloop>
-										</ul>
-									</cfif>
+								<div id="enteredPane" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
+									<div class="card-body py-1 mb-1 float-left" id="enteredCardBody">
+										<cfif entered.recordcount EQ 0>
+											<ul><li>None</li></ul>
+										<cfelse>
+											<ul>
+												<cfloop query="entered">
+													<li>
+														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
