@@ -344,10 +344,14 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 float-left">
 						<!--- Collector --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Collector</h2>
-							</div>
+						<section  class="accordion" id="accordionF">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading5">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Relationships with Other Agents</a>
+										</h3>
+									</div>
 							<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 								select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 								from (
@@ -374,12 +378,13 @@ limitations under the License.
 								group by collection_cde, collection_id
 								order by ct desc
 							</cfquery>
-							<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
-							<div class="card-body">
+							<div id="collectorPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
+								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+								<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
 								<cfif getAgentCollScope.recordcount EQ 0>
-									<h2 class="h3">Not a collector of any material in MCZbase</h2>
+									<h4>Not a collector of any material in MCZbase</h2>
 								<cfelse>
-									<ul>
+									<ul class="list-group">
 										<cfset earlyeststart = "">
 										<cfset latestend = "">
 										<cfloop query="getAgentCollScope">
@@ -400,16 +405,15 @@ limitations under the License.
 												<cfset yearbit=" in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#">
 											</cfif>
 											<cfif len(getAgentCollScope.collection_cde) GT 0>
-												<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
+												<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 											</cfif>
 										</cfloop>
 									</ul>
 									<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 										<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-											<h3 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
+											<h4>Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h4>
 										</cfif>
 									</cfif>
-
 									<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
 										select sum(ct) as ct, phylclass, family, sum(st) as startyear, sum(en) as endyear 
 										from (
@@ -440,8 +444,8 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentFamilyScope.recordcount GT 0>
 										<div class="w-100"> 
-											<h3 class="h3">Families Collected</h3>
-											<ul>
+											<h4>Families Collected</h4>
+											<ul class="list-group">
 												<cfset earlyeststart = "">
 												<cfset latestend = "">
 												<cfloop query="getAgentFamilyScope">
@@ -462,13 +466,14 @@ limitations under the License.
 														<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
 													</cfif>
 													<cfif len(getAgentFamilyScope.family) GT 0>
-														<li>#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+														<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 													</cfif>
 												</cfloop>
 											</ul>
 										</div>
 									</cfif><!--- getAgentFamilyScope.recordcount > 0 --->
 								</cfif><!--- getAgentCollScope.recordcount > 1 --->
+								</div>
 							</div>
 						</section>
 
