@@ -97,7 +97,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-2">
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 							</cfif>
 						</div>
 					</div>
@@ -118,7 +118,7 @@ limitations under the License.
 					</cfif>
 				</div>
 				<div class="col-12 mb-2 clearfix float-left" id="agentTwoCollsWrapper">
-					<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
+					<div class="col-12 col-md-6 px-1 float-left accordion" id="leftAgentColl">
 					
 						<!--- agent names --->
 						<section class="card mb-2 bg-light">
@@ -439,6 +439,43 @@ limitations under the License.
 							</div>
 						</section>
 
+						<!--- Determiner --->
+						<section class="card mb-2 bg-light">
+							<div class="card-header">
+								<h2 class="h3">Determiner</h2>
+							</div>
+							<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
+								SELECT
+									count(*) cnt, 
+									count(distinct(identification.collection_object_id)) specs,
+									collection.collection_id,
+									collection.collection
+								FROM
+									identification
+									left join identification_agent on identification.identification_id=identification_agent.identification_id
+									left join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
+									left join collection on cataloged_item.collection_id = collection.collection_id
+								WHERE
+									identification_agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								GROUP BY
+									collection.collection_id,
+									collection.collection
+							</cfquery>
+							<div class="card-body">
+								<cfif identification.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="identification">
+											<li>
+												#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
+												#specs# #collection#</a> cataloged items
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</section>
 						
 						<cfif oneOfUs EQ 1>
 							<!--- records entered --->
@@ -560,6 +597,45 @@ limitations under the License.
 						</section>
 
 						<cfif oneOfUs EQ 1>
+							<!--- Georeferences --->
+							<section class="card mb-2 bg-light">
+								<div class="card-header">
+									<h2 class="h3">Georeferences</h2>
+								</div>
+								<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+									select 
+										count(*) cnt,
+										count(distinct(locality_id)) locs 
+										from lat_long 
+										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+									select 
+										count(*) cnt,
+										count(distinct(locality_id)) locs 
+										from lat_long 
+										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div class="card-body">
+									<cfif getLatLongDet.recordcount EQ 0>
+										<ul><li>Determiner for No Coordinates</li></ul>
+									<cfelse>
+										<ul>
+											<li>Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+										</ul>
+									</cfif>
+									<cfif getLatLongVer.recordcount EQ 0>
+										<ul><li>Verified No Coordinates</li></ul>
+									<cfelse>
+										<ul>
+											<li>Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+										</ul>
+									</cfif>
+								</div>
+							</section>
+						</cfif>
+
+						<cfif oneOfUs EQ 1>
 							<!--- media relationships and labels --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
@@ -670,15 +746,183 @@ limitations under the License.
 							</section>
 						</cfif>
 
+						<!--- loan item reconciliation --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+									SELECT
+										count(*) cnt,
+										trans.transaction_id,
+										loan_number,
+										collection
+									FROM
+										trans
+										left join loan on trans.transaction_id=loan.transaction_id
+										left join loan_item on loan.transaction_id=loan_item.transaction_id
+										left join collection on trans.collection_id=collection.collection_id
+									WHERE
+										RECONCILED_BY_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									GROUP BY
+										trans.transaction_id,
+										loan_number,
+										collection				
+								</cfquery>
+								<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif loan_item.recordcount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded --->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="loanItemHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
+											Reconciled loan items (#loan_item.recordcount#):
+										</button>
+									</h2>
+								</div>
+								<div>
+								<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
+									<cfif loan_item.recordcount GT 0>
+										<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+									</cfif>
+									<div class="card-body">
+										<ul>
+											<cfif loan_item.recordcount EQ 0>
+												<li>None.</li>
+											<cfelse>
+												<cfloop query="loan_item">
+													<li>Reconciled #cnt# items for Loan 
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+													</li>		
+												</cfloop>
+											</cfif>
+										</ul>
+									</div>
+								</div>
+							</section>
+						</cfif>
+
+						<!--- shipments --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+							<section class="card mb-2 bg-light" id="shipmentSection">
+								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+									WHERE
+										PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="shippedTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedTo_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+										left join addr on shipment.shipped_to_addr_id = addr.addr_id
+									WHERE
+										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="shippedFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippedFrom_result">
+									SELECT
+										transaction_view.transaction_id, 
+										transaction_view.transaction_type,
+										to_char(shipped_date,'YYYY-MM-DD') trans_date,
+										transaction_view.specific_number,
+										transaction_view.collection_id,
+										collection
+									FROM
+										shipment
+										left join transaction_view on shipment.transaction_id=transaction_view.transaction_id
+										left join collection on transaction_view.collection_id=collection.collection_id
+										left join addr on shipment.shipped_from_addr_id = addr.addr_id
+									WHERE
+										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
+								<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalShipCount GT 10>
+									<cfset cardState = "collapsed">
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<cfset cardState = "expanded">
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="shipmentHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
+											Roles in Shipment#plural# (#totalShipCount#)
+										</button>
+									</h2>
+								</div>
+								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
+									<cfif totalShipCount GT 0>
+										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+									</cfif>
+									<div class="card-body">
+										<ul>
+											<cfif packedBy.recordcount EQ 0>
+												<li>Packed no shipments for transactions</li>
+											</cfif>
+											<cfloop query="packedBy">
+												<li>
+													Packed Shipment for #transaction_type#
+													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+														#collection# #specific_number#
+													</a>
+												</li>
+											</cfloop>
+											<cfif shippedTo.recordcount EQ 0>
+												<li>Recipient of no shipments for transactions</li>
+											</cfif>
+											<cfloop query="shippedFrom">
+												<li>
+													Sender of shipment for #transaction_type#
+													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+														#collection# #specific_number#
+													</a>
+												</li>
+											</cfloop>
+										</ul>
+									</div>
+								</div>
+							</section>
+						</cfif>
+
+
 					</div>
-					<!--- split between left and right agent columns --->
-					<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
+					<!--- split between left and right agent columns ****************************************************************** --->
+					<div class="col-12 col-md-6 px-1 float-left accordion" id="rightAgentColl">
 
 						<!--- Media --->
 						<section class="card mb-2 bg-light">
 							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
 								SELECT media.media_id,
 									mczbase.get_media_descriptor(media.media_id) as descriptor,
+									mczbase.get_medialabel(media.media_id,'subject') as subject,
 									media.media_uri,
 									media.media_type
 								FROM media_relations 
@@ -688,14 +932,16 @@ limitations under the License.
 									and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									and mczbase.is_media_encumbered(media.media_id) < 1
 							</cfquery>
-							<cfif getMedia.recordcount eq 0>
-								<cfset mediaLink = "Media records">
-							<cfelse>
-								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Records</a>">
-							</cfif>
 							<div class="card-header">
-								<h2 class="h3">Subject of #mediaLink#.</h2>
+								<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+								<h2 class="h3">Subject of #getMedia.recordcount# media record#plural#.</h2>
 							</div>
+							<cfif getMedia.recordcount eq 0>
+								<cfset mediaLink = "No Media records">
+							<cfelse>
+								<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+							</cfif>
+							<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
 							<div class="card-body">
 								<cfif getMedia.recordcount EQ 0>
 									<ul><li>None</li></ul>
@@ -706,6 +952,7 @@ limitations under the License.
 												<li class="border list-group-item d-flex justify-content-between align-items-center">
 													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
 													<span>#getMedia.descriptor#</span>
+													<span>#getMedia.subject#</span>
 													<span>&nbsp;</span>
 												</li>
 											</cfif>
@@ -875,18 +1122,6 @@ limitations under the License.
 									WHERE
 										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-header">
-									<cfif getTransCount.ct EQ 0>
-										<h2 class="h3">Roles in Transactions:</h2>
-									<cfelse>
-										<h2 class="h3">
-											Roles in 
-											<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
-											#getTransCount.ct# Transactions
-											</a>:
-										</h2>
-									</cfif>
-								</div>
 								<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 									SELECT
 										transaction_view.transaction_id, 
@@ -903,33 +1138,177 @@ limitations under the License.
 										trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									ORDER BY transaction_view.transaction_type, transaction_view.specific_number
 								</cfquery>
-								<div class="card-body">
-									<cfif getTransactions.recordcount EQ 0>
-										<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+								<cfset totalTransCount = getTransCount.ct>
+								<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalTransCount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded--->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="transactionsHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
+											Roles in Transaction#plural# (#totalTransCount#)
+										</button>
+									</h2>
+								</div>
+								<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">
+									<cfif getTransCount.ct EQ 0>
+										<h3 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 									<cfelse>
-										<ul>
-											<cfset lastTrans ="">
-											<cfset statusDate ="">
-											<cfloop query="getTransactions">
-												<cfif lastTrans NEQ getTransactions.specific_number>
-													<cfif lastTrans NEQ "">
-														#statusDate#</li>
-													</cfif>
-													<li>
-														<span class="text-capitalize">#transaction_type#</span> 
-														<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
-														#trans_agent_role#
-														<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-												<cfelse>
-														, #trans_agent_role#
-												</cfif>
-												<cfset lastTrans ="#getTransactions.specific_number#">
-											</cfloop>
-										</ul>
+										<h3 class="h4 card-title">
+											#prefName# has some role in 
+											<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
+											#getTransCount.ct# Transaction#plural#
+											</a>:
+										</h3>
 									</cfif>
+									<div class="card-body">
+										<cfif getTransactions.recordcount EQ 0>
+											<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+										<cfelse>
+											<ul>
+												<cfset lastTrans ="">
+												<cfset statusDate ="">
+												<cfloop query="getTransactions">
+													<cfif lastTrans NEQ getTransactions.specific_number>
+														<cfif lastTrans NEQ "">
+															#statusDate#</li>
+														</cfif>
+														<li>
+															<span class="text-capitalize">#transaction_type#</span> 
+															<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+															#trans_agent_role#
+															<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+													<cfelse>
+															, #trans_agent_role#
+													</cfif>
+													<cfset lastTrans ="#getTransactions.specific_number#">
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
+
+
+						<!--- permissions and rights roles --->
+						<cfif listcontainsnocase(session.roles, "manage_transactions")>
+							<section class="card mb-2 bg-light">
+								<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsFrom_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										ISSUED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitContacts_result">
+									SELECT
+										permit_num,
+										permit_title,
+										permit_type,
+										specific_type
+									FROM
+										permit 
+									WHERE 
+										CONTACT_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<cfset totalPermitCount = getPermitsTo.recordcount + getPermitsFrom.recordCount + getPermitContacts.recordcount>
+								<cfif totalPermitCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+								<cfif totalPermitCount GT 10>
+									<!--- cardState = collapsed --->
+									<cfset headerClass = "btn-link-collapsed">
+									<cfset bodyClass = "collapse">
+									<cfset ariaExpanded ="false">
+								<cfelse>
+									<!--- cardState = expanded--->
+									<cfset headerClass = "btn-link">
+									<cfset bodyClass = "collapse show">
+									<cfset ariaExpanded ="true">
+								</cfif>
+								<div class="card-header" id="permitsHeader">
+									<h2 class="h3">
+										<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBody" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBody">
+											Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
+										</button>
+									</h2>
+								</div>
+								<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
+									<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
+									<div class="card-body">
+										<ul>
+											<cfif getPermitsTo.recordcount EQ 0>
+												<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
+											<cfelse>
+												<cfloop query="getPermitsTo">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														Document 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+														was issued to #encodeForHtml(prefName)#
+													</li>
+												</cfloop>
+											</cfif>
+											<cfif getPermitsFrom.recordcount EQ 0>
+												<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
+											<cfelse>
+												<cfloop query="getPermitsFrom">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														Document 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+														was issued by #encodeForHtml(prefName)#
+													</li>
+												</cfloop>
+											</cfif>
+											<cfif getPermitContacts.recordcount EQ 0>
+												<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
+											<cfelse>
+												<cfloop query="getPermitContacts">
+													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
+													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
+													<li>
+														#encodeForHtml(prefName)# is contact for 
+														<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+															#pnrDoc#
+														</a> (#permit_type#:#specific_type#)
+													</li>
+												</cfloop>
+											</cfif>
+										</ul>
+									</div>
+								</div>
+							</section>
+						</cfif>
+
 
 						<!--- foreign key relationships to other tables --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>

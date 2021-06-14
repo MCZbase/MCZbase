@@ -37,22 +37,9 @@ limitations under the License.
 	<cfif action IS "newAgent"><cfset action = "new"></cfif>
 </cfif>
 
-<!--- TODO: Temporary test for non-production deployment, remove when ready --->
-<cftry>
-	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-<cfcatch>
-	<cfset gitBranch = "unknown">
-</cfcatch>
-</cftry>
-
 <cfswitch expression="#action#">
 <cfcase value="editAgent">
 	<cfset pageTitle = "Edit Agent">
-	<cfset Session.gitBranch = gitBranch>
-	<cfif findNoCase('master',Session.gitBranch) GT 0>
-		<cfthrow message="Page not ready for production use.">
-	</cfif>
 </cfcase>
 <cfcase value="new">
 	<cfset pageTitle = "New Agent">
@@ -205,8 +192,7 @@ limitations under the License.
 								</div>
  								<cfif listcontainsnocase(session.roles, "manage_transactions")>
 									<div class="col-12 col-md-4">
-										<!--- TODO: When all data from the agentActivity.cfm page has moved onto /agents/Agent.cfm, then this link can go away ---> 
-										<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
+										<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
 									</div>
 									<div class="col-12 col-md-4">
 										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1171,7 +1157,7 @@ limitations under the License.
 													<cfelse>
 														<cfset dateString="#dateString#-unknown)">
 													</cfif>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
+													<li><a href="/agents/Agent.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>
@@ -1273,7 +1259,7 @@ limitations under the License.
 													<cfelse>
 														<cfset dateString="#dateString#-unknown)">
 													</cfif>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
+													<li><a href="/agentsAgent.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>
@@ -1348,8 +1334,7 @@ limitations under the License.
 						)
 					</cfquery>
 					<cftransaction action="commit">
-					<!--- TODO redirect to redesiged edit agent page --->
-					<cflocation url="/editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
+					<cflocation url="/agents/editAgent.cfm?agent_id=#agentID.nextAgentId#">
 				</cfif>
 			<cfcatch>
 				<cftransaction action="rollback">

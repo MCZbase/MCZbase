@@ -909,11 +909,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<cfset collectorLink ="">
 					<cfset collectorLinkEnd ="">
 					<cfif len(collector_id) GT 0>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
-							<cfset collectorLink = "<a href='/agents.cfm?agent_id=#collector_id#' target='_blank'>" >
-						<cfelse>
-							<cfset collectorLink = "<a href='/agents/Agent.cfm?agent_id=#collector_id#' target='_blank'>" >
-						</cfif>
+						<cfset collectorLink = "<a href='/agents/Agent.cfm?agent_id=#collector_id#' target='_blank'>" >
 						<cfset collectorLinkEnd ="</a>">
 					</cfif>
 					<div class="detailBlock">
@@ -936,11 +932,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<cfset preparatorLink ="">
 						<cfset preparatorLinkEnd ="">
 						<cfif len(preparator_id) GT 0>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
-								<cfset preparatorLink = "<a href='/agents.cfm?agent_id=#preparator_id#' target='_blank'>" >
-							<cfelse>
-								<cfset preparatorLink = "<a href='/agents/Agent.cfm?agent_id=#preparator_id#' target='_blank'>" >
-							</cfif>
+							<cfset preparatorLink = "<a href='/agents/Agent.cfm?agent_id=#preparator_id#' target='_blank'>" >
 							<cfset preparatorLinkEnd ="</a>">
 						</cfif>
 						<div class="detailBlock">

@@ -138,7 +138,7 @@
 			<cfset rt="agent">
 			<cfset rs="#d.agent_name#">
 			<cfset ri="#r.agent_id#">
-			<cfset rl="/info/agentActivity.cfm?agent_id=#r.agent_id#">
+			<cfset rl="/agents/Agent.cfm?agent_id=#r.agent_id#">
 		<cfelseif r.locality_id gt 0>
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select spec_locality 

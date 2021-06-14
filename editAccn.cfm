@@ -272,7 +272,7 @@
 												 onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#');" >
 										</td>
 										<td style=" min-width: 3.5em; ">
-										    <span id="agentViewLink_#i#"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif transAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif transAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
+										    <span id="agentViewLink_#i#"><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">View</a><cfif transAgents.worstagentrank EQ 'A'> &nbsp;<cfelseif transAgents.worstagentrank EQ 'F'><img src='/images/flag-red.svg.png' width='16'><cfelse><img src='/images/flag-yellow.svg.png' width='16'></cfif>
 					                                            </span>
 										</td>
 										<td>
