@@ -197,8 +197,8 @@ limitations under the License.
 										#rem#
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
-										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary my-1">Edit</button>
+										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger my-1">Delete</button>
 									</div>
 								</div>
 								<script>
