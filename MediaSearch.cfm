@@ -581,7 +581,7 @@
 				                    <cfelse>
 										#summary#
 									</cfif>
-				                </li>
+				             </li>
 							</cfloop>
 							</ul>
 						</cfif>
