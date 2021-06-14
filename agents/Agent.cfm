@@ -588,19 +588,19 @@ limitations under the License.
 										collection.collection_id
 								</cfquery>
 								<div id="recordsPane" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
-								<div class="card-body py-1 mb-1 float-left" id="recordsCardBody">
-									<cfif lastEdit.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="lastEdit">
-												<li>
-													<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
-												</li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</div>
+									<div class="card-body py-1 mb-1 float-left" id="recordsCardBody">
+										<cfif lastEdit.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">None</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<cfloop query="lastEdit">
+													<li class="list-group-item">
+														<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
