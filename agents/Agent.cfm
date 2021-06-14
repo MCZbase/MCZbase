@@ -80,9 +80,9 @@ limitations under the License.
 		<div class="row">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 mt-4">
-					<div class="row">
-						<div class="col-12 col-sm-10">
+				<div id="agentTopDiv" class="col-12 mt-3">
+					<div class="row mx-0 px-0 px-md-4">
+						<div class="col-12 col-sm-12 col-xl-6 float-left">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -96,36 +96,43 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
 						</div>
-						<div class="col-12 col-sm-2">
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+						<cfif oneOfUs EQ 1>
+							<div class="col-12 col-sm-12 col-xl-6 float-left">
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-							</cfif>
+							</div>
+						</cfif>
+					</div>
+					<div class="row mx-0 px-0 px-md-4">
+						<div class="col-12">
+							<ul class="mb-2 py-0 list-unstyled">
+								<li>#agent_type# </li>
+								<cfif len(agentguid) GT 0>
+									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+									<cfelse>
+										<cfset guidLink = agentguid >
+									</cfif>
+									<li><a href="#guidLink#">#agentguid#</a></li>
+								</cfif>
+							</ul>
+						<div>#biography#</div>
+						<cfif oneOfUs EQ 1>
+							<div>#agent_remarks#</div>
+						</cfif>
 						</div>
 					</div>
-					<ul class="my-2 list-unstyled">
-						<li>#agent_type# </li>
-						<cfif len(agentguid) GT 0>
-							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
-								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
-							<cfelse>
-								<cfset guidLink = agentguid >
-							</cfif>
-							<li><a href="#guidLink#">#agentguid#</a></li>
-						</cfif>
-					</ul>
-					<div>#biography#</div>
-					<cfif oneOfUs EQ 1>
-						<div>#agent_remarks#</div>
-					</cfif>
-				</div>
-				<div class="col-12 form-row" id="agentTwoCollsWrapper">
+				<div class="col-12 form-row mt-2" id="agentTwoCollsWrapper">
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
-						<!--- agent names --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Names for this agent</h2>
-							</div>
-							<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
+						<section class="accordion" id="accordionB">
+							<div class="card mb-2 bg-light">
+						<div class="card-header" id="heading1">
+							 
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Names for this Agent</a>
+							</h3>
+							
+						</div>
+						<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 								SELECT
 									agent_name_id,
 									agent_id,
@@ -145,82 +152,94 @@ limitations under the License.
 								WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									AND agent_name_type <> 'preferred'
 							</cfquery>
-							<div class="card-body">
-								<ul>
+						<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+							<div class="card-body py-1 mb-1 float-left" id="namesCardBody">
+								<ul class="list-group">
 									<!--- preferred name --->
 									<cfloop query="preferredNames">
-										<li>#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+										<li class="list-group-item">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
 									</cfloop>
 									<cfloop query="notPrefNames">
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-											<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+											<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 										<cfelse>
 											<!--- don't display login name to non-admin users --->
 											<cfif notPrefNames.agent_name_type NEQ "login">
-												<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 											</cfif>
 										</cfif>
 									</cfloop>
 								</ul>
 							</div>
+						</div>
+					</section>
+
+					<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+						<section class="accordion" id="accordionB">
+							<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading1">
+								 <!--- group members --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+								Group Members
+								</h3>
+							</div>
+							<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+								SELECT
+									member_agent_id,
+									member_order,
+									agent_name
+								FROM
+									group_member 
+									left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+								WHERE
+									group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								ORDER BY
+									member_order
+							</cfquery>
+							<div class="card-body py-1 mb-1 float-left">
+								<cfif groupMembers.recordcount EQ 0>
+									<ul><li>None</li></ul>
+								<cfelse>
+									<ul>
+										<cfloop query="groupMembers">
+											<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
 						</section>
+					</cfif>
 
-						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-							<!--- group members --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Group Members</h2>
-								</div>
-								<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
-									SELECT
-										member_agent_id,
-										member_order,
-										agent_name
-									FROM
-										group_member 
-										left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
-									WHERE
-										group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									ORDER BY
-										member_order
-								</cfquery>
-								<div class="card-body">
-									<cfif groupMembers.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="groupMembers">
-												<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</div>
-							</section>
-						</cfif>
-
-						<cfif oneOfUs EQ 1>
+					<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Phone/Email</h2>
-								</div>
-								<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select address_type, address 
-									from electronic_address 
-									WHERE
-										electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-									order by address_type
-								</cfquery>
-								<div class="card-body">
-									<cfif getAgentElecAddr.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<ul>
-											<cfloop query="getAgentElecAddr">
-												<li>#address_type#: #address#</li>
-											</cfloop>
-										</ul>
-									</cfif>
+							<section  class="accordion" id="accordionC">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading3">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Phone/Email</a>
+										</h3>
+									</div>
+									<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select address_type, address 
+										from electronic_address 
+										WHERE
+											electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+										order by address_type
+									</cfquery>
+									<div id="electronicPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionC">
+										<div class="card-body py-1 mb-1 float-left" id="electronicCardBody">
+											<cfif getAgentElecAddr.recordcount EQ 0>
+												<ul class="list-group"><li class="list-group-item">None</li></ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getAgentElecAddr">
+														<li class="list-group-item">#address_type#: #address#</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div>
 								</div>
 							</section>
 						</cfif>
@@ -919,7 +938,6 @@ limitations under the License.
 				</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
-
 						<!--- Media --->
 						<section class="card mb-2 bg-light">
 							<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
