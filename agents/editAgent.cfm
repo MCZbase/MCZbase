@@ -485,15 +485,6 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-1">
-										<style>
-											.jqx-editor-content {
-												resize: vertical;
-												overflow: hidden;
-												padding: 10px;
-												height: 150px;
-												width: auto;
-											}
-										</style>
 									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
