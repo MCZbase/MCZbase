@@ -276,7 +276,7 @@ limitations under the License.
 														<cfset listgroupclass="bg-verylightgreen rounded p-2 border-green w-100">
 													<cfelse>
 														<cfset addressCurrency="Invalid">
-													<cfset listgroupclass="w-100 p-2">
+													<cfset listgroupclass="w-100 p-2 border border-light">
 												</cfif>
 												<h3 class="h4">#addr_type# address &ndash;&nbsp;#addressCurrency# &nbsp;#rem#</h3>
 												<div class="#listgroupclass# w-100">#formatted_addr#</div>
