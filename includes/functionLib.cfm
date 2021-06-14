@@ -526,13 +526,23 @@
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/SpecimenResults.cfm?collection_object_id=#related_primary_key#", i)>
 		<cfelseif table_name is "media">
-			<cfquery name="d" datasource="uam_god">
-				select media_uri data 
-				from media 
-				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
-			</cfquery>
-			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
+			<cfif media_relationship IS "transcript for audio media">
+				<cfquery name="d" datasource="uam_god">
+					select media_uri data 
+					from media 
+					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+				</cfquery>
+				<cfset temp = QuerySetCell(result, "summary", "view the transcript", i)>
+         	<cfset temp = QuerySetCell(result, "link", "#d.data#", i)>
+			<cfelse>
+				<cfquery name="d" datasource="uam_god">
+					select media_uri data 
+					from media 
+					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+				</cfquery>
+				<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+         	<cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
+			</cfif>
 		<cfelseif table_name is "publication">
 			<cfquery name="d" datasource="uam_god">
 				select formatted_publication data 
