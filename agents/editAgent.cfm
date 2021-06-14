@@ -961,7 +961,7 @@ limitations under the License.
 							<textarea name="biography" id="biography" class="w-100"></textarea>
 							<script>
 								$(document).ready(function () {
-									$('##biography').jqxEditor();
+									$('##biography').jqxEditor({width:"auto", height:"170px"});
 								});
 							</script>
 						</div>
@@ -972,7 +972,7 @@ limitations under the License.
 							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
 							<script>
 								$(document).ready(function () {
-									$('##agent_remarks').jqxEditor();
+									$('##agent_remarks').jqxEditor({width:"auto", height:"170px"});
 								});
 							</script>
 						</div>
