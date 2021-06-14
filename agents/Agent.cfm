@@ -511,7 +511,7 @@ limitations under the License.
 									<ul class="list-group">
 										<cfloop query="identification">
 											<li class="list-group-item">
-												#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
+												#cnt# identification(s) for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
 												#specs# #collection#</a> cataloged items
 											</li>
 										</cfloop>
@@ -562,10 +562,14 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- records last edited by --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">MCZbase Records Last Edited By this agent</h2>
-								</div>
+					<section  class="accordion" id="accordionH">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading7">
+								<!--- Phone/Email --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##recordsPane">MCZbase Records Last Edited By This Agent</a>
+								</h3>
+							</div>
 								<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
 									select 
 										count(*) cnt,
@@ -583,7 +587,8 @@ limitations under the License.
 										collection,
 										collection.collection_id
 								</cfquery>
-								<div class="card-body">
+								<div id="recordsPane" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
+								<div class="card-body py-1 mb-1 float-left" id="recordsCardBody">
 									<cfif lastEdit.recordcount EQ 0>
 										<ul><li>None</li></ul>
 									<cfelse>
@@ -595,6 +600,7 @@ limitations under the License.
 											</cfloop>
 										</ul>
 									</cfif>
+								</div>
 								</div>
 							</section>
 						</cfif>
