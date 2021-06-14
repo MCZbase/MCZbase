@@ -82,7 +82,7 @@ limitations under the License.
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<div class="row mx-0">
-						<div class="col-11 float-left">
+						<div class="col-12 col-sm-12 col-xl-6 float-left">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -96,7 +96,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
 						</div>
-						<div class="col-1 float-left">
+						<div class="col-12 col-sm-12 col-xl-6 float-left">
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 						</div>
 					</div>
