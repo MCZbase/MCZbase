@@ -558,7 +558,7 @@
 							<!--- check for a transcript, link if present --->
 							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
-									transcript.media_uri as transcript_uri
+									transcript.media_uri as transcript_uri,
 									transcript.media_id as trainscript_media_id
 								FROM
 									media_relations
