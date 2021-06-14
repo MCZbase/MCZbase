@@ -246,10 +246,14 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Postal Addresses</h2>
-								</div>
+								<section  class="accordion" id="accordionD">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="heading4">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##postalPane">Postal Addresses</a>
+										</h3>
+									</div>
 								<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select addr_type, 
 										REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
@@ -260,23 +264,25 @@ limitations under the License.
 										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 									order by addr_type, valid_addr_fg desc
 								</cfquery>
-								<div class="card-body">
-									<cfif getAgentAddr.recordcount EQ 0>
-										<ul><li>None</li></ul>
-									<cfelse>
-										<cfloop query="getAgentAddr">
-											<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-											<cfif valid_addr_fg EQ 1>
-												<cfset addressCurrency="Valid">
-													<cfset listgroupclass="bg-verylightgreen">
-												<cfelse>
-													<cfset addressCurrency="Invalid">
-												<cfset listgroupclass="">
-											</cfif>
-											<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
-											<div class="#listgroupclass# w-100">#formatted_addr#</div>
-										</cfloop>
-									</cfif>
+								<div id="postalPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
+									<div class="card-body py-1 mb-1 float-left" id="postalCardBody">
+										<cfif getAgentAddr.recordcount EQ 0>
+											<ul><li>None</li></ul>
+										<cfelse>
+											<cfloop query="getAgentAddr">
+												<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+												<cfif valid_addr_fg EQ 1>
+													<cfset addressCurrency="Valid">
+														<cfset listgroupclass="bg-verylightgreen">
+													<cfelse>
+														<cfset addressCurrency="Invalid">
+													<cfset listgroupclass="">
+												</cfif>
+												<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
+												<div class="#listgroupclass# w-100">#formatted_addr#</div>
+											</cfloop>
+										</cfif>
+									</div>
 								</div>
 							</section>
 						</cfif>
