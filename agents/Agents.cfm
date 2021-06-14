@@ -451,7 +451,7 @@ limitations under the License.
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var vetted = rowData['edited'];
-				return '<span style="margin-top: 6px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/agents/Agent.cfm?agent_id=' + rowData['agent_id'] + '">'+value+'</a> ' +vetted+ '</span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/agents/Agent.cfm?agent_id=' + rowData['agent_id'] + '">'+value+'</a> ' +vetted+ '</span>';
 			};
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
