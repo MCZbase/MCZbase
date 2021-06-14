@@ -117,15 +117,20 @@
 <!------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cfquery name="getPrefs" datasource="cf_dbuser">
-		select * from cf_users, user_loan_request
-		where  cf_users.user_id = user_loan_request.user_id (+) and
-		username = '#session.username#' order by cf_users.user_id
+		select * 
+		from cf_users
+			left join user_loan_request on cf_users.user_id = user_loan_request.user_id
+		where  
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		order by cf_users.user_id
 	</cfquery>
 	<cfif getPrefs.recordcount is 0>
 		<cflocation url="login.cfm?action=signOut" addtoken="false">
 	</cfif>
 	<cfquery name="isInv" datasource="uam_god">
-		select allow from temp_allow_cf_user where user_id=#getPrefs.user_id#
+		select allow 
+		from temp_allow_cf_user 
+		where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=""#getPrefs.user_id#">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
 		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
@@ -157,7 +162,7 @@
 		</cfif>
     <div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
         <div style="width: 33em; float: left; margin-right: 2.2em;padding-top: 2em;">
-	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
+	<h2>Welcome back, <b>#encodeForHtml(getPrefs.username)#</b>!</h2>
 
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
 		<li>
@@ -235,15 +240,15 @@
 
 		<ul class="nobull">
             <li><label for="first_name">First Name</label>
-                <input type="text" name="first_name" value="#getUserData.first_name#" class="reqdClr" size="50"></li>
+                <input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="reqdClr" size="50"></li>
 		<li><label for="middle_name">Middle Name</label>
-            <input type="text" name="middle_name" value="#getUserData.middle_name#" size="50"></li>
+            <input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" size="50"></li>
 		<li><label for="last_name">Last Name</label>
-            <input type="text" name="last_name" value="#getUserData.last_name#" class="reqdClr" size="50"></li>
+            <input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="reqdClr" size="50"></li>
 		<li><label for="affiliation">Affiliation</label>
-            <input type="text" name="affiliation" value="#getUserData.affiliation#" class="reqdClr" size="50"></li>
+            <input type="text" name="affiliation" value="#encodeForHtml(getUserData.affiliation)#" class="reqdClr" size="50"></li>
 		<li><label for="email">Email</label>
-            <input type="text" name="email" value="#getUserData.email#" size="30"></li>
+            <input type="text" name="email" value="#encodeForHtml(getUserData.email)#" size="30"></li>
             <li>
 
             <input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em"></li></ul>
