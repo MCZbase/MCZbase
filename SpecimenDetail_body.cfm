@@ -1788,6 +1788,25 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								#media_type# (#mime_type#)
 			                   	<br><a href="#aForDetHref#" target="_blank">Media Details</a>
 								<br>#description#
+								<cfif #media_type# eq "audio">
+									<!--- check for a transcript, link if present --->
+									<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											transcript.media_uri as transcript_uri,
+											transcript.media_id as trainscript_media_id
+										FROM
+											media_relations
+											left join media transcript on media_relations.related_primary_key = transcript.media_id
+										WHERE
+											media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+											and media_relationship = 'transcript for audio media'
+									</cfquery>
+									<cfif checkforTranscript.recordcount GT 0>
+										<cfloop query="checkForTranscript">
+											<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+										</cfloop>
+									</cfif>
+								</cfif>
 							</p>
 						</div>
 					</cfloop>
