@@ -1794,7 +1794,7 @@ function opendialogrank(page,id,title,agentId) {
 <cfif action is "nothing">
 <script type="text/javascript" language="javascript">
 	if (top.location==document.location) {
-    	top.location='/agents.cfm?agent_id=#agent_id#';
+    	top.location='/agents/editAgent.cfm?agent_id=#agent_id#';
 	}
 </script>
 </cfif>

@@ -1335,8 +1335,7 @@ limitations under the License.
 						)
 					</cfquery>
 					<cftransaction action="commit">
-					<!--- TODO redirect to redesiged edit agent page --->
-					<cflocation url="/editAllAgent.cfm?agent_id=#agentID.nextAgentId#">
+					<cflocation url="/agents/editAgent.cfm?agent_id=#agentID.nextAgentId#">
 				</cfif>
 			<cfcatch>
 				<cftransaction action="rollback">

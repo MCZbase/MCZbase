@@ -187,7 +187,7 @@ sho err
 		</cfif>
 	</cfloop>
 </cfoutput>
-<cflocation url="agents.cfm?action=validate" addtoken="false">
+<cflocation url="/DataServices/agents.cfm?action=validate" addtoken="false">
 
 <!---
 ---->
@@ -269,7 +269,7 @@ sho err
 						ns+="useThis('" + key + "','" + r.DATA.PREFERRED_AGENT_NAME[a] + "',";
 						ns+="'" + r.DATA.AGENT_ID[a] + "')";
 						ns+='">' + r.DATA.PREFERRED_AGENT_NAME[a] + '</span>';
-						ns+='&nbsp;<a class="infoLink" href="/agents.cfm?agent_id=' + r.DATA.AGENT_ID[a] + '" target="_blank">[info]</a>';
+						ns+='&nbsp;<a class="infoLink" href="/agents/Agent.cfm?agent_id=' + r.DATA.AGENT_ID[a] + '" target="_blank">[info]</a>';
 						$('##suggested__' + key).append(ns);
 					}
 				}

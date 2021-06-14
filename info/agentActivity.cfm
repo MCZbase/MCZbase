@@ -2,7 +2,7 @@
 <div style="padding: 2em;">
 <cfset title = "Agent Activity">
 <cfoutput>
-<a href="/agents.cfm?agent_id=#agent_id#" target="_top">Edit Agent</a>
+<a href="/agents/editAgent.cfm?agent_id=#agent_id#" target="_top">Edit Agent</a>
 <div class="red" style="color: white;padding: 2px 10px; width: 460px;margin-top: 1em;">Please note: your login may prevent you from seeing some data</div>
 <cfquery name="agent" datasource="uam_god">
 	select * FROM agent where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">

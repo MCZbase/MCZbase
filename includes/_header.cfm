@@ -90,9 +90,6 @@
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
 								<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-									<a class="dropdown-item" target="_top" href="/agents.cfm">Agents (old)</a>
-								</cfif>
 								<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>

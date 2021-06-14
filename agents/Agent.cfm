@@ -97,7 +97,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-2">
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 							</cfif>
 						</div>
 					</div>

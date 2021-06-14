@@ -457,7 +457,7 @@ limitations under the License.
 				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var vetted = rowData['edited'];
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/agents/editAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
 				};
 			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>

@@ -95,7 +95,7 @@
 						<td><font size="-2">#agent_name_id#</font></td>
 						<td><font size="-2">#agent_id#</font></td>
                         <td><font size="-2">#agent_name_type#</font></td>
-						<td><font size="-2"><a target="blank" href="/agents.cfm?agent_id=#agent_id#">Edit</a></font></td>
+						<td><font size="-2"><a target="blank" href="/agents/editAgent.cfm?agent_id=#agent_id#">Edit</a></font></td>
 						<td>
 							<cfif agent_name_type is "preferred">
 								<span class="infoLink" onclick="makeNewName('#thisName#','#agent_id#')">Add Name</span>
