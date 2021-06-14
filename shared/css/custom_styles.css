@@ -1488,12 +1488,12 @@ textarea {
 	padding: 2px .5rem;
 }
 .input-group > .custom-file, .input-group > .custom-select, .input-group > .form-control, .input-group > .form-control-plaintext {
-    position: relative;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    width: 1%;
-    min-width: 0;
-    margin-bottom: 0;
+	position: relative;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	width: 1%;
+	min-width: 0;
+	margin-bottom: 0;
 }
 .align-left-center {
 	text-align: left;
@@ -1619,15 +1619,15 @@ tr.line-top:first-child {
 .card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button.collapsed:before {
 	font-family: "Font Awesome 5 Free"; 
 	font-weight: 900;
-    float:left !important;
-    content:"\f067";
+	float:left !important;
+	content:"\f067";
 	cursor: pointer;
 }
 .card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
-    font-family: "Font Awesome 5 Free"; 
+	font-family: "Font Awesome 5 Free"; 
 	font-weight: 900;
-    content:"\f068";
-    padding-right: 5px;
+	content:"\f068";
+	padding-right: 5px;
 	float:left!important;
 	cursor: pointer;
 }
@@ -1642,26 +1642,26 @@ tr.line-top:first-child {
 }
 .card-body li.list-group-item span:last-child {
 	display:none;
-   /* Caution, this directive will have unexpected side effects such as hiding badge spans */  
+/* Caution, this directive will have unexpected side effects such as hiding badge spans */  
 }
 input#readMore_check_id {
 	display:none;
 }
 .jqx-grid-load { 
-    background-image: url("../../images/spinner_712_sm.gif");
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+	background-image: url("../../images/spinner_712_sm.gif");
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
 }
 .list-style-disc {
 	list-style-type: disc;
 }
 #overlay {
-  	position: absolute;
-  	top: 0;
-  	left: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
-  	background: rgba(0,0,0,.5);
+	background: rgba(0,0,0,.5);
 	opacity: 0.99;
 	display:none;
 }
@@ -1733,7 +1733,7 @@ input#readMore_check_id {
 	box-shadow: none;
 	border-right: 1px solid #96ECED;
 	border-left: 1px solid #96EcED;
-    outline: 0;
+	outline: 0;
 }
 .tab-headers button[aria-selected='true']:focus {
 	border-right: 1px solid rgb(38 143 255 / 50%);
@@ -1747,11 +1747,11 @@ input#readMore_check_id {
 	border-top: 3px solid #deebec;
 	cursor: pointer;
 	border-right: 1px solid #deebec;
-    border-left: 1px solid #deebec;
+	border-left: 1px solid #deebec;
 }
 button[tabindex="-1"]:focus {
-    outline: 0!important;
-    box-shadow: none;
+	outline: 0!important;
+	box-shadow: none;
 }
 .card-header {
 	padding: .9rem 0rem 0rem 0rem;
@@ -1780,43 +1780,50 @@ div[aria-hidden='false'] {
 	display:block;
 }
 a.btn-outline-primary {
-    background-color: white;
-    padding-bottom: .05rem;
-    color: #007bff;
-    text-decoration:none;
-    font-size: .785rem;
+	background-color: white;
+	padding-bottom: .05rem;
+	color: #007bff;
+	text-decoration:none;
+	font-size: .785rem;
 }
 a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
-    background-color: #007bff;
-    text-decoration:none;
-    color: white !important;
-    padding-bottom: .05rem;
-    font-size: .785rem;
+	background-color: #007bff;
+	text-decoration:none;
+	color: white !important;
+	padding-bottom: .05rem;
+	font-size: .785rem;
 }
 a.btn-danger {
-    background-color: white;
-    padding-bottom: .05rem;
-    color: #bd2130;
-    text-decoration:none;
-    font-size: .785rem;
+	background-color: white;
+	padding-bottom: .05rem;
+	color: #bd2130;
+	text-decoration:none;
+	font-size: .785rem;
 }
 a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
-    background-color: #bd2130;
-    text-decoration:none;
-    color: white !important;
-    padding-bottom: .05rem;
-    font-size: .785rem;
+	background-color: #bd2130;
+	text-decoration:none;
+	color: white !important;
+	padding-bottom: .05rem;
+	font-size: .785rem;
 }
 .jqx-grid-cell-selected-light a.btn-danger:focus, .jqx-fill-state-pressed a.btn-danger {
-    color: #bd2130 !important; 
-    text-decoration: none;
+	color: #bd2130 !important; 
+	text-decoration: none;
 }
 .jqx-fill-state-pressed a.btn-danger:hover, .jqx-fill-state-pressed a.btn-danger.hover {
-    color: #ffffff !important; 
-    text-decoration: none;
+	color: #ffffff !important; 
+	text-decoration: none;
 }
 #agentDiv ul {
 	font-size: 0.95rem;
+}
+.jqx-editor-content {
+	resize: vertical;
+	overflow: hidden;
+	padding: 10px;
+	height: 150px;
+	width: auto;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
