@@ -925,6 +925,9 @@ limitations under the License.
 									mczbase.get_medialabel(media.media_id,'subject') as subject,
 									media.media_uri,
 									media.media_type
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+									MCZBASE.get_media_credit(media.media_id) as credit 
 								FROM media_relations 
 									left join media on media_relations.media_id = media.media_id
 								WHERE media_relationship like '% agent'
@@ -950,9 +953,11 @@ limitations under the License.
 										<cfloop query="getMedia">
 											<cfif getMedia.media_type IS "image">
 												<li class="border list-group-item d-flex justify-content-between align-items-center">
-													<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
+													<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
 													<span>#getMedia.descriptor#</span>
 													<span>#getMedia.subject#</span>
+													<span><a href="#getMedia.licence_uri#">#getMedia.licence_display#</a></span>
+													<span>#getMedia.credit#</span>
 													<span>&nbsp;</span>
 												</li>
 											</cfif>
