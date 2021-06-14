@@ -251,7 +251,7 @@
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
 				<cfloop query="dupPref">
-					<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+					<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>
 				</cfloop>
 				<p>Are you sure you want to continue?</p>
 				<form name="ac" method="post" action="findAgentName.cfm">
@@ -323,7 +323,7 @@
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
 				<cfloop query="dupPref">
-					<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+					<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>
 				</cfloop>
 				<p>Are you sure you want to continue?</p>
 				<form name="ac" method="post" action="findAgentName.cfm">

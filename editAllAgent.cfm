@@ -321,7 +321,7 @@ function opendialogrank(page,id,title,agentId) {
 		</cfif>
         <div style="margin-bottom: 1em;">
           <cfif listcontainsnocase(session.roles, "manage_transactions")>
-             <p><a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
+             <p><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_self">Agent Activity</a>
           </cfif>
           <cfif listcontainsnocase(session.roles,"manage_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1659,7 +1659,7 @@ function opendialogrank(page,id,title,agentId) {
                         </p>
                         <p>Click duplicated names below to see details. Add the fullest version of the name if it can be differentiated from another. If the need for a duplicate agent should arise, please merge the pre-existing matches (bad duplicates) so they will not create problems.</p>
 					<cfloop query="dupPref">
-						<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
+						<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name# (agent ID ## #agent_id# - #agent_type#)</a>
 					</cfloop>
 					<p>Are you sure you want to continue?</p>
 					<form name="ac" method="post" action="editAllAgent.cfm">
@@ -1753,7 +1753,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfif dupPref.recordcount gt 0>
 					<p>That agent may already exist! Click to see details.</p>
 					<cfloop query="dupPref">
-						<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+						<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>
 					</cfloop>
 					<p>Are you sure you want to continue?</p>
 					<form name="ac" method="post" action="editAllAgent.cfm">

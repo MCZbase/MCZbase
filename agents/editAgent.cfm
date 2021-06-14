@@ -192,8 +192,7 @@ limitations under the License.
 								</div>
  								<cfif listcontainsnocase(session.roles, "manage_transactions")>
 									<div class="col-12 col-md-4">
-										<!--- TODO: When all data from the agentActivity.cfm page has moved onto /agents/Agent.cfm, then this link can go away ---> 
-										<a href="/info/agentActivity.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
+										<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">Agent Activity</a>
 									</div>
 									<div class="col-12 col-md-4">
 										<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1158,7 +1157,7 @@ limitations under the License.
 													<cfelse>
 														<cfset dateString="#dateString#-unknown)">
 													</cfif>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
+													<li><a href="/agents/Agent.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>
@@ -1260,7 +1259,7 @@ limitations under the License.
 													<cfelse>
 														<cfset dateString="#dateString#-unknown)">
 													</cfif>
-													<li><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
+													<li><a href="/agentsAgent.cfm?agent_id=#agent_id#">#displayname#</a> #dateString# [agent ID ## #agent_id# - #agent_type#] #collections_scope#</li>
 												</cfloop>
 											</ul>
 										</div>

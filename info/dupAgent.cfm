@@ -383,7 +383,7 @@
 						<ul id="navbar"><li>
                             <a class="likeLink" href="/agents/editAgent.cfm?agent_id=#id1#" target="_blank">Edit</a></li>
                            <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name1#">Whodunit</a></li>--->
-                            <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id1#" target="_blank">Activity</a></li>
+                            <li><a class="likeLink" href="/agents/Agent.cfm?agent_id=#id1#" target="_blank">Activity</a></li>
                             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                             <li><span id="fg_#id1#" class="likeLink" onclick="flagDupAgent(#id1#,#id2#)">IsBadDupOf &rarr;</span></li>
                         </ul>
@@ -564,7 +564,7 @@
                             <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
                         <li><a class="likeLink" href="/agents/editAgent.cfm?agent_id=#id2#" target="_blank">Edit</a></li>
                        <!--- <li><a class="likeLink" href="/Admin/ActivityLog.cfm?action=search&object=agent_name&sql=#name2#">Whodunit</a></li>--->
-                        <li><a class="likeLink" href="/info/agentActivity.cfm?agent_id=#id2#" target="_blank">Activity</a></li>
+                        <li><a class="likeLink" href="/agents/Agent.cfm?agent_id=#id2#" target="_blank">Activity</a></li>
                        
                         </ul>
 						
