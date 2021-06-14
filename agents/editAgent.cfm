@@ -947,7 +947,7 @@ limitations under the License.
 						.jqx-editor {
 							height: 200px;
 						}
-						.jqx-editor-content {
+						.jqx-editor-content body{
 							resize: vertical;
 							overflow: hidden;
 							padding: 10px;
