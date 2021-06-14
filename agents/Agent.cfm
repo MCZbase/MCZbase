@@ -27,7 +27,7 @@ limitations under the License.
 	</cfif>
 <cfelse>
 	<!--- if no agent_id was given, then assume we want agent search. --->
-	<cflocation url="/agents/Agents.cfm">
+	<cflocation url="/Agents.cfm">
 </cfif>
 
 <cfinclude template = "/shared/_header.cfm">
