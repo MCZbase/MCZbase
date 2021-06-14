@@ -349,7 +349,7 @@ limitations under the License.
 									<div class="card-header" id="heading5">
 										<!--- Phone/Email --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Relationships with Other Agents</a>
+											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Collectors</a>
 										</h3>
 									</div>
 							<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
@@ -380,7 +380,7 @@ limitations under the License.
 							</cfquery>
 							<div id="collectorPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
 								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-								<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
+								<h4 class="card-title">#getAgent.collections_scope#</h3>
 								<cfif getAgentCollScope.recordcount EQ 0>
 									<h4>Not a collector of any material in MCZbase</h2>
 								<cfelse>
@@ -411,7 +411,7 @@ limitations under the License.
 									</ul>
 									<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 										<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-											<h4>Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h4>
+											<h4 class="card-title">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h4>
 										</cfif>
 									</cfif>
 									<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
@@ -444,7 +444,7 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentFamilyScope.recordcount GT 0>
 										<div class="w-100"> 
-											<h4>Families Collected</h4>
+											<h4 class="card-title">Families Collected</h4>
 											<ul class="list-group">
 												<cfset earlyeststart = "">
 												<cfset latestend = "">
