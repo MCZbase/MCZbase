@@ -502,7 +502,7 @@ limitations under the License.
 										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
 										<script>
 											$(document).ready(function () {
-												$('##biography').jqxEditor({width:'auto', height:'150px'});
+												$('##biography').jqxEditor({width:'auto', height:'170px'});
 											});
 										</script>
 									</div>
@@ -511,7 +511,7 @@ limitations under the License.
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
 										<script>
 											$(document).ready(function () {
-												$('##agent_remarks').jqxEditor({width:'auto', height:'150px'});
+												$('##agent_remarks').jqxEditor({width:'auto', height:'170px'});
 											});
 										</script>
 									</div>
@@ -943,18 +943,7 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<style>
-						.jqx-editor {
-							height: 200px;
-						}
-						.jqx-editor-content body{
-							resize: vertical;
-							overflow: hidden;
-							padding: 10px;
-							height: 130px;
-							width: auto;
-						}
-					</style>
+
 					<div class="form-row mb-1">
 						<div class="col-12">
 							<label for="biography" class="data-entry-label">Public Biography</label>
