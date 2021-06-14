@@ -484,18 +484,6 @@ limitations under the License.
 										});
 									</script>
 								</div>
-								<style>
-									.jqx-editor {
-										height: 170px;
-									}
-									.jqx-editor-content {
-										resize: vertical;
-										overflow: hidden;
-										padding: 10px;
-										height: 97px;
-										width: auto;
-									}
-								</style>
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
