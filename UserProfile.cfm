@@ -194,30 +194,35 @@ limitations under the License.
 					<div class="row mb-5">
 				</cfif>
 				<div class="col-12 col-md-6 mb-2">
-	
-					
-			<h1 class="h2">Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
-						<small>(login: #encodeForHtml(getPrefs.username)#)</small></h1>
+					<h1 class="h2">
+						<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
+							Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
+							<small>(login: #encodeForHtml(getPrefs.username)#)</small>
+						<cfelse>
+							<!--- not all users have agent and person records --->
+							Welcome back, #encodeForHtml(getPrefs.username)#
+						</cfif>
+					</h1>
 					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
-						<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
+						<cfset pwtime = round(now() - getPrefs.pw_change_date)>
 						<cfset pwage = Application.max_pw_age - pwtime>
 						<cfif pwage lte 0>
 							<cfquery name="isDb" datasource="uam_god">
-					select
-					(
-						select count(*) c from all_users where
-						username= <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR" >
-					)
-					+
-					(
-						select count(*) C 
-						from temp_allow_cf_user, cf_users 
-						where temp_allow_cf_user.user_id = cf_users.user_id 
-						AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-					)
-					cnt
-					from dual
-				</cfquery>
+								SELECT
+								(
+									select count(*) c from all_users where
+									username= <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR" >
+								)
+								+
+								(
+									select count(*) C 
+									from temp_allow_cf_user, cf_users 
+									where temp_allow_cf_user.user_id = cf_users.user_id 
+									AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+								)
+								cnt
+								FROM dual
+							</cfquery>
 							<cfif isDb.cnt gt 0>
 								<cfset session.force_password_change = "yes">
 								<cflocation url="ChangePassword.cfm" addtoken="false">
@@ -228,138 +233,134 @@ limitations under the License.
 					</h4>
 					<h4> <a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br>
 						<small>Click "Save Search" from Specimen Results to save a search.</small> </h4>
+						<cfif isInv.allow is 1>
+							You've been invited to become an Operator. Password restrictions apply.
+							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
+							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
+							<form name="getUserData" method="post" action="/UserProfile.cfm" onSubmit="return noenter();">
+								<input type="hidden" name="action" value="makeUser">
+								<label for="pw">Enter your password:</label>
+								<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
+								<span id="pwstatus" style="background-color:white;"></span>
+								<br>
+								<br>
+								<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
+							</form>
+							<script>
+								document.getElementById(pw).value='';
+							</script>
+						</cfif>
+						<cfquery name="getUserData" datasource="cf_dbuser">
+							SELECT
+								cf_users.user_id,
+								first_name,
+								middle_name,
+								last_name,
+								affiliation,
+								email
+							FROM
+								cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
+							WHERE
+								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+						</cfquery>
+						<form method="post" action="/UserProfile.cfm" name="dlForm">
+							<input type="hidden" name="user_id" value="#getUserData.user_id#">
+							<input type="hidden" name="action" value="saveProfile">
+							<h3 class="mb-0">Personal Profile</h3>
+							<h4 class="h4">
+								A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
+							</h4>
+							<div class="form-group col-md-12 col-sm-12 pl-0">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
+									</div>
+									<input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="form-control" placeholder="first_name" aria-label="first_name" aria-describedby="basic-addon1">
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" name="middle_name" id="basic-addon1">Middle Name</span>
+									</div>
+									<input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="form-control" placeholder="middle_name" aria-label="middle_name" aria-describedby="basic-addon1">
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" name="last_name" id="basic-addon1">Last Name</span>
+									</div>
+									<input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
+								</div>
+							</div>
+							<div class="form-group col-md-12 col-sm-12 pl-0">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
+									</div>
+									<input type="text" name="affiliation" class="form-control" value="#encodeForHtml(getUserData.affiliation)#" placeholder="Affiliation" aria-label="affiliation" aria-describedby="basic-addon1">
+								</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" name="email" id="basic-addon1">Email</span>
+									</div>
+									<input type="text" name="email" class="form-control" value="#encodeForHtml(getUserData.email)#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+								</div>
+							</div>
+							<div class="form-group col-md-12 col-sm-12 pl-0">
+								<h4>You cannot recover from a lost password unless you enter an email address.</h4>
+								<input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
+							</div>
+						</form>
+					</div>				
+				
+					<div class="col-12 col-md-6 float-left">
+						<cfquery name="getUserPrefs" datasource="cf_dbuser">
+							SELECT 
+								USERNAME, PASSWORD, TARGET, DISPLAYROWS, MAPSIZE, PARTS, ACCN_NUM, HIGHER_TAXA, AF_NUM,
+								RIGHTS, USER_ID, ACTIVE_LOAN_ID, COLLECTION, IMAGES, PERMIT, CITATION, PROJECT, PRESMETH,
+								ATTRIBUTES, COLLS, PHYLCLASS, SCINAMEOPERATOR, DATES, DETAIL_LEVEL, COLL_ROLE, CURATORIAL_STUFF,
+								IDENTIFIER, BOUNDINGBOX, KILLROW, APPROVED_TO_REQUEST_LOANS, BIGSEARCHBOX, COLLECTING_SOURCE,
+								SCIENTIFIC_NAME, CUSTOMOTHERIDENTIFIER, CHRONOLOGICAL_EXTENT, MAX_ERROR_IN_METERS, SHOWOBSERVATIONS,
+								COLLECTION_IDS, EXCLUSIVE_COLLECTION_ID, LOAN_REQUEST_COLL_ID, MISCELLANEOUS, LOCALITY,
+								RESULTCOLUMNLIST, PW_CHANGE_DATE, LAST_LOGIN, SPECSRCHPREFS, FANCYCOID, RESULT_SORT, 
+								BLOCK_SUGGEST, LOCSRCHPREFS, REPORTPREFS
+						 	FROM cf_users 
+							WHERE 
+								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+						</cfquery>
 	
-	<cfif isInv.allow is 1>
-			You've been invited to become an Operator. Password restrictions apply.
-			This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
-			but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
-			<form name="getUserData" method="post" action="/UserProfile.cfm" onSubmit="return noenter();">
-				<input type="hidden" name="action" value="makeUser">
-				<label for="pw">Enter your password:</label>
-				<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
-				<span id="pwstatus" style="background-color:white;"></span>
-				<br>
-				<br>
-				<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
-			</form>
-			<script>
-				document.getElementById(pw).value='';
-			</script>
-		
-	</cfif>
-	<cfquery name="getUserData" datasource="cf_dbuser">
-		SELECT
-			cf_users.user_id,
-			first_name,
-	      middle_name,
-	      last_name,
-	      affiliation,
-			email
-		FROM
-			cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
-		WHERE
-			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-	</cfquery>
-	<form method="post" action="/UserProfile.cfm" name="dlForm">
-		<input type="hidden" name="user_id" value="#getUserData.user_id#">
-		<input type="hidden" name="action" value="saveProfile">
-		
-		<h3 class="mb-0">Personal Profile</h3>
-		<h4 class="h4">
-			A profile is required to download data.<br>
-			<small>Personal information will never be shared with anyone, and we'll never send you spam.</small>
-		</h4>
-		<div class="form-group col-md-12 col-sm-12 pl-0">
-			<div class="input-group mb-3">
-			<div class="input-group-prepend">
-					<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
-				</div>
-            <input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="form-control" placeholder="first_name" aria-label="first_name" aria-describedby="basic-addon1">
-			</div>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" name="middle_name" id="basic-addon1">Middle Name</span>
-				</div>
-            	<input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="form-control" placeholder="middle_name" aria-label="middle_name" aria-describedby="basic-addon1">
-			</div>
-			<div class="input-group mb-3">
-			<div class="input-group-prepend">
-					<span class="input-group-text" name="last_name" id="basic-addon1">Last Name</span>
-				</div>
-            <input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
-			</div>
-		</div>
-		<div class="form-group col-md-12 col-sm-12 pl-0">
-			<div class="input-group mb-3">
-			  <div class="input-group-prepend">
-				<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
-			  </div>
-			  <input type="text" name="affiliation" class="form-control" value="#encodeForHtml(getUserData.affiliation)#" placeholder="Affiliation" aria-label="affiliation" aria-describedby="basic-addon1">
-			</div>
-			<div class="input-group mb-3">
-			  <div class="input-group-prepend">
-				<span class="input-group-text" name="email" id="basic-addon1">Email</span>
-			  </div>
-			  <input type="text" name="email" class="form-control" value="#encodeForHtml(getUserData.email)#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
-			</div>
-		</div>
-			<div class="form-group col-md-12 col-sm-12 pl-0">
-				<h4>You cannot recover a lost password unless you enter an email address.</h4>
-				 <input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
-		</div>
-
-	</form>
-		</div>				
-					
-				<div class="col-12 col-md-6 float-left">
-	<cfquery name="getUserPrefs" datasource="cf_dbuser">
-		select * from cf_users 
-		where 
-			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-	</cfquery>
-	
-	<div id="divRss"></div>
-    </div>
+						<div id="divRss"></div>
+					 </div>
 				<script>
-		$( document ).ready(function(){
-
-            jQuery.getFeed({
+					$( document ).ready(function(){
+						jQuery.getFeed({
+							url: 'https://code.mcz.harvard.edu/feed/',
+							success: function(feed) {
+								//var header = feed.title;
+								var header = 'MCZ Biodiversity Informatics Project Support';
+								header = header.replace("[en]", "");
 				
-               url: 'https://code.mcz.harvard.edu/feed/',
-               success: function(feed) {
-				//var header = feed.title;
-				   var header = 'MCZ Biodiversity Informatics Project Support';
-				header = header.replace("[en]", "");
-				
-                 jQuery('##divRss').empty();
-                 var html ='<div class="shell"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
-			
-                  for(var i = 0; i < feed.items.length && i < 5; i++) {
-					  
-                      var item = feed.items[i];
-					  item.updated = new Date(item.updated);
-					  
-                      html += '<div class="feedAtom">';
-					  html += '<div class="updatedAtom">' + item.updated.toDateString() + '</div>';
-					  html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
-					  html += '<h3 class="h4 my-1"><a class="pt-1" href="' + item.link + '">' + item.title + '</a></h3>';
-                      html += '<div class="descriptionAtom">' + item.description +'</div>';
-					  html += '</div>';
-                  } 
-				  html += '</div>';
-                  jQuery('##divRss').append(html);
-               }
-			   
-            });
-
-	    });
-    </script>
+								jQuery('##divRss').empty();
+								var html ='<div class="shell"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30"><span class="d-block"><small>- Link to Recent Wiki Changes - </small></span> </a></h2>';
+								for(var i = 0; i < feed.items.length && i < 5; i++) {
+									var item = feed.items[i];
+									item.updated = new Date(item.updated);
+									html += '<div class="feedAtom">';
+									html += '<div class="updatedAtom">' + item.updated.toDateString() + '</div>';
+									html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
+									html += '<h3 class="h4 my-1"><a class="pt-1" href="' + item.link + '">' + item.title + '</a></h3>';
+									html += '<div class="descriptionAtom">' + item.description +'</div>';
+									html += '</div>';
+								} 
+								html += '</div>';
+								jQuery('##divRss').append(html);
+							}
+						});
+					});
+				</script>
 			</div>
 		</div>
 	</div>
 </cfoutput>
 </cfif>
-
 
 <!----------------------------------------------------------------------------------------------->
 

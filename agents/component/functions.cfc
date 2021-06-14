@@ -197,8 +197,8 @@ limitations under the License.
 										#rem#
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary">Edit</button>
-										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger">Delete</button>
+										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary my-1">Edit</button>
+										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger my-1">Delete</button>
 									</div>
 								</div>
 								<script>
@@ -835,7 +835,7 @@ limitations under the License.
 					<cfloop query="electAgentAddrs">
 						<cfset i=i+1>
 						<ul class="list-group list-unstyled list-group-horizontal form-row mx-0">
-							<li class="list-group-item px-0">
+							<li class="list-group-item border-bottom-0 px-0">
 								<select name="address_type" id="eaddress_type_#i#" class="data-entry-select">
 									<cfloop query="ctElecAddrType">
 										<cfif #electAgentAddrs.address_type# is "#ctElecAddrType.address_type#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -843,14 +843,14 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</li>
-							<li class="list-group-item px-0">
+							<li class="list-group-item border-bottom-0 px-0">
 								<input type="text" name="address" id="address_#i#" value="#encodeForHtml(address)#" class="data-entry-input">
 								<input type="hidden" name="electronic_address_id" id="electronic_address_id_#i#" value="#electAgentAddrs.electronic_address_id#">
 							</li>
-							<li class="list-group-item px-1">
+							<li class="list-group-item border-bottom-0 px-1">
 								<button type="button" id="agentEAddrU#i#Button" value="Update" class="btn btn-xs btn-secondary">Update</button>
 							</li>
-							<li class="list-group-item px-0">
+							<li class="list-group-item border-bottom-0 px-0">
 								<button type="button" id="agentEAddrDel#i#Button" value="Delete" class="btn btn-xs btn-danger">Delete</button>
 								<span id="electronicAddressFeedback#i#"></span>
 							</li>

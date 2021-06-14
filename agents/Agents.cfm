@@ -457,7 +457,7 @@ limitations under the License.
 				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var vetted = rowData['edited'];
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/agents/editAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+					return '<span style="margin-top: 6px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/agents/editAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
 				};
 			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
@@ -767,7 +767,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-2 mx-3' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -775,7 +775,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
 	</cfoutput>
