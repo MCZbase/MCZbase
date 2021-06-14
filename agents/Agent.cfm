@@ -210,11 +210,13 @@ limitations under the License.
 						</section>
 					</cfif>
 
-						<cfif oneOfUs EQ 1>
+					<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
-							<section class="accordion" id="accordionC">
+						<div class="col-12 form-row mt-2">
+						<div class="col-12 col-md-4 float-left">
+							<section  class="accordion" id="accordionC">
 								<div class="card mb-2 bg-light">
-									<div class="card-header" id="heading2">
+									<div class="card-header" id="heading3">
 										<!--- Phone/Email --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">Phone/Email</h3>
 									</div>
@@ -225,17 +227,18 @@ limitations under the License.
 											electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 										order by address_type
 									</cfquery>
-									<div id="namesPane" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
-									<div class="card-body py-1 mb-1 float-left" id="electronicCardBody">
-										<cfif getAgentElecAddr.recordcount EQ 0>
-											<ul class="list-group"><li class="list-group-item">None</li></ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="getAgentElecAddr">
-													<li class="list-group-item">#address_type#: #address#</li>
-												</cfloop>
-											</ul>
-										</cfif>
+									<div id="electronicPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionC">
+										<div class="card-body py-1 mb-1 float-left" id="electronicCardBody">
+											<cfif getAgentElecAddr.recordcount EQ 0>
+												<ul class="list-group"><li class="list-group-item">None</li></ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getAgentElecAddr">
+														<li class="list-group-item">#address_type#: #address#</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
 									</div>
 								</div>
 							</section>
