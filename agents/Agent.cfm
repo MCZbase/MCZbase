@@ -924,7 +924,7 @@ limitations under the License.
 									mczbase.get_media_descriptor(media.media_id) as descriptor,
 									mczbase.get_medialabel(media.media_id,'subject') as subject,
 									media.media_uri,
-									media.media_type
+									media.media_type,
 									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
 									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
 									MCZBASE.get_media_credit(media.media_id) as credit 
