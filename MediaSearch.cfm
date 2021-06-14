@@ -554,6 +554,25 @@
 						<cfif #media_type# eq "image">
 							<br><span style='font-size:small'><a href="/MediaSet.cfm?media_id=#media_id#">Related images</a></span>
 						</cfif>
+						<cfif #media_type# eq "audio">
+							<!--- check for a transcript, link if present --->
+							<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									transcript.media_uri as transcript_uri,
+									transcript.media_id as trainscript_media_id
+								FROM
+									media_relations
+									left join media transcript on media_relations.related_primary_key = transcript.media_id
+								WHERE
+									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+									and media_relationship = 'transcript for audio media'
+							</cfquery>
+							<cfif checkforTranscript.recordcount GT 0>
+								<cfloop query="checkForTranscript">
+									<br><span style='font-size:small'><a href="#transcript_uri#">View Transcript</a></span>
+								</cfloop>
+							</cfif>
+						</cfif>
 					</td>
 					<td>
 						<cfif len(desc.label_value) gt 0>
@@ -581,7 +600,7 @@
 				                    <cfelse>
 										#summary#
 									</cfif>
-				                </li>
+				             </li>
 							</cfloop>
 							</ul>
 						</cfif>

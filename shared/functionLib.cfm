@@ -235,35 +235,44 @@ limitations under the License.
 					preferred_agent_name
 				where
 					permit.issued_by_agent_id = preferred_agent_name.agent_id (+) and
-        				permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
+					permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            		<cfset temp = QuerySetCell(result, "link", "/Permit.cfm?Action=editPermit&permit_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/Permit.cfm?Action=editPermit&permit_id=#related_primary_key#", i)>
 		<cfelseif table_name is "cataloged_item">
 		<!--- upping this to uam_god for now - see Issue 135
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		---->
 			<cfquery name="d" datasource="uam_god">
-				select collection || ' ' || cat_num || ' (' || scientific_name || ')' data from
-				cataloged_item,
-                collection,
-                identification
-                where
-                cataloged_item.collection_object_id=identification.collection_object_id and
-                accepted_id_fg=1 and
-                cataloged_item.collection_id=collection.collection_id and
-                cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+				SELECT collection || ' ' || cat_num || ' (' || scientific_name || ')' data 
+				FROM
+					cataloged_item,
+					left join collection on cataloged_item.collection_id=collection.collection_id
+					left join identification on cataloged_item.collection_object_id=identification.collection_object_id
+				WHERE
+					accepted_id_fg=1 and
+					cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/SpecimenResults.cfm?collection_object_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/SpecimenResults.cfm?collection_object_id=#related_primary_key#", i)>
 		<cfelseif table_name is "media">
-			<cfquery name="d" datasource="uam_god">
-				select media_uri data 
-				from media 
-				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
-			</cfquery>
-			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
+			<cfif media_relationship IS "transcript for audio media">
+				<cfquery name="d" datasource="uam_god">
+					select media_uri data 
+					from media 
+					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+				</cfquery>
+				<cfset temp = QuerySetCell(result, "summary", "view the transcript", i)>
+				<cfset temp = QuerySetCell(result, "link", "#d.data#", i)>
+			<cfelse>
+				<cfquery name="d" datasource="uam_god">
+					select media_uri data 
+					from media 
+					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
+				</cfquery>
+				<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+				<cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
+			</cfif>
 		<cfelseif table_name is "publication">
 			<cfquery name="d" datasource="uam_god">
 				select formatted_publication data 
@@ -272,21 +281,21 @@ limitations under the License.
 				publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/SpecimenUsage.cfm?publication_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/SpecimenUsage.cfm?publication_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "project">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select project_name data from
 				project where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select display_name data,scientific_name from
 				taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-            <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
 		<cfelse>
 		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
 		</cfif>
