@@ -149,29 +149,35 @@ limitations under the License.
 					<h1>No such agent as agent_id = #encodeForHtml(agent_id)#.</h1>
 				<cfelse>
 					<cfloop query="getAgent">
-						<cfquery name="getFKFields" datasource="uam_god">
-							SELECT all_constraints.table_name, column_name, delete_rule 
-							FROM all_constraints
-								left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
-							WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
-							ORDER BY all_constraints.table_name
-						</cfquery>
 						<cfset relatedTo = StructNew() >
-						<cfset okToDelete = true>
-						<cfloop query="getFKFields">
-							<cfif getFKFields.delete_rule EQ "NO ACTION">
-								<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
-									SELECT count(*) as ct 
-									FROM #getFKFields.table_name#
-									WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-								</cfquery>
-								<cfif getRels.ct GT 0>
-									<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
-									<cfset okToDelete = false>
-									<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+						<cfset okToDelete = false>
+						<cftry>
+							<cfquery name="getFKFields" datasource="uam_god">
+								SELECT all_constraints.table_name, column_name, delete_rule 
+								FROM all_constraints
+									left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
+								WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
+								ORDER BY all_constraints.table_name
+							</cfquery>
+							<cfset okToDelete = true>
+							<cfloop query="getFKFields">
+								<cfif getFKFields.delete_rule EQ "NO ACTION">
+									<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+										SELECT count(*) as ct 
+										FROM #getFKFields.table_name#
+										WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+									</cfquery>
+									<cfif getRels.ct GT 0>
+										<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+										<cfset okToDelete = false>
+										<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+									</cfif>
 								</cfif>
-							</cfif>
-						</cfloop>
+							</cfloop>
+						<cfcatch>
+							<!--- user doesn't have access to all_constraints --->
+						</cfcatch>
+						</cftry>
 						<cfif getAgent.edited EQ 1>
 							<cfset vetted="*">
 						<cfelse>
@@ -511,21 +517,23 @@ limitations under the License.
 										<cfelse>
 											<div class="float-right">
 												<cfset relCount = StructCount(relatedTo)>
-												<cfif relCount EQ 1 ><cfset plural = ""><cfelse><cfset plural="s"></cfif>
-												<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
-												<cfset relations = "">
-												<cfset sep = "">
-												<cfloop collection="#relatedTo#" item="key">
-													<cfset relations = "#relations##sep##key# (#relatedTo[key]#)">
-													<cfset sep = "; <br>">
-												</cfloop>
-												<script>
-													$(document).ready(function() {
-														$('##showRelatedDataBtn').click(function (evt) {
-															messageDialog("#relations#","Numbers of related records for this agent");
+												<cfif relCount GT 0>
+													<cfif relCount EQ 1 ><cfset plural = ""><cfelse><cfset plural="s"></cfif>
+													<button type="button" class="btn-link" id="showRelatedDataBtn">Related to #relCount# other table#plural#</button>
+													<cfset relations = "">
+													<cfset sep = "">
+													<cfloop collection="#relatedTo#" item="key">
+														<cfset relations = "#relations##sep##key# (#relatedTo[key]#)">
+														<cfset sep = "; <br>">
+													</cfloop>
+													<script>
+														$(document).ready(function() {
+															$('##showRelatedDataBtn').click(function (evt) {
+																messageDialog("#relations#","Numbers of related records for this agent");
+															});
 														});
-													});
-												</script>
+													</script>
+												</cfif>
 											</div>
 										</cfif>
 									</div>

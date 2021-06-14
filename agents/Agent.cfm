@@ -1321,44 +1321,49 @@ limitations under the License.
 						<!--- foreign key relationships to other tables --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">This Agent record is linked to:</h2>
-								</div>
-								<cfquery name="getFKFields" datasource="uam_god">
-									SELECT all_constraints.table_name, column_name, delete_rule 
-									FROM all_constraints
-										left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
-									WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
-									ORDER BY all_constraints.table_name
-								</cfquery>
-								<cfset relatedTo = StructNew() >
-								<cfset okToDelete = true>
-								<cfloop query="getFKFields">
-									<cfif getFKFields.delete_rule EQ "NO ACTION">
-										<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
-											SELECT count(*) as ct 
-											FROM #getFKFields.table_name#
-											WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-										</cfquery>
-										<cfif getRels.ct GT 0>
-											<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
-											<cfset okToDelete = false>
-											<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+								<cftry>
+									<cfquery name="getFKFields" datasource="uam_god">
+										SELECT all_constraints.table_name, column_name, delete_rule 
+										FROM all_constraints
+											left join all_cons_columns on all_constraints.constraint_name = all_cons_columns.constraint_name and all_constraints.owner = all_cons_columns.owner
+										WHERE r_constraint_name in (select constraint_name from all_constraints where table_name='AGENT')
+										ORDER BY all_constraints.table_name
+									</cfquery>
+									<div class="card-header">
+										<h2 class="h3">This Agent record is linked to:</h2>
+									</div>
+									<cfset relatedTo = StructNew() >
+									<cfset okToDelete = true>
+									<cfloop query="getFKFields">
+										<cfif getFKFields.delete_rule EQ "NO ACTION">
+											<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+												SELECT count(*) as ct 
+												FROM #getFKFields.table_name#
+												WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											</cfquery>
+											<cfif getRels.ct GT 0>
+												<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+												<cfset okToDelete = false>
+												<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+											</cfif>
 										</cfif>
-									</cfif>
-								</cfloop>
-								<div class="card-body">
-									<cfif okToDelete>
-										<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
-									<cfelse>
-										<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
-									</cfif>
-									<ul>
-										<cfloop collection="#relatedTo#" item="key">
-											<li>#key# (#relatedTo[key]#)</li>
-										</cfloop>
-									</ul>
-								</div>
+									</cfloop>
+									<div class="card-body">
+										<cfif okToDelete>
+											<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
+										<cfelse>
+											<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
+										</cfif>
+										<ul>
+											<cfloop collection="#relatedTo#" item="key">
+												<li>#key# (#relatedTo[key]#)</li>
+											</cfloop>
+										</ul>
+									</div>
+								<cfcatch>
+									<!--- user doesn't have access to all_constraints --->
+								</cfcatch>
+								</cftry>
 							</section>
 						</cfif>
 
