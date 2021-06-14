@@ -37,10 +37,10 @@
 		<cfloop query="bads">
 			<tr>
 				<td>
-					<a href="/agents.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
+					<a href="/agents/Agent.cfm?agent_id=#bads.agent_id#" target="_blank">#bad_name#</a>
 				</td>
 				<td>
-					<a href="/agents.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
+					<a href="/agents/Agent.cfm?agent_id=#bads.related_agent_id#" target="_blank">#good_name#</a>
 				</td>
 				<td>
 					<input type=checkbox name=holdMerge value=#agent_id#_#related_agent_id#></input>

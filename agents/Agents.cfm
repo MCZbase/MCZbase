@@ -30,6 +30,9 @@ limitations under the License.
 <cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select agent_type  from ctagent_type
 </cfquery>
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection_cde, collection_id from collection
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -94,6 +97,26 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("edited")> 
 		<cfset edited="">
+	</cfif>
+	<cfif not isdefined("ranking")> 
+		<cfset ranking="">
+	</cfif>
+	<cfif not isdefined("collector_collection")>
+		<cfset collector_collection = "">
+	</cfif>
+	<cfif not isdefined("author_collection")>
+		<cfset author_collection = "">
+	</cfif>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		<cfif not isdefined("trans_agent_collection")>
+			<cfset trans_agent_collection = "">
+		</cfif>
+		<cfif not isdefined("permit_agent_role")>
+			<cfset permit_agent_role = "">
+		</cfif>
+	<cfelse>
+		<cfset trans_agent_collection = "">
+		<cfset permit_agent_role = "">
 	</cfif>
 	<!--- Search Form ---> 
 	<cfoutput>
@@ -195,7 +218,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('middle_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -206,7 +229,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
 											<span class="small">
 												(accepts <button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('last_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for case insensitive exact match search</span></button>, 
@@ -217,7 +240,7 @@ limitations under the License.
 										</label>
 										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-1">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
 										<select id="suffix" name="suffix" class="data-entry-select">
 											<option></option>
@@ -254,7 +277,12 @@ limitations under the License.
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#phone#" aria-labelledby="phone_label" >
 										</div>
-										<div class="col-12 col-md-2">
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<cfset vcollmd = "col-md-1">
+										<cfelse>
+											<cfset vcollmd = "col-md-2">
+										</cfif>
+										<div class="col-12 #vcollmd#">
 											<label for="edited" class="data-entry-label" id="edited_label">Vetted</label>
 											<select id="edited" name="edited" class="data-entry-select">
 												<option></option>
@@ -264,6 +292,18 @@ limitations under the License.
 												<option value="0" #sel#>No</option>
 											</select>
 										</div>
+										<cfif listcontainsnocase(session.roles,"manage_transactions")>
+											<div class="col-12 col-md-1">
+												<label for="ranking" class="data-entry-label" id="edited_label">Ranking</label>
+												<select id="ranking" name="ranking" class="data-entry-select">
+													<option></option>
+													<cfif ranking EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="none" #sel# >None (A)</option>
+													<cfif ranking EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="any" #sel#>Any (B-F)</option>
+												</select>
+											</div>
+										</cfif>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -304,6 +344,56 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-3">
+											<label for="collector_collection" class="data-entry-label" id="edited_label">Collector in Collection</label>
+											<select id="collector_collection" name="collector_collection" class="data-entry-select">
+												<option></option>
+												<cfloop query="collections">
+													<cfif collector_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="author_collection" class="data-entry-label" id="edited_label">Author in Collection</label>
+											<select id="author_collection" name="author_collection" class="data-entry-select">
+												<option></option>
+												<cfloop query="collections">
+													<cfif author_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+												</cfloop>
+											</select>
+										</div>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+											<div class="col-12 col-md-3">
+												<label for="trans_agent_collection" class="data-entry-label" id="edited_label">Transactions in Collection</label>
+												<select id="trans_agent_collection" name="trans_agent_collection" class="data-entry-select">
+													<option></option>
+													<cfloop query="collections">
+														<cfif trans_agent_collection EQ collections.collection_id ><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+														<option value="#collections.collection_id#" #sel# >#collections.collection_cde#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
+												<label for="permit_agent_role" class="data-entry-label" id="edited_label">Permissions &amp; Rights Role</label>
+												<select id="permit_agent_role" name="permit_agent_role" class="data-entry-select">
+													<option></option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="issued by" #sel# >Issued By</option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="issued to" #sel# >Issued To</option>
+													<cfif permit_agent_role EQ 'none'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="contact" #sel# >Contact Agent</option>
+													<cfif permit_agent_role EQ 'any'><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+													<option value="any" #sel#>Any</option>
+												</select>
+											</div>
+										</cfif>
+									</div>
+								</cfif>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
@@ -367,7 +457,24 @@ limitations under the License.
 				var editIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var vetted = rowData['edited'];
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/editAllAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/agents/editAgent.cfm?agent_id=' + rowData['agent_id'] + '">Edit</a></span>';
+				};
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+				var rankCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var rank = rowData['worstagentrank'];
+					var flag = "";
+					if (rank=="F") { 
+						flag = "&nbsp;<img src='/agents/images/flag-red.svg.png' width='16'>";
+					} else if (rank=="D") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					} else if (rank=="C") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					} else if (rank=="B") {
+						flag = "&nbsp;<img src='/agents/images/flag-yellow.svg.png' width='16'>";
+					} 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + flag + '</span>';
 				};
 			</cfif>
 	
@@ -489,7 +596,7 @@ limitations under the License.
 							</cfif>
 							{text: 'Vetted', datafield: 'edited', width: 80, hidable: true, hidden: getColHidProp('edited', false) },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: getColHidProp('worstagentrank', false) },
+								{text: 'Rank', datafield: 'worstagentrank', width: 80, hidable: true, hidden: getColHidProp('worstagentrank', false), cellsrenderer: rankCellRenderer },
 							</cfif>
 							{text: 'Prefix', datafield: 'prefix', width: 60, hidable: true, hidden: getColHidProp('prefix', true) },
 							{text: 'First', datafield: 'first_name', width: 100, hidable: true, hidden: getColHidProp('first_name', true) },

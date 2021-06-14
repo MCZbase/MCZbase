@@ -4408,7 +4408,7 @@ limitations under the License.
 									</div>							
 									<div class="col-12 col-md-1 px-md-0">
 										<label class="data-entry-label"> 						
-											<span id="agentViewLink_#i#" class="px-2 d-inline-block mt-1"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block mt-1"><a href="/agents/Agent.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
 													&nbsp;
 												<cfelseif transAgents.worstagentrank EQ 'F'>

@@ -5,7 +5,7 @@
       <cfif cgi.HTTP_HOST contains "harvard.edu" >
         <div class="footer clearfix">
             <a href="/Collections/index.cfm">Data Providers</a>
-            <a href="/info/bugs.cfm">Feedback&#8202;/&#8202;Report Errors</a>
+            <a href="/info/bugs.cfm" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
             <a HREF="mailto:bhaley@oeb.harvard.edu">System Administrator</a>
          </div>
          <div class="footer2 clearfix">

@@ -76,8 +76,20 @@ table td .small {
 .bg-lightgreen {
 	background-color: #CAEAAD;
 }
+.bg-verylightgreen {
+	background-color: #EBFFEB !important;
+}
 .border-white { 
 	border: 1px solid white;
+}
+.border-green { 
+	border: 1px solid green !important;
+}
+.border-wide-green { 
+	border: 2px solid green !important;
+}
+.border-wide-grey { 
+	border: 2px solid darkgrey !important;
 }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
@@ -94,7 +106,7 @@ select:focus {
 	outline-offset: 0;
 	outline: 0;
 }
-h1, h2, h3, h4, h5, h6 {
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 	line-height: 1.25;
 	margin: .5rem 0;
 	font-weight: 500;
@@ -1613,6 +1625,7 @@ tr.line-top:first-child {
 }
 .card-body li.list-group-item span:last-child {
 	display:none;
+   /* Caution, this directive will have unexpected side effects such as hiding badge spans */  
 }
 input#readMore_check_id {
 	display:none;

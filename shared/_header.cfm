@@ -278,10 +278,6 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>	
 								<a class="dropdown-item" target="_top" href="/agents/Agents.cfm">Agents</a>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-										<!--- current production, agent search and edit are in on place consequently requiring manage_agents to search, intent is to expose a public search separate from editing/managing agents --->
-									<a class="dropdown-item" href="/agents.cfm">Agents (old)</a> <!--- old --->
-								</cfif>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>

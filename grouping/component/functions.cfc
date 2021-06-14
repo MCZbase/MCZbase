@@ -31,9 +31,9 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
+	<cfargument name="html_description" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
-
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>
@@ -52,6 +52,9 @@ Update an existing arbitrary collection record (underscore_collection).
 				</cfif>
 				<cfif isdefined("mask_fg")>
 					,mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+				</cfif>
+				<cfif isdefined("html_description")>
+					,html_description = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#html_description#">
 				</cfif>
 			where 
 				underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -99,13 +102,15 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection_id, 
-				collection_name, description,
-				underscore_agent_id, 
+				collection_name, 
+				description,
+				underscore_agent_id,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname
+				as agentname,
+				html_description
 			FROM 
 				underscore_collection
 			WHERE
@@ -121,6 +126,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["description"] = "#search.description#">
 			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["id_link"] = "<a href='/grouping/NamedCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
+			<cfset row["html_description"] = "#search.html_description#">
 			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>

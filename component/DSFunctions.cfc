@@ -326,7 +326,7 @@
 				</cfif>
 			</cftransaction>
 			<cfset status="PASS">
-			<cfset msg=listappend(msg,'<a href="/agents.cfm?agent_id=#agent_id#" target="_blank">agent record</a>')>
+			<cfset msg=listappend(msg,'<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">agent record</a>')>
 			<cfset msg=listchangedelims(msg,"<br>")>
 		<cfcatch>
 			<cfset status="FAIL">
@@ -457,7 +457,7 @@
 			</cftransaction>
 			<cfset status="PASS">
 			<cfset agent_id=agentID.nextAgentId>
-			<cfset msg='<a href="/agents.cfm?agent_id=#agent_id#" target="_blank">agent</a> created'>	
+			<cfset msg='<a href="/agents/editAgent.cfm?agent_id=#agent_id#" target="_blank">agent</a> created'>	
 		<cfcatch>
 			<cfset status="FAIL">
 			<cfset agent_id="">

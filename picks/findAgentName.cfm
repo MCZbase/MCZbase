@@ -95,7 +95,7 @@
 						<td><font size="-2">#agent_name_id#</font></td>
 						<td><font size="-2">#agent_id#</font></td>
                         <td><font size="-2">#agent_name_type#</font></td>
-						<td><font size="-2"><a target="blank" href="/agents.cfm?agent_id=#agent_id#">Edit</a></font></td>
+						<td><font size="-2"><a target="blank" href="/agents/editAgent.cfm?agent_id=#agent_id#">Edit</a></font></td>
 						<td>
 							<cfif agent_name_type is "preferred">
 								<span class="infoLink" onclick="makeNewName('#thisName#','#agent_id#')">Add Name</span>
@@ -251,7 +251,7 @@
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
 				<cfloop query="dupPref">
-					<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+					<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>
 				</cfloop>
 				<p>Are you sure you want to continue?</p>
 				<form name="ac" method="post" action="findAgentName.cfm">
@@ -323,7 +323,7 @@
 			<cfif dupPref.recordcount gt 0>
 				<p>That agent may already exist! Click to see details.</p>
 				<cfloop query="dupPref">
-					<br><a href="/info/agentActivity.cfm?agent_id=#agent_id#">#agent_name#</a>
+					<br><a href="/agents/Agent.cfm?agent_id=#agent_id#">#agent_name#</a>
 				</cfloop>
 				<p>Are you sure you want to continue?</p>
 				<form name="ac" method="post" action="findAgentName.cfm">
