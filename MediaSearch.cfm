@@ -565,7 +565,7 @@
 									left join media transcript on media_relations.related_primary_key = transcript.media_id
 								WHERE
 									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-									and media_relationship = 'transcript of audio media'
+									and media_relationship = 'transcript for audio media'
 							</cfquery>
 							<cfif checkforTranscript.recordcount GT 0>
 								<cfloop query="checkForTranscript">
