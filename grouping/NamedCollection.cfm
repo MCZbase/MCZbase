@@ -658,7 +658,7 @@ limitations under the License.
 											resize:both;
 											overflow:hidden;
 											padding: 10px;
-											height: 500px;
+											height: 150px;
 											width: auto;
 											max-width: 1800px;
 										}
@@ -672,7 +672,7 @@ limitations under the License.
 											$('##html_description').jqxEditor();
 											var resizable = $('##html_description').jqxEditor({
 												width:"auto", 
-												height:"500px"
+												height:"150px"
 											}); 
 										});
 									</script>
