@@ -657,6 +657,52 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
+								
+						<cfif oneOfUs EQ 1>
+							<!--- Georeferences --->
+						<section  class="accordion" id="accordionR">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingGeo">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##geoPane">Georeferences</a>
+									</h3>
+								</div>
+									<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+										select 
+											count(*) cnt,
+											count(distinct(locality_id)) locs 
+											from lat_long 
+											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									</cfquery>
+									<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+										select 
+											count(*) cnt,
+											count(distinct(locality_id)) locs 
+											from lat_long 
+											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									</cfquery>
+								<div id="geoPane" class="collapse show" aria-labelledby="headingGeo" data-parent="##accordionR">
+									<div class="card-body py-1 mb-1 float-left" id="geoCardBody">
+										<cfif getLatLongDet.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">Determiner for No Coordinates</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+											</ul>
+										</cfif>
+										<cfif getLatLongVer.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">Verified No Coordinates</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+											</ul>
+										</cfif>
+									</div>
+								</div>
+							</div>
+						</section>
+						</cfif>
 						<!--- Preparator--->
 						<section  class="accordion" id="accordionK">
 							<div class="card mb-2 bg-light">
@@ -828,95 +874,6 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
-					</div>
-					<div class="col-12 col-md-4 float-left">
-						<!--- attribute determinations --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Attribute Determiner</h2>
-							</div>
-							<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
-								select 
-									count(distinct(cataloged_item.collection_object_id)) colObjCount,
-									collection.collection_id,
-									collection,
-									attribute_type
-								from
-									attributes,
-									cataloged_item,
-									collection
-								where
-									cataloged_item.collection_object_id=attributes.collection_object_id and
-									cataloged_item.collection_id=collection.collection_id and
-									determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								group by
-									collection.collection_id,
-									collection,
-									attribute_type
-							</cfquery>
-							<div class="card-body">
-								<cfif attributes.recordcount EQ 0>
-									<ul class="list-group"><li class="list-group-item">None</li></ul>
-								<cfelse>
-									<ul class="list-group">
-										<cfloop query="attributes">
-											<li class="list-group-item">
-												#attributes.attribute_type# for #attributes.colObjCount#
-												<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
-													#attributes.collection#</a> specimens
-											</li>
-										</cfloop>
-									</ul>
-								</cfif>
-							</div>
-						</section>
-
-						<cfif oneOfUs EQ 1>
-							<!--- Georeferences --->
-						<section  class="accordion" id="accordionR">
-							<div class="card mb-2 bg-light">
-								<div class="card-header" id="headingGeo">
-									<!--- Phone/Email --->
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##geoPane">Georeferences</a>
-									</h3>
-								</div>
-									<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
-										select 
-											count(*) cnt,
-											count(distinct(locality_id)) locs 
-											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
-										select 
-											count(*) cnt,
-											count(distinct(locality_id)) locs 
-											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-								<div id="geoPane" class="collapse show" aria-labelledby="headingGeo" data-parent="##accordionR">
-									<div class="card-body py-1 mb-1 float-left" id="geoCardBody">
-										<cfif getLatLongDet.recordcount EQ 0>
-											<ul class="list-group"><li class="list-group-item">Determiner for No Coordinates</li></ul>
-										<cfelse>
-											<ul class="list-group">
-												<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
-											</ul>
-										</cfif>
-										<cfif getLatLongVer.recordcount EQ 0>
-											<ul class="list-group"><li class="list-group-item">Verified No Coordinates</li></ul>
-										<cfelse>
-											<ul class="list-group">
-												<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
-											</ul>
-										</cfif>
-									</div>
-								</div>
-							</div>
-						</section>
-						</cfif>
-
 						<cfif oneOfUs EQ 1>
 							<!--- media relationships and labels --->
 							<section  class="accordion" id="accordionQ">
@@ -974,6 +931,52 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
+					</div>
+					<div class="col-12 col-md-4 float-left">
+						<!--- attribute determinations --->
+						<section class="card mb-2 bg-light">
+							<div class="card-header">
+								<h2 class="h3">Attribute Determiner</h2>
+							</div>
+							<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+								select 
+									count(distinct(cataloged_item.collection_object_id)) colObjCount,
+									collection.collection_id,
+									collection,
+									attribute_type
+								from
+									attributes,
+									cataloged_item,
+									collection
+								where
+									cataloged_item.collection_object_id=attributes.collection_object_id and
+									cataloged_item.collection_id=collection.collection_id and
+									determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								group by
+									collection.collection_id,
+									collection,
+									attribute_type
+							</cfquery>
+							<div class="card-body">
+								<cfif attributes.recordcount EQ 0>
+									<ul class="list-group"><li class="list-group-item">None</li></ul>
+								<cfelse>
+									<ul class="list-group">
+										<cfloop query="attributes">
+											<li class="list-group-item">
+												#attributes.attribute_type# for #attributes.colObjCount#
+												<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
+													#attributes.collection#</a> specimens
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
+						</section>
+
+
+
+
 
 						<cfif oneOfUs EQ 1>
 							<!--- records last edited by --->
