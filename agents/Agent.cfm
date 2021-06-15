@@ -1152,7 +1152,7 @@ limitations under the License.
 								<div class="card-header" id="heading15">
 									<!---  --->
 									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
+										<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment<!---#plural# (#totalShipCount#)---></a>
 									</h3>
 								</div>
 								<div id="shipPane" class="collapse show" aria-labelledby="heading15" data-parent="##accordionO">
