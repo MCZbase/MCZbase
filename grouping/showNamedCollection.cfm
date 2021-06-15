@@ -424,9 +424,9 @@
 												pageable: true,
 												columns: [
 													{ text: 'GUID', datafield: 'GUID', width:'130' },
-													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'auto' },
-													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'auto'},
-													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'auto' },
+													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
+													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
+													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
 													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
 												]
 											});
