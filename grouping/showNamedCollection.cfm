@@ -30,7 +30,7 @@
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
 								<div class="mb-4 pb-3" style="border-bottom: 8px solid ##000">
-									<h2 class="">Description</h2>
+									<h2 class="">Collection Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif len(html_description)gt 0>
@@ -249,8 +249,6 @@
 									</div>
 								</div>
 							</div>
-	<!---  WARNING: indentation is not clean, nesting of divs may be broken.  Clean up indentation and verify nesting of tags. --->
-						
 							<div class="col-12 col-md-6 mt-1 float-left">
 								<div class="row">
 									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxa_class_result">
