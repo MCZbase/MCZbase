@@ -312,7 +312,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 </cffunction>
 
 		
-	<cffunction name="getNamedGroupSpecimens" access="remote" returntype="any" returnformat="json">
+	<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 	
 		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.spec_locality
