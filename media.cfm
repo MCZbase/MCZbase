@@ -154,32 +154,37 @@
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
-  <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
-		mczbase.get_media_descriptor(media_id) as alttag 
-		from media 
-		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+			mczbase.get_media_descriptor(media_id) as alttag 
+		FROM media 
+		WHERE media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfset relns=getMediaRelations(#media_id#)>
-  <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
+	<cfset relns=getMediaRelations(#media_id#)>
+	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
 			media_label,
 			label_value,
 			agent_name,
 			media_label_id
-		from
-			media_labels,
-			preferred_agent_name
-		where
-			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+		FROM
+			media_labels
+			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+		WHERE
 			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) c from tag where media_id=#media_id#
+	<cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) c 
+		FROM tag 
+		WHERE
+			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfoutput>
-      <div style="width:65em; padding: 1em 0 3em 0;margin:0 auto;" class="editMedia2">
-      <h2 class="wikilink">Edit Media      <img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
+	<cfoutput>
+		<div style="width:65em; padding: 1em 0 3em 0;margin:0 auto;" class="editMedia2">
+			<h2 class="wikilink">
+				Edit Media 
+			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
+			</h2>
   
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
     <form name="editMedia" method="post" action="media.cfm">
