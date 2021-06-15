@@ -1213,6 +1213,62 @@ limitations under the License.
 							</div>
 						</section>
 						</cfif>
+										
+												<!--- foreign key relationships to other tables --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+							<cftry>
+							<section  class="accordion" id="accordionS">
+							<cfquery name="getFKFields" datasource="uam_god">
+								SELECT dba_constraints.table_name, column_name, delete_rule 
+								FROM dba_constraints
+									left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
+								WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
+								ORDER BY dba_constraints.table_name
+							</cfquery>
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading16">
+									<!---  --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##linedtoPane">This agent record is linked to:</a>
+									</h3>
+								</div>
+									<cfset relatedTo = StructNew() >
+								<cfset okToDelete = true>
+								<cfloop query="getFKFields">
+										<cfif getFKFields.delete_rule EQ "NO ACTION">
+											<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+												SELECT count(*) as ct 
+												FROM #getFKFields.table_name#
+												WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											</cfquery>
+											<cfif getRels.ct GT 0>
+												<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+												<cfset okToDelete = false>
+												<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+											</cfif>
+										</cfif>
+									</cfloop>
+								<div id="linkedtoPane" class="collapse show" aria-labelledby="heading16" data-parent="##accordionS">
+									<div class="card-body py-1 mb-1 float-left" id="linkedtoCardBody">
+										<cfif okToDelete>
+											<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
+										<cfelse>
+											<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
+										</cfif>
+										<ul class="list-group">
+											<cfloop collection="#relatedTo#" item="key">
+												<li class="list-group-item">#key# (#relatedTo[key]#)</li>
+											</cfloop>
+										</ul>
+									</div>
+								</div>
+							</div>
+								<cfcatch>
+									<!--- some issue with user access to metadata tables --->
+								</cfcatch>
+								</cftry>
+							</section>
+						</cfif>
 					</div>
 					
 									
@@ -1424,61 +1480,7 @@ limitations under the License.
 						</cfif>
 
 
-						<!--- foreign key relationships to other tables --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-							<cftry>
-							<section  class="accordion" id="accordionS">
-							<cfquery name="getFKFields" datasource="uam_god">
-								SELECT dba_constraints.table_name, column_name, delete_rule 
-								FROM dba_constraints
-									left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
-								WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
-								ORDER BY dba_constraints.table_name
-							</cfquery>
-							<div class="card mb-2 bg-light">
-								<div class="card-header" id="heading16">
-									<!---  --->
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##linedtoPane">This agent record is linked to:</a>
-									</h3>
-								</div>
-									<cfset relatedTo = StructNew() >
-								<cfset okToDelete = true>
-								<cfloop query="getFKFields">
-										<cfif getFKFields.delete_rule EQ "NO ACTION">
-											<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
-												SELECT count(*) as ct 
-												FROM #getFKFields.table_name#
-												WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-											</cfquery>
-											<cfif getRels.ct GT 0>
-												<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
-												<cfset okToDelete = false>
-												<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
-											</cfif>
-										</cfif>
-									</cfloop>
-								<div id="linkedtoPane" class="collapse show" aria-labelledby="heading16" data-parent="##accordionS">
-									<div class="card-body py-1 mb-1 float-left" id="linkedtoCardBody">
-										<cfif okToDelete>
-											<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
-										<cfelse>
-											<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
-										</cfif>
-										<ul class="list-group">
-											<cfloop collection="#relatedTo#" item="key">
-												<li class="list-group-item">#key# (#relatedTo[key]#)</li>
-											</cfloop>
-										</ul>
-									</div>
-								</div>
-							</div>
-								<cfcatch>
-									<!--- some issue with user access to metadata tables --->
-								</cfcatch>
-								</cftry>
-							</section>
-						</cfif>
+
 
 					</div><!--- end of right column --->
 
