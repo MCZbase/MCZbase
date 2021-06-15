@@ -1103,16 +1103,17 @@ limitations under the License.
 									<cfset ariaExpanded ="true">
 								</cfif>
 							
+										
+
+										
 							<section  class="accordion" id="accordionM">
 								<div class="card mb-2 bg-light" id="shipmentHeader">
-									<div class="card-header" id="heading4">
-										<!--- Phone/Email --->
+									<div class="card-header" id="heading13">
+										<!--- Roles in shipments --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Roles in Shipment#plural# (#totalShipCount#)</a>
+											<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
 										</h3>
 									</div>
-<!---	<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
-		</button>---><!---</h2>--->
 								</div>
 								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
