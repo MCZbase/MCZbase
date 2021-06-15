@@ -602,7 +602,7 @@ limitations under the License.
 								<div id="prepPane" class="collapse show" aria-labelledby="heading10" data-parent="##accordionK">
 									<div class="card-body py-1 mb-1 float-left" id="prepCardBody">
 									<cfif getAgentPrepScope.recordcount EQ 0>
-										<h3 class="h4">Not a preparator of any material in MCZbase</h2>
+										<p>Not a preparator of any material in MCZbase</p>
 									<cfelse>
 										<ul>
 											<cfset earlyeststart = "">
@@ -972,7 +972,7 @@ limitations under the License.
 								<div>
 								<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
 									<cfif loan_item.recordcount GT 0>
-										<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+										<h3 class="h5 mb-0 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 									</cfif>
 									<div class="card-body">
 										<ul>
@@ -1066,12 +1066,12 @@ limitations under the License.
 										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 									</cfif>
 									<div class="card-body">
-										<ul>
+										<ul class="list-group">
 											<cfif packedBy.recordcount EQ 0>
-												<li>Packed no shipments for transactions</li>
+												<li class="list-group-item">Packed no shipments for transactions</li>
 											</cfif>
 											<cfloop query="packedBy">
-												<li>
+												<li class="list-group-item">
 													Packed Shipment for #transaction_type#
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 														#collection# #specific_number#
@@ -1079,10 +1079,10 @@ limitations under the License.
 												</li>
 											</cfloop>
 											<cfif shippedTo.recordcount EQ 0>
-												<li>Recipient of no shipments for transactions</li>
+												<li class="list-group-item">Recipient of no shipments for transactions</li>
 											</cfif>
 											<cfloop query="shippedFrom">
-												<li>
+												<li class="list-group-item">
 													Sender of shipment for #transaction_type#
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 														#collection# #specific_number#
@@ -1136,11 +1136,11 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif getProjRoles.recordcount EQ 0>
-										<h2 class="h3">No project roles in MCZbase</h2>
+										<p>No project roles in MCZbase</p>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfloop query="getProjRoles">
-												<li>#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+												<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
 											</cfloop>
 										</ul>
 									</cfif>
@@ -1235,9 +1235,9 @@ limitations under the License.
 								</div>
 								<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">
 									<cfif getTransCount.ct EQ 0>
-										<h3 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
+										<h3 class="h5 mb-0 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 									<cfelse>
-										<h3 class="h4 card-title">
+										<h3 class="h5 mb-0 card-title">
 											#prefName# has some role in 
 											<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 											#getTransCount.ct# Transaction#plural#
@@ -1246,9 +1246,9 @@ limitations under the License.
 									</cfif>
 									<div class="card-body">
 										<cfif getTransactions.recordcount EQ 0>
-											<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+											<p>Not a Transaction Agent in MCZbase</p>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfset lastTrans ="">
 												<cfset statusDate ="">
 												<cfloop query="getTransactions">
@@ -1256,7 +1256,7 @@ limitations under the License.
 														<cfif lastTrans NEQ "">
 															#statusDate#</li>
 														</cfif>
-														<li>
+														<li class="list-group-item">
 															<span class="text-capitalize">#transaction_type#</span> 
 															<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 															#trans_agent_role#
@@ -1333,14 +1333,14 @@ limitations under the License.
 								<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
 									<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 									<div class="card-body">
-										<ul>
+										<ul class="list-group">
 											<cfif getPermitsTo.recordcount EQ 0>
-												<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
+												<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 											<cfelse>
 												<cfloop query="getPermitsTo">
 													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-													<li>
+													<li class="list-group-item">
 														Document 
 														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 															#pnrDoc#
@@ -1350,12 +1350,12 @@ limitations under the License.
 												</cfloop>
 											</cfif>
 											<cfif getPermitsFrom.recordcount EQ 0>
-												<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
+												<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 											<cfelse>
 												<cfloop query="getPermitsFrom">
 													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-													<li>
+													<li class="list-group-item">
 														Document 
 														<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
 															#pnrDoc#
@@ -1365,12 +1365,12 @@ limitations under the License.
 												</cfloop>
 											</cfif>
 											<cfif getPermitContacts.recordcount EQ 0>
-												<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
+												<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 											<cfelse>
 												<cfloop query="getPermitContacts">
 													<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 													<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-													<li>
+													<li class="list-group-item">
 														#encodeForHtml(prefName)# is contact for 
 														<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 															#pnrDoc#
