@@ -104,15 +104,15 @@ limitations under the License.
 					</div>
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12">
-							<ul class="mb-2 py-0 list-unstyled">
-								<li>#agent_type# </li>
+							<ul class="list-group mb-2 py-0 list-unstyled">
+								<li class="list-group-item">#agent_type# </li>
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li><a href="#guidLink#">#agentguid#</a></li>
+									<li class="list-group-item"><a href="#guidLink#">#agentguid#</a></li>
 								</cfif>
 							</ul>
 						<div>#biography#</div>
@@ -267,7 +267,7 @@ limitations under the License.
 								<div id="postalPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
 									<div class="card-body pt-1 pb-2 pl-3 mb-1 float-left" id="postalCardBody">
 										<cfif getAgentAddr.recordcount EQ 0>
-											<ul><li>None</li></ul>
+											<ul class="list-group"><li class="list-group-item">None</li></ul>
 										<cfelse>
 											<cfloop query="getAgentAddr">
 												<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
@@ -557,8 +557,8 @@ limitations under the License.
 								<div id="projPane" class="collapse show" aria-labelledby="heading11" data-parent="##accordionL">
 									<div class="card-body py-1 mb-1 float-left" id="projCardBody">
 									<cfif getProjRoles.recordcount EQ 0>
-										<p>No project roles in MCZbase</p>
-									<cfelse>
+										<ul class="list-group"><li class="list-group-item">No project roles in MCZbase</li></ul>
+										<cfelse>
 										<ul class="list-group">
 											<cfloop query="getProjRoles">
 												<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
@@ -891,9 +891,9 @@ limitations under the License.
 									GROUP BY media_label
 								</cfquery>
 								<div class="card-body">
-									<ul>
+									<ul class="list-group">
 										<cfif getMediaCreation.ct EQ 0>
-											<li>Created No Media Records.</li>
+											<li class="list-group-item">Created No Media Records.</li>
 										<cfelse>
 											<li>
 												Created #getMediaCreation.ct# 
@@ -901,15 +901,15 @@ limitations under the License.
 											</li>
 										</cfif>
 										<cfif media_assd_relations.ct EQ 0>
-											<li>Created No Media Relationships.</li>
+											<li class="list-group-item">Created No Media Relationships.</li>
 										<cfelse>
-											<li>Created #media_assd_relations.ct# Media Relationships.</li>
+											<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
 										</cfif>
 										<cfif media_labels.recordcount EQ 0>
-											<li>Assigned no media label values.</li>
+											<li class="list-group-item">Assigned no media label values.</li>
 										<cfelse>
 											<cfloop query="media_labels">
-												<li>#media_labels.media_label# (#media_labels.ct#)</li>
+												<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
 											</cfloop>
 										</cfif>
 									</ul>
@@ -957,16 +957,16 @@ limitations under the License.
 										collection.collection_id
 								</cfquery>
 								<div class="card-body">
-									<ul>
+									<ul class="list-group">
 										<cfif getEncumbCount.ct EQ 0>
-											<li>Owns No Encumbrances</li>
+											<li class="list-group-item">Owns No Encumbrances</li>
 										<cfelse>
 											<cfloop query="getEncumb">
-												<li>#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+												<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
 											</cfloop>
 										</cfif>
 										<cfloop query="coll_object_encumbrance">
-											<li>
+											<li class="list-group-item">
 												Encumbered 
 												<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
 												#specs# #collection#</a> records
@@ -1023,12 +1023,12 @@ limitations under the License.
 										<h3 class="h5 mb-0 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 									</cfif>
 									<div class="card-body">
-										<ul>
+										<ul class="list-group">
 											<cfif loan_item.recordcount EQ 0>
-												<li>None.</li>
+												<li class="list-group-item">None.</li>
 											<cfelse>
 												<cfloop query="loan_item">
-													<li>Reconciled #cnt# items for Loan 
+													<li class="list-group-item">Reconciled #cnt# items for Loan 
 														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 													</li>		
 												</cfloop>
@@ -1422,9 +1422,9 @@ limitations under the License.
 										<cfelse>
 											<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
 										</cfif>
-										<ul>
+										<ul class="list-group">
 											<cfloop collection="#relatedTo#" item="key">
-												<li>#key# (#relatedTo[key]#)</li>
+												<li class="list-group-item">#key# (#relatedTo[key]#)</li>
 											</cfloop>
 										</ul>
 									</div>
