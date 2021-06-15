@@ -1133,7 +1133,7 @@ limitations under the License.
 									WHERE
 										addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-<!---								<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
+								<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
 								<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 								<cfif totalShipCount GT 10>
 									<cfset cardState = "collapsed">
@@ -1145,20 +1145,20 @@ limitations under the License.
 									<cfset headerClass = "btn-link">
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
-								</cfif>--->
+								</cfif>
 									
 						<section  class="accordion" id="accordionO">
 							<div class="card mb-2 bg-light">
 								<div class="card-header" id="heading15">
 									<!---  --->
 									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment<!---#plural# (#totalShipCount#)---></a>
+										<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
 									</h3>
 								</div>
 								<div id="shipPane" class="collapse show" aria-labelledby="heading15" data-parent="##accordionO">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
 										<cfif totalShipCount GT 0>
-											<h3 class="h5 card-title mb-0">#prefName# has some role in <!---#totalShipCount# shipment#plural#---></h3>
+											<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 										</cfif>
 										<ul class="list-group">
 												<cfif packedBy.recordcount EQ 0>
