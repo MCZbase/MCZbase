@@ -410,10 +410,10 @@
 													// pageable: true,
 												theme: theme,
 												columns: [
-													{ text: 'Guid', datafield: 'Guid', width: 50 },
-													{ text: 'Scientific Name', datafield: 'ScientificName', width: 100 },
-													{ text: 'Verbatim Date', datafield: 'VerbatimDate', width: 100 },
-													{ text: 'Locality', datafield: 'Locality', width: 100 }
+													{ text: 'Guid', datafield: 'guid', width: 50 },
+													{ text: 'Scientific Name', datafield: 'scientific_name', width: 100 },
+													{ text: 'Verbatim Date', datafield: 'verbatim_date', width: 100 },
+													{ text: 'Locality', datafield: 'spec_locality', width: 100 }
 												]
 											});
 											// select the first row.
