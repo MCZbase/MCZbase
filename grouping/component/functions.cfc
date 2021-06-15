@@ -312,9 +312,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 </cffunction>
 
 		
-	<cffunction name="namedGroupSpecimens" access="remote" returntype="any" returnformat="plain">
+	<cffunction name="getNamedGroupSpecimens" access="remote" returntype="any" returnformat="json">
 	
-		<cfquery name="getSpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.spec_locality
 			FROM
 				underscore_collection
@@ -325,16 +325,20 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				and flat.guid is not null
 			ORDER BY flat.guid asc
 		</cfquery>
+		<cfset i = 1>
 		<cfset rData = ArrayNew(1)>
-		<cfloop query="getSpecimens">
+		<cfloop query="qrySpecimens">
 			<cfset row = StructNew()>
 			<cfset row["GUID"] = getSpecimens.guid>
 			<cfset row["SCIENTIFIC_NAME"] = getSpecimens.scientific_name>
 			<cfset row["VERBATIM_DATE"] = getSpecimens.verbatim_date>
 			<cfset row["LOCALITY"] = getSpecimens.spec_locality>
-			<cfset data[getSpecimens.RecordCount] = row>
+			<cfset data[] = row>
+			<cfset i= i + 1>
 		</cfloop>
 		<cfset theOutput = serializeJSON(data)>
 			<cfreturn theOutput>
 		</cffunction>
+			
+
 </cfcomponent>

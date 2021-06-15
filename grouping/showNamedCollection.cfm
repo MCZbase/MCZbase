@@ -421,10 +421,10 @@
 												enabletooltips: true,
 												pageable: true,
 												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:150 },
-													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:250 },
-													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:190},
-													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:250 }
+													{ text: 'GUID', datafield: 'GUID', width:'auto' },
+													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:'auto' },
+													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:'auto'},
+													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:'auto' }
 												]
 											});
 											// select the first row.
