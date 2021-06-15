@@ -411,14 +411,14 @@
 													// pageable: true,
 												//theme: theme,
 												columns: [
-													{ text: 'Guid', datafield: 'guid', width: 50 },
-													{ text: 'Scientific Name', datafield: 'scientific_name', width: 100 },
-													{ text: 'Verbatim Date', datafield: 'verbatim_date', width: 100 },
-													{ text: 'Locality', datafield: 'spec_locality', width: 100 }
+													{ text: 'Guid', datafield: 'guid' },
+													{ text: 'Scientific Name', datafield: 'scientific_name' },
+													{ text: 'Verbatim Date', datafield: 'verbatim_date'},
+													{ text: 'Locality', datafield: 'spec_locality' }
 												]
 											});
 											// select the first row.
-											$("##jqxgrid").jqxGrid('selectrow', 0);
+											$("##jqxgrid").jqxGrid();
 										});
 									</script>
 
@@ -426,11 +426,11 @@
 									</div>
 									<div style="clear: both; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; font-size: 12px;">
 										<span>Selection Log:</span>
-										<div style="margin-top: 10px;">
+<!---										<div style="margin-top: 10px;">
 											<span>Selected Row Index:</span> <span id="selectrowindex"></span>
 											<br />
 											<span>Unselected Row Index:</span> <span id="unselectrowindex"></span>
-										</div>
+										</div>--->
 									</div>
 										
 								</div>
