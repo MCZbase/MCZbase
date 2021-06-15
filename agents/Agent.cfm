@@ -1426,21 +1426,25 @@ limitations under the License.
 
 						<!--- foreign key relationships to other tables --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-							<section class="card mb-2 bg-light">
-								<cftry>
-									<cfquery name="getFKFields" datasource="uam_god">
-										SELECT dba_constraints.table_name, column_name, delete_rule 
-										FROM dba_constraints
-											left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
-										WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
-										ORDER BY dba_constraints.table_name
-									</cfquery>
-									<div class="card-header">
-										<h2 class="h3">This Agent record is linked to:</h2>
-									</div>
+							<cftry>
+							<section  class="accordion" id="accordionS">
+							<cfquery name="getFKFields" datasource="uam_god">
+								SELECT dba_constraints.table_name, column_name, delete_rule 
+								FROM dba_constraints
+									left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
+								WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
+								ORDER BY dba_constraints.table_name
+							</cfquery>
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading16">
+									<!---  --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##linedtoPane">This agent record is linked to:</a>
+									</h3>
+								</div>
 									<cfset relatedTo = StructNew() >
-									<cfset okToDelete = true>
-									<cfloop query="getFKFields">
+								<cfset okToDelete = true>
+								<cfloop query="getFKFields">
 										<cfif getFKFields.delete_rule EQ "NO ACTION">
 											<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
 												SELECT count(*) as ct 
@@ -1454,7 +1458,8 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</cfloop>
-									<div class="card-body">
+								<div id="linkedtoPane" class="collapse show" aria-labelledby="heading16" data-parent="##accordionS">
+									<div class="card-body py-1 mb-1 float-left" id="linkedtoCardBody">
 										<cfif okToDelete>
 											<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
 										<cfelse>
@@ -1466,6 +1471,8 @@ limitations under the License.
 											</cfloop>
 										</ul>
 									</div>
+								</div>
+							</div>
 								<cfcatch>
 									<!--- some issue with user access to metadata tables --->
 								</cfcatch>
