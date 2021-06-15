@@ -412,10 +412,10 @@
 												showfilterrow: true,
 												sortable: true,
 												pageable: true,
-												editable: true,
+												editable: false,
 												pagesize: '50',
 												pagesizeoptions: ['5','50','100'],
-												columnsresize: true,
+												columnsresize: false,
 												autoshowfiltericon: false,
 												autoshowcolumnsmenubutton: false,
 												altrows: true,
@@ -427,7 +427,7 @@
 													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'auto' },
 													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'auto'},
 													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'auto' },
-													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'auto'}
+													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
 												]
 											});
 											// select the first row.
