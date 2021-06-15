@@ -732,7 +732,7 @@ limitations under the License.
 												</li>
 											</cfif>
 										</cfloop>
-									<ul>
+									</ul>
 								</cfif>
 							</div>
 						</section>
@@ -764,11 +764,11 @@ limitations under the License.
 							</cfquery>
 							<div class="card-body">
 								<cfif attributes.recordcount EQ 0>
-									<ul><li>None</li></ul>
+									<ul class="list-group"><li class="list-group-item">None</li></ul>
 								<cfelse>
-									<ul>
+									<ul class="list-group">
 										<cfloop query="attributes">
-											<li>
+											<li class="list-group-item">
 												#attributes.attribute_type# for #attributes.colObjCount#
 												<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
 													#attributes.collection#</a> specimens
@@ -801,17 +801,17 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif getLatLongDet.recordcount EQ 0>
-										<ul><li>Determiner for No Coordinates</li></ul>
+										<ul class="list-group"><li class="list-group-item">Determiner for No Coordinates</li></ul>
 									<cfelse>
-										<ul>
-											<li>Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+										<ul class="list-group">
+											<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
 										</ul>
 									</cfif>
 									<cfif getLatLongVer.recordcount EQ 0>
-										<ul><li>Verified No Coordinates</li></ul>
+										<ul class="list-group"><li class="list-group-item">Verified No Coordinates</li></ul>
 									<cfelse>
-										<ul>
-											<li>Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+										<ul class="list-group">
+											<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
 										</ul>
 									</cfif>
 								</div>
