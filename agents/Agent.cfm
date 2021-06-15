@@ -94,7 +94,7 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
+							<h2>#preferred_agent_name# #vetted_marker# #dates# #agent_type#</h2>
 						</div>
 						<cfif oneOfUs EQ 1>
 							<div class="col-12 col-sm-12 col-xl-6 float-left">
@@ -105,7 +105,6 @@ limitations under the License.
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12">
 							<ul class="list-group mb-2 py-0 list-unstyled">
-								<li class="list-group-item px-0">#agent_type# </li>
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
@@ -118,12 +117,12 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-6 float-left">
 							<div class="small90 px-2">Public Biography</div>
-							<div class="border p-2 m-1 rounded">#biography#</div>
+							<div class="border p-2 m-1 rounded small90">#biography#</div>
 						</div>
 						<div class="col-12 col-md-6 float-left">
 						<cfif oneOfUs EQ 1>
 							<div class="small90 px-2">Agent Remarks</div>
-							<div class="border p-2 m-1 rounded">#agent_remarks#</div>
+							<div class="border p-2 m-1 rounded small90">#agent_remarks#</div>
 						</cfif>
 						</div>
 					</div>
