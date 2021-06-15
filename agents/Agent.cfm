@@ -1279,11 +1279,12 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
+							</section>
 								<cfcatch>
 									<!--- some issue with user access to metadata tables --->
 								</cfcatch>
 								</cftry>
-							</section>
+					
 						</cfif>
 					</div>
 					
