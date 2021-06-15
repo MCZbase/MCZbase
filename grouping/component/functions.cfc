@@ -326,7 +326,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			ORDER BY flat.guid asc
 		</cfquery>
 		<cfset i = 1>
-		<cfset rData = ArrayNew(1)>
+		<cfset data = ArrayNew(1)>
 		<cfloop query="qrySpecimens">
 			<cfset row = StructNew()>
 			<cfset row["GUID"] = getSpecimens.guid>
@@ -336,8 +336,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset data[] = row>
 			<cfset i= i + 1>
 		</cfloop>
-		<cfset theOutput = serializeJSON(data)>
-			<cfreturn theOutput>
+		<cfreturn #serializeJSON(data)#>
 		</cffunction>
 			
 
