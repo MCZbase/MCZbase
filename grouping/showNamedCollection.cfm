@@ -86,7 +86,7 @@
 									and underscore_collection.underscore_agent_id = agent_name.agent_id
 								</cfquery>
 								
-								<h2 class="mt-2">Associated Agent</h2>
+								<h2 class="mt-2 pt-2">Associated Agent</h2>
 								<p class="">#undColl.agent_name#</p>
 								<cfset specimenImageCount = specImageCt.recordcount>
 								<cfif specimenImageCount GT 0>
@@ -344,7 +344,6 @@
 											</ul>
 										</div>
 									</cfif>
-				
 									<script>
 									$('##searchNGForm').bind('getNamedGroups', function(evt){
 										evt.preventDefault();
