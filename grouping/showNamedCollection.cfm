@@ -421,7 +421,7 @@
 												enabletooltips: true,
 												pageable: true,
 												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:100 },
+													{ text: 'GUID', datafield: 'GUID', width:150 },
 													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:250 },
 													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:190},
 													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:250 }
