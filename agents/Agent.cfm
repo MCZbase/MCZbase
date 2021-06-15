@@ -1102,18 +1102,25 @@ limitations under the License.
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
 								</cfif>
-								<div class="card-header" id="shipmentHeader">
-									<h2 class="h3">
-										<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
-											Roles in Shipment#plural# (#totalShipCount#)
-										</button>
-									</h2>
+							
+							<section  class="accordion" id="accordionM">
+								<div class="card mb-2 bg-light" id="shipmentHeader">
+									<div class="card-header" id="heading4">
+										<!--- Phone/Email --->
+										<h3 class="h4 my-0 float-left collapsed btn-link">
+											<a href="##" role="button" data-toggle="collapse" data-target="##relationsPane">Roles in Shipment#plural# (#totalShipCount#)</a>
+										</h3>
+									</div>
+<!---	<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
+		</button>---><!---</h2>--->
 								</div>
-								<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
+								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
+									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
+							<!---	<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">--->
 									<cfif totalShipCount GT 0>
-										<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+										<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 									</cfif>
-									<div class="card-body">
+							<!---		<div class="card-body">--->
 										<ul class="list-group">
 											<cfif packedBy.recordcount EQ 0>
 												<li class="list-group-item">Packed no shipments for transactions</li>
@@ -1142,7 +1149,6 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-
 					</div>
 					</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
