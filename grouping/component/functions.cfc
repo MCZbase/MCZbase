@@ -321,7 +321,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			WHERE underscore_collection.underscore_collection_id = 22
 				and flat.guid is not null
 			ORDER BY flat.guid asc
 		</cfquery>

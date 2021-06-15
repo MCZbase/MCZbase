@@ -392,10 +392,10 @@
 												datatype: "json",
 												datafields:
 												[
-													{ name: 'Guid', type: 'string' },
-													{ name: 'ScientificName', type: 'string' },
-													{ name: 'VerbatimDate', type: 'string' },
-													{ name: 'Locality', type: 'string' }
+													{ name: 'GUID', type: 'string' },
+													{ name: 'SCIENTIFIC_NAME', type: 'string' },
+													{ name: 'VERBATIM_DATE', type: 'string' },
+													{ name: 'LOCALITY', type: 'string' }
 												],
 												url: '/grouping/component/functions.cfc?method=namedGroupSpecimens'
 											};
@@ -428,14 +428,14 @@
 												pageable: true,
 												//theme: theme,
 												columns: [
-													{ text: 'Guid', datafield: 'guid', width:100 },
-													{ text: 'Scientific Name', datafield: 'scientific_name', width:250 },
-													{ text: 'Verbatim Date', datafield: 'verbatim_date', width:190},
-													{ text: 'Locality', datafield: 'spec_locality',width:250 }
+													{ text: 'GUID', datafield: 'GUID', width:100 },
+													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:250 },
+													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:190},
+													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:250 }
 												]
 											});
 											// select the first row.
-											$("##jqxgrid").jqxGrid();
+											//$("##jqxgrid").jqxGrid();
 										});
 									</script>
 
