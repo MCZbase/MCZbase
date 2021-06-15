@@ -1245,7 +1245,7 @@ limitations under the License.
 								<div class="card-header" id="heading16">
 									<!---  --->
 									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##linedtoPane">This agent record is linked to:</a>
+										<a href="##" role="button" data-toggle="collapse" data-target="##linkedtoPane">This agent record is linked to:</a>
 									</h3>
 								</div>
 									<cfset relatedTo = StructNew() >
