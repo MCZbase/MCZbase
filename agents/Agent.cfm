@@ -265,7 +265,7 @@ limitations under the License.
 									order by addr_type, valid_addr_fg desc
 								</cfquery>
 								<div id="postalPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
-									<div class="card-body pt-1 pb-2 pl-3 mb-1 float-left" id="postalCardBody">
+									<div class="card-body pt-1 pb-2 pl-3 mb-1 float-left small90" id="postalCardBody">
 										<cfif getAgentAddr.recordcount EQ 0>
 											<ul class="list-group"><li class="list-group-item">None</li></ul>
 										<cfelse>
@@ -278,7 +278,7 @@ limitations under the License.
 														<cfset addressCurrency="Invalid">
 													<cfset listgroupclass="w-100 p-2 rounded border border-light">
 												</cfif>
-												<h3 class="h4 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency# &nbsp;#rem#</h3>
+												<h4 class="h5 mb-1 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency# &nbsp;#rem#</h4>
 												<div class="#listgroupclass# w-100">#formatted_addr#</div>
 											</cfloop>
 										</cfif>
