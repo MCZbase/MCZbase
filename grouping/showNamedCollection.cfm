@@ -10,9 +10,17 @@
 		<cfset underscore_collection_id = "161">
 	</cfif>
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
-		select collection_name, description, underscore_agent_id, html_description, mask_fg 
-		from underscore_collection
-		where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,
+			case 
+				when underscore_agent_id is null then '[No Agent]'
+			else 
+				MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
+			end
+			as agentname,
+			mask_fg
+		FROM underscore_collection
+			LEFT JOIN agent_name on underscore_collection.underscore_agent_id = agent_name.agent_id
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<cfloop query="getNamedGroup">
 		<cfif getNamedGroup.mask_fg EQ 0 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
@@ -37,7 +45,8 @@
 								<cfif len(html_description)gt 0>
 									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
 								</cfif>
-								
+
+								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
 										SELECT DISTINCT media_uri, preview_uri,media_type,
@@ -61,8 +70,9 @@
 									) 
 									WHERE rownum < 16
 								</cfquery>
+								<!--- find out how many images there are in total --->
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT media_uri
+									SELECT count(media.media_id) as ct
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -76,31 +86,26 @@
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
-								<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,
-										case 
-											when underscore_agent_id is null then '[No Agent]'
-											else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-											end
-										as agentname,
-										mask_fg
-									from underscore_collection, agent_name
-									where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-									and underscore_collection.underscore_agent_id = agent_name.agent_id
-								</cfquery>
 								
-								<h2 class="mt-2 pt-2">Associated Agent</h2>
-								<p class="">#undColl.agent_name#</p>
-								<cfset specimenImageCount = specImageCt.recordcount>
-								<cfif specimenImageCount GT 0>
+								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
+									<h2 class="mt-2 pt-2">Associated Agent</h2>
+									<p class="">#getNamedGroup.agent_name#</p>
+								</cfif>
+								<cfset specimenImagesShown = specimenImageQuery.recordcount>
+								<cfif specimenImagesShown GT 0>
+									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
+										<cfset shown = " (#specimenImagesShown#)">
+									<cfelse>
+										<cfset shown = "">
+									</cfif>
 									<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
-									<p>#specimenImageCount# Specimen Images</p>
+									<p>#specImageCt.ct# Specimen Images#shown#</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 										<!--Indicators-->
 										<ol class="carousel-indicators">
 											<cfset active = 'class="active"' >
-											<cfloop index="i" from="0" to="#specimenImageCount#">
+											<cfloop index="i" from="0" to="#specimenImagesShown#">
 												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
 												<cfset active = '' >
 											</cfloop>
@@ -152,7 +157,7 @@
 										<h3>Locality Images</h3>
 										<p>Maps and Collecting Event</p> 
 										<cfset localityImageCount = localityImageQuery.recordcount>
-										<cfif specimenImageCount GT 0>
+										<cfif localityImageCount GT 0>
 											<p>#localityImageCount# Locality Images</p>
 											<!--Carousel Wrapper-->
 											<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
