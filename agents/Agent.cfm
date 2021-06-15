@@ -438,7 +438,7 @@ limitations under the License.
 									<div class="card-header" id="heading5">
 										<!--- Phone/Email --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##collectorsPane">Collectors</a>
+											<a href="##" role="button" data-toggle="collapse" data-target="##collectorsPane">Collector</a>
 										</h3>
 									</div>
 							<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
