@@ -934,9 +934,13 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 float-left">
 						<!--- attribute determinations --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Attribute Determiner</h2>
+						<section  class="accordion" id="accordionT">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading20">
+								<!--- Phone/Email --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##attdPane">Attribute Determiner</a>
+								</h3>
 							</div>
 							<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
 								select 
@@ -957,7 +961,8 @@ limitations under the License.
 									collection,
 									attribute_type
 							</cfquery>
-							<div class="card-body">
+							<div id="attdPane" class="collapse show" aria-labelledby="heading20" data-parent="##accordionT">
+								<div class="card-body py-1 mb-1 float-left" id="attdCardBody">
 								<cfif attributes.recordcount EQ 0>
 									<ul class="list-group"><li class="list-group-item">None</li></ul>
 								<cfelse>
@@ -972,6 +977,8 @@ limitations under the License.
 									</ul>
 								</cfif>
 							</div>
+						</div>
+						</div>
 						</section>
 
 
