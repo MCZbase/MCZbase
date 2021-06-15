@@ -388,6 +388,7 @@
 										$(document).ready(function () {
 											var source =
 											{
+												theme: default,
 												datatype: "json",
 												datafields:
 												[
