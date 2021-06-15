@@ -424,14 +424,6 @@
 
 									<div id="jqxgrid">
 									</div>
-									<div style="clear: both; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; font-size: 12px;">
-										<span>Selection Log:</span>
-<!---										<div style="margin-top: 10px;">
-											<span>Selected Row Index:</span> <span id="selectrowindex"></span>
-											<br />
-											<span>Unselected Row Index:</span> <span id="unselectrowindex"></span>
-										</div>--->
-									</div>
 										
 								</div>
 							</div>
