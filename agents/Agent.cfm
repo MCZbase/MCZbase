@@ -118,7 +118,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-6 float-left">
 							<div class="small90 px-2">Public Biography</div>
-							<div class="border p-2 m-1rounded">#biography#</div>
+							<div class="border p-2 m-1 rounded">#biography#</div>
 						</div>
 						<div class="col-12 col-md-6 float-left">
 						<cfif oneOfUs EQ 1>
