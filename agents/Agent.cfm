@@ -1169,7 +1169,7 @@ limitations under the License.
 								<div class="card-header" id="headingTrans">
 									<!---  --->
 									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##transPane">Roles in Transaction#plural# (#totalTransCount#)</a>
+										<a href="##" role="button" data-toggle="collapse" aria-expanded="#ariaExpanded#" data-target="##transPane">Roles in Transaction#plural# (#totalTransCount#)</a>
 									</h3>
 								</div>
 	<!---									<h2><button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
@@ -1177,7 +1177,7 @@ limitations under the License.
 										</button>
 									</h2>--->
 									
-								<div id="transPane" class="collapse show" aria-labelledby="headingTrans" data-parent="##accordionV">
+								<div id="transPane" class="#bodyClass#" aria-labelledby="headingTrans" data-parent="##accordionV">
 									<div class="card-body py-1 mb-1 float-left" id="transCardBody">
 							<!---	<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">--->
 									<cfif getTransCount.ct EQ 0>
