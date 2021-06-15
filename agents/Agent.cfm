@@ -963,19 +963,23 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- records last edited by --->
-							<section class="card mb-2 bg-light">
-								<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
+							<section  class="accordion" id="accordionP">
+							<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
 									SELECT count(*) as ct
 									FROM encumbrance 
 									WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-header">
-									<cfif getEncumbCount.ct GT 0>
-										<cfset encumbCount = "(#getEncumbCount.ct#)">
-									<cfelse>
-										<cfset encumbCount = "">
-									</cfif>
-									<h2 class="h3">Encumbrances #encumbCount#</h2>
+							<cfif getEncumbCount.ct GT 0>
+								<cfset encumbCount = "(#getEncumbCount.ct#)">
+							<cfelse>
+								<cfset encumbCount = "">
+							</cfif>
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingEnc">
+									<!---  --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##encumbrancePane">Encumbrances #encumbCount#</a>
+									</h3>
 								</div>
 								<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
 									SELECT count(*) as ct,
@@ -1000,24 +1004,27 @@ limitations under the License.
 										collection,
 										collection.collection_id
 								</cfquery>
-								<div class="card-body">
-									<ul class="list-group">
-										<cfif getEncumbCount.ct EQ 0>
-											<li class="list-group-item">Owns No Encumbrances</li>
-										<cfelse>
-											<cfloop query="getEncumb">
-												<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+								<div id="encumbrancePane" class="collapse show" aria-labelledby="headingEnc" data-parent="##accordionP">
+									<div class="card-body py-1 mb-1 float-left" id="encumbranceCardBody">
+										<ul class="list-group">
+											<cfif getEncumbCount.ct EQ 0>
+												<li class="list-group-item">Owns No Encumbrances</li>
+											<cfelse>
+												<cfloop query="getEncumb">
+													<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+												</cfloop>
+											</cfif>
+											<cfloop query="coll_object_encumbrance">
+												<li class="list-group-item">
+													Encumbered 
+													<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
+													#specs# #collection#</a> records
+												</li>
 											</cfloop>
-										</cfif>
-										<cfloop query="coll_object_encumbrance">
-											<li class="list-group-item">
-												Encumbered 
-												<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
-												#specs# #collection#</a> records
-											</li>
-										</cfloop>
-									</ul>
+										</ul>
+									</div>
 								</div>
+							</div>
 							</section>
 						</cfif>
 
