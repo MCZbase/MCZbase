@@ -329,10 +329,10 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfset data = ArrayNew(1)>
 		<cfloop query="qrySpecimens">
 			<cfset row = StructNew()>
-			<cfset row["GUID"] = getSpecimens.guid>
-			<cfset row["SCIENTIFIC_NAME"] = getSpecimens.scientific_name>
-			<cfset row["VERBATIM_DATE"] = getSpecimens.verbatim_date>
-			<cfset row["LOCALITY"] = getSpecimens.spec_locality>
+			<cfset row["GUID"] = qrySpecimens.guid>
+			<cfset row["SCIENTIFIC_NAME"] = qrySpecimens.scientific_name>
+			<cfset row["VERBATIM_DATE"] = qrySpecimens.verbatim_date>
+			<cfset row["LOCALITY"] = qrySpecimens.spec_locality>
 			<cfset data[i] = row>
 			<cfset i= i + 1>
 		</cfloop>
