@@ -1102,8 +1102,8 @@ limitations under the License.
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
 								</cfif>
-								<div class="card mb-2 bg-light" id="shipmentHeader">
-									<div class="card-header" id="heading13">
+								<div class="card mb-2 bg-light">
+									<div class="card-header" id="shipmentHeader">
 										<!--- Roles in shipments --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
 											<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
@@ -1112,7 +1112,6 @@ limitations under the License.
 								</div>
 								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentSection">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
-							<!---	<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">--->
 									<cfif totalShipCount GT 0>
 										<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 									</cfif>
