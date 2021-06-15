@@ -694,7 +694,7 @@ limitations under the License.
 								<div id="prepPane" class="collapse show" aria-labelledby="heading10" data-parent="##accordionK">
 									<div class="card-body py-1 mb-1 float-left" id="prepCardBody">
 									<cfif getAgentPrepScope.recordcount EQ 0>
-										<p>Not a preparator of any material in MCZbase</p>
+										<ul class="list-group"><li class="list-group-item">Not a preparator of any material in MCZbase</li></ul>
 									<cfelse>
 										<ul class="list-group">
 											<cfset earlyeststart = "">
@@ -912,10 +912,14 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- media relationships and labels --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Media Records Edited</h2>
-								</div>
+							<section  class="accordion" id="accordionQ">
+								<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingMedrec">
+								<!--- Phone/Email --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##mediarecPane">Media Records Edited</a>
+								</h3>
+							</div>
 								<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
 									SELECT count(distinct media_id) as ct
 									FROM media_relations 
@@ -934,7 +938,8 @@ limitations under the License.
 									WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									GROUP BY media_label
 								</cfquery>
-								<div class="card-body">
+								<div id="mediarecPane" class="collapse show" aria-labelledby="headingMedrec" data-parent="##accordionQ">
+									<div class="card-body py-1 mb-1 float-left" id="mediarecCardBody">
 									<ul class="list-group">
 										<cfif getMediaCreation.ct EQ 0>
 											<li class="list-group-item">Created No Media Records.</li>
@@ -957,6 +962,8 @@ limitations under the License.
 											</cfloop>
 										</cfif>
 									</ul>
+								</div>
+								</div>
 								</div>
 							</section>
 						</cfif>
