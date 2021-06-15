@@ -395,7 +395,8 @@
 													{ name: 'GUID', type: 'string' },
 													{ name: 'SCIENTIFIC_NAME', type: 'string' },
 													{ name: 'VERBATIM_DATE', type: 'string' },
-													{ name: 'LOCALITY', type: 'string' }
+													{ name: 'LOCALITY', type: 'string' },
+													{ name: 'FULL_TAXON_NAME', type: 'string' }
 												],
 												url: '/grouping/component/functions.cfc?method=getSpecimens'
 											};
@@ -423,9 +424,10 @@
 												pageable: true,
 												columns: [
 													{ text: 'GUID', datafield: 'GUID', width:'130' },
-													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:'auto' },
-													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:'auto'},
-													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:'auto' }
+													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'auto' },
+													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'auto'},
+													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'auto' },
+													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'auto'}
 												]
 											});
 											// select the first row.
