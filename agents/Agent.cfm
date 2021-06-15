@@ -132,12 +132,12 @@ limitations under the License.
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mb-2" id="agentTwoCollsWrapper">
 					<div class="form-row" id="agentTwoCollsRowWrapper">
-						<div class="col-12 col-md-6 px-1 float-left accordion" id="leftAgentColl">
+						<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
 						
 							<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Names for this agent</h2>
+									<h3 class="h4">Names for this agent</h3>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -183,7 +183,7 @@ limitations under the License.
 								<!--- group members --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Group Members</h2>
+										<h3 class="h4">Group Members</h3>
 									</div>
 									<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
 										SELECT
@@ -216,7 +216,7 @@ limitations under the License.
 								<!--- emails/phone numbers --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Phone/Email</h2>
+										<h3 class="h4">Phone/Email</h3>
 									</div>
 									<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select address_type, address 
@@ -243,7 +243,7 @@ limitations under the License.
 								<!--- emails/phone numbers --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Postal Addresses</h2>
+										<h3 class="h4">Postal Addresses</h3>
 									</div>
 									<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select addr_type, 
@@ -279,7 +279,7 @@ limitations under the License.
 							<!--- relationships --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Relationships with other agents</h2>
+									<h3 class="h4">Relationships with other agents</h3>
 								</div>
 								<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
@@ -328,7 +328,7 @@ limitations under the License.
 							<!--- Collector --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Collector</h2>
+									<h3 class="h4">Collector</h3>
 								</div>
 								<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 									select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
@@ -359,7 +359,7 @@ limitations under the License.
 								<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
 								<div class="card-body">
 									<cfif getAgentCollScope.recordcount EQ 0>
-										<h2 class="h3">Not a collector of any material in MCZbase</h2>
+										<h4 class="h5">Not a collector of any material in MCZbase</h4>
 									<cfelse>
 										<ul>
 											<cfset earlyeststart = "">
@@ -457,7 +457,7 @@ limitations under the License.
 							<!--- Determiner --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Determiner</h2>
+									<h3 class="h4">Determiner</h3>
 								</div>
 								<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
 									SELECT
@@ -496,7 +496,7 @@ limitations under the License.
 								<!--- records entered --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">MCZbase Records Entered</h2>
+										<h3 class="h4">MCZbase Records Entered</h3>
 									</div>
 									<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
 										select
@@ -535,7 +535,7 @@ limitations under the License.
 								<!--- records last edited by --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">MCZbase Records Last Edited By this agent</h2>
+										<h3 class="h4">MCZbase Records Last Edited By this agent</h3>
 									</div>
 									<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
 										select 
@@ -573,7 +573,7 @@ limitations under the License.
 							<!--- attribute determinations --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Attribute Determiner</h2>
+									<h3 class="h4">Attribute Determiner</h3>
 								</div>
 								<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
 									select 
@@ -615,7 +615,7 @@ limitations under the License.
 								<!--- Georeferences --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Georeferences</h2>
+										<h3 class="h4">Georeferences</h3>
 									</div>
 									<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
 										select 
@@ -654,7 +654,7 @@ limitations under the License.
 								<!--- media relationships and labels --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Media Records Edited</h2>
+										<h3 class="h4">Media Records Edited</h3>
 									</div>
 									<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
 										SELECT count(distinct media_id) as ct
@@ -715,7 +715,7 @@ limitations under the License.
 										<cfelse>
 											<cfset encumbCount = "">
 										</cfif>
-										<h2 class="h3">Encumbrances #encumbCount#</h2>
+										<h3 class="h4">Encumbrances #encumbCount#</h3>
 									</div>
 									<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
 										SELECT count(*) as ct,
@@ -795,11 +795,11 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header" id="loanItemHeader">
-										<h2 class="h3">
+										<h3 class="h4">
 											<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
 												Reconciled loan items (#loan_item.recordcount#):
 											</button>
-										</h2>
+										</h3>
 									</div>
 									<div>
 									<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
@@ -887,11 +887,11 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header" id="shipmentHeader">
-										<h2 class="h3">
+										<h3 class="h4">
 											<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
 												Roles in Shipment#plural# (#totalShipCount#)
 											</button>
-										</h2>
+										</h3>
 									</div>
 									<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
 										<cfif totalShipCount GT 0>
@@ -952,7 +952,7 @@ limitations under the License.
 								</cfquery>
 								<div class="card-header">
 									<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<h2 class="h3">Subject of #getMedia.recordcount# media record#plural#.</h2>
+									<h3 class="h4">Subject of #getMedia.recordcount# media record#plural#.</h3>
 								</div>
 								<cfif getMedia.recordcount eq 0>
 									<cfset mediaLink = "No Media records">
@@ -985,7 +985,7 @@ limitations under the License.
 							<!--- Preparator--->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Preparator</h2>
+									<h3 class="h4">Preparator</h3>
 								</div>
 								<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 									select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
@@ -1014,7 +1014,7 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif getAgentPrepScope.recordcount EQ 0>
-										<h2 class="h3">Not a preparator of any material in MCZbase</h2>
+										<h4 class="h4">Not a preparator of any material in MCZbase</h4>
 									<cfelse>
 										<ul>
 											<cfset earlyeststart = "">
@@ -1054,7 +1054,7 @@ limitations under the License.
 								<!--- Project sponsor and other project roles --->
 								<section class="card mb-2 bg-light">
 									<div class="card-header">
-										<h2 class="h3">Project Roles</h2>
+										<h3 class="h4">Project Roles</h3>
 									</div>
 									<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
 										SELECT distinct
@@ -1081,7 +1081,7 @@ limitations under the License.
 									</cfquery>
 									<div class="card-body">
 										<cfif getProjRoles.recordcount EQ 0>
-											<h2 class="h3">No project roles in MCZbase</h2>
+											<h4 class="h4">No project roles in MCZbase</h4>
 										<cfelse>
 											<ul>
 												<cfloop query="getProjRoles">
@@ -1096,7 +1096,7 @@ limitations under the License.
 							<!--- Author --->
 							<section class="card mb-2 bg-light">
 								<div class="card-header">
-									<h2 class="h3">Publications Citing MCZ material</h2>
+									<h3 class="h4">Publications Citing MCZ material</h3>
 								</div>
 								<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 									SELECT
@@ -1117,7 +1117,7 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif publicationAuthor.recordcount EQ 0>
-										<h3 class="h3">No Publication Citing MCZ material</h3>
+										<h4 class="h4">No Publication Citing MCZ material</h4>
 									<cfelse>
 										<ul class="list-group">
 											<cfloop query="publicationAuthor">
@@ -1172,11 +1172,11 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header" id="transactionsHeader">
-										<h2 class="h3">
+										<h3 class="h4">
 											<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
 												Roles in Transaction#plural# (#totalTransCount#)
 											</button>
-										</h2>
+										</h3>
 									</div>
 									<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">
 										<cfif getTransCount.ct EQ 0>
@@ -1191,7 +1191,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-body">
 											<cfif getTransactions.recordcount EQ 0>
-												<h2 class="h3">Not a Transaction Agent in MCZbase</h2>
+												<h4 class="h4">Not a Transaction Agent in MCZbase</h4>
 											<cfelse>
 												<ul>
 													<cfset lastTrans ="">
@@ -1269,11 +1269,11 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header" id="permitsHeader">
-										<h2 class="h3">
+										<h3 class="h4">
 											<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBody" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBody">
 												Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 											</button>
-										</h2>
+										</h3>
 									</div>
 									<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
 										<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
@@ -1342,7 +1342,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header">
-											<h2 class="h3">This Agent record is linked to:</h2>
+											<h3 class="h4">This Agent record is linked to:</h3>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1362,9 +1362,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body">
 											<cfif okToDelete>
-												<h3 class="h4">This Agent is not used and is eligible for deletion</h3>
+												<h4 class="h4">This Agent is not used and is eligible for deletion</h4>
 											<cfelse>
-												<h3 class="h4">This Agent record is linked to these other MCZbase tables</h3>
+												<h4 class="h4">This Agent record is linked to these other MCZbase tables</h4>
 											</cfif>
 											<ul>
 												<cfloop collection="#relatedTo#" item="key">
