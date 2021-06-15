@@ -33,30 +33,33 @@
 									<h2 class="">Collection Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
+								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								<cfif len(html_description)gt 0>
 									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
 								</cfif>
-								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
 								
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT DISTINCT media_uri, preview_uri,media_type,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										and rownum <= 20
-									ORDER BY flat.guid asc
+									SELECT * FROM (
+										SELECT DISTINCT media_uri, preview_uri,media_type,
+											MCZBASE.get_media_descriptor(media.media_id) as alt,
+											MCZBASE.get_media_credit(media.media_id) as credit,
+											flat.guid
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+											left join media on media_relations.media_id = media.media_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											AND flat.guid IS NOT NULL
+											AND media_relations.media_relationship = 'shows cataloged_item'
+											AND media.media_type = 'image'
+											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+											and rownum <= 20
+										ORDER BY DBMS_RANDOM.RANDOM
+									) 
+									WHERE rownum < 16
 								</cfquery>
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT media_uri
