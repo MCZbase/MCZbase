@@ -1301,7 +1301,7 @@ limitations under the License.
 
 						<!--- transactions roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
-							<section class="card mb-2 bg-light">
+							<section  class="accordion" id="accordionV">
 								<cfquery name="getTransCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 									SELECT count(distinct transaction_view.transaction_id) ct
 									FROM trans_agent
@@ -1338,14 +1338,21 @@ limitations under the License.
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
 								</cfif>
-								<div class="card-header" id="transactionsHeader">
-									<h2 class="h3">
-										<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
-											Roles in Transaction#plural# (#totalTransCount#)
-										</button>
-									</h2>
+								<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingTrans">
+									<!---  --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##transPane">Roles in Transaction#plural# (#totalTransCount#)</a>
+									</h3>
 								</div>
-								<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">
+	<!---									<h2><button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
+											
+										</button>
+									</h2>--->
+									
+								<div id="transPane" class="collapse show" aria-labelledby="headingTrans" data-parent="##accordionV">
+									<div class="card-body py-1 mb-1 float-left" id="transCardBody">
+							<!---	<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##rightAgentColl">--->
 									<cfif getTransCount.ct EQ 0>
 										<h3 class="h5 mb-0 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 									<cfelse>
