@@ -94,11 +94,11 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h2>#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
+							<h2 class="mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
 						</div>
 						<cfif oneOfUs EQ 1>
 							<div class="col-12 col-sm-12 col-xl-6 float-left">
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary mt-xl-3 btn-xs float-right">Edit</a>
 							</div>
 						</cfif>
 					</div>
