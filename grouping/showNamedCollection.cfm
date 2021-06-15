@@ -424,17 +424,14 @@
 												selectionmode: 'checkbox',
 												altrows: true,
 												showtoolbar: true,
-												width: 780,
-												height: 550,
-												source: dataAdapter,
-													// sortable: true,
-													// pageable: true,
+												sortable: true,
+												pageable: true,
 												//theme: theme,
 												columns: [
 													{ text: 'Guid', datafield: 'guid', width:100 },
 													{ text: 'Scientific Name', datafield: 'scientific_name', width:250 },
 													{ text: 'Verbatim Date', datafield: 'verbatim_date', width:190},
-													{ text: 'Locality', datafield: 'spec_locality',250 }
+													{ text: 'Locality', datafield: 'spec_locality',width:250 }
 												]
 											});
 											// select the first row.
