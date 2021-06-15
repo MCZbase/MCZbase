@@ -1158,7 +1158,7 @@ limitations under the License.
 								<div id="shipPane" class="collapse show" aria-labelledby="heading15" data-parent="##accordionO">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
 										<cfif totalShipCount GT 0>
-											<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+											<h3 class="h5 card-title mb-0">#prefName# has some role in <!---#totalShipCount# shipment#plural#---></h3>
 										</cfif>
 										<ul class="list-group">
 												<cfif packedBy.recordcount EQ 0>
