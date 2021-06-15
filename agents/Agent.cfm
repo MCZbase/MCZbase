@@ -873,41 +873,48 @@ limitations under the License.
 
 						<cfif oneOfUs EQ 1>
 							<!--- Georeferences --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Georeferences</h2>
+						<section  class="accordion" id="accordionR">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingGeo">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##geoPane">Georeferences</a>
+									</h3>
 								</div>
-								<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
-									select 
-										count(*) cnt,
-										count(distinct(locality_id)) locs 
-										from lat_long 
-										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
-									select 
-										count(*) cnt,
-										count(distinct(locality_id)) locs 
-										from lat_long 
-										where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<div class="card-body">
-									<cfif getLatLongDet.recordcount EQ 0>
-										<ul class="list-group"><li class="list-group-item">Determiner for No Coordinates</li></ul>
-									<cfelse>
-										<ul class="list-group">
-											<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
-										</ul>
-									</cfif>
-									<cfif getLatLongVer.recordcount EQ 0>
-										<ul class="list-group"><li class="list-group-item">Verified No Coordinates</li></ul>
-									<cfelse>
-										<ul class="list-group">
-											<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
-										</ul>
-									</cfif>
+									<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+										select 
+											count(*) cnt,
+											count(distinct(locality_id)) locs 
+											from lat_long 
+											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									</cfquery>
+									<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+										select 
+											count(*) cnt,
+											count(distinct(locality_id)) locs 
+											from lat_long 
+											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									</cfquery>
+								<div id="geoPane" class="collapse show" aria-labelledby="headingGeo" data-parent="##accordionR">
+									<div class="card-body py-1 mb-1 float-left" id="geoCardBody">
+										<cfif getLatLongDet.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">Determiner for No Coordinates</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+											</ul>
+										</cfif>
+										<cfif getLatLongVer.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">Verified No Coordinates</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+											</ul>
+										</cfif>
+									</div>
 								</div>
-							</section>
+							</div>
+						</section>
 						</cfif>
 
 						<cfif oneOfUs EQ 1>
