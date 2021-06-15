@@ -386,9 +386,9 @@
 									</cfif>--->
 										<script type="text/javascript">
 										$(document).ready(function () {
+											//var theme = 'black';
 											var source =
 											{
-												theme: default,
 												datatype: "json",
 												datafields:
 												[
@@ -409,7 +409,7 @@
 												source: dataAdapter,
 													// sortable: true,
 													// pageable: true,
-												theme: theme,
+												//theme: theme,
 												columns: [
 													{ text: 'Guid', datafield: 'guid', width: 50 },
 													{ text: 'Scientific Name', datafield: 'scientific_name', width: 100 },
