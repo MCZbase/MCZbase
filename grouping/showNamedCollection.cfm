@@ -266,9 +266,9 @@
 										ORDER BY flat.phylclass asc
 									</cfquery>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
-										<!--- try expanding to families instead if very few classes --->
+										<!--- try expanding to orders instead if very few classes --->
 										<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-											SELECT DISTINCT flat.phylclass || ': ' || flat.family  as taxon, flat.family as taxonlink, 'family' as rank
+											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder  as taxon, flat.phylorder as taxonlink, 'phylorder' as rank
 											FROM
 												underscore_collection
 												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -278,7 +278,21 @@
 												and flat.PHYLCLASS is not null
 											ORDER BY flat.phylclass asc
 										</cfquery>
-									<cfif>
+									</cfif>
+									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+										<!--- try expanding to families instead if very few orders --->
+										<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+											SELECT DISTINCT flat.order || ': ' || flat.family  as taxon, flat.family as taxonlink, 'family' as rank
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+													on underscore_relation.collection_object_id = flat.collection_object_id
+											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												and flat.PHYLCLASS is not null
+											ORDER BY flat.phylclass asc
+										</cfquery>
+									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
