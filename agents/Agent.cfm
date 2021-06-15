@@ -105,7 +105,7 @@ limitations under the License.
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12">
 							<ul class="list-group mb-2 py-0 list-unstyled">
-								<li class="list-group-item">#agent_type# </li>
+								<li class="list-group-item px-0">#agent_type# </li>
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
@@ -115,7 +115,11 @@ limitations under the License.
 									<li class="list-group-item"><a href="#guidLink#">#agentguid#</a></li>
 								</cfif>
 							</ul>
-						<div>#biography#</div>
+						</div>
+						<div class="col-12 col-md-6 float-left">
+							<div>#biography#</div>
+						</div>
+						<div class="col-12 col-md-6 float-left">
 						<cfif oneOfUs EQ 1>
 							<div>#agent_remarks#</div>
 						</cfif>
@@ -173,7 +177,6 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-
 						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 						<section class="accordion" id="accordionB">
 							<div class="card mb-2 bg-light">
@@ -208,8 +211,7 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
-					</cfif>
-
+						</cfif>
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
 							<section  class="accordion" id="accordionC">
@@ -243,7 +245,6 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-
 						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
 								<section  class="accordion" id="accordionD">
@@ -286,7 +287,6 @@ limitations under the License.
 								</div>
 							</section>
 						</cfif>
-
 						<!--- relationships --->
 						<section  class="accordion" id="accordionE">
 								<div class="card mb-2 bg-light">
@@ -1502,9 +1502,6 @@ limitations under the License.
 					
 						</cfif>
 					</div>
-					
-									
-
 				</div><!--- end of agentTwoCollsWrapper --->
 			</cfloop><!--- getAgent --->
 		</div>
