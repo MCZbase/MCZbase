@@ -502,7 +502,7 @@ limitations under the License.
 									collection.collection_id,
 									collection.collection
 							</cfquery>
-							<div id="determinersPane" class="collapse show" aria-labelledby="heading5" data-parent="##accordionG">
+							<div id="determinersPane" class="collapse show" aria-labelledby="heading6" data-parent="##accordionG">
 								<div class="card-body py-1 mb-1 float-left" id="determinersCardBody">
 								<cfif identification.recordcount EQ 0>
 									<ul class="list-group"><li class="list-group-item">None</li></ul>
@@ -519,51 +519,51 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-													<!--- Author --->
-					<section  class="accordion" id="accordionN">
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="headingPub">
-								<!--- publication --->
-								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##pubPane">Publication Citing MCZ Material</a>
-								</h3>
+						<!--- Author --->
+						<section  class="accordion" id="accordionN">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="headingPub">
+									<!--- publication --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##pubPane">Publication Citing MCZ Material</a>
+									</h3>
+								</div>
+								<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+									SELECT
+										count(citation.collection_object_id) citation_count,
+										formatted_publication.publication_id,
+										formatted_publication.formatted_publication
+									FROM
+										agent_name 
+										left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+										left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
+										left join citation on formatted_publication.publication_id = citation.publication_id
+									where
+										formatted_publication.format_style = 'long' and
+										agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by
+										formatted_publication.publication_id,
+										formatted_publication.formatted_publication
+								</cfquery>
+								<div id="pubPane" class="collapse show" aria-labelledby="headingPub" data-parent="##accordionN">
+									<div class="card-body py-1 mb-1 float-left" id="pubCardBody">
+									<cfif publicationAuthor.recordcount EQ 0>
+										<ul class="list-group"><li class="list-group-item">No Publication Citing MCZ material</li></ul>
+									<cfelse>
+										<ul class="list-group">
+											<cfloop query="publicationAuthor">
+												<li class="border list-group-item d-flex justify-content-between align-items-center">
+													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
+													<span class="badge badge-primary badge-pill">#citation_count# citations</span>
+													<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
+												</li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+								</div>
 							</div>
-							<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
-								SELECT
-									count(citation.collection_object_id) citation_count,
-									formatted_publication.publication_id,
-									formatted_publication.formatted_publication
-								FROM
-									agent_name 
-									left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
-									left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
-									left join citation on formatted_publication.publication_id = citation.publication_id
-								where
-									formatted_publication.format_style = 'long' and
-									agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								group by
-									formatted_publication.publication_id,
-									formatted_publication.formatted_publication
-							</cfquery>
-							<div id="pubPane" class="collapse show" aria-labelledby="headingPub" data-parent="##accordionN">
-								<div class="card-body py-1 mb-1 float-left" id="pubCardBody">
-								<cfif publicationAuthor.recordcount EQ 0>
-									<h3 class="h3">No Publication Citing MCZ material</h3>
-								<cfelse>
-									<ul class="list-group">
-										<cfloop query="publicationAuthor">
-											<li class="border list-group-item d-flex justify-content-between align-items-center">
-												<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-												<span class="badge badge-primary badge-pill">#citation_count# citations</span>
-												<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
-											</li>
-										</cfloop>
-									</ul>
-								</cfif>
-							</div>
-							</div>
-						</div>
-					</section>
+						</section>
 							<!--- Projects --->
 						<cfif oneOfUs EQ 1>
 							<!--- Project sponsor and other project roles --->
@@ -1149,12 +1149,12 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<div class="card-header" id="header15">
 										<!--- Roles in shipments --->
-										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
+										<h3 class="h4 my-0 float-left collapsed">
+											<a href="##" role="button" data-toggle="#cardState#" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
 										</h3>
 									</div>
 								</div>
-								<div id="shipPane" class="collapse show" aria-labelledby="heading15" data-parent="##accordionL">
+								<div id="shipPane" class="#bodyClass#" aria-labelledby="heading15" data-parent="##accordionL">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
 										<cfif totalShipCount GT 0>
 											<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
@@ -1189,6 +1189,11 @@ limitations under the License.
 						</cfif>
 					</div>
 					
+									
+									
+									
+									
+									
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
 					
