@@ -254,8 +254,8 @@
 							</div>
 							<div class="col-12 col-md-6 mt-1 float-left">
 								<div class="row">
-									<cfquery name="taxa_class"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxa_class_result">
-										SELECT DISTINCT flat.phylclass as phylclass 
+									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -265,12 +265,28 @@
 											and flat.PHYLCLASS is not null
 										ORDER BY flat.phylclass asc
 									</cfquery>
-									<cfif taxa_class.recordcount GT 0>
+									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+										<!--- try expanding to families instead if very few classes --->
+										<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+											SELECT DISTINCT flat.phylclass || ': ' || flat.family  as taxon, flat.family as taxonlink, 'family' as rank
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+													on underscore_relation.collection_object_id = flat.collection_object_id
+											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												and flat.PHYLCLASS is not null
+											ORDER BY flat.phylclass asc
+										</cfquery>
+									<cfif>
+									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
-												<cfloop query="taxa_class">
-													<li class="list-group-item col-3 float-left"><a class="h4" href="##">#taxa_class.phylclass#</a></li>
+												<cfloop query="taxonQuery">
+													<li class="list-group-item col-3 float-left">
+														<a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a>
+													</li>
 												</cfloop>
 											</ul>
 										</div>
