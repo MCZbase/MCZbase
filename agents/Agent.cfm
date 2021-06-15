@@ -268,7 +268,7 @@ limitations under the License.
 									order by addr_type, valid_addr_fg desc
 								</cfquery>
 								<div id="postalPane" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
-									<div class="card-body pt-1 pb-2 pl-3 mb-1 float-left small90" id="postalCardBody">
+									<div class="card-body pt-1 pb-2 pl-xl-3 mb-1 float-left small90" id="postalCardBody">
 										<cfif getAgentAddr.recordcount EQ 0>
 											<ul class="list-group"><li class="list-group-item">None</li></ul>
 										<cfelse>
