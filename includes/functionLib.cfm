@@ -541,7 +541,7 @@
 					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 				</cfquery>
 				<cfset temp = QuerySetCell(result, "summary", "transcript of /media/#related_primary_key#", i)>
-				<cfset temp = QuerySetCell(result, "link text", "view the transcript", i)>
+				<cfset temp = QuerySetCell(result, "link_text", "view the transcript", i)>
          	<cfset temp = QuerySetCell(result, "link", "#d.data#", i)>
 			<cfelse>
 				<cfquery name="d" datasource="uam_god">
