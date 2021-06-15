@@ -1100,16 +1100,15 @@ limitations under the License.
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
 						<!--- Media --->
-						
-						
-
-
-
 						<cfif oneOfUs EQ 1>
 							<!--- Project sponsor and other project roles --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h2 class="h3">Project Roles</h2>
+						<section  class="accordion" id="accordionL">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading11">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##projPane">Preparator</a>
+									</h3>
 								</div>
 								<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
 									SELECT distinct
@@ -1134,7 +1133,8 @@ limitations under the License.
 									WHERE
 										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								</cfquery>
-								<div class="card-body">
+								<div id="projPane" class="collapse show" aria-labelledby="heading11" data-parent="##accordionL">
+									<div class="card-body py-1 mb-1 float-left" id="projCardBody">
 									<cfif getProjRoles.recordcount EQ 0>
 										<p>No project roles in MCZbase</p>
 									<cfelse>
@@ -1145,6 +1145,7 @@ limitations under the License.
 										</ul>
 									</cfif>
 								</div>
+							</div>
 							</section>
 						</cfif>
 
