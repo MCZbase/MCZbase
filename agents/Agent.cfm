@@ -1041,7 +1041,7 @@ limitations under the License.
 
 						<!--- shipments --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-							<section class="card mb-2 bg-light" id="shipmentSection">
+						<!---	<section class="card mb-2 bg-light" id="shipmentSection">--->
 								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
 									SELECT
 										transaction_view.transaction_id, 
