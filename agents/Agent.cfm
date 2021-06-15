@@ -1054,7 +1054,7 @@ limitations under the License.
 
 						<!--- loan item reconciliation --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
-							<section class="card mb-2 bg-light">
+					<!---		<section class="card mb-2 bg-light">--->
 								<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 									SELECT
 										count(*) cnt,
@@ -1085,34 +1085,43 @@ limitations under the License.
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
 								</cfif>
-								<div class="card-header" id="loanItemHeader">
+						<section  class="accordion" id="accordionU">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="heading21">
+								<!--- Phone/Email --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##recPane">Reconciled loan items (#loan_item.recordcount#):</a>
+								</h3>
+							</div>
+<!---								<div class="card-header" id="loanItemHeader">
 									<h2 class="h3">
 										<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
 											Reconciled loan items (#loan_item.recordcount#):
 										</button>
 									</h2>
+								</div>--->
+							<div id="recPane" class="collapse show" aria-labelledby="heading21" data-parent="##accordionU">
+								<div class="card-body py-1 mb-1 float-left" id="recCardBody">
+						<!---	<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">--->
+								<cfif loan_item.recordcount GT 0>
+									<ul class="list-group"><li class="list-group-item">#prefName# reconciled #loan_item.recordcount# loan item#plural#</li></ul>
+								</cfif>
+
+									<ul class="list-group">
+										<cfif loan_item.recordcount EQ 0>
+											<li class="list-group-item">None.</li>
+										<cfelse>
+											<cfloop query="loan_item">
+												<li class="list-group-item">Reconciled #cnt# items for Loan 
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+												</li>		
+											</cfloop>
+										</cfif>
+									</ul>
 								</div>
-								<div>
-								<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">
-									<cfif loan_item.recordcount GT 0>
-										<h3 class="h5 mb-0 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
-									</cfif>
-									<div class="card-body">
-										<ul class="list-group">
-											<cfif loan_item.recordcount EQ 0>
-												<li class="list-group-item">None.</li>
-											<cfelse>
-												<cfloop query="loan_item">
-													<li class="list-group-item">Reconciled #cnt# items for Loan 
-														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
-													</li>		
-												</cfloop>
-											</cfif>
-										</ul>
-									</div>
-								</div>
-							</section>
-						</cfif>
+							</div>
+						</section>
+					</cfif>
 
 						<!--- shipments --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
