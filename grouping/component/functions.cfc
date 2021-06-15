@@ -311,4 +311,30 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn result>
 </cffunction>
 
+		
+	<cffunction name="namedGroupSpecimens" access="remote" returntype="any" returnformat="plain" output="no">
+		<cfargument name="underscore_collection_id" type="string" required="yes">
+		<cfquery name="getSpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.spec_locality
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid is not null
+			ORDER BY flat.guid asc
+		</cfquery>
+		<cfset rData = ArrayNew(1)>
+		<cfloop query="myResult">
+			<cfset row = StructNew()>
+			<cfset row["Guid"] = getSpecimens.guid>
+			<cfset row["ScientificName"] = getSpecimens.scientific_name>
+			<cfset row["VerbatimDate"] = getSpecimens.verbatim_date>
+			<cfset row["Locality"] = getSpecimens.spec_locality>
+			<cfset data[getC.RecordCount] = row>
+		</cfloop>
+		<cfset theOutput = serializeJSON(data)>
+			<cfreturn theOutput>
+		</cffunction>
 </cfcomponent>

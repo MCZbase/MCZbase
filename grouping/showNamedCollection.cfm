@@ -321,7 +321,7 @@
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT DISTINCT flat.guid, flat.scientific_name
 										FROM
 											underscore_collection
@@ -343,8 +343,121 @@
 												</cfloop>
 											</ul>
 										</div>
-									</cfif>
+									</cfif>--->
+<!---									<script>
+									$('##searchNGForm').bind('getNamedGroups', function(evt){
+										evt.preventDefault();
 
+										$("##searchNGResultsGrid").replaceWith('<div id="searchNGResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+
+										var search =
+										{
+											datatype: "json",
+											datafields:
+											[
+												{ name: 'guid', type: 'string' },
+												{ name: 'scientific_name', type: 'string' },
+												{ name: 'verbatim_date', type: 'string' },
+												{ name: 'spec_locality', type: 'string' }
+											],
+											updaterow: function (rowid, rowdata, commit) {
+												commit(true);
+											},
+											root: 'namedGroupRecord',
+											id: 'collection_object_id',
+											url: '/specimens/component/public.cfc?',
+											timeout: 30000, // units not specified, miliseconds? 
+											loadError: function(jqXHR, textStatus, error) { 
+												handleFail(jqXHR,textStatus,error,"running named group search");
+											},
+											async: true
+										};
+
+										var dataAdapter = new $.jqx.dataAdapter(search);
+										}
+										$("##searchNGResultsGrid").jqxGrid({
+											width: '100%',
+											autoheight: 'true',
+											source: dataAdapter,
+											filterable: true,
+											sortable: true,
+											pageable: true,
+											editable: false,
+											pagesize: 50,
+											pagesizeoptions: ['5','50','100'],
+											showaggregates: true,
+											columnsresize: true,
+											autoshowfiltericon: true,
+											autoshowcolumnsmenubutton: false,
+											autoshowloadelement: false, // overlay acts as load element for form+results
+											columnsreorder: true,
+											groupable: true,
+											selectionmode: 'singlerow',
+											altrows: true,
+											showtoolbar: false,
+											ready: function () {
+												$("##searchNGResultsGrid").jqxGrid('selectrow', 0);
+											},
+											columns: [
+												{text: 'GUID', datafield: 'GUID', width:120},
+												{text: 'Cataloged Item', datafield: 'cat_num', width: 100},
+												{text: 'Scientific Name', datafield: 'sci_name', width: 250},
+												{text: 'Began Date', datafield: 'began_date', width: 80 },
+												{text: 'Ended Date', datafield: 'ended_date', width: 80},
+												{text: 'Locality', datafield: 'spec_locality', width: 170}
+											]
+										});
+									});
+									</script>	
+									<div id="##searchNGResultsGrid"></div>--->
+										<script type="text/javascript">
+										$(document).ready(function () {
+											var source =
+											{
+												datatype: "json",
+												datafields:
+												[
+													{ name: 'Guid', type: 'string' },
+													{ name: 'ScientificName', type: 'string' },
+													{ name: 'VerbatimDate', type: 'string' },
+													{ name: 'Locality', type: 'string' }
+												],
+												url: '/grouping/functions.cfc?method=namedGroupSpecimens'
+											};
+
+											var dataAdapter = new $.jqx.dataAdapter(source);
+											// initialize jqxGrid
+											$("#jqxgrid").jqxGrid(
+											{
+												width: 750,
+												height: 550,
+												source: dataAdapter,
+													// sortable: true,
+													// pageable: true,
+												theme: theme,
+												columns: [
+													{ text: 'Guid', datafield: 'Guid', width: 50 },
+													{ text: 'Scientific Name', datafield: 'ScientificName', width: 120 },
+													{ text: 'Verbatim Date', datafield: 'VerbatimDate', width: 200 },
+													{ text: 'Locality', datafield: 'Locality', width: 80 }
+												]
+											});
+											// select the first row.
+											$("#jqxgrid").jqxGrid('selectrow', 0);
+										});
+									</script>
+
+									<div id="jqxgrid">
+									</div>
+									<div style="clear: both; font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif; font-size: 12px;">
+										<span>Selection Log:</span>
+										<div style="margin-top: 10px;">
+											<span>Selected Row Index:</span> <span id="selectrowindex"></span>
+											<br />
+											<span>Unselected Row Index:</span> <span id="unselectrowindex"></span>
+										</div>
+									</div>
+										
 								</div>
 							</div>
 						</div>
