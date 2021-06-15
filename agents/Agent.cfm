@@ -76,11 +76,11 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 mt-3">
+				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12 col-sm-10">
@@ -121,10 +121,12 @@ limitations under the License.
 						</div>
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
-					<div class="w-100">#biography#</div>
-					<cfif oneOfUs EQ 1>
-						<div class="w-100">#agent_remarks#</div>
-					</cfif>
+					<div class="row mx-0 px-0 px-md-4">
+						<div class="col-12">#biography#</div>
+						<cfif oneOfUs EQ 1>
+							<div class="col-12">#agent_remarks#</div>
+						</cfif>
+					</div>
 				</div>
 
 				<!--- two columns of information about the agent gleaned from related tables --->
