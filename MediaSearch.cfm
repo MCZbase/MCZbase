@@ -566,6 +566,7 @@
 								WHERE
 									media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
 									and media_relationship = 'transcript for audio media'
+									and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 							</cfquery>
 							<cfif checkforTranscript.recordcount GT 0>
 								<cfloop query="checkForTranscript">
