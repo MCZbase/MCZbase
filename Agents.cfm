@@ -399,7 +399,10 @@ limitations under the License.
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for agents">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
-										<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new agent" onclick="window.location.href='#Application.serverRootUrl#/agents/editAgent.cfm?action=new';" >Create New Agent</button>
+
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+											<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new agent" onclick="window.location.href='#Application.serverRootUrl#/agents/editAgent.cfm?action=new';" >Create New Agent</button>
+										</cfif>
 									</div>
 								</div>
 							</form>
