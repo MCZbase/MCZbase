@@ -1041,7 +1041,7 @@ limitations under the License.
 
 						<!--- shipments --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-						<!---	<section class="card mb-2 bg-light" id="shipmentSection">--->
+							<section  class="accordion" id="shipmentSection">
 								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
 									SELECT
 										transaction_view.transaction_id, 
@@ -1102,11 +1102,6 @@ limitations under the License.
 									<cfset bodyClass = "collapse show">
 									<cfset ariaExpanded ="true">
 								</cfif>
-							
-										
-
-										
-							<section  class="accordion" id="accordionM">
 								<div class="card mb-2 bg-light" id="shipmentHeader">
 									<div class="card-header" id="heading13">
 										<!--- Roles in shipments --->
@@ -1115,7 +1110,7 @@ limitations under the License.
 										</h3>
 									</div>
 								</div>
-								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">
+								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentSection">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
 							<!---	<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##leftAgentColl">--->
 									<cfif totalShipCount GT 0>
