@@ -520,7 +520,55 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-						
+							<!--- Projects --->
+						<cfif oneOfUs EQ 1>
+							<!--- Project sponsor and other project roles --->
+						<section  class="accordion" id="accordionL">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading11">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##projPane">Projects</a>
+									</h3>
+								</div>
+								<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
+									SELECT distinct
+										'sponsor' as role,
+										project_name,
+										project.project_id
+									FROM
+										project_sponsor 
+										left join project on project.project_id=project_sponsor.project_id
+										left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
+									WHERE
+										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									UNION
+									SELECT distinct
+										project_agent_role as role, 
+										project_name,
+										project.project_id
+									FROM
+										project_agent
+										left join project on project.project_id=project_agent.project_id
+										left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
+									WHERE
+										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>
+								<div id="projPane" class="collapse show" aria-labelledby="heading11" data-parent="##accordionL">
+									<div class="card-body py-1 mb-1 float-left" id="projCardBody">
+									<cfif getProjRoles.recordcount EQ 0>
+										<p>No project roles in MCZbase</p>
+									<cfelse>
+										<ul class="list-group">
+											<cfloop query="getProjRoles">
+												<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</div>
+							</section>
+						</cfif>
 						<cfif oneOfUs EQ 1>
 							<!--- records entered --->
 						<section  class="accordion" id="accordionI">
@@ -1099,55 +1147,7 @@ limitations under the License.
 					</div>
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
-						<!--- Media --->
-						<cfif oneOfUs EQ 1>
-							<!--- Project sponsor and other project roles --->
-						<section  class="accordion" id="accordionL">
-							<div class="card mb-2 bg-light">
-								<div class="card-header" id="heading11">
-									<!--- Phone/Email --->
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##projPane">Project</a>
-									</h3>
-								</div>
-								<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
-									SELECT distinct
-										'sponsor' as role,
-										project_name,
-										project.project_id
-									FROM
-										project_sponsor 
-										left join project on project.project_id=project_sponsor.project_id
-										left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
-									WHERE
-										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									UNION
-									SELECT distinct
-										project_agent_role as role, 
-										project_name,
-										project.project_id
-									FROM
-										project_agent
-										left join project on project.project_id=project_agent.project_id
-										left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
-									WHERE
-										 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								</cfquery>
-								<div id="projPane" class="collapse show" aria-labelledby="heading11" data-parent="##accordionL">
-									<div class="card-body py-1 mb-1 float-left" id="projCardBody">
-									<cfif getProjRoles.recordcount EQ 0>
-										<p>No project roles in MCZbase</p>
-									<cfelse>
-										<ul class="list-group">
-											<cfloop query="getProjRoles">
-												<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</div>
-							</div>
-							</section>
-						</cfif>
+					
 
 						<!--- Author --->
 						<section class="card mb-2 bg-light">
