@@ -401,7 +401,7 @@
 
 											var dataAdapter = new $.jqx.dataAdapter(source);
 											// initialize jqxGrid
-											$("#jqxgrid").jqxGrid(
+											$("##jqxgrid").jqxGrid(
 											{
 												width: 750,
 												height: 550,
@@ -417,7 +417,7 @@
 												]
 											});
 											// select the first row.
-											$("#jqxgrid").jqxGrid('selectrow', 0);
+											$("##jqxgrid").jqxGrid('selectrow', 0);
 										});
 									</script>
 
