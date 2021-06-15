@@ -341,6 +341,50 @@ limitations under the License.
 									</div>
 								</div>
 						</section>
+						<cfif oneOfUs EQ 1>
+							<!--- records entered --->
+						<section  class="accordion" id="accordionI">
+							<div class="card mb-2 bg-light">
+								<div class="card-header" id="heading8">
+									<!--- Phone/Email --->
+									<h3 class="h4 my-0 float-left collapsed btn-link">
+										<a href="##" role="button" data-toggle="collapse" data-target="##enteredPane">MCZbase Records Entered</a>
+									</h3>
+								</div>
+								<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
+									select
+										count(*) cnt,
+										collection,
+										collection.collection_id
+									from 
+										coll_object,
+										cataloged_item,
+										collection
+									where 
+										coll_object.collection_object_id = cataloged_item.collection_object_id and
+										cataloged_item.collection_id=collection.collection_id and
+										ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by
+										collection,
+										collection.collection_id
+								</cfquery>
+								<div id="enteredPane" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
+									<div class="card-body py-1 mb-1 float-left" id="enteredCardBody">
+										<cfif entered.recordcount EQ 0>
+											<ul class="list-group"><li class="list-group-item">None</li></ul>
+										<cfelse>
+											<ul class="list-group">
+												<cfloop query="entered">
+													<li class="list-group-item">
+														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+													</li>
+												</cfloop>
+											</ul>
+										</cfif>
+									</div>
+								</div>
+							</section>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-4 float-left">
 						<!--- Collector --->
@@ -613,50 +657,7 @@ limitations under the License.
 							</div>
 							</section>
 						</cfif>
-						<cfif oneOfUs EQ 1>
-							<!--- records entered --->
-						<section  class="accordion" id="accordionI">
-							<div class="card mb-2 bg-light">
-								<div class="card-header" id="heading8">
-									<!--- Phone/Email --->
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##enteredPane">MCZbase Records Entered</a>
-									</h3>
-								</div>
-								<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
-									select
-										count(*) cnt,
-										collection,
-										collection.collection_id
-									from 
-										coll_object,
-										cataloged_item,
-										collection
-									where 
-										coll_object.collection_object_id = cataloged_item.collection_object_id and
-										cataloged_item.collection_id=collection.collection_id and
-										ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by
-										collection,
-										collection.collection_id
-								</cfquery>
-								<div id="enteredPane" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
-									<div class="card-body py-1 mb-1 float-left" id="enteredCardBody">
-										<cfif entered.recordcount EQ 0>
-											<ul class="list-group"><li class="list-group-item">None</li></ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="entered">
-													<li class="list-group-item">
-														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-									</div>
-								</div>
-							</section>
-						</cfif>
+
 								
 						<cfif oneOfUs EQ 1>
 							<!--- Georeferences --->
