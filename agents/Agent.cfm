@@ -125,56 +125,56 @@ limitations under the License.
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
 						<section class="accordion" id="accordionB">
 							<div class="card mb-2 bg-light">
-						<div class="card-header" id="heading1">
-							 
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Names for this Agent</a>
-							</h3>
-							
-						</div>
-						<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
-								SELECT
-									agent_name_id,
-									agent_id,
-									agent_name_type,
-									agent_name
-								FROM agent_name
-								WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									AND agent_name_type = 'preferred'
-							</cfquery>
-							<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
-								SELECT
-									agent_name_id,
-									agent_id,
-									agent_name_type,
-									agent_name
-								FROM agent_name
-								WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									AND agent_name_type <> 'preferred'
-							</cfquery>
-						<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
-							<div class="card-body py-1 mb-1 float-left" id="namesCardBody">
-								<ul class="list-group">
-									<!--- preferred name --->
-									<cfloop query="preferredNames">
-										<li class="list-group-item">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
-									</cfloop>
-									<cfloop query="notPrefNames">
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-											<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
-										<cfelse>
-											<!--- don't display login name to non-admin users --->
-											<cfif notPrefNames.agent_name_type NEQ "login">
-												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
-											</cfif>
-										</cfif>
-									</cfloop>
-								</ul>
-							</div>
-						</div>
-					</section>
+							<div class="card-header" id="heading1">
 
-					<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##namesPane">Names for this Agent</a>
+								</h3>
+
+							</div>
+							<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
+									SELECT
+										agent_name_id,
+										agent_id,
+										agent_name_type,
+										agent_name
+									FROM agent_name
+									WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										AND agent_name_type = 'preferred'
+								</cfquery>
+								<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
+									SELECT
+										agent_name_id,
+										agent_id,
+										agent_name_type,
+										agent_name
+									FROM agent_name
+									WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										AND agent_name_type <> 'preferred'
+								</cfquery>
+							<div id="namesPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+								<div class="card-body py-1 mb-1 float-left" id="namesCardBody">
+									<ul class="list-group">
+										<!--- preferred name --->
+										<cfloop query="preferredNames">
+											<li class="list-group-item">#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+										</cfloop>
+										<cfloop query="notPrefNames">
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+											<cfelse>
+												<!--- don't display login name to non-admin users --->
+												<cfif notPrefNames.agent_name_type NEQ "login">
+													<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												</cfif>
+											</cfif>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</section>
+
+						<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 						<section class="accordion" id="accordionB">
 							<div class="card mb-2 bg-light">
 							<div class="card-header" id="heading1">
@@ -210,7 +210,7 @@ limitations under the License.
 						</section>
 					</cfif>
 
-					<cfif oneOfUs EQ 1>
+						<cfif oneOfUs EQ 1>
 							<!--- emails/phone numbers --->
 							<section  class="accordion" id="accordionC">
 								<div class="card mb-2 bg-light">
@@ -476,9 +476,8 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-
-					<!--- Determiner --->
-					<section  class="accordion" id="accordionG">
+						<!--- Determiner --->
+						<section  class="accordion" id="accordionG">
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="heading6">
 								<!--- Phone/Email --->
@@ -523,7 +522,7 @@ limitations under the License.
 							<!--- Projects --->
 						<cfif oneOfUs EQ 1>
 							<!--- Project sponsor and other project roles --->
-						<section  class="accordion" id="accordionL">
+							<section  class="accordion" id="accordionL">
 							<div class="card mb-2 bg-light">
 								<div class="card-header" id="heading11">
 									<!--- Phone/Email --->
@@ -785,7 +784,7 @@ limitations under the License.
 							</div>
 						</section>
 					</div>
-						<div class="col-12 col-md-4 float-left">
+					<div class="col-12 col-md-4 float-left">
 						<!--- attribute determinations --->
 						<section class="card mb-2 bg-light">
 							<div class="card-header">
@@ -1041,7 +1040,7 @@ limitations under the License.
 
 						<!--- shipments --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-							<section  class="accordion" id="shipmentSection">
+							<section class="accordion" id="accordionL">
 								<cfquery name="packedBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="packedBy_result">
 									SELECT
 										transaction_view.transaction_id, 
@@ -1103,57 +1102,60 @@ limitations under the License.
 									<cfset ariaExpanded ="true">
 								</cfif>
 								<div class="card mb-2 bg-light">
-									<div class="card-header" id="shipmentHeader">
+									<div class="card-header" id="header15">
 										<!--- Roles in shipments --->
 										<h3 class="h4 my-0 float-left collapsed btn-link">
 											<a href="##" role="button" data-toggle="collapse" data-target="##shipPane">Roles in Shipment#plural# (#totalShipCount#)</a>
 										</h3>
 									</div>
 								</div>
-								<div id="shipPane" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentSection">
+								<div id="shipPane" class="collapse show" aria-labelledby="heading15" data-parent="##accordionL">
 									<div class="card-body py-1 mb-1 float-left" id="shipCardBody">
-									<cfif totalShipCount GT 0>
-										<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
-									</cfif>
-							<!---		<div class="card-body">--->
+										<cfif totalShipCount GT 0>
+											<h3 class="h5 card-title mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+										</cfif>
 										<ul class="list-group">
-											<cfif packedBy.recordcount EQ 0>
-												<li class="list-group-item">Packed no shipments for transactions</li>
-											</cfif>
-											<cfloop query="packedBy">
-												<li class="list-group-item">
-													Packed Shipment for #transaction_type#
-													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-														#collection# #specific_number#
-													</a>
-												</li>
-											</cfloop>
-											<cfif shippedTo.recordcount EQ 0>
-												<li class="list-group-item">Recipient of no shipments for transactions</li>
-											</cfif>
-											<cfloop query="shippedFrom">
-												<li class="list-group-item">
-													Sender of shipment for #transaction_type#
-													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
-														#collection# #specific_number#
-													</a>
-												</li>
-											</cfloop>
-										</ul>
+												<cfif packedBy.recordcount EQ 0>
+													<li class="list-group-item">Packed no shipments for transactions</li>
+												</cfif>
+												<cfloop query="packedBy">
+													<li class="list-group-item">
+														Packed Shipment for #transaction_type#
+														<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+															#collection# #specific_number#
+														</a>
+													</li>
+												</cfloop>
+												<cfif shippedTo.recordcount EQ 0>
+													<li class="list-group-item">Recipient of no shipments for transactions</li>
+												</cfif>
+												<cfloop query="shippedFrom">
+													<li class="list-group-item">
+														Sender of shipment for #transaction_type#
+														<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+															#collection# #specific_number#
+														</a>
+													</li>
+												</cfloop>
+											</ul>
 									</div>
 								</div>
 							</section>
 						</cfif>
 					</div>
-					</div>
+					
 					<!--- split between left and right agent columns ****************************************************************** --->
 					<div class="col-12 float-left" id="rightAgentColl">
 					
 
-						<!--- Author --->
-						<section class="card mb-2 bg-light">
-							<div class="card-header">
-								<h2 class="h3">Publications Citing MCZ material</h2>
+					<!--- Author --->
+					<section  class="accordion" id="accordionN">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="headingPub">
+								<!--- publication --->
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##pubPane">Publication Citing MCZ Material</a>
+								</h3>
 							</div>
 							<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 								SELECT
@@ -1172,7 +1174,8 @@ limitations under the License.
 									formatted_publication.publication_id,
 									formatted_publication.formatted_publication
 							</cfquery>
-							<div class="card-body">
+							<div id="pubPane" class="collapse show" aria-labelledby="headingPub" data-parent="##accordionN">
+								<div class="card-body py-1 mb-1 float-left" id="pubCardBody">
 								<cfif publicationAuthor.recordcount EQ 0>
 									<h3 class="h3">No Publication Citing MCZ material</h3>
 								<cfelse>
@@ -1187,7 +1190,9 @@ limitations under the License.
 									</ul>
 								</cfif>
 							</div>
-						</section>
+							</div>
+						</div>
+					</section>
 
 						<!--- transactions roles --->
 						<cfif listcontainsnocase(session.roles, "manage_transactions")>
