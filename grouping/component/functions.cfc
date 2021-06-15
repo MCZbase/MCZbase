@@ -333,7 +333,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["SCIENTIFIC_NAME"] = getSpecimens.scientific_name>
 			<cfset row["VERBATIM_DATE"] = getSpecimens.verbatim_date>
 			<cfset row["LOCALITY"] = getSpecimens.spec_locality>
-			<cfset data[] = row>
+			<cfset data[i] = row>
 			<cfset i= i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
