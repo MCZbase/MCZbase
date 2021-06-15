@@ -404,6 +404,26 @@
 											// initialize jqxGrid
 											$("##jqxgrid").jqxGrid(
 											{
+												width: '100%',
+												autoheight: 'true',
+												source: dataAdapter,
+												filterable: true,
+												//showfilterrow: true,
+												sortable: true,
+												pageable: true,
+												autoheight: true,
+												editable: true,
+												pagesize: '10',
+												showaggregates: true,
+												columnsresize: true,
+												autoshowfiltericon: false,
+												autoshowcolumnsmenubutton: false,
+												selectionmode: 'multiplecellsextended',
+												columnsreorder: true,
+												groupable: true,
+												selectionmode: 'checkbox',
+												altrows: true,
+												showtoolbar: true,
 												width: 780,
 												height: 550,
 												source: dataAdapter,
@@ -411,10 +431,10 @@
 													// pageable: true,
 												//theme: theme,
 												columns: [
-													{ text: 'Guid', datafield: 'guid' },
-													{ text: 'Scientific Name', datafield: 'scientific_name' },
-													{ text: 'Verbatim Date', datafield: 'verbatim_date'},
-													{ text: 'Locality', datafield: 'spec_locality' }
+													{ text: 'Guid', datafield: 'guid', width:100 },
+													{ text: 'Scientific Name', datafield: 'scientific_name', width:250 },
+													{ text: 'Verbatim Date', datafield: 'verbatim_date', width:190},
+													{ text: 'Locality', datafield: 'spec_locality',250 }
 												]
 											});
 											// select the first row.
