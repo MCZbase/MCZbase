@@ -396,7 +396,7 @@
 													{ name: 'VerbatimDate', type: 'string' },
 													{ name: 'Locality', type: 'string' }
 												],
-												url: '/grouping/functions.cfc?method=namedGroupSpecimens'
+												url: '/grouping/component/functions.cfc?method=namedGroupSpecimens'
 											};
 
 											var dataAdapter = new $.jqx.dataAdapter(source);
