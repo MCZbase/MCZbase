@@ -412,7 +412,7 @@
 												sortable: true,
 												pageable: true,
 												editable: true,
-												pagesize: '10',
+												pagesize: '30',
 												columnsresize: true,
 												autoshowfiltericon: false,
 												autoshowcolumnsmenubutton: false,
@@ -421,7 +421,7 @@
 												enabletooltips: true,
 												pageable: true,
 												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:'auto' },
+													{ text: 'GUID', datafield: 'GUID', width:'130' },
 													{ text: 'SCIENTIFIC_NAME', datafield: 'SCIENTIFIC_NAME', width:'auto' },
 													{ text: 'VERBATIM_DATE', datafield: 'VERBATIM_DATE', width:'auto'},
 													{ text: 'SPEC_LOCALITY', datafield: 'SPEC_LOCALITY',width:'auto' }
