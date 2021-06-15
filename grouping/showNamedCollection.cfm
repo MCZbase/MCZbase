@@ -397,7 +397,7 @@
 													{ name: 'VERBATIM_DATE', type: 'string' },
 													{ name: 'LOCALITY', type: 'string' }
 												],
-												url: '/grouping/component/functions.cfc?method=namedGroupSpecimens'
+												url: '/grouping/component/functions.cfc?method=namedGroupSpecimens&returnformat=json'
 											};
 
 											var dataAdapter = new $.jqx.dataAdapter(source);
