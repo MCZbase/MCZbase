@@ -27,7 +27,7 @@ limitations under the License.
 	</cfif>
 <cfelse>
 	<!--- if no agent_id was given, then assume we want agent search. --->
-	<cflocation url="/agents/Agents.cfm">
+	<cflocation url="/Agents.cfm">
 </cfif>
 
 <cfinclude template = "/shared/_header.cfm">
@@ -76,12 +76,13 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 my-4">
-					<div class="row">
+				<div id="agentTopDiv" class="col-12 mt-3">
+					<!--- agent name, biography, remarks as one wide section across top of page --->
+					<div class="row mx-0 px-0 px-md-4">
 						<div class="col-12 col-sm-10">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
@@ -94,30 +95,39 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h2>#preferred_agent_name# #vetted_marker# #dates#</h2>
+							<h2 class="mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
 						</div>
 						<div class="col-12 col-sm-2">
+							<!--- edit button at upper right for those authorized to edit agent records --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 							</cfif>
 						</div>
 					</div>
-					<ul class="mt-3 list-unstyled">
-						<li>#agent_type#</li>
-						<cfif len(agentguid) GT 0>
-							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
-								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
-							<cfelse>
-								<cfset guidLink = agentguid >
-							</cfif>
-							<li><a href="#guidLink#">#agentguid#</a></li>
-						</cfif>
-					</ul>
-					<div>#biography#</div>
+					<div class="row mx-0 px-0 px-md-4">
+						<div class="col-12">
+							<ul class="list-group mb-1 py-0 list-unstyled">
+								<cfif len(agentguid) GT 0>
+									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+									<cfelse>
+										<cfset guidLink = agentguid >
+									</cfif>
+									<li class="list-group-item">
+										<a href="#guidLink#">#agentguid#</a>
+									</li>
+								</cfif>
+							</ul>
+						</div>
+					</div>
+					<!--- full width, biograhy and remarks, presented with no headings --->
+					<div class="w-100">#biography#</div>
 					<cfif oneOfUs EQ 1>
-						<div>#agent_remarks#</div>
+						<div class="w-100">#agent_remarks#</div>
 					</cfif>
 				</div>
+
+				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mb-2 clearfix float-left" id="agentTwoCollsWrapper">
 					<div class="col-12 col-md-6 px-1 float-left accordion" id="leftAgentColl">
 					
