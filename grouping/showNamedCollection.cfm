@@ -404,7 +404,7 @@
 											// initialize jqxGrid
 											$("##jqxgrid").jqxGrid(
 											{
-												width: 'auto',
+												width: 780,
 												height: 550,
 												source: dataAdapter,
 													// sortable: true,
