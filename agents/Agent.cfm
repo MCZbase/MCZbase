@@ -1094,7 +1094,7 @@ limitations under the License.
 							<div class="card-header" id="heading21">
 								<!--- Phone/Email --->
 								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##recPane">Reconciled loan items (#loan_item.recordcount#):</a>
+									<a href="##" role="button" data-toggle="collapse" aria-expanded="#ariaExpanded#" data-target="##recPane">Reconciled loan items (#loan_item.recordcount#):</a>
 								</h3>
 							</div>
 <!---								<div class="card-header" id="loanItemHeader">
@@ -1104,7 +1104,7 @@ limitations under the License.
 										</button>
 									</h2>
 								</div>--->
-							<div id="recPane" class="collapse show" aria-labelledby="heading21" data-parent="##accordionU">
+							<div id="recPane" class="#bodyClass#" aria-labelledby="heading21" data-parent="##accordionU">
 								<div class="card-body py-1 mb-1 float-left" id="recCardBody">
 						<!---	<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##leftAgentColl">--->
 								<cfif loan_item.recordcount GT 0>
