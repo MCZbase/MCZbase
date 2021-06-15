@@ -117,8 +117,8 @@ limitations under the License.
 							</ul>
 						</div>
 						<div class="col-12 col-md-6 float-left">
-							<div class="small90 px-2">Agent Remarks</div>
-							<div class="border p-2 m-1">#biography#</div>
+							<div class="small90 px-2">Public Biography</div>
+							<div class="border p-2 m-1rounded">#biography#</div>
 						</div>
 						<div class="col-12 col-md-6 float-left">
 						<cfif oneOfUs EQ 1>
