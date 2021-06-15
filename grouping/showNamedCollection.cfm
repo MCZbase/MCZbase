@@ -404,7 +404,7 @@
 											// initialize jqxGrid
 											$("##jqxgrid").jqxGrid(
 											{
-												width: 750,
+												width: 'auto',
 												height: 550,
 												source: dataAdapter,
 													// sortable: true,
@@ -422,8 +422,7 @@
 										});
 									</script>
 
-									<div id="jqxgrid">
-									</div>
+									<div id="jqxgrid"></div>
 										
 								</div>
 							</div>
