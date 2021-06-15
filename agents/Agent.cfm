@@ -126,7 +126,8 @@ limitations under the License.
 						</cfif>
 						</div>
 					</div>
-				<div class="col-12 form-row mt-2" id="agentTwoCollsWrapper">
+				<div class="col-12 mt-2" id="agentTwoCollsWrapper">
+					<div class="form-row">
 					<div class="col-12 col-md-4 float-left" id="leftAgentColl">
 						<section class="accordion" id="accordionB">
 							<div class="card mb-2 bg-light">
@@ -1502,6 +1503,7 @@ limitations under the License.
 								</cftry>
 					
 						</cfif>
+					</div>
 					</div>
 				</div><!--- end of agentTwoCollsWrapper --->
 			</cfloop><!--- getAgent --->
