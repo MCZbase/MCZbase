@@ -274,7 +274,7 @@
 										<!--- try expanding to orders instead if very few classes --->
 										<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder  as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
-												flat.phylclass, flat,phylorder
+												flat.phylclass, flat.phylorder
 											FROM
 												underscore_collection
 												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -288,7 +288,8 @@
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
 										<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
-											SELECT DISTINCT flat.phylorder || ': ' || flat.family  as taxon, flat.family as taxonlink, 'family' as rank
+											SELECT DISTINCT flat.phylorder || ': ' || flat.family  as taxon, flat.family as taxonlink, 'family' as rank,
+												flat.phylorder, flat.family
 											FROM
 												underscore_collection
 												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
