@@ -124,7 +124,10 @@ limitations under the License.
 					<div class="row mx-0 px-0">
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
-							<div class="col-12">#agent_remarks#</div>
+							<cfif len(agent_remarks) GT 0>
+								<h3 class="h4>">Internal Remarks</h3>
+								<div class="col-12">#agent_remarks#</div>
+							</cfif>
 						</cfif>
 					</div>
 				</div>
