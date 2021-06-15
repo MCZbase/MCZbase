@@ -169,7 +169,7 @@
 			media_label_id
 		FROM
 			media_labels
-			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 		WHERE
 			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
