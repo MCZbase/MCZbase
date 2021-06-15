@@ -94,7 +94,7 @@
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
 								<cfif specimenImagesShown GT 0>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
-										<cfset shown = " (#specimenImagesShown#)">
+										<cfset shown = " (#specimenImagesShown# shown)">
 									<cfelse>
 										<cfset shown = "">
 									</cfif>
