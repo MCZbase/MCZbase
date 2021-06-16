@@ -1484,7 +1484,7 @@ limitations under the License.
 																	#trans_agent_role#
 																	#status# #collection_cde#
 																</li>
-															</cfelse>
+															<cfelse>
 																<cfif lastTrans NEQ getTransactions.specific_number>
 																	<cfif lastTrans NEQ "">
 																		#statusDate#</li>
