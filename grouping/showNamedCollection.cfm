@@ -32,7 +32,7 @@
 					<div class="col-12">
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
-								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# <div class="d-inline-block float-right"><a href="/grouping/NamedCollection.cfm">Back to Named Group Search</a></span></h1>
+								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# <div class="d-inline-block float-right"><a  class="small btn btn-xs btn-primary" href="/grouping/NamedCollection.cfm">Back to Named Group Search</a></span></h1>
 							</div>
 						</div>
 						<div class="row mx-0">
@@ -439,9 +439,9 @@
 											});
 										});
 									</script>
-
-									<div id="jqxgrid"></div>
-										
+									<div class="col-12 mt-3">
+										<div id="jqxgrid"></div>
+									</div>
 								</div>
 							</div>
 						</div>
