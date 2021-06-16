@@ -589,82 +589,94 @@ limitations under the License.
 							
 							<cfif oneOfUs EQ 1>
 								<!--- records entered --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">MCZbase Records Entered</h3>
-									</div>
-									<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
-										select
-											count(*) cnt,
-											collection,
-											collection.collection_id
-										from 
-											coll_object,
-											cataloged_item,
-											collection
-										where 
-											coll_object.collection_object_id = cataloged_item.collection_object_id and
-											cataloged_item.collection_id=collection.collection_id and
-											ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										group by
-											collection,
-											collection.collection_id
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<cfif entered.recordcount EQ 0>
-											<ul class="list-group">
-												<li class="list-group-item">None</li>
-											</ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="entered">
-													<li class="list-group-item">
-														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
+								<section class="accordion" id="enteredSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
+											select
+												count(*) cnt,
+												collection,
+												collection.collection_id
+											from 
+												coll_object,
+												cataloged_item,
+												collection
+											where 
+												coll_object.collection_object_id = cataloged_item.collection_object_id and
+												cataloged_item.collection_id=collection.collection_id and
+												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by
+												collection,
+												collection.collection_id
+										</cfquery>
+										<div class="card-header" id="enteredHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBody" aria-expanded="true" aria-controls="enteredCardBody">
+												MCZbase Records Entered
+											</h3>
+										</div>
+										<div id="enteredCardBodyWrap" class="collapse show" aria-labelledby="enteredHeader" data-parent="##enteredSection">
+											<div class="card-body py-1 mb-1">
+												<cfif entered.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="entered">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end enteredCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
 								<!--- records last edited by --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">MCZbase Records Last Edited By this agent</h3>
-									</div>
-									<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
-										select 
-											count(*) cnt,
-											collection,
-											collection.collection_id
-										from 
-											coll_object,
-											cataloged_item,
-											collection
-										where 
-											coll_object.collection_object_id = cataloged_item.collection_object_id and
-											cataloged_item.collection_id=collection.collection_id and
-											LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										group by
-											collection,
-											collection.collection_id
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<cfif lastEdit.recordcount EQ 0>
-											<ul class="list-group">
-												<li class="list-group-item">None</li>
-											</ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="lastEdit">
-													<li class="list-group-item">
-														<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
+								<section class="accordion" id="lastEditSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+											select 
+												count(*) cnt,
+												collection,
+												collection.collection_id
+											from 
+												coll_object,
+												cataloged_item,
+												collection
+											where 
+												coll_object.collection_object_id = cataloged_item.collection_object_id and
+												cataloged_item.collection_id=collection.collection_id and
+												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by
+												collection,
+												collection.collection_id
+										</cfquery>
+										<div class="card-header" id="lastEditHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBody" aria-expanded="true" aria-controls="lastEditCardBody">
+												MCZbase Records Last Edited By this agent
+											</h3>
+										</div>
+										<div id="lastEditCardBodyWrap" class="collapse show" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+											<div class="card-body py-1 mb-1">
+												<cfif lastEdit.recordcount EQ 0>
+														<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="lastEdit">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end lastEditCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
