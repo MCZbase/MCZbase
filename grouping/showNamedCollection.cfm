@@ -405,7 +405,7 @@
 													{ name: 'LOCALITY', type: 'string' },
 													{ name: 'FULL_TAXON_NAME', type: 'string' }
 												],
-												url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#specimens.underscore_collection_id#'
+												url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
 											};
 
 											var dataAdapter = new $.jqx.dataAdapter(source);
