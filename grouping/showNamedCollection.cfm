@@ -47,7 +47,7 @@
 							</div>
 						</div>	
 						<div class="row mx-0 clearfix">
-							<div class="col-12 col-md-6 float-left mt-0">
+							<div class="col-12 col-md-5 float-left mt-0">
 								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
@@ -263,7 +263,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 mt-4 float-left">
+							<div class="col-12 col-md-7 mt-4 float-left">
 								<div class="row bg-light border pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
