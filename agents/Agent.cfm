@@ -254,7 +254,7 @@ limitations under the License.
 												electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 											order by address_type
 										</cfquery>
-										<div class="card-header" id="electAddrHeader">
+										<div class="card-header" id="elecAddrHeader">
 											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
 												Phone/Email
 											</h3>
@@ -587,6 +587,39 @@ limitations under the License.
 								</div>
 							</section>
 							
+							<!--- named groups --->
+							<section class="accordion" id="namedgroupSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select collection_name, underscore_collection_id
+										from underscore_collection 
+										WHERE
+											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+										order by collection_name
+									</cfquery>
+									<div class="card-header" id="namedgroupHeader">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="true" aria-controls="namedgroupCardBodyWrap">
+											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
+										</h3>
+									</div>
+									<div id="namedgroupCardBodyWrap" class="collapse show" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
+										<div class="card-body py-1 mb-1">
+											<cfif getnamedGroups.recordcount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getNamedGroups">
+														<li class="list-group-item">#collection_name#</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div><!--- end namedgroupCardBodyWrap --->
+								</div>
+							</section>
+
 							<cfif oneOfUs EQ 1>
 								<!--- records entered --->
 								<section class="accordion" id="enteredSection"> 
