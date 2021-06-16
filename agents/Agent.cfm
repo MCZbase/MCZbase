@@ -305,7 +305,7 @@ limitations under the License.
 													</ul>
 												<cfelse>
 													<cfloop query="getAgentAddr">
-														<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+														<cfif len(addr_remarks) GT 0><cfset rem=" [#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 														<cfif valid_addr_fg EQ 1>
 															<cfset addressCurrency="Valid">
 																<cfset listgroupclass="bg-verylightgreen border-green">
