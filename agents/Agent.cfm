@@ -927,20 +927,16 @@ limitations under the License.
 										<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif loan_item.recordcount GT 10>
 											<!--- cardState = collapsed --->
-											<cfset headerClass = "btn-link-collapsed">
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
 										<cfelse>
 											<!--- cardState = expanded --->
-											<cfset headerClass = "btn-link">
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="loanItemHeader">
-											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
-													Reconciled loan items (#loan_item.recordcount#):
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
+												Reconciled loan items (#loan_item.recordcount#):
 											</h3>
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
@@ -1019,21 +1015,17 @@ limitations under the License.
 										<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
 										<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totalShipCount GT 10>
-											<cfset cardState = "collapsed">
-											<cfset headerClass = "btn-link-collapsed">
+											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
 										<cfelse>
-											<cfset cardState = "expanded">
-											<cfset headerClass = "btn-link">
+											<!--- cardState = expanded --->
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="shipmentHeader">
-											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBodyWrap">
-													Roles in Shipment#plural# (#totalShipCount#)
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBodyWrap">
+												Roles in Shipment#plural# (#totalShipCount#)
 											</h3>
 										</div>
 										<div id="shipmentCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentsSection">
@@ -1309,20 +1301,16 @@ limitations under the License.
 										<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totalTransCount GT 10>
 											<!--- cardState = collapsed --->
-											<cfset headerClass = "btn-link-collapsed">
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
 										<cfelse>
 											<!--- cardState = expanded--->
-											<cfset headerClass = "btn-link">
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="transactionsHeader">
-											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
-													Roles in Transaction#plural# (#totalTransCount#)
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
+												Roles in Transaction#plural# (#totalTransCount#)
 											</h3>
 										</div>
 										<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
@@ -1407,20 +1395,16 @@ limitations under the License.
 										<cfif totalPermitCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totalPermitCount GT 10>
 											<!--- cardState = collapsed --->
-											<cfset headerClass = "btn-link-collapsed">
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
 										<cfelse>
 											<!--- cardState = expanded--->
-											<cfset headerClass = "btn-link">
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="permitsHeader">
-											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
-													Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
+												Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 											</h3>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
