@@ -420,7 +420,7 @@
 												sortable: true,
 												pageable: true,
 												editable: false,
-												pagesize: '50',
+												pagesize: '30',
 												pagesizeoptions: ['5','50','100'],
 												columnsresize: false,
 												autoshowfiltericon: false,
