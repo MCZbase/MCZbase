@@ -609,7 +609,7 @@ limitations under the License.
 												collection.collection_id
 										</cfquery>
 										<div class="card-header" id="enteredHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBody" aria-expanded="true" aria-controls="enteredCardBody">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
 												MCZbase Records Entered
 											</h3>
 										</div>
@@ -656,7 +656,7 @@ limitations under the License.
 												collection.collection_id
 										</cfquery>
 										<div class="card-header" id="lastEditHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBody" aria-expanded="true" aria-controls="lastEditCardBody">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
 												MCZbase Records Last Edited By this agent
 											</h3>
 										</div>
