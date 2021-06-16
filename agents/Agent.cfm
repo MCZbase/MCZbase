@@ -127,7 +127,7 @@ limitations under the License.
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<h3 class="h4">Internal Remarks</h3>
+								<h2 class="h4">Internal Remarks</h2>
 								<div class="col-12">#agent_remarks#</div>
 							</cfif>
 						</cfif>
@@ -143,7 +143,7 @@ limitations under the License.
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
 								<div class="card-header py-0">
-									<h3 class="h4 my-1 mx-2">Names for this agent</h3>
+									<h2 class="h4 my-1 mx-2">Names for this agent</h2>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -214,13 +214,13 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="groupMembersHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
 												Group Members (#groupMembers.recordcount#):
-											</h3>
+											</h2>
 										</div>
 										<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
 											<cfif groupMembers.recordcount GT 0>
-												<h3 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
+												<h2 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h2>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif groupMembers.recordcount EQ 0>
@@ -255,9 +255,9 @@ limitations under the License.
 											order by address_type
 										</cfquery>
 										<div class="card-header" id="elecAddrHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
 												Phone/Email
-											</h3>
+											</h2>
 										</div>
 										<div id="elecAddrCardBodyWrap" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
 											<div class="card-body py-1 mb-1">
@@ -293,9 +293,9 @@ limitations under the License.
 											order by addr_type, valid_addr_fg desc
 										</cfquery>
 										<div class="card-header" id="addressHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
 												Postal Addresses
-											</h3>
+											</h2>
 										</div>
 										<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
 											<div class="card-body pt-1 pb-2 pl-xl-3 mb-1 small90">
@@ -313,7 +313,7 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-														<h4 class="h4 mb-1 mt-2">#addr_type# address #addressCurrency##rem#</h4>
+														<h3 class="h4 mb-1 mt-2">#addr_type# address #addressCurrency##rem#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
@@ -349,9 +349,9 @@ limitations under the License.
 										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 									</cfif>
 									<div class="card-header" id="relationshipsHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="true" aria-controls="relationshipsCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="true" aria-controls="relationshipsCardBodyWrap">
 											Relationships with other agents (#totalRelCount#)
-										</h3>
+										</h2>
 									</div>
 									<div id="relationshipsCardBodyWrap" class="collapse show" aria-labelledby="relationshipsHeader" data-parent="##relationshipsSection">
 										<div class="card-body py-1 mb-1">
@@ -423,13 +423,13 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="groupMembershipHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
 												Group Members (#groupMembership.recordcount#):
-											</h3>
+											</h2>
 										</div>
 										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
 											<cfif groupMembership.recordcount GT 0>
-												<h3 class="h4 card-title">#prefName# is a member of #groupMembership.recordcount# group#plural#</h3>
+												<h2 class="h4 card-title">#prefName# is a member of #groupMembership.recordcount# group#plural#</h2>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif groupMembership.recordcount EQ 0>
@@ -521,14 +521,14 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header" id="collectorHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##collectorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##collectorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap">
 											Collector (in #getAgentCollScope.recordcount# collection#plural# and #getAgentFamilyScope.recordcount# famil#fplural#)
-										</h3>
+										</h2>
 									</div>
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope.recordcount EQ 0>
-												<h4 class="h5">Not a collector of any material in MCZbase</h4>
+												<h3 class="h4">Not a collector of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -557,13 +557,13 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h4 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h4>
+														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
 													</cfif>
 												</cfif>
 			
 												<cfif getAgentFamilyScope.recordcount GT 0>
 													<div class="w-100"> 
-														<h4 class="h4 px-2 mb-1">Families Collected</h4>
+														<h3 class="h4 px-2 mb-1">Families Collected</h3>
 														<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
@@ -619,9 +619,9 @@ limitations under the License.
 									</cfquery>
 									<cfif identification.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<div class="card-header" id="determinerHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="true" aria-controls="determinerCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="true" aria-controls="determinerCardBodyWrap">
 											Determiner (in #identification.recordcount# collection#plural#) 
-										</h3>
+										</h2>
 									</div>
 									<div id="determinerCardBodyWrap" class="collapse show" aria-labelledby="determinerHeader" data-parent="##determinerSection">
 										<div class="card-body py-1 mb-1">
@@ -655,9 +655,9 @@ limitations under the License.
 										order by collection_name
 									</cfquery>
 									<div class="card-header" id="namedgroupHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="true" aria-controls="namedgroupCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="true" aria-controls="namedgroupCardBodyWrap">
 											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
-										</h3>
+										</h2>
 									</div>
 									<div id="namedgroupCardBodyWrap" class="collapse show" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
 										<div class="card-body py-1 mb-1">
@@ -699,9 +699,9 @@ limitations under the License.
 												collection.collection_id
 										</cfquery>
 										<div class="card-header" id="enteredHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
 												MCZbase Records Entered
-											</h3>
+											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="collapse show" aria-labelledby="enteredHeader" data-parent="##enteredSection">
 											<div class="card-body py-1 mb-1">
@@ -746,9 +746,9 @@ limitations under the License.
 												collection.collection_id
 										</cfquery>
 										<div class="card-header" id="lastEditHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
 												MCZbase Records Last Edited By this agent
-											</h3>
+											</h2>
 										</div>
 										<div id="lastEditCardBodyWrap" class="collapse show" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
 											<div class="card-body py-1 mb-1">
@@ -794,9 +794,9 @@ limitations under the License.
 											attribute_type
 									</cfquery>
 									<div class="card-header" id="attributeHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="true" aria-controls="attributeCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="true" aria-controls="attributeCardBodyWrap">
 											Attribute Determiner
-										</h3>
+										</h2>
 									</div>
 									<div id="attributeCardBodyWrap" class="collapse show" aria-labelledby="attributeHeader" data-parent="##attributeSection">
 										<div class="card-body py-1 mb-1">
@@ -839,9 +839,9 @@ limitations under the License.
 												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<div class="card-header" id="georefHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="true" aria-controls="georefCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="true" aria-controls="georefCardBodyWrap">
 												Georeferences
-											</h3>
+											</h2>
 										</div>
 										<div id="georefCardBodyWrap" class="collapse show" aria-labelledby="georefHeader" data-parent="##georefSection">
 											<div class="card-body py-1 mb-1">
@@ -892,9 +892,9 @@ limitations under the License.
 											GROUP BY media_label
 										</cfquery>
 										<div class="card-header" id="mediametaHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
 												Media Records Edited
-											</h3>
+											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
 											<div class="card-body py-1 mb-1">
@@ -964,9 +964,9 @@ limitations under the License.
 											<cfelse>
 												<cfset encumbCount = "">
 											</cfif>
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="true" aria-controls="encumbrancesCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="true" aria-controls="encumbrancesCardBodyWrap">
 												Encumbrances #encumbCount#
-											</h3>
+											</h2>
 										</div>
 										<div id="encumbrancesCardBodyWrap" class="collapse show" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
 											<div class="card-body py-1 mb-1">
@@ -1025,13 +1025,13 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="loanItemHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
 												Reconciled loan items (#loan_item.recordcount#):
-											</h3>
+											</h2>
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
-												<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+												<h2 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h2>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1114,13 +1114,13 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="shipmentsHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentsCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentsCardBodyWrap">
 												Roles in Shipment#plural# (#totalShipCount#)
-											</h3>
+											</h2>
 										</div>
 										<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
 											<cfif totalShipCount GT 0>
-												<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+												<h2 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h2>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1179,9 +1179,9 @@ limitations under the License.
 									</cfquery>
 									<div class="card-header" id="mediaHeader">
 										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
 											Subject of #getMedia.recordcount# media record#plural#
-										</h3>
+										</h2>
 									</div>
 									<div id="mediaCardBodyWrap" class="collapse show" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
@@ -1189,7 +1189,7 @@ limitations under the License.
 										<cfelse>
 											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 										</cfif>
-										<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
+										<h2 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h2>
 										<div class="card-body py-1 mb-1">
 											<cfif getMedia.recordcount GT 0>
 												<ul class="list-group">
@@ -1242,14 +1242,14 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<div class="card-header" id="preparatorHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
 											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
-										</h3>
+										</h2>
 									</div>
 									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h4 class="h4">Not a preparator of any material in MCZbase</h4>
+												<h3 class="h4">Not a preparator of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -1278,7 +1278,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
+														<h2 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h2>
 													</cfif>
 												</cfif>
 											</cfif>
@@ -1315,14 +1315,14 @@ limitations under the License.
 												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<div class="card-header">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="true" aria-controls="projectCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="true" aria-controls="projectCardBodyWrap">
 												Project Roles (#getProjRoles.recordcount#)
-											</h3>
+											</h2>
 										</div>
 										<div id="projectCardBodyWrap" class="collapse show" aria-labelledby="projectHeader" data-parent="##projectSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getProjRoles.recordcount EQ 0>
-													<h4 class="h4">No project roles in MCZbase</h4>
+													<h3 class="h4">No project roles in MCZbase</h3>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
@@ -1367,14 +1367,14 @@ limitations under the License.
 										<cfset ariaExpanded ="true">
 									</cfif>
 									<div class="card-header">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 											Publication#plural# Citing MCZ material (#publicationAuthor.recordcount#)
-										</h3>
+										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 										<div class="card-body py-1 mb-1">
 											<cfif publicationAuthor.recordcount EQ 0>
-												<h4 class="h4">No Publication Citing MCZ material</h4>
+												<h3 class="h4">No Publication Citing MCZ material</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
@@ -1457,24 +1457,24 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="transactionsHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
 												Roles in Transaction#plural# (#totalTransCount#)
-											</h3>
+											</h2>
 										</div>
 										<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
 											<cfif getTransCount.ct EQ 0>
-												<h3 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
+												<h2 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h2>
 											<cfelse>
-												<h3 class="h4 card-title">
+												<h2 class="h4 card-title">
 													#prefName# has some role in 
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 													#getTransCount.ct# Transaction#plural#
 													</a>:
-												</h3>
+												</h2>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
-													<h4 class="h4">Not a Transaction Agent in MCZbase</h4>
+													<h3 class="h4">Not a Transaction Agent in MCZbase</h3>
 												<cfelse>
 													<ul class="list-group">
 														<cfset lastTrans ="">
@@ -1563,12 +1563,12 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="permitsHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
 												Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
-											</h3>
+											</h2>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
-											<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
+											<h2 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h2>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
@@ -1636,7 +1636,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header py-0">
-											<h3 class="h4 mb-0 mx-2">This Agent record is linked to:</h3>
+											<h2 class="h4 mb-0 mx-2">This Agent record is linked to:</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1656,9 +1656,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h4 class="h4 px-2 mb-1">This Agent is not used and is eligible for deletion</h4>
+												<h3 class="h4 px-2 mb-1">This Agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h4 class="h4 px-2 mb-1">This Agent record is linked to these other MCZbase tables</h4>
+												<h3 class="h4 px-2 mb-1">This Agent record is linked to these other MCZbase tables</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
