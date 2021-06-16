@@ -387,7 +387,7 @@
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12">
-											<h3>Oceans</h3>
+											<h3>Islands</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-3 float-left">
