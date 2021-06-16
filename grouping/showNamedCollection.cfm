@@ -219,20 +219,10 @@
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-									<div class="col-12">
-									<h3>Associated Agent</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
-											
-													<li class="list-group-item">
-														<a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
-													</li>
-										
-											</ul>
-									</div>
-<!---									<div class="my-2 py-3">
+									<div class="my-2 py-3">
 										<h3 class="mt-2 pt-2">Associated Agent</h2>
 										<p class="rounded-0 border-top border-dark"><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
-									</div>--->
+									</div>
 								</cfif>
 								<div class="row pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
