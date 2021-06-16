@@ -222,11 +222,11 @@
 									<div class="col-12">
 									<h3>Associated Agent</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
-												<cfloop query="taxonQuery">
+											
 													<li class="list-group-item">
 														<a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
 													</li>
-												</cfloop>
+										
 											</ul>
 									</div>
 <!---									<div class="my-2 py-3">
