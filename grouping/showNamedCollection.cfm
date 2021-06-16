@@ -36,15 +36,18 @@
 							</div>
 						</div>
 						<div class="row mx-0">
+							<div class="col-12 mt-0">
+								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
+								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
+								<cfif len(html_description)gt 0>
+									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
+								</cfif>
+							</div>
 							<div class="col-12 col-md-6 float-left mt-0">
 								<div class="mb-4 pb-3" style="border-bottom: 8px solid ##000">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
-								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
-								<cfif len(html_description)gt 0>
-									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
-								</cfif>
 
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
