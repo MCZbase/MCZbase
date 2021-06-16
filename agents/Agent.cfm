@@ -449,7 +449,7 @@ limitations under the License.
 										group by phylclass, family
 										order by ct desc
 									</cfquery>
-									<cfif getAgentColScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
 									<cfif getAgentFamilyScope.recordcount GT 50>
 										<!--- cardState = collapsed --->
@@ -462,7 +462,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header" id="collectorHeader">
 										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##collectorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap">
-											Collector (in #getAgentColScope.recordcount# collection#plural# and #getAgentFamilyScope.recordcount# famil#fplural#
+											Collector (in #getAgentCollScope.recordcount# collection#plural# and #getAgentFamilyScope.recordcount# famil#fplural#)
 										</h3>
 									</div>
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
