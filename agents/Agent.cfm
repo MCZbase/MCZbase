@@ -400,7 +400,7 @@ limitations under the License.
 								SELECT
 									group_agent_id,
 									member_order,
-									agent_name,
+									agent_name
 								FROM
 									group_member 
 									left join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
