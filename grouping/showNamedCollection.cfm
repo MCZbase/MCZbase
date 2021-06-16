@@ -351,15 +351,15 @@
 										<!--- try expanding to families instead if very few orders --->
 										<cfquery name="geogQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 											SELECT DISTINCT flat.country || ': ' || flat.state_prov  as geog, flat.state_prov as geoglink, 'state_prov' as rank,
-												flat.phylorder, flat.family
+												flat.country, flat.state_prov
 											FROM
 												underscore_collection
 												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 													on underscore_relation.collection_object_id = flat.collection_object_id
 											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												and flat.PHYLCLASS is not null  and flat.family is not null
-											ORDER BY flat.phylorder asc, flat.family asc
+												and flat.state_prov is not null
+											ORDER BY flat.country asc, flat.state_prov asc
 										</cfquery>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
