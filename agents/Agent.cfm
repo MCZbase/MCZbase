@@ -1267,7 +1267,7 @@ limitations under the License.
 											formatted_publication.formatted_publication
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<cfif publicationAuthor.recordcount GT 15>
+									<cfif publicationAuthor.recordcount GT 20>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
