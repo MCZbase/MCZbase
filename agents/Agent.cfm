@@ -682,198 +682,223 @@ limitations under the License.
 							</cfif>
 	
 							<!--- attribute determinations --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h3 class="h4">Attribute Determiner</h3>
-								</div>
-								<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
-									select 
-										count(distinct(cataloged_item.collection_object_id)) colObjCount,
-										collection.collection_id,
-										collection,
-										attribute_type
-									from
-										attributes,
-										cataloged_item,
-										collection
-									where
-										cataloged_item.collection_object_id=attributes.collection_object_id and
-										cataloged_item.collection_id=collection.collection_id and
-										determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by
-										collection.collection_id,
-										collection,
-										attribute_type
-								</cfquery>
-								<div class="card-body py-1 mb-1">
-									<cfif attributes.recordcount EQ 0>
-										<ul class="list-group">
-											<li class="list-group-item">None</li>
-										</ul>
-									<cfelse>
-										<ul class="list-group">
-											<cfloop query="attributes">
-												<li class="list-group-item">
-													#attributes.attribute_type# for #attributes.colObjCount#
-													<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
-														#attributes.collection#</a> specimens
-												</li>
-											</cfloop>
-										</ul>
-									</cfif>
+							<section class="accordion" id="attributeSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+										select 
+											count(distinct(cataloged_item.collection_object_id)) colObjCount,
+											collection.collection_id,
+											collection,
+											attribute_type
+										from
+											attributes,
+											cataloged_item,
+											collection
+										where
+											cataloged_item.collection_object_id=attributes.collection_object_id and
+											cataloged_item.collection_id=collection.collection_id and
+											determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										group by
+											collection.collection_id,
+											collection,
+											attribute_type
+									</cfquery>
+									<div class="card-header" id="attributeHeader">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="true" aria-controls="attributeCardBodyWrap">
+											Attribute Determiner
+										</h3>
+									</div>
+									<div id="attributeCardBodyWrap" class="collapse show" aria-labelledby="attributeHeader" data-parent="##attributeSection">
+										<div class="card-body py-1 mb-1">
+											<cfif attributes.recordcount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="attributes">
+														<li class="list-group-item">
+															#attributes.attribute_type# for #attributes.colObjCount#
+															<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
+																#attributes.collection#</a> specimens
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div><!--- end attributeCardBodyWrap --->
 								</div>
 							</section>
 	
 							<cfif oneOfUs EQ 1>
 								<!--- Georeferences --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Georeferences</h3>
-									</div>
-									<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
-										select 
-											count(*) cnt,
-											count(distinct(locality_id)) locs 
-											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
-										select 
-											count(*) cnt,
-											count(distinct(locality_id)) locs 
-											from lat_long 
-											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<cfif getLatLongDet.recordcount EQ 0>
-											<ul class="list-group">
-												<li class="list-group-item">Determiner for No Coordinates</li>
-											</ul>
-										<cfelse>
-											<ul class="list-group">
-												<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
-											</ul>
-										</cfif>
-										<cfif getLatLongVer.recordcount EQ 0>
-											<ul class="list-group">
-												<li class="list-group-item">Verified No Coordinates</li>
-											</ul>
-										<cfelse>
-											<ul class="list-group">
-												<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
-											</ul>
-										</cfif>
+								<section class="accordion" id="georefSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
+											select 
+												count(*) cnt,
+												count(distinct(locality_id)) locs 
+												from lat_long 
+												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfquery name="getLatLongVer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongVer_result">
+											select 
+												count(*) cnt,
+												count(distinct(locality_id)) locs 
+												from lat_long 
+												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<div class="card-header" id="georefHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="true" aria-controls="georefCardBodyWrap">
+												Georeferences
+											</h3>
+										</div>
+										<div id="georefCardBodyWrap" class="collapse show" aria-labelledby="georefHeader" data-parent="##georefSection">
+											<div class="card-body py-1 mb-1">
+												<cfif getLatLongDet.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">Determiner for No Coordinates</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+													</ul>
+												</cfif>
+												<cfif getLatLongVer.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">Verified No Coordinates</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+													</ul>
+												</cfif>
+											</div>
+										</div>
 									</div>
 								</section>
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
 								<!--- media relationships and labels --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Media Records Edited</h3>
-									</div>
-									<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
-										SELECT count(distinct media_id) as ct
-										FROM media_relations 
-										WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and media_relationship = 'created by agent'
-									</cfquery>
-									<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
-										SELECT count(distinct media_id) as ct
-										FROM media_relations 
-										WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
-										SELECT count(distinct media_id) ct,
-											media_label
-										FROM media_labels 
-										WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										GROUP BY media_label
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<ul class="list-group">
-											<cfif getMediaCreation.ct EQ 0>
-												<li class="list-group-item">Created No Media Records.</li>
-											<cfelse>
-												<li class="list-group-item">
-													Created #getMediaCreation.ct# 
-													<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
-												</li>
-											</cfif>
-											<cfif media_assd_relations.ct EQ 0>
-												<li class="list-group-item">Created No Media Relationships.</li>
-											<cfelse>
-												<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
-											</cfif>
-											<cfif media_labels.recordcount EQ 0>
-												<li class="list-group-item">Assigned no media label values.</li>
-											<cfelse>
-												<cfloop query="media_labels">
-													<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
-												</cfloop>
-											</cfif>
-										</ul>
+								<section class="accordion" id="mediametaSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												and media_relationship = 'created by agent'
+										</cfquery>
+										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
+											SELECT count(distinct media_id) ct,
+												media_label
+											FROM media_labels 
+											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											GROUP BY media_label
+										</cfquery>
+										<div class="card-header" id="mediametaHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
+											<h3 class="h4">
+												Media Records Edited
+											</h3>
+										</div>
+										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
+											<div class="card-body py-1 mb-1">
+												<ul class="list-group">
+													<cfif getMediaCreation.ct EQ 0>
+														<li class="list-group-item">Created No Media Records.</li>
+													<cfelse>
+														<li class="list-group-item">
+															Created #getMediaCreation.ct# 
+															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
+														</li>
+													</cfif>
+													<cfif media_assd_relations.ct EQ 0>
+														<li class="list-group-item">Created No Media Relationships.</li>
+													<cfelse>
+														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
+													</cfif>
+													<cfif media_labels.recordcount EQ 0>
+														<li class="list-group-item">Assigned no media label values.</li>
+													<cfelse>
+														<cfloop query="media_labels">
+															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
+														</cfloop>
+													</cfif>
+												</ul>
+											</div>
+										</div><!--- end mediametaCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
-								<!--- records last edited by --->
-								<section class="card mb-2 bg-light">
-									<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
-										SELECT count(*) as ct
-										FROM encumbrance 
-										WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<div class="card-header">
-										<cfif getEncumbCount.ct GT 0>
-											<cfset encumbCount = "(#getEncumbCount.ct#)">
-										<cfelse>
-											<cfset encumbCount = "">
-										</cfif>
-										<h3 class="h4">Encumbrances #encumbCount#</h3>
-									</div>
-									<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
-										SELECT count(*) as ct,
-											ENCUMBRANCE
-										FROM encumbrance 
-										WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										GROUP BY ENCUMBRANCE
-									</cfquery>
-									<cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
-										SELECT 
-											count(distinct(coll_object_encumbrance.collection_object_id)) specs,
-											collection,
-											collection.collection_id
-										FROM
-											encumbrance
-											left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
-											left join cataloged_item on coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id
-											left join collection on cataloged_item.collection_id=collection.collection_id
-										WHERE
-											encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										GROUP BY
-											collection,
-											collection.collection_id
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<ul class="list-group">
-											<cfif getEncumbCount.ct EQ 0>
-												<li class="list-group-item">Owns No Encumbrances</li>
+								<!--- encumbrances --->
+								<section class="accordion" id="encumbrancesSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
+											SELECT count(*) as ct
+											FROM encumbrance 
+											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+											SELECT count(*) as ct,
+												ENCUMBRANCE
+											FROM encumbrance 
+											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											GROUP BY ENCUMBRANCE
+										</cfquery>
+										<cfquery name="coll_object_encumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
+											SELECT 
+												count(distinct(coll_object_encumbrance.collection_object_id)) specs,
+												collection,
+												collection.collection_id
+											FROM
+												encumbrance
+												left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
+												left join cataloged_item on coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id
+												left join collection on cataloged_item.collection_id=collection.collection_id
+											WHERE
+												encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											GROUP BY
+												collection,
+												collection.collection_id
+										</cfquery>
+										<div class="card-header" id="encumbrancesHeader">
+											<cfif getEncumbCount.ct GT 0>
+												<cfset encumbCount = "(#getEncumbCount.ct#)">
 											<cfelse>
-												<cfloop query="getEncumb">
-													<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
-												</cfloop>
+												<cfset encumbCount = "">
 											</cfif>
-											<cfloop query="coll_object_encumbrance">
-												<li class="list-group-item">
-													Encumbered 
-													<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
-													#specs# #collection#</a> records
-												</li>
-											</cfloop>
-										</ul>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="true" aria-controls="encumbrancesCardBodyWrap">
+												Encumbrances #encumbCount#
+											</h3>
+										</div>
+										<div id="encumbrancesCardBodyWrap" class="collapse show" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
+											<div class="card-body py-1 mb-1">
+												<ul class="list-group">
+													<cfif getEncumbCount.ct EQ 0>
+														<li class="list-group-item">Owns No Encumbrances</li>
+													<cfelse>
+														<cfloop query="getEncumb">
+															<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+														</cfloop>
+													</cfif>
+													<cfloop query="coll_object_encumbrance">
+														<li class="list-group-item">
+															Encumbered 
+															<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
+															#specs# #collection#</a> records
+														</li>
+													</cfloop>
+												</ul>
+											</div>
+										</div><!--- end encumbrancesCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
