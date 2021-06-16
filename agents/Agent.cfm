@@ -139,6 +139,7 @@ limitations under the License.
 						
 							<!--- agent names --->
 							<section class="card mb-2 bg-light">
+								<!--- always open, not a collapsable card --->
 								<div class="card-header">
 									<h3 class="h4">Names for this agent</h3>
 								</div>
@@ -184,33 +185,56 @@ limitations under the License.
 	
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 								<!--- group members --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Group Members</h3>
-									</div>
-									<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
-										SELECT
-											member_agent_id,
-											member_order,
-											agent_name
-										FROM
-											group_member 
-											left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
-										WHERE
-											group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										ORDER BY
-											member_order
-									</cfquery>
-									<div class="card-body">
-										<cfif groupMembers.recordcount EQ 0>
-											<ul><li>None</li></ul>
+								<section class="accordion" id="groupMemberSection">
+									<div class="card mb-2 bg-light">
+										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
+											SELECT
+												member_agent_id,
+												member_order,
+												agent_name
+											FROM
+												group_member 
+												left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
+											WHERE
+												group_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											ORDER BY
+												member_order
+										</cfquery>
+										<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif groupMembers.recordcount GT 10>
+											<!--- cardState = collapsed --->
+											<cfset headerClass = "btn-link-collapsed">
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
 										<cfelse>
-											<ul>
-												<cfloop query="groupMembers">
-													<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
-												</cfloop>
-											</ul>
+											<!--- cardState = expanded --->
+											<cfset headerClass = "btn-link">
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
 										</cfif>
+										<div class="card-header" id="groupMembersHeader">
+											<h3 class="h4">
+												<button class="btn #headerClass#" data-toggle="collapse" data-target="##groupMembersCardBody" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBody">
+													Group Members (#groupMembers.recordcount#):
+												</button>
+											</h3>
+										</div>
+										<div id="groupMembersCardBody" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
+											<cfif groupMembers.recordcount GT 0>
+												<h3 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
+											</cfif>
+											<div class="card-body">
+												<cfif groupMembers.recordcount EQ 0>
+													<ul><li>None</li></ul>
+												<cfelse>
+													<ul>
+														<cfloop query="groupMembers">
+															<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div>
 									</div>
 								</section>
 							</cfif>
@@ -766,7 +790,7 @@ limitations under the License.
 	
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
-								<section class="accordion" id="loanItemAccordion"> 
+								<section class="accordion" id="loanItemSection"> 
 									<div class="card mb-2 bg-light" id="loanItemsCard">
 										<cfquery name="loan_item" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 											SELECT
@@ -805,8 +829,7 @@ limitations under the License.
 												</button>
 											</h3>
 										</div>
-										<div>
-										<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemAccordion">
+										<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
 												<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
