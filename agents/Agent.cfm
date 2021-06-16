@@ -1480,9 +1480,9 @@ limitations under the License.
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="list-group-item">
-																	<span class="text-capitalize">#transaction_type#</span> 
+																	#getTransactions.ct# <span class="text-capitalize">#transaction_type#</span> 
 																	#trans_agent_role#
-																	#status# #collection_cde#
+																	#status# in #collection_cde#
 																</li>
 															<cfelse>
 																<cfif lastTrans NEQ getTransactions.specific_number>
