@@ -386,11 +386,11 @@
 									</cfif>--->
 									<script type="text/javascript">
 										var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-											if (value < 1) {
+											if (value > 1) {
 												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
 											}
 											else {
-												return '<a href="##"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##008000;">' + value + '</span></a>';
+												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##008000;">' + value + '</span></a>';
 											}
 										}
 										$(document).ready(function () {
