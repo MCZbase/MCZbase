@@ -162,7 +162,7 @@ limitations under the License.
 									WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										AND agent_name_type <> 'preferred'
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<ul class="list-group">
 										<!--- preferred name --->
 										<cfloop query="preferredNames">
@@ -219,7 +219,7 @@ limitations under the License.
 											<cfif groupMembers.recordcount GT 0>
 												<h3 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
 											</cfif>
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<cfif groupMembers.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -257,7 +257,7 @@ limitations under the License.
 											</h3>
 										</div>
 										<div id="elecAddrCardBody" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<cfif getAgentElecAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -295,7 +295,7 @@ limitations under the License.
 											</h3>
 										</div>
 										<div id="addressCardBody" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
-											<div class="card-body">
+											<div class="card-body pt-1 pb-2 pl-xl-3 mb-1 small90">
 												<cfif getAgentAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -334,7 +334,7 @@ limitations under the License.
 										and agent_relationship not like '% duplicate of'
 									ORDER BY agent_relationship
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif getAgentRel.recordcount EQ 0>
 										<ul class="list-group">
 											<li class="list-group-item">None to other agents</li>
@@ -405,7 +405,7 @@ limitations under the License.
 									order by ct desc
 								</cfquery>
 								<h3 class="h4 card-title">#getAgent.collections_scope#</h3>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif getAgentCollScope.recordcount EQ 0>
 										<h4 class="h5">Not a collector of any material in MCZbase</h4>
 									<cfelse>
@@ -524,7 +524,7 @@ limitations under the License.
 										collection.collection_id,
 										collection.collection
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif identification.recordcount EQ 0>
 										<ul class="list-group">
 											<li class="list-group-item">None</li>
@@ -565,7 +565,7 @@ limitations under the License.
 											collection,
 											collection.collection_id
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<cfif entered.recordcount EQ 0>
 											<ul class="list-group">
 												<li class="list-group-item">None</li>
@@ -606,7 +606,7 @@ limitations under the License.
 											collection,
 											collection.collection_id
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<cfif lastEdit.recordcount EQ 0>
 											<ul class="list-group">
 												<li class="list-group-item">None</li>
@@ -648,7 +648,7 @@ limitations under the License.
 										collection,
 										attribute_type
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif attributes.recordcount EQ 0>
 										<ul class="list-group">
 											<li class="list-group-item">None</li>
@@ -687,7 +687,7 @@ limitations under the License.
 											from lat_long 
 											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<cfif getLatLongDet.recordcount EQ 0>
 											<ul class="list-group">
 												<li class="list-group-item">Determiner for No Coordinates</li>
@@ -734,7 +734,7 @@ limitations under the License.
 										WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										GROUP BY media_label
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<ul class="list-group">
 											<cfif getMediaCreation.ct EQ 0>
 												<li class="list-group-item">Created No Media Records.</li>
@@ -800,7 +800,7 @@ limitations under the License.
 											collection,
 											collection.collection_id
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<ul class="list-group">
 											<cfif getEncumbCount.ct EQ 0>
 												<li class="list-group-item">Owns No Encumbrances</li>
@@ -866,7 +866,7 @@ limitations under the License.
 											<cfif loan_item.recordcount GT 0>
 												<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif loan_item.recordcount EQ 0>
 														<li class="list-group-item">None.</li>
@@ -959,7 +959,7 @@ limitations under the License.
 											<cfif totalShipCount GT 0>
 												<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif packedBy.recordcount EQ 0>
 														<li class="list-group-item">Packed no shipments for transactions</li>
@@ -1023,7 +1023,7 @@ limitations under the License.
 									<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 								</cfif>
 								<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif getMedia.recordcount EQ 0>
 										<ul class="list-group">
 											<li class="list-group-item">None</li>
@@ -1077,7 +1077,7 @@ limitations under the License.
 									) 
 									group by collection_cde, collection_id
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif getAgentPrepScope.recordcount EQ 0>
 										<h4 class="h4">Not a preparator of any material in MCZbase</h4>
 									<cfelse>
@@ -1144,7 +1144,7 @@ limitations under the License.
 										WHERE
 											 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 									</cfquery>
-									<div class="card-body">
+									<div class="card-body py-1 mb-1">
 										<cfif getProjRoles.recordcount EQ 0>
 											<h4 class="h4">No project roles in MCZbase</h4>
 										<cfelse>
@@ -1180,7 +1180,7 @@ limitations under the License.
 										formatted_publication.publication_id,
 										formatted_publication.formatted_publication
 								</cfquery>
-								<div class="card-body">
+								<div class="card-body py-1 mb-1">
 									<cfif publicationAuthor.recordcount EQ 0>
 										<h4 class="h4">No Publication Citing MCZ material</h4>
 									<cfelse>
@@ -1255,7 +1255,7 @@ limitations under the License.
 													</a>:
 												</h3>
 											</cfif>
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
 													<h4 class="h4">Not a Transaction Agent in MCZbase</h4>
 												<cfelse>
@@ -1344,7 +1344,7 @@ limitations under the License.
 										</div>
 										<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
 											<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
-											<div class="card-body">
+											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
@@ -1428,7 +1428,7 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
-										<div class="card-body">
+										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
 												<h4 class="h4">This Agent is not used and is eligible for deletion</h4>
 											<cfelse>
