@@ -133,7 +133,7 @@ limitations under the License.
 															loadMedia('#media_id#','mediaCardBody');
 														}
 													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 													<cfif #media.media_type# eq "audio">
 														<!--- check for a transcript, link if present --->
 														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -197,7 +197,7 @@ limitations under the License.
 													</a>
 													<div class="form-row mx-0">
 														<div class="small">#desc.label_value# 
-															<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog',reloadMedia)">Edit</button>
+															<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														</div>
 													</div>
 												</div>
