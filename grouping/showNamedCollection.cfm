@@ -495,15 +495,15 @@
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
-										<h3>Collectors and other agents</h3>
-										<p>Collector, vessel, institution, and related group images. </p>
+										<h3>Agents</h3>
+										<p>Collectors and other agents </p>
 										<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> 
 													<img class="d-block w-100" src="/images/student_images.png" alt="">
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Collector Images</h3>
-														<p>MCZ historical images (placeholder)</p>
+														<p>Description</p>
 													</div>
 												</div> 
 											</div>
@@ -518,8 +518,8 @@
 										</a> 
 									</div>
 									<div class="col-12 col-md-3">
-										<h3>Audio</h3>
-										<p>Animal sounds and Podcasts </p>
+										<h3>Audio & Video</h3>
+										<p>Animal sounds and Habitats </p>
 										<div id="carouselExampleControls3"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> 
@@ -540,29 +540,7 @@
 											<span class="sr-only">Next</span> 
 										</a> 
 									</div>
-									<div class="col-12 col-md-3">
-										<h3>Videos</h3>
-										<p>Video on Location, Talks about...</p>
-										<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-											<div class="carousel-inner">
-												<div class="carousel-item active"> 
-													<img class="d-block w-100" src="/images/student_images.png" alt="">
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Title</h3>
-														<p>Description</p>
-													</div>
-												</div> 
-											</div>
-										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-5%;"> 
-											<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
-											<span class="sr-only">Previous</span> 
-										</a> 
-										<a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-5%;">
-											<span class="carousel-control-next-icon" aria-hidden="true"></span> 
-											<span class="sr-only">Next</span> 
-										</a> 
-									</div>
+			
 								</div>
 							</div>
 						</div>
