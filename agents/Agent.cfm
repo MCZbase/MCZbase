@@ -241,64 +241,80 @@ limitations under the License.
 	
 							<cfif oneOfUs EQ 1>
 								<!--- emails/phone numbers --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Phone/Email</h3>
-									</div>
-									<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select address_type, address 
-										from electronic_address 
-										WHERE
-											electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-										order by address_type
-									</cfquery>
-									<div class="card-body">
-										<cfif getAgentElecAddr.recordcount EQ 0>
-											<ul><li>None</li></ul>
-										<cfelse>
-											<ul>
-												<cfloop query="getAgentElecAddr">
-													<li>#address_type#: #address#</li>
-												</cfloop>
-											</ul>
-										</cfif>
+								<section class="accordion" id="eaddressSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select address_type, address 
+											from electronic_address 
+											WHERE
+												electronic_address.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											order by address_type
+										</cfquery>
+										<div class="card-header" id="electAddrHeader">
+											<h3 class="h4">
+												<button class="btn btn-link" data-toggle="collapse" data-target="##elecAddrCardBody" aria-expanded="true" aria-controls="elecAddrCardBody">
+													Phone/Email
+												</button>
+											</h3>
+										</div>
+										<div id="elecAddrCardBody" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
+											<div class="card-body">
+												<cfif getAgentElecAddr.recordcount EQ 0>
+													<ul><li>None</li></ul>
+												<cfelse>
+													<ul>
+														<cfloop query="getAgentElecAddr">
+															<li>#address_type#: #address#</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end elecAddrCardBody --->
 									</div>
 								</section>
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
-								<!--- emails/phone numbers --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Postal Addresses</h3>
-									</div>
-									<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select addr_type, 
-											REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
-											valid_addr_fg,
-											addr_remarks
-										from addr
-										WHERE
-											addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-										order by addr_type, valid_addr_fg desc
-									</cfquery>
-									<div class="card-body">
-										<cfif getAgentAddr.recordcount EQ 0>
-											<ul><li>None</li></ul>
-										<cfelse>
-											<cfloop query="getAgentAddr">
-												<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
-												<cfif valid_addr_fg EQ 1>
-													<cfset addressCurrency="Valid">
-														<cfset listgroupclass="bg-verylightgreen">
-													<cfelse>
-														<cfset addressCurrency="Invalid">
-													<cfset listgroupclass="">
+								<!--- mailing addresses --->
+								<section class="accordion" id="addressSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getAgentAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select addr_type, 
+												REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
+												valid_addr_fg,
+												addr_remarks
+											from addr
+											WHERE
+												addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											order by addr_type, valid_addr_fg desc
+										</cfquery>
+										<div class="card-header" id="addressHeader">
+											<h3 class="h4">
+												<button class="btn btn-link" data-toggle="collapse" data-target="##addressCardBody" aria-expanded="true" aria-controls="addressCardBody">
+													Postal Addresses
+												</button>
+											</h3>
+										</div>
+										<div id="addressCardBody" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
+											<div class="card-body">
+												<cfif getAgentAddr.recordcount EQ 0>
+													<ul><li>None</li></ul>
+												<cfelse>
+													<cfloop query="getAgentAddr">
+														<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
+														<cfif valid_addr_fg EQ 1>
+															<cfset addressCurrency="Valid">
+																<cfset listgroupclass="bg-verylightgreen">
+															<cfelse>
+																<cfset addressCurrency="Invalid">
+															<cfset listgroupclass="">
+														</cfif>
+														<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
+														<div class="#listgroupclass# w-100">#formatted_addr#</div>
+													</cfloop>
 												</cfif>
-												<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
-												<div class="#listgroupclass# w-100">#formatted_addr#</div>
-											</cfloop>
-										</cfif>
+											</div>
+										</div><!--- end addressCardBody --->
 									</div>
 								</section>
 							</cfif>
