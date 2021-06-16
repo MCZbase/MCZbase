@@ -1089,7 +1089,7 @@ limitations under the License.
 									</cfquery>
 									<div class="card-header" id="mediaHeader">
 										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
 											Subject of #getMedia.recordcount# media record#plural#
 										</h3>
 									</div>
@@ -1152,7 +1152,7 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<div class="card-header" id="preparatorHeader">
-										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
 											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
 										</h3>
 									</div>
@@ -1199,83 +1199,105 @@ limitations under the License.
 	
 							<cfif oneOfUs EQ 1>
 								<!--- Project sponsor and other project roles --->
-								<section class="card mb-2 bg-light">
-									<div class="card-header">
-										<h3 class="h4">Project Roles</h3>
-									</div>
-									<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
-										SELECT distinct
-											'sponsor' as role,
-											project_name,
-											project.project_id
-										FROM
-											project_sponsor 
-											left join project on project.project_id=project_sponsor.project_id
-											left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
-										WHERE
-											 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										UNION
-										SELECT distinct
-											project_agent_role as role, 
-											project_name,
-											project.project_id
-										FROM
-											project_agent
-											left join project on project.project_id=project_agent.project_id
-											left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
-										WHERE
-											 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>
-									<div class="card-body py-1 mb-1">
-										<cfif getProjRoles.recordcount EQ 0>
-											<h4 class="h4">No project roles in MCZbase</h4>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="getProjRoles">
-													<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
-												</cfloop>
-											</ul>
-										</cfif>
+								<section class="accordion" id="projectSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
+											SELECT distinct
+												'sponsor' as role,
+												project_name,
+												project.project_id
+											FROM
+												project_sponsor 
+												left join project on project.project_id=project_sponsor.project_id
+												left join agent_name on project_sponsor.agent_name_id = agent_name.agent_name_id
+											WHERE
+												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											UNION
+											SELECT distinct
+												project_agent_role as role, 
+												project_name,
+												project.project_id
+											FROM
+												project_agent
+												left join project on project.project_id=project_agent.project_id
+												left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
+											WHERE
+												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<div class="card-header">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="true" aria-controls="projectCardBodyWrap">
+												Project Roles (#getProjRoles.recordcount#)
+											</h3>
+										</div>
+										<div id="projectCardBodyWrap" class="collapse show" aria-labelledby="projectHeader" data-parent="##projectSection">
+											<div class="card-body py-1 mb-1">
+												<cfif getProjRoles.recordcount EQ 0>
+													<h4 class="h4">No project roles in MCZbase</h4>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="getProjRoles">
+															<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end projectCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
 	
 							<!--- Author --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h3 class="h4">Publications Citing MCZ material</h3>
-								</div>
-								<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
-									SELECT
-										count(citation.collection_object_id) citation_count,
-										formatted_publication.publication_id,
-										formatted_publication.formatted_publication
-									FROM
-										agent_name 
-										left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
-										left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
-										left join citation on formatted_publication.publication_id = citation.publication_id
-									where
-										formatted_publication.format_style = 'long' and
-										agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									group by
-										formatted_publication.publication_id,
-										formatted_publication.formatted_publication
-								</cfquery>
-								<div class="card-body py-1 mb-1">
-									<cfif publicationAuthor.recordcount EQ 0>
-										<h4 class="h4">No Publication Citing MCZ material</h4>
+							<section class="accordion" id="publicationSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+										SELECT
+											count(citation.collection_object_id) citation_count,
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+										FROM
+											agent_name 
+											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
+											left join citation on formatted_publication.publication_id = citation.publication_id
+										where
+											formatted_publication.format_style = 'long' and
+											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										group by
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+									</cfquery>
+									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+									<cfif publicationAuthor.recordcount GT 15>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
 									<cfelse>
-										<ul class="list-group">
-											<cfloop query="publicationAuthor">
-												<li class="border list-group-item d-flex justify-content-between align-items-center">
-													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-													<span class="badge badge-primary badge-pill">#citation_count# citations</span>
-													<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
-												</li>
-											</cfloop>
-										</ul>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
 									</cfif>
+									<div class="card-header">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
+											Publication#plural# Citing MCZ material (#publicationAuthor.recordcount#)
+										</h3>
+									</div>
+									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
+										<div class="card-body py-1 mb-1">
+											<cfif publicationAuthor.recordcount EQ 0>
+												<h4 class="h4">No Publication Citing MCZ material</h4>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="publicationAuthor">
+														<li class="border list-group-item d-flex justify-content-between align-items-center">
+															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
+															<span class="badge badge-primary badge-pill">#citation_count# citations</span>
+															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div>
 								</div>
 							</section>
 	
@@ -1475,6 +1497,7 @@ limitations under the License.
 							<!--- foreign key relationships to other tables --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<section class="card mb-2 bg-light">
+									<!--- always open, not a collapsable card --->
 									<cftry>
 										<cfquery name="getFKFields" datasource="uam_god">
 											SELECT dba_constraints.table_name, column_name, delete_rule 
@@ -1484,7 +1507,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header">
-											<h3 class="h4">This Agent record is linked to:</h3>
+											<h3 class="h4 mt-0 mb-2 mx-2">This Agent record is linked to:</h3>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
