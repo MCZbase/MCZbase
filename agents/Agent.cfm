@@ -141,7 +141,7 @@ limitations under the License.
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
 								<div class="card-header">
-									<h3 class="h4 mt-0 mb-1 mx-2">Names for this agent</h3>
+									<h3 class="h4 mt-0 mb-2 mx-2">Names for this agent</h3>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -192,7 +192,7 @@ limitations under the License.
 												member_agent_id,
 												member_order,
 												agent_name,
-												MCZBASE.get_collections_scope(member_agent_id) member_scope
+												MCZBASE.get_collectorscope(member_agent_id,'all') member_scope
 											FROM
 												group_member 
 												left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
