@@ -50,7 +50,7 @@ limitations under the License.
 				select count(*) as ct from mediaS1 group by media_relationship order by media_id
 			</cfquery>
 				<cfif ctmedia.recordcount gt 0>
-					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="mediaF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							media.media_id,
 							media.media_uri,
@@ -76,14 +76,14 @@ limitations under the License.
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
 										<!--- to-do: Create checkbox for featured media on create media page--->
-									<cfif #media.media_type# eq "image" and #media.mime_type# NEQ "text/html">	
+									<cfif #mediaF.media_type# eq "image" and #mediaF.mime_type# NEQ "text/html">	
 										<cfset i=1>
 										<cfloop query="media">
 												<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
-												<cfset mt=media.mime_type>
+												<cfset mt=mediaF.mime_type>
 												<cfset altText = media.media_descriptor>
 												<cfset puri=getMediaPreview(preview_uri,mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -107,7 +107,7 @@ limitations under the License.
 											<div class="col-12 px-1">
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
-													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
+													<img src="#mediaF.media_uri#" class="w-100 mb-0">
 													<span class="smaller col-6 px-0">Media details</span>
 												</a>
 												<div class="form-row mx-0">
@@ -144,7 +144,7 @@ limitations under the License.
 																media_relations
 																left join media transcript on media_relations.related_primary_key = transcript.media_id
 															WHERE
-																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#mediaF.media_id#"> 
 																and media_relationship = 'transcript for audio media'
 																and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 														</cfquery>
