@@ -563,7 +563,7 @@ limitations under the License.
 			
 												<cfif getAgentFamilyScope.recordcount GT 0>
 													<div class="w-100"> 
-														<h4 class="h4 mb-0">Families Collected</h4>
+														<h4 class="h4 px-2 mb-1">Families Collected</h4>
 														<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
@@ -1636,7 +1636,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header py-0">
-											<h3 class="h4 my-1 mx-2">This Agent record is linked to:</h3>
+											<h3 class="h4 mb-0 mx-2">This Agent record is linked to:</h3>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1656,9 +1656,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h4 class="h4">This Agent is not used and is eligible for deletion</h4>
+												<h4 class="h4 px-2 mb-1">This Agent is not used and is eligible for deletion</h4>
 											<cfelse>
-												<h4 class="h4">This Agent record is linked to these other MCZbase tables</h4>
+												<h4 class="h4 px-2 mb-1">This Agent record is linked to these other MCZbase tables</h4>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
