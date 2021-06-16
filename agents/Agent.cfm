@@ -211,11 +211,11 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="groupMembersHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBody" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBody">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
 												Group Members (#groupMembers.recordcount#):
 											</h3>
 										</div>
-										<div id="groupMembersCardBody" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
+										<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
 											<cfif groupMembers.recordcount GT 0>
 												<h3 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
 											</cfif>
@@ -252,11 +252,11 @@ limitations under the License.
 											order by address_type
 										</cfquery>
 										<div class="card-header" id="electAddrHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBody" aria-expanded="true" aria-controls="elecAddrCardBody">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
 												Phone/Email
 											</h3>
 										</div>
-										<div id="elecAddrCardBody" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
+										<div id="elecAddrCardBodyWrap" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getAgentElecAddr.recordcount EQ 0>
 													<ul class="list-group">
@@ -270,7 +270,7 @@ limitations under the License.
 													</ul>
 												</cfif>
 											</div>
-										</div><!--- end elecAddrCardBody --->
+										</div><!--- end elecAddrCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
@@ -290,11 +290,11 @@ limitations under the License.
 											order by addr_type, valid_addr_fg desc
 										</cfquery>
 										<div class="card-header" id="addressHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBody" aria-expanded="true" aria-controls="addressCardBody">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
 												Postal Addresses
 											</h3>
 										</div>
-										<div id="addressCardBody" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
+										<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
 											<div class="card-body pt-1 pb-2 pl-xl-3 mb-1 small90">
 												<cfif getAgentAddr.recordcount EQ 0>
 													<ul class="list-group">
@@ -315,61 +315,67 @@ limitations under the License.
 													</cfloop>
 												</cfif>
 											</div>
-										</div><!--- end addressCardBody --->
+										</div><!--- end addressCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
 	
 							<!--- relationships --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h3 class="h4">Relationships with other agents</h3>
-								</div>
-								<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
-										agent_remarks
-									FROM agent_relations 
-									WHERE
-										agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-										and agent_relationship not like '% duplicate of'
-									ORDER BY agent_relationship
-								</cfquery>
-								<div class="card-body py-1 mb-1">
-									<cfif getAgentRel.recordcount EQ 0>
-										<ul class="list-group">
-											<li class="list-group-item">None to other agents</li>
-										</ul>
-									<cfelse>
-										<ul class="list-group">
-											<cfloop query="getAgentRel">
-												<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-												<li class="list-group-item">#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
-											</cfloop>
-										</ul>
-									</cfif>
-									<cfif oneOfUs EQ 1>
-										<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
-												agent_remarks
-											FROM agent_relations 
-											WHERE
-												related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												and agent_relationship not like '% duplicate of'
-											ORDER BY agent_relationship
-										</cfquery>
-										<cfif getRevAgentRel.recordcount EQ 0>
-											<ul class="list-group">
-												<li class="list-group-item">None from other agents</li>
-											</ul>
-										<cfelse>
-											<ul class="list-group">
-												<cfloop query="getRevAgentRel">
-													<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-													<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
-												</cfloop>
-											</ul>
-										</cfif>
-									</cfif>
+							<section class="accordion" id="relationshipsSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
+											agent_remarks
+										FROM agent_relations 
+										WHERE
+											agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											and agent_relationship not like '% duplicate of'
+										ORDER BY agent_relationship
+									</cfquery>
+									<div class="card-header" id="relationshipsHeader">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="true" aria-controls="relationshipsCardBodyWrap">
+											Relationships with other agents (#getAgentRel.recordcount#)
+										</h3>
+									</div>
+									<div id="relationshipsCardBodyWrap" class="collapse show" aria-labelledby="relationshipsHeader" data-parent="##relationshipsSection">
+										<div class="card-body py-1 mb-1">
+											<cfif getAgentRel.recordcount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None to other agents</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getAgentRel">
+														<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+														<li class="list-group-item">#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
+													</cfloop>
+												</ul>
+											</cfif>
+											<cfif oneOfUs EQ 1>
+												<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+														agent_remarks
+													FROM agent_relations 
+													WHERE
+														related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+														and agent_relationship not like '% duplicate of'
+													ORDER BY agent_relationship
+												</cfquery>
+												<cfif getRevAgentRel.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">None from other agents</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="getRevAgentRel">
+															<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
+															<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</cfif>
+										</div>
+									</div><!--- end relationshipsCardBodyWrap --->
 								</div>
 							</section>
 	
@@ -857,12 +863,12 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="loanItemHeader">
 											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBody" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBody">
+												<button class="btn #headerClass#" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
 													Reconciled loan items (#loan_item.recordcount#):
 												</button>
 											</h3>
 										</div>
-										<div id="loanItemCardBody" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
+										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
 												<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
@@ -950,12 +956,12 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="shipmentHeader">
 											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBody" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBody">
+												<button class="btn #headerClass#" data-toggle="collapse" data-target="##shipmentCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBodyWrap">
 													Roles in Shipment#plural# (#totalShipCount#)
 												</button>
 											</h3>
 										</div>
-										<div id="shipmentCardBody" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentsSection">
+										<div id="shipmentCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentsSection">
 											<cfif totalShipCount GT 0>
 												<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
@@ -1239,12 +1245,12 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="transactionsHeader">
 											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBody" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBody">
+												<button class="btn #headerClass#" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
 													Roles in Transaction#plural# (#totalTransCount#)
 												</button>
 											</h3>
 										</div>
-										<div id="transactionsCardBody" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
+										<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
 											<cfif getTransCount.ct EQ 0>
 												<h3 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 											<cfelse>
@@ -1337,12 +1343,12 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="permitsHeader">
 											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBody" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBody">
+												<button class="btn #headerClass#" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
 													Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 												</button>
 											</h3>
 										</div>
-										<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
+										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
 											<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
