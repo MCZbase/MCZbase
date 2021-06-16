@@ -95,7 +95,9 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2 class="mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
-							<h3 class="h4">#getAgent.collections_scope#</h3>
+							<cfif len(trim(getAgent.collections_scope)) GT 0>
+								<h3 class="h4">Collector: #getAgent.collections_scope#</h3>
+							</cfif>
 						</div>
 						<div class="col-12 col-sm-2">
 							<!--- edit button at upper right for those authorized to edit agent records --->
@@ -539,42 +541,49 @@ limitations under the License.
 							</section>
 	
 							<!--- Determiner --->
-							<section class="card mb-2 bg-light">
-								<div class="card-header">
-									<h3 class="h4">Determiner</h3>
-								</div>
-								<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
-									SELECT
-										count(*) cnt, 
-										count(distinct(identification.collection_object_id)) specs,
-										collection.collection_id,
-										collection.collection
-									FROM
-										identification
-										left join identification_agent on identification.identification_id=identification_agent.identification_id
-										left join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
-										left join collection on cataloged_item.collection_id = collection.collection_id
-									WHERE
-										identification_agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									GROUP BY
-										collection.collection_id,
-										collection.collection
-								</cfquery>
-								<div class="card-body py-1 mb-1">
-									<cfif identification.recordcount EQ 0>
-										<ul class="list-group">
-											<li class="list-group-item">None</li>
-										</ul>
-									<cfelse>
-										<ul class="list-group">
-											<cfloop query="identification">
-												<li class="list-group-item">
-													#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
-													#specs# #collection#</a> cataloged items
-												</li>
-											</cfloop>
-										</ul>
-									</cfif>
+							<section class="accordion" id="determinerSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="identification_result">
+										SELECT
+											count(*) cnt, 
+											count(distinct(identification.collection_object_id)) specs,
+											collection.collection_id,
+											collection.collection
+										FROM
+											identification
+											left join identification_agent on identification.identification_id=identification_agent.identification_id
+											left join cataloged_item on identification.collection_object_id = cataloged_item.collection_object_id
+											left join collection on cataloged_item.collection_id = collection.collection_id
+										WHERE
+											identification_agent.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										GROUP BY
+											collection.collection_id,
+											collection.collection
+									</cfquery>
+									<cfif identification.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<div class="card-header" id="determinerHeader">
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="true" aria-controls="determinerCardBodyWrap">
+											Determiner (in #identification.recordcount# collection#plural#) 
+										</h3>
+									</div>
+									<div id="determinerCardBodyWrap" class="collapse show" aria-labelledby="determinerHeader" data-parent="##determinerSection">
+										<div class="card-body py-1 mb-1">
+											<cfif identification.recordcount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="identification">
+														<li class="list-group-item">
+															#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
+															#specs# #collection#</a> cataloged items
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div><!--- end determinerCardBodyWrap --->
 								</div>
 							</section>
 							
