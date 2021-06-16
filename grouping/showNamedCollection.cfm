@@ -76,9 +76,10 @@
 											{ name: 'GUID', type: 'string' },
 											{ name: 'SCIENTIFIC_NAME', type: 'string' },
 											{ name: 'VERBATIM_DATE', type: 'string' },
+											{ name: 'HIGER_GEOG', type: 'string' },
 											{ name: 'SPEC_LOCALITY', type: 'string' },
-											{ name: 'FULL_TAXON_NAME', type: 'string' },
-											{ name: 'HIGER_GEOG', type: 'string' }
+											{ name: 'FULL_TAXON_NAME', type: 'string' }
+											
 										],
 										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
 									};
@@ -105,7 +106,7 @@
 										enabletooltips: true,
 										pageable: true,
 										columns: [
-											{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'GUID', datafield: 'GUID', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
 											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
 											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
 											{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', width:'350'},
