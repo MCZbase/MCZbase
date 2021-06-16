@@ -219,7 +219,7 @@
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-									<div class="my-2 py-3" style="border-bottom: 8px solid black;">
+									<div class="my-2 py-3">
 										<h2 class="mt-2 pt-2">Associated Agent</h2>
 										<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
 									</div>
@@ -269,7 +269,7 @@
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-widdark">
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-wide-dark">
 												<cfloop query="taxonQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a>
@@ -415,7 +415,7 @@
 								<div class="row">
 									<div class="col-12 col-md-4">
 										<h3>Locality Images</h3>
-										<p>Maps and Collecting Event</p> 
+										<p>Maps and Collecting Events</p> 
 										<cfset localityImageCount = localityImageQuery.recordcount>
 										<cfif localityImageCount GT 0>
 											<p>#localityImageCount# Locality Images</p>
@@ -462,7 +462,7 @@
 										</cfif><!--- end specimen image loop --->
 
 									</div>
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-6">
 										<h3>Journals, Notes, Ledgers</h3>
 										<p>Library scans of written material</p>
 										<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -492,7 +492,7 @@
 											<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 										</div>
 									</div>
-									<div class="col-12 col-md-4 ">
+									<div class="col-12 col-md-6">
 										<h3>Collectors and other agents</h3>
 										<p>Collector, vessel, institution, and related group images. </p>
 										<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -502,6 +502,52 @@
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Collector Images</h3>
 														<p>MCZ historical images (placeholder)</p>
+													</div>
+												</div> 
+											</div>
+										</div>
+										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-5%;"> 
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
+											<span class="sr-only">Previous</span> 
+										</a> 
+										<a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-5%;">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span> 
+											<span class="sr-only">Next</span> 
+										</a> 
+									</div>
+									<div class="col-12 col-md-6">
+										<h3>Audio</h3>
+										<p>Animal sounds and Podcasts </p>
+										<div id="carouselExampleControls3"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+											<div class="carousel-inner">
+												<div class="carousel-item active"> 
+													<img class="d-block w-100" src="/images/student_images.png" alt="">
+													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+														<h3 class="h3-responsive">Title</h3>
+														<p>Description</p>
+													</div>
+												</div> 
+											</div>
+										</div>
+										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-5%;"> 
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
+											<span class="sr-only">Previous</span> 
+										</a> 
+										<a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-5%;">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span> 
+											<span class="sr-only">Next</span> 
+										</a> 
+									</div>
+									<div class="col-12 col-md-6">
+										<h3>Videos</h3>
+										<p>Video on Location, Talks about...</p>
+										<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
+											<div class="carousel-inner">
+												<div class="carousel-item active"> 
+													<img class="d-block w-100" src="/images/student_images.png" alt="">
+													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
+														<h3 class="h3-responsive">Title</h3>
+														<p>Description</p>
 													</div>
 												</div> 
 											</div>
