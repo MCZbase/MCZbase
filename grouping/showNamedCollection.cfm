@@ -118,7 +118,7 @@
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
-							<div class="col-12 col-md-5 float-left mt-0">
+							<div class="col-12 col-md-6 float-left mt-0">
 							
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
@@ -169,7 +169,7 @@
 									<cfelse>
 										<cfset shown = "">
 									</cfif>
-									<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Specimen Images</h2>
+									<h2 class="mt-2 pt-3">Specimen Images</h2>
 									<p>#specImageCt.ct# Specimen Images#shown#</p>
 									<!--Carousel Wrapper-->
 									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
@@ -328,8 +328,8 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-7 mt-4 float-left">
-								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
+							<div class="col-12 col-md-6 mt-4 float-left">
+								<div class="my-4 py-3" style="border-bottom: 8px solid black;">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
