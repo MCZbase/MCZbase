@@ -313,7 +313,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 
 		
 	<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
-	
+		<cfargument name="underscore_collection_id" type="string" required="yes">
 		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.spec_locality, flat.full_taxon_name
 			FROM
@@ -321,7 +321,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
-			WHERE underscore_collection.underscore_collection_id = 22
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid is not null
 			ORDER BY flat.guid asc
 		</cfquery>

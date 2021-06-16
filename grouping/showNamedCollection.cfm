@@ -361,7 +361,7 @@
 											</ul>
 										</div>
 									</cfif>
-<!---									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT DISTINCT flat.guid, flat.scientific_name
 										FROM
 											underscore_collection
@@ -372,7 +372,7 @@
 											and flat.guid is not null
 										ORDER BY flat.guid asc
 									</cfquery>
-									<cfif specimens.recordcount GT 0>
+									<!---<cfif specimens.recordcount GT 0>
 										<div class="col-12">
 											<h3>Specimen Records</h3>
 											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
@@ -394,7 +394,6 @@
 											}
 										}
 										$(document).ready(function () {
-											//var theme = 'black';
 											var source =
 											{
 												datatype: "json",
@@ -406,7 +405,7 @@
 													{ name: 'LOCALITY', type: 'string' },
 													{ name: 'FULL_TAXON_NAME', type: 'string' }
 												],
-												url: '/grouping/component/functions.cfc?method=getSpecimens'
+												url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
 											};
 
 											var dataAdapter = new $.jqx.dataAdapter(source);
@@ -431,7 +430,7 @@
 												enabletooltips: true,
 												pageable: true,
 												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:'130',cellsrenderer: cellsrenderer },
+													{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
 													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
 													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
 													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
