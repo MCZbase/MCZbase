@@ -392,7 +392,7 @@
 												<cfloop query="country">
 													<li class="list-group-item col-3 float-left">
 														#continent_ocean#:
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islands.island#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
+														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islands.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
 															#islands.island#
 														</a>
 													</li>
