@@ -141,7 +141,7 @@ limitations under the License.
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
 								<div class="card-header">
-									<h3 class="h4 my-0 mx-2">Names for this agent</h3>
+									<h3 class="h4 mt-0 mb-1 mx-2">Names for this agent</h3>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -185,7 +185,7 @@ limitations under the License.
 	
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 								<!--- group members --->
-								<section class="accordion" id="groupMemberSection">
+								<section class="accordion" id="groupMembersSection">
 									<div class="card mb-2 bg-light">
 										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
 											SELECT
