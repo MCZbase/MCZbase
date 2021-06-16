@@ -557,13 +557,13 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
+														<h4 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h4>
 													</cfif>
 												</cfif>
 			
 												<cfif getAgentFamilyScope.recordcount GT 0>
 													<div class="w-100"> 
-														<h3 class="h3">Families Collected</h3>
+														<h4 class="h4 mb-0">Families Collected</h4>
 														<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
