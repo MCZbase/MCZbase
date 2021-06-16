@@ -293,7 +293,7 @@
 							<li><a href="/media/#source_media_id#">/media/#source_media_id##sourceFilename#</a> is #media_relationship# for /media/#media_id#</li>
 						</cfloop>
 					</ul>
-				</li>
+				</cfif>
       <br>
       <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
