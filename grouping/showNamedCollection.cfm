@@ -221,7 +221,9 @@
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
 									<div class="my-2 py-3">
 										<h3 class="mt-2 pt-2">Associated Agent</h2>
-										<p class="rounded-0 border-top border-dark"><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
+										<p class="rounded-0 border-top border-dark">
+											<a class="h4 px-2 d-block mt-3" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
+										</p>
 									</div>
 								</cfif>
 								<div class="row pb-3">
@@ -293,7 +295,7 @@
 									<cfif marine.recordcount GT 0>
 										<div class="col-12">
 											<h3>Oceans</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 												<cfloop query="marine">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
@@ -331,7 +333,7 @@
 									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Geography</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
@@ -385,7 +387,7 @@
 									<cfif agents.recordcount GT 0>
 										<div class="col-12">
 											<h3>Collectors</h3>
-											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark w-100">
+											<ul class="list-group d-inline-block py-3 border-top rounded-0 border-dark w-100">
 												<cfloop query="agents">
 													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
 														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
