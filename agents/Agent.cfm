@@ -1402,22 +1402,47 @@ limitations under the License.
 											WHERE
 												trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
-											SELECT
-												transaction_view.transaction_id, 
-												transaction_view.transaction_type,
-												to_char(trans_date,'YYYY-MM-DD') trans_date,
-												transaction_view.specific_number,
-												transaction_view.status,
-												collection.collection_cde,
-												trans_agent_role
-											FROM trans_agent
-												left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
-												left outer join collection on transaction_view.collection_id = collection.collection_id
-											WHERE
-												trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											ORDER BY transaction_view.transaction_type, transaction_view.specific_number
-										</cfquery>
+										<cfset oversizeSet = false>
+										<cfif getTransCount.ct GT 5000>
+											<!--- handle Brendan without crashing page --->
+											<cfset oversizeSet = true>
+											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+												SELECT
+													count(transaction_view.transaction_id) as ct, 
+													transaction_view.transaction_type,
+													transaction_view.status,
+													collection.collection_cde,
+													trans_agent_role
+												FROM trans_agent
+													left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
+													left outer join collection on transaction_view.collection_id = collection.collection_id
+												WHERE
+													trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												GROUP BY
+													transaction_view.transaction_type,
+													transaction_view.status,
+													collection.collection_cde,
+													trans_agent_role
+												ORDER BY transaction_view.transaction_type, collection.collection_cde 
+											</cfquery>
+										<cfelse>
+											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+												SELECT
+													transaction_view.transaction_id, 
+													transaction_view.transaction_type,
+													to_char(trans_date,'YYYY-MM-DD') trans_date,
+													transaction_view.specific_number,
+													transaction_view.status,
+													collection.collection_cde,
+													trans_agent_role
+												FROM trans_agent
+													left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
+													left outer join collection on transaction_view.collection_id = collection.collection_id
+												WHERE
+													trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												ORDER BY transaction_view.transaction_type, transaction_view.specific_number
+											</cfquery>
+										<cfelse>
 										<cfset totalTransCount = getTransCount.ct>
 										<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totalTransCount GT 10>
@@ -1453,19 +1478,27 @@ limitations under the License.
 														<cfset lastTrans ="">
 														<cfset statusDate ="">
 														<cfloop query="getTransactions">
-															<cfif lastTrans NEQ getTransactions.specific_number>
-																<cfif lastTrans NEQ "">
-																	#statusDate#</li>
-																</cfif>
+															<cfif oversizeSet IS true>
 																<li class="list-group-item">
 																	<span class="text-capitalize">#transaction_type#</span> 
-																	<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																	#trans_agent_role#
-																	<cfset statusDate = "(#getTransactions.status# #trans_date#)">
-															<cfelse>
-																	, #trans_agent_role#
+																	#status# #collection_cde#
+																</li>
+															</cfelse>
+																<cfif lastTrans NEQ getTransactions.specific_number>
+																	<cfif lastTrans NEQ "">
+																		#statusDate#</li>
+																	</cfif>
+																	<li class="list-group-item">
+																		<span class="text-capitalize">#transaction_type#</span> 
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+																		#trans_agent_role#
+																		<cfset statusDate = "(#getTransactions.status# #trans_date#)">
+																<cfelse>
+																		, #trans_agent_role#
+																</cfif>
+																<cfset lastTrans ="#getTransactions.specific_number#">
 															</cfif>
-															<cfset lastTrans ="#getTransactions.specific_number#">
 														</cfloop>
 													</ul>
 												</cfif>
