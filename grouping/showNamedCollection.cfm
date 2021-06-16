@@ -328,7 +328,7 @@
 										<div class="col-12">
 											<h3>Oceans</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
-												<cfloop query="country">
+												<cfloop query="marine">
 													<li class="list-group-item col-3 float-left">
 														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
 													</li>
@@ -374,7 +374,7 @@
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="islands"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
+									<cfquery name="islandsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
 										SELECT DISTINCT flat.continent_ocean, flat.island as island
 										FROM
 											underscore_collection
@@ -385,15 +385,15 @@
 											and flat.island is not null
 										ORDER BY flat.continent_ocean, flat.island asc
 									</cfquery>
-									<cfif islands.recordcount GT 0>
+									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Oceans</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
-												<cfloop query="country">
+												<cfloop query="islandsQuery">
 													<li class="list-group-item col-3 float-left">
 														#continent_ocean#:
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islands.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
-															#islands.island#
+														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
+															#islandsQuery.island#
 														</a>
 													</li>
 												</cfloop>
