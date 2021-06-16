@@ -312,8 +312,32 @@
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="country"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="country_result">
-										SELECT DISTINCT flat.country as country
+									<cfquery name="marine"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
+										SELECT DISTINCT flat.continent_ocean as ocean
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.country is null
+											and flat.continent_ocean is not null
+										ORDER BY flat.continent_ocean asc
+									</cfquery>
+									<cfif marine.recordcount GT 0>
+										<div class="col-12">
+											<h3>Oceans</h3>
+											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
+												<cfloop query="country">
+													<li class="list-group-item col-3 float-left">
+														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
+									<cfquery name="geogQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -323,12 +347,55 @@
 											and flat.country is not null
 										ORDER BY flat.country asc
 									</cfquery>
-									<cfif country.recordcount GT 0>
+									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
+										<!--- try expanding to families instead if very few orders --->
+										<cfquery name="geogQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
+											SELECT DISTINCT flat.country || ': ' || flat.state_prov  as geog, flat.state_prov as geoglink, 'state_prov' as rank,
+												flat.phylorder, flat.family
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+													on underscore_relation.collection_object_id = flat.collection_object_id
+											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												and flat.PHYLCLASS is not null  and flat.family is not null
+											ORDER BY flat.phylorder asc, flat.family asc
+										</cfquery>
+									</cfif>
+									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12">
-											<h3>Countries</h3>
+											<h3>Geography</h3>
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
+												<cfloop query="geogQuery">
+													<li class="list-group-item col-3 float-left">
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
+									<cfquery name="islands"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
+										SELECT DISTINCT flat.continent_ocean, flat.island as island
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											and flat.island is not null
+										ORDER BY flat.continent_ocean, flat.island asc
+									</cfquery>
+									<cfif islands.recordcount GT 0>
+										<div class="col-12">
+											<h3>Oceans</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="country">
-													<li class="list-group-item col-3 float-left"><a class="h4" href="##">#country.country#</a></li>
+													<li class="list-group-item col-3 float-left">
+														#continent_ocean#:
+														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islands.island#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
+															#islands.island#
+														</a>
+													</li>
 												</cfloop>
 											</ul>
 										</div>
