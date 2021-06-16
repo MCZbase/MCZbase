@@ -416,8 +416,8 @@
 								</cfquery>
 								<div class="row">
 									<div class="col-12 col-md-3">
-										<h3>Locality Images</h3>
-										<p>Maps and Collecting Events</p> 
+										<h3>Place Images</h3>
+										<p>Maps, Habitats, and Collecting Events</p> 
 										<cfset localityImageCount = localityImageQuery.recordcount>
 										<cfif localityImageCount GT 0>
 											<p>#localityImageCount# Locality Images</p>
@@ -470,7 +470,7 @@
 										<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> 
-													<img class="d-block w-100" src="/images/ledger.PNG" alt="First slide">
+					<!---								<img class="d-block w-100" src="/images/ledger.PNG" alt="First slide">--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Ledger Scan</h3>
 														<p>MCZ/Ernst Mayr Library</p>
@@ -500,7 +500,7 @@
 										<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> 
-													<img class="d-block w-100" src="/images/student_images.png" alt="">
+												<!---/*	<img class="d-block w-100" src="/images/student_images.png" alt="">*/--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Collector Images</h3>
 														<p>Description</p>
@@ -523,7 +523,7 @@
 										<div id="carouselExampleControls3"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
 											<div class="carousel-inner">
 												<div class="carousel-item active"> 
-													<img class="d-block w-100" src="/images/student_images.png" alt="">
+										<!---			<img class="d-block w-100" src="/images/student_images.png" alt="">--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
 														<h3 class="h3-responsive">Title</h3>
 														<p>Description</p>
