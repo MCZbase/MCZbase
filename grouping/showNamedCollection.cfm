@@ -78,6 +78,7 @@
 											{ name: 'VERBATIM_DATE', type: 'string' },
 											{ name: 'HIGHER_GEOG', type: 'string' },
 											{ name: 'SPEC_LOCALITY', type: 'string' },
+											{ name: 'OTHERCATALOGNUMBERS', type: 'string' },
 											{ name: 'FULL_TAXON_NAME', type: 'string' }
 											
 										],
@@ -111,6 +112,7 @@
 											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
 											{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', width:'350'},
 											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'350' },
+											{ text: 'Other Catalog Numbers', datafield: 'OTHERCATALOGNUMBERS',width:'350' },
 											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'350'}
 											
 										]
