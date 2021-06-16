@@ -528,7 +528,7 @@ limitations under the License.
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope.recordcount EQ 0>
-												<h3 class="h4">Not a collector of any material in MCZbase</h3>
+												<h3 class="h5 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -1249,7 +1249,7 @@ limitations under the License.
 									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h3 class="h4">Not a preparator of any material in MCZbase</h3>
+												<h3 class="h5 px-2 pb-0 mb-0">Not a preparator of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -1322,7 +1322,7 @@ limitations under the License.
 										<div id="projectCardBodyWrap" class="collapse show" aria-labelledby="projectHeader" data-parent="##projectSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getProjRoles.recordcount EQ 0>
-													<h3 class="h4">No project roles in MCZbase</h3>
+													<h3 class="h5 px-2 mb-1">No project roles in MCZbase</h3>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
@@ -1636,7 +1636,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header py-0">
-											<h2 class="h4 mb-0 mx-2">This Agent record is linked to:</h2>
+											<h2 class="h4 my-1 mx-2">This Agent record is linked to:</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1656,9 +1656,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-1">This Agent is not used and is eligible for deletion</h3>
+												<h3 class="h5 px-2 mb-1">This Agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-1">This Agent record is linked to these other MCZbase tables</h3>
+												<h3 class="h5 px-2 mb-1">This Agent record is linked to these other MCZbase tables</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
