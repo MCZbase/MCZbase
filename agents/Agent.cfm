@@ -164,18 +164,18 @@ limitations under the License.
 										AND agent_name_type <> 'preferred'
 								</cfquery>
 								<div class="card-body">
-									<ul>
+									<ul class="list-group">
 										<!--- preferred name --->
 										<cfloop query="preferredNames">
-											<li>#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+											<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
 										</cfloop>
 										<cfloop query="notPrefNames">
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-												<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 											<cfelse>
 												<!--- don't display login name to non-admin users --->
 												<cfif notPrefNames.agent_name_type NEQ "login">
-													<li>#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+													<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
 												</cfif>
 											</cfif>
 										</cfloop>
@@ -191,7 +191,8 @@ limitations under the License.
 											SELECT
 												member_agent_id,
 												member_order,
-												agent_name
+												agent_name,
+												MCZBASE.get_collections_scope(member_agent_id) member_scope
 											FROM
 												group_member 
 												left join preferred_agent_name on group_member.MEMBER_AGENT_ID = preferred_agent_name.agent_id
@@ -223,9 +224,12 @@ limitations under the License.
 												<cfif groupMembers.recordcount EQ 0>
 													<ul><li>None</li></ul>
 												<cfelse>
-													<ul>
+													<ul class="list-group">
 														<cfloop query="groupMembers">
-															<li><a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a></li>
+															<li class="list-group-item">
+																<a href="/agents/Agent.cfm?agent_id=#groupMembers.member_agent_id#">#groupMembers.agent_name#</a>
+																#member_scope#
+															</li>
 														</cfloop>
 													</ul>
 												</cfif>
@@ -256,9 +260,9 @@ limitations under the License.
 												<cfif getAgentElecAddr.recordcount EQ 0>
 													<ul><li>None</li></ul>
 												<cfelse>
-													<ul>
+													<ul class="list-group">
 														<cfloop query="getAgentElecAddr">
-															<li>#address_type#: #address#</li>
+															<li class="list-group-item">#address_type#: #address#</li>
 														</cfloop>
 													</ul>
 												</cfif>
@@ -290,19 +294,21 @@ limitations under the License.
 										<div id="addressCardBody" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
 											<div class="card-body">
 												<cfif getAgentAddr.recordcount EQ 0>
-													<ul><li>None</li></ul>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
 												<cfelse>
 													<cfloop query="getAgentAddr">
 														<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 														<cfif valid_addr_fg EQ 1>
 															<cfset addressCurrency="Valid">
-																<cfset listgroupclass="bg-verylightgreen">
+																<cfset listgroupclass="bg-verylightgreen border-green">
 															<cfelse>
 																<cfset addressCurrency="Invalid">
-															<cfset listgroupclass="">
+															<cfset listgroupclass="border-light">
 														</cfif>
-														<h3 class="h4">#addr_type# address #addressCurrency##rem#</h3>
-														<div class="#listgroupclass# w-100">#formatted_addr#</div>
+														<h4 class="h4 mb-1 mt-2">#addr_type# address #addressCurrency##rem#</h4>
+														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
 											</div>
