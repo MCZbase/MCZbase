@@ -77,7 +77,8 @@
 											{ name: 'SCIENTIFIC_NAME', type: 'string' },
 											{ name: 'VERBATIM_DATE', type: 'string' },
 											{ name: 'SPEC_LOCALITY', type: 'string' },
-											{ name: 'FULL_TAXON_NAME', type: 'string' }
+											{ name: 'FULL_TAXON_NAME', type: 'string' },
+											{ name: 'HIGER_GEOG', type: 'string' }
 										],
 										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
 									};
@@ -107,19 +108,21 @@
 											{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
 											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
 											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
-											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
-											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
+											{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', width:'350'},
+											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'350' },
+											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'350'}
+											
 										]
 									});
 								});
 							</script>
 							<div class="col-12 mt-3">
+								<h2 class="">Specimen Records in Named Group</h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
 							<div class="col-12 col-md-6 float-left mt-0">
-							
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
@@ -160,8 +163,6 @@
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
-								
-								
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
 								<cfif specimenImagesShown GT 0>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
@@ -329,13 +330,15 @@
 								</div>
 							</div>
 							<div class="col-12 col-md-6 mt-4 float-left">
-								<div class="my-4 py-3" style="border-bottom: 8px solid black;">
+								<div class="my-2 py-3" style="border-bottom: 8px solid black;">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-									<h2 class="mt-2 pt-2">Associated Agent</h2>
-									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
+									<div class="my-2 py-3" style="border-bottom: 8px solid black;">
+										<h2 class="mt-2 pt-2">Associated Agent</h2>
+										<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
+									</div>
 								</cfif>
 								<div class="row bg-light border pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
