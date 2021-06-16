@@ -32,13 +32,13 @@
 					<div class="col-12">
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
-								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# <div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Back to Named Group Search</a></span></h1>
+								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# <div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></h1>
 							</div>
 						</div>
 						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
 								<div class="mb-4 pb-3" style="border-bottom: 8px solid ##000">
-									<h2 class="">Collection Overview</h2>
+									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters --->
@@ -89,7 +89,7 @@
 								
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
 									<h2 class="mt-2 pt-2">Associated Agent</h2>
-									<p class="">#getNamedGroup.agent_name#</p>
+									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
 								</cfif>
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
 								<cfif specimenImagesShown GT 0>
