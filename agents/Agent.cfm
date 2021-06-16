@@ -48,7 +48,6 @@ limitations under the License.
 	<cfthrow message="No Agent specified to show agent details for.  No Agent ID was provided.">
 </cfif>
 
-<!--- TODO: Add full implementation of agent details. --->
 <cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		agent.agent_type, 
@@ -222,7 +221,9 @@ limitations under the License.
 											</cfif>
 											<div class="card-body">
 												<cfif groupMembers.recordcount EQ 0>
-													<ul><li>None</li></ul>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="groupMembers">
@@ -258,7 +259,9 @@ limitations under the License.
 										<div id="elecAddrCardBody" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
 											<div class="card-body">
 												<cfif getAgentElecAddr.recordcount EQ 0>
-													<ul><li>None</li></ul>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getAgentElecAddr">
@@ -333,12 +336,14 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif getAgentRel.recordcount EQ 0>
-										<ul><li>None to other agents</li></ul>
+										<ul class="list-group">
+											<li class="list-group-item">None to other agents</li>
+										</ul>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfloop query="getAgentRel">
 												<cfif len(getAgentRel.agent_remarks) GT 0><cfset rem=" [#getAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-												<li>#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
+												<li class="list-group-item">#agent_relationship# <a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a>#rem#</li>
 											</cfloop>
 										</ul>
 									</cfif>
@@ -353,12 +358,14 @@ limitations under the License.
 											ORDER BY agent_relationship
 										</cfquery>
 										<cfif getRevAgentRel.recordcount EQ 0>
-											<ul><li>None from other agents</li></ul>
+											<ul class="list-group">
+												<li class="list-group-item">None from other agents</li>
+											</ul>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfloop query="getRevAgentRel">
 													<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-													<li><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
+													<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
 												</cfloop>
 											</ul>
 										</cfif>
@@ -402,7 +409,7 @@ limitations under the License.
 									<cfif getAgentCollScope.recordcount EQ 0>
 										<h4 class="h5">Not a collector of any material in MCZbase</h4>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfset earlyeststart = "">
 											<cfset latestend = "">
 											<cfloop query="getAgentCollScope">
@@ -423,7 +430,7 @@ limitations under the License.
 													<cfset yearbit=" in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#">
 												</cfif>
 												<cfif len(getAgentCollScope.collection_cde) GT 0>
-													<li>#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
+													<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 												</cfif>
 											</cfloop>
 										</ul>
@@ -464,7 +471,7 @@ limitations under the License.
 										<cfif getAgentFamilyScope.recordcount GT 0>
 											<div class="w-100"> 
 												<h3 class="h3">Families Collected</h3>
-												<ul>
+												<ul class="list-group">
 													<cfset earlyeststart = "">
 													<cfset latestend = "">
 													<cfloop query="getAgentFamilyScope">
@@ -485,7 +492,7 @@ limitations under the License.
 															<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
 														</cfif>
 														<cfif len(getAgentFamilyScope.family) GT 0>
-															<li>#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+															<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 														</cfif>
 													</cfloop>
 												</ul>
@@ -519,11 +526,13 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif identification.recordcount EQ 0>
-										<ul><li>None</li></ul>
+										<ul class="list-group">
+											<li class="list-group-item">None</li>
+										</ul>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfloop query="identification">
-												<li>
+												<li class="list-group-item">
 													#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
 													#specs# #collection#</a> cataloged items
 												</li>
@@ -558,11 +567,13 @@ limitations under the License.
 									</cfquery>
 									<div class="card-body">
 										<cfif entered.recordcount EQ 0>
-											<ul><li>None</li></ul>
+											<ul class="list-group">
+												<li class="list-group-item">None</li>
+											</ul>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfloop query="entered">
-													<li>
+													<li class="list-group-item">
 														<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
 													</li>
 												</cfloop>
@@ -597,11 +608,13 @@ limitations under the License.
 									</cfquery>
 									<div class="card-body">
 										<cfif lastEdit.recordcount EQ 0>
-											<ul><li>None</li></ul>
+											<ul class="list-group">
+												<li class="list-group-item">None</li>
+											</ul>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfloop query="lastEdit">
-													<li>
+													<li class="list-group-item">
 														<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
 													</li>
 												</cfloop>
@@ -637,11 +650,13 @@ limitations under the License.
 								</cfquery>
 								<div class="card-body">
 									<cfif attributes.recordcount EQ 0>
-										<ul><li>None</li></ul>
+										<ul class="list-group">
+											<li class="list-group-item">None</li>
+										</ul>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfloop query="attributes">
-												<li>
+												<li class="list-group-item">
 													#attributes.attribute_type# for #attributes.colObjCount#
 													<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
 														#attributes.collection#</a> specimens
@@ -674,17 +689,21 @@ limitations under the License.
 									</cfquery>
 									<div class="card-body">
 										<cfif getLatLongDet.recordcount EQ 0>
-											<ul><li>Determiner for No Coordinates</li></ul>
+											<ul class="list-group">
+												<li class="list-group-item">Determiner for No Coordinates</li>
+											</ul>
 										<cfelse>
-											<ul>
-												<li>Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
+											<ul class="list-group">
+												<li class="list-group-item">Determined #getLatLongDet.cnt# coordinates for #getLatLongDet.locs# localities</li>
 											</ul>
 										</cfif>
 										<cfif getLatLongVer.recordcount EQ 0>
-											<ul><li>Verified No Coordinates</li></ul>
+											<ul class="list-group">
+												<li class="list-group-item">Verified No Coordinates</li>
+											</ul>
 										<cfelse>
-											<ul>
-												<li>Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
+											<ul class="list-group">
+												<li class="list-group-item">Verified #getLatLongVer.cnt# coordinates for #getLatLongVer.locs# localities</li>
 											</ul>
 										</cfif>
 									</div>
@@ -716,25 +735,25 @@ limitations under the License.
 										GROUP BY media_label
 									</cfquery>
 									<div class="card-body">
-										<ul>
+										<ul class="list-group">
 											<cfif getMediaCreation.ct EQ 0>
-												<li>Created No Media Records.</li>
+												<li class="list-group-item">Created No Media Records.</li>
 											<cfelse>
-												<li>
+												<li class="list-group-item">
 													Created #getMediaCreation.ct# 
 													<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
 												</li>
 											</cfif>
 											<cfif media_assd_relations.ct EQ 0>
-												<li>Created No Media Relationships.</li>
+												<li class="list-group-item">Created No Media Relationships.</li>
 											<cfelse>
-												<li>Created #media_assd_relations.ct# Media Relationships.</li>
+												<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
 											</cfif>
 											<cfif media_labels.recordcount EQ 0>
-												<li>Assigned no media label values.</li>
+												<li class="list-group-item">Assigned no media label values.</li>
 											<cfelse>
 												<cfloop query="media_labels">
-													<li>#media_labels.media_label# (#media_labels.ct#)</li>
+													<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
 												</cfloop>
 											</cfif>
 										</ul>
@@ -782,16 +801,16 @@ limitations under the License.
 											collection.collection_id
 									</cfquery>
 									<div class="card-body">
-										<ul>
+										<ul class="list-group">
 											<cfif getEncumbCount.ct EQ 0>
-												<li>Owns No Encumbrances</li>
+												<li class="list-group-item">Owns No Encumbrances</li>
 											<cfelse>
 												<cfloop query="getEncumb">
-													<li>#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+													<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
 												</cfloop>
 											</cfif>
 											<cfloop query="coll_object_encumbrance">
-												<li>
+												<li class="list-group-item">
 													Encumbered 
 													<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
 													#specs# #collection#</a> records
@@ -848,12 +867,12 @@ limitations under the License.
 												<h3 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
 											<div class="card-body">
-												<ul>
+												<ul class="list-group">
 													<cfif loan_item.recordcount EQ 0>
-														<li>None.</li>
+														<li class="list-group-item">None.</li>
 													<cfelse>
 														<cfloop query="loan_item">
-															<li>Reconciled #cnt# items for Loan 
+															<li class="list-group-item">Reconciled #cnt# items for Loan 
 																<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 															</li>		
 														</cfloop>
@@ -941,12 +960,12 @@ limitations under the License.
 												<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
 											<div class="card-body">
-												<ul>
+												<ul class="list-group">
 													<cfif packedBy.recordcount EQ 0>
-														<li>Packed no shipments for transactions</li>
+														<li class="list-group-item">Packed no shipments for transactions</li>
 													</cfif>
 													<cfloop query="packedBy">
-														<li>
+														<li class="list-group-item">
 															Packed Shipment for #transaction_type#
 															<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 																#collection# #specific_number#
@@ -954,10 +973,10 @@ limitations under the License.
 														</li>
 													</cfloop>
 													<cfif shippedTo.recordcount EQ 0>
-														<li>Recipient of no shipments for transactions</li>
+														<li class="list-group-item">Recipient of no shipments for transactions</li>
 													</cfif>
 													<cfloop query="shippedFrom">
-														<li>
+														<li class="list-group-item">
 															Sender of shipment for #transaction_type#
 															<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 																#collection# #specific_number#
@@ -1006,7 +1025,9 @@ limitations under the License.
 								<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
 								<div class="card-body">
 									<cfif getMedia.recordcount EQ 0>
-										<ul><li>None</li></ul>
+										<ul class="list-group">
+											<li class="list-group-item">None</li>
+										</ul>
 									<cfelse>
 										<ul class="list-group">
 											<cfloop query="getMedia">
@@ -1021,7 +1042,7 @@ limitations under the License.
 													</li>
 												</cfif>
 											</cfloop>
-										<ul>
+										<ul class="list-group">
 									</cfif>
 								</div>
 							</section>
@@ -1060,7 +1081,7 @@ limitations under the License.
 									<cfif getAgentPrepScope.recordcount EQ 0>
 										<h4 class="h4">Not a preparator of any material in MCZbase</h4>
 									<cfelse>
-										<ul>
+										<ul class="list-group">
 											<cfset earlyeststart = "">
 											<cfset latestend = "">
 											<cfloop query="getAgentPrepScope">
@@ -1081,7 +1102,7 @@ limitations under the License.
 													<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
 												</cfif>
 												<cfif len(getAgentPrepScope.collection_cde) GT 0>
-													<li>#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
+													<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
 												</cfif>
 											</cfloop>
 										</ul>
@@ -1127,9 +1148,9 @@ limitations under the License.
 										<cfif getProjRoles.recordcount EQ 0>
 											<h4 class="h4">No project roles in MCZbase</h4>
 										<cfelse>
-											<ul>
+											<ul class="list-group">
 												<cfloop query="getProjRoles">
-													<li>#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+													<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
 												</cfloop>
 											</ul>
 										</cfif>
@@ -1238,7 +1259,7 @@ limitations under the License.
 												<cfif getTransactions.recordcount EQ 0>
 													<h4 class="h4">Not a Transaction Agent in MCZbase</h4>
 												<cfelse>
-													<ul>
+													<ul class="list-group">
 														<cfset lastTrans ="">
 														<cfset statusDate ="">
 														<cfloop query="getTransactions">
@@ -1246,7 +1267,7 @@ limitations under the License.
 																<cfif lastTrans NEQ "">
 																	#statusDate#</li>
 																</cfif>
-																<li>
+																<li class="list-group-item">
 																	<span class="text-capitalize">#transaction_type#</span> 
 																	<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
 																	#trans_agent_role#
@@ -1324,14 +1345,14 @@ limitations under the License.
 										<div id="permitsCardBody" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
 											<h3 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body">
-												<ul>
+												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
-														<li>No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
+														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 													<cfelse>
 														<cfloop query="getPermitsTo">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-															<li>
+															<li class="list-group-item">
 																Document 
 																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 																	#pnrDoc#
@@ -1341,12 +1362,12 @@ limitations under the License.
 														</cfloop>
 													</cfif>
 													<cfif getPermitsFrom.recordcount EQ 0>
-														<li>No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
+														<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 													<cfelse>
 														<cfloop query="getPermitsFrom">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-															<li>
+															<li class="list-group-item">
 																Document 
 																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
 																	#pnrDoc#
@@ -1356,12 +1377,12 @@ limitations under the License.
 														</cfloop>
 													</cfif>
 													<cfif getPermitContacts.recordcount EQ 0>
-														<li>#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
+														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
 														<cfloop query="getPermitContacts">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
-															<li>
+															<li class="list-group-item">
 																#encodeForHtml(prefName)# is contact for 
 																<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 																	#pnrDoc#
@@ -1413,9 +1434,9 @@ limitations under the License.
 											<cfelse>
 												<h4 class="h4">This Agent record is linked to these other MCZbase tables</h4>
 											</cfif>
-											<ul>
+											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
-													<li>#key# (#relatedTo[key]#)</li>
+													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
 												</cfloop>
 											</ul>
 										</div>
