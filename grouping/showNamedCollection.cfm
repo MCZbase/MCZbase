@@ -45,58 +45,70 @@
 									<div class="pb-2">#getNamedGroup.html_description# </div>
 								</cfif>
 							</div>
-						</div>	
+						</div>
+						<div class="row mx-0">
+							<script type="text/javascript">
+								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+									if (value > 1) {
+										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+									}
+									else {
+										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+									}
+								}
+								$(document).ready(function () {
+									var source =
+									{
+										datatype: "json",
+										datafields:
+										[
+											{ name: 'GUID', type: 'string' },
+											{ name: 'SCIENTIFIC_NAME', type: 'string' },
+											{ name: 'VERBATIM_DATE', type: 'string' },
+											{ name: 'SPEC_LOCALITY', type: 'string' },
+											{ name: 'FULL_TAXON_NAME', type: 'string' }
+										],
+										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
+									};
+
+									var dataAdapter = new $.jqx.dataAdapter(source);
+									// initialize jqxGrid
+									$("##jqxgrid").jqxGrid(
+									{
+										width: '100%',
+										autoheight: 'true',
+										source: dataAdapter,
+										filterable: true,
+										showfilterrow: true,
+										sortable: true,
+										pageable: true,
+										editable: false,
+										pagesize: '5',
+										pagesizeoptions: ['5','50','100'],
+										columnsresize: false,
+										autoshowfiltericon: false,
+										autoshowcolumnsmenubutton: false,
+										altrows: true,
+										showtoolbar: false,
+										enabletooltips: true,
+										pageable: true,
+										columns: [
+											{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
+											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
+											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
+											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
+										]
+									});
+								});
+							</script>
+							<div class="col-12 mt-3">
+								<div id="jqxgrid"></div>
+							</div>
+						</div>
 						<div class="row mx-0 clearfix">
 							<div class="col-12 col-md-5 float-left mt-0">
-								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
-									<h2 class="h2">Overview</h2>
-									<p class="">#getNamedGroup.description#</p>
-								</div>
-								<!--- obtain a random set of images, limited to a small number --->
-								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT * FROM (
-										SELECT DISTINCT media_uri, preview_uri,media_type,
-											MCZBASE.get_media_descriptor(media.media_id) as alt,
-											MCZBASE.get_media_credit(media.media_id) as credit,
-											flat.guid
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-											left join media on media_relations.media_id = media.media_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											AND flat.guid IS NOT NULL
-											AND media_relations.media_relationship = 'shows cataloged_item'
-											AND media.media_type = 'image'
-											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-											and rownum <= 20
-										ORDER BY DBMS_RANDOM.RANDOM
-									) 
-									WHERE rownum < 16
-								</cfquery>
-								<!--- find out how many images there are in total --->
-								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT count(media.media_id) as ct
-									FROM
-										underscore_collection
-										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-										left join media on media_relations.media_id = media.media_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND flat.guid IS NOT NULL
-										AND media_relations.media_relationship = 'shows cataloged_item'
-										AND media.media_type = 'image'
-										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-								</cfquery>
-								
-								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-									<h2 class="mt-2 pt-2">Associated Agent</h2>
-									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
-								</cfif>
+
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
 								<cfif specimenImagesShown GT 0>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
@@ -264,6 +276,55 @@
 								</div>
 							</div>
 							<div class="col-12 col-md-7 mt-4 float-left">
+								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
+									<h2 class="h2">Overview</h2>
+									<p class="">#getNamedGroup.description#</p>
+								</div>
+								<!--- obtain a random set of images, limited to a small number --->
+								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
+									SELECT * FROM (
+										SELECT DISTINCT media_uri, preview_uri,media_type,
+											MCZBASE.get_media_descriptor(media.media_id) as alt,
+											MCZBASE.get_media_credit(media.media_id) as credit,
+											flat.guid
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+											left join media on media_relations.media_id = media.media_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											AND flat.guid IS NOT NULL
+											AND media_relations.media_relationship = 'shows cataloged_item'
+											AND media.media_type = 'image'
+											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+											and rownum <= 20
+										ORDER BY DBMS_RANDOM.RANDOM
+									) 
+									WHERE rownum < 16
+								</cfquery>
+								<!--- find out how many images there are in total --->
+								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT count(media.media_id) as ct
+									FROM
+										underscore_collection
+										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+										left join media on media_relations.media_id = media.media_id
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										AND flat.guid IS NOT NULL
+										AND media_relations.media_relationship = 'shows cataloged_item'
+										AND media.media_type = 'image'
+										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+								</cfquery>
+								
+								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
+									<h2 class="mt-2 pt-2">Associated Agent</h2>
+									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
+								</cfif>
 								<div class="row bg-light border pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
@@ -457,64 +518,7 @@
 											</ul>
 										</div>
 									</cfif>--->
-									<script type="text/javascript">
-										var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-											if (value > 1) {
-												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
-											}
-											else {
-												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
-											}
-										}
-										$(document).ready(function () {
-											var source =
-											{
-												datatype: "json",
-												datafields:
-												[
-													{ name: 'GUID', type: 'string' },
-													{ name: 'SCIENTIFIC_NAME', type: 'string' },
-													{ name: 'VERBATIM_DATE', type: 'string' },
-													{ name: 'SPEC_LOCALITY', type: 'string' },
-													{ name: 'FULL_TAXON_NAME', type: 'string' }
-												],
-												url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
-											};
 
-											var dataAdapter = new $.jqx.dataAdapter(source);
-											// initialize jqxGrid
-											$("##jqxgrid").jqxGrid(
-											{
-												width: '100%',
-												autoheight: 'true',
-												source: dataAdapter,
-												filterable: true,
-												showfilterrow: true,
-												sortable: true,
-												pageable: true,
-												editable: false,
-												pagesize: '5',
-												pagesizeoptions: ['5','50','100'],
-												columnsresize: false,
-												autoshowfiltericon: false,
-												autoshowcolumnsmenubutton: false,
-												altrows: true,
-												showtoolbar: false,
-												enabletooltips: true,
-												pageable: true,
-												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
-													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
-													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
-													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
-													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
-												]
-											});
-										});
-									</script>
-									<div class="col-12 mt-3">
-										<div id="jqxgrid"></div>
-									</div>
 								</div>
 							</div>
 						</div>
