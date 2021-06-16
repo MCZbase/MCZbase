@@ -387,7 +387,7 @@
 									<script type="text/javascript">
 										var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 											if (value > 1) {
-												return '<a href="/guid/'+value+'">' + value + '</a>';
+												return '<a class="btn-link" href="/guid/'+value+'">' + value + '</a>';
 											}
 										}
 										$(document).ready(function () {
