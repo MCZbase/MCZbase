@@ -1023,12 +1023,12 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-										<div class="card-header" id="shipmentHeader">
-											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentCardBodyWrap">
+										<div class="card-header" id="shipmentsHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentsCardBodyWrap">
 												Roles in Shipment#plural# (#totalShipCount#)
 											</h3>
 										</div>
-										<div id="shipmentCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmentHeader" data-parent="##shipmentsSection">
+										<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
 											<cfif totalShipCount GT 0>
 												<h3 class="h4 card-title">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
@@ -1068,55 +1068,60 @@ limitations under the License.
 						<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
 	
 							<!--- Media --->
-							<section class="card mb-2 bg-light">
-								<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-									SELECT media.media_id,
-										mczbase.get_media_descriptor(media.media_id) as descriptor,
-										mczbase.get_medialabel(media.media_id,'subject') as subject,
-										media.media_uri,
-										media.media_type,
-										CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-										CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-										MCZBASE.get_media_credit(media.media_id) as credit 
-									FROM media_relations 
-										left join media on media_relations.media_id = media.media_id
-										left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-									WHERE media_relationship like '% agent'
-										and media_relationship <> 'created by agent'
-										and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										and mczbase.is_media_encumbered(media.media_id) < 1
-								</cfquery>
-								<div class="card-header">
-									<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<h3 class="h4">Subject of #getMedia.recordcount# media record#plural#.</h3>
-								</div>
-								<cfif getMedia.recordcount eq 0>
-									<cfset mediaLink = "No Media records">
-								<cfelse>
-									<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-								</cfif>
-								<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
-								<div class="card-body py-1 mb-1">
-									<cfif getMedia.recordcount EQ 0>
-										<ul class="list-group">
-											<li class="list-group-item">None</li>
-										</ul>
+							<section class="" id="mediaSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+										SELECT media.media_id,
+											mczbase.get_media_descriptor(media.media_id) as descriptor,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											media.media_uri,
+											media.media_type,
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+											MCZBASE.get_media_credit(media.media_id) as credit 
+										FROM media_relations 
+											left join media on media_relations.media_id = media.media_id
+											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+										WHERE media_relationship like '% agent'
+											and media_relationship <> 'created by agent'
+											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and mczbase.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+									<div class="card-header" id="mediaHeader">
+										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+										<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+											Subject of #getMedia.recordcount# media record#plural#
+										</h3>
+									</div>
+									<div id="mediaCardBodyWrap" class="collapse show" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+									<cfif getMedia.recordcount eq 0>
+										<cfset mediaLink = "No Media records">
 									<cfelse>
-										<ul class="list-group">
-											<cfloop query="getMedia">
-												<cfif getMedia.media_type IS "image">
-													<li class="border list-group-item d-flex justify-content-between align-items-center">
-														<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
-														<span>#getMedia.descriptor#</span>
-														<span>#getMedia.subject#</span>
-														<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
-														<span>#getMedia.credit#</span>
-														<span>&nbsp;</span>
-													</li>
-												</cfif>
-											</cfloop>
-										<ul class="list-group">
+										<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 									</cfif>
+									<h3 class="h4 card-title">#prefName# is the subject of #mediaLink#.</h3>
+									<div class="card-body py-1 mb-1">
+										<cfif getMedia.recordcount EQ 0>
+											<ul class="list-group">
+												<li class="list-group-item">None</li>
+											</ul>
+										<cfelse>
+											<ul class="list-group">
+												<cfloop query="getMedia">
+													<cfif getMedia.media_type IS "image">
+														<li class="border list-group-item d-flex justify-content-between align-items-center">
+															<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
+															<span>#getMedia.descriptor#</span>
+															<span>#getMedia.subject#</span>
+															<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
+															<span>#getMedia.credit#</span>
+															<span>&nbsp;</span>
+														</li>
+													</cfif>
+												</cfloop>
+											<ul class="list-group">
+										</cfif>
+									</div>
 								</div>
 							</section>
 	
