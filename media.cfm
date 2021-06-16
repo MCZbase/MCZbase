@@ -154,32 +154,37 @@
 </cfif>
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
-  <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
-		mczbase.get_media_descriptor(media_id) as alttag 
-		from media 
-		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+			mczbase.get_media_descriptor(media_id) as alttag 
+		FROM media 
+		WHERE media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfset relns=getMediaRelations(#media_id#)>
-  <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select
+	<cfset relns=getMediaRelations(#media_id#)>
+	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
 			media_label,
 			label_value,
 			agent_name,
 			media_label_id
-		from
-			media_labels,
-			preferred_agent_name
-		where
-			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+		FROM
+			media_labels
+			left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+		WHERE
 			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) c from tag where media_id=#media_id#
+	<cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) c 
+		FROM tag 
+		WHERE
+			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
-  <cfoutput>
-      <div style="width:65em; padding: 1em 0 3em 0;margin:0 auto;" class="editMedia2">
-      <h2 class="wikilink">Edit Media      <img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
+	<cfoutput>
+		<div style="width:65em; padding: 1em 0 3em 0;margin:0 auto;" class="editMedia2">
+			<h2 class="wikilink">
+				Edit Media 
+			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
+			</h2>
   
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
     <form name="editMedia" method="post" action="media.cfm">
@@ -266,6 +271,33 @@
         </cfloop>
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
+			<br>
+				<cfquery name="reverseRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT source_media.media_id source_media_id, 
+						source_media.auto_filename source_filename,
+						source_media.media_uri source_media_uri,
+						media_relations.media_relationship,
+						MCZBASE.get_media_descriptor(source_media.media_id) source_alt
+					FROM
+						media_relations
+						left join media source_media on media_relations.media_id = source_media.media_id
+					WHERE
+						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relationship like '%media'
+				</cfquery>
+				<cfif reverseRelations.recordcount GT 0>
+      			<label for="reverseRelationsList">Relationships from other Media Records</label>
+					<ul id="reverseRelationsList">
+						<cfloop query="reverseRelations">
+							<cfif len(reverseRelations.source_filename) GT 0><cfset sourceFilename=" (#reverseRelations.source_filename#)"><cfelse><cfset sourceFilename=""></cfif>
+							<li>
+								<a href="/media/#source_media_id#" title="#reverseRelations.source_alt#">
+									/media/#source_media_id##sourceFilename#
+								</a> 
+								is #media_relationship# for /media/#media_id#</li>
+						</cfloop>
+					</ul>
+				</cfif>
       <br>
       <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">

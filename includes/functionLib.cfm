@@ -400,7 +400,7 @@
 		media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		<!--->and media_relationship <> 'ledger entry for cataloged_item'--->
 	</cfquery>
-	<cfset result = querynew("media_relations_id,media_relationship,created_agent_name,related_primary_key,summary,link")>
+	<cfset result = querynew("media_relations_id,media_relationship,created_agent_name,related_primary_key,summary,link,link_text")>
 	<cfset i=1>
 	<cfloop query="relns">
 		<cfset temp = queryaddrow(result,1)>
@@ -429,6 +429,7 @@
 				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
 		<cfelseif table_name is "collecting_event">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -443,6 +444,7 @@
 					collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
 		<cfelseif table_name is "accn">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -458,6 +460,7 @@
 					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -473,6 +476,7 @@
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -488,6 +492,7 @@
 					loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "borrow">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -503,6 +508,7 @@
 					borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "permit">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -516,6 +522,7 @@
         				permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             		<cfset temp = QuerySetCell(result, "link", "/Permit.cfm?Action=editPermit&permit_id=#related_primary_key#", i)>
 		<cfelseif table_name is "cataloged_item">
 		<!--- upping this to uam_god for now - see Issue 135
@@ -533,15 +540,17 @@
                 cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/SpecimenResults.cfm?collection_object_id=#related_primary_key#", i)>
 		<cfelseif table_name is "media">
 			<cfif media_relationship IS "transcript for audio media">
 				<cfquery name="d" datasource="uam_god">
-					select media_uri data 
+					select media_uri data
 					from media 
 					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 				</cfquery>
-				<cfset temp = QuerySetCell(result, "summary", "view the transcript", i)>
+				<cfset temp = QuerySetCell(result, "summary", "transcript of /media/#related_primary_key#", i)>
+				<cfset temp = QuerySetCell(result, "link_text", "view the transcript", i)>
          	<cfset temp = QuerySetCell(result, "link", "#d.data#", i)>
 			<cfelse>
 				<cfquery name="d" datasource="uam_god">
@@ -550,6 +559,7 @@
 					where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 				</cfquery>
 				<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
          	<cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
 			</cfif>
 		<cfelseif table_name is "publication">
@@ -560,6 +570,7 @@
 				publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/SpecimenUsage.cfm?publication_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "project">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -567,6 +578,7 @@
 				project where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -574,9 +586,11 @@
 				taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
+			<cfset temp = QuerySetCell(result, "link_text", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
 		<cfelse>
 		<cfset temp = QuerySetCell(result, "summary", "#table_name# is not currently supported.", i)>
+		<cfset temp = QuerySetCell(result, "link_text", "#table_name# is not currently supported.", i)>
 		</cfif>
 		<cfset i=i+1>
 	</cfloop>

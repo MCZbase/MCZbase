@@ -597,9 +597,9 @@
 							<cfloop query="mrel">
 								<li>#media_relationship#
 				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#summary#</a>
+				                        <a href="#link#" target="_blank">#link_text#</a>
 				                    <cfelse>
-										#summary#
+										#link_text#
 									</cfif>
 				             </li>
 							</cfloop>

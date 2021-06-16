@@ -1796,9 +1796,9 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 											transcript.media_id as transcript_media_id
 										FROM
 											media_relations
-											left join media transcript on media_relations.related_primary_key = transcript.media_id
+											left join media transcript on media_relations.media_id = transcript.media_id
 										WHERE
-											media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
+											media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
 											and media_relationship = 'transcript for audio media'
 											and MCZBASE.is_media_encumbered(transcript.media_id) < 1
 									</cfquery>
