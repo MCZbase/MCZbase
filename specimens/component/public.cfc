@@ -84,7 +84,7 @@ limitations under the License.
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
 												<cfset mt=mediaF.mime_type>
-												<cfset altText = media.media_descriptor>
+												<cfset altText = mediaF.media_descriptor>
 												<cfset puri=getMediaPreview(preview_uri,mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
@@ -93,7 +93,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaF.media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -134,7 +134,7 @@ limitations under the License.
 														}
 													</script>
 													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-													<cfif #media.media_type# eq "audio">
+													<cfif #mediaF.media_type# eq "audio">
 														<!--- check for a transcript, link if present --->
 														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
@@ -150,7 +150,7 @@ limitations under the License.
 														</cfquery>
 														<cfif checkforTranscript.recordcount GT 0>
 															<cfloop query="checkForTranscript">
-																<a href="#transcript_uri#">View Transcript</a>
+																<a href="#checkForTranscript.transcript_uri#">View Transcript</a>
 															</cfloop>
 														</cfif>
 													</cfif>
@@ -160,9 +160,9 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</cfif>
-									<cfif #media.media_type# neq "image" and #media.mime_type# EQ "text/html">	
+									<cfif #mediaF.media_type# neq "image" and #media.mime_type# EQ "text/html">	
 										<cfset i=1>
-										<cfloop query="media">
+										<cfloop query="mediaF">
 											<!---div class="thumbs"--->
 												<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
@@ -190,7 +190,7 @@ limitations under the License.
 											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 												<div class="col-4 px-1">
 													<cfset aForImHref = media_uri>
-													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
+													<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaF.media_id#" >
 													<a href="#aForImHref#" target="_blank" class="w-100 mb-2">
 													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100">
 														<span class="smaller col-6 px-0">Media details</span>
