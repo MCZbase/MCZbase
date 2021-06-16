@@ -332,7 +332,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["GUID"] = qrySpecimens.guid>
 			<cfset row["SCIENTIFIC_NAME"] = qrySpecimens.scientific_name>
 			<cfset row["VERBATIM_DATE"] = qrySpecimens.verbatim_date>
-			<cfset row["LOCALITY"] = qrySpecimens.spec_locality>
+			<cfset row["SPEC_LOCALITY"] = qrySpecimens.spec_locality>
 			<cfset row["FULL_TAXON_NAME"] = qrySpecimens.full_taxon_name>
 			<cfset data[i] = row>
 			<cfset i= i + 1>
