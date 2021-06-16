@@ -269,7 +269,7 @@
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-wide-dark">
+											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
 												<cfloop query="taxonQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a>
