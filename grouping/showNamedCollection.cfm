@@ -76,7 +76,7 @@
 											{ name: 'GUID', type: 'string' },
 											{ name: 'SCIENTIFIC_NAME', type: 'string' },
 											{ name: 'VERBATIM_DATE', type: 'string' },
-											{ name: 'HIGER_GEOG', type: 'string' },
+											{ name: 'HIGHER_GEOG', type: 'string' },
 											{ name: 'SPEC_LOCALITY', type: 'string' },
 											{ name: 'FULL_TAXON_NAME', type: 'string' }
 											

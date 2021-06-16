@@ -315,7 +315,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 		<cfargument name="underscore_collection_id" type="string" required="yes">
 		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date,  flat.higher_geog, flat.spec_locality, flat.full_taxon_name
+			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.higher_geog, flat.spec_locality, flat.othercatalognumbers, flat.full_taxon_name
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -334,6 +334,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["VERBATIM_DATE"] = qrySpecimens.verbatim_date>
 			<cfset row["HIGHER_GEOG"] = qrySpecimens.higher_geog>
 			<cfset row["SPEC_LOCALITY"] = qrySpecimens.spec_locality>
+				<cfset row["OTHERCATALOGNUMBERS"] = qrySpecimens.othercatalognumbers>
 			<cfset row["FULL_TAXON_NAME"] = qrySpecimens.full_taxon_name>
 			<cfset data[i] = row>
 			<cfset i= i + 1>
