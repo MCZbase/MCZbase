@@ -394,6 +394,63 @@ limitations under the License.
 									</div><!--- end relationshipsCardBodyWrap --->
 								</div>
 							</section>
+
+							<!--- group membership --->
+							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembership_result">
+								SELECT
+									group_agent_id,
+									member_order,
+									agent_name,
+								FROM
+									group_member 
+									left join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
+								WHERE
+									member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								ORDER BY
+									agent_name
+							</cfquery>
+							<cfif groupMembership.recordcount GT 0 >
+								<section class="accordion" id="groupMembershipSection">
+									<div class="card mb-2 bg-light">
+										<cfif groupMembership.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif groupMembership.recordcount GT 10>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
+										<div class="card-header" id="groupMembershipHeader">
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
+												Group Members (#groupMembership.recordcount#):
+											</h3>
+										</div>
+										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
+											<cfif groupMembership.recordcount GT 0>
+												<h3 class="h4 card-title">#prefName# is a member of #groupMembership.recordcount# group#plural#</h3>
+											</cfif>
+											<div class="card-body py-1 mb-1">
+												<cfif groupMembership.recordcount EQ 0>
+													<!--- which won't be reached, as we hide the entire section if this is the case --->
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="groupMembership">
+															<li class="list-group-item">
+																<a href="/agents/Agent.cfm?agent_id=#groupMembership.group_agent_id#">#groupMembership.agent_name#</a>
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div>
+									</div>
+								</section>
+							</cfif>
 	
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
