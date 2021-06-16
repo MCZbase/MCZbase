@@ -415,7 +415,7 @@
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
 								<div class="row">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-3">
 										<h3>Locality Images</h3>
 										<p>Maps and Collecting Events</p> 
 										<cfset localityImageCount = localityImageQuery.recordcount>
@@ -464,7 +464,7 @@
 										</cfif><!--- end specimen image loop --->
 
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-3">
 										<h3>Journals, Notes, Ledgers</h3>
 										<p>Library scans of written material</p>
 										<div id="carouselExampleControls3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -494,7 +494,7 @@
 											<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 										</div>
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-3">
 										<h3>Collectors and other agents</h3>
 										<p>Collector, vessel, institution, and related group images. </p>
 										<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -517,7 +517,7 @@
 											<span class="sr-only">Next</span> 
 										</a> 
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-3">
 										<h3>Audio</h3>
 										<p>Animal sounds and Podcasts </p>
 										<div id="carouselExampleControls3"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
@@ -540,7 +540,7 @@
 											<span class="sr-only">Next</span> 
 										</a> 
 									</div>
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-3">
 										<h3>Videos</h3>
 										<p>Video on Location, Talks about...</p>
 										<div id="carouselExampleControls4"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
