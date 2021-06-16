@@ -160,11 +160,11 @@ limitations under the License.
 										<cfset i=i+1>
 										</cfloop>
 									</cfif>
-									<cfif #media.media_type# neq "image" and #media.mime_type# EQ "text/html">	
+<!---									<cfif #media.media_type# neq "image" and #media.mime_type# EQ "text/html">	
 										<cfset i=1>
-										<cfloop query="media">
+										<cfloop query="media">--->
 											<!---div class="thumbs"--->
-												<cfquery name="ctmedia" dbtype="query">
+										<!---		<cfquery name="ctmedia" dbtype="query">
 													select count(*) as ct from media group by media_relationship order by media_id
 												</cfquery>
 												<cfset mt=media.mime_type>
@@ -187,8 +187,8 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 										
-											<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
-												<div class="col-4 px-1">
+											<cfif i eq 1>---><!---This is for one large image at that top if it is not a ledger page or someother --->
+												<!---<div class="col-4 px-1">
 													<cfset aForImHref = media_uri>
 													<cfset aForThisHref = "/MediaSet.cfm?media_id=#media.media_id#" >
 													<a href="#aForImHref#" target="_blank" class="w-100 mb-2">
@@ -202,10 +202,10 @@ limitations under the License.
 													</div>
 												</div>
 											
-											<cfelse>
+											<cfelse>--->
 												<!---This is for all the thumbnails--->
 												<!---for DRS from library--->
-												<cfset aForImHref = media_uri>
+												<!---<cfset aForImHref = media_uri>
 												<cfset aForDetHref = "/media/#media_id#">
 												<div class='col-4 float-left border-white p-1 mb-1'>
 													<a href="#aForImHref#" target="_blank"> 
@@ -215,15 +215,15 @@ limitations under the License.
 														<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 														<span class="">#description#</span><br>
 														<script>
-															function reloadMedia() { 
-																// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+															function reloadMedia() { --->
+														<!---		// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 																loadMedia(#media_id#,'mediaCardBody');
 															}
 														</script>
 														<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														<cfif #media.media_type# eq "audio">
 															<!--- check for a transcript, link if present --->
-<!---															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															<!---<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
 																	transcript.media_id as trainscript_media_id
@@ -239,14 +239,14 @@ limitations under the License.
 																<cfloop query="checkForTranscript">
 																	<a href="#transcript_uri#">View Transcript</a>
 																</cfloop>
-															</cfif>--->
+															</cfif>
 														</cfif>
 													</p>
 												</div>
 												<cfset i=i+1>
 											</cfif>
 										</cfloop>
-									</cfif>
+									</cfif>--->
 								</div>
 							</div>
 					</cfoutput>
