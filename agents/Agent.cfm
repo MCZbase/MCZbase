@@ -1483,6 +1483,7 @@ limitations under the License.
 																	#getTransactions.ct# <span class="text-capitalize">#transaction_type#</span> 
 																	#trans_agent_role#
 																	#status# in #collection_cde#
+																	<span><!-- workaround --></span>
 																</li>
 															<cfelse>
 																<cfif lastTrans NEQ getTransactions.specific_number>
