@@ -1412,6 +1412,7 @@ limitations under the License.
 													transaction_view.transaction_type,
 													transaction_view.status,
 													collection.collection_cde,
+													collection.collection_id,
 													trans_agent_role
 												FROM trans_agent
 													left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
@@ -1422,6 +1423,7 @@ limitations under the License.
 													transaction_view.transaction_type,
 													transaction_view.status,
 													collection.collection_cde,
+													collection.collection_id,
 													trans_agent_role
 												ORDER BY transaction_view.transaction_type, collection.collection_cde 
 											</cfquery>
@@ -1480,7 +1482,10 @@ limitations under the License.
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="list-group-item">
-																	#getTransactions.ct# <span class="text-capitalize">#transaction_type#</span> 
+																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&status=#status#&trans_agent_role_1=#trans_agent_role#&loan_agent_1=#encodeForURL(prefName)#&loan_agent_1_id=#agent_id#">
+																		#getTransactions.ct# 
+																	</a>
+																	<span class="text-capitalize">#transaction_type#</span> 
 																	#trans_agent_role#
 																	#status# in #collection_cde#
 																	<span><!-- workaround --></span>

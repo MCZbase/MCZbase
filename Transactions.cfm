@@ -1,6 +1,12 @@
 <cfif not isdefined("action")>
 	<cfset action="findAll">
 </cfif>
+<!--- handle some cases of the transaction type being passed instead of the actual plural action --->
+<cfif ucase(action) IS ucase("findLoan")><cfset action="findLoans"><cfif>
+<cfif ucase(action) IS ucase("findAccn")><cfset action="findAccessions"><cfif>
+<cfif ucase(action) IS ucase("findBorrow")><cfset action="findBorrows"><cfif>
+<cfif ucase(action) IS ucase("findDeaccession")><cfset action="findDeaccesions"><cfif>
+<cfif ucase(action) IS ucase("findDeacc")><cfset action="findDeaccesions"><cfif>
 <cfswitch expression="#action#">
 	<!--- API note: action/method e.g. action=findLoans and method=getLoans seems duplicative, but
 			action is used to determine which tab to show in Transactions.cfm, and method is passed 
