@@ -274,8 +274,8 @@
 			<br>
 				<cfquery name="reverseRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT source_media.media_id source_media_id, 
-						source_media.auto_filename,
-						source_media.media_url,
+						source_media.auto_filename source_filename,
+						source_media.media_uri source_media_uri,
 						media_relations.media_relationship,
 						MCZBASE.get_media_descriptor(source_media.media_id) alt
 					FROM
@@ -289,7 +289,7 @@
       			<label for="reverseRelationsList">Relationships from other Media Records</label>
 					<ul id="reverseRelationsList">
 						<cfloop query="reverseRelations">
-							<cfif len(reverseRelations.auto_filename) GT 0><cfset sourceFilename=" (#reverseRelations.auto_filename#)"><cfelse><cfset sourceFilename=""></cfif>
+							<cfif len(reverseRelations.source_filename) GT 0><cfset sourceFilename=" (#reverseRelations.source_filename#)"><cfelse><cfset sourceFilename=""></cfif>
 							<li><a href="/media/#source_media_id#">/media/#source_media_id##sourceFilename#</a> is #media_relationship# for /media/#media_id#</li>
 						</cfloop>
 					</ul>
