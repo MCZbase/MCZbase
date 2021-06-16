@@ -32,7 +32,9 @@
 					<div class="col-12">
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
-								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# <div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></h1>
+								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# 
+									<div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></div>
+								</h1>
 							</div>
 						</div>
 						<div class="row mx-0">
@@ -40,15 +42,16 @@
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
-									<div class="pb-2" style="border-bottom: 8px solid ##000">#getNamedGroup.html_description# </div>
+									<div class="pb-2">#getNamedGroup.html_description# </div>
 								</cfif>
 							</div>
+						</div>	
+						<div class="row mx-0">
 							<div class="col-12 col-md-6 float-left mt-0">
-								<div class="mb-4 pb-3" style="border-bottom: 8px solid ##000">
+								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
-
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
