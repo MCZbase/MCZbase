@@ -31,14 +31,14 @@
 				<article class="w-100">
 					<div class="col-12">
 						<div class="row mx-0">
-							<div class="col-12 border-dark mt-4">
+							<div class="col-12 border-dark mt-5">
 								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# 
 									<div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></div>
 								</h1>
 							</div>
 						</div>
-						<div class="row mx-0">
-							<div class="col-12 mt-0">
+						<div class="row">
+							<div class="col-12 px-4 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
@@ -332,7 +332,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 mt-4 float-left">
+							<div class="col-12 col-md-6 mt-0 mt-md-4 float-left">
 								<div class="my-2 py-3" style="border-bottom: 8px solid black;">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
@@ -343,7 +343,7 @@
 										<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
 									</div>
 								</cfif>
-								<div class="row bg-light border pb-3">
+								<div class="row pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
@@ -388,9 +388,9 @@
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Taxa</h3>
-											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-widdark">
 												<cfloop query="taxonQuery">
-													<li class="list-group-item col-3 float-left">
+													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a>
 													</li>
 												</cfloop>
@@ -414,7 +414,7 @@
 											<h3>Oceans</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="marine">
-													<li class="list-group-item col-3 float-left">
+													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
 													</li>
 												</cfloop>
@@ -452,7 +452,7 @@
 											<h3>Geography</h3>
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap border-bottom rounded-0 border-dark">
 												<cfloop query="geogQuery">
-													<li class="list-group-item col-3 float-left">
+													<li class="list-group-item col-12 col-md-3 float-left">
 														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
 													</li>
 												</cfloop>
@@ -475,7 +475,7 @@
 											<h3>Islands</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="islandsQuery">
-													<li class="list-group-item col-3 float-left">
+													<li class="list-group-item col-12 col-md-3 float-left">
 														#continent_ocean#:
 														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
 															#islandsQuery.island#
