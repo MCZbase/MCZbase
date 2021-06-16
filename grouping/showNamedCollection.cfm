@@ -46,6 +46,77 @@
 								</cfif>
 							</div>
 						</div>	
+						<div class="row mx-0">
+							<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT DISTINCT flat.guid, flat.scientific_name
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									and flat.guid is not null
+								ORDER BY flat.guid asc
+							</cfquery>
+							<script type="text/javascript">
+								var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+									if (value > 1) {
+										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+									}
+									else {
+										return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+									}
+								}
+								$(document).ready(function () {
+									var source =
+									{
+										datatype: "json",
+										datafields:
+										[
+											{ name: 'GUID', type: 'string' },
+											{ name: 'SCIENTIFIC_NAME', type: 'string' },
+											{ name: 'VERBATIM_DATE', type: 'string' },
+											{ name: 'SPEC_LOCALITY', type: 'string' },
+											{ name: 'FULL_TAXON_NAME', type: 'string' }
+										],
+										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
+									};
+
+									var dataAdapter = new $.jqx.dataAdapter(source);
+									// initialize jqxGrid
+									$("##jqxgrid").jqxGrid(
+									{
+										width: '100%',
+										autoheight: 'true',
+										source: dataAdapter,
+										filterable: true,
+										showfilterrow: true,
+										sortable: true,
+										pageable: true,
+										editable: false,
+										pagesize: '5',
+										pagesizeoptions: ['5','50','100'],
+										columnsresize: false,
+										autoshowfiltericon: false,
+										autoshowcolumnsmenubutton: false,
+										altrows: true,
+										showtoolbar: false,
+										enabletooltips: true,
+										pageable: true,
+										columns: [
+											{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
+											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
+											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
+											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
+										]
+									});
+								});
+							</script>
+							<div class="col-12 mt-3">
+								<div id="jqxgrid"></div>
+							</div>
+						</div>
 						<div class="row mx-0 clearfix">
 							<div class="col-12 col-md-5 float-left mt-0">
 								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
@@ -434,87 +505,7 @@
 											</ul>
 										</div>
 									</cfif>
-									<cfquery name="specimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT DISTINCT flat.guid, flat.scientific_name
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.guid is not null
-										ORDER BY flat.guid asc
-									</cfquery>
-									<!---<cfif specimens.recordcount GT 0>
-										<div class="col-12">
-											<h3>Specimen Records</h3>
-											<ul class="list-group d-inline-block py-3 border-top border-bottom rounded-0 border-dark">
-												<cfloop query="specimens">
-													<li class="list-group-item float-left d-inline mr-2" style="width:105px">
-														<a href="/guid/#specimens.guid#" target="_blank">#specimens.guid#</a> #specimens.scientific_name#
-													</li>
-												</cfloop>
-											</ul>
-										</div>
-									</cfif>--->
-									<script type="text/javascript">
-										var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-											if (value > 1) {
-												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
-											}
-											else {
-												return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
-											}
-										}
-										$(document).ready(function () {
-											var source =
-											{
-												datatype: "json",
-												datafields:
-												[
-													{ name: 'GUID', type: 'string' },
-													{ name: 'SCIENTIFIC_NAME', type: 'string' },
-													{ name: 'VERBATIM_DATE', type: 'string' },
-													{ name: 'SPEC_LOCALITY', type: 'string' },
-													{ name: 'FULL_TAXON_NAME', type: 'string' }
-												],
-												url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
-											};
 
-											var dataAdapter = new $.jqx.dataAdapter(source);
-											// initialize jqxGrid
-											$("##jqxgrid").jqxGrid(
-											{
-												width: '100%',
-												autoheight: 'true',
-												source: dataAdapter,
-												filterable: true,
-												showfilterrow: true,
-												sortable: true,
-												pageable: true,
-												editable: false,
-												pagesize: '5',
-												pagesizeoptions: ['5','50','100'],
-												columnsresize: false,
-												autoshowfiltericon: false,
-												autoshowcolumnsmenubutton: false,
-												altrows: true,
-												showtoolbar: false,
-												enabletooltips: true,
-												pageable: true,
-												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:'130',cellsalign: 'left',cellsrenderer: cellsrenderer },
-													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
-													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
-													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
-													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
-												]
-											});
-										});
-									</script>
-									<div class="col-12 mt-3">
-										<div id="jqxgrid"></div>
-									</div>
 								</div>
 							</div>
 						</div>
