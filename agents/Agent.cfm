@@ -313,7 +313,7 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-														<h3 class="h4 mb-1 mt-2">#addr_type# address #addressCurrency##rem#</h3>
+														<h3 class="h4 mb-1 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency##rem#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
