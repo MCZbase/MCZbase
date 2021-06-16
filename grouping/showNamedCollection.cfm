@@ -472,24 +472,11 @@
 												<div class="carousel-item active"> 
 					<!---								<img class="d-block w-100" src="/images/ledger.PNG" alt="First slide">--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Ledger Scan</h3>
-														<p>MCZ/Ernst Mayr Library</p>
+											<!---			<h3 class="h3-responsive">Ledger Scan</h3>
+														<p>MCZ/Ernst Mayr Library</p>--->
 													</div> 
 												</div>
-												<div class="carousel-item"> 
-													<img class="d-block w-100" src="/images/Hassler_expedition_route.png" alt="Second slide">
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Annotation of Map/ Collecting route</h3>
-														<p>MCZ note example</p>
-													</div> 
-												</div>
-												<div class="carousel-item"> 
-													<img class="d-block w-100" src="/images/IP_semliki_notes.PNG" alt="Third slide">
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Semliki Notes</h3>
-														<p>MCZ IP dept.</p>
-													</div> 
-												</div>
+
 											</div>
 											<a class="carousel-control-prev" href="##carouselExampleControls3" role="button" data-slide="prev" style="top:-46%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carouselExampleControls3" role="button" data-slide="next" style="top:-46%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 										</div>
@@ -502,8 +489,8 @@
 												<div class="carousel-item active"> 
 												<!---/*	<img class="d-block w-100" src="/images/student_images.png" alt="">*/--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Collector Images</h3>
-														<p>Description</p>
+								<!---						<h3 class="h3-responsive">Collector Images</h3>
+														<p>Description</p>--->
 													</div>
 												</div> 
 											</div>
@@ -525,8 +512,8 @@
 												<div class="carousel-item active"> 
 										<!---			<img class="d-block w-100" src="/images/student_images.png" alt="">--->
 													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-														<h3 class="h3-responsive">Title</h3>
-														<p>Description</p>
+													<!---	<h3 class="h3-responsive">Title</h3>
+														<p>Description</p>--->
 													</div>
 												</div> 
 											</div>
