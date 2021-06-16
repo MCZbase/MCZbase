@@ -385,6 +385,11 @@
 										</div>
 									</cfif>--->
 										<script type="text/javascript">
+											var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+											var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+											var displayNameAuthor = rowData['DISPLAY_NAME_AUTHOR'];
+											return '<span class="btn-link"><a target="_blank" href="/specimens/guid/' + rowData['GUID'] + '">'+ guid +'</a></span>';
+				};
 										$(document).ready(function () {
 											//var theme = 'black';
 											var source =
@@ -423,15 +428,13 @@
 												enabletooltips: true,
 												pageable: true,
 												columns: [
-													{ text: 'GUID', datafield: 'GUID', width:'130' },
+													{ text: 'GUID', datafield: 'GUID', width:'130',cellsrenderer: linkIdCellRenderer },
 													{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
 													{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
 													{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'300' },
 													{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'300'}
 												]
 											});
-											// select the first row.
-											//$("##jqxgrid").jqxGrid();
 										});
 									</script>
 
