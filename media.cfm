@@ -277,7 +277,7 @@
 						source_media.auto_filename source_filename,
 						source_media.media_uri source_media_uri,
 						media_relations.media_relationship,
-						MCZBASE.get_media_descriptor(source_media.media_id) alt
+						MCZBASE.get_media_descriptor(source_media.media_id) source_alt
 					FROM
 						media_relations
 						left join media source_media on media_relations.media_id = source_media.media_id
@@ -290,7 +290,11 @@
 					<ul id="reverseRelationsList">
 						<cfloop query="reverseRelations">
 							<cfif len(reverseRelations.source_filename) GT 0><cfset sourceFilename=" (#reverseRelations.source_filename#)"><cfelse><cfset sourceFilename=""></cfif>
-							<li><a href="/media/#source_media_id#">/media/#source_media_id##sourceFilename#</a> is #media_relationship# for /media/#media_id#</li>
+							<li>
+								<a href="/media/#source_media_id#" title="#reverseRelations.source_alt#">
+									/media/#source_media_id##sourceFilename#
+								</a> 
+								is #media_relationship# for /media/#media_id#</li>
 						</cfloop>
 					</ul>
 				</cfif>
