@@ -119,10 +119,7 @@
 						</div>
 						<div class="row mx-0 clearfix">
 							<div class="col-12 col-md-5 float-left mt-0">
-								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
-									<h2 class="h2">Overview</h2>
-									<p class="">#getNamedGroup.description#</p>
-								</div>
+							
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
@@ -164,10 +161,7 @@
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
 								
-								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-									<h2 class="mt-2 pt-2">Associated Agent</h2>
-									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
-								</cfif>
+								
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
 								<cfif specimenImagesShown GT 0>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
@@ -335,6 +329,14 @@
 								</div>
 							</div>
 							<div class="col-12 col-md-7 mt-4 float-left">
+								<div class="my-4 py-3" style="border-bottom: 8px solid black;border-top: 8px solid black;">
+									<h2 class="h2">Overview</h2>
+									<p class="">#getNamedGroup.description#</p>
+								</div>
+								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
+									<h2 class="mt-2 pt-2">Associated Agent</h2>
+									<p class=""><a href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a></p>
+								</cfif>
 								<div class="row bg-light border pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
