@@ -271,6 +271,29 @@
         </cfloop>
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
+			<br>
+				<cfquery name="reverseRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT media.media_id source_media_id, 
+						media.auto_filename,
+						media.media_url,
+						media_relations.media_relationship,
+						MCZBASE.get_media_descriptor(media.media_id) alt
+					FROM
+						media_relations
+						left join media target_media on media_relations.media_id = media.media_id
+					WHERE
+						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relationship like '%media'
+				</cfquery>
+				<cfif reverseRelations.recordcount GT 0>
+      			<label for="reverseRelationsList">Relationships from other Media Records</label>
+					<ul id="reverseRelationsList">
+						<cfloop query="reverseRelations">
+							<cfif len(reverseRelations.auto_filename) GT 0><cfset sourceFilename=" (#reverseRelations.auto_filename#)"><cfelse><cfset sourceFilename=""></cfif>
+							<li><a href="/media/#source_media_id#">/media/#source_media_id##sourceFilename#</a> is #media_relationship# for /media/#media_id#</li>
+						</cfloop>
+					</ul>
+				</li>
       <br>
       <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
