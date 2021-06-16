@@ -94,9 +94,9 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h2 class="mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
+							<h1 class="h2 mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
 							<cfif len(trim(getAgent.collections_scope)) GT 0>
-								<h3 class="h4">Collector: #getAgent.collections_scope#</h3>
+								<h2 class="h4">Collector: #getAgent.collections_scope#</h2>
 							</cfif>
 						</div>
 						<div class="col-12 col-sm-2">
@@ -127,7 +127,7 @@ limitations under the License.
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<h3 class="h4>">Internal Remarks</h3>
+								<h3 class="h4">Internal Remarks</h3>
 								<div class="col-12">#agent_remarks#</div>
 							</cfif>
 						</cfif>
@@ -142,8 +142,8 @@ limitations under the License.
 							<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
-								<div class="card-header">
-									<h3 class="h4 mt-0 mb-2 mx-2">Names for this agent</h3>
+								<div class="card-header py-0">
+									<h3 class="h4 my-1 mx-2">Names for this agent</h3>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -1378,9 +1378,9 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
-														<li class="border list-group-item d-flex justify-content-between align-items-center">
+														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-															<span class="badge badge-primary badge-pill">#citation_count# citations</span>
+															<span class="badge badge-primary badge-pill pb-1">#citation_count# citations</span>
 															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
 														</li>
 													</cfloop>
@@ -1635,8 +1635,8 @@ limitations under the License.
 											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
 											ORDER BY dba_constraints.table_name
 										</cfquery>
-										<div class="card-header">
-											<h3 class="h4 mt-0 mb-2 mx-2">This Agent record is linked to:</h3>
+										<div class="card-header py-0">
+											<h3 class="h4 my-1 mx-2">This Agent record is linked to:</h3>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
