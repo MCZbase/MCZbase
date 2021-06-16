@@ -273,14 +273,14 @@
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
 			<br>
 				<cfquery name="reverseRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media.media_id source_media_id, 
-						media.auto_filename,
-						media.media_url,
+					SELECT source_media.media_id source_media_id, 
+						source_media.auto_filename,
+						source_media.media_url,
 						media_relations.media_relationship,
-						MCZBASE.get_media_descriptor(media.media_id) alt
+						MCZBASE.get_media_descriptor(source_media.media_id) alt
 					FROM
 						media_relations
-						left join media target_media on media_relations.media_id = media.media_id
+						left join media source_media on media_relations.media_id = source_media.media_id
 					WHERE
 						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and media_relationship like '%media'
