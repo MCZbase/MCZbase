@@ -95,6 +95,7 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h2 class="mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h2>
+							<h3 class="h4">#getAgent.collections_scope#</h3>
 						</div>
 						<div class="col-12 col-sm-2">
 							<!--- edit button at upper right for those authorized to edit agent records --->
@@ -466,7 +467,6 @@ limitations under the License.
 										</h3>
 									</div>
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
-										<h3 class="h4 card-title ml-1">#getAgent.collections_scope#</h3>
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope.recordcount EQ 0>
 												<h4 class="h5">Not a collector of any material in MCZbase</h4>
