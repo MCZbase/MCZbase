@@ -493,7 +493,7 @@
 												sortable: true,
 												pageable: true,
 												editable: false,
-												pagesize: '30',
+												pagesize: '5',
 												pagesizeoptions: ['5','50','100'],
 												columnsresize: false,
 												autoshowfiltericon: false,
