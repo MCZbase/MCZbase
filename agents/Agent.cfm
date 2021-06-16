@@ -803,7 +803,6 @@ limitations under the License.
 										</cfquery>
 										<div class="card-header" id="mediametaHeader">
 											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
-											<h3 class="h4">
 												Media Records Edited
 											</h3>
 										</div>
