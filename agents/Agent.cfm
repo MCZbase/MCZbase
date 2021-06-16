@@ -141,7 +141,7 @@ limitations under the License.
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
 								<div class="card-header">
-									<h3 class="h4">Names for this agent</h3>
+									<h3 class="h4 my-0 mx-2">Names for this agent</h3>
 								</div>
 								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 									SELECT
@@ -203,20 +203,16 @@ limitations under the License.
 										<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif groupMembers.recordcount GT 10>
 											<!--- cardState = collapsed --->
-											<cfset headerClass = "btn-link-collapsed">
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
 										<cfelse>
 											<!--- cardState = expanded --->
-											<cfset headerClass = "btn-link">
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="groupMembersHeader">
-											<h3 class="h4">
-												<button class="btn #headerClass#" data-toggle="collapse" data-target="##groupMembersCardBody" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBody">
-													Group Members (#groupMembers.recordcount#):
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBody" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBody">
+												Group Members (#groupMembers.recordcount#):
 											</h3>
 										</div>
 										<div id="groupMembersCardBody" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
@@ -251,10 +247,8 @@ limitations under the License.
 											order by address_type
 										</cfquery>
 										<div class="card-header" id="electAddrHeader">
-											<h3 class="h4">
-												<button class="btn btn-link" data-toggle="collapse" data-target="##elecAddrCardBody" aria-expanded="true" aria-controls="elecAddrCardBody">
-													Phone/Email
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBody" aria-expanded="true" aria-controls="elecAddrCardBody">
+												Phone/Email
 											</h3>
 										</div>
 										<div id="elecAddrCardBody" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
@@ -289,10 +283,8 @@ limitations under the License.
 											order by addr_type, valid_addr_fg desc
 										</cfquery>
 										<div class="card-header" id="addressHeader">
-											<h3 class="h4">
-												<button class="btn btn-link" data-toggle="collapse" data-target="##addressCardBody" aria-expanded="true" aria-controls="addressCardBody">
-													Postal Addresses
-												</button>
+											<h3 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBody" aria-expanded="true" aria-controls="addressCardBody">
+												Postal Addresses
 											</h3>
 										</div>
 										<div id="addressCardBody" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
