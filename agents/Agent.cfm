@@ -1442,7 +1442,7 @@ limitations under the License.
 													trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 												ORDER BY transaction_view.transaction_type, transaction_view.specific_number
 											</cfquery>
-										<cfelse>
+										</cfif>
 										<cfset totalTransCount = getTransCount.ct>
 										<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totalTransCount GT 10>
