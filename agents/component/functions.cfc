@@ -1917,7 +1917,7 @@ limitations under the License.
 									</div>
 									<div class='col-12 col-md-6'>
 										<label for='state' class="data-entry-label">State/Province</label>
-										<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input' value="#state#" required>
+										<input type='text' name='state' id='state' class='form-control data-entry-input' value="#state#">
 									</div>
 								</div>
 								<div class='form-row'>
@@ -1935,12 +1935,16 @@ limitations under the License.
 													$("##country_cde").val("USA");
 													$("##other_country_cde").removeClass("reqdClr");
 													$('##other_country_cde').removeAttr('required');
+													$("##state").addClass("reqdClr");
+													$('##state').propAttr('required',true);
 												} else {
 													$("##textUS").css({"color": "##999999", "font-weight": "normal" });
 													$("##other_country_cde").toggle("true");
 													$("##country_cde").val($("##other_country_cde").val());
 													$("##other_country_cde").addClass("reqdClr");
 													$('##other_country_cde').prop('required',true);
+													$("##state").removeClass("reqdClr");
+													$('##state').removeAttr('required');
 												}
 											}
 										</script>
