@@ -1171,6 +1171,8 @@ limitations under the License.
 											SELECT media.media_id,
 												mczbase.get_media_descriptor(media.media_id) as descriptor,
 												mczbase.get_medialabel(media.media_id,'subject') as subject,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											mczbase.get_medialabel(media.media_id,'remarks') as remarks,
 												media.media_uri,
 												media.media_type,
 												CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
@@ -1212,6 +1214,7 @@ limitations under the License.
 																<li class="list-group-item">#getMedia.subject#</li>
 																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
 																<li class="list-group-item">#getMedia.credit#</li>
+																<li class="list-group-item">#getMedia.remarks#</li>
 															</ul>
 														</cfif>
 													</cfloop>
