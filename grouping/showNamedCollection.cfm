@@ -125,7 +125,7 @@
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
-							<div class="col-12 col-md-6 float-left mt-0">
+							<div class="col-12 col-md-6 mb-4 float-left mt-0">
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
