@@ -1580,12 +1580,12 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="permitsHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
+												<h2 class="float-left btn-link h4 px-3 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
 													Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 												</h2>
 											</div>
 											<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
-												<h2 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h2>
+												<h2 class="h4 px-3">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h2>
 												<div class="card-body py-1 mb-1">
 													<ul class="list-group">
 														<cfif getPermitsTo.recordcount EQ 0>
