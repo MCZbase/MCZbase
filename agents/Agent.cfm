@@ -315,8 +315,8 @@ limitations under the License.
 																	OR shipped_from_addr_id = <cfqueryparam value="#getAgentAddr.addr_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
 															<cfif getShipmentCount.ct GT 0>
-																<cfif getShipmentCount.cf EQ 1><cfset splural=""><cfelse><cfset splural="s"></cfif>
-																<cfset addressUse=" (used in #getShipmentCount.cf# shipment#splural#)">
+																<cfif getShipmentCount.ct EQ 1><cfset splural=""><cfelse><cfset splural="s"></cfif>
+																<cfset addressUse=" (used in #getShipmentCount.ct# shipment#splural#)">
 															</cfif>
 														</cfif>
 														<cfif len(addr_remarks) GT 0><cfset rem=" [#addr_remarks#]"><cfelse><cfset rem=""></cfif>
