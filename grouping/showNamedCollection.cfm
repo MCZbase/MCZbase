@@ -213,68 +213,94 @@
 								</cfif><!--- end specimen image loop --->
 								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
-								<cfquery name="localityImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localityImageQuery_result">
-									SELECT DISTINCT media_uri, preview_uri,media_type,
-										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit
+						
+								<div class="row">
+									<div class="col-12 col-md-3">
+																		<!--- obtain a random set of images, limited to a small number --->
+								<cfquery name="locImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
+									SELECT * FROM (
+										SELECT DISTINCT media_uri, preview_uri,media_type,
+											MCZBASE.get_media_descriptor(media.media_id) as alt,
+											MCZBASE.get_media_credit(media.media_id) as credit,
+											flat.guid
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+											left join media on media_relations.media_id = media.media_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											AND flat.guid IS NOT NULL
+											AND  (media_relations.media_relationship = 'shows locality' OR media_relations.media_relationship = 'shows collecting event')
+											AND media.media_type = 'image'
+											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+											and rownum <= 20
+										ORDER BY DBMS_RANDOM.RANDOM
+									) 
+									WHERE rownum < 16
+								</cfquery>
+								<!--- find out how many images there are in total --->
+								<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT count(media.media_id) as ct
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-										left join media_relations on media_relations.related_primary_key = underscore_relation.underscore_collection_id
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+											on underscore_relation.collection_object_id = flat.collection_object_id
+										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-										AND media_relations.media_relationship = 'shows locality'
+										AND flat.guid IS NOT NULL
+										AND (media_relations.media_relationship = 'shows locality' OR media_relations.media_relationship = 'shows collecting event')
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
-								<div class="row">
-									<div class="col-12 col-md-3">
-										<h3>Place Images</h3>
-										<p>Maps, Habitats, and Collecting Events</p> 
-										<cfset localityImageCount = localityImageQuery.recordcount>
-										<cfif localityImageCount GT 0>
-											<p>#localityImageCount# Locality Images</p>
-											<!--Carousel Wrapper-->
-											<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
-												<!--Indicators-->
-												<ol class="carousel-indicators">
-													<cfset active = 'class="active"' >
-													<cfloop index="i" from="0" to="#localityImageCount#">
-														<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
-														<cfset active = '' >
-													</cfloop>
-												</ol>
-												<!--/.Indicators---> 
-												<!--Slides-->
-												<div class="carousel-inner" role="listbox">
-													<cfset active = "active" >
-													<cfloop query="localityImageQuery">
-														<div class="carousel-item #active#">
-															<div class="view">
-																<img class="d-block w-100" src="#localityImageQuery.media_uri#" alt="#localityImageQuery.alt#"/>
-															   <div class="mask rgba-black-strong"></div>
-															</div>
-															<div class="carousel-caption">
-																<h3 class="h3-responsive">#localityImageQuery.alt#</h3>
-																<p>#localityImageQuery.credit#</p>
-															</div>
-														</div>
-														<cfset active = "" >
-													</cfloop>
+								<cfset specimenImagesShown = locImageQuery.recordcount>
+								<cfif specimenImagesShown GT 0>
+									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
+										<cfset shown = " (#locImagesShown# shown)">
+									<cfelse>
+										<cfset shown = "">
+									</cfif>
+									<h2 class="mt-2 pt-3">Place/Event Images</h2>
+									<p>#locImageCt.ct# Place/Event Images#shown#</p>
+									<!--Carousel Wrapper-->
+									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+										<!--Indicators-->
+										<ol class="carousel-indicators">
+											<cfset active = 'class="active"' >
+											<cfloop index="i" from="0" to="#locImagesShown#">
+												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
+												<cfset active = '' >
+											</cfloop>
+										</ol>
+											
+										<!--/.Indicators---> 
+										<!--Slides-->
+										<div class="carousel-inner" role="listbox">
+											<cfset active = "active" >
+											<cfloop query="locImageQuery">
+												<div class="carousel-item #active#">
+													<div class="view">
+														<img class="d-block w-100" src="#locImageQuery.media_uri#" alt="#locImageQuery.alt#"/>
+														<div class="mask rgba-black-strong"></div>
+													</div>
+													<div class="carousel-caption">
+														<h3 class="h3-responsive">#locImageQuery.alt#</h3>
+														<p>#locImageQuery.credit#</p>
+													</div>
 												</div>
-												<!--/.Slides--> 
-												<!--Controls--> 
-												<a class="carousel-control-prev" href="##carousel-example-4" role="button" data-slide="prev" style="top:-5%;"> 
-													<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
-													<span class="sr-only">Previous</span> 
-												</a> 
-												<a class="carousel-control-next" href="##carousel-example-4" role="button" data-slide="next" style="top:-5%;"> 
-													<span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> 
-												</a> 
-												<!--/.Controls--> 
-											</div>
-										<!--/.Carousel Wrapper-->
-										</cfif><!--- end specimen image loop --->
+												<cfset active = "" >
+											</cfloop>
+										</div>
+										<!--/.Slides--> 
+										<!--Controls--> 
+										<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+										<!--/.Controls--> 
+									</div>
+									<!--/.Carousel Wrapper-->
+								</cfif><!--- end specimen image loop --->
 
 									</div>
 									<div class="col-12 col-md-3">
