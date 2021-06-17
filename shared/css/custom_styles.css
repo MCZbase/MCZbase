@@ -1892,6 +1892,7 @@ th {
 	column-gap: 3px;
 	flex-wrap: wrap;
 	max-width: 1270px!important;
+	column-count: 2;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
