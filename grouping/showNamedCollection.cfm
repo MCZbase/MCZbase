@@ -396,8 +396,7 @@
 										SELECT * FROM (
 											SELECT DISTINCT media_uri, preview_uri,media_type,
 												MCZBASE.get_media_descriptor(media.media_id) as alt,
-												MCZBASE.get_media_credit(media.media_id) as credit,
-												flat.guid
+												MCZBASE.get_media_credit(media.media_id) as credit
 											FROM
 												underscore_collection
 												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -406,7 +405,6 @@
 												left join media_relations on flat.collection_object_id = media_relations.related_primary_key
 												left join media on media_relations.media_id = media.media_id
 											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-												AND flat.guid IS NOT NULL
 												AND media.media_type = 'image'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												AND rownum <= 20
@@ -426,7 +424,6 @@
 											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
 											left join media on media_relations.media_id = media.media_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											AND flat.guid IS NOT NULL
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 											AND (media.media_type = 'audio' OR media.media_type = 'video')
 									</cfquery>
