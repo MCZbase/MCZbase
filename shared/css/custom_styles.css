@@ -1937,7 +1937,7 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	.containFlex {display:none;}
+	.containFlex {column-count: 1;}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
