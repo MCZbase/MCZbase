@@ -138,7 +138,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-12">
-				<div class="row d-block">
+				<div class="row d-block mb-5">
 					<div class="containFlex">
 			<!---	<div class="row">--->
 					<!--- two columns of information about the agent gleaned from related tables --->
