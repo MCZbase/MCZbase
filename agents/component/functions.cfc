@@ -1931,7 +1931,7 @@ limitations under the License.
 												var countrySelection = $('input:radio[name=country]:checked').val();
 												if (countrySelection == 'USA') {
 													$("##textUS").css({"color": "black", "font-weight":"bold" });
-													$("##other_country_cde").toggle("false");
+													$("##other_country_cde").toggle(false);
 													$("##country_cde").val("USA");
 													$("##other_country_cde").removeClass("reqdClr");
 													$('##other_country_cde').removeAttr('required');
@@ -1939,7 +1939,7 @@ limitations under the License.
 													$('##state').prop('required',true);
 												} else {
 													$("##textUS").css({"color": "##999999", "font-weight": "normal" });
-													$("##other_country_cde").toggle("true");
+													$("##other_country_cde").toggle(true);
 													$("##country_cde").val($("##other_country_cde").val());
 													$("##other_country_cde").addClass("reqdClr");
 													$('##other_country_cde').prop('required',true);
