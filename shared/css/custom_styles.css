@@ -1891,7 +1891,7 @@ th {
 	column-width: 47%!important;
 	column-gap: 3px;
 	flex-wrap: wrap;
-	max-width: 1270px!important;
+	max-width: 90%!important;
 	column-count: 2;
 }
 /************end tabs -- redone for accessibility  ***************/
