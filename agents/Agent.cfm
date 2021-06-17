@@ -1203,7 +1203,7 @@ limitations under the License.
 														<div class="containFlex">
 														<cfif getMedia.media_type IS "image">
 															<a href="/media/#getMedia.media_id#">
-																<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
+																<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
 															</a>
 															<ul class="list-group">
 																<li class="list-group-item">#getMedia.descriptor#</li>
