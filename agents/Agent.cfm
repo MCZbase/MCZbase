@@ -1482,7 +1482,7 @@ limitations under the License.
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="list-group-item">
-																	<cfif transaction_type IS "deaccessions">
+																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
 																		<cfset targetStatus="#transaction_type#_status">
