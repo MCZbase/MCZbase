@@ -150,7 +150,7 @@ limitations under the License.
 								<section class="card mb-2 bg-light">
 									<!--- always open, not a collapsable card --->
 									<div class="card-header py-0">
-										<h2 class="h4 my-1 mx-2">Names for this agent</h2>
+										<h2 class="h4 my-1 mx-2 pl-1">Names for this agent</h2>
 									</div>
 									<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 										SELECT
@@ -1653,7 +1653,7 @@ limitations under the License.
 												ORDER BY dba_constraints.table_name
 											</cfquery>
 											<div class="card-header py-0">
-												<h2 class="h4 my-1 mx-2">This Agent record is linked to:</h2>
+												<h2 class="h4 my-1 mx-2 pl-1">This Agent record is linked to:</h2>
 											</div>
 											<cfset relatedTo = StructNew() >
 											<cfset okToDelete = true>
