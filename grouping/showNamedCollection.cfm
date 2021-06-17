@@ -120,7 +120,7 @@
 								});
 							</script>
 							<div class="col-12 mt-3">
-								<h2 class="">Specimen Records in Named Group <a href="/SpecimenResults.cfm?underscore_collection_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_collection_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
