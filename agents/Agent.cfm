@@ -1202,14 +1202,16 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
 													<cfloop query="getMedia">
-														<div class="col-12 d-flex flex-column">
+														<div>
 														<cfif getMedia.media_type IS "image">
-															<ul class="list-group">
+															<ul class="list-group col-12 d-flex flex-column col-md-6">
 																<li class="list-group-item pb-1">
 																	<a href="/media/#getMedia.media_id#">
 																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
 																	</a>
 																</li>
+															</ul>
+															<ul class="list-group col-12 d-flex flex-column col-md-6">
 																<cfif len(descriptor) gt 0><li class="list-group-item pb-1">Description: #getMedia.descriptor#</li></cfif>
 																<cfif len(subject) gt 0><li class="list-group-item pb-1">Subject: #getMedia.subject#</li></cfif>
 																<cfif len(license_display) gt 0><li class="list-group-item pb-1">License: <a href="#getMedia.license_uri#">#getMedia.license_display#</a></li></cfif>
