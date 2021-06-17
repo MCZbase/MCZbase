@@ -1199,27 +1199,20 @@ limitations under the License.
 											<h2 class="h4 px-2">#prefName# is the subject of #mediaLink#.</h2>
 											<div class="card-body py-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
-													<ul class="list-group list-group-horizontal">
-														<cfloop query="getMedia">
-															<cfif getMedia.media_type IS "image">
-																<li class="border list-group-item">
-																	<ul class="list-group">
-																		<li class="list-group-item">
-																			<a href="/media/#getMedia.media_id#">
-																				<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
-																			</a>
-																		</li>
-																	</ul>
-																	<ul class="list-group">
-																		<li class="list-group-item">#getMedia.descriptor#</li>
-																		<li class="list-group-item">#getMedia.subject#</li>
-																		<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																		<li class="list-group-item">#getMedia.credit#</li>
-																	</ul>
-																</li>
-															</cfif>
-														</cfloop>
-													</ul>
+													<cfloop query="getMedia">
+														<div class="containFlex">
+														<cfif getMedia.media_type IS "image">
+															<a href="/media/#getMedia.media_id#">
+																<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;">
+															</a>
+															<ul class="list-group">
+																<li class="list-group-item">#getMedia.descriptor#</li>
+																<li class="list-group-item">#getMedia.subject#</li>
+																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
+																<li class="list-group-item">#getMedia.credit#</li>
+															</ul>
+														</cfif>
+													</cfloop>
 												</cfif>
 											</div>
 										</div><!--- end mediaCardBodyWrap --->
