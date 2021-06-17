@@ -1198,7 +1198,7 @@ limitations under the License.
 											<cfelse>
 												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 											</cfif>
-											<h2 class="h4 px-2">#prefName# is the subject of #mediaLink#.</h2>
+											<h2 class="h4 px-3">#prefName# is the subject of #mediaLink#.</h2>
 											<div class="card-body py-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
 													<cfloop query="getMedia">
