@@ -1893,6 +1893,11 @@ th {
 	max-width: 100%;
 	column-count: 2;
 }
+.accordion {
+-webkit-column-break-inside: avoid;
+          page-break-inside: avoid;
+               break-inside: avoid;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
