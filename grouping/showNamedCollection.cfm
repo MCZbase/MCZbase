@@ -256,9 +256,9 @@
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
-								<cfset specimenImagesShown = locImageQuery.recordcount>
-								<cfif specimenImagesShown GT 0>
-									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
+								<cfset locImagesShown = locImageQuery.recordcount>
+								<cfif locImagesShown GT 0>
+									<cfif locImageQuery.recordcount LT locImageCt.ct>
 										<cfset shown = " (#locImagesShown# shown)">
 									<cfelse>
 										<cfset shown = "">
@@ -266,12 +266,12 @@
 									<h2 class="mt-2 pt-3">Place/Event Images</h2>
 									<p>#locImageCt.ct# Place/Event Images#shown#</p>
 									<!--Carousel Wrapper-->
-									<div id="carousel-example-2" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+									<div id="carousel-example-3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 										<!--Indicators-->
 										<ol class="carousel-indicators">
 											<cfset active = 'class="active"' >
 											<cfloop index="i" from="0" to="#locImagesShown#">
-												<li data-target="##carousel-example-2" data-slide-to="#i#" #active#></li>
+												<li data-target="##carousel-example-3" data-slide-to="#i#" #active#></li>
 												<cfset active = '' >
 											</cfloop>
 										</ol>
@@ -296,7 +296,7 @@
 										</div>
 										<!--/.Slides--> 
 										<!--Controls--> 
-										<a class="carousel-control-prev" href="##carousel-example-2" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-2" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+										<a class="carousel-control-prev" href="##carousel-example-3" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-3" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
 										<!--/.Controls--> 
 									</div>
 									<!--/.Carousel Wrapper-->
