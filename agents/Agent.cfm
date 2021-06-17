@@ -137,7 +137,9 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<div class="containFlex">
+			<div class="col-12">
+				<div class="row">
+					<div class="containFlex">
 			<!---	<div class="row">--->
 					<!--- two columns of information about the agent gleaned from related tables --->
 <!---					<div class="col-12 mb-2" id="agentTwoCollsWrapper">
@@ -1688,7 +1690,8 @@ limitations under the License.
 					<!---	</div>---><!-- end of agentTowCollsRowWrapper --->
 				<!---	</div>---><!--- end of agentTwoCollsWrapper --->
 				</div>
-			<!---	</div>--->
+				</div>
+			</div>
 			</cfloop><!--- getAgent --->
 		</div>
 	</div>
