@@ -421,8 +421,8 @@
 											left join media on media_relations.media_id = media.media_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											AND flat.guid IS NOT NULL
+											AND media.media_type = 'video'
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-											AND (media.media_type = 'audio' OR media.media_type = 'video')
 									</cfquery>
 									<cfset AVmediaImagesShown = AVmediaImageQuery.recordcount>
 									<cfif AVmediaImagesShown GT 0>
