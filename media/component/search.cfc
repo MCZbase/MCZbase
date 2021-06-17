@@ -147,8 +147,13 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif len(unlinked) EQ 0>
-					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
+					<cfif (isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0)
+						OR (isdefined("underscore_collection_id") and len(underscore_collection_id) gt 0)
+					>
 					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
+					</cfif>
+					<cfif isdefined("underscore_collection_id") and len(underscore_collection_id) gt 0 >
+					   left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
 					</cfif>
 				</cfif>
 			WHERE
@@ -603,6 +608,14 @@ limitations under the License.
 							AND media_relations_ci.related_primary_key IS NOT NULL
 						<cfelse>
 							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+						</cfif>
+					</cfif>
+					<cfif isdefined("underscore_collection_id") and len(underscore_collection_id) gt 0 >
+						AND media_relations_ci.media_relationship = 'shows cataloged_item'
+						<cfif underscore_collection_id IS 'NOT NULL'>
+							AND underscore_relation.collection_object_id IS NOT NULL
+						<cfelse>
+							AND underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						</cfif>
 					</cfif>
 				</cfif>
