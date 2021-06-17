@@ -75,10 +75,10 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-		<cfloop query="getAgent">
+
 	<div class="container">
 		<div class="row">
-		
+			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
@@ -134,10 +134,12 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
+			</cfloop>
 		</div>
 	</div>
 	<div class="container containFlex">
-		<div class="row">
+			<div class="row">
+				<cfloop query="getAgent">
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mb-2" id="agentTwoCollsWrapper">
 					<div class="form-row" id="agentTwoCollsRowWrapper">
@@ -1682,9 +1684,11 @@ limitations under the License.
 						</div><!--- end of right column --->
 					</div><!-- end of agentTwoCollsWrapper --->
 				</div><!-- end of agentTwoCollsRowWrapper --->
+				</cfloop><!--- getAgent --->
 			</div>
+		
 		</div>
-	</cfloop><!--- getAgent --->
+
 </cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
