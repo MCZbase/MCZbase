@@ -175,6 +175,12 @@ limitations under the License.
 					<cfset i=0>
 					<ul class="list-group form-row mx-0 pr-2">
 						<cfloop query="agentAddrs">
+							<cfquery name="countUses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result=countUses_result>
+								SELECT count(shippment_id) ct 
+								FROM shipment 
+								WHERE shipped_to_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+									OR shipped_from_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
 							<cfset i=i+1>
 							<cfif len(addr_remarks) GT 0><cfset rem="[#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 							<cfif valid_addr_fg EQ 1>
@@ -198,7 +204,11 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
 										<button type="button" id="editAddrButton_#i#" value="Edit" class="btn btn-xs btn-secondary my-1">Edit</button>
-										<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger my-1">Delete</button>
+										<cfif countUses.ct GT 0>
+											<span>Used in #countUses.ct# Shipments</span>
+										<cfelse>
+											<button type="button" id="deleteAddrButton_#i#" value="Delete" class="btn btn-xs btn-danger my-1">Delete</button>
+										</cfif>
 									</div>
 								</div>
 								<script>
