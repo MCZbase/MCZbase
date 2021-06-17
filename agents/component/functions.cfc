@@ -1936,7 +1936,7 @@ limitations under the License.
 													$("##other_country_cde").removeClass("reqdClr");
 													$('##other_country_cde').removeAttr('required');
 													$("##state").addClass("reqdClr");
-													$('##state').propAttr('required',true);
+													$('##state').prop('required',true);
 												} else {
 													$("##textUS").css({"color": "##999999", "font-weight": "normal" });
 													$("##other_country_cde").toggle("true");
