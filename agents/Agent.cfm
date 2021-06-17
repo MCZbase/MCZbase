@@ -138,12 +138,12 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="container containFlex">
-				<div class="row">
+			<!---	<div class="row">--->
 					<!--- two columns of information about the agent gleaned from related tables --->
-					<div class="col-12 mb-2" id="agentTwoCollsWrapper">
+<!---					<div class="col-12 mb-2" id="agentTwoCollsWrapper">
 						<div class="form-row" id="agentTwoCollsRowWrapper">
 							<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
-
+--->
 								<!--- agent names --->
 								<section class="card mb-2 bg-light">
 									<!--- always open, not a collapsable card --->
@@ -1158,9 +1158,9 @@ limitations under the License.
 									</section>
 								</cfif>
 
-							</div>
+					<!---		</div>--->
 							<!--- split between left and right agent columns ********************************************************************************************************* --->
-							<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
+						<!---	<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">--->
 
 								<!--- Media --->
 								<section class="accordion" id="mediaSection"> 
@@ -1683,12 +1683,12 @@ limitations under the License.
 									</section>
 								</cfif>
 
-							</div><!--- end of right column --->
+							<!---</div>---><!--- end of right column --->
 
-						</div><!-- end of agentTowCollsRowWrapper --->
-					</div><!--- end of agentTwoCollsWrapper --->
+					<!---	</div>---><!-- end of agentTowCollsRowWrapper --->
+				<!---	</div>---><!--- end of agentTwoCollsWrapper --->
 				</div>
-				</div>
+			<!---	</div>--->
 			</cfloop><!--- getAgent --->
 		</div>
 	</div>
