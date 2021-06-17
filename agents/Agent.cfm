@@ -1202,10 +1202,12 @@ limitations under the License.
 													<cfloop query="getMedia">
 														<div class="containFlex">
 														<cfif getMedia.media_type IS "image">
-															<a href="/media/#getMedia.media_id#">
-																<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
-															</a>
 															<ul class="list-group">
+																<li>
+																	<a href="/media/#getMedia.media_id#">
+																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
+																	</a>
+																</li>
 																<li class="list-group-item">#getMedia.descriptor#</li>
 																<li class="list-group-item">#getMedia.subject#</li>
 																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
