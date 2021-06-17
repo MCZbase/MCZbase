@@ -145,7 +145,6 @@
 											AND media_relations.media_relationship = 'shows cataloged_item'
 											AND media.media_type = 'image'
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-											and rownum <= 20
 										ORDER BY DBMS_RANDOM.RANDOM
 									) 
 									WHERE rownum < 16
@@ -234,7 +233,6 @@
 												AND  media_relations.media_relationship = 'shows locality'
 												AND media.media_type = 'image'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												and rownum <= 20
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
 										WHERE rownum < 16
@@ -322,7 +320,6 @@
 												AND  media_relations.media_relationship = 'shows agent'
 												AND media.media_type = 'image'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												and rownum <= 20
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
 										WHERE rownum < 16
@@ -408,7 +405,6 @@
 												AND flat.guid IS NOT NULL
 												AND media.media_type = 'image'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												AND rownum <= 20
 												AND (media.media_type = 'audio' OR media.media_type = 'video')
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
