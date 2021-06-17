@@ -305,6 +305,19 @@ limitations under the License.
 													</ul>
 												<cfelse>
 													<cfloop query="getAgentAddr">
+														<cfset addressUse="">
+														<cfif listcontainsnocase(session.roles, "manage_transactions")>
+															<cfquery name="getShipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getShipmentCount_result">
+																SELECT count(shipment_id) ct
+																FROM shipment
+																WHERE shipped_to_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+																	OR shipped_from_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+															</cfquery>
+															<cfif getShipmentCount.ct GT 0>
+																<cfif getShipmentCount.cf EQ 1><cfset splural=""><cfelse><cfset splural="s"></cfif>
+																<cfset addressUse=" (used in #getShipmentCount.cf# shipment#splural#)">
+															</cfif>
+														</cfif>
 														<cfif len(addr_remarks) GT 0><cfset rem=" [#addr_remarks#]"><cfelse><cfset rem=""></cfif>
 														<cfif valid_addr_fg EQ 1>
 															<cfset addressCurrency="Valid">
@@ -313,7 +326,7 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-														<h3 class="h4 mb-1 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency##rem#</h3>
+														<h3 class="h4 mb-1 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
