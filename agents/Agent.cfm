@@ -75,9 +75,10 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
+		<cfloop query="getAgent">
 	<div class="container">
 		<div class="row">
-			<cfloop query="getAgent">
+		
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
@@ -133,12 +134,14 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-
+		</div>
+	</div>
+	<div class="container containFlex">
+		<div class="row">
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mb-2" id="agentTwoCollsWrapper">
 					<div class="form-row" id="agentTwoCollsRowWrapper">
 						<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
-						
 							<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
@@ -1627,7 +1630,6 @@ limitations under the License.
 								</section>
 							</cfif>
 	
-	
 							<!--- foreign key relationships to other tables --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<section class="card mb-2 bg-light">
@@ -1677,14 +1679,12 @@ limitations under the License.
 									</cftry>
 								</section>
 							</cfif>
-	
 						</div><!--- end of right column --->
-
-					</div><!-- end of agentTowCollsRowWrapper --->
-				</div><!--- end of agentTwoCollsWrapper --->
-			</cfloop><!--- getAgent --->
+					</div><!-- end of agentTwoCollsWrapper --->
+				</div><!-- end of agentTwoCollsRowWrapper --->
+			</div>
 		</div>
-	</div>
+	</cfloop><!--- getAgent --->
 </cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
