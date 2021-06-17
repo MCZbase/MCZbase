@@ -176,7 +176,7 @@ limitations under the License.
 					<ul class="list-group form-row mx-0 pr-2">
 						<cfloop query="agentAddrs">
 							<cfquery name="countUses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result=countUses_result>
-								SELECT count(shippment_id) ct 
+								SELECT count(shipment_id) ct 
 								FROM shipment 
 								WHERE shipped_to_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
 									OR shipped_from_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
