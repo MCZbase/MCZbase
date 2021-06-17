@@ -139,7 +139,7 @@ limitations under the License.
 			</div>
 			<div class="col-12">
 				<div class="row d-block mb-5">
-					<div class="containFlex">
+					<div class="col-12 containFlex">
 			<!---	<div class="row">--->
 					<!--- two columns of information about the agent gleaned from related tables --->
 <!---					<div class="col-12 mb-2" id="agentTwoCollsWrapper">

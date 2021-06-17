@@ -1915,6 +1915,7 @@ th {
 	.w-350 {
 		width: 100%;
 	}
+	
 }
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -1936,6 +1937,7 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
+	.containFlex {display:none;}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
