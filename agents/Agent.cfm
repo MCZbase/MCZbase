@@ -1202,7 +1202,7 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
 													<cfloop query="getMedia">
-														<div class="containFlex">
+														<div class="col-12 d-flex flex-column">
 														<cfif getMedia.media_type IS "image">
 															<ul class="list-group">
 																<li class="list-group-item pb-1">
