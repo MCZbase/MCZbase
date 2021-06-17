@@ -1903,6 +1903,12 @@ section#mediaSection.accordion {
           page-break-inside: auto;
                break-inside: auto;
 }
+.border-top-black {
+	border-top: 8px solid black;
+}
+.border-bottom-black {
+	border-bottom: 8px solid black;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
