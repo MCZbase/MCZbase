@@ -1403,8 +1403,8 @@ limitations under the License.
 												trans_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfset oversizeSet = false>
-										<cfif getTransCount.ct GT 5000>
-											<!--- handle Brendan without crashing page --->
+										<cfif getTransCount.ct GT 50>
+											<!--- started as handle Brendan without crashing page with limit of 5000, but grouping looks useful at much smaller sizes, using default search page limit of 50 --->
 											<cfset oversizeSet = true>
 											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 												SELECT
