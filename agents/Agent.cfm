@@ -138,8 +138,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="col-12">
-				<div class="row d-block mb-5">
-					<div class="col-12 containFlex">
+				<div class="row mx-0 d-block mb-5">
+					<div class="col-12 px-0 containFlex">
 			<!---	<div class="row">--->
 					<!--- two columns of information about the agent gleaned from related tables --->
 <!---					<div class="col-12 mb-2" id="agentTwoCollsWrapper">
@@ -227,7 +227,7 @@ limitations under the License.
 											</div>
 											<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
 												<cfif groupMembers.recordcount GT 0>
-													<h2 class="h4 card-title">#prefName# consists of #groupMembers.recordcount# member#plural#</h2>
+													<h2 class="h4 px-3 mb-0">#prefName# consists of #groupMembers.recordcount# member#plural#</h2>
 												</cfif>
 												<div class="card-body py-1 mb-1">
 													<cfif groupMembers.recordcount EQ 0>
@@ -1204,14 +1204,14 @@ limitations under the License.
 													<cfloop query="getMedia">
 														<div class="form-row mx-0">
 														<cfif getMedia.media_type IS "image">
-															<ul class="list-group col-12 d-flex flex-column col-md-6 px-0 float-left ">
+															<ul class="list-group col-12 d-flex flex-column col-md-5 px-0 float-left ">
 																<li class="list-group-item pb-1">
 																	<a href="/media/#getMedia.media_id#">
 																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
 																	</a>
 																</li>
 															</ul>
-															<ul class="list-group col-12 d-flex flex-column col-md-6 px-0 float-right">
+															<ul class="list-group col-12 d-flex flex-column col-md-7 px-0 float-right">
 																<cfif len(descriptor) gt 0><li class="list-group-item pb-1">Description: #getMedia.descriptor#</li></cfif>
 																<cfif len(subject) gt 0><li class="list-group-item pb-1">Subject: #getMedia.subject#</li></cfif>
 																<cfif len(license_display) gt 0><li class="list-group-item pb-1">License: <a href="#getMedia.license_uri#">#getMedia.license_display#</a></li></cfif>
