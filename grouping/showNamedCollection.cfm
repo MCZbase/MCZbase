@@ -300,7 +300,7 @@
 											<!--/.Controls--> 
 										</div>
 										<!--/.Carousel Wrapper-->
-									</cfif><!--- end specimen image loop --->
+									</cfif><!--- end loc image loop --->
 
 									</div>
 									<div class="col-12 col-md-3">
@@ -388,30 +388,93 @@
 											<!--/.Controls--> 
 										</div>
 										<!--/.Carousel Wrapper-->
-									</cfif><!--- end specimen image loop --->
+									</cfif><!--- end agent image loop --->
 									</div>
 									<div class="col-12 col-md-3">
-										<h3>Agents</h3>
-										<p>Collectors and other agents </p>
-										<div id="carouselExampleControls2"  class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" >
-											<div class="carousel-inner">
-												<div class="carousel-item active"> 
-												<!---/*	<img class="d-block w-100" src="/images/student_images.png" alt="">*/--->
-													<div class="carousel-caption" style="position: relative;color: black;padding-top:20px;left:0;">
-								<!---						<h3 class="h3-responsive">Collector Images</h3>
-														<p>Description</p>--->
+									<!--- obtain a random set of collector images, limited to a small number --->
+									<cfquery name="AVmediaImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="AVmediaImageQuery_result">
+										SELECT * FROM (
+											SELECT DISTINCT media_uri, preview_uri,media_type,
+												MCZBASE.get_media_descriptor(media.media_id) as alt,
+												MCZBASE.get_media_credit(media.media_id) as credit,
+												flat.guid
+											FROM
+												underscore_collection
+												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+													on underscore_relation.collection_object_id = flat.collection_object_id
+												left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+												left join media on media_relations.media_id = media.media_id
+											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+												AND flat.guid IS NOT NULL
+												AND media.media_type = 'image'
+												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												AND rownum <= 20
+												AND (media.media_type = 'audio' OR media.media_type = 'video')
+											ORDER BY DBMS_RANDOM.RANDOM
+										) 
+										WHERE rownum < 16
+									</cfquery>
+									<!--- find out how many images there are in total --->
+									<cfquery name="AVmediaImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT count(media.media_id) as ct
+										FROM
+											underscore_collection
+											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+												on underscore_relation.collection_object_id = flat.collection_object_id
+											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+											left join media on media_relations.media_id = media.media_id
+										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											AND flat.guid IS NOT NULL
+											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+											AND (media.media_type = 'audio' OR media.media_type = 'video')
+									</cfquery>
+									<cfset AVmediaImagesShown = AVmediaImageQuery.recordcount>
+									<cfif AVmediaImagesShown GT 0>
+										<cfif AVmediaImageQuery.recordcount LT AVmediaImageCt.ct>
+											<cfset shown = " (#AVmediaImagesShown# shown)">
+										<cfelse>
+											<cfset shown = "">
+										</cfif>
+										<h2 class="mt-2 pt-3">Agent Images</h2>
+										<p>#AVmediaImageCt.ct# Agent Images#shown#</p>
+										<!--Carousel Wrapper-->
+										<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+											<!--Indicators-->
+											<ol class="carousel-indicators">
+												<cfset active = 'class="active"' >
+												<cfloop index="i" from="0" to="#AVmediaImagesShown#">
+													<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
+													<cfset active = '' >
+												</cfloop>
+											</ol>
+
+											<!--/.Indicators---> 
+											<!--Slides-->
+											<div class="carousel-inner" role="listbox">
+												<cfset active = "active" >
+												<cfloop query="AVmediaImageQuery">
+													<div class="carousel-item #active#">
+														<div class="view">
+															<img class="d-block w-100" src="#AVmediaImageQuery.media_uri#" alt="#AVmediaImageQuery.alt#"/>
+															<div class="mask rgba-black-strong"></div>
+														</div>
+														<div class="carousel-caption">
+															<h3 class="h3-responsive">#AVmediaImageQuery.alt#</h3>
+															<p>#AVmediaImageQuery.credit#</p>
+														</div>
 													</div>
-												</div> 
+													<cfset active = "" >
+												</cfloop>
 											</div>
+											<!--/.Slides--> 
+											<!--Controls--> 
+											<a class="carousel-control-prev" href="##carousel-example-5" role="button" data-slide="prev" style="top:-5%;"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="##carousel-example-5" role="button" data-slide="next" style="top:-5%;"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> 
+											<!--/.Controls--> 
 										</div>
-										<a class="carousel-control-prev" href="##carouselExampleControls2" role="button" data-slide="prev" style="top:-5%;"> 
-											<span class="carousel-control-prev-icon" aria-hidden="true"></span> 
-											<span class="sr-only">Previous</span> 
-										</a> 
-										<a class="carousel-control-next" href="##carouselExampleControls2" role="button" data-slide="next" style="top:-5%;">
-											<span class="carousel-control-next-icon" aria-hidden="true"></span> 
-											<span class="sr-only">Next</span> 
-										</a> 
+										<!--/.Carousel Wrapper-->
+									</cfif><!--- end agent image loop --->
 									</div>
 									<div class="col-12 col-md-3">
 										<h3>Audio & Video</h3>
