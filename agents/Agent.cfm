@@ -1493,7 +1493,7 @@ limitations under the License.
 												<cfif getTransCount.ct EQ 0>
 													<h2 class="float-left btn-link h4 w-100 mx-2 my-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h2>
 												<cfelse>
-													<h2 class="float-left btn-link h4 w-100 mx-2 my-0">
+													<h2 class="card-title btn-link h4 w-100 mx-2 my-0">
 														#prefName# has some role in 
 														<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 														#getTransCount.ct# Transaction#plural#
