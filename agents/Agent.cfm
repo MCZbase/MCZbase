@@ -286,7 +286,8 @@ limitations under the License.
 											select addr_type, 
 												REPLACE(formatted_addr, CHR(10),'<br>') FORMATTED_ADDR,
 												valid_addr_fg,
-												addr_remarks
+												addr_remarks,
+												addr_id
 											from addr
 											WHERE
 												addr.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
