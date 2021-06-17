@@ -405,7 +405,6 @@
 												AND flat.guid IS NOT NULL
 												AND media.media_type = 'image'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												AND (media.media_type = 'audio' OR media.media_type = 'video')
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
 										WHERE rownum < 16
