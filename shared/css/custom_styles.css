@@ -1898,6 +1898,11 @@ th {
           page-break-inside: avoid;
                break-inside: avoid;
 }
+section#mediaSection.accordion {
+	-webkit-column-break-inside: auto;
+          page-break-inside: auto;
+               break-inside: auto;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
