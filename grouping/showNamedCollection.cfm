@@ -404,6 +404,7 @@
 											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 												AND flat.guid IS NOT NULL
 												AND media.media_type = 'image'
+											    AND media_relations.media_relationship = 'video'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 											ORDER BY DBMS_RANDOM.RANDOM
 										) 
