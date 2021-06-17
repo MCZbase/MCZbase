@@ -232,7 +232,7 @@
 											left join media on media_relations.media_id = media.media_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											AND flat.guid IS NOT NULL
-											AND  (media_relations.media_relationship = 'shows locality' OR media_relations.media_relationship = 'shows collecting event')
+											AND  media_relations.media_relationship = 'shows locality'
 											AND media.media_type = 'image'
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 											and rownum <= 20
@@ -252,7 +252,7 @@
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
-										AND (media_relations.media_relationship = 'shows locality' OR media_relations.media_relationship = 'shows collecting event')
+										AND media_relations.media_relationship = 'shows locality' 
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
