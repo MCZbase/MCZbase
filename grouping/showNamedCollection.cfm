@@ -213,7 +213,6 @@
 								</cfif><!--- end specimen image loop --->
 								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
 								<hr>
-						
 								<div class="row">
 									<div class="col-12 col-md-4">
 									<!--- obtain a random set of images, limited to a small number --->
@@ -391,7 +390,7 @@
 									</cfif><!--- end agent image loop --->
 									</div>
 									<div class="col-12 col-md-4">
-									<!--- obtain a random set of collector images, limited to a small number --->
+									<!--- obtain a random set of audio/video images, limited to a small number --->
 									<cfquery name="AVmediaImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="AVmediaImageQuery_result">
 										SELECT * FROM (
 											SELECT DISTINCT media_uri, preview_uri,media_type,
@@ -440,12 +439,12 @@
 										<h2 class="mt-2 pt-3">Agent Images</h2>
 										<p>#AVmediaImageCt.ct# Agent Images#shown#</p>
 										<!--Carousel Wrapper-->
-										<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
+										<div id="carousel-example-5" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 											<!--Indicators-->
 											<ol class="carousel-indicators">
 												<cfset active = 'class="active"' >
 												<cfloop index="i" from="0" to="#AVmediaImagesShown#">
-													<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
+													<li data-target="##carousel-example-5" data-slide-to="#i#" #active#></li>
 													<cfset active = '' >
 												</cfloop>
 											</ol>
@@ -474,7 +473,7 @@
 											<!--/.Controls--> 
 										</div>
 										<!--/.Carousel Wrapper-->
-									</cfif><!--- end agent image loop --->
+									</cfif><!--- end audio video image loop --->
 									</div>
 			
 								</div>
