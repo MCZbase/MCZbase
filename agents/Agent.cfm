@@ -311,8 +311,8 @@ limitations under the License.
 															<cfquery name="getShipmentCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getShipmentCount_result">
 																SELECT count(shipment_id) ct
 																FROM shipment
-																WHERE shipped_to_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
-																	OR shipped_from_addr_id = <cfqueryparam value="#agentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+																WHERE shipped_to_addr_id = <cfqueryparam value="#getAgentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
+																	OR shipped_from_addr_id = <cfqueryparam value="#getAgentAddrs.addr_id#" cfsqltype="CF_SQL_DECIMAL">
 															</cfquery>
 															<cfif getShipmentCount.ct GT 0>
 																<cfif getShipmentCount.cf EQ 1><cfset splural=""><cfelse><cfset splural="s"></cfif>
