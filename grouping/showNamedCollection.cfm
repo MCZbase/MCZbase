@@ -32,7 +32,7 @@
 					<div class="col-12">
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-5">
-								<h1 class="pb-2 w-100" style="border-bottom: 8px solid ##000">#getNamedGroup.collection_name# 
+								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name# 
 									<div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></div>
 								</h1>
 							</div>
@@ -210,8 +210,7 @@
 									</div>
 									<!--/.Carousel Wrapper-->
 								</cfif><!--- end specimen image loop --->
-								<h2 class="mt-4 pt-3" style="border-top: 8px solid ##000">Other Media</h2>
-								<hr>
+			
 								<div class="row">
 									<div class="col-12 col-md-4">
 									<!--- obtain a random set of images, limited to a small number --->
@@ -474,7 +473,7 @@
 								</div>
 							</div>
 							<div class="col-12 col-md-6 mt-0 mt-md-5 float-left">
-								<div class="my-2 py-3" style="border-bottom: 8px solid black;">
+								<div class="my-2 py-3 border-bottom-black">
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
