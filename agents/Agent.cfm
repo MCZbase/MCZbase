@@ -1653,7 +1653,7 @@ limitations under the License.
 												ORDER BY dba_constraints.table_name
 											</cfquery>
 											<div class="card-header py-0">
-												<h2 class="h4 mb-1 px-2">This Agent record is linked to:</h2>
+												<h2 class="h4 my-1 mx-2">This Agent record is linked to:</h2>
 											</div>
 											<cfset relatedTo = StructNew() >
 											<cfset okToDelete = true>
