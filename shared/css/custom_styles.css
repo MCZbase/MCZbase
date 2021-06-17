@@ -1888,10 +1888,9 @@ th {
 	width: auto;
 }
 .containFlex {
-	column-width: 47%!important;
-	column-gap: 3px;
+	column-gap: 5px;
 	flex-wrap: wrap;
-	max-width: 90%!important;
+	max-width: 100%;
 	column-count: 2;
 }
 /************end tabs -- redone for accessibility  ***************/
