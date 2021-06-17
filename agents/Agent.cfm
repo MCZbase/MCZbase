@@ -1475,9 +1475,9 @@ limitations under the License.
 											</div>
 											<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
 												<cfif getTransCount.ct EQ 0>
-													<h2 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h2>
+													<h2 class="float-left btn-link h4 w-100 mx-2 my-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h2>
 												<cfelse>
-													<h2 class="h4 card-title">
+													<h2 class="float-left btn-link h4 w-100 mx-2 my-0">
 														#prefName# has some role in 
 														<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 														#getTransCount.ct# Transaction#plural#
@@ -1486,7 +1486,7 @@ limitations under the License.
 												</cfif>
 												<div class="card-body py-1 mb-1">
 													<cfif getTransactions.recordcount EQ 0>
-														<h3 class="h4">Not a Transaction Agent in MCZbase</h3>
+														<h3 class="h5 px-3 pb-1 mb-0">Not a Transaction Agent in MCZbase</h3>
 													<cfelse>
 														<ul class="list-group">
 															<cfset lastTrans ="">
