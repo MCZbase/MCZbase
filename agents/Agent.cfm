@@ -1580,7 +1580,7 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="permitsHeader">
-												<h2 class="float-left btn-link h4 px-3 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
+												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
 													Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 												</h2>
 											</div>
@@ -1653,7 +1653,7 @@ limitations under the License.
 												ORDER BY dba_constraints.table_name
 											</cfquery>
 											<div class="card-header py-0">
-												<h2 class="h4 my-1 mx-2">This Agent record is linked to:</h2>
+												<h2 class="h4 mb-1 px-2">This Agent record is linked to:</h2>
 											</div>
 											<cfset relatedTo = StructNew() >
 											<cfset okToDelete = true>
