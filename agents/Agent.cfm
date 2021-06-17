@@ -1210,7 +1210,7 @@ limitations under the License.
 																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="100%">
 																	</a>
 																</li>
-																<cfif len(getMedia.subject) gt 0><li class="list-group-item">Description: #getMedia.descriptor#</li></cfif>
+																<cfif len(getMedia.descriptor) gt 0><li class="list-group-item">Description: #getMedia.descriptor#</li></cfif>
 																<cfif len(getMedia.subject) gt 0><li class="list-group-item">Subject: #getMedia.subject#</li></cfif>
 																<cfif len(getMedia.getMedia.license_display) gt 0><li class="list-group-item">License: <a href="#getMedia.license_uri#">#getMedia.license_display#</a></li></cfif>
 																<cfif len(getMedia.credit) gt 0><li class="list-group-item">Credit: #getMedia.credit#</li></cfif>
