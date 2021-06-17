@@ -1212,7 +1212,7 @@ limitations under the License.
 																</li>
 																<li class="list-group-item">Description: #getMedia.descriptor#</li>
 																<li class="list-group-item">Subject: #getMedia.subject#</li>
-																<li class="list-group-item"><a href="#getMedia.license_uri#">License: #getMedia.license_display#</a></li>
+																<li class="list-group-item">License: <a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
 																<li class="list-group-item">Credit: #getMedia.credit#</li>
 																<li class="list-group-item">Remarks: #getMedia.remarks#</li>
 															</ul>
