@@ -1887,6 +1887,12 @@ th {
 	height: 223px;
 	width: auto;
 }
+.containFlex {
+	column-width: 47%!important;
+	column-gap: 3px;
+	flex-wrap: wrap;
+	max-width: 1270px!important;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
