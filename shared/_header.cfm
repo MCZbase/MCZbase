@@ -134,7 +134,7 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
-<cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm">
+<cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm" OR CGI.script_name is "/Specimens.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/agents/">
