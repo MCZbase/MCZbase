@@ -512,7 +512,9 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-3">
 										<label for="collector" class="data-entry-label">Collector</label>
-										<cfif not isdefined("collector")><cfset collector=""></cfif>
+										<cfif not isdefined("collector")>
+											<cfset collector="">
+										</cfif>
 										<cfif not isdefined("collector_agent_id")>
 											<cfif not isdefined("collector")>
 												<cfset collector_agent_id ="">
@@ -530,6 +532,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 													SELECT agent_name FROM preferred_agent_name WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
 												</cfquery>
 												<cfset collector = collectorLookup.agent_name>
+											</cfif>
 										</cfif>
 										<input type="text" id="collector" name="collector" class="data-entry-input" value="collector">
 										<input type="hidden" id="collector_agent_id" name="collector_agent_id">
