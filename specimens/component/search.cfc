@@ -93,7 +93,7 @@ limitations under the License.
 			<cfset comparator = 'comparator: "not like"'>
 		<cfelse>
 			<cfset comparator = 'comparator: "like"'>
-			<cfset value = genus>
+			<cfset value = encodeForJavaScript(genus)>
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
@@ -118,8 +118,6 @@ limitations under the License.
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
-
-		</cfif>
 
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
