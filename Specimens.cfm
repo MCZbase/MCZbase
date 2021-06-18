@@ -513,7 +513,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 									<div class="col-12 col-md-3">
 										<label for="collector" class="data-entry-label">Collector</label>
 										<cfif not isdefined("collector")><cfset collector=""></cfif>
-										<cfif not isdefined("collector_agent_id">
+										<cfif not isdefined("collector_agent_id")>
 											<cfif not isdefined("collector")>
 												<cfset collector_agent_id ="">
 											<cfelse>
