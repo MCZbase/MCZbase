@@ -69,6 +69,80 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---   Function executeFixedSearch backing method for specimen search 
+	@param result_id a uuid which identifies this search.
+--->
+<cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="genus" type="string" required="no">
+	<cfargument name="family" type="string" required="no">
+	<cfargument name="collector" type="string" required="no">
+	<cfargument name="collector_agent_id" type="string" required="no">
+
+	<cfset search_json = "[">
+	<cfset separator = "">
+	<cfset join = ''>
+
+	<cfif isDefined("genus") AND len(genus) GT 0>
+		<cfset field = 'field: "genus"'>
+		<cfif left(genus,1) is "=">
+			<cfset value="#ucase(right(genus,len(genus)-1))#">
+			<cfset comparator = 'comparator: "equals"'>
+		<cfelseif left(genus,1) IS "!">
+			<cfset value="#ucase(right(genus,len(genus)-1))#">
+			<cfset comparator = 'comparator: "not like"'>
+		<cfelse>
+			<cfset comparator = 'comparator: "like"'>
+			<cfset value = genus>
+		</cfif>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+		<cfset separator = ",">
+		<cfset join = 'join="",'>
+	</cfif>
+
+	
+	<cfset search_json = "]">
+
+	<cftry>
+		<cfset username = session.dbuser>
+		<cfquery name="prepareSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+			call build_query(
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">, 
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
+				<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#search_json#">)
+		</cfquery>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT * 
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+
+		</cfif>
+
+		<cfset rows = 0>
+		<cfset data = ArrayNew(1)>
+
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 <!---
 Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substring match on guid, returning json suitable for jquery-ui autocomplete
  with a _renderItem overriden to display more detail on the picklist, and just the guid as the selected value.

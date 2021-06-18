@@ -197,7 +197,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#"  #keywordTabShow#>
 							<form name= "keywordSearchForm" id="keywordSearchForm">
 								<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
-								<input type="hidden" name="action" value="search">
+								<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 								<div class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
 									<div class="row">
 										<div class="input-group mt-1 px-3">
@@ -448,6 +448,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						<!---Fixed Search tab panel--->
 						<div id="panel-3" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
 						<form id="fixedSearchForm">
+							<cfset searchIdentifier = createUUID() >
+							<input id="result_id_fixedSearch" type="hidden" name="result_id" value="#searchIdentifier#" class="keeponclear">
+							<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
+							<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 							<div class="container">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-3">
