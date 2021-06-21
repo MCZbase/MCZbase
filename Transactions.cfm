@@ -3076,7 +3076,7 @@ $(document).ready(function() {
 				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: getColHidProp('item_count', false), width: 90, cellsrenderer: catitemsCellRenderer },
 				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: getColHidProp('estimated_count', false), width: 90 },
 				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: getColHidProp('accn_type', false), width: 100},
-				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: getColHidProp('accn_status', false), width: 90},
+				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: getColHidProp('accn_status', false), width: 100},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: getColHidProp('date_entered', true) },
 				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: getColHidProp('received_date', false) },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: getColHidProp('rec_from_agent', false) },
