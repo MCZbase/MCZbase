@@ -71,10 +71,10 @@ limitations under the License.
 <cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT accn_status 
 	FROM ctaccn_status 
-	ORDER BY accn_status
 	<cfif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions")>
-		where accn_status <> 'complete-reviewed'
+		WHERE accn_status <> 'complete-reviewed'
 	</cfif>
+	ORDER BY accn_status
 </cfquery>
 <cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT accn_type 
