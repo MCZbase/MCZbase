@@ -69,10 +69,16 @@ limitations under the License.
 
 <!--- Accession controlled vocabularies --->
 <cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select accn_status from ctaccn_status order by accn_status
+	SELECT accn_status 
+	FROM ctaccn_status 
+	ORDER BY accn_status
+	<cfif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions")>
+		where accn_status <> 'complete-reviewed'
+	</cfif>
 </cfquery>
 <cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select accn_type from ctaccn_type order by accn_type
+	SELECT accn_type 
+	FROM ctaccn_type order by accn_type
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
@@ -470,14 +476,19 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
 								<label for="accn_status" class="data-entry-label">Accession Status</label>
-								<span>
-									<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
-										<cfloop query="ctAccnStatus">
-											<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
-												value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
-										</cfloop>
-									</select>
-								</span>
+								<cfif isdefined("session.roles") and NOT listcontainsnocase(session.roles,"admin_transactions") and accessionDetails.accn_status IS 'complete-reviewed'>
+									<input type="text" name="accn_status_view" id="accn_status" value="#encodeForHTML(accessionDetails.accn_status)#" class="reqdClr data-entry-input" disabled> 
+									<input type="hidden" name="accn_status" id="accn_status_submit" value="#encodeForHTML(accessionDetails.accn_status)#"> 
+								<cfelse>
+									<span>
+										<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
+											<cfloop query="ctAccnStatus">
+												<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
+													value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
+											</cfloop>
+										</select>
+									</span>
+								</cfif>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="received_date" class="data-entry-label">Date Received</label>
