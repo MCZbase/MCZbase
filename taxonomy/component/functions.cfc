@@ -716,7 +716,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									$(document).ready( 
 										$('##commonDeleteButton_#i#').click(function (evt){
 											confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Delete?', function(){ deleteCommonName(#common_name_id#,'#localtarget#'); } );
-										});
+										})
 									);
 									function toggleCommon#i#() {
 										$('##label_common_name_#i#').toggle();
