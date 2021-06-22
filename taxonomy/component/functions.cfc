@@ -716,10 +716,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									function doDeleteCN_#i#() { 
 										deleteCommonName(#common_name_id#,'#localtarget#');
 									};
-									$(document).ready( function() {
-										$('##commonDeleteButton_#i#').click(function (evt){
+									$(document).ready(function () {
+										$('##commonDeleteButton_#i#').click(function(evt){
 											evt.preventDefault;
-											confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Delete?', doDeleteCN_#i# );
+											confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Confirm Delete?', doDeleteCN_#i#);
 										});
 									});
 									function toggleCommon#i#() {
