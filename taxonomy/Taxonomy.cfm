@@ -795,7 +795,9 @@ limitations under the License.
 								}
 							</cfif>
 						};
-						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
+						$( document ).ready(function(){
+							loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor');
+						});
 					</script>
 					<div class="row mt-1 mb-2">
 						<div class="col-10">
@@ -969,9 +971,9 @@ limitations under the License.
 							</div>
 							</form>
 							<script>
-								$(document).ready( 
-									$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } )
-								);
+								$(document).ready(function(){
+									$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } );
+								});
 							</script>
 						</div>
 					</section>
@@ -1005,7 +1007,9 @@ limitations under the License.
 							<h2 class="h3 mt-0">Habitat</h2>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
-								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));
+								$(document).ready(function(){
+									loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
+								});
 							</script>
 							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
 							<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
@@ -1169,7 +1173,7 @@ limitations under the License.
 									class="data-entry-input">
 								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 								<script>
-									$(document).ready(function () { 
+									$(document).ready(function(){ 
 										$('##taxonid').show();
 										$('##taxonid_link').hide();
 										$('##taxonid_search').click(function (evt) { 
