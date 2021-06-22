@@ -714,7 +714,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									id="commonDeleteButton_#i#">
 								<script>
 									function doDeleteCN_#i#() { 
-										deleteCommonName(#common_name_id#,'#localtarget#');
+										deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
 									};
 									$(document).ready(function () {
 										$('##commonDeleteButton_#i#').click(function(evt){

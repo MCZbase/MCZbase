@@ -90,10 +90,11 @@ function newCommon(taxon_name_id,common_name,target) {
  * record and reload the list of common names for the taxon.
  * 
  * @param common_name_id the primary key value for the common name to delete.
+ * @param taxon_name_id the primary key for the taxon record for the common name.
  * @param target the id of the target div containing the list of common names 
  *   to reload, without a leading # selector.
  */
-function deleteCommonName(common_name_id,target) {
+function deleteCommonName(common_name_id,taxon_name_id,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "deleteCommon",
