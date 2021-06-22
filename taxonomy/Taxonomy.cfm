@@ -40,6 +40,7 @@ limitations under the License.
 
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/taxonomy/component/functions.cfc" runOnce="true">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
 </cfquery>
