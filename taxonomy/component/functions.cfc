@@ -722,7 +722,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 										});
 										$('##commonSaveButton_#i#').click(function(evt){
 											evt.preventDefault;
-											saveCommon(#common_name_id#,$('##common_name_#i#').val(),'#localtarget#');
+											saveCommon(#common_name_id#,$('##common_name_#i#').val(),#taxon_name_id#,'#localtarget#');
 										});
 									});
 									function toggleCommon#i#() {

@@ -110,7 +110,7 @@ function deleteCommonName(common_name_id,taxon_name_id,target) {
 	});
 };
 
-function saveCommon(common_name_id, common_name,target) {
+function saveCommon(common_name_id, common_name, taxon_name_id, target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "saveCommon",
