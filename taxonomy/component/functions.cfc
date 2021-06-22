@@ -713,9 +713,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
 									id="commonDeleteButton_#i#">
 								<script>
+									function doDelete_#i#() { 
+										deleteCommonName(#common_name_id#,'#localtarget#');
+									};
 									$(document).ready( 
 										$('##commonDeleteButton_#i#').click(function (evt){
-											confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Delete?', function(){ deleteCommonName(#common_name_id#,'#localtarget#'); } );
+											confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Delete?', doDelete_#i# );
 										})
 									);
 									function toggleCommon#i#() {
