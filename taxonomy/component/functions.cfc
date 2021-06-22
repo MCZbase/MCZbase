@@ -685,7 +685,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 	<cfthread name="getCommonHtmlThread">
 		<cftry>
 			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
-				select common_name 
+				select common_name, common_name_id
 				from common_name 
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
@@ -708,7 +708,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									id="commonEditButton_#i#"
 									>
 								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#taxon_name_id#,'#common.common_name#','#target#'); } ); " 
+									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#common_name_id#,'#target#'); } ); " 
 									id="commonDeleteButton_#i#">
 								<script>
 									function toggleCommon#i#() {
@@ -797,20 +797,17 @@ Given a common name and a taxon_name_id, add a row from the (weak entity) common
 </cffunction>
 
 <!---
-Given a common name and a taxon_name_id, delete the matching row from the (weak entity) common_name table.
-@param common_name a text string representing a common name of a taxon, together with taxon_name_id forms PK of common_name table.
-@param taxon_name_id the PK of the taxon name for which to remove the matching common name.
+Given a common name and a taxon_name_id, delete the matching row from the common_name table.
+@param common_name_id the PK of the common name to fremove
 --->
 <cffunction name="deleteCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name" type="string" required="yes">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="common_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="deleteCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCommon_result">
 				DELETE FROM common_name
 				WHERE
-					common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> 
-					AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
 			</cfquery>
 			<cfif deleteCommon_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
