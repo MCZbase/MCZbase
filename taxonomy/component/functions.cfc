@@ -682,6 +682,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 <cffunction name="getCommonHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cfargument name="target" type="string" required="yes">
+	
+	<cfset taxon_name_id = arguments.taxon_name_id>
+	<cfset localtarget = arguments.target>
 	<cfthread name="getCommonHtmlThread">
 		<cftry>
 			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
@@ -700,7 +703,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 								<input id="common_name_#i#" type="text" name="common_name" value="#common_name#" 
 									class="data-entry-input w-50 float-left" style="display: none;">
 								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" saveCommon('#common_name#',$('##common_name_#i#').val(),#taxon_name_id#,'#target#');" 
+									onClick=" saveCommon('#common_name#',$('##common_name_#i#').val(),#taxon_name_id#,'#localtarget#');" 
 									id="commonSaveButton_#i#"
 									style="display: none;">
 								<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
@@ -708,7 +711,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									id="commonEditButton_#i#"
 									>
 								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#common_name_id#,'#target#'); } ); " 
+									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#common_name_id#,'#localtarget#'); } ); " 
 									id="commonDeleteButton_#i#">
 								<script>
 									function toggleCommon#i#() {
