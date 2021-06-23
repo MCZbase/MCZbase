@@ -86,20 +86,19 @@ function newCommon(taxon_name_id,common_name,target) {
 };
 
 /**
- * deleteCommonName, given a taxon and text string for a common name of the taxon
- * delete the common name record for that taxon and reload the list of common names for the taxon.
+ * deleteCommonName, given common name record for a taxon delete the common name
+ * record and reload the list of common names for the taxon.
  * 
- * @param taxon_name_id the primary key for the taxon record to which to delete the common name.
- * @param common_name the text string to remove from the taxon as a common name.
+ * @param common_name_id the primary key value for the common name to delete.
+ * @param taxon_name_id the primary key for the taxon record for the common name.
  * @param target the id of the target div containing the list of common names 
  *   to reload, without a leading # selector.
  */
-function deleteCommonName(taxon_name_id,common_name,target) {
+function deleteCommonName(common_name_id,taxon_name_id,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "deleteCommon",
-			common_name : common_name,
-			taxon_name_id : taxon_name_id,
+			common_name_id: common_name_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
@@ -111,13 +110,12 @@ function deleteCommonName(taxon_name_id,common_name,target) {
 	});
 };
 
-function saveCommon(original_common_name, common_name, taxon_name_id,target) {
+function saveCommon(common_name_id, common_name, taxon_name_id, target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "saveCommon",
 			common_name : common_name,
-			origcommonname : original_common_name,
-			taxon_name_id : taxon_name_id,
+			common_name_id : common_name_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},

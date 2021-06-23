@@ -40,6 +40,7 @@ limitations under the License.
 
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/taxonomy/component/functions.cfc" runOnce="true">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
 </cfquery>
@@ -794,7 +795,9 @@ limitations under the License.
 								}
 							</cfif>
 						};
-						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
+						$( document ).ready(function(){
+							loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor');
+						});
 					</script>
 					<div class="row mt-1 mb-2">
 						<div class="col-10">
@@ -838,7 +841,7 @@ limitations under the License.
 							</div>
 						</div>
 						<script>
-							$( document ).ready(
+							$(document).ready(function(){ 
 								$('##newPubForm').bind('submit', function(evt){
 									evt.preventDefault();
 									var pubId = $('##publication_id').val();
@@ -867,7 +870,7 @@ limitations under the License.
 										messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
 									};
 								})
-							);
+							});
 						</script>
 						<script>
 							$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
@@ -968,24 +971,36 @@ limitations under the License.
 							</div>
 							</form>
 							<script>
-								$(document).ready( 
-									$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } )
-								);
+								$(document).ready(function(){
+									$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } );
+								});
 							</script>
 						</div>
 					</section>
 
 					<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-0 pr-md-1">
 						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-							<div id="commonNamesDiv">Loading....</div>
 							<script>
-								$(document).ready( loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv'));
+								function reloadCommonNames() {
+									loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv');
+								};
+								function addCommonNameAction() { 
+									newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); 
+								};
 							</script>
+							<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
+							<div id="commonNamesDiv">#commonBit#</div>
 							<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 							<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
-							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-								onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
-								>
+							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" id="newCommonNameButton" >
+							<script>
+								$(document).ready(function(){
+									$('##newCommonNameButton').click( function(event){ 
+										event.preventDefault(); 
+										addCommonNameAction();
+									});
+								});
+							</script>
 						</div>
 					</section>
 
@@ -1001,7 +1016,9 @@ limitations under the License.
 							<h2 class="h3 mt-0">Habitat</h2>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
-								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));
+								$(document).ready(function(){
+									loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
+								});
 							</script>
 							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
 							<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
@@ -1165,7 +1182,7 @@ limitations under the License.
 									class="data-entry-input">
 								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 								<script>
-									$(document).ready(function () { 
+									$(document).ready(function(){ 
 										$('##taxonid').show();
 										$('##taxonid_link').hide();
 										$('##taxonid_search').click(function (evt) { 

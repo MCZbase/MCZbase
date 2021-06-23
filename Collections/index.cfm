@@ -137,6 +137,9 @@ limitations under the License.
 					</tfoot>
 				</table>
 			</div>
+			<div class="col-12">
+				<p>All names in MCZbase are disclaimed for nomenclatural purposes.</p>
+			</div>
 		</section>
 	</main>
 </cfoutput>

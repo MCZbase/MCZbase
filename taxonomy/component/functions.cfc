@@ -682,10 +682,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 <cffunction name="getCommonHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cfargument name="target" type="string" required="yes">
+	
+	<cfset taxon_name_id = arguments.taxon_name_id>
+	<cfset localtarget = arguments.target>
 	<cfthread name="getCommonHtmlThread">
 		<cftry>
 			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
-				select common_name 
+				select common_name, common_name_id
 				from common_name 
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
@@ -695,29 +698,44 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-4 col-12 my-1 list-style-disc"><li class="mx-0 mb-1">
-								<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" onclick=" toggleCommon#i#(); ">#common_name#</label>
-								<input id="common_name_#i#" type="text" name="common_name" value="#common_name#" 
-									class="data-entry-input w-50 float-left" style="display: none;">
-								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" saveCommon('#common_name#',$('##common_name_#i#').val(),#taxon_name_id#,'#target#');" 
-									id="commonSaveButton_#i#"
-									style="display: none;">
-								<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" toggleCommon#i#();" 
-									id="commonEditButton_#i#"
-									>
-								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#taxon_name_id#,'#common.common_name#','#target#'); } ); " 
-									id="commonDeleteButton_#i#">
-								<script>
-									function toggleCommon#i#() {
-										$('##label_common_name_#i#').toggle();
-										$('##common_name_#i#').toggle();
-										$('##commonSaveButton_#i#').toggle();
-										$('##commonEditButton_#i#').toggle();
-									};
-								</script>
+							<ul class="mx-0 px-4 col-12 my-1 list-style-disc">
+								<li class="mx-0 mb-1">
+									<script>
+										function doDeleteCN_#i#(){ 
+											deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
+										};
+										function toggleCommon#i#(){
+											$('##label_common_name_#i#').toggle();
+											$('##common_name_#i#').toggle();
+											$('##commonSaveButton_#i#').toggle();
+											$('##commonEditButton_#i#').toggle();
+										};
+									</script>
+									<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" 
+										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
+									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
+										class="data-entry-input w-50 float-left" style="display: none;">
+									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
+										id="commonSaveButton_#i#"
+										style="display: none;">
+									<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
+										onClick="toggleCommon#i#()" 
+										id="commonEditButton_#i#"
+										>
+									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
+										id="commonDeleteButton_#i#">
+									<script>
+										$(document).ready(function () {
+											$('##commonDeleteButton_#i#').click(function(evt){
+												evt.preventDefault();
+												confirmWarningDialog('Delete <b>#encodeForHtml(common_name)#</b> common name entry','Confirm Delete?', doDeleteCN_#i#);
+											});
+											$('##commonSaveButton_#i#').click(function(evt){
+												evt.preventDefault();
+												saveCommon(#common_name_id#,$('##common_name_#i#').val(),#taxon_name_id#,'#localtarget#');
+											});
+										});
+									</script>
 								</li>
 							</ul>
 						</form>
@@ -797,20 +815,17 @@ Given a common name and a taxon_name_id, add a row from the (weak entity) common
 </cffunction>
 
 <!---
-Given a common name and a taxon_name_id, delete the matching row from the (weak entity) common_name table.
-@param common_name a text string representing a common name of a taxon, together with taxon_name_id forms PK of common_name table.
-@param taxon_name_id the PK of the taxon name for which to remove the matching common name.
+Given a common name and a taxon_name_id, delete the matching row from the common_name table.
+@param common_name_id the PK of the common name to fremove
 --->
 <cffunction name="deleteCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name" type="string" required="yes">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="common_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="deleteCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCommon_result">
 				DELETE FROM common_name
 				WHERE
-					common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> 
-					AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
 			</cfquery>
 			<cfif deleteCommon_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
@@ -843,14 +858,13 @@ Given a common name and a taxon_name_id, delete the matching row from the (weak 
 </cffunction>
 
 <!---
-Given old and new common name and a taxon_name_id, update a row in the common name table
-@param common_name a text string representing a common name of a taxon, together with taxon_name_id forms PK of common_name table.
-@param taxon_name_id the PK of the taxon name for which to add the matching common name.
+Given common_name_id and new common name, update a row in the common name table
+@param common_name_id the common name to update  a text string representing a common name of a taxon to update to.
+@param common_name a text string representing a common name of a taxon to update to.
 --->
 <cffunction name="saveCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="origCommonName" type="string" required="yes">
+	<cfargument name="common_name_id" type="string" required="yes">
 	<cfargument name="common_name" type="string" required="yes">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
 			<cfquery name="saveCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="saveCommon_result">
@@ -859,8 +873,7 @@ Given old and new common name and a taxon_name_id, update a row in the common na
 				SET
 					common_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#">
 				WHERE
-					common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
-					AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					common_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#common_name_id#">
 			</cfquery>
 			<cfif saveCommon_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
