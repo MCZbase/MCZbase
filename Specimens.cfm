@@ -183,7 +183,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 											<option>Subfamily</option>
 											<option>Tribe</option>
 											<option>Authority</option>
-											<option>Taxon Status</option>
+											<option>Nomenclatural Status</option>
 											<option>Nomenclatural Code</option>
 											<option>Common Name</option>
 											</optgroup>
