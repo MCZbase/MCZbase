@@ -841,7 +841,7 @@ limitations under the License.
 							</div>
 						</div>
 						<script>
-							$( document ).ready(
+							$(document).ready(function(){ 
 								$('##newPubForm').bind('submit', function(evt){
 									evt.preventDefault();
 									var pubId = $('##publication_id').val();
@@ -870,7 +870,7 @@ limitations under the License.
 										messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
 									};
 								})
-							);
+							});
 						</script>
 						<script>
 							$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
