@@ -272,7 +272,7 @@ sho err
 				<th>INFRASPECIFIC_AUTHOR</th>
 				<th>TAXON_REMARKS</th>
 				<th>TAXON_NAME_ID</th>
-				<th>taxon_status</th>
+				<th><a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXON_STATUS">taxon_status</a></th>
 			</tr>
 			<cfloop query="valData">
 				<tr>

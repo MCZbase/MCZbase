@@ -79,6 +79,7 @@ function newCommon(taxon_name_id,common_name,target) {
 		},
 		function (result) {
 			loadCommonNames(taxon_name_id,target);
+			$('#new_common_name').val("");
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"adding common name to taxon");
