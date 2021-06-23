@@ -980,18 +980,27 @@ limitations under the License.
 
 					<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-0 pr-md-1">
 						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-							<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
-							<div id="commonNamesDiv">#commonBit#</div>
 							<script>
 								function reloadCommonNames() {
 									loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv');
 								};
+								function addCommonNameAction() { 
+									newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); 
+								};
 							</script>
+							<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
+							<div id="commonNamesDiv">#commonBit#</div>
 							<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 							<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
-							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-								onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
-								>
+							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" id="newCommonNameButton" >
+							<script>
+								$(document).ready(function(){
+									$('##newCommonNameButton').click( function(event){ 
+										event.preventDefault(); 
+										addCommonNameAction();
+									});
+								});
+							</script>
 						</div>
 					</section>
 
