@@ -712,14 +712,14 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 										};
 									</script>
 									<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" 
-										onClick="toggleCommon#i#();">#encodeForHtml(common_name)#</label>
+										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
 									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
 										class="data-entry-input w-50 float-left" style="display: none;">
 									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
 										id="commonSaveButton_#i#"
 										style="display: none;">
 									<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
-										onClick="toggleCommon#i#();" 
+										onClick="toggleCommon#i#()" 
 										id="commonEditButton_#i#"
 										>
 									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
