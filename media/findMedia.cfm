@@ -657,7 +657,7 @@ limitations under the License.
 											<cfset selectedrelationship_type= "#media_relationship_type#">
 											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
 												<option></option>
-												<cfloop query="ctothermedia_label">
+												<cfloop query="ctmedia_relationship">
 													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
 														<cfset selected="selected='true'">
 													<cfelse>
