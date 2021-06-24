@@ -667,7 +667,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#media_relationship_value#">
-											<input type="hidden" id="media_relationship_id" name="media_relationship_value" value="#media_relationship_id#">
+											<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#media_relationship_id#">
 											<script>
 												$(document).ready(function() {
 													$('##media_relationship_type').change(function() {
