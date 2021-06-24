@@ -381,20 +381,20 @@ limitations under the License.
 						AND media.media_id not in 
 							( select media_id from media_labels 
 								where 
-									media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_label_type#%"> 
+									media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label_type#"> 
 							)
 					<cfelseif media_label_value IS "NOT NULL">
 						AND media.media_id in 
 							( select media_id from media_labels 
 							where 
-								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_label_type#%"> 
+								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label_type#"> 
 							)
 					<cfelse>
 						AND media.media_id in (
 							select media_id 
 							from media_labels 
 							where 
-								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_label_type#%"> 
+								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_label_type#"> 
 							<cfif left(media_label_value,1) is "=">
 								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(media_label_value,len(media_label_value)-1))#"> 
 							<cfelse>
