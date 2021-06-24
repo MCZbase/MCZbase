@@ -110,7 +110,6 @@ Disallow: /poweredby.png
 Disallow: /Publication.cfm
 Disallow: /searchAll.cfm
 Disallow: /SelectedLoanItems.cfm
-Disallow: /someDetails.cfm
 Disallow: /SpecimenContainerLabels.cfm
 Disallow: /SpecimenQuickSearch.cfm
 Disallow: /specLocality.cfm
