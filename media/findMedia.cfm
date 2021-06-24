@@ -670,7 +670,9 @@ limitations under the License.
 											<input type="hidden" id="media_relationship_id" name="media_relationship_value" value="#media_relationship_id#">
 											<script>
 												$(document).ready(function() {
-													makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+													$('##media_relationship_type').change(function() {
+														makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+													});
 												});
 											</script>
 										</div>

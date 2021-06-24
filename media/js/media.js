@@ -182,13 +182,21 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 		case "project":
 			makeProjectAutocompleteMeta(valueControl, idControl);
 		case "permit":
-			makePermitPicker(valueControl, idControl);
+			if (typeof makePermitPicker === "function") { 
+				makePermitPicker(valueControl, idControl);
+			}
 		case "loan":
-			makeLoanPicker(valueControl, idControl);
+			if (typeof makeLoanPicker === "function") { 
+				makeLoanPicker(valueControl, idControl);
+			}
 		case "accn":
-			makeAccessionAutocompleteMeta(valueControl, idControl);
+			if (typeof makeAccessionAutocompleteMeta === "function") { 
+				makeAccessionAutocompleteMeta(valueControl, idControl);
+			}
 		case "deaccession":
-			makeDeaccessionAutocompleteMeta(valueControl, idControl);
+			if (typeof makeDeaccessionAutocompleteMeta === "function") { 
+				makeDeaccessionAutocompleteMeta(valueControl, idControl);
+			}
 		default:
 			messageDialog("Unknown or not implemented media relationship target","Error: Unknown");		
 	}
