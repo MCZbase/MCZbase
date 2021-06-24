@@ -655,7 +655,7 @@ limitations under the License.
 												</span>
 											</label>
 											<cfset selectedrelationship_type= "#media_relationship_type#">
-											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
+											<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
 												<option></option>
 												<cfloop query="ctmedia_relationship">
 													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
@@ -670,9 +670,7 @@ limitations under the License.
 											<input type="hidden" id="media_relationship_id" name="media_relationship_value" value="#media_relationship_id#">
 											<script>
 												$(document).ready(function() {
-													$('##media_relationship_type').select(function(){
-														makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
-													});
+													makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
 												});
 											</script>
 										</div>
