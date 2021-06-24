@@ -132,6 +132,15 @@ limitations under the License.
 	<cfif not isdefined("media_label_value")>
 		<cfset media_label_value="">
 	</cfif>
+	<cfif not isdefined("media_relationship_type")>
+		<cfset media_relationship_type="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value")>
+		<cfset media_relationship_value="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id")>
+		<cfset media_relationship_id="">
+	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
 			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
