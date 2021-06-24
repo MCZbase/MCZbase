@@ -30,6 +30,11 @@ limitations under the License.
 <cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_label, description  from ctmedia_label
 </cfquery>
+<!--- media labels that are not explicitly included as controls on the form --->
+<cfquery name="ctothermedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_label, description  from ctmedia_label
+	where media_label not in ('aspect','description','made date','subject','original filename','internal remarks','remarks','light source','height','width','md5hash','owner','credit')
+</cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select trim(auto_extension) as extension, count(*) as ct
@@ -106,6 +111,12 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("unlinked")>
 		<cfset unlinked="">
+	</cfif>
+	<cfif not isdefined("media_label_type")>
+		<cfset media_label_type="">
+	</cfif>
+	<cfif not isdefined("media_label_value")>
+		<cfset media_label_value="">
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
@@ -490,34 +501,31 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
+
+									<div class="col-12 col-md-8 col-xl-4">
+										<div class="form-row mb-2">
+											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
 												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-transparent m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
+											<cfset selectedmedia_label_type= "#media_label_type#">
+											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctothermedia_label">
+													<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_label#" #selected#>#media_label#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input col-6" value="#media_label_value#">
 											<script>
 												$(document).ready(function() {
-												makeMediaLabelAutocomplete("spectrometer","spectrometer");
-												});
-											</script>
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Loc.
-												<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
+													makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
 												});
 											</script>
 										</div>

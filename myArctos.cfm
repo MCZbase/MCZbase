@@ -257,7 +257,7 @@
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
 		select * from cf_users where username='#session.username#'
 	</cfquery>
-	---->
+	--->
 
 
 	<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
