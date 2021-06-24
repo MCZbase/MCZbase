@@ -396,7 +396,7 @@ limitations under the License.
 							where 
 								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_type)#%"> 
 							<cfif left(media_label_value,1) is "=">
-								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(media_label_value,len(spectrometer)-1))#"> 
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(media_label_value,len(media_label_value)-1))#"> 
 							<cfelse>
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_value)#%"> 
 							</cfif>
