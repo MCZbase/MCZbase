@@ -104,10 +104,10 @@ limitations under the License.
 			<cfset keysearch="ctxcat">
 		</cfif>
 	</cfif>
-	<cfif isdefined("media_relationship_value") AND (media_relationship_value EQ "NULL" OR media_relationship_value="NOT NULL")>
+	<cfif isdefined("media_relationship_value") AND (media_relationship_value EQ "NULL" OR media_relationship_value EQ "NOT NULL")>
 		<!--- set a non-meaningfull, but non-empty value for media_relationship_id to support CFIF logic in building query --->
 		<cfset media_relationship_id = "-1">
-		<cfif (NOT isdefined("media_relationship_type") OR len(media_relationship_value) EQ 0) AND media_relationship_value="NULL" >
+		<cfif (NOT isdefined("media_relationship_type") OR len(media_relationship_value) EQ 0) AND media_relationship_value EQ "NULL" >
 			<!--- NULL and no relationship type specified, treat as if unlinked were selected. --->
 			<cfset unlinked = "true">
 		</cfif>
