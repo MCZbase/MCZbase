@@ -35,6 +35,20 @@ limitations under the License.
 	select media_label, description  from ctmedia_label
 	where media_label not in ('aspect','description','made date','subject','original filename','internal remarks','remarks','light source','height','width','md5hash','owner','credit')
 </cfquery>
+<!--- NOTE: users with role manage_transactions can search for media related to transactions and permissions and rights documents
+ Such searches are supported by the inclusion of /transactions/js/transactions.js in /shared/_header.cfm for /media/ paths 
+ and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
+--->
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_relationship  from ctmedia_relationship
+	where media_relationship not in ('created by agent', 'shows cataloged_item')
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		AND media_relationship is not null
+	<cfelse>
+		AND media_relationship not like 'document%'
+		AND media_relationship not like '%permit'
+	</cfif>
+</cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select trim(auto_extension) as extension, count(*) as ct
@@ -458,7 +472,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
+											$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 										});
 									</script>
 									<!--- setup to hide search for date as text from most users --->
@@ -501,7 +515,6 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-
 									<div class="col-12 col-md-8 col-xl-4">
 										<div class="form-row mb-2">
 											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
@@ -624,24 +637,36 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div>
-									<!---- TODO: More Relationship search controls will go here --->
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-<!---
-<div id="relationships" class="relationship_dd">
-	<select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
-		<option value=""></option>
-		<cfloop query="ctmedia_relationship">
-			<option value="#media_relationship#">#media_relationship#</option>
-		</cfloop>
-	</select>
-	<input type="text" name="related_value__1" id="related_value__1" size="70">
-	<input type="hidden" name="related_id__1" id="related_id__1">
-	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-</div>
---->
+									<div class="col-12 col-md-8 col-xl-4">
+										<div class="form-row mb-2">
+											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Relationship
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<cfset selectedrelationship_type= "#media_relationship_type#">
+											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctothermedia_label">
+													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_relationship#" #selected#>#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#media_relationship_value#">
+											<input type="hidden" id="media_relationship_id" name="media_relationship_value" value="#media_relationship_id#">
+											<script>
+												$(document).ready(function() {
+													makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+												});
+											</script>
 										</div>
 									</div>
+									<!---- TODO: More Relationship search controls will go here --->
 								</div>
 								<div class="form-row my-0 mx-0">
 									<div class="col-12 px-0 pt-0">

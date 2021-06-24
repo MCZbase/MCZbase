@@ -163,3 +163,34 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 	}
 };
 
+function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) { 
+	var targetObject = $('#'+typeControl).val().trim().split(" ").pop();
+	console.log(targetObject);
+	switch (targetObject) {
+		case "agent":
+			makeConstrainedAgentPicker(valueControl, idControl, 'media_agent'); 
+		case "cataloged_item":
+			makeCatalogedItemAutocompleteMeta(valueControl, idControl);
+		case "collecting_event":
+			makeCollectingEventAutocompleteMeta(valueControl, idControl);
+		case "locality":
+			makeLocalityAutocompleteMeta(valueControl, idControl);
+		case "underscore_collection":
+			makeNamedCollectionPicker(valueControl,idControl);
+		case "publication":
+			makePublicationAutocompleteMeta(valueControl, idControl);
+		case "project":
+			makeProjectAutocompleteMeta(valueControl, idControl);
+		case "permit":
+			makePermitPicker(valueControl, idControl);
+		case "loan":
+			makeLoanPicker(valueControl, idControl);
+		case "accn":
+			makeAccessionAutocompleteMeta(valueControl, idControl);
+		case "deaccession":
+			makeDeaccessionAutocompleteMeta(valueControl, idControl);
+		default:
+			messageDialog("Unknown or not implemented media relationship target","Error: Unknown");		
+	}
+
+}

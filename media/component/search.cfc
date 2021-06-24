@@ -57,7 +57,9 @@ limitations under the License.
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="unlinked" type="string" required="no">
-
+	<cfargument name="media_relationship_type" type="string" required="no">
+	<cfargument name="media_relationship_value" type="string" required="no">
+	<cfargument name="media_relationship_id" type="string" required="no">
 
 	<cfif not isdefined("unlinked")>
 		<cfset unlinked = "">
@@ -102,6 +104,15 @@ limitations under the License.
 			<cfset keysearch="ctxcat">
 		</cfif>
 	</cfif>
+	<cfif isdefined("media_relationship_value") AND (media_relationship_value EQ "NULL" OR media_relationship_value="NOT NULL")>
+		<!--- set a non-meaningfull, but non-empty value for media_relationship_id to support CFIF logic in building query --->
+		<cfset media_relationship_id = "-1">
+		<cfif (NOT isdefined("media_relationship_type") OR len(media_relationship_value) EQ 0) AND media_relationship_value="NULL" >
+			<!--- NULL and no relationship type specified, treat as if unlinked were selected. --->
+			<cfset unlinked = "true">
+		</cfif>
+	</cfif>
+
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -149,12 +160,13 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif len(unlinked) EQ 0>
-					<cfif (isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0)
-						OR (isdefined("underscore_collection_id") and len(underscore_collection_id) gt 0)
+					<cfif (isdefined("related_cataloged_item") AND len(related_cataloged_item) GT 0)
+						OR (isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0)
+						OR (isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0)
 					>
 					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 					</cfif>
-					<cfif isdefined("underscore_collection_id") and len(underscore_collection_id) gt 0 >
+					<cfif isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
 					   left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
 					</cfif>
 				</cfif>
@@ -645,6 +657,14 @@ limitations under the License.
 							AND underscore_relation.collection_object_id IS NOT NULL
 						<cfelse>
 							AND underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+						</cfif>
+					</cfif>
+					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
+						AND media_relations_ci.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type#">
+						<cfif media_relationship_value IS 'NOT NULL'>
+							AND media_relations_ci.related_primary_key IS NOT NULL
+						<cfelse>
+							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id#" list="yes"> )
 						</cfif>
 					</cfif>
 				</cfif>
