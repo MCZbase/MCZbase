@@ -81,12 +81,12 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
 function makeAnyMediaLabelAutocomplete(valueControl,typeControl) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
-			var media_label = $('#'+typeControl).val();
+			var media_label_val = $('#'+typeControl).val();
 			$.ajax({
 				url: "/media/component/search.cfc",
 				data: { 
 					term: request.term, 
-					media_label: media_label, 
+					media_label: media_label_val, 
 					method: 'getMediaLabelAutocomplete' 
 				},
 				dataType: 'json',

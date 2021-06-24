@@ -503,10 +503,15 @@ limitations under the License.
 									</cfif>
 
 									<div class="col-12 col-md-8 col-xl-4">
-										<div class="form-group mb-2">
-											<label for="any_label_type" class="data-entry-label mb-0" id="any_label_type_label">Any Other Label</label>
+										<div class="form-row mb-2">
+											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
 											<cfset selectedmedia_label_type= "#media_label_type#">
-											<select id="any_label_type" name="any_label_type" class="data-entry-select">
+											<select id="media_label_type" name="media_label_type" class="data-entry-select col-6">
 												<option></option>
 												<cfloop query="ctothermedia_label">
 													<cfif selectedmedia_label_type EQ ctothermedia_label.media_label>
@@ -517,7 +522,7 @@ limitations under the License.
 													<option value="#media_label#" #selected#>#media_label#</option>
 												</cfloop>
 											</select>
-											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input" value="#media_label_value#">
+											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input col-6" value="#media_label_value#">
 											<script>
 												$(document).ready(function() {
 													makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
@@ -525,38 +530,6 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<!--- div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="spectrometer" class="data-entry-label mb-0" id="spectrometer_label">Spectrometer 
-												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-transparent m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-													NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="spectrometer" name="spectrometer" class="data-entry-input" value="#spectrometer#" aria-labelledby="spectrometer_label" >
-											<script>
-												$(document).ready(function() {
-												makeMediaLabelAutocomplete("spectrometer","spectrometer");
-												});
-											</script>
-										</div>
-									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<label for="spectrometer_reading_location" class="data-entry-label mb-0" id="spectrometer_reading_location_label">Spectrometer Read Loc.
-												<span class="small">
-												(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('spectrometer_reading_location');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
-												</span>
-											</label>
-											<input type="text" id="spectrometer_reading_location" name="spectrometer_reading_location" class="data-entry-input" value="#spectrometer_reading_location#" aria-labelledby="spectrometer_reading_location_label" >
-											<script>
-												$(document).ready(function() {
-													makeMediaLabelAutocomplete("spectrometer_reading_location","spectrometer reading location");
-												});
-											</script>
-										</div>
-									</div --->
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row">
