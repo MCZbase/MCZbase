@@ -52,6 +52,8 @@ limitations under the License.
 	<cfargument name="credit" type="string" required="no">
 	<cfargument name="spectrometer" type="string" required="no">
 	<cfargument name="spectrometer_reading_location" type="string" required="no">
+	<cfargument name="media_label_type" type="string" required="no">
+	<cfargument name="media_label_value" type="string" required="no">
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="unlinked" type="string" required="no">
@@ -370,6 +372,33 @@ limitations under the License.
 								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spectrometer,len(spectrometer)-1))#"> 
 							<cfelse>
 								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spectrometer)#%"> 
+							</cfif>
+						)
+					</cfif>
+				</cfif>
+				<cfif isdefined("media_label_type") and len(media_label_type) gt 0 AND isdefined("media_label_value") and len(media_label_value) gt 0>
+					<cfif media_label_value IS "NULL">
+						AND media.media_id not in 
+							( select media_id from media_labels 
+								where 
+									media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_type)#%"> 
+							)
+					<cfelseif media_label_value IS "NOT NULL">
+						AND media.media_id in 
+							( select media_id from media_labels 
+							where 
+								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_type)#%"> 
+							)
+					<cfelse>
+						AND media.media_id in (
+							select media_id 
+							from media_labels 
+							where 
+								media_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_type)#%"> 
+							<cfif left(media_label_value,1) is "=">
+								and upper(label_value) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(media_label_value,len(spectrometer)-1))#"> 
+							<cfelse>
+								and upper(label_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_label_value)#%"> 
 							</cfif>
 						)
 					</cfif>
