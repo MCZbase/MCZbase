@@ -35,6 +35,20 @@ limitations under the License.
 	select media_label, description  from ctmedia_label
 	where media_label not in ('aspect','description','made date','subject','original filename','internal remarks','remarks','light source','height','width','md5hash','owner','credit')
 </cfquery>
+<!--- NOTE: users with role manage_transactions can search for media related to transactions and permissions and rights documents
+ Such searches are supported by the inclusion of /transactions/js/transactions.js in /shared/_header.cfm for /media/ paths 
+ and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
+--->
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_relationship  from ctmedia_relationship
+	where media_relationship not in ('created by agent', 'shows cataloged_item')
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		AND media_relationship is not null
+	<cfelse>
+		AND media_relationship not like 'document%'
+		AND media_relationship not like '%permit'
+	</cfif>
+</cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select trim(auto_extension) as extension, count(*) as ct
@@ -112,11 +126,35 @@ limitations under the License.
 	<cfif not isdefined("unlinked")>
 		<cfset unlinked="">
 	</cfif>
+	<cfif not isdefined("multilink")>
+		<cfset multilink="">
+	</cfif>
+	<cfif not isdefined("multitypelink")>
+		<cfset multitypelink="">
+	</cfif>
 	<cfif not isdefined("media_label_type")>
 		<cfset media_label_type="">
 	</cfif>
 	<cfif not isdefined("media_label_value")>
 		<cfset media_label_value="">
+	</cfif>
+	<cfif not isdefined("media_relationship_type")>
+		<cfset media_relationship_type="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value")>
+		<cfset media_relationship_value="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id")>
+		<cfset media_relationship_id="">
+	</cfif>
+	<cfif not isdefined("media_relationship_type_1")>
+		<cfset media_relationship_type_1="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value_1")>
+		<cfset media_relationship_value_1="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id_1")>
+		<cfset media_relationship_id_1="">
 	</cfif>
 	<cfloop query="ctmedia_label">
 		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
@@ -458,7 +496,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#'));
+											$(makeConstrainedRichAgentPicker('created_by_agent_name', 'created_by_agent_id', 'created_by_agent_name_icon', 'created_by_agent_view', '#created_by_agent_id#','media_creator_agent'));
 										});
 									</script>
 									<!--- setup to hide search for date as text from most users --->
@@ -501,7 +539,6 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-
 									<div class="col-12 col-md-8 col-xl-4">
 										<div class="form-row mb-2">
 											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
@@ -576,13 +613,37 @@ limitations under the License.
 												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
 											</div>
 										</div>
-										<div class="col-12 col-md-2">
-											<!---- Place holder:  More internal only controls will go here --->
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-group mb-2">
+												<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+													<label for "unlinked" class="data-entry-label">Limit to Media not yet linked to any record.</label>
+													<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="data-entry-checkbox">
+												</cfif>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-group mb-2">
+												<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+													<label for "multilink" class="data-entry-label">Limit to Media linked to more than one record.</label>
+													<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="data-entry-checkbox">
+												</cfif>
+											</div>
+										</div>
+										<div class="col-12 col-md-4 col-xl-2">
+											<div class="form-group mb-2">
+												<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+													<label for "multitypelink" class="data-entry-label">Limit to Media with more than one type of relationship.</label>
+													<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="data-entry-checkbox">
+												</cfif>
+											</div>
 										</div>
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-2">
+									<div class="col-12 col-md-4 col-xl-4">
 										<div class="form-group mb-2">
 											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
@@ -607,7 +668,7 @@ limitations under the License.
 											</cfif>
 											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
 												<span class="small">
-													(NOT NULL)
+													(NOT NULL, accepts comma separated list)
 												</span>
 											</label>
 											<input type="text" name="related_cataloged_item" 
@@ -615,33 +676,69 @@ limitations under the License.
 												onchange="$('##collection_object_id').val('');">
 										</div>
 									</div>
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-											<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-												<label for "unlinked" class="data-entry-label">Limit to Media not yet linked to any record.</label>
-												<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="data-entry-checkbox">
-											</cfif>
+									<div class="col-12 col-md-8 col-xl-4">
+										<div class="form-row mb-2">
+											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Relationship
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<cfset selectedrelationship_type= "#media_relationship_type#">
+											<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctmedia_relationship">
+													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_relationship#" #selected#>#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#media_relationship_value#">
+											<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#media_relationship_id#">
+											<script>
+												$(document).ready(function() {
+													$('##media_relationship_type').change(function() {
+														makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+													});
+												});
+											</script>
 										</div>
 									</div>
-									<!---- TODO: More Relationship search controls will go here --->
-									<div class="col-12 col-md-4 col-xl-2">
-										<div class="form-group mb-2">
-<!---
-<div id="relationships" class="relationship_dd">
-	<select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
-		<option value=""></option>
-		<cfloop query="ctmedia_relationship">
-			<option value="#media_relationship#">#media_relationship#</option>
-		</cfloop>
-	</select>
-	<input type="text" name="related_value__1" id="related_value__1" size="70">
-	<input type="hidden" name="related_id__1" id="related_id__1">
-	<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-</div>
---->
+									<div class="col-12 col-md-8 col-xl-4">
+										<div class="form-row mb-2">
+											<label for="media_label_type_1" class="data-entry-label mb-0" id="nedia_label_type_label_1">Relationship
+												<span class="small">
+													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value_1');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+													NULL, NOT NULL)
+												</span>
+											</label>
+											<cfset selectedrelationship_type= "#media_relationship_type_1#">
+											<select id="media_relationship_type_1" name="media_relationship_type_1" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctmedia_relationship">
+													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_relationship#" #selected#>#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#media_relationship_value_1#">
+											<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#media_relationship_id_1#">
+											<script>
+												$(document).ready(function() {
+													$('##media_relationship_type_1').change(function() {
+														makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
+													});
+												});
+											</script>
 										</div>
 									</div>
+								</div>
 								</div>
 								<div class="form-row my-0 mx-0">
 									<div class="col-12 px-0 pt-0">

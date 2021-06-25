@@ -345,6 +345,23 @@ function makeAgentAutocompleteMeta(nameControl, idControl) {
  *    iconControl are initialized in a picked agent state.
  */
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
+	makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId, '');
+};
+
+/** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
+ *  autocomplete agent picker, with a limitation on which agents are shown to agents relevant to the context,
+ *  Not intended for use to pick agents for transaction roles where agent flags may apply
+ *  
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param iconControl the id for an input that can take a background color to indicate a successfull pick of an agent
+ *    (without an leading # selector)
+ *  @param linkControl the id for a page element that can contain a hyperlink to an agent, by agent id.
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *    iconControl are initialized in a picked agent state.
+ *  @param the constraint to place on which agents are returned, see getAgentAutocompleteMeta for supported values
+ */
+function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId, constraint) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+idControl).val(agentId);
@@ -363,7 +380,11 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 		source: function (request, response) { 
 			$.ajax({
 				url: "/agents/component/search.cfc",
-				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
+				data: { 
+					term: request.term, 
+					constraint: constraint, 
+					method: 'getAgentAutocompleteMeta' 
+				},
 				dataType: 'json',
 				success : function (data) { 
 					// return the result to the autocomplete widget, select event will fire if item is selected.
@@ -418,7 +439,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
  *
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
- *  @param constraint to limit the agents returned, see getAgentAutcomplete for supported values
+ *  @param constraint to limit the agents returned, see getAgentAutocompleteMeta for supported values
  */
 function makeConstrainedAgentPicker(nameControl, idControl, constraint) { 
 	$('#'+nameControl).autocomplete({

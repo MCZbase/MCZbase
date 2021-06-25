@@ -130,6 +130,9 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name CONTAINS "/media/" OR CGI.script_name IS "/Media.cfm">
 	<script type="text/javascript" src="/media/js/media.js"></script>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	</cfif>
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
