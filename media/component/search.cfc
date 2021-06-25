@@ -57,9 +57,14 @@ limitations under the License.
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="unlinked" type="string" required="no">
+	<cfargument name="multilink" type="string" required="no">
+	<cfargument name="multitypelink" type="string" required="no">
 	<cfargument name="media_relationship_type" type="string" required="no">
 	<cfargument name="media_relationship_value" type="string" required="no">
 	<cfargument name="media_relationship_id" type="string" required="no">
+	<cfargument name="media_relationship_type_1" type="string" required="no">
+	<cfargument name="media_relationship_value_1" type="string" required="no">
+	<cfargument name="media_relationship_id_1" type="string" required="no">
 
 	<cfif not isdefined("unlinked")>
 		<cfset unlinked = "">
@@ -108,6 +113,14 @@ limitations under the License.
 		<!--- set a non-meaningfull, but non-empty value for media_relationship_id to support CFIF logic in building query --->
 		<cfset media_relationship_id = "-1">
 		<cfif (NOT isdefined("media_relationship_type") OR len(media_relationship_value) EQ 0) AND media_relationship_value EQ "NULL" >
+			<!--- NULL and no relationship type specified, treat as if unlinked were selected. --->
+			<cfset unlinked = "true">
+		</cfif>
+	</cfif>
+	<cfif isdefined("media_relationship_value_1") AND (media_relationship_value_1 EQ "NULL" OR media_relationship_value_1 EQ "NOT NULL")>
+		<!--- set a non-meaningfull, but non-empty value for media_relationship_id_1 to support CFIF logic in building query --->
+		<cfset media_relationship_id_1 = "-1">
+		<cfif (NOT isdefined("media_relationship_type_1") OR len(media_relationship_value_1) EQ 0) AND media_relationship_value_1 EQ "NULL" >
 			<!--- NULL and no relationship type specified, treat as if unlinked were selected. --->
 			<cfset unlinked = "true">
 		</cfif>
@@ -162,12 +175,17 @@ limitations under the License.
 				<cfif len(unlinked) EQ 0>
 					<cfif (isdefined("related_cataloged_item") AND len(related_cataloged_item) GT 0)
 						OR (isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0)
-						OR (isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0)
 					>
 					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 					</cfif>
 					<cfif isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
 					   left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
+					</cfif>
+					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
+					   left join media_relations media_relations_rt on media.media_id=media_relations_rt.media_id
+					</cfif>
+					<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0 AND isdefined("media_relationship_id_1") AND len(media_relationship_id_1) GT 0 >
+					   left join media_relations media_relations_rt_1 on media.media_id=media_relations_rt_1.media_id
 					</cfif>
 				</cfif>
 			WHERE
@@ -643,6 +661,20 @@ limitations under the License.
 				<cfif len(unlinked) GT 0>
 					and media.media_id not in (select media_id from media_relations where media_relationship <> 'created by agent')
 				<cfelse>
+					<cfif isdefined("multilink") and len(multilink) gt 0>
+						AND media.media_id in (
+							SELECT media_id FROM media_relations WHERE media_relationship <> 'created by agent'
+							GROUP BY media_id
+							HAVING count(*) > 1
+						)
+					</cfif>
+					<cfif isdefined("multitypelink") and len(multitypelink) gt 0>
+						AND media.media_id in (
+							SELECT media_id FROM media_relations WHERE media_relationship <> 'created by agent'
+							GROUP BY media_id
+							HAVING count(distinct media_relationship) > 1
+						)
+					</cfif>
 					<cfif isdefined("related_cataloged_item") and len(related_cataloged_item) gt 0>
 						AND media_relations_ci.media_relationship = 'shows cataloged_item'
 						<cfif related_cataloged_item IS 'NOT NULL'>
@@ -660,11 +692,19 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
-						AND media_relations_ci.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type#">
+						AND media_relations_rt.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type#">
 						<cfif media_relationship_value IS 'NOT NULL'>
-							AND media_relations_ci.related_primary_key IS NOT NULL
+							AND media_relations_rt.related_primary_key IS NOT NULL
 						<cfelse>
-							AND media_relations_ci.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id#" list="yes"> )
+							AND media_relations_rt.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id#" list="yes"> )
+						</cfif>
+					</cfif>
+					<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0 AND isdefined("media_relationship_id_1") AND len(media_relationship_id_1) GT 0 >
+						AND media_relations_rt_1.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_type_1#">
+						<cfif media_relationship_value IS 'NOT NULL'>
+							AND media_relations_rt_1.related_primary_key IS NOT NULL
+						<cfelse>
+							AND media_relations_rt_1.related_primary_key in ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relationship_id_1#" list="yes"> )
 						</cfif>
 					</cfif>
 				</cfif>
