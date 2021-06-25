@@ -216,8 +216,13 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 				makeDeaccessionAutocompleteMeta(valueControl, idControl);
 			}
 			break;
+		case "borrow":
+			if (typeof makeBorrowAutocompleteMeta === "function") { 
+				makeBorrowAutocompleteMeta(valueControl, idControl);
+			}
+			break;
 		default:
-			messageDialog("Unknown or not implemented media relationship target","Error: Unknown");		
+			messageDialog("Unknown or not implemented media relationship target, only NULL and NOT NULL values are supported","Error: Unknown");		
 	}
 
 }
