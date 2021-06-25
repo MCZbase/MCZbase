@@ -167,6 +167,14 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	var targetObject = $('#'+typeControl).val().trim().split(" ").pop();
 	console.log(targetObject);
 	switch (targetObject) {
+		case "":
+			// blank option selected, remove an autocomplete, but not the values.
+			try { 
+				$('#'+valueControl).autocomplete("destroy");
+			} catch (err) {
+				console.log(err);
+			}
+			break;
 		case "agent":
 			makeConstrainedAgentPicker(valueControl, idControl, 'media_agent'); 
 			break;
