@@ -614,21 +614,16 @@ limitations under the License.
 	<cfthread action="join" name="getEditMediaDetailsThread" />
 	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
-<cffunction name="getMedia1HTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select nature_of_id from ctnature_of_id
-				</cfquery>
-				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxa_formula from cttaxa_formula order by taxa_formula
-				</cfquery>
+
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 float-left mb-2 px-0">
-						<form name="editMediaForm" id="editIdentificationsForm">
+						<form name="editMediaForm" id="editMediaForm">
 							<input type="hidden" name="method" value="updateMedia">
 							<input type="hidden" name="returnformat" value="json">
 							<input type="hidden" name="queryformat" value="column">
