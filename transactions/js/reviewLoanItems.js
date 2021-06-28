@@ -196,7 +196,7 @@ function openAddLoanItemDialog(guid,transaction_id, dialogId, callback) {
 function addItemToLoan(part_id,transaction_id,remark,instructions,subsample,targetDiv) { 
 	var subsampleInt = 0;
 	if (subsample=="true" || subsample==1 || subsample=="1") {
-		subsampleInt = ;
+		subsampleInt = 1;
 	}
 	$("#"+targetDiv).html("Saving...");
 	jQuery.ajax({
