@@ -338,13 +338,6 @@ function openEditMediaDetailsDialog(media_id,dialogId,callback) {
 	});
 };
 
-
-
-
-
-
-
-
 function loadCitations(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
