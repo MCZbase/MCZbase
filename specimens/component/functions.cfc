@@ -128,8 +128,8 @@ limitations under the License.
 															<label for="media_label" class="data-entry-label">Media Labels</label>
 															<select name="media_label" id="media_label" class="data-entry-select">
 																<option value="">NONE</option>
-																<cfloop query="ctmedia_label1">
-																	<option value="ctmedia_label1.media_label"></option>
+																<cfloop query="ctmedia_label">
+																	<option value="ctmedia_label.media_label"></option>
 																</cfloop>
 															</select>
 														</div>
