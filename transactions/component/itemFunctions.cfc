@@ -647,14 +647,15 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<h2 class="h3">Add items to loan</h2>
+				<h2 class="h3">Add parts to loan from cataloged item #guid#</h2>
 				<div>
 					<div>
 						<ul>
 							<cfloop query="lookupCatalogedItem">
-								<li>#guid#</li>
 								<li>#current_ident#</li>
-								<li>#type_status_plain#</li>
+								<cfif len(type_status_plain) GT 0>
+									<li>#type_status_plain#</li>
+								</cfif>
 								<li>#higher_geog#</li>
 								<li>#spec_locality#</li>
 								<li>#collectors#</li>
@@ -676,15 +677,47 @@ limitations under the License.
 					</cfquery>
 					<div>
 						<h2 class="h3">Parts/Preparations to add</h2>
+						<cfset i=0>
 						<cfloop query="lookupParts">
-							#part_id#
-							#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier# 
-							#coll_obj_disposition#
-							#condition#
-							<label>Remark</label>
-							<label>Instructions</label>
-							<label>Subsample</label>
-							<button>Add</button>
+							<cfset i= i+1>
+							<form id="addPart_#i#">
+								<div class="form-row border">
+									<div class"col-12">
+										<label class="data-entry-label">
+											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
+										</label>
+										<input disabled type="text" value="#coll_obj_disposition# #condition#">
+									</div>
+									<cfif coll_obj_disposition NEQ "in collection">
+										<div class"col-12">
+											This part may not be available for loan, it has a current disposition of #coll_obj_disposition#.
+										</div>
+									</cfif>
+									<div class"col-12 col-md-3">
+										<label class="data-entry-label">Remark</label>
+										<input id="addPart_#i#_remark" value="" class="data-entry-input">
+									</div>
+									<div class"col-12 col-md-3">
+										<label class="data-entry-label">Instructions</label>
+										<input id="addPart_#i#_instructions" value="" class="data-entry-input">
+									</div>
+									<div class"col-12 col-md-3">
+										<label class="data-entry-label">Subsample</label>
+										<input id="addPart_#i#_subsample" value="" class="data-entry-input">
+									</div>
+									<div class"col-12 col-md-3">
+										<button type="submit" id="buttonAddPart_#i#" class="btn btn-primary btn-xs">Add Part</button>
+										<cfscript>
+											$(document).ready(function(){
+												$("##buttonAddPart_#i#").click(function(evt) { 
+													evt.preventDefault();
+													alert("Not implemented yet");
+												});
+											});
+										</cfscript>
+									</div>
+								</div>
+							</form>
 						</cfloop>
 					</div>
 				</div>

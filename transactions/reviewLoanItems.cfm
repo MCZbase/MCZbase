@@ -204,6 +204,9 @@ limitations under the License.
 		<!--- handle legacy loans with cataloged items as the item --->
 		<main class="container-fluid" id="content">
 			<cfoutput>
+				<cfset isClosed = false>
+				<cfset isInProcess = false>
+				<cfset isOpen = false>
 				<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select l.loan_number, c.collection_cde, c.collection,
 						l.loan_type, l.loan_status, 
@@ -213,6 +216,15 @@ limitations under the License.
 						left join loan l on t.transaction_id = l.transaction_id
 					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
+				<cfif loan_status EQ 'closed'>
+					<cfset isClosed = true>
+				</cfif>
+				<cfif loan_status EQ 'in process'>
+					<cfset isInProcess = true>
+				</cfif>
+				<cfif Find("open",loan_status) EQ 1>
+					<cfset isOpen = true>
+				</cfif>
 				<cfset multipleCollectionsText = "">
 				<cfif collectionCount GT 1>
 					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
@@ -265,22 +277,24 @@ limitations under the License.
 											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
-											<div class="row">
-												<div class="col-12 col-md-4">
-													<label class="data-entry-label" for="guid">Cataloged item (GUIDs in the form MCZ:Dept:number)</label>
-													<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
-													<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+											<cfif isInProcess>
+												<div class="row">
+													<div class="col-12 col-md-4">
+														<label class="data-entry-label" for="guid">Cataloged item (GUIDs in the form MCZ:Dept:number)</label>
+														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+														<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+													</div>
+													<div class="col-12 col-md-8">
+														<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Add an item to loan by catalog number" 
+															onclick=" openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+														<!---  script>
+															$(document).ready(function() {
+																makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+															});
+														</script --->
+													</div>
 												</div>
-												<div class="col-12 col-md-8">
-													<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Add an item to loan by catalog number" 
-														onclick=" openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
-													<!---  script>
-														$(document).ready(function() {
-															makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-														});
-													</script --->
-												</div>
-											</div>
+											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
