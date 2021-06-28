@@ -686,7 +686,7 @@ limitations under the License.
 										<label class="data-entry-label">
 											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
 										</label>
-										<input disabled type="text" value="#coll_obj_disposition# #condition#">
+										<input disabled type="text" value="#coll_obj_disposition# #condition#" class="data-entry-input w-100">
 									</div>
 									<cfif coll_obj_disposition NEQ "in collection">
 										<div class="col-12">

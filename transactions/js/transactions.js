@@ -2285,7 +2285,7 @@ function openAddLoanItemDialog(guid,transaction_id, dialogId, callback) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		minWidth: 550,
+		minWidth: 600,
 		minHeight: 200,
 		draggable:true,
 		buttons: {
