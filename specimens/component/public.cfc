@@ -1985,7 +1985,7 @@ limitations under the License.
 	<cfreturn getMetadataThread.output>
 </cffunction>
 
-<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
+<!---<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="GUID" type="string" required="no">
 	<cfargument name="SCIENTIFIC_NAME" type="string" required="no">
@@ -2025,7 +2025,7 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>
+</cffunction>--->
 							
 
 </cfcomponent>
