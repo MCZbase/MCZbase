@@ -125,6 +125,7 @@
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
+						<cfif specimenImageQuery.recordcount gt 0>
 							<div class="col-12 col-md-6 mb-4 float-left mt-0">
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
@@ -472,7 +473,8 @@
 			
 								</div>
 							</div>
-							<div class="col-12 col-md-6 mt-0 mt-md-5 float-left">
+						</cfif>
+							<div class="col mt-0 mt-md-5 float-left">
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) gt 0>
 										<h2 class="h2">Overview</h2>
