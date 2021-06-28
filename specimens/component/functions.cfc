@@ -167,7 +167,7 @@ limitations under the License.
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
-								<input type="hidden" name="media_id" value="#media_id#">
+							
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<h1 class="h3 px-2 mb-0 mt-2"> Remove Media from this Specimen Record
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
