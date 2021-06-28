@@ -620,7 +620,7 @@ limitations under the License.
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-<!---		<cfargument name="media_id" type="string" required="yes">--->
+		<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -685,9 +685,9 @@ limitations under the License.
 											media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 										order by media.media_type
 									</cfquery>
-										#collection_object_id#
+										
 										<cfset i=1>
-										<cfloop query="media">
+										<cfloop query="mediaS1">
 											<div class="row my-2 py-2 border">
 												<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select media_relationship from ctmedia_relationship order by media_relationship
