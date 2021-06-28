@@ -125,8 +125,7 @@
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
-						<cfif specimenImageQuery.recordcount gt 0>
-							<div class="col-12 col-md-6 mb-4 float-left mt-0">
+					
 								<!--- obtain a random set of images, limited to a small number --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
@@ -150,6 +149,8 @@
 									) 
 									WHERE rownum < 16
 								</cfquery>
+						<cfif specimenImageQuery.recordcount gt 0>
+							<div class="col-12 col-md-6 mb-4 float-left mt-0">
 								<!--- find out how many images there are in total --->
 								<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT count(media.media_id) as ct
