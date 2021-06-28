@@ -37,8 +37,8 @@
 								</h1>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-12 px-4 mt-0">
+						<div class="row mx-0">
+							<div class="col-12 px-3 mt-0">
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
