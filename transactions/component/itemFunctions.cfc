@@ -604,6 +604,185 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+
+<!---   Function addPartToLoan add a part to a loan as a loan item.
+ @param transaction_id the loan to which to add the part as a loan item
+ @param part_id the collection_object_id of the part to add as a loan item
+ @param remark the loan item remarks.
+ @param instructions the loan item instructions
+ @param subsample, if value is one, then create a subsample from the specified part and add the subsample as
+  a loan item to the loan, otherwise, add the part without creating a subsample.
+--->
+<cffunction name="addPartToLoan" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="numeric" required="yes">
+	<cfargument name="part_id" type="numeric" required="yes">
+	<cfargument name="remark" type="string" required="yes">
+	<cfargument name="instructions" type="string" required="yes">
+	<cfargument name="subsample" type="numeric" required="yes">
+	
+	<cftransaction>
+		<cftry>
+			<cfquery name="checkIsLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(transaction_id) as ct
+				FROM loan
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif checkIsLoan.ct EQ 0>
+				<cfthrow message="Provided transaction_id is not for a loan.">
+			</cfif>
+			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT cataloged_item.collection_object_id,
+					cat_num,collection,part_name, preserve_method
+				FROM
+					cataloged_item,
+					collection,
+					specimen_part
+				WHERE
+					cataloged_item.collection_id=collection.collection_id and
+					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+					specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+			</cfquery>
+			<cfif subsample IS 1 >
+				<!--- create a subsample and add it as an item to the loan --->
+				<cfquery name="parentData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						coll_obj_disposition,
+						condition,
+						part_name,
+						preserve_method,
+						derived_from_cat_item
+					FROM
+						coll_object, specimen_part
+					WHERE
+						coll_object.collection_object_id = specimen_part.collection_object_id AND
+						coll_object.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+				</cfquery>
+				<cfquery name="n" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select sq_collection_object_id.nextval n from dual
+				</cfquery>
+				<cfloop query="n">
+					<cfset subsampleCollObjectID = n.n>
+				</cfloop>
+				<cfquery name="newCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_object (
+						COLLECTION_OBJECT_ID,
+						COLL_OBJECT_TYPE,
+						ENTERED_PERSON_ID,
+						COLL_OBJECT_ENTERED_DATE,
+						LAST_EDITED_PERSON_ID,
+						LAST_EDIT_DATE,
+						COLL_OBJ_DISPOSITION,
+						LOT_COUNT,
+						CONDITION)
+					VALUES
+						(
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
+						'SS',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+						sysdate,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+						sysdate,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.coll_obj_disposition#">,
+						1,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
+				</cfquery>
+				<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE coll_object set LOT_COUNT = LOT_COUNT -1,
+						LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+						LAST_EDIT_DATE = sysdate
+					where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+						and LOT_COUNT > 1
+				</cfquery>
+				<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO specimen_part (
+						COLLECTION_OBJECT_ID
+						,PART_NAME
+						,PRESERVE_METHOD
+						,SAMPLED_FROM_OBJ_ID
+						,DERIVED_FROM_CAT_ITEM)
+					VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.preserve_method#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">)
+				</cfquery>
+				<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_object_remark (
+						COLLECTION_OBJECT_ID,
+ 						COLL_OBJECT_REMARKS )
+					VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
+						'Subsample For Loan ##')
+				</cfquery>
+			</cfif>
+
+			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO LOAN_ITEM (
+					TRANSACTION_ID
+					,COLLECTION_OBJECT_ID
+					,RECONCILED_BY_PERSON_ID
+					,RECONCILED_DATE
+					,ITEM_DESCR
+					<cfif len(#instructions#) gt 0>
+						,ITEM_INSTRUCTIONS
+					</cfif>
+					<cfif len(#remark#) gt 0>
+						,LOAN_ITEM_REMARKS
+					</cfif>
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
+					<cfif subsample IS 1 >
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectId#">,
+					<cfelse>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
+					</cfif>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">,
+					sysdate
+					,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+					<cfif len(#instructions#) gt 0>
+						,'#instructions#'
+					</cfif>
+					<cfif len(#remark#) gt 0>
+						,'#remark#'
+					</cfif>
+				)
+			</cfquery>
+
+			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE coll_object 
+				SET coll_obj_disposition = 'on loan'
+				WHERE collection_object_id =
+				<cfif subsample IS 1 >
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectId#">,
+				<cfelse>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
+				</cfif>
+			</cfquery>
+			<cfset theResult=queryNew("status, message, subsample")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "item added loan.", 1)>
+			<cfif subsample IS 1 >
+				<cfset t = QuerySetCell(theResult, "subsample", "#subsampleCollObjectId#", 1)>
+			<cfelse>
+				<cfset t = QuerySetCell(theResult, "subsample", "", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+		<cfreturn theResult>
+	</cftransaction>
+</cffunction>
+
 <!--- obtain an html block to populate dialog for adding an item to a loan 
 @param collection_object_id the collection object id of the cataloged item parts of which to list in dialog to add to loan
 @param guid the guid of the cataloged item parts of which to list in dialog to add to loan, takes priority over collection_object_id.
@@ -695,23 +874,24 @@ limitations under the License.
 									</cfif>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Remark</label>
-										<input id="addPart_#i#_remark" value="" class="data-entry-input">
+										<input type="text" id="addPart_#i#_remark" value="" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Instructions</label>
-										<input id="addPart_#i#_instructions" value="" class="data-entry-input">
+										<input type="text" id="addPart_#i#_instructions" value="" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Subsample</label>
-										<input id="addPart_#i#_subsample" value="" class="data-entry-input">
+										<input type="checkbox" id="addPart_#i#_subsample" class="data-entry-checkbox" value="1">
 									</div>
 									<div class="col-12 col-md-3">
+										<label class="data-entry-label"><output id="addPart_#i#_feedback">&nbsp;</output></label>
 										<button type="submit" id="buttonAddPart_#i#" class="btn btn-primary btn-xs">Add Part</button>
 										<script>
 											$(document).ready(function(){
 												$("##buttonAddPart_#i#").click(function(evt) { 
 													evt.preventDefault();
-													alert("Not implemented yet");
+													addItemToLoan(#lookupParts.part_id#,#transaction_id#,$("##addPart_#i#_remark").val(),$("##addPart_#i#_instructions").val(),$("##addPart_#i#_subsample").prop("checked"),"addPart_#i#_feedback") { 
 												});
 											});
 										</script>
@@ -734,4 +914,5 @@ limitations under the License.
 	<cfthread action="join" name="getAddLoanItemHtmlThread" />
 	<cfreturn getAddLoanItemHtmlThread.output>
 </cffunction>
+
 </cfcomponent>
