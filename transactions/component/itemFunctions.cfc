@@ -707,14 +707,14 @@ limitations under the License.
 									</div>
 									<div class"col-12 col-md-3">
 										<button type="submit" id="buttonAddPart_#i#" class="btn btn-primary btn-xs">Add Part</button>
-										<cfscript>
+										<script>
 											$(document).ready(function(){
 												$("##buttonAddPart_#i#").click(function(evt) { 
 													evt.preventDefault();
 													alert("Not implemented yet");
 												});
 											});
-										</cfscript>
+										</script>
 									</div>
 								</div>
 							</form>
