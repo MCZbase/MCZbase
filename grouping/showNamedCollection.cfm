@@ -477,6 +477,7 @@
 									<h2 class="h2">Overview</h2>
 									<p class="">#getNamedGroup.description#</p>
 								</div>
+								<cfif len(underscore_agent_id) gt 0>
 								<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
 									<div class="mt-2 py-3">
 										<h3 class="mt-2 pt-2">Associated Agent</h2>
@@ -484,6 +485,7 @@
 											<a class="h4 px-2 d-block mt-3" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
 										</p>
 									</div>
+								</cfif>
 								</cfif>
 								<div class="row pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
