@@ -225,7 +225,7 @@ limitations under the License.
 											FROM
 												media_labels
 											WHERE
-												media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 										</cfquery>
 										<cfquery name="desc" dbtype="query">
 											select label_value from labels where media_label='description'
@@ -234,16 +234,16 @@ limitations under the License.
 										<cfif desc.recordcount is 1>
 											<cfset description=desc.label_value>
 										</cfif>
-										<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
+										<cfif media.media_type eq "image" and media.mime_type NEQ "text/html">
 											<!---for media images -- remove absolute url after demo / test db issue?--->
-											<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-											<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-											<cfset aForDetHref = "/media/#media_id#" >
+											<cfset mediaRecord = "<a href='/media/#media.media_id#' class='w-100'>Media Record</a>">
+											<cfset aForImgHref = "/MediaSet.cfm?media_id=#media.media_id#" >
+											<cfset aForDetHref = "/media/#media.media_id#" >
 											<cfelse>
 											<!---for DRS from library--->
-											<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+											<cfset mediaRecord = "<a href='/media/#media.media_id#' class='w-100'>Media Record</a>">
 											<cfset aForImgHref = media_uri>
-											<cfset aForDetHref = "/media/#media_id#">
+											<cfset aForDetHref = "/media/#media.media_id#">
 										</cfif>
 
 										<div class="col-4 float-left p-2">
@@ -251,7 +251,7 @@ limitations under the License.
 												<div class="col-5 p-2 float-left">
 															#mediaRecord#<br> 
 													<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
-														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
+														<img src="#getMediaPreview(media.preview_uri,media.mime_type)#" alt="#altText#" class="" width="100"> 
 													</a> <br>
 													<a href="#aForImgHref#" target="_blank">Media Details</a>
 												</div>
