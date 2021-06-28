@@ -250,7 +250,7 @@ limitations under the License.
 													<cfelse>
 													<!---for DRS from library--->
 													<cfset mediaRecord = "<a href='/media/#media_specs.media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = media_specs..media_uri>
+													<cfset aForImgHref = media_specs.media_uri>
 													<cfset aForDetHref = "/media/#media_specs.media_id#">
 												</cfif>
 												
