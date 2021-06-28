@@ -74,7 +74,7 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
-				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label from ctmedia_label order by media_label
 				</cfquery>
 				<div class="container-fluid my-4">
@@ -181,9 +181,9 @@ limitations under the License.
 												media.media_license_id,
 												mczbase.get_media_descriptor(media_id) as alttag 
 											from media 
-											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										</cfquery>
-										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select
 												media_label,
 												label_value,
@@ -194,7 +194,7 @@ limitations under the License.
 												preferred_agent_name
 											where
 												media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-												media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+												media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#.media_id#">
 										</cfquery>
 										<cfquery name="ctlabels" dbtype="query">
 											select count(*) as ct from labels group by media_label order by media_label
@@ -225,7 +225,7 @@ limitations under the License.
 											FROM
 												media_labels
 											WHERE
-												media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										</cfquery>
 										<cfquery name="desc" dbtype="query">
 											select label_value from labels where media_label='description'
@@ -242,7 +242,7 @@ limitations under the License.
 											<cfelse>
 											<!---for DRS from library--->
 											<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-											<cfset aForImgHref = media1.media_uri>
+											<cfset aForImgHref = media_uri>
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 
