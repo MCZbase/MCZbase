@@ -127,15 +127,14 @@ limitations under the License.
 												<p class="small">
 													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 													<span class="">#description#</span><br>
-													<script>
+<!---													<script>
 														function reloadMedia() { 
-															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 															loadMedia('#media_id#','mediaCardBody');
 														}
-													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-													<cfif #media.media_type# eq "audio">
+													</script>--->
+								<!---					<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
 														<!--- check for a transcript, link if present --->
+<!---													<cfif #media.media_type# eq "audio">
 														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
 																transcript.media_uri as transcript_uri,
@@ -153,7 +152,7 @@ limitations under the License.
 																<a href="#transcript_uri#">View Transcript</a>
 															</cfloop>
 														</cfif>
-													</cfif>
+													</cfif>--->
 												</p>
 											</div>
 										</cfif>
@@ -1985,6 +1984,47 @@ limitations under the License.
 	<cfreturn getMetadataThread.output>
 </cffunction>
 
-
+<!---<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="no">
+	<cfargument name="GUID" type="string" required="no">
+	<cfargument name="SCIENTIFIC_NAME" type="string" required="no">
+	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT DISTINCT flat.guid, flat.sci_name, flat.verbatim_date,flat.spec_locality
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid is not null
+			ORDER BY flat.guid asc
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["guid"] = "#search.guid#">
+			<cfset row["scientific_name"] = "#search.scientific_name#">
+			<cfset row["verbatim_date"] = "#search.verbatim_date#">
+			<cfset row["spec_locality"] = "#search.spec_locality#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+	<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+	<cfheader statusCode="500" statusText="#message#">
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>--->
+							
 
 </cfcomponent>
