@@ -310,7 +310,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 
 	<cfreturn result>
 </cffunction>
-
+		
 		
 <cffunction name="getSpecimens" access="remote" returntype="any" returnformat="json">
 		<cfargument name="underscore_collection_id" type="string" required="yes">
