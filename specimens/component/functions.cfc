@@ -59,8 +59,8 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="media_id" type="string" required="no">
-	<cfthread name="getEditMediaThread"> <cfoutput>
+	<cfthread name="getEditMediaThread">
+		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -91,7 +91,8 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
 										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span>
+											</button>
 										</h1>
 									</div>
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
@@ -167,7 +168,6 @@ limitations under the License.
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
-							
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<h1 class="h3 px-2 mb-0 mt-2"> Remove Media from this Specimen Record
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
@@ -178,7 +178,7 @@ limitations under the License.
 										<cfloop query="media">
 												<cfset relns=getMediaRelations(#media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-												<cfquery name="media"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="media_specs"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
 														media.preview_uri,
 														media.media_uri,
@@ -189,7 +189,7 @@ limitations under the License.
 														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -202,7 +202,7 @@ limitations under the License.
 														preferred_agent_name
 													where
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_specs.media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
 													select count(*) as ct from labels group by media_label order by media_label
@@ -222,7 +222,7 @@ limitations under the License.
 												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select media_license_id,display media_license from ctmedia_license order by media_license_id
 												</cfquery>
-												<cfset mt=media.mime_type>
+												<cfset mt=media_specs.mime_type>
 												<cfset altText = media.alttag>
 												<cfset puri=getMediaPreview(media.preview_uri, media.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -233,7 +233,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_specs.media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -242,16 +242,16 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media.media_type eq "image" and media1.mime_type NEQ "text/html">
+												<cfif media_specs..media_type eq "image" and media_specs.mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
-													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-													<cfset aForDetHref = "/media/#media_id#" >
+													<cfset mediaRecord = "<a href='/media/#media_specs.media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_specs.media_id#" >
+													<cfset aForDetHref = "/media/#media_specs.media_id#" >
 													<cfelse>
 													<!---for DRS from library--->
-													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = media.media_uri>
-													<cfset aForDetHref = "/media/#media_id#">
+													<cfset mediaRecord = "<a href='/media/#media_specs.media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = media_specs..media_uri>
+													<cfset aForDetHref = "/media/#media_specs.media_id#">
 												</cfif>
 												
 												<div class="col-4 float-left p-2">
@@ -259,7 +259,7 @@ limitations under the License.
 														<div class="col-5 p-2 float-left">
 																	#mediaRecord#<br> 
 															<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
-																<img src="#getMediaPreview(media.preview_uri,media.mime_type)#" alt="#altText#" class="" width="100"> 
+																<img src="#getMediaPreview(media_specs.preview_uri,media_specs.mime_type)#" alt="#altText#" class="" width="100"> 
 															</a> <br>
 															<a href="#aForImgHref#" target="_blank">Media Details</a>
 														</div>
