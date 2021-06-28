@@ -283,7 +283,7 @@ function loadMedia(media_id,form) {
  * @param collection_object_id 
  * @param targetDivId 
  **/
-function loadsMedia(collection_object_id,targetDivId) { 
+function loadMedia(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
