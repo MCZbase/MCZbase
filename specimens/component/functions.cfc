@@ -167,6 +167,7 @@ limitations under the License.
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
+								<input type="hidden" name="collection_object_id" value="#media_id#">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<h1 class="h3 px-2 mb-0 mt-2"> Remove Media from this Specimen Record
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
@@ -177,7 +178,7 @@ limitations under the License.
 										<cfloop query="media">
 												<cfset relns=getMediaRelations(#media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="media"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
 														media.preview_uri,
 														media.media_uri,
@@ -221,9 +222,9 @@ limitations under the License.
 												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select media_license_id,display media_license from ctmedia_license order by media_license_id
 												</cfquery>
-												<cfset mt=media1.mime_type>
-												<cfset altText = media1.alttag>
-												<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
+												<cfset mt=media.mime_type>
+												<cfset altText = media.alttag>
+												<cfset puri=getMediaPreview(media.preview_uri, media.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
 														media_label_id,
@@ -241,7 +242,7 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
+												<cfif media.media_type eq "image" and media1.mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
@@ -249,7 +250,7 @@ limitations under the License.
 													<cfelse>
 													<!---for DRS from library--->
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = media1.media_uri>
+													<cfset aForImgHref = media.media_uri>
 													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
 												
@@ -258,7 +259,7 @@ limitations under the License.
 														<div class="col-5 p-2 float-left">
 																	#mediaRecord#<br> 
 															<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
-																<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
+																<img src="#getMediaPreview(media.preview_uri,media.mime_type)#" alt="#altText#" class="" width="100"> 
 															</a> <br>
 															<a href="#aForImgHref#" target="_blank">Media Details</a>
 														</div>
