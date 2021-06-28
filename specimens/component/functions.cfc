@@ -200,7 +200,7 @@ limitations under the License.
 														preferred_agent_name
 													where
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
 													select count(*) as ct from labels group by media_label order by media_label
@@ -231,7 +231,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -267,7 +267,6 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-												
 												<cfset i=i+1>
 										</cfloop>
 									</div>
