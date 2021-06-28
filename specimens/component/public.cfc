@@ -216,7 +216,7 @@ limitations under the License.
 														<span class="">#description#</span><br>
 														<script>
 															function reloadMedia() { 
-																// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+																
 																loadMedia(#media_id#,'mediaCardBody');
 															}
 														</script>
