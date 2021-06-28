@@ -68,7 +68,7 @@ limitations under the License.
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
-							MCZBASE.is_media_encumbered(media_id) < 1
+							MCZBASE.is_media_encumbered(mediaS1.media_id) < 1
 						order by media.media_type
 					</cfquery>
 					<cfoutput>	#collection_object_id#
@@ -93,7 +93,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
