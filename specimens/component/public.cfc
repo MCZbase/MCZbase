@@ -42,7 +42,7 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '%cataloged_item' and
-						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and 
+						media_relations.related_primary_key = 370052 and 
 						MCZBASE.is_media_encumbered(media.media_id) < 1
 					order by media.media_type
 				</cfquery>
@@ -68,10 +68,10 @@ limitations under the License.
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
 							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
-							MCZBASE.is_media_encumbered(mediaS1.media_id) < 1
+							MCZBASE.is_media_encumbered(media.media_id) < 1
 						order by media.media_type
 					</cfquery>
-					<cfoutput>	#collection_object_id#
+					<cfoutput>
 							<div class="form-row">			
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
@@ -93,7 +93,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -105,7 +105,6 @@ limitations under the License.
 
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 											<div class="col-12 px-1">
-											
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
