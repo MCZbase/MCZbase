@@ -498,11 +498,15 @@ limitations under the License.
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
 								var itemid = rowData['part_id'];
-								if (itemid) {
-									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
-								} else { 
+								<cfif isClosed>
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
+								<cfelse>
+									if (itemid) {
+										result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
+									} else { 
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+									}
+								</cfif>
 								return result;
 							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
