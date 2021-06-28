@@ -905,7 +905,7 @@ limitations under the License.
  @param media-id the media.media_id to edit.
  @return html for editing the media 
 --->
-<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread"> <cfoutput>
@@ -1013,13 +1013,13 @@ limitations under the License.
 													<cfset description=desc.label_value>
 												</cfif>
 												<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-													<!---for media images -- remove absolute url after demo / test db issue?--->
+												
 													<cfset one_thumb = "<div class='col-2 float-left'>">
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
 													<cfset aForDetHref = "/media/#media_id#" >
 													<cfelse>
-													<!---for DRS from library--->
+												
 													<cfset one_thumb = "<div class='col-2 float-left'>">
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 													<cfset aForImgHref = media_uri>
@@ -1054,7 +1054,6 @@ limitations under the License.
 													</div>
 													<div class="col-4 float-left px-2">
 														<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
-														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
 															<cfif #media.mask_media_fg# eq 1 >
 																<option value="0">Public</option>
@@ -1204,7 +1203,7 @@ limitations under the License.
 		</cfoutput> </cfthread>
 	<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
-</cffunction>
+</cffunction>--->
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
