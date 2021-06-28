@@ -61,7 +61,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
 						media_relations.media_relationship
@@ -173,8 +173,8 @@ limitations under the License.
 								<cfoutput>
 									<div class="col-12 mx-0 px-0 float-left">
 										<cfset i=1>
-										<cfloop query="media">
-												<cfset relns=getMediaRelations(#media.media_id#)>
+										<cfloop query="mediaS1">
+												<cfset relns=getMediaRelations(#mediaS1.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
@@ -187,7 +187,7 @@ limitations under the License.
 														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediaS1.media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -200,7 +200,7 @@ limitations under the License.
 														preferred_agent_name
 													where
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
 													select count(*) as ct from labels group by media_label order by media_label
