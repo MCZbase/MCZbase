@@ -104,14 +104,14 @@ limitations under the License.
 								<li class="list-group-item px-0 mx-1">
 									<div id="mediaDialog"></div>
 									<script>
-										function reloadMedia() { 
+										//function reloadMedia() { 
 											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-											loadMedia(#collection_object_id#,'mediaCardBody');
-										}
+											//loadMedia(#collection_object_id#,'mediaCardBody');
+										//}
 									</script>
-									<cfif listcontainsnocase(session.roles,"manage_media")>
+<!---									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
-									</cfif>
+									</cfif>--->
 								</li>
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
