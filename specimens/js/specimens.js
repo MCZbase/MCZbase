@@ -319,24 +319,24 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-//function openEditMediaDetailsDialog(media_id,dialogId,callback) {
-//	var title = "Edit Media for Item";
-//	createSpecimenEditDialog(dialogId,title,callback);
-//	jQuery.ajax({
-//		url: "/specimens/component/functions.cfc",
-//		data : {
-//			method : "getEditMediaDetailsHTML",
-//			media_id: media_id,
-//		},
-//		success: function (result) {
-//			$("#" + dialogId + "_div").html(result);
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-//		},
-//		dataType: "html"
-//	});
-//};
+function openEditMediaDetailsDialog(media_id,dialogId,callback) {
+	var title = "Edit Media for Item";
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaDetailsHTML",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
 
 
 
