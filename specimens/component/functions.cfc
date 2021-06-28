@@ -635,6 +635,7 @@ limitations under the License.
 						<form name="editMediaForm" id="editIdentificationsForm">
 							<input type="hidden" name="method" value="updateMedia">
 							<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="guid" value="#guid#">
 							<input type="hidden" name="queryformat" value="column">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
