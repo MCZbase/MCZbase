@@ -262,22 +262,22 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 
 
 
-function loadMedia1(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaHTML",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
+//function loadMedia1(media_id,form) {
+//	jQuery.ajax({
+//		url: "/specimens/component/functions.cfc",
+//		data : {
+//			method : "getMediaHTML",
+//			media_id: media_id,
+//		},
+//		success: function (result) {
+//			$("#mediaHTML").html(result);
+//		},
+//		error: function (jqXHR, textStatus, error) {
+//			handleFail(jqXHR,textStatus,error,"removing media");
+//		},
+//		dataType: "html"
+//	});
+//};
 
 /** loadMedia populate an html block with the media 
  * @param collection_object_id 
