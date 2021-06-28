@@ -61,7 +61,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
 						media_relations.media_relationship
@@ -187,7 +187,7 @@ limitations under the License.
 														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -620,7 +620,7 @@ limitations under the License.
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfargument name="media_id" type="string" required="yes">
+<!---		<cfargument name="media_id" type="string" required="yes">--->
 	<cfthread name="getMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -685,6 +685,7 @@ limitations under the License.
 											media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 										order by media.media_type
 									</cfquery>
+										#collection_object_id#
 										<cfset i=1>
 										<cfloop query="media">
 											<div class="row my-2 py-2 border">
