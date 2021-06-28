@@ -59,8 +59,7 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditMediaThread">
-		<cfoutput>
+	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -91,8 +90,7 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header pt-1" id="headingMedia1">
 										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span>
-											</button>
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
 										</h1>
 									</div>
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
@@ -176,9 +174,9 @@ limitations under the License.
 									<div class="col-12 mx-0 px-0 float-left">
 										<cfset i=1>
 										<cfloop query="media">
-												<cfset relns=getMediaRelations(#media_id#)>
+												<cfset relns=getMediaRelations(#media.media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-												<cfquery name="media_specs"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
 														media.preview_uri,
 														media.media_uri,
@@ -189,7 +187,7 @@ limitations under the License.
 														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -202,7 +200,7 @@ limitations under the License.
 														preferred_agent_name
 													where
 														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_specs.media_id#">
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 												</cfquery>
 												<cfquery name="ctlabels" dbtype="query">
 													select count(*) as ct from labels group by media_label order by media_label
@@ -222,9 +220,9 @@ limitations under the License.
 												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select media_license_id,display media_license from ctmedia_license order by media_license_id
 												</cfquery>
-												<cfset mt=media_specs.mime_type>
-												<cfset altText = media.alttag>
-												<cfset puri=getMediaPreview(media.preview_uri, media.mime_type)>
+												<cfset mt=media1.mime_type>
+												<cfset altText = media1.alttag>
+												<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
 														media_label_id,
@@ -233,7 +231,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_specs.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -242,16 +240,16 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media_specs..media_type eq "image" and media_specs.mime_type NEQ "text/html">
+												<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
-													<cfset mediaRecord = "<a href='/media/#media_specs.media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_specs.media_id#" >
-													<cfset aForDetHref = "/media/#media_specs.media_id#" >
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
+													<cfset aForDetHref = "/media/#media_id#" >
 													<cfelse>
 													<!---for DRS from library--->
-													<cfset mediaRecord = "<a href='/media/#media_specs.media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = media_specs.media_uri>
-													<cfset aForDetHref = "/media/#media_specs.media_id#">
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = media1.media_uri>
+													<cfset aForDetHref = "/media/#media_id#">
 												</cfif>
 												
 												<div class="col-4 float-left p-2">
@@ -259,7 +257,7 @@ limitations under the License.
 														<div class="col-5 p-2 float-left">
 																	#mediaRecord#<br> 
 															<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
-																<img src="#getMediaPreview(media_specs.preview_uri,media_specs.mime_type)#" alt="#altText#" class="" width="100"> 
+																<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 															</a> <br>
 															<a href="#aForImgHref#" target="_blank">Media Details</a>
 														</div>
@@ -622,7 +620,7 @@ limitations under the License.
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="media_id" type="string" required="yes">
+		<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -675,7 +673,7 @@ limitations under the License.
 											media.mask_media_fg,
 											media.media_license_id,
 											media_relations.media_relationship,
-											mczbase.get_media_descriptor(media_id) as media_descriptor
+											mczbase.get_media_descriptor(media.media_id) as media_descriptor
 										from
 											media,
 											media_relations,
@@ -710,7 +708,7 @@ limitations under the License.
 												</cfquery>
 												<cfset mt=media.mime_type>
 												<cfset altText = media.media_descriptor>
-												<cfset puri=getMediaPreview(preview_uri,mime_type)>
+												<cfset puri=getMediaPreview(media1.preview_uri,media1.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
 														media_label,
@@ -727,7 +725,7 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media_type eq "image" and media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
 													<cfset one_thumb = "<div class='col-2 float-left'>">
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
@@ -744,8 +742,7 @@ limitations under the License.
 												#one_thumb# #mediaRecord#
 												<br>
 												<a href="#aForImgHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a> <a href="#aForImgHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span> 
-											</div>
+												<span class="">#description#</span> </div>
 											<div class="col-10 mt-2 float-left px-0">
 												<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 												<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
@@ -756,7 +753,7 @@ limitations under the License.
 														<label for="media_type" class="float-left mt-1">Media Type</label>
 														<select name="media_type" class="ml-2" id="media_type">
 															<cfloop query="ctmedia_type">
-																<option <cfif #media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+																<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -764,7 +761,7 @@ limitations under the License.
 														<label for="mime_type" class="float-left mt-1">Mime Type</label>
 														<select name="mime_type" class="ml-2" id="mime_type">
 															<cfloop query="ctmime_type">
-																<option <cfif #mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+																<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -772,7 +769,7 @@ limitations under the License.
 														<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
 														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-															<cfif #mask_media_fg# eq 1 >
+															<cfif #media.mask_media_fg# eq 1 >
 																<option value="0">Public</option>
 																<option value="1" selected="selected">Hidden</option>
 																<cfelse>
@@ -788,7 +785,7 @@ limitations under the License.
 														<select name="media_license_id" id="media_license_id" class="ml-1">
 															<option value="">NONE</option>
 															<cfloop query="ctmedia_license">
-																<option <cfif media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 															</cfloop>
 														</select>
 													</div>
