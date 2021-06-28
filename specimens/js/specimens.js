@@ -314,7 +314,7 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+			handleFail(jqXHR,textStatus,error,"opening this edit Media dialog");
 		},
 		dataType: "html"
 	});
