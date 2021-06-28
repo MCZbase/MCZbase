@@ -475,7 +475,7 @@
 								</div>
 							</div>
 						</cfif>
-							<div class="col mt-0 mt-md-5 float-left">
+							<div class="col mt-0 <cfif specimenImageQuery gt 1>mt-md-5</cfif> float-left">
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) gt 0>
 										<h2 class="h2">Overview</h2>
