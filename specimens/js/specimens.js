@@ -262,7 +262,7 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 
 
 
-function loadMedias(media_id,form) {
+function loadMedia1(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
