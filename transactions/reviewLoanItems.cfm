@@ -280,7 +280,12 @@ limitations under the License.
 												</cfif>
 											</h1>
 											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
+											<cfif isClosed>
+												<cfset statusWeight = "bold">
+											<cfelse>
+												<cfset statusWeight = "lessbold">
+											</cfif>
+											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 											<cfif isInProcess>
