@@ -80,247 +80,21 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_label from ctmedia_label order by media_label
-				</cfquery>
-				<div class="container-fluid my-4">
-					<div class="row mx-0">
-						<div class="col-9 float-left px-0">
-							<div id="accordionMedia1">
-								<div class="card">
-									<div class="card-header pt-1" id="headingMedia1">
-										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
-										</h1>
-									</div>
-									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
-										<div class="card-body"> 
-											<cfoutput>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group mt-2">
-															<label for="MediaURI" class="data-entry-label">Media URI</label>
-															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group">
-															<label for="previewURI" class="data-entry-label">Preview URI</label>
-															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group mr-4 float-left">
-															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input class="data-entry-input" name="mime_type" id="media_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="visibility" class="data-entry-label">Visibility</label>
-															<input class="data-entry-input" name="visibility" id="visibility" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group">
-															<label for="media_label" class="data-entry-label">Media Labels</label>
-															<select name="media_label" id="media_label" class="data-entry-select">
-																<option value="">NONE</option>
-																<cfloop query="ctmedia_label1">
-																	<option value="ctmedia_label1.media_label"></option>
-																</cfloop>
-															</select>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group">
-															<label for="media_relations" class="data-entry-label">Media Relationships</label>
-															<select name="media_relations" id="media_relations" class="data-entry-select">
-																<option value="">NONE</option>
-																<cfloop query="ctmedia_label1">
-																	<option value="ctmedia_label1.media_relationship"></option>
-																</cfloop>
-															</select>
-														</div>
-													</div>
-												</div>
-											</cfoutput>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="container-fluid my-2">
-							<form name="editMediaForm" id="editMediaForm">
+					<div class="container-fluid">
+						<div class="row mx-0">
+							<form name="editMediaForm" id="editIdentificationsForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<h1 class="h3 px-2 mb-0 mt-2"> Remove Media from this Specimen Record
-									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
-								</h1>
-								<cfoutput>
-									<div class="col-12 mx-0 px-0 float-left">
-										<cfset i=1>
-										<cfloop query="media">
-												<cfset relns=getMediaRelations(#media.media_id#)>
-												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select 
-														media.preview_uri,
-														media.media_uri,
-														media.mime_type, 
-														media.mask_media_fg,
-														media.media_type, 
-														media.media_id,
-														media.media_license_id,
-														mczbase.get_media_descriptor(media_id) as alttag 
-													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												</cfquery>
-												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select
-														media_label,
-														label_value,
-														agent_name,
-														media_labels.media_label_id
-													from
-														media_labels,
-														preferred_agent_name
-													where
-														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
-												</cfquery>
-												<cfquery name="ctlabels" dbtype="query">
-													select count(*) as ct from labels group by media_label order by media_label
-												</cfquery>
-												<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select media_relationship from ctmedia_relationship order by media_relationship
-												</cfquery>
-												<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select media_label from ctmedia_label order by media_label
-												</cfquery>
-												<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select media_type from ctmedia_type order by media_type
-												</cfquery>
-												<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select mime_type from ctmime_type order by mime_type
-												</cfquery>
-												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select media_license_id,display media_license from ctmedia_license order by media_license_id
-												</cfquery>
-												<cfset mt=media1.mime_type>
-												<cfset altText = media1.alttag>
-												<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
-												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT
-														media_label_id,
-														media_label,
-														label_value
-													FROM
-														media_labels
-													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												</cfquery>
-												<cfquery name="desc" dbtype="query">
-													select label_value from labels where media_label='description'
-												</cfquery>
-												<cfset description="Media Preview Image">
-												<cfif desc.recordcount is 1>
-													<cfset description=desc.label_value>
-												</cfif>
-												<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
-													<!---for media images -- remove absolute url after demo / test db issue?--->
-													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-													<cfset aForDetHref = "/media/#media_id#" >
-													<cfelse>
-													<!---for DRS from library--->
-													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-													<cfset aForImgHref = media1.media_uri>
-													<cfset aForDetHref = "/media/#media_id#">
-												</cfif>
-												
-
-												
-												<cfset i=i+1>
-										</cfloop>
-									</div>
-								</cfoutput> 
-							</form>
-							</div>
-		
-
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
-			</cftry>
-		</cfoutput> </cfthread>
-	<cfthread action="join" name="getEditMediaThread" />
-	<cfreturn getEditMediaThread.output>
-</cffunction>
-<!---getEditMediaDetail --the dialog for editing one image--->
-<cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
-			<cftry>
-				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media.media_id
-					from
-						media
-					where
-						media.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-			
-				</cfquery>
-				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select nature_of_id from ctnature_of_id
-				</cfquery>
-				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxa_formula from cttaxa_formula order by taxa_formula
-				</cfquery>
-					<div class="container-fluid">
-						<div class="row mx-0">
-							<form name="editMediaForm" id="editMediaForm">
-								<input type="hidden" name="method" value="updateMedia">
-								<input type="hidden" name="returnformat" value="json">
-								<input type="hidden" name="queryformat" value="column">
-								<input type="hidden" name="action" value="saveEdit">
-								<input type="hidden" name="media_id" value="#media_id#">
-								<h1 class="h3 px-1 mb-0 mt-2"> Edit Media Record
+								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
-										
+											<cfset i=1>
 											<cfloop query="media">
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
@@ -404,26 +178,14 @@ limitations under the License.
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
 													<br>
-													#one_thumb# #mediaRecord# 
+													#one_thumb# #mediaRecord# 									
 													<br>
 													<a href="#aForImgHref#" target="_blank"> 
 														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 													</a> 
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
-													<span class="small">#description#</span> <br>
-												<cfif media1.media_type neq "image">
-														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select related_primary_key, media_id 
-															from media_relations 
-															where media_relations.media_relationship = 'transcript of media'
-															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>
-														<cfquery name="transcript_uri" dbtype="query">
-															select related_primary_key from transcript_relation
-														</cfquery>
-															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
-												</cfif>
+													<span class="">#description#</span> 
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
@@ -483,13 +245,13 @@ limitations under the License.
 																			<div id="seedMedia" style="display:none">
 																				<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 																				<cfset d="">
-																				<select name="relationship__0" id="relationship__0" class="data-entry-select float-left col-5" size="1"  onchange="pickedRelationship(this.id)">
+																				<select name="relationship__0" id="relationship__0" class="float-left col-6" size="1"  onchange="pickedRelationship(this.id)">
 																					<option value="delete">delete</option>
 																					<cfloop query="ctmedia_relationship">
 																						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																					</cfloop>
 																				</select>
-																				<input type="text" name="related_value__0" id="related_value__0" class="float-left col-7 data-entry-input">
+																				<input type="text" name="related_value__0" id="related_value__0" class="float-left col-6">
 																				<input type="hidden" name="related_id__0" id="related_id__0">
 																			</div>
 																			<!--- end seed data --->
@@ -500,24 +262,19 @@ limitations under the License.
 																			<cfset d=media_relationship>
 																			<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																			<label class="sr-only" for="relationship__#i#">Relationship</label>
-																			<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select float-left col-5">
+																			<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="float-left col-6">
 																				<option value="delete">delete</option>
 																				<cfloop query="ctmedia_relationship">
 																					<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																				</cfloop>
 																			</select>
-																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-7 data-entry-input">
+																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-6">
 																			<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 																			<cfset i=i+1>
 																		</div>
 																	</cfloop>
 																</div>
-														<button class="btn btn-xs btn-primary h5 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</button>
-														<script>
-															document.getElementById("addRelationship_#i#").addEventListener("click", function(event){
-															event.preventDefault()
-															});
-														</script>
+														<span class="infoLink h5 box-shadow-0 col-3 offset-md-9 d-block text-right my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</span>
 													</div>
 												</div>
 												<div class="row mx-0 mt-2">
@@ -533,13 +290,13 @@ limitations under the License.
 																		<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 																		<cfset d="">
 																		<label for="label__#i#" class='sr-only'>Media Label</label>
-																		<select name="label__0" id="label__0" size="1" class="col-5">
+																		<select name="label__0" id="label__0" size="1" class="col-6">
 																			<option value="delete">delete</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input type="text" name="label_value__0" id="label_value__0" class="col-7">
+																		<input type="text" name="label_value__0" id="label_value__0" class="col-6">
 																	</div>
 																</div>
 																</div>
@@ -551,31 +308,103 @@ limitations under the License.
 																<div id="labelsDiv__#i#" class="col-12 px-0">
 																	<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-																	<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
+																	<select name="label__#i#" id="label__#i#" size="1" class="float-left col-6">
 																			<option value="delete">delete</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																			</cfloop>
 																	</select>
-																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
+																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-6">
 																<cfset i=i+1>
 																</div>
 															</cfloop>
 															</div>
-																<button class="btn btn-primary btn-xs h5 my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label</button> 
-														</div>
+																<span class="infoLink h5 col-2 offset-md-10 px-0 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+															</div>
+													
 													</div>
 												</div>
 											</div>
-										</div>
+															</div>
+											<cfset i=i+1>
 											</cfloop>
-									</div>
-									</div>
+											</div>
+										</div>
 								</cfoutput> 
 								
 							</form>
 						</div>
 					</div>
+					<div class="container-fluid">
+					<div class="row mx-0">
+						<div class="col-9 float-left px-0">
+							<div id="accordionMedia1">
+								<div class="card">
+									<div class="card-header pt-1" id="headingMedia1">
+										<h1 class="my-0 px-1 pb-1">
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media</span> </button>
+										</h1>
+									</div>
+									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
+										<div class="card-body"> 
+											<cfoutput>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group mt-2">
+															<label for="MediaURI" class="data-entry-label">Media URI</label>
+															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="previewURI" class="data-entry-label">Preview URI</label>
+															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<div class="form-group mr-4 float-left">
+															<label for="media_type" class="data-entry-label">Media Type</label>
+															<input class="data-entry-input" name="mime_type" id="media_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="mime_type" class="data-entry-label">Mime Type</label>
+															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="visibility" class="data-entry-label">Visibility</label>
+															<input class="data-entry-input" name="visibility" id="visibility" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-12">
+													<cfset i=1>
+													<cfloop query="media">
+														<div class="form-group">
+															<label for="media_label" class="data-entry-label">Media Labels</label>
+															<select name="media_label" id="media_label" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label">
+																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
+																</cfloop>
+															</select>
+														</div>
+													<cfset i=i+1>
+													</cfloop>
+													</div>
+												</div>
+											</cfoutput> 
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
@@ -597,12 +426,12 @@ limitations under the License.
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
-	<cfthread action="join" name="getEditMediaDetailsThread" />
-	<cfreturn getEditMediaDetailsThread.output>
+	<cfthread action="join" name="getEditMediaThread" />
+	<cfreturn getEditMediaThread.output>
 </cffunction>
-<!---function getMediaHTML obtain an html block to popluate an edit dialog for a media object 
- @param media-id the media.media_id to edit.
- @return html for editing the media 
+<!---function getIdentificationHtml obtain an html block to popluate an edit dialog for an identification 
+ @param identification-id the identification.identification_id to edit.
+ @return html for editing the identification 
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -621,7 +450,6 @@ limitations under the License.
 						<form name="editMediaForm" id="editIdentificationsForm">
 							<input type="hidden" name="method" value="updateMedia">
 							<input type="hidden" name="returnformat" value="json">
-							<input type="hidden" name="guid" value="#guid#">
 							<input type="hidden" name="queryformat" value="column">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
@@ -695,7 +523,7 @@ limitations under the License.
 												</cfquery>
 												<cfset mt=media.mime_type>
 												<cfset altText = media.media_descriptor>
-												<cfset puri=getMediaPreview(preview_uri,mime_type)>
+												<cfset puri=getMediaPreview(media1.preview_uri,media1.mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
 														media_label,
@@ -712,7 +540,7 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media_type eq "image" and media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
 													<cfset one_thumb = "<div class='col-2 float-left'>">
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
@@ -729,8 +557,7 @@ limitations under the License.
 												#one_thumb# #mediaRecord#
 												<br>
 												<a href="#aForImgHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a> <a href="#aForImgHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span> 
-											</div>
+												<span class="">#description#</span> </div>
 											<div class="col-10 mt-2 float-left px-0">
 												<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 												<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
@@ -741,7 +568,7 @@ limitations under the License.
 														<label for="media_type" class="float-left mt-1">Media Type</label>
 														<select name="media_type" class="ml-2" id="media_type">
 															<cfloop query="ctmedia_type">
-																<option <cfif #media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+																<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -749,7 +576,7 @@ limitations under the License.
 														<label for="mime_type" class="float-left mt-1">Mime Type</label>
 														<select name="mime_type" class="ml-2" id="mime_type">
 															<cfloop query="ctmime_type">
-																<option <cfif #mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+																<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -757,7 +584,7 @@ limitations under the License.
 														<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
 														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-															<cfif #mask_media_fg# eq 1 >
+															<cfif #media.mask_media_fg# eq 1 >
 																<option value="0">Public</option>
 																<option value="1" selected="selected">Hidden</option>
 																<cfelse>
@@ -773,7 +600,7 @@ limitations under the License.
 														<select name="media_license_id" id="media_license_id" class="ml-1">
 															<option value="">NONE</option>
 															<cfloop query="ctmedia_license">
-																<option <cfif media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -853,26 +680,16 @@ limitations under the License.
 													<input class="mx-2" name="mime_type" id="media_type" value="">
 													<label for "">Mime Type</label>
 													<input class="mx-2" name="mime_type" id="mime_type" value="">
-													<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
-														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
-														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-															<cfif #media.mask_media_fg# eq 1 >
-																<option value="0">Public</option>
-																<option value="1" selected="selected">Hidden</option>
-																<cfelse>
-																<option value="0" selected="selected">Public</option>
-																<option value="1">Hidden</option>
-															</cfif>
-														</select>
+													<label for "visibility">Visibility</label>
+													<input class="mx-2" name="visibility" id="visibility" value="">
 												</div>
 											</div>
-													<label for="media_label" class="float-left mt-1">Media Labels</label>
-														<select name="media_label" id="media_license_id" class="ml-1">
-															<option value="">NONE</option>
-															<cfloop query="ctmedia_label">
-																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
-															</cfloop>
-														</select>
+												<select name="media_label" id="media_label" class="ml-1">
+													<option value="">NONE</option>
+													<cfloop query="ctmedia_label">
+														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value=""></option>
+													</cfloop>
+												</select>
 											</div>
 										</cfoutput> 
 									</div>
@@ -939,7 +756,6 @@ limitations under the License.
 													institution_acronym,
 													identification.scientific_name,
 													cat_num,
-													collection_id,
 													cataloged_item.collection_cde,
 													made_date,
 													nature_of_id,
@@ -1029,7 +845,7 @@ limitations under the License.
 																			<a aria-label="Add another Identifier" class="float-left btn btn-xs btn-primary addIDName rounded mx-1" onclick="addIdentAgentToForm(IdBy_#i#_#idnum#, IdBy_#i#_#idnum#_id,#agent_id#)" target="_self" href="javascript:void(0);">Add Identifier</a> </div>
 																	</div>
 																	<script>
-																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon","IdBy_#i#_#idnum#_view",'#agent_id#');
+																		makeRichAgentPicker("IdBy_#i#_#idnum#", "IdBy_#i#_#idnum#_id", "IdBy_#i#_#idnum#_icon", "IdBy_#i#_#idnum#_view", #agent_id#);
 																	</script> 
 																</div>
 																<!---This needs to get the next number from the loop and look up the agent from the database when add another identifier button is clicked//; I tried to create a js function to connect to the cf function but it wasn't working so I left it like this for now. The design idea is there for adding and removing identifiers.---> 
@@ -1339,6 +1155,7 @@ limitations under the License.
 --->
 <cffunction name="updateIdentifications" returntype="any" access="remote" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="number_of_ids" type="string" required="yes">
 	<cfoutput> 
 		<!--- disable trigger that enforces one and only one stored as flag, can't be done inside cftransaction as datasource is different --->
 		<cftry>
@@ -1684,6 +1501,207 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
+
+<!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids
+	editor dialog.
+ @return html for editing other ids for the specified cataloged item. 
+--->
+<cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getEditOtherIDsThread">
+		<cftry>
+			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select 
+					COLL_OBJ_OTHER_ID_NUM_ID,
+					cat_num,
+					cat_num_prefix,
+					cat_num_integer,
+					cat_num_suffix,
+					other_id_prefix,
+					other_id_number,
+					other_id_suffix,
+					other_id_type, 
+					cataloged_item.collection_id,
+					collection.collection_cde,
+					institution_acronym
+				from 
+					cataloged_item, 
+					coll_obj_other_id_num,
+					collection 
+				where
+					cataloged_item.collection_id=collection.collection_id and
+					cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
+					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select other_id_type from ctcoll_other_id_type
+			</cfquery>
+			<cfquery name="cataf" dbtype="query">
+				select cat_num from getIDs group by cat_num
+			</cfquery>
+			<cfquery name="oids" dbtype="query">
+				select 
+					COLL_OBJ_OTHER_ID_NUM_ID,
+					other_id_prefix,
+					other_id_number,
+					other_id_suffix,
+					other_id_type 
+				from 
+					getIDs 
+				group by 
+					COLL_OBJ_OTHER_ID_NUM_ID,
+					other_id_prefix,
+					other_id_number,
+					other_id_suffix,
+					other_id_type
+			</cfquery>
+			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select 
+					institution_acronym,
+					collection_cde,
+					collection_id 
+				from collection
+			</cfquery>
+			<cfoutput>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mt-2 bg-light border rounded p-3">
+							<h1 class="h3">Edit Existing Identifiers</h1>
+							<form name="ids" method="post" action="Specimen.cfm">
+								<div class="mb-4">
+									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+									<input type="hidden" name="Action" value="saveCatEdits">
+									Catalog&nbsp;Number:
+									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
+										<cfset thisCollId=#getIDs.collection_id#>
+										<cfloop query="ctcoll_cde">
+											<option 
+											<cfif #thisCollId# is #collection_id#> selected </cfif>
+										value="#collection_id#">#institution_acronym# #collection_cde#</option>
+										</cfloop>
+									</select>
+									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
+									<input type="submit" value="Save" class="btn btn-xs btn-primary">
+								</div>
+							</form>
+							<cfset i=1>
+							<cfloop query="oids">
+								<cfif len(#other_id_type#) gt 0>
+									<form name="oids#i#" method="post" action="Specimen.cfm">
+										<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+										<input type="hidden" name="COLL_OBJ_OTHER_ID_NUM_ID" value="#COLL_OBJ_OTHER_ID_NUM_ID#">
+										<input type="hidden" name="Action">
+										<cfset thisType = #oids.other_id_type#>
+										<div class="row mx-0">
+											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
+												<label class="data-entry-label">Other ID Type</label>
+												<select name="other_id_type" class="data-entry-select" style="" size="1">
+													<cfloop query="ctType">
+														<option 
+														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
+														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
+												<input class="data-entry-input" type="text" value="#encodeForHTML(oids.other_id_prefix)#" size="12" name="other_id_prefix">
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
+												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_number)#" size="12" name="other_id_number">
+											</div>
+											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
+												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
+												<input type="text" class="data-entry-input" value="#encodeForHTML(oids.other_id_suffix)#" size="12" name="other_id_suffix">
+											</div>
+											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
+												<input type="button" value="Save" class="btn btn-xs btn-primary" onclick="oids#i#.Action.value='saveOIDEdits';submit();">
+												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="oids#i#.Action.value='deleOID';confirmDelete('oids#i#');">
+											</div>
+										</div>
+									</form>
+									<cfset i=#i#+1>
+								</cfif>
+							</cfloop>
+						</div>
+						<div class="col-12 mt-4 px-0">
+							<div id="accordion2">
+								<div class="card">
+									<div class="card-header pt-1" id="headingTwo">
+										<h1 class="my-0 px-1 pb-1">
+											<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
+										</h1>
+									</div>
+									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
+										<div class="card-body mt-2">
+											<form name="newOID" method="post" action="Specimens.cfm">
+												<div class="row mx-0">
+													<div class="form-group col-3 pl-0 pr-2">
+														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+														<input type="hidden" name="Action" value="newOID">
+														<label class="data-entry-label" id="other_id_type">Other ID Type</label>
+														<select name="other_id_type" size="1" class="reqdClr data-entry-select">
+															<cfloop query="ctType">
+																<option 
+															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="form-group col-2 px-1">
+														<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
+													</div>
+													<div class="form-group col-3 px-1">
+														<label class="data-entry-label" id="other_id_number">Other ID Number</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
+													</div>
+													<div class="form-group col-2 px-1">
+														<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
+														<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
+													</div>
+													<div class="form-group col-2 px-1 mt-3">
+														<input type="submit" value="Create Identifier" class="btn btn-xs btn-primary">
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfoutput> 
+			<!-------------------------------------------------------->
+			
+			<cfcatch>
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfoutput>
+			</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getEditOtherIDsThread" />
+	<cfreturn getEditOtherIDsThread.output>
+</cffunction>
 <cffunction name="saveID" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="identification_id" type="string" required="yes">
@@ -1794,424 +1812,9 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-<!---getEditOtherIDsHTML obtain a block of html to populate an other ids editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other ids editor dialog.
- @return html for editing other ids for the specified cataloged item. 
---->
-<cffunction name="getEditOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getEditOtherIDsThread">
-		<cfoutput>
-		<cftry>
-			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					coll_obj_other_id_num.COLL_OBJ_OTHER_ID_NUM_ID,
-					cataloged_item.cat_num,
-					cataloged_item.cat_num_prefix,
-					cataloged_item.cat_num_integer,
-					cataloged_item.cat_num_suffix,
-					coll_obj_other_id_num.other_id_prefix,
-					coll_obj_other_id_num.other_id_number,
-					coll_obj_other_id_num.other_id_suffix,
-					coll_obj_other_id_num.other_id_type, 
-					collection.collection_id,
-					cataloged_item.collection_cde,
-					collection.institution_acronym
-				from 
-					cataloged_item, 
-					coll_obj_other_id_num,
-					collection 
-				where
-					cataloged_item.collection_id=collection.collection_id and
-					cataloged_item.collection_object_id=coll_obj_other_id_num.collection_object_id (+) and 
-					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			</cfquery>
-			<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type from ctcoll_other_id_type
-			</cfquery>
-			<cfquery name="cataf" dbtype="query">
-				select cat_num from getIDs group by cat_num
-			</cfquery>
-			<cfquery name="getOIDs" dbtype="query">
-				select 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type 
-				from 
-					getIDs 
-				group by 
-					COLL_OBJ_OTHER_ID_NUM_ID,
-					other_id_prefix,
-					other_id_number,
-					other_id_suffix,
-					other_id_type
-			</cfquery>
-			<cfquery name="ctcoll_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 
-					institution_acronym,
-					collection_cde,
-					collection_id 
-				from collection
-			</cfquery>
-			<cfoutput>
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 mt-2 bg-light border rounded p-3">
-							<h1 class="h3">Edit Existing Identifiers</h1>
-							<form name="editCatNumOtherIDs" id="editCatNumOtherIDsForm">
-									<input type="hidden" name="method" value="updateCatNumOtherID">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<div class="mb-4">
-									Catalog&nbsp;Number:
-									<select name="collection_id" size="1" class="reqdClr mb-3 mb-md-0">
-										<cfset thisCollId=#getIDs.collection_id#>
-										<cfloop query="ctcoll_cde">
-											<option 
-											<cfif #thisCollId# is #collection_id#> selected </cfif>
-										value="#collection_id#">#institution_acronym# #collection_cde#</option>
-										</cfloop>
-									</select>
-									<input type="text" name="cat_num" value="#cataf.cat_num#" class="reqdClr">
-										<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-										onClick="if (checkFormValidity($('##editCatNumOtherIdsForm')[0])) { editOtherIDsSubmit();  } ">
-										<output id="saveCatNumOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-									<script>
-												function editCatNumOtherIDsSubmit(){
-													$('##saveCatNumOtherIDsResultDiv').html('Saving....');
-													$('##saveCatNumOtherIDsResultDiv').addClass('text-warning');
-													$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-													$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editCatNumOtherIDsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveCatNumOtherIDsResultDiv').html('Saved');
-																$('##saveCatNumOtherIDsResultDiv').addClass('text-success');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveCatNumOtherIDsResultDiv').html('Error');
-																$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Cat Num Change ID.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveCatNumOtherIDsResultDiv').html('Error');
-															$('##saveCatNumOtherIDsResultDiv').addClass('text-danger');
-															$('##saveCatNumOtherIDsResultDiv').removeClass('text-warning');
-															$('##saveCatNumOtherIDsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to Cat Num Other IDs");
-														}
-													});
-												};
-											</script> 
-								</div>
-							</form>
-							<cfset i=1>
-							<cfloop query="getOIDs">
-								<cfif len(other_id_type) gt 0>
-									<form name="getOIDs#i#" id="editOtherIDsForm">
-									<input type="hidden" name="method" value="updateOtherID">
-									<input type="hidden" name="returnformat" value="json">
-									<input type="hidden" name="queryformat" value="column">
-									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-									<input type="hidden" name="coll_obj_other_id_num_id" value="#coll_obj_other_id_num_id#">
-									<input type="hidden" name="number_of_ids" id="number_of_ids" value="#getOIDs.recordcount#">
-										
-										<div class="row mx-0">
-											<div class="form-group mb-1 mb-md-3 col-12 col-md-2 pl-0 pr-1">
-												<label class="data-entry-label">Other ID Type</label>
-												<cfset thisType = #getOIDs.other_id_type#>
-												<select name="other_id_type" class="data-entry-select" style="" size="1">
-													<cfloop query="ctType">
-														<option 
-														<cfif #ctType.other_id_type# is #thisType#> selected </cfif>
-														value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-												<label for="other_id_prefix" class="data-entry-label">Other ID Prefix</label>
-												<input class="data-entry-input" type="text" value="#encodeForHTML(getOIDs.other_id_prefix)#" size="12" name="other_id_prefix">
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-3 px-1">
-												<label for="other_id_number" class="data-entry-label">Other ID Number</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_number)#" size="12" name="other_id_number">
-											</div>
-											<div class="form-group mb-1 mb-md-3  col-12 col-md-2 px-1">
-												<label for="other_id_suffix" class="data-entry-label">Other ID Suffix</label>
-												<input type="text" class="data-entry-input" value="#encodeForHTML(getOIDs.other_id_suffix)#" size="12" name="other_id_suffix">
-											</div>
-											<div class="form-group col-12 col-md-3 px-1 mt-0 mt-md-3">
-												<input type="button" value="Save" aria-label="Save Changes" class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editOtherIDsForm')[0])) { editOtherIDsSubmit();  } ">
-												
-												<input type="button" value="Delete" class="btn btn-xs btn-danger" onclick="getOIDs#i#.Action.value='deleOID';confirmDelete('getOIDs#i#');">
-												<output id="saveOtherIDsResultDiv" class="d-block text-danger">&nbsp;</output>
-											</div>
-
-											<script>
-												function editOtherIDsSubmit(){
-													$('##saveOtherIDsResultDiv').html('Saving....');
-													$('##saveOtherIDsResultDiv').addClass('text-warning');
-													$('##saveOtherIDsResultDiv').removeClass('text-success');
-													$('##saveOtherIDsResultDiv').removeClass('text-danger');
-													$.ajax({
-														url : "/specimens/component/functions.cfc",
-														type : "post",
-														dataType : "json",
-														data: $("##editOtherIDsForm").serialize(),
-														success: function (result) {
-															if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																$('##saveOtherIDsResultDiv').html('Saved');
-																$('##saveOtherIDsResultDiv').addClass('text-success');
-																$('##saveOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveOtherIDsResultDiv').removeClass('text-danger');
-															} else {
-																// we shouldn't be able to reach this block, backing error should return an http 500 status
-																$('##saveOtherIDsResultDiv').html('Error');
-																$('##saveOtherIDsResultDiv').addClass('text-danger');
-																$('##saveOtherIDsResultDiv').removeClass('text-warning');
-																$('##saveOtherIDsResultDiv').removeClass('text-success');
-																messageDialog('Error updating Other IDs: '+result.DATA.MESSAGE[0], 'Error saving Other ID.');
-															}
-														},
-														error: function(jqXHR,textStatus,error){
-															$('##saveOtherIDsResultDiv').html('Error');
-															$('##saveOtherIDsResultDiv').addClass('text-danger');
-															$('##saveOtherIDsResultDiv').removeClass('text-warning');
-															$('##saveOtherIDsResultDiv').removeClass('text-success');
-															handleFail(jqXHR,textStatus,error,"saving changes to Other IDs");
-														}
-													});
-												};
-											</script> 
-										</div>
-									</form>
-									<cfset i=#i#+1>
-								</cfif>
-							</cfloop>
-						</div>
-						<div class="col-12 mt-4 px-0">
-							<div id="accordion2">
-								<div class="card">
-									<div class="card-header pt-1" id="headingTwo">
-										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="true" aria-controls="collapseTwo"> <span class="h4">Add New Identifier</span> </button>
-										</h1>
-									</div>
-									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordion2">
-										<div class="card-body mt-2">
-											<form name="newOID" method="post" action="Specimens.cfm">
-												<div class="row mx-0">
-													<div class="form-group col-3 pl-0 pr-2">
-														<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-														<input type="hidden" name="Action" value="newOID">
-														<label class="data-entry-label" id="other_id_type">Other ID Type</label>
-														<select name="other_id_type" size="1" class="reqdClr data-entry-select">
-															<cfloop query="ctType">
-																<option 
-															value="#ctType.other_id_type#">#ctType.other_id_type#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="form-group col-2 px-1">
-														<label class="data-entry-label" id="other_id_prefix">Other ID Prefix</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_prefix" size="6">
-													</div>
-													<div class="form-group col-3 px-1">
-														<label class="data-entry-label" id="other_id_number">Other ID Number</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_number" size="6">
-													</div>
-													<div class="form-group col-2 px-1">
-														<label class="data-entry-label" id="other_id_suffix">Other ID Suffix</label>
-														<input type="text" class="reqdClr data-entry-input" name="other_id_suffix" size="6">
-													</div>
-													<div class="form-group col-2 px-1 mt-3">
-														<input type="submit" value="Create Identifier" class="btn btn-xs btn-primary">
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</cfoutput> 
-			<!-------------------------------------------------------->
-			
-			<cfcatch>
-				<cfoutput>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getEditOtherIDsThread" />
-	<cfreturn getEditOtherIDsThread.output>
-</cffunction>
-<!---updateOtherID function
- @param collection_object_id
- @commit change
---->
-<cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
+<cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfoutput> 
-			<cftry>
-				<cfloop from="1" to="#NUMBER_OF_IDS#" index="n">
-					<cfset thisCollObjOtherIdNumId = #evaluate("coll_obj_other_id_num_id_" & n)#>
-					<cfset thisOtherIdType = #evaluate("other_id_type_" & n)#>
-					<cfset thisOtherIdPrefix = #evaluate("other_id_prefix_" & n)#>
-					<cfset thisOtherIdNumber = #evaluate("other_id_number_" & n)#>
-					<cfset thisOtherIdSuffix = #evaluate("other_id_suffix_" & n)#>
-					<cfset thisDisplayValue = #evaluate("display_value_" & n)#>
-					
-	
-						<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							UPDATE coll_obj_other_id_num SET
-								other_id_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdType#">,
-								other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdPrefix#">,
-								other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdNumber#">
-								other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisOtherIdSuffix#">
-								display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisplayValue#">
-							where coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollObjOtherIdNumId#">
-						</cfquery>
-				</cfloop>
-							
-
-				<cftransaction action="commit">
-				<cfset data=queryNew("status, message, id")>
-				<cfset t = queryaddrow(data,1)>
-				<cfset t = QuerySetCell(data, "status", "1", 1)>
-				<cfset t = QuerySetCell(data, "message", "Record updated.", 1)>
-				<cfset t = QuerySetCell(data, "id", "#collection_object_id#", 1)>
-				<cfreturn data>
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfcatch>
-			</cftry>
-	
-	</cfoutput>
-</cffunction>
-<!---getCatNumOtherIDHTML function
- @param collection_object_id
---->
-<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
-		<cftry>
-			<cfoutput>
-				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					coll_obj_other_id_num.display_value
-					end display_value,
-					coll_obj_other_id_num.other_id_type,
-					case when base_url is not null then
-						ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
-					else
-						null
-					end link
-				FROM
-					coll_obj_other_id_num 
-					left join ctcoll_other_id_type on coll_obj_other_id_num.other_id_type=ctcoll_other_id_type.other_id_type
-				where
-					collection_object_id= <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					other_id_type,
-					display_value
-			</cfquery>
-				<div id="otherIDHTML">
-					<cfloop query="theResult">
-						<div class="OtherIDExistingForm">
-							<form>
-								<div class="container pl-1">
-									<div class="col-12">
-										<cfif len(oid.other_id_type) gt 0>
-											<ul class="list-group">
-												<cfloop query="oid">
-													<li class="list-group-item">#other_id_type#:
-														<cfif len(display_value) gt 0>
-															<a class="external" href="##" target="_blank">#display_value#</a>
-															<cfelse>
-															#display_value#
-														</cfif>
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-										<button type="button" value="Create New Other Identifier" class="btn btn-primary ml-2"
-										onClick="$('.dialog').dialog('open'); loadNewOtherIdentifierForm(coll_obj_other_id_num_id,'newOtherIdentifierForm');">Create New Other Identifier</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</cfloop>
-					<!--- theResult ---> 
-				</div>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
-				</cfoutput>
-			</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getOtherIDThread" />
-	<cfreturn getOtherIDThread.output>
-</cffunction>
-<!---getCatNumOtherIDHTML function
- @param collection_object_id
---->
-<cffunction name="getOtherIDHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfthread name="getOtherIDs2Thread">
 		<cftry>
 			<cfoutput>
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2274,100 +1877,9 @@ limitations under the License.
 			</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getOtherID2Thread" />
-	<cfreturn getOtherID2Thread.output>
+	<cfthread action="join" name="getOtherIDThread" />
+	<cfreturn getOtherIDThread.output>
 </cffunction>
-<cffunction name="getOtherIDTable" returntype="query" access="remote">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfset r=1>
-	<cftry>
-		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, coll_obj_other_id_num_id, collection_object_id, other_id_type, other_id_prefix, other_id_number, display_name
-			from coll_obj_other_id_num
-			where coll_obj_other_id_num_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">
-		</cfquery>
-		<cfif theResult.recordcount eq 0>
-			<cfset theResult=queryNew("status, message")>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
-		</cfif>
-		<cfcatch>
-			<cfset theResult=queryNew("status, message")>
-			<cfset t = queryaddrow(theResult,1)>
-			<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-		</cfcatch>
-	</cftry>
-	<cfif isDefined("asTable") AND asTable eq "true">
-		<cfreturn resulthtml>
-		<cfelse>
-		<cfreturn theResult>
-	</cfif>
-</cffunction>
-<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
-	<cfargument name="other_id_type" type="string" required="yes">
-	<cfargument name="other_id_prefix" type="string" required="no">
-	<cfargument name="other_id_number" type="string" required="yes">
-	<cfargument name="other_id_suffix" type="string" required="no">
-	<cfargument name="display_value" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftransaction>
-		<cftry>
-			<cfquery name="updateOtherIDCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newOtherIDCheck_result">
-				SELECT count(*) as ct from coll_obj_other_id_num
-				WHERE
-					coll_obj_other_id_num_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#coll_obj_other_id_num_id#'>
-			</cfquery>
-			<cfif updateOtherIDCheck.ct NEQ 1>
-				<cfthrow message = "Unable to update other ID. Provided coll_obj_other_num_id does not match a record in the ID table.">
-			</cfif>
-			<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID">
-				UPDATE coll_obj_other_id_num SET
-					coll_obj_other_id_num_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">,
-					other_id_type = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#other_id_type#">,
-					other_id_prefix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_prefix#">,
-					other_id_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">,
-					other_id_suffix = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_suffix#">,
-					display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#display_value#">
-				where
-					coll_obj_other_id_num_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj_other_id_num_id#">
-			</cfquery>
-			<cfset row = StructNew()>
-			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#coll_obj_other_id_num_id#">
-			<cfset data[1] = row>
-			<cftransaction action="commit">
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-					<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfheader statusCode="500" statusText="#message#">
-				<cfoutput>
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfoutput>
-				<cfabort>
-			</cfcatch>
-		</cftry>
-	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-						
-						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditCollectorsThread">
@@ -3553,6 +3065,7 @@ limitations under the License.
 						MINIMUM_ELEVATION,
 						ORIG_ELEV_UNITS,
 						SPEC_LOCALITY,
+
 						LOCALITY_REMARKS,
 						DEPTH_UNITS,
 						MIN_DEPTH,
