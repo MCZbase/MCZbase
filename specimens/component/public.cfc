@@ -127,14 +127,15 @@ limitations under the License.
 												<p class="small">
 													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 													<span class="">#description#</span><br>
-<!---													<script>
+													<script>
 														function reloadMedia() { 
+												
 															loadMedia('#media_id#','mediaCardBody');
 														}
-													</script>--->
-								<!---					<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
+													</script>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+													<cfif #media.media_type# eq "audio">
 														<!--- check for a transcript, link if present --->
-<!---													<cfif #media.media_type# eq "audio">
 														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
 																transcript.media_uri as transcript_uri,
@@ -152,7 +153,7 @@ limitations under the License.
 																<a href="#transcript_uri#">View Transcript</a>
 															</cfloop>
 														</cfif>
-													</cfif>--->
+													</cfif>
 												</p>
 											</div>
 										</cfif>
