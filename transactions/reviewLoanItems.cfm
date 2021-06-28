@@ -216,13 +216,19 @@ limitations under the License.
 						left join loan l on t.transaction_id = l.transaction_id
 					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
-				<cfif loan_status EQ 'closed'>
+				<cfif aboutLoan.recordcount EQ 0>
+					<cfthrow message="No such transaction found.">
+				</cfif>
+				<cfif aboutLoan.loan_number IS "">
+					<cfthrow message="Transaction with this transaction_id is not a loan.">
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'closed'>
 					<cfset isClosed = true>
 				</cfif>
-				<cfif loan_status EQ 'in process'>
+				<cfif aboutLoan.loan_status EQ 'in process'>
 					<cfset isInProcess = true>
 				</cfif>
-				<cfif Find("open",loan_status) EQ 1>
+				<cfif Find("open",aboutLoan.loan_status) EQ 1>
 					<cfset isOpen = true>
 				</cfif>
 				<cfset multipleCollectionsText = "">
