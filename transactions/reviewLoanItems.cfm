@@ -289,15 +289,27 @@ limitations under the License.
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
 											<cfif isInProcess>
-												<div class="row">
+												<div class="form-row">
 													<div class="col-12 col-md-4">
-														<label class="data-entry-label" for="guid">Cataloged item (GUIDs in the form MCZ:Dept:number)</label>
+														<label class="data-entry-label" for="guid">Cataloged item (GUID in the form MCZ:Dept:number)</label>
 														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
 														<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
 													</div>
 													<div class="col-12 col-md-8">
-														<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Add an item to loan by catalog number" 
-															onclick=" openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+														<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" 
+															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
+														<script>
+															$(document).ready(function() {
+																$('#addloanitembutton#').click(function(evt) { 
+																	evt.preventDefault();
+																	if ($('##guid').val() != "") { 
+																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+																	} else {
+																		messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
+																	};
+																});
+															});
+														</script>
 														<!---  script>
 															$(document).ready(function() {
 																makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
