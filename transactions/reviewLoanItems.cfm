@@ -177,7 +177,7 @@ limitations under the License.
 				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 			GROUP BY sovereign_nation
 		</cfquery>
-		<cfif collectionCount EQ 1>
+		<cfif collectionCount EQ 1 OR collectionCount EQ 0>
 			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct ct.preserve_method
