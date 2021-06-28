@@ -682,30 +682,30 @@ limitations under the License.
 							<cfset i= i+1>
 							<form id="addPart_#i#">
 								<div class="form-row border">
-									<div class"col-12">
+									<div class="col-12">
 										<label class="data-entry-label">
 											#part_name##part_modifier# (#preserve_method#) #lot_count# #lot_count_modifier#
 										</label>
 										<input disabled type="text" value="#coll_obj_disposition# #condition#">
 									</div>
 									<cfif coll_obj_disposition NEQ "in collection">
-										<div class"col-12">
+										<div class="col-12">
 											This part may not be available for loan, it has a current disposition of #coll_obj_disposition#.
 										</div>
 									</cfif>
-									<div class"col-12 col-md-3">
+									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Remark</label>
 										<input id="addPart_#i#_remark" value="" class="data-entry-input">
 									</div>
-									<div class"col-12 col-md-3">
+									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Instructions</label>
 										<input id="addPart_#i#_instructions" value="" class="data-entry-input">
 									</div>
-									<div class"col-12 col-md-3">
+									<div class="col-12 col-md-3">
 										<label class="data-entry-label">Subsample</label>
 										<input id="addPart_#i#_subsample" value="" class="data-entry-input">
 									</div>
-									<div class"col-12 col-md-3">
+									<div class="col-12 col-md-3">
 										<button type="submit" id="buttonAddPart_#i#" class="btn btn-primary btn-xs">Add Part</button>
 										<script>
 											$(document).ready(function(){
