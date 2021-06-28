@@ -59,6 +59,7 @@ limitations under the License.
 --->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfargument name="media_id" type="string" required="no">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -174,7 +175,7 @@ limitations under the License.
 									<div class="col-12 mx-0 px-0 float-left">
 										<cfset i=1>
 										<cfloop query="media">
-												<cfset relns=getMediaRelations(#media.media_id#)>
+												<cfset relns=getMediaRelations(#media_id#)>
 												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select 
