@@ -57,12 +57,6 @@ limitations under the License.
 	editor dialog.
  @return html for editing media for the specified cataloged item. 
 --->
-
-<!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
-	editor dialog.
- @return html for editing media for the specified cataloged item. 
---->
 <cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
@@ -86,21 +80,261 @@ limitations under the License.
 				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
-					<div class="container-fluid">
-						<div class="row mx-0">
-							<form name="editMediaForm" id="editIdentificationsForm">
+				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select media_label from ctmedia_label order by media_label
+				</cfquery>
+				<div class="container-fluid my-4">
+					<div class="row mx-0">
+						<div class="col-9 float-left px-0">
+							<div id="accordionMedia1">
+								<div class="card">
+									<div class="card-header pt-1" id="headingMedia1">
+										<h1 class="my-0 px-1 pb-1">
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
+										</h1>
+									</div>
+									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
+										<div class="card-body"> 
+											<cfoutput>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group mt-2">
+															<label for="MediaURI" class="data-entry-label">Media URI</label>
+															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="previewURI" class="data-entry-label">Preview URI</label>
+															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group mr-4 float-left">
+															<label for="media_type" class="data-entry-label">Media Type</label>
+															<input class="data-entry-input" name="mime_type" id="media_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="mime_type" class="data-entry-label">Mime Type</label>
+															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="visibility" class="data-entry-label">Visibility</label>
+															<input class="data-entry-input" name="visibility" id="visibility" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_label" class="data-entry-label">Media Labels</label>
+															<select name="media_label" id="media_label" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label1">
+																	<option value="ctmedia_label1.media_label"></option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_relations" class="data-entry-label">Media Relationships</label>
+															<select name="media_relations" id="media_relations" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label1">
+																	<option value="ctmedia_label1.media_relationship"></option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+												</div>
+											</cfoutput>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid my-2">
+							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
 								<input type="hidden" name="returnformat" value="json">
 								<input type="hidden" name="queryformat" value="column">
 								<input type="hidden" name="action" value="saveEdit">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-								<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media 
+								<h1 class="h3 px-2 mb-0 mt-2"> Remove Media from this Specimen Record
+									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
+								</h1>
+								<cfoutput>
+									<div class="col-12 mx-0 px-0 float-left">
+										<cfset i=1>
+										<cfloop query="media">
+												<cfset relns=getMediaRelations(#media.media_id#)>
+												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+												<cfquery name="media1"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select 
+														media.preview_uri,
+														media.media_uri,
+														media.mime_type, 
+														media.mask_media_fg,
+														media.media_type, 
+														media.media_id,
+														media.media_license_id,
+														mczbase.get_media_descriptor(media_id) as alttag 
+													from media 
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												</cfquery>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+														media_label,
+														label_value,
+														agent_name,
+														media_labels.media_label_id
+													from
+														media_labels,
+														preferred_agent_name
+													where
+														media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+														media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+												</cfquery>
+												<cfquery name="ctlabels" dbtype="query">
+													select count(*) as ct from labels group by media_label order by media_label
+												</cfquery>
+												<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_relationship from ctmedia_relationship order by media_relationship
+												</cfquery>
+												<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_label from ctmedia_label order by media_label
+												</cfquery>
+												<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_type from ctmedia_type order by media_type
+												</cfquery>
+												<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select mime_type from ctmime_type order by mime_type
+												</cfquery>
+												<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_license_id,display media_license from ctmedia_license order by media_license_id
+												</cfquery>
+												<cfset mt=media1.mime_type>
+												<cfset altText = media1.alttag>
+												<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
+												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														media_label_id,
+														media_label,
+														label_value
+													FROM
+														media_labels
+													WHERE
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												</cfquery>
+												<cfquery name="desc" dbtype="query">
+													select label_value from labels where media_label='description'
+												</cfquery>
+												<cfset description="Media Preview Image">
+												<cfif desc.recordcount is 1>
+													<cfset description=desc.label_value>
+												</cfif>
+												<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
+													<!---for media images -- remove absolute url after demo / test db issue?--->
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
+													<cfset aForDetHref = "/media/#media_id#" >
+													<cfelse>
+													<!---for DRS from library--->
+													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+													<cfset aForImgHref = media1.media_uri>
+													<cfset aForDetHref = "/media/#media_id#">
+												</cfif>
+												
+												<div class="col-4 float-left p-2">
+													<div class="border overflow-hidden px-2">
+														<div class="col-5 p-2 float-left">
+																	#mediaRecord#<br> 
+															<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
+																<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
+															</a> <br>
+															<a href="#aForImgHref#" target="_blank">Media Details</a>
+														</div>
+														<div class="col-7 p-2 float-left">
+															<p class="small95">#description#</p>
+															<button class="btn small btn-xs btn-danger">Remove from Specimen Record</button>
+														</div>
+													</div>
+												</div>
+												
+												<cfset i=i+1>
+										</cfloop>
+									</div>
+								</cfoutput> 
+							</form>
+							</div>
+		
+
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfcatch>
+			</cftry>
+		</cfoutput> </cfthread>
+	<cfthread action="join" name="getEditMediaThread" />
+	<cfreturn getEditMediaThread.output>
+</cffunction>
+<!---getEditMediaDetail --the dialog for editing one image--->
+<cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
+			<cftry>
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media.media_id
+					from
+						media
+					where
+						media.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+			
+				</cfquery>
+				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select nature_of_id from ctnature_of_id
+				</cfquery>
+				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select taxa_formula from cttaxa_formula order by taxa_formula
+				</cfquery>
+					<div class="container-fluid">
+						<div class="row mx-0">
+							<form name="editMediaForm" id="editMediaForm">
+								<input type="hidden" name="method" value="updateMedia">
+								<input type="hidden" name="returnformat" value="json">
+								<input type="hidden" name="queryformat" value="column">
+								<input type="hidden" name="action" value="saveEdit">
+								<input type="hidden" name="media_id" value="#media_id#">
+								<h1 class="h3 px-1 mb-0 mt-2"> Edit Media Record
 									<a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> 
 								</h1>
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
-											<cfset i=1>
+										
 											<cfloop query="media">
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
@@ -184,14 +418,26 @@ limitations under the License.
 														<cfset aForDetHref = "/media/#media_id#">
 													</cfif>
 													<br>
-													#one_thumb# #mediaRecord# 									
+													#one_thumb# #mediaRecord# 
 													<br>
 													<a href="#aForImgHref#" target="_blank"> 
 														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 													</a> 
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
-													<span class="">#description#</span> 
+													<span class="small">#description#</span> <br>
+												<cfif media1.media_type neq "image">
+														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select related_primary_key, media_id 
+															from media_relations 
+															where media_relations.media_relationship = 'transcript of media'
+															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														</cfquery>
+														<cfquery name="transcript_uri" dbtype="query">
+															select related_primary_key from transcript_relation
+														</cfquery>
+															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
+												</cfif>
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
@@ -251,13 +497,13 @@ limitations under the License.
 																			<div id="seedMedia" style="display:none">
 																				<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 																				<cfset d="">
-																				<select name="relationship__0" id="relationship__0" class="float-left col-6" size="1"  onchange="pickedRelationship(this.id)">
+																				<select name="relationship__0" id="relationship__0" class="data-entry-select float-left col-5" size="1"  onchange="pickedRelationship(this.id)">
 																					<option value="delete">delete</option>
 																					<cfloop query="ctmedia_relationship">
 																						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																					</cfloop>
 																				</select>
-																				<input type="text" name="related_value__0" id="related_value__0" class="float-left col-6">
+																				<input type="text" name="related_value__0" id="related_value__0" class="float-left col-7 data-entry-input">
 																				<input type="hidden" name="related_id__0" id="related_id__0">
 																			</div>
 																			<!--- end seed data --->
@@ -268,19 +514,24 @@ limitations under the License.
 																			<cfset d=media_relationship>
 																			<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 																			<label class="sr-only" for="relationship__#i#">Relationship</label>
-																			<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="float-left col-6">
+																			<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select float-left col-5">
 																				<option value="delete">delete</option>
 																				<cfloop query="ctmedia_relationship">
 																					<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 																				</cfloop>
 																			</select>
-																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-6">
+																			<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="float-left col-7 data-entry-input">
 																			<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 																			<cfset i=i+1>
 																		</div>
 																	</cfloop>
 																</div>
-														<span class="infoLink h5 box-shadow-0 col-3 offset-md-9 d-block text-right my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship (+)</span>
+														<button class="btn btn-xs btn-primary h5 my-1" id="addRelationship_#i#" onclick="addRelation(#i#)">Add Relationship</button>
+														<script>
+															document.getElementById("addRelationship_#i#").addEventListener("click", function(event){
+															event.preventDefault()
+															});
+														</script>
 													</div>
 												</div>
 												<div class="row mx-0 mt-2">
@@ -296,13 +547,13 @@ limitations under the License.
 																		<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 																		<cfset d="">
 																		<label for="label__#i#" class='sr-only'>Media Label</label>
-																		<select name="label__0" id="label__0" size="1" class="col-6">
+																		<select name="label__0" id="label__0" size="1" class="col-5">
 																			<option value="delete">delete</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																			</cfloop>
 																		</select>
-																		<input type="text" name="label_value__0" id="label_value__0" class="col-6">
+																		<input type="text" name="label_value__0" id="label_value__0" class="col-7">
 																	</div>
 																</div>
 																</div>
@@ -314,103 +565,31 @@ limitations under the License.
 																<div id="labelsDiv__#i#" class="col-12 px-0">
 																	<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 																	<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-																	<select name="label__#i#" id="label__#i#" size="1" class="float-left col-6">
+																	<select name="label__#i#" id="label__#i#" size="1" class="float-left col-5">
 																			<option value="delete">delete</option>
 																			<cfloop query="ctmedia_label">
 																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 																			</cfloop>
 																	</select>
-																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-6">
+																	<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="float-left col-7">
 																<cfset i=i+1>
 																</div>
 															</cfloop>
 															</div>
-																<span class="infoLink h5 col-2 offset-md-10 px-0 text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-															</div>
-													
+																<button class="btn btn-primary btn-xs h5 my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label</button> 
+														</div>
 													</div>
 												</div>
 											</div>
-															</div>
-											<cfset i=i+1>
-											</cfloop>
-											</div>
 										</div>
+											</cfloop>
+									</div>
+									</div>
 								</cfoutput> 
 								
 							</form>
 						</div>
 					</div>
-					<div class="container-fluid">
-					<div class="row mx-0">
-						<div class="col-9 float-left px-0">
-							<div id="accordionMedia1">
-								<div class="card">
-									<div class="card-header pt-1" id="headingMedia1">
-										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media</span> </button>
-										</h1>
-									</div>
-									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
-										<div class="card-body"> 
-											<cfoutput>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group mt-2">
-															<label for="MediaURI" class="data-entry-label">Media URI</label>
-															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-12">
-														<div class="form-group">
-															<label for="previewURI" class="data-entry-label">Preview URI</label>
-															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-12">
-														<div class="form-group mr-4 float-left">
-															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input class="data-entry-input" name="mime_type" id="media_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="visibility" class="data-entry-label">Visibility</label>
-															<input class="data-entry-input" name="visibility" id="visibility" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-12">
-													<cfset i=1>
-													<cfloop query="media">
-														<div class="form-group">
-															<label for="media_label" class="data-entry-label">Media Labels</label>
-															<select name="media_label" id="media_label" class="data-entry-select">
-																<option value="">NONE</option>
-																<cfloop query="ctmedia_label">
-																	<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="">ctmedia_label.media_label</option>
-																</cfloop>
-															</select>
-														</div>
-													<cfset i=i+1>
-													</cfloop>
-													</div>
-												</div>
-											</cfoutput> 
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
@@ -432,9 +611,13 @@ limitations under the License.
 				</cfcatch>
 			</cftry>
 		</cfoutput> </cfthread>
-	<cfthread action="join" name="getEditMediaThread" />
-	<cfreturn getEditMediaThread.output>
+	<cfthread action="join" name="getEditMediaDetailsThread" />
+	<cfreturn getEditMediaDetailsThread.output>
 </cffunction>
+<!---function getMediaHTML obtain an html block to popluate an edit dialog for a media object 
+ @param media-id the media.media_id to edit.
+ @return html for editing the media 
+--->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfargument name="media_id" type="string" required="yes">
@@ -452,6 +635,7 @@ limitations under the License.
 						<form name="editMediaForm" id="editIdentificationsForm">
 							<input type="hidden" name="method" value="updateMedia">
 							<input type="hidden" name="returnformat" value="json">
+							<input type="hidden" name="guid" value="#guid#">
 							<input type="hidden" name="queryformat" value="column">
 							<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 							<h1 class="h3 px-1 mb-0 mt-2"> Edit Existing Media <a href="javascript:void(0);" onClick="getMCZDocs('media')"><i class="fa fa-info-circle"></i></a> </h1>
@@ -525,7 +709,7 @@ limitations under the License.
 												</cfquery>
 												<cfset mt=media.mime_type>
 												<cfset altText = media.media_descriptor>
-												<cfset puri=getMediaPreview(media1.preview_uri,media1.mime_type)>
+												<cfset puri=getMediaPreview(preview_uri,mime_type)>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
 														media_label,
@@ -542,7 +726,7 @@ limitations under the License.
 												<cfif desc.recordcount is 1>
 													<cfset description=desc.label_value>
 												</cfif>
-												<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+												<cfif media_type eq "image" and media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 													<!---for media images -- remove absolute url after demo / test db issue?--->
 													<cfset one_thumb = "<div class='col-2 float-left'>">
 													<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
@@ -559,7 +743,8 @@ limitations under the License.
 												#one_thumb# #mediaRecord#
 												<br>
 												<a href="#aForImgHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100"> </a> <a href="#aForImgHref#" target="_blank">Media Details</a> <br>
-												<span class="">#description#</span> </div>
+												<span class="">#description#</span> 
+											</div>
 											<div class="col-10 mt-2 float-left px-0">
 												<label for="media_uri" class="mb-2">Media URI (<a href="#media_uri#" target="_blank">open</a>)</label>
 												<input type="text" class="mb-2" name="media_uri" id="media_uri" size="90" value="#media_uri#">
@@ -570,7 +755,7 @@ limitations under the License.
 														<label for="media_type" class="float-left mt-1">Media Type</label>
 														<select name="media_type" class="ml-2" id="media_type">
 															<cfloop query="ctmedia_type">
-																<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+																<option <cfif #media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -578,7 +763,7 @@ limitations under the License.
 														<label for="mime_type" class="float-left mt-1">Mime Type</label>
 														<select name="mime_type" class="ml-2" id="mime_type">
 															<cfloop query="ctmime_type">
-																<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+																<option <cfif #mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -586,7 +771,7 @@ limitations under the License.
 														<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
 														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
-															<cfif #media.mask_media_fg# eq 1 >
+															<cfif #mask_media_fg# eq 1 >
 																<option value="0">Public</option>
 																<option value="1" selected="selected">Hidden</option>
 																<cfelse>
@@ -602,7 +787,7 @@ limitations under the License.
 														<select name="media_license_id" id="media_license_id" class="ml-1">
 															<option value="">NONE</option>
 															<cfloop query="ctmedia_license">
-																<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+																<option <cfif media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -682,16 +867,26 @@ limitations under the License.
 													<input class="mx-2" name="mime_type" id="media_type" value="">
 													<label for "">Mime Type</label>
 													<input class="mx-2" name="mime_type" id="mime_type" value="">
-													<label for "visibility">Visibility</label>
-													<input class="mx-2" name="visibility" id="visibility" value="">
+													<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
+														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
+															<cfif #media.mask_media_fg# eq 1 >
+																<option value="0">Public</option>
+																<option value="1" selected="selected">Hidden</option>
+																<cfelse>
+																<option value="0" selected="selected">Public</option>
+																<option value="1">Hidden</option>
+															</cfif>
+														</select>
 												</div>
 											</div>
-												<select name="media_label" id="media_label" class="ml-1">
-													<option value="">NONE</option>
-													<cfloop query="ctmedia_label">
-														<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value=""></option>
-													</cfloop>
-												</select>
+													<label for="media_label" class="float-left mt-1">Media Labels</label>
+														<select name="media_label" id="media_license_id" class="ml-1">
+															<option value="">NONE</option>
+															<cfloop query="ctmedia_label">
+																<option <cfif labels.media_label is ctmedia_label.media_label> selected="selected"</cfif> value="#ctmedia_label.media_label#">#ctmedia_label.media_label#</option>
+															</cfloop>
+														</select>
 											</div>
 										</cfoutput> 
 									</div>
