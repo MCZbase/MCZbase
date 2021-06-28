@@ -67,11 +67,11 @@ limitations under the License.
 							media.media_id=media_relations.media_id and
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
-							media_relations.related_primary_key = <cfqueryparam value=#mediaS1.collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
-							MCZBASE.is_media_encumbered(mediaS1.media_id) < 1
+							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
+							MCZBASE.is_media_encumbered(media_id) < 1
 						order by media.media_type
 					</cfquery>
-					<cfoutput>
+					<cfoutput>	#collection_object_id#
 							<div class="form-row">			
 								<div class="col-12 px-0 mx-0 mt-1"> 
 										<!---div class="feature image using media_uri"--->
@@ -105,6 +105,7 @@ limitations under the License.
 
 										<cfif i eq 1><!---This is for one large image at that top if it is not a ledger page or someother --->
 											<div class="col-12 px-1">
+											
 												<cfset aForThisHref = "/MediaSet.cfm?media_id=#mediaS1.media_id#" >
 												<a href="#aForThisHref#" target="_blank" class="w-100 mb-2">
 													<img src="#mediaS1.media_uri#" class="w-100 mb-0">
