@@ -61,7 +61,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="mediaS1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
 						media_relations.media_relationship
@@ -687,7 +687,7 @@ limitations under the License.
 									</cfquery>
 										
 										<cfset i=1>
-										<cfloop query="mediaS1">
+										<cfloop query="media">
 											<div class="row my-2 py-2 border">
 												<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select media_relationship from ctmedia_relationship order by media_relationship
