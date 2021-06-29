@@ -305,13 +305,6 @@ limitations under the License.
 						media
 					where
 						media.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-			
-				</cfquery>
-				<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select nature_of_id from ctnature_of_id
-				</cfquery>
-				<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select taxa_formula from cttaxa_formula order by taxa_formula
 				</cfquery>
 					<div class="container-fluid">
 						<div class="row mx-0">
@@ -327,8 +320,7 @@ limitations under the License.
 								<cfoutput>
 									<div class="col-12 float-left mb-2 px-0">
 										<div class="row mx-0">
-										
-											<cfloop query="media">
+										<cfloop query="media">
 											<div class="col-12 px-0">
 												<div class="row mx-0 my-2 py-2 border">
 													<cfset relns=getMediaRelations(#media.media_id#)>
@@ -380,7 +372,7 @@ limitations under the License.
 													<cfset mt=media1.mime_type>
 													<cfset altText = media1.alttag>
 													<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
-													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!---								<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														SELECT
 															media_label_id,
 															media_label,
@@ -388,8 +380,8 @@ limitations under the License.
 														FROM
 															media_labels
 														WHERE
-															media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-													</cfquery>
+															media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
+													</cfquery>--->
 													<cfquery name="desc" dbtype="query">
 														select label_value from labels where media_label='description'
 													</cfquery>
