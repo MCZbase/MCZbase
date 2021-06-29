@@ -297,7 +297,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-8">
 														<label class="data-entry-label">&nbsp;</label>
-														<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" 
+														<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
 															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
 														<script>
 															$(document).ready(function() {
