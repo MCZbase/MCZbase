@@ -168,8 +168,7 @@ limitations under the License.
 							<div class="col-12 mx-0 px-0 float-left">
 								<cfset i=1>
 								<cfloop query="media1">
-										<cfset relns=getMediaRelations(#media1.media_id#)>
-										<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+									
 										<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select 
 												media.preview_uri,
@@ -183,6 +182,8 @@ limitations under the License.
 											from media 
 											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 										</cfquery>
+										<cfset relns=getMediaRelations(#media.media_id#)>
+										<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 										<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select
 												media_label,
@@ -214,7 +215,7 @@ limitations under the License.
 										<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media_license_id,display media_license from ctmedia_license order by media_license_id
 										</cfquery>
-										<cfset mt=media1.mime_type>
+										<cfset mt=media.mime_type>
 										<cfset altText = media1.alttag>
 										<cfset puri=getMediaPreview(media.preview_uri, media.mime_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
