@@ -93,7 +93,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -128,13 +128,13 @@ limitations under the License.
 													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 													<span class="">#description#</span><br>
 													<script>
-														function reloadMedia() { 
-												
-															loadMedia('#media_id#','mediaCardBody');
-														}
+								//						function reloadMedia() { 
+//												
+//															loadMedia('#media_id#','mediaCardBody');
+//														}
 													</script>
-													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-													<cfif #media.media_type# eq "audio">
+												<!---	<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
+										<!---			<cfif #media.media_type# eq "audio">--->
 														<!--- check for a transcript, link if present --->
 										<!---				<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
@@ -153,7 +153,7 @@ limitations under the License.
 																<a href="#transcript_uri#">View Transcript</a>
 															</cfloop>
 														</cfif>--->
-													</cfif>
+												<!---	</cfif>--->
 												</p>
 											</div>
 										</cfif>
