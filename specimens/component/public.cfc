@@ -58,7 +58,7 @@ limitations under the License.
 							media.media_type,
 							media.preview_uri,
 							media_relations.media_relationship,
-							mczbase.get_media_descriptor(media_id) as media_descriptor
+							mczbase.get_media_descriptor(media.media_id) as media_descriptor
 						from
 							media,
 							media_relations,
@@ -129,14 +129,13 @@ limitations under the License.
 													<span class="">#description#</span><br>
 													<script>
 														function reloadMedia() { 
-												
+															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 															loadMedia('#media_id#','mediaCardBody');
 														}
 													</script>
 													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-													<!--- check for a transcript, link if present --->
-<!---													<cfif #media.media_type# eq "audio">
-														
+													<cfif #media.media_type# eq "audio">
+														<!--- check for a transcript, link if present --->
 														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
 																transcript.media_uri as transcript_uri,
@@ -154,7 +153,7 @@ limitations under the License.
 																<a href="#transcript_uri#">View Transcript</a>
 															</cfloop>
 														</cfif>
-													</cfif>--->
+													</cfif>
 												</p>
 											</div>
 										</cfif>
@@ -217,13 +216,13 @@ limitations under the License.
 														<span class="">#description#</span><br>
 														<script>
 															function reloadMedia() { 
-																
+																// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 																loadMedia(#media_id#,'mediaCardBody');
 															}
 														</script>
-														<!---<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
-																<!--- check for a transcript, link if present --->
-<!---														<cfif #media.media_type# eq "audio">
+														<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+														<cfif #media.media_type# eq "audio">
+															<!--- check for a transcript, link if present --->
 															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
@@ -241,7 +240,7 @@ limitations under the License.
 																	<a href="#transcript_uri#">View Transcript</a>
 																</cfloop>
 															</cfif>
-														</cfif>--->
+														</cfif>
 													</p>
 												</div>
 												<cfset i=i+1>
@@ -1986,7 +1985,7 @@ limitations under the License.
 	<cfreturn getMetadataThread.output>
 </cffunction>
 
-<!---<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
+<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="GUID" type="string" required="no">
 	<cfargument name="SCIENTIFIC_NAME" type="string" required="no">
@@ -2026,7 +2025,7 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>--->
+</cffunction>
 							
 
 </cfcomponent>
