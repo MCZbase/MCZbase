@@ -93,7 +93,7 @@ limitations under the License.
 													FROM
 														media_labels
 													WHERE
-														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="desc" dbtype="query">
 													select label_value from labels where media_label='description'
@@ -118,8 +118,8 @@ limitations under the License.
 											</div>
 										<cfelse>
 											<!---This is for all the thumbnails--->
-											<cfset aForImHref = "/MediaSet.cfm?media_id=#media.media_id#" >
-											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media.media_id#" >
+											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<div class='col-4 float-left border-white p-1 mb-1'>
 												<a href="#aForImHref#" target="_blank"> 
 													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
@@ -128,32 +128,33 @@ limitations under the License.
 													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 													<span class="">#description#</span><br>
 													<script>
-								//						function reloadMedia() { 
-//												
-//															loadMedia('#media_id#','mediaCardBody');
-//														}
+														function reloadMedia() { 
+												
+															loadMedia('#media_id#','mediaCardBody');
+														}
 													</script>
-												<!---	<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
-										<!---			<cfif #media.media_type# eq "audio">--->
-														<!--- check for a transcript, link if present --->
-										<!---				<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+													<!--- check for a transcript, link if present --->
+<!---													<cfif #media.media_type# eq "audio">
+														
+														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT
 																transcript.media_uri as transcript_uri,
 																transcript.media_id as trainscript_media_id
 															FROM
 																media_relations
-																left join media_transcript on media_relations.related_primary_key = transcript.media_id
+																left join media transcript on media_relations.related_primary_key = transcript.media_id
 															WHERE
 																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
 																and media_relationship = 'transcript for audio media'
 																and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-														</cfquery>--->
-							<!---							<cfif checkforTranscript.recordcount GT 0>
+														</cfquery>
+														<cfif checkforTranscript.recordcount GT 0>
 															<cfloop query="checkForTranscript">
 																<a href="#transcript_uri#">View Transcript</a>
 															</cfloop>
-														</cfif>--->
-												<!---	</cfif>--->
+														</cfif>
+													</cfif>--->
 												</p>
 											</div>
 										</cfif>
@@ -221,8 +222,8 @@ limitations under the License.
 															}
 														</script>
 														<!---<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
-														<cfif #media.media_type# eq "audio">
-															<!--- check for a transcript, link if present --->
+																<!--- check for a transcript, link if present --->
+<!---														<cfif #media.media_type# eq "audio">
 															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
@@ -240,7 +241,7 @@ limitations under the License.
 																	<a href="#transcript_uri#">View Transcript</a>
 																</cfloop>
 															</cfif>
-														</cfif>
+														</cfif>--->
 													</p>
 												</div>
 												<cfset i=i+1>
