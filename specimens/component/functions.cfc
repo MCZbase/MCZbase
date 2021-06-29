@@ -84,83 +84,7 @@ limitations under the License.
 				<cfquery name="ctmedia_label1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label from ctmedia_label order by media_label
 				</cfquery>
-				<div class="container-fluid my-4">
-					<div class="row mx-0">
-						<div class="col-9 float-left px-0">
-							<div id="accordionMedia1">
-								<div class="card">
-									<div class="card-header pt-1" id="headingMedia1">
-										<h1 class="my-0 px-1 pb-1">
-											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
-										</h1>
-									</div>
-									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
-										<div class="card-body"> 
-											<cfoutput>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group mt-2">
-															<label for="MediaURI" class="data-entry-label">Media URI</label>
-															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group">
-															<label for="previewURI" class="data-entry-label">Preview URI</label>
-															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group mr-4 float-left">
-															<label for="media_type" class="data-entry-label">Media Type</label>
-															<input class="data-entry-input" name="mime_type" id="media_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="mime_type" class="data-entry-label">Mime Type</label>
-															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
-														</div>
-														<div class="form-group mr-4 float-left">
-															<label for="visibility" class="data-entry-label">Visibility</label>
-															<input class="data-entry-input" name="visibility" id="visibility" value="">
-														</div>
-													</div>
-												</div>
-												<div class="row mx-0">
-													<div class="col-12">
-														<div class="form-group">
-															<label for="media_label" class="data-entry-label">Media Labels</label>
-															<select name="media_label" id="media_label" class="data-entry-select">
-																<option value="">NONE</option>
-																<cfloop query="ctmedia_label1">
-																	<option value="ctmedia_label1.media_label"></option>
-																</cfloop>
-															</select>
-														</div>
-													</div>
-													<div class="col-12">
-														<div class="form-group">
-															<label for="media_relations" class="data-entry-label">Media Relationships</label>
-															<select name="media_relations" id="media_relations" class="data-entry-select">
-																<option value="">NONE</option>
-																<cfloop query="ctmedia_label1">
-																	<option value="ctmedia_label1.media_relationship"></option>
-																</cfloop>
-															</select>
-														</div>
-													</div>
-												</div>
-											</cfoutput>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			
 				<div class="container-fluid my-2">
 							<form name="editMediaForm" id="editMediaForm">
 								<input type="hidden" name="method" value="updateMedia">
@@ -275,7 +199,83 @@ limitations under the License.
 								</cfoutput> 
 							</form>
 							</div>
-		
+			<div class="container-fluid my-4">
+					<div class="row mx-0">
+						<div class="col-9 float-left px-0">
+							<div id="accordionMedia1">
+								<div class="card">
+									<div class="card-header pt-1" id="headingMedia1">
+										<h1 class="my-0 px-1 pb-1">
+											<button class="btn btn-link w-100 text-left collapsed" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="true" aria-controls="collapseMedia1"><span class="h4">&nbsp; Add New Media Record &amp; Link it to this Specimen</span> </button>
+										</h1>
+									</div>
+									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMedia1">
+										<div class="card-body"> 
+											<cfoutput>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group mt-2">
+															<label for="MediaURI" class="data-entry-label">Media URI</label>
+															<input class="data-entry-input" name="MediaURI" id="MediaURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="previewURI" class="data-entry-label">Preview URI</label>
+															<input class="data-entry-input" name="previewURI" id="previewURI" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group mr-4 float-left">
+															<label for="media_type" class="data-entry-label">Media Type</label>
+															<input class="data-entry-input" name="mime_type" id="media_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="mime_type" class="data-entry-label">Mime Type</label>
+															<input class="data-entry-input" name="mime_type" id="mime_type" value="">
+														</div>
+														<div class="form-group mr-4 float-left">
+															<label for="visibility" class="data-entry-label">Visibility</label>
+															<input class="data-entry-input" name="visibility" id="visibility" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row mx-0">
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_label" class="data-entry-label">Media Labels</label>
+															<select name="media_label" id="media_label" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label1">
+																	<option value="ctmedia_label1.media_label"></option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="form-group">
+															<label for="media_relations" class="data-entry-label">Media Relationships</label>
+															<select name="media_relations" id="media_relations" class="data-entry-select">
+																<option value="">NONE</option>
+																<cfloop query="ctmedia_label1">
+																	<option value="ctmedia_label1.media_relationship"></option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+												</div>
+											</cfoutput>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
