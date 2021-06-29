@@ -631,16 +631,20 @@ limitations under the License.
 			<cfif checkIsLoan.ct EQ 0>
 				<cfthrow message="Provided transaction_id is not for a loan.">
 			</cfif>
+			<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT loan_number
+				FROM loan
+				WHERE
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
 			<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT cataloged_item.collection_object_id,
 					cat_num,collection,part_name, preserve_method
 				FROM
-					cataloged_item,
-					collection,
-					specimen_part
+					cataloged_item 
+					LEFT JOIN collection on cataloged_item.collection_id=collection.collection_id
+					LEFT JOIN specimen_part on cataloged_item.collection_object_id=specimen_part.derived_from_cat_item
 				WHERE
-					cataloged_item.collection_id=collection.collection_id and
-					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 					specimen_part.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 			</cfquery>
 			<cfif subsample IS 1 >
@@ -674,9 +678,8 @@ limitations under the License.
 						LAST_EDIT_DATE,
 						COLL_OBJ_DISPOSITION,
 						LOT_COUNT,
-						CONDITION)
-					VALUES
-						(
+						CONDITION
+					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
 						'SS',
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
@@ -685,13 +688,15 @@ limitations under the License.
 						sysdate,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.coll_obj_disposition#">,
 						1,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">)
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.condition#">
+					)
 				</cfquery>
 				<cfquery name="decrementParentLotCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE coll_object set LOT_COUNT = LOT_COUNT -1,
+					UPDATE coll_object 
+					SET LOT_COUNT = LOT_COUNT -1,
 						LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
 						LAST_EDIT_DATE = sysdate
-					where COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+					WHERE COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 						and LOT_COUNT > 1
 				</cfquery>
 				<cfquery name="newPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -700,23 +705,25 @@ limitations under the License.
 						,PART_NAME
 						,PRESERVE_METHOD
 						,SAMPLED_FROM_OBJ_ID
-						,DERIVED_FROM_CAT_ITEM)
-					VALUES (
+						,DERIVED_FROM_CAT_ITEM
+					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.part_name#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parentData.preserve_method#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">)
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parentData.derived_from_cat_item#">
+					)
 				</cfquery>
 				<cfquery name="newRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO coll_object_remark (
 						COLLECTION_OBJECT_ID,
- 						COLL_OBJECT_REMARKS )
-					VALUES (
+ 						COLL_OBJECT_REMARKS 
+					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectID#">,
-						'Subsample For Loan ##')
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Subsample For Loan #getLoan.loan_number#">
+					)
 				</cfquery>
-			</cfif>
+			</cfif><!--- End subsample --->
 
 			<cfquery name="addLoanItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO LOAN_ITEM (
@@ -732,33 +739,34 @@ limitations under the License.
 						,LOAN_ITEM_REMARKS
 					</cfif>
 				) VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 					<cfif subsample IS 1 >
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectId#">,
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectId#">
 					<cfelse>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 					</cfif>
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">,
-					sysdate
-					,'#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)'
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myagentid#">
+					,sysdate
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#meta.collection# #meta.cat_num# #meta.part_name#(#meta.preserve_method#)">
 					<cfif len(#instructions#) gt 0>
-						,'#instructions#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#instructions#">
 					</cfif>
 					<cfif len(#remark#) gt 0>
-						,'#remark#'
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
 					</cfif>
 				)
 			</cfquery>
 
+			<cfif subsample IS 1 >
+				<cfset targetObject = subsampleCollObjectId>
+			<cfelse>
+				<cfset targetObject = part_id>
+			</cfif>
 			<cfquery name="setDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE coll_object 
 				SET coll_obj_disposition = 'on loan'
-				WHERE collection_object_id =
-				<cfif subsample IS 1 >
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleCollObjectId#">,
-				<cfelse>
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">,
-				</cfif>
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#targetObject#">
 			</cfquery>
 			<cfset theResult=queryNew("status, message, subsample")>
 			<cfset t = queryaddrow(theResult,1)>
