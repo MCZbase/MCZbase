@@ -61,7 +61,7 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getEditMediaThread"> <cfoutput>
 			<cftry>
-				<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
 						media_relations.media_relationship
@@ -167,9 +167,10 @@ limitations under the License.
 						<cfoutput>
 							<div class="col-12 mx-0 px-0 float-left">
 								<cfset i=1>
-								<cfloop query="media1">
-									
-										<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfloop query="media">
+										<cfset relns=getMediaRelations(#media.media_id#)>
+										<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+										<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select 
 												media.preview_uri,
 												media.media_uri,
@@ -180,10 +181,9 @@ limitations under the License.
 												media.media_license_id,
 												mczbase.get_media_descriptor(media_id) as alttag 
 											from media 
-											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 										</cfquery>
-										<cfset relns=getMediaRelations(#media.media_id#)>
-										<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
+									
 										<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select
 												media_label,
@@ -195,7 +195,7 @@ limitations under the License.
 												preferred_agent_name
 											where
 												media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-												media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+												media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
 										</cfquery>
 										<cfquery name="ctlabels" dbtype="query">
 											select count(*) as ct from labels group by media_label order by media_label
@@ -217,7 +217,7 @@ limitations under the License.
 										</cfquery>
 										<cfset mt=media.mime_type>
 										<cfset altText = media1.alttag>
-										<cfset puri=getMediaPreview(media.preview_uri, media.mime_type)>
+										<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												media_label_id,
@@ -235,24 +235,24 @@ limitations under the License.
 										<cfif desc.recordcount is 1>
 											<cfset description=desc.label_value>
 										</cfif>
-										<cfif media.media_type eq "image" and media.mime_type NEQ "text/html">
+										<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 											<!---for media images -- remove absolute url after demo / test db issue?--->
-											<cfset mediaRecord = "<a href='/media/#media.media_id#' class='w-100'>Media Record</a>">
-											<cfset aForImgHref = "/MediaSet.cfm?media_id=#media.media_id#" >
+											<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
+											<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<cfset aForDetHref = "/media/#media.media_id#" >
 											<cfelse>
 											<!---for DRS from library--->
-											<cfset mediaRecord = "<a href='/media/#media.media_id#' class='w-100'>Media Record</a>">
+											<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
 											<cfset aForImgHref = media_uri>
-											<cfset aForDetHref = "/media/#media.media_id#">
+											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 
 										<div class="col-4 float-left p-2">
 											<div class="border overflow-hidden px-2">
 												<div class="col-5 p-2 float-left">
-															#mediaRecord#<br> 
+												#mediaRecord#<br> 
 													<a href="#aForImgHref#" target="_blank" style="min-height: 115px;"> 
-														<img src="#getMediaPreview(media.preview_uri,media.mime_type)#" alt="#altText#" class="" width="100"> 
+														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
 													</a> <br>
 													<a href="#aForImgHref#" target="_blank">Media Details</a>
 												</div>
