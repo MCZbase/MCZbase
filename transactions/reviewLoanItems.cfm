@@ -556,6 +556,9 @@ limitations under the License.
 										{ name: 'item_descr', type: 'string' },
 										{ name: 'item_instructions', type: 'string' },
 										{ name: 'loan_item_remarks', type: 'string' },
+										{ name: 'reconciled_by_person_id', type: 'string' },
+										{ name: 'reconciled_by_agent', type: 'string' },
+										{ name: 'reconciled_date', type: 'string' },
 										{ name: 'coll_obj_disposition', type: 'string' },
 										{ name: 'encumbrance', type: 'string' },
 										{ name: 'encumbering_agent_name', type: 'string' },
@@ -679,6 +682,8 @@ limitations under the License.
 											columntype: 'dropdownlist',
 											initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 										},
+										{text: 'Reconciled By', datafield: 'reconciled_by_agent', width:110, hideable: true, hidden: getColHidProp('reconciled_by_agent', true), editable: false },
+										{text: 'Date Reconciled', datafield: 'reconciled_date', width:110, hideable: true, hidden: getColHidProp('reconciled_date', false), editable: false },
 										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
 										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
 										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }
