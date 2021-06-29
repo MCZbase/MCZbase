@@ -891,7 +891,7 @@ limitations under the License.
 											$(document).ready(function(){
 												$("##buttonAddPart_#i#").click(function(evt) { 
 													evt.preventDefault();
-													addItemToLoan(#lookupParts.part_id#,#transaction_id#,$("##addPart_#i#_remark").val(),$("##addPart_#i#_instructions").val(),$("##addPart_#i#_subsample").prop("checked"),"addPart_#i#_feedback") { 
+													addItemToLoan(#lookupParts.part_id#,#transaction_id#,$("##addPart_#i#_remark").val(),$("##addPart_#i#_instructions").val(),$("##addPart_#i#_subsample").prop("checked"),"addPart_#i#_feedback");
 												});
 											});
 										</script>
