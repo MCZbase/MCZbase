@@ -338,7 +338,7 @@ limitations under the License.
 														from media 
 														where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													</cfquery>
-													<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
 															media_label,
 															label_value,
@@ -372,16 +372,6 @@ limitations under the License.
 													<cfset mt=media1.mime_type>
 													<cfset altText = media1.alttag>
 													<cfset puri=getMediaPreview(media1.preview_uri, media1.mime_type)>
-					<!---								<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														SELECT
-															media_label_id,
-															media_label,
-															label_value
-														FROM
-															media_labels
-														WHERE
-															media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media1.media_id#">
-													</cfquery>--->
 													<cfquery name="desc" dbtype="query">
 														select label_value from labels where media_label='description'
 													</cfquery>
@@ -391,19 +381,19 @@ limitations under the License.
 													</cfif>
 													<cfif media1.media_type eq "image" and media1.mime_type NEQ "text/html">
 														<!---for media images -- remove absolute url after demo / test db issue?--->
-														<cfset one_thumb = "<div class='col-2 float-left'>">
-														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media_id#" >
-														<cfset aForDetHref = "/media/#media_id#" >
+														
+														<cfset mediaRecord = "<a href='/media/#media1.media_id#' class='w-100'>Media Record</a>">
+														<cfset aForImgHref = "/MediaSet.cfm?media_id=#media1.media_id#" >
+														<cfset aForDetHref = "/media/#media1.media_id#" >
 														<cfelse>
 														<!---for DRS from library--->
-														<cfset one_thumb = "<div class='col-2 float-left'>">
-														<cfset mediaRecord = "<a href='/media/#media_id#' class='w-100'>Media Record</a>">
-														<cfset aForImgHref = media1.media_uri>
-														<cfset aForDetHref = "/media/#media_id#">
+												
+														<cfset mediaRecord = "<a href='/media/#media1.media_id#' class='w-100'>Media Record</a>">
+														<cfset aForImgHref = #media1.media_uri#>
+														<cfset aForDetHref = "/media/#media1.media_id#">
 													</cfif>
 													<br>
-													#one_thumb# #mediaRecord# 
+													 #mediaRecord# 
 													<br>
 													<a href="#aForImgHref#" target="_blank"> 
 														<img src="#getMediaPreview(media1.preview_uri,media1.mime_type)#" alt="#altText#" class="" width="100"> 
@@ -411,7 +401,7 @@ limitations under the License.
 													<a href="#aForImgHref#" target="_blank">Media Details</a> 
 													<br>
 													<span class="small">#description#</span> <br>
-												<cfif media1.media_type neq "image">
+													<!---<cfif media1.media_type neq "image">
 														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select related_primary_key, media_id 
 															from media_relations 
@@ -422,7 +412,7 @@ limitations under the License.
 															select related_primary_key from transcript_relation
 														</cfquery>
 															<a href='/media/#transcript_uri.related_primary_key#'>Transcript</a>
-												</cfif>
+													</cfif>--->
 												</div>
 													<div class="col-10 mt-2 float-left px-0">
 														<label for="media_uri" class="mb-2">Media URI (<a href="#media1.media_uri#" target="_blank">open</a>)</label>
@@ -527,20 +517,20 @@ limitations under the License.
 															<cfif labels.recordcount is 0>
 																<!--- seed --->
 																<div class="form-row">
-																<div id="seedLabel" style="display:none;">
-																	<div id="labelsDiv__0">
-																		<input type="hidden" id="media_label_id__0" name="media_label_id__0">
-																		<cfset d="">
-																		<label for="label__#i#" class='sr-only'>Media Label</label>
-																		<select name="label__0" id="label__0" size="1" class="col-5">
-																			<option value="delete">delete</option>
-																			<cfloop query="ctmedia_label">
-																				<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-																			</cfloop>
-																		</select>
-																		<input type="text" name="label_value__0" id="label_value__0" class="col-7">
+																	<div id="seedLabel" style="display:none;">
+																		<div id="labelsDiv__0">
+																			<input type="hidden" id="media_label_id__0" name="media_label_id__0">
+																			<cfset d="">
+																			<label for="label__#i#" class='sr-only'>Media Label</label>
+																			<select name="label__0" id="label__0" size="1" class="col-5">
+																				<option value="delete">delete</option>
+																				<cfloop query="ctmedia_label">
+																					<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+																				</cfloop>
+																			</select>
+																			<input type="text" name="label_value__0" id="label_value__0" class="col-7">
+																		</div>
 																	</div>
-																</div>
 																</div>
 																<!--- end labels seed --->
 															</cfif>
