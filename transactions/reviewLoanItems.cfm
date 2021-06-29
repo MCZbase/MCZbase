@@ -300,7 +300,7 @@ limitations under the License.
 															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
 														<script>
 															$(document).ready(function() {
-																$('#addloanitembutton#').click(function(evt) { 
+																$('##addloanitembutton').click(function(evt) { 
 																	evt.preventDefault();
 																	if ($('##guid').val() != "") { 
 																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
