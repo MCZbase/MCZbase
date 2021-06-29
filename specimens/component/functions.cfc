@@ -832,7 +832,7 @@ limitations under the License.
 													<label for "">Mime Type</label>
 													<input class="mx-2" name="mime_type" id="mime_type" value="">
 													<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
-														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+														<!---<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
 														<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
 															<cfif #media.mask_media_fg# eq 1 >
 																<option value="0">Public</option>
@@ -1135,8 +1135,9 @@ limitations under the License.
 													<label for "">Mime Type</label>
 													<input class="mx-2" name="mime_type" id="mime_type" value="">
 													<label for="mask_media_fg" class="float-left mt-1">Visibility</label>
-														<!---	<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
-													<!---	<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
+														<!---<input class="float-left ml-1" type="text" name="mask_media_fg" value="#mask_media_fg#" id="mask_media_fg">--->
+
+													<!---<select class="float-left ml-2" type="text" name="mask_media_fg" value="#mask_media_fg#">
 															<cfif #media.mask_media_fg# eq 1 >
 																<option value="0">Public</option>
 																<option value="1" selected="selected">Hidden</option>
