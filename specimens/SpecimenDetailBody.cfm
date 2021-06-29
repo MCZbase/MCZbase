@@ -175,7 +175,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</button>
 							</cfif>
 						</div>
-						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+						<div id="mediaPane" class="show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 							<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
 								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
 								#block#
