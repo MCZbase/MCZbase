@@ -1,20 +1,15 @@
 <!---
 SpecimenDetailBody.cfm
-
 Copyright 2019 President and Fellows of Harvard College
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 --->
 
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
@@ -105,6 +100,7 @@ limitations under the License.
 									<div id="mediaDialog"></div>
 									<script>
 										function reloadMedia() { 
+											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 											loadMedia(#collection_object_id#,'mediaCardBody');
 										}
 									</script>
@@ -122,6 +118,7 @@ limitations under the License.
 									<div id="otherIDsDialog"></div>
 									<script>
 										function reloadOtherIDs() { 
+											// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 											loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 										}
 									</script>
@@ -175,7 +172,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</button>
 							</cfif>
 						</div>
-						<div id="mediaPane" class="show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+						<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 							<div class="card-body w-100 px-2 py-1 mb-1 float-left" id="mediaCardBody">
 								<cfset block = getMediaHTML(collection_object_id = "#collection_object_id#")>
 								#block#

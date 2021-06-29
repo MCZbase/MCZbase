@@ -2156,7 +2156,7 @@ limitations under the License.
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
 --->
-<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
@@ -2207,7 +2207,7 @@ limitations under the License.
 						</div>
 					</cfloop>
 					<!--- theResult ---> 
-				</div>
+			<!--- 	</div>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
@@ -2218,7 +2218,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
-</cffunction>
+</cffunction>--->
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
 --->
@@ -2290,7 +2290,7 @@ limitations under the License.
 	<cfthread action="join" name="getOtherID2Thread" />
 	<cfreturn getOtherID2Thread.output>
 </cffunction>
-<cffunction name="getOtherIDTable" returntype="query" access="remote">
+<!---<cffunction name="getOtherIDTable" returntype="query" access="remote">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
@@ -2317,8 +2317,8 @@ limitations under the License.
 		<cfelse>
 		<cfreturn theResult>
 	</cfif>
-</cffunction>
-<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
+</cffunction>--->
+<!---<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -2378,7 +2378,7 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>
+</cffunction>--->
 						
 						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">

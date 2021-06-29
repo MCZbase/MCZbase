@@ -1,20 +1,15 @@
 <!---
 specimens/component/public.cfc
-
 Copyright 2021 President and Fellows of Harvard College
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 --->
 <!--- publicly available functions to support /specimens/Specimen.cfm --->
 <cfcomponent>
@@ -277,6 +272,7 @@ limitations under the License.
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
+	
 	
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
@@ -874,6 +870,7 @@ limitations under the License.
 						</tr>
 						</cfif>
 					</cfloop>
+
 				</cfloop>
 				</tbody>
 			</table>
@@ -971,6 +968,7 @@ limitations under the License.
 				<li class="list-group-item"> sex: #attribute_value#,
 					<cfif len(attributeDeterminer) gt 0>
 						<cfset determination = "#attributeDeterminer#">
+
 						<cfif len(determined_date) gt 0>
 							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
@@ -1066,6 +1064,7 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
+
 							, Remark: #attribute_remark#
 						</cfif>
 					</li>

@@ -18,86 +18,6 @@ function checkFormValidity(form) {
 	return result;
 };
 
-
-function loadMedia(media_id,form) {
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getMediaHtml",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#mediaHTML").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing media");
-		},
-		dataType: "html"
-	});
-};
-
-/** loadMedia populate an html block with the media 
- * @param collection_object_id 
- * @param targetDivId 
- **/
-function loadMedia(collection_object_id,targetDivId) { 
-	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
-		data : {
-			method : "getMediaHTML",
-			collection_object_id: collection_object_id
-		},
-		success: function (result) {
-			$("#" + targetDivId ).html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
-		},
-		dataType: "html"
-	});
-};
-
-
-function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Media for " + guid;
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaHTML",
-			collection_object_id: collection_object_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
-function openEditMediaDetailsDialog(media_id,dialogId,callback) {
-	var title = "Edit Media for Item";
-	createSpecimenEditDialog(dialogId,title,callback);
-	jQuery.ajax({
-		url: "/specimens/component/functions.cfc",
-		data : {
-			method : "getEditMediaDetailsHTML",
-			media_id: media_id,
-		},
-		success: function (result) {
-			$("#" + dialogId + "_div").html(result);
-		},
-		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
-		},
-		dataType: "html"
-	});
-};
-
-
-
-
 /** loadIdentification populate an html block with the identification 
 * history for a cataloged item.
 * @param identification_id 
@@ -339,6 +259,89 @@ function openEditOtherIDsDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
+
+
+
+function loadMedia(media_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getMediaHtml",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
+
+/** loadMedia populate an html block with the media 
+ * @param collection_object_id 
+ * @param targetDivId 
+ **/
+function loadMedia(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	});
+};
+
+
+function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Media for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
+function openEditMediaDetailsDialog(media_id,dialogId,callback) {
+	var title = "Edit Media for Item";
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditMediaDetailsHTML",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Media dialog");
+		},
+		dataType: "html"
+	});
+};
+
+
+
+
+
 
 
 
