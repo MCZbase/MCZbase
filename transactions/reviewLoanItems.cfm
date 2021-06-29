@@ -291,11 +291,12 @@ limitations under the License.
 											<cfif isInProcess>
 												<div class="form-row">
 													<div class="col-12 col-md-4">
-														<label class="data-entry-label" for="guid">Cataloged item (GUID in the form MCZ:Dept:number)</label>
+														<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
 														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
 														<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
 													</div>
 													<div class="col-12 col-md-8">
+														<label class="data-entry-label">&nbsp;</label>
 														<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" 
 															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
 														<script>
