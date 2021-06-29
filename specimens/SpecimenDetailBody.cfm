@@ -100,7 +100,7 @@ limitations under the License.
 				<cfoutput>
 					<div class="container">
 						<div class="row">
-		<!---					<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
+							<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 								<li class="list-group-item px-0 mx-1">
 									<div id="mediaDialog"></div>
 									<script>
@@ -151,7 +151,7 @@ limitations under the License.
 								<li class="list-group-item px-0 mx-1">
 									<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
 								</li>
-							</ul>--->
+							</ul>
 						</div>
 					</div>
 	<cfif ctmedia.ct gt 0>
