@@ -52,6 +52,7 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+
 <!---getEditMediaHTML obtain a block of html to populate an media editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media
 	editor dialog.
