@@ -105,19 +105,29 @@ limitations under the License.
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfquery name="prepareSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
-			call build_query(
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">, 
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
-				<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#search_json#">)
-		</cfquery>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT * 
-			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
-			WHERE
-				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-		</cfquery>
+		<cfset implementation = 'cfproc'>
+		<cfif implementation EQ 'cfquery'>
+			<cfquery name="prepareSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+				call build_query(
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">, 
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
+					<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#search_json#">)
+			</cfquery>
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				SELECT * 
+				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+					left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+		<cfelse>
+			<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">	
+				<cfprocresult name="search">
+			</cfstoredproc>
+		</cfif>
 
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
