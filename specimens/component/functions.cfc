@@ -1,20 +1,15 @@
 <!---
 specimens/component/functions.cfc
-
 Copyright 2019 President and Fellows of Harvard College
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
 	http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 --->
 <cfcomponent>
 <cf_rolecheck>
@@ -918,7 +913,6 @@ limitations under the License.
 	<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
-
 <!---getEditIdentificationsHTML obtain a block of html to populate an identification editor dialog for a specimen.
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identification
 	editor dialog.
@@ -2156,7 +2150,7 @@ limitations under the License.
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
 --->
-<!---<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getCatNumOtherIDHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getOtherIDsThread">
 		<cftry>
@@ -2207,7 +2201,7 @@ limitations under the License.
 						</div>
 					</cfloop>
 					<!--- theResult ---> 
-			<!--- 	</div>
+				</div>
 			</cfoutput>
 			<cfcatch>
 				<cfoutput>
@@ -2218,7 +2212,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getOtherIDThread" />
 	<cfreturn getOtherIDThread.output>
-</cffunction>--->
+</cffunction>
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
 --->
@@ -2290,7 +2284,7 @@ limitations under the License.
 	<cfthread action="join" name="getOtherID2Thread" />
 	<cfreturn getOtherID2Thread.output>
 </cffunction>
-<!---<cffunction name="getOtherIDTable" returntype="query" access="remote">
+<cffunction name="getOtherIDTable" returntype="query" access="remote">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
@@ -2317,8 +2311,8 @@ limitations under the License.
 		<cfelse>
 		<cfreturn theResult>
 	</cfif>
-</cffunction>--->
-<!---<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
+</cffunction>
+<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -2378,7 +2372,7 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>--->
+</cffunction>
 						
 						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
@@ -3928,6 +3922,7 @@ limitations under the License.
 									<li class="list-group-item col-4 px-0"><em>Island Group:</em></li>
 									<li class="list-group-item col-8 px-0">#getLoc.island_group#</li>
 								</cfif>
+
 								<cfif len(getLoc.island) gt 0>
 									<li class="list-group-item col-4 px-0"><em>Island:</em></li>
 									<li class="list-group-item col-8 px-0">#getLoc.island#</li>
@@ -6134,7 +6129,6 @@ function showLLFormat(orig_units) {
 	<cfthread action="join" name="getCollectorsThread" />
 	<cfreturn getCollectorsThread.output>
 </cffunction>
-
 <!--- obtain an html rendering of the condition history of a specimen part suitable for display in a dialog 
  @param collection_object_id the collection_object_id of the part for which to obtain the condition history
  @return html block listing condition history for the specified part
