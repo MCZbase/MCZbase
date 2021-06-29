@@ -67,7 +67,7 @@ limitations under the License.
 							media.media_id=media_relations.media_id and
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
-							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
 							MCZBASE.is_media_encumbered(media.media_id) < 1
 						order by media.media_type
 					</cfquery>
@@ -223,7 +223,7 @@ limitations under the License.
 														<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														<cfif #media.media_type# eq "audio">
 															<!--- check for a transcript, link if present --->
-															<!---<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																SELECT
 																	transcript.media_uri as transcript_uri,
 																	transcript.media_id as trainscript_media_id
@@ -234,12 +234,12 @@ limitations under the License.
 																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
 																	and media_relationship = 'transcript for audio media'
 																	and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-															</cfquery>--->
-															<!---<cfif checkforTranscript.recordcount GT 0>
+															</cfquery>
+															<cfif checkforTranscript.recordcount GT 0>
 																<cfloop query="checkForTranscript">
 																	<a href="#transcript_uri#">View Transcript</a>
 																</cfloop>
-															</cfif>--->
+															</cfif>
 														</cfif>
 													</p>
 												</div>
