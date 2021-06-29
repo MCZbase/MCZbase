@@ -2096,7 +2096,7 @@ limitations under the License.
  @param collection_object_id
  @commit change
 --->
-<cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="updateOtherID" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfoutput> 
@@ -2152,7 +2152,7 @@ limitations under the License.
 			</cftry>
 	
 	</cfoutput>
-</cffunction>
+</cffunction>--->
 <!---getCatNumOtherIDHTML function
  @param collection_object_id
 --->
@@ -2318,7 +2318,7 @@ limitations under the License.
 		<cfreturn theResult>
 	</cfif>
 </cffunction>
-<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
+<!---<cffunction name="saveOtherID" access="remote" returntype="any" returnformat="json">>
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="coll_obj_other_id_num_id" type="string" required="yes">
 	<cfargument name="other_id_type" type="string" required="yes">
@@ -2378,7 +2378,7 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
-</cffunction>
+</cffunction>--->
 						
 						
 <cffunction name="getEditCollectorsHTML" returntype="string" access="remote" returnformat="plain">
