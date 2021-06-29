@@ -118,8 +118,8 @@ limitations under the License.
 											</div>
 										<cfelse>
 											<!---This is for all the thumbnails--->
-											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfset aForImHref = "/MediaSet.cfm?media_id=#media.media_id#" >
+											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media.media_id#" >
 											<div class='col-4 float-left border-white p-1 mb-1'>
 												<a href="#aForImHref#" target="_blank"> 
 													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
