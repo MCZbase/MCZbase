@@ -42,8 +42,7 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '%cataloged_item' and
-						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and 
-						MCZBASE.is_media_encumbered(media.media_id) < 1
+						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 					order by media.media_type
 				</cfquery>
 				<cfquery name="ctmedia" dbtype="query">
@@ -67,8 +66,7 @@ limitations under the License.
 							media.media_id=media_relations.media_id and
 							media.media_id=media_labels.media_id (+) and
 							media_relations.media_relationship like '%cataloged_item' and
-							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > and
-							MCZBASE.is_media_encumbered(media.media_id) < 1
+							media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 						order by media.media_type
 					</cfquery>
 					<cfoutput>
@@ -118,43 +116,38 @@ limitations under the License.
 											</div>
 										<cfelse>
 											<!---This is for all the thumbnails--->
+											<!---for media images -- remove absolute url after demo / test db issue?--->
+											<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
 											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-											<div class='col-4 float-left border-white p-1 mb-1'>
-												<a href="#aForImHref#" target="_blank"> 
-													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
-												</a>
-												<p class="small">
-													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-													<span class="">#description#</span><br>
+											#one_thumb# <a href="#aForImHref#" target="_blank"> 
+											<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
+											<p class="small">
+												<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+												<span class="">#description#</span><br>
 													<script>
 														function reloadMedia() { 
 															// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 															loadMedia('#media_id#','mediaCardBody');
 														}
 													</script>
-											<!---		<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
-													<cfif #media.media_type# eq "audio">
-														<!--- check for a transcript, link if present --->
-														<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															SELECT
-																transcript.media_uri as transcript_uri,
-																transcript.media_id as trainscript_media_id
-															FROM
-																media_relations
-																left join media transcript on media_relations.related_primary_key = transcript.media_id
-															WHERE
-																media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-																and media_relationship = 'transcript for audio media'
-																and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-														</cfquery>
-														<cfif checkforTranscript.recordcount GT 0>
-															<cfloop query="checkForTranscript">
-																<a href="#transcript_uri#">View Transcript</a>
-															</cfloop>
+													<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+												<cfif #media.media_type# eq "audio">
+													<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select related_primary_key, media_id 
+														from media_relations 
+														where media_relations.media_relationship = 'transcript of media'
+														and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													</cfquery>
+													<cfquery name="transcript_uri" dbtype="query">
+														select related_primary_key from transcript_relation
+													</cfquery>
+														<cfif len(transcript_uri.related_primary_key) gt 0>
+															<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
 														</cfif>
-													</cfif>
-												</p>
+												</cfif>
+										
+											</p>
 											</div>
 										</cfif>
 										<cfset i=i+1>
@@ -197,23 +190,22 @@ limitations under the License.
 													</a>
 													<div class="form-row mx-0">
 														<div class="small">#desc.label_value# 
-														<!---	<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>--->
+															<button type="button" id="btn_pane" class="btn btn-xs small mb-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														</div>
 													</div>
 												</div>
 											
 											<cfelse>
 												<!---This is for all the thumbnails--->
-												<!---for DRS from library--->
-												<cfset aForImHref = media_uri>
-												<cfset aForDetHref = "/media/#media_id#">
-												<div class='col-4 float-left border-white p-1 mb-1'>
-													<a href="#aForImHref#" target="_blank"> 
-														<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> 
-													</a>
-													<p class="small">
-														<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-														<span class="">#description#</span><br>
+													<!---for DRS from library--->
+													<cfset one_thumb = "<div class='col-4 float-left border-white p-1 mb-1'>">
+													<cfset aForImHref = media_uri>
+													<cfset aForDetHref = "/media/#media_id#">
+												#one_thumb# <a href="#aForImHref#" target="_blank"> 
+												<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="w-100"> </a>
+												<p class="small">
+													<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+													<span class="">#description#</span><br>
 														<script>
 															function reloadMedia() { 
 																// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
@@ -221,29 +213,23 @@ limitations under the License.
 															}
 														</script>
 														<button type="button" id="btn_pane" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
-														<cfif #media.media_type# eq "audio">
-															<!--- check for a transcript, link if present --->
-															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT
-																	transcript.media_uri as transcript_uri,
-																	transcript.media_id as trainscript_media_id
-																FROM
-																	media_relations
-																	left join media transcript on media_relations.related_primary_key = transcript.media_id
-																WHERE
-																	media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-																	and media_relationship = 'transcript for audio media'
-																	and MCZBASE.is_media_encumbered(transcript.media_id) < 1
-															</cfquery>
-															<cfif checkforTranscript.recordcount GT 0>
-																<cfloop query="checkForTranscript">
-																	<a href="#transcript_uri#">View Transcript</a>
-																</cfloop>
+													<cfif #media.media_type# eq "audio">
+														<cfquery name="transcript_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select related_primary_key, media_id 
+															from media_relations 
+															where media_relations.media_relationship = 'transcript of media'
+															and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														</cfquery>
+														<cfquery name="transcript_uri" dbtype="query">
+															select related_primary_key from transcript_relation
+														</cfquery>
+															<cfif len(transcript_uri.related_primary_key) gt 0>
+																<a href = "/media/#transcript_uri.related_primary_key#">Transcript</a>
 															</cfif>
-														</cfif>
-													</p>
-												</div>
-												<cfset i=i+1>
+													</cfif>
+
+												</p>
+											<cfset i=i+1>
 											</cfif>
 										</cfloop>
 									</cfif>
@@ -277,7 +263,6 @@ limitations under the License.
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
-	
 	
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
