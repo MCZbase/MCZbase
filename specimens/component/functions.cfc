@@ -188,7 +188,7 @@ limitations under the License.
 														media.media_license_id,
 														mczbase.get_media_descriptor(media_id) as alttag 
 													from media 
-													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 												</cfquery>
 												<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
