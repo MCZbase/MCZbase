@@ -303,7 +303,7 @@ limitations under the License.
 																$('##addloanitembutton').click(function(evt) { 
 																	evt.preventDefault();
 																	if ($('##guid').val() != "") { 
-																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
+																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
 																	} else {
 																		messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
 																	};
