@@ -106,6 +106,7 @@ limitations under the License.
 	<cftry>
 		<cfset username = session.dbuser>
 		<cfset implementation = 'cfproc'>
+		<cfset implementation = 'cfquery'>
 		<cfif implementation EQ 'cfquery'>
 			<cfquery name="prepareSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 				call build_query(
