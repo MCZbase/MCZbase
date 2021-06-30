@@ -1211,7 +1211,7 @@ limitations under the License.
 													<cfloop query="getMedia">
 														<cfif getMedia.media_type IS "image">
 															<li class="border list-group-item d-flex justify-content-between align-items-center">
-																<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
+																<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
 																<a class="w-75" href="/MediaSet.cfm?#getMedia.media_id#">Media Details</a>
 																<span>#getMedia.descriptor#</span>
 																<span>#getMedia.subject#</span>
