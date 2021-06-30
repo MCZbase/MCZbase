@@ -63,4 +63,6 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn error_message>
+</cffunction>
+
 </cfcomponent>
