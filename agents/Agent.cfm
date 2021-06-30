@@ -1211,7 +1211,7 @@ limitations under the License.
 													<ul class="list-group list-group-horizontal border py-2 m-2">
 													<cfif getMedia.media_type IS "image">
 														<li class="col-12 col-md-4">
-															<a class="p-2 d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
+															<a class="p-md-2 d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
 														</li>
 														<li class="col-12 col-md-8">
 															<ul class="list-group my-2">
