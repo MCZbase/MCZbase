@@ -299,7 +299,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
-											<div class="card-body pt-1 pb-2 pl-xl-3 mb-1 small90">
+											<div class="card-body pt-1 pb-2 px-2 mb-1 small90">
 												<cfif getAgentAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -327,7 +327,7 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-														<h3 class="h4 mb-1 mt-2">#addr_type# address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
+														<h3 class="h4 mb-1 mt-2">ucFirst("#addr_type#") Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
@@ -577,7 +577,7 @@ limitations under the License.
 			
 												<cfif getAgentFamilyScope.recordcount GT 0>
 													<div class="w-100"> 
-														<h3 class="h4 px-2 mb-1">Families Collected</h3>
+														<h3 class="h5 px-2 mb-0">Families Collected</h3>
 														<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
@@ -1045,7 +1045,7 @@ limitations under the License.
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
-												<h2 class="h4 card-title">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h2>
+												<h3 class="h5 px-3 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
