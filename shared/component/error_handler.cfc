@@ -41,7 +41,7 @@ limitations under the License.
 </cffunction>
 
 <cffunction name="cfcatchToErrorMessage" access="public" returntype="any" returnformat="plain">
-	<cfargument name="cfcatchcopy" type="struct" required="yes">
+	<cfargument name="cfcatchcopy" type="any" required="yes">
 
 	<cfset error_message = "Error.  Undefined Error.">
 	<cftry>
