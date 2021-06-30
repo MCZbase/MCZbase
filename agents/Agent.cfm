@@ -1211,12 +1211,12 @@ limitations under the License.
 													<cfloop query="getMedia">
 														<cfif getMedia.media_type IS "image">
 															<li class="border list-group-item d-flex justify-content-between align-items-center">
-																<a href="/media/#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
+																<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" style="max-width:300px;max-height:300px;"></a>
+																<a class="w-75">/MediaSet.cfm?#getMedia.media_id#</a>
 																<span>#getMedia.descriptor#</span>
 																<span>#getMedia.subject#</span>
 																<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
 																<span>#getMedia.credit#</span>
-																<span>&nbsp;</span>
 															</li>
 														</cfif>
 													</cfloop>
