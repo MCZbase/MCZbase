@@ -1207,20 +1207,22 @@ limitations under the License.
 										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
 										<div class="card-body py-1 mb-1">
 											<cfif getMedia.recordcount GT 0>
-												<ul class="list-group">
-													<cfloop query="getMedia">
-														<cfif getMedia.media_type IS "image">
-															<li class="border list-group-item d-flex justify-content-between align-items-center">
-																<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
-																<a class="w-75" href="/MediaSet.cfm?#getMedia.media_id#">Media Details</a>
-																<span>#getMedia.descriptor#</span>
-																<span>#getMedia.subject#</span>
-																<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
-																<span>#getMedia.credit#</span>
-															</li>
-														</cfif>
-													</cfloop>
-												<ul class="list-group">
+												<cfloop query="getMedia">
+													<ul class="list-group list-group-horizontal">
+													<cfif getMedia.media_type IS "image">
+														<li class="col-12 col-md-6">
+															<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/MediaSet.cfm?#getMedia.media_id#">Media Details</a>
+															<span>#getMedia.descriptor#</span>
+															<span>#getMedia.subject#</span>
+															<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
+															<span>#getMedia.credit#</span>
+														</li>
+													</cfif>
+													</ul>
+												</cfloop>
 											</cfif>
 										</div>
 									</div><!--- end mediaCardBodyWrap --->
