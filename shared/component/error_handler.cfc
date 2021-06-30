@@ -41,7 +41,7 @@ limitations under the License.
 </cffunction>
 
 <cffunction name="cfcatchToErrorMessage" access="public" returntype="any" returnformat="plain">
-	<cfargument name="cfcatchcopy" type="any" required="yes">
+	<cfargument name="cfcatchcopy" type="struct" required="yes">
 
 	<cfset error_message = "Error.  Undefined Error.">
 	<cftry>
@@ -49,12 +49,24 @@ limitations under the License.
 		<cfset errorMessage ="">
 		<cfset errorDetail ="">
 		<cfif isDefined("cfcatchcopy.queryError") ><cfset queryError=cfcatchcopy.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#"></cfif>
-		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#."></cfif>
-		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") AND isDefined("cfcatchcopy.rootcause.tagcontext[1].line") AND cfcatchcopy.cause.tagcontext[1].line NEQ cfcatchcopy.rootcause.tagcontext[1].line >
-			<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#."></cfif>
-			<cfif isDefined("cfcatchcopy.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#"></cfif>
+		<cfif structKeyExists(cfcatchcopy,"Cause") AND structKeyExists(cfcatchcopy.cause,"TagContext")>
+			<cftry>
+				<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
+				<cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#.">
+			<cfcatch>
+			</cfcatch>
+			</cftry>
 		</cfif>
+		<cftry>
+			<cfif structKeyExists(cfcatchcopy,"RootCause") AND structKeyExists(cfcatchcopy.rootcause,"TagContext")>
+				<cfif cfcatchcopy.cause.tagcontext[1].line NEQ cfcatchcopy.rootcause.tagcontext[1].line >
+					<cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#.">
+					<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
+				</cfif>
+			</cfif>
+		<cfcatch>
+		</cfcatch>
+		</cftry>
 		<cfif isDefined("cfcatchcopy.message") ><cfset errorMessage=cfcatchcopy.message></cfif>
 		<cfif isDefined("cfcatchcopy.detail") ><cfset errorDetail=cfcatchcopy.detail></cfif>
 		<cfset error_message = trim(errorMessage & " " & errorDetail & " " & queryError & " " & errorLine) >
