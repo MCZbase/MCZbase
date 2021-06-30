@@ -1856,7 +1856,7 @@ limitations under the License.
 								</cfif>
 								<div class='form-row'>
 									<div class='col-12 col-md-6 my-2'>
-			 							<strong>Address Type:</strong> #ctAddrType.addr_type#
+										<strong>Address Type:</strong> #ctAddrType.addr_type#
 									</div>
 									<div class='col-12 col-md-6 my-2'>
 										<cfif len(agent_name) GT 0 >
