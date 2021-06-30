@@ -328,7 +328,7 @@ limitations under the License.
 															<cfset listgroupclass="border-light">
 														</cfif>
 																
-														<h3 class="h4 mb-1 mt-2"> #ucFirst(addr_type)# Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
+														<h3 class="h4 mb-1 mt-2"> #addr_type# Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
