@@ -41,22 +41,22 @@ limitations under the License.
 </cffunction>
 
 <cffunction name="cfcatchToErrorMessage" access="public" returntype="any" returnformat="plain">
-	<cfargument name="cfcatch" type="string" required="yes">
+	<cfargument name="cfcatchcopy" type="any" required="yes">
 
 	<cfset error_message = "Error.  Undefined Error.">
 	<cftry>
 		<cfset errorLine ="">
 		<cfset errorMessage ="">
 		<cfset errorDetail ="">
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfif isDefined("cfcatch.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatch.cause.tagcontext[1].template#"></cfif>
-		<cfif isDefined("cfcatch.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatch.cause.tagcontext[1].line#."></cfif>
-		<cfif isDefined("cfcatch.cause.tagcontext[1].line") AND isDefined("cfcatch.rootcause.tagcontext[1].line") AND cfcatch.cause.tagcontext[1].line NEQ cfcatch.rootcause.tagcontext[1].line >
-			<cfif isDefined("cfcatch.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatch.cause.tagcontext[1].line#."></cfif>
-			<cfif isDefined("cfcatch.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatch.cause.tagcontext[1].template#"></cfif>
+		<cfif isDefined("cfcatchcopy.queryError") ><cfset queryError=cfcatchcopy.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#"></cfif>
+		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#."></cfif>
+		<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") AND isDefined("cfcatchcopy.rootcause.tagcontext[1].line") AND cfcatchcopy.cause.tagcontext[1].line NEQ cfcatchcopy.rootcause.tagcontext[1].line >
+			<cfif isDefined("cfcatchcopy.cause.tagcontext[1].line") ><cfset errorLine = errorLine & "line #cfcatchcopy.cause.tagcontext[1].line#."></cfif>
+			<cfif isDefined("cfcatchcopy.cause.tagcontext[1].template") ><cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#"></cfif>
 		</cfif>
-		<cfif isDefined("cfcatch.message") ><cfset errorMessage=cfcatch.message></cfif>
-		<cfif isDefined("cfcatch.detail") ><cfset errorDetail=cfcatch.detail></cfif>
+		<cfif isDefined("cfcatchcopy.message") ><cfset errorMessage=cfcatchcopy.message></cfif>
+		<cfif isDefined("cfcatchcopy.detail") ><cfset errorDetail=cfcatchcopy.detail></cfif>
 		<cfset error_message = trim(errorMessage & " " & errorDetail & " " & queryError & " " & errorLine) >
 	<cfcatch>
 		<cfset error_message = "Error.  Unable to generate error message, no cfcatch object or error extracting data from cfcatch.">
