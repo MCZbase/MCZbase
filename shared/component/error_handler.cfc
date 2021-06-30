@@ -67,6 +67,7 @@ limitations under the License.
 		<cfcatch>
 		</cfcatch>
 		</cftry>
+		<cfif errorLine contains Application.webDirectory ><cfset errorLine = replace(errorLine,Application.webDirectory,"/")> 
 		<cfif isDefined("cfcatchcopy.message") ><cfset errorMessage=cfcatchcopy.message></cfif>
 		<cfif isDefined("cfcatchcopy.detail") ><cfset errorDetail=cfcatchcopy.detail></cfif>
 		<cfset error_message = trim(errorMessage & " " & errorDetail & " " & queryError & " " & errorLine) >
