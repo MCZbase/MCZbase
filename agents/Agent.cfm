@@ -543,7 +543,7 @@ limitations under the License.
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope.recordcount EQ 0>
-												<h3 class="h5 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
+												<h3 class="h4 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -1046,7 +1046,7 @@ limitations under the License.
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
-												<h3 class="h4 px-3 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+												<h3 class="h4 px-3 mt-3 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1134,10 +1134,10 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
-											<div class="card-body py-1 mb-1">
 											<cfif totalShipCount GT 0>
 												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
+											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif packedBy.recordcount EQ 0>
 														<li class="list-group-item">Packed no shipments for transactions</li>
@@ -1264,7 +1264,7 @@ limitations under the License.
 									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h3 class="h5 px-2 pb-0 mb-0">Not a preparator of any material in MCZbase</h3>
+												<h3 class="h4 px-2 pb-0 mb-0">Not a preparator of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
@@ -1337,7 +1337,7 @@ limitations under the License.
 										<div id="projectCardBodyWrap" class="collapse show" aria-labelledby="projectHeader" data-parent="##projectSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getProjRoles.recordcount EQ 0>
-													<h3 class="h5 px-2 mb-1">No project roles in MCZbase</h3>
+													<h3 class="h4 px-2 mb-1">No project roles in MCZbase</h3>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
@@ -1389,7 +1389,7 @@ limitations under the License.
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 										<div class="card-body py-1 mb-1">
 											<cfif publicationAuthor.recordcount EQ 0>
-												<h3 class="h4">No Publication Citing MCZ material</h3>
+												<h3 class="h4 px-2 mb-0">No Publication Citing MCZ material</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
@@ -1489,7 +1489,7 @@ limitations under the License.
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
-													<h3 class="h4">Not a Transaction Agent in MCZbase</h3>
+													<h3 class="h4 mb-0">Not a Transaction Agent in MCZbase</h3>
 												<cfelse>
 													<ul class="list-group">
 														<cfset lastTrans ="">
@@ -1588,8 +1588,8 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
+											<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body py-1 mb-1">
-												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
