@@ -1215,7 +1215,7 @@ limitations under the License.
 														</li>
 														<li class="col-12 col-md-8">
 															<ul class="list-group">
-																<li class="list-group-item"><a href="/media/#get_media.media_id#">Media Details</a></li>
+																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
 																<li class="list-group-item">#getMedia.descriptor#</li>
 																<li class="list-group-item">#getMedia.subject#</li>
 																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
