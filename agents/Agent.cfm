@@ -1134,10 +1134,10 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
+											<div class="card-body py-1 mb-1">
 											<cfif totalShipCount GT 0>
 												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
-											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif packedBy.recordcount EQ 0>
 														<li class="list-group-item">Packed no shipments for transactions</li>
@@ -1204,7 +1204,7 @@ limitations under the License.
 										<cfelse>
 											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 										</cfif>
-										<h2 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h2>
+										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
 										<div class="card-body py-1 mb-1">
 											<cfif getMedia.recordcount GT 0>
 												<ul class="list-group">
@@ -1478,14 +1478,14 @@ limitations under the License.
 										</div>
 										<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
 											<cfif getTransCount.ct EQ 0>
-												<h2 class="h4 card-title">#prefName# has some role in #totalTransCount# transaction#plural#.</h2>
+												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 											<cfelse>
-												<h2 class="h4 card-title">
+												<h3 class="h4 px-3 mb-0">
 													#prefName# has some role in 
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 													#getTransCount.ct# Transaction#plural#
-													</a>:
-												</h2>
+													</a>
+												</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
@@ -1588,8 +1588,8 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
-											<h2 class="h4 card-title">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h2>
 											<div class="card-body py-1 mb-1">
+												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
