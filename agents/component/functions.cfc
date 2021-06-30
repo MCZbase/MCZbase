@@ -190,7 +190,7 @@ limitations under the License.
 								<cfset addressCurrency="Invalid">
 								<cfset listgroupclass="border-wide-grey">
 							</cfif>
-							<li class="list-group-item #listgroupclass# w-100 px-1 py-1">
+							<li class="list-group-item #listgroupclass# w-100 px-2 py-1">
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-xl-3">
 										<span class="font-weight-bold text-capitalize">#addr_type#:</span>
@@ -1967,9 +1967,9 @@ limitations under the License.
 										<span class="data-entry-input form-control">
 											<input type="hidden" name="country_cde" id="country_cde" value="USA" value="#country_cde#">
 											<cfif country_cde EQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-											<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+											<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">&nbsp;USA</span>
 											<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-											<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
+											<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">&nbsp;Other</span>
 											<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
 										<span>
 										<script>
@@ -1990,7 +1990,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-6 my-1'>
+									<div class='col-12 col-md-6 my-2'>
 										<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
 											<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
 											<cfset errmsg = "updating an address for an agent">
@@ -1999,7 +1999,7 @@ limitations under the License.
 											<cfset errmsg = "adding an address to an agent">
 										</cfif>
 									</div>
-									<div class='col-12 col-md-6 my-1'>
+									<div class='col-12 col-md-6 my-2'>
 										<div id='newAddressStatus'></div>
 									</div>
 								</div>
