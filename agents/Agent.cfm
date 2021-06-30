@@ -299,7 +299,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
-											<div class="card-body pt-1 pb-2 px-3 mb-1 small90">
+											<div class="card-body py-1 px-3 mb-1 small90">
 												<cfif getAgentAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -543,7 +543,7 @@ limitations under the License.
 									<div id="collectorCardBodyWrap" class="#bodyClass#" aria-labelledby="collectorHeader" data-parent="##collectorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
+												<h3 class="h5 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
