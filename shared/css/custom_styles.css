@@ -153,6 +153,9 @@ h6, .h6 {
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
+span.caps { 
+	text-transform: capitalize;
+}
 #resultLink a {
 	padding: .15rem .25rem;
 	outline: 0;
