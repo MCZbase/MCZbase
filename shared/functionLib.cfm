@@ -246,7 +246,7 @@ limitations under the License.
 			<cfquery name="d" datasource="uam_god">
 				SELECT collection || ' ' || cat_num || ' (' || scientific_name || ')' data 
 				FROM
-					cataloged_item,
+					cataloged_item
 					left join collection on cataloged_item.collection_id=collection.collection_id
 					left join identification on cataloged_item.collection_object_id=identification.collection_object_id
 				WHERE
