@@ -177,7 +177,7 @@ limitations under the License.
 				loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 			GROUP BY sovereign_nation
 		</cfquery>
-		<cfif collectionCount EQ 1>
+		<cfif collectionCount EQ 1 OR collectionCount EQ 0>
 			<!--- Obtain list of preserve_method values for the collection that this loan is from --->
 			<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct ct.preserve_method
@@ -204,6 +204,9 @@ limitations under the License.
 		<!--- handle legacy loans with cataloged items as the item --->
 		<main class="container-fluid" id="content">
 			<cfoutput>
+				<cfset isClosed = false>
+				<cfset isInProcess = false>
+				<cfset isOpen = false>
 				<cfquery name="aboutLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select l.loan_number, c.collection_cde, c.collection,
 						l.loan_type, l.loan_status, 
@@ -213,6 +216,21 @@ limitations under the License.
 						left join loan l on t.transaction_id = l.transaction_id
 					where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 				</cfquery>
+				<cfif aboutLoan.recordcount EQ 0>
+					<cfthrow message="No such transaction found.">
+				</cfif>
+				<cfif aboutLoan.loan_number IS "">
+					<cfthrow message="Transaction with this transaction_id is not a loan.">
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'closed'>
+					<cfset isClosed = true>
+				</cfif>
+				<cfif aboutLoan.loan_status EQ 'in process'>
+					<cfset isInProcess = true>
+				</cfif>
+				<cfif Find("open",aboutLoan.loan_status) EQ 1>
+					<cfset isOpen = true>
+				</cfif>
 				<cfset multipleCollectionsText = "">
 				<cfif collectionCount GT 1>
 					<cfset multipleCollectionsText = "Contains Material from #collectionCount# Collections: ">
@@ -262,25 +280,45 @@ limitations under the License.
 												</cfif>
 											</h1>
 											<h2 class="h4 d-inline font-weight-normal">Type: <span class="font-weight-lessbold">#aboutLoan.loan_type#</span> </h2>
-											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="font-weight-lessbold">#aboutLoan.loan_status#</span> </h2>
+											<cfif isClosed>
+												<cfset statusWeight = "bold">
+											<cfelse>
+												<cfset statusWeight = "lessbold">
+											</cfif>
+											<h2 class="h4 d-inline font-weight-normal"> &bull; Status: <span class="text-capitalize font-weight-#statusWeight#">#aboutLoan.loan_status#</span> </h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.return_due_date NEQ ''> &bull; Due Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.return_due_date,'yyyy-mm-dd')#</span></cfif></h2>
 											<h2 class="h4 d-inline font-weight-normal"><cfif aboutLoan.closed_date NEQ ''> &bull; Closed Date: <span class="font-weight-lessbold">#dateFormat(aboutLoan.closed_date,'yyyy-mm-dd')#</span> </cfif></h2>
-											<div class="row">
-												<div class="col-12 col-md-4">
-													<label class="data-entry-label" for="guid">Cataloged item (GUIDs in the form MCZ:Dept:number)</label>
-													<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
-													<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+											<cfif isInProcess>
+												<div class="form-row">
+													<div class="col-12 col-md-4">
+														<label class="data-entry-label" for="guid">Cataloged item (MCZ:Dept:number)</label>
+														<input type="text" id="guid" name="guid" class="data-entry-input" value="" placeholder="MCZ:Dept:1111" >
+														<input type="hidden" id="collection_object_id" name="collection_object_id" value="">
+													</div>
+													<div class="col-12 col-md-8">
+														<label class="data-entry-label">&nbsp;</label>
+														<button id="addloanitembutton" class="btn btn-xs btn-secondary" 
+															aria-label="Add an item to loan by catalog number" >Add Part To Loan</button>
+														<script>
+															$(document).ready(function() {
+																$('##addloanitembutton').click(function(evt) { 
+																	evt.preventDefault();
+																	if ($('##guid').val() != "") { 
+																		openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid);
+																	} else {
+																		messageDialog("Enter the guid for a cataloged item from which to add a part in the field provided.","No cataloged item provided"); 
+																	};
+																});
+															});
+														</script>
+														<!---  script>
+															$(document).ready(function() {
+																makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
+															});
+														</script --->
+													</div>
 												</div>
-												<div class="col-12 col-md-8">
-													<button id="addloanitembutton" class="btn btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Add an item to loan by catalog number" 
-														onclick=" openAddLoanItemDialog($('##guid').val(),#transaction_id#, 'addLoanItemDialogDiv', reloadGrid); " >Add Part To Loan</button>
-													<!---  script>
-														$(document).ready(function() {
-															makeCatalogedItemAutocompleteMeta('guid', 'collection_object_id');
-														});
-													</script --->
-												</div>
-											</div>
+											</cfif>
 										</div>
 										<div class="col-12 col-xl-6 pt-3">
 											<h3 class="h4 mb-1">Countries of Origin</h3>
@@ -478,11 +516,15 @@ limitations under the License.
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
 								var itemid = rowData['part_id'];
-								if (itemid) {
-									result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
-								} else { 
+								<cfif isClosed>
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-								}
+								<cfelse>
+									if (itemid) {
+										result = '<span class="#cellRenderClasses# float-left mt-1"' + columnproperties.cellsalign + '; "><a name="removeLoanItem" type="button" value="Delete" onclick="removeLoanItem(' + itemid+ ');" class="btn btn-xs btn-warning">Remove</a></span>';
+									} else { 
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+									}
+								</cfif>
 								return result;
 							};
 							var historyCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -514,6 +556,9 @@ limitations under the License.
 										{ name: 'item_descr', type: 'string' },
 										{ name: 'item_instructions', type: 'string' },
 										{ name: 'loan_item_remarks', type: 'string' },
+										{ name: 'reconciled_by_person_id', type: 'string' },
+										{ name: 'reconciled_by_agent', type: 'string' },
+										{ name: 'reconciled_date', type: 'string' },
 										{ name: 'coll_obj_disposition', type: 'string' },
 										{ name: 'encumbrance', type: 'string' },
 										{ name: 'encumbering_agent_name', type: 'string' },
@@ -609,7 +654,7 @@ limitations under the License.
 										{text: 'Loan Number', datafield: 'loan_number', hideable: true, hidden: getColHidProp('loan_number', true), editable: false },
 										{text: 'Collection', datafield: 'collection', width:80, hideable: true, hidden: getColHidProp('collection', true), editable: false  },
 										{text: 'Collection Code', datafield: 'collection_cde', width:60, hideable: true, hidden: getColHidProp('collection_cde', false), editable: false  },
-										{text: 'Catalog Number', datafield: 'catalog_number', width:100, hideable: true, hidden: getColHidProp('catalog_number', false), editable: false, cellsrenderer: specimenCellRenderer },
+										{text: 'Catalog Number', datafield: 'catalog_number', width:80, hideable: true, hidden: getColHidProp('catalog_number', false), editable: false, cellsrenderer: specimenCellRenderer },
 										{text: 'GUID', datafield: 'guid', width:80, hideable: true, hidden: getColHidProp('guid', true), editable: false  },
 										{text: '#session.CustomOtherIdentifier#', width: 100, datafield: 'custom_id', hideable: true, hidden: getColHidProp('#session.CustomOtherIdentifier#', true), editable: false },
 										{text: 'Scientific Name', datafield: 'scientific_name', width:210, hideable: true, hidden: getColHidProp('scientific_name', false), editable: false },
@@ -623,7 +668,7 @@ limitations under the License.
 										{text: 'Cryovat', datafield: 'location_cryovat', width:90, hideable: true, hidden: getColHidProp('location_cryovat', true), editable: false },
 										{text: 'Compartment', datafield: 'location_compartment', width:90, hideable: true, hidden: getColHidProp('location_compartment', true), editable: false },
 										{text: 'Part Name', datafield: 'part_name', width:110, hideable: true, hidden: getColHidProp('part_name', false), editable: false },
-										{text: 'Preserve Method', datafield: 'preserve_method', width:130, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
+										{text: 'Preserve Method', datafield: 'preserve_method', width:100, hideable: true, hidden: getColHidProp('preserve_method', false), editable: false },
 										{text: 'Item Descr', datafield: 'item_descr', width:110, hideable: true, hidden: getColHidProp('item_descr', true), editable: false },
 										{text: 'Subsample', datafield: 'sampled_from_obj_id', width:80, hideable: false, hidden: getColHidProp('sampled_from_obj_id', false), editable: false },
 										{text: 'Condition', datafield: 'condition', width:180, hideable: false, hidden: getColHidProp('condition', false), editable: true, cellclassname: editableCellClass },
@@ -637,6 +682,8 @@ limitations under the License.
 											columntype: 'dropdownlist',
 											initEditor: function(row, cellvalue, editor) { editor.jqxDropDownList({ source: #ctDispSource# }).jqxDropDownList('selectItem', cellvalue ); }
 										},
+										{text: 'Reconciled By', datafield: 'reconciled_by_agent', width:110, hideable: true, hidden: getColHidProp('reconciled_by_agent', true), editable: false },
+										{text: 'Date Reconciled', datafield: 'reconciled_date', width:110, hideable: true, hidden: getColHidProp('reconciled_date', false), editable: false },
 										{text: 'Encumbrance', datafield: 'encumbrance', width:100, hideable: true, hidden: getColHidProp('encumbrance', false), editable: false },
 										{text: 'Encumbered By', datafield: 'encumbering_agent_name', width:100, hideable: true, hidden: getColHidProp('encumbring_agent_id', true), editable: false },
 										{text: 'Country of Origin', datafield: 'sovereign_nation', hideable: true, hidden: getColHidProp('sovereign_nation', false), editable: false }
