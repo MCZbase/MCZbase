@@ -1046,7 +1046,7 @@ limitations under the License.
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
-												<h3 class="h4 px-3 mt-3 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+												<h3 class="h4 px-3 mt-2 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
