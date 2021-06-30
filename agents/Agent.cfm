@@ -1210,15 +1210,18 @@ limitations under the License.
 												<cfloop query="getMedia">
 													<ul class="list-group list-group-horizontal">
 													<cfif getMedia.media_type IS "image">
-														<li class="col-12 col-md-6">
+														<li class="col-12 col-md-4">
 															<a href="/media/#getMedia.media_id#" class="w-25"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
 														</li>
-														<li class="col-12 col-md-6">
-															<a href="/MediaSet.cfm?#getMedia.media_id#">Media Details</a>
-															<span>#getMedia.descriptor#</span>
-															<span>#getMedia.subject#</span>
-															<span><a href="#getMedia.license_uri#">#getMedia.license_display#</a></span>
-															<span>#getMedia.credit#</span>
+														<li class="col-12 col-md-8">
+															<ul class="list-group">
+																<li class="list-group-item"><a href="/MediaSet.cfm?#getMedia.media_id#">Media Details</a></li>
+																<li class="list-group-item">#getMedia.descriptor#</li>
+																<li class="list-group-item">#getMedia.subject#</li>
+																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
+																<li class="list-group-item">#getMedia.credit#</li>
+															</ul>
+														
 														</li>
 													</cfif>
 													</ul>
