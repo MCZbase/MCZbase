@@ -1208,13 +1208,13 @@ limitations under the License.
 										<div class="card-body py-1 mb-1">
 											<cfif getMedia.recordcount GT 0>
 												<cfloop query="getMedia">
-													<ul class="list-group list-group-horizontal">
+													<ul class="list-group list-group-horizontal border py-2 m-2">
 													<cfif getMedia.media_type IS "image">
 														<li class="col-12 col-md-4">
-															<a href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
+															<a class="p-2 d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
 														</li>
 														<li class="col-12 col-md-8">
-															<ul class="list-group">
+															<ul class="list-group my-2">
 																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
 																<li class="list-group-item">#getMedia.descriptor#</li>
 																<li class="list-group-item">#getMedia.subject#</li>
