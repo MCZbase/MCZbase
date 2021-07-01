@@ -298,7 +298,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2 col-xl-3">
 										<div class="form-group mb-2">
 											<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
 											<cfset selectedextensionlist = "">
@@ -339,7 +339,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
 												<span class="small">
@@ -649,7 +649,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-6 col-xl-4">
+									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
 									<div class="form-group mb-2">
 										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
