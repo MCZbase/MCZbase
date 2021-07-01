@@ -1548,7 +1548,7 @@ limitations under the License.
 								<section class="accordion">
 									<div class="card mb-2 bg-light" id="permitsCard">
 										<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
@@ -1559,7 +1559,7 @@ limitations under the License.
 												ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsFrom_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
@@ -1570,7 +1570,7 @@ limitations under the License.
 												ISSUED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitContacts_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
@@ -1608,7 +1608,7 @@ limitations under the License.
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued to #encodeForHtml(prefName)#
@@ -1623,7 +1623,7 @@ limitations under the License.
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued by #encodeForHtml(prefName)#
