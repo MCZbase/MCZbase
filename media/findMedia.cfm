@@ -1129,7 +1129,7 @@ limitations under the License.
 				);
 				<cfif Application.serverrole NEQ "production" >
 					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mx-0' >Grid/Card View</button>"
+						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mr-2' >Grid/Card View</button>"
 					);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
