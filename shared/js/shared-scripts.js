@@ -2,6 +2,34 @@
  * Place scripts that should be available on all web pages for all users here.
 */
 
+/** Make some readable content for a message dialog from an error message,
+ * message may be empty, in which case placeholder text is returned, message
+ * may start with the coldfusion responseText for a server error of <!-- \" --->,
+ * which renders the text unreadable, response in that case is the error text, with
+ * html markup stripped out, trimming all before the phrase 'Error Occurred While 
+ * Processing Request', otherwise returns the provided message.
+ * @param message the error message to clean up.
+ * @return the error message cleaned up to be visible in a message dialog.
+ */
+function prepareErrorMessage(message) { 
+	var result = "";
+	if (message) { 
+		result = message;
+	} else { 
+		result = "No Error Message Text";
+	}
+	if (message.indexof('<!-- \" --->')>-1) {
+		result = message.replace(/<\/?[^>]+(>|$)/g, "");
+		if (result.indexOf("Error Occurred While Processing Request") > -1) { 
+			result = result.substr(result.indexOf("Error Occurred While Processing Request"));
+			if (result.indexOf("Error Occurred While Processing Request") > -1) { 
+				result = result.substr(result.indexOf("Error Occurred While Processing Request"));
+			}
+		}
+	}
+	return result;
+}
+
 /** Creates a simple message dialog with an OK button.  Creates a new div, 
  * types it as a jquery-ui modal dialog and displays it.
  *

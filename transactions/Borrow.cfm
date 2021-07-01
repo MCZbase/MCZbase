@@ -831,7 +831,7 @@ limitations under the License.
 										} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
 											message = ' Backing method did not return JSON.';
 										} else {
-											message = jqXHR.responseText;
+											message = prepareErrorMessage(jqXHR.responseText);
 										}
 										messageDialog('Error saving transaction record: '+message, 'Error: '+error.substring(0,50));
 									}
