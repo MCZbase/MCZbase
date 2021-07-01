@@ -86,8 +86,7 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
@@ -129,8 +128,7 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
@@ -190,7 +188,7 @@ limitations under the License.
 								<cfset addressCurrency="Invalid">
 								<cfset listgroupclass="border-wide-grey">
 							</cfif>
-							<li class="list-group-item #listgroupclass# w-100 px-1 py-1">
+							<li class="list-group-item #listgroupclass# w-100 px-2 py-1">
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-xl-3">
 										<span class="font-weight-bold text-capitalize">#addr_type#:</span>
@@ -348,8 +346,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -420,8 +417,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -455,8 +451,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -704,8 +699,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -746,8 +740,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -802,8 +795,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -956,8 +948,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -998,8 +989,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1036,8 +1026,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1257,8 +1246,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1310,8 +1298,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1376,8 +1363,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1560,8 +1546,7 @@ limitations under the License.
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1635,8 +1620,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1720,8 +1704,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -1840,8 +1823,10 @@ limitations under the License.
 							<cfset agent_name = query.agent_name>
 						</cfif>
 					</cfif>
+					<div class="form-row mx-0 my-1">
+						<div class="col-12 border p-2 rounded bg-light" id="formattedAddressDisplayDiv">#formatted_addr#</div>
+					</div>
 					<div class="form-row">
-						<div class="col-12 border rounded bg-light" id="formattedAddressDisplayDiv">#formatted_addr#</div>
 						<div class="col-12">
 							<form name='newAddress' id='newAddressForm'>
 								<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
@@ -1853,10 +1838,10 @@ limitations under the License.
 									<input type='hidden' name='addr_id' value='#addr_id#'>
 								</cfif>
 								<div class='form-row'>
-									<div class='col-12 col-md-6'>
-			 							<strong>Address Type:</strong> #ctAddrType.addr_type#
+									<div class='col-12 col-md-6 my-1'>
+										<strong>Address Type:</strong> #ctAddrType.addr_type#
 									</div>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-1'>
 										<cfif len(agent_name) GT 0 >
 											<strong>Address For:</strong> #agent_name#
 											<input type="hidden" name="agent_id" id="addr_agent_id" value="#agent_id#" >
@@ -1883,7 +1868,7 @@ limitations under the License.
 									<input type="hidden" name="job_title" id="job_title" class="data-entry-input" value="">
 								<cfelse>
 									<div class='form-row'>
-										<div class='col-12 col-md-6'>
+										<div class='col-12 col-md-6 my-1'>
 											<label for="valid_addr_fg">Valid?</label>
 												<select name="valid_addr_fg" id="valid_addr_fg" class="data-entry-select">
 													<cfif valid_addr_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1892,50 +1877,50 @@ limitations under the License.
 													<option value="0" #selected#>no</option>
 											</select>
 										</div>
-										<div class='col-12 col-md-6'>
+										<div class='col-12 col-md-6 my-1'>
 											<label for="job_title" class="data_entry_label">Job Title</label>
 											<input type="text" name="job_title" id="job_title" class="data-entry-input" value="#job_title#">
 										</div>
 									</div>
 								</cfif>
 								<div class='form-row'>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-1'>
 										<label for='institution' class="data-entry-label">Institution</label>
 										<input type='text' name='institution' id='institution'class="form-control data-entry-input" value="#institution#" >
 									</div>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-1'>
 										<label for='department' class="data-entry-label">Department</label>
 										<input type='text' name='department' id='department' class="form-control data-entry-input" value="#department#" >
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12'>
+									<div class='col-12 my-1'>
 										<label for='street_addr1' class="data-entry-label">Street Address 1</label>
 										<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input' value="#street_addr1#" required>
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12'>
+									<div class='col-12 my-1'>
 										<label for='street_addr2'>Street Address 2</label>
 										<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input" value="#street_addr2#">
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-2'>
 										<label for='city' class="data-entry-label">City</label>
 										<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input' value="#city#" required>
 									</div>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-2'>
 										<label for='state' class="data-entry-label">State/Province</label>
 										<input type='text' name='state' id='state' class='form-control data-entry-input' value="#state#">
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-4'>
+									<div class='col-12 col-md-4 my-1'>
 										<label for='zip' class="data-entry-label">Zip/Postcode</label>
 										<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input' value="#zip#" required>
 									</div>
-									<div class='col-12 col-md-8'>
+									<div class='col-12 col-md-8 my-1'>
 										<script>
 											function handleCountrySelect(){
 												var countrySelection = $('input:radio[name=country]:checked').val();
@@ -1965,9 +1950,9 @@ limitations under the License.
 										<span class="data-entry-input form-control">
 											<input type="hidden" name="country_cde" id="country_cde" value="USA" value="#country_cde#">
 											<cfif country_cde EQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-											<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">USA</span>
+											<input type="radio" name="country" value="USA" onclick="handleCountrySelect();" #checked# ><span id="textUS" style="color: black; font-weight: bold">&nbsp;USA</span>
 											<cfif country_cde NEQ "USA"><cfset checked='checked="checked"'><cfelse><cfset checked=""></cfif>
-											<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">Other</span>
+											<input type="radio" name="country" value="other" onclick="handleCountrySelect();" #checked#><span id="textOther">&nbsp;Other</span>
 											<input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;"  value="#country_cde#">
 										<span>
 										<script>
@@ -1978,17 +1963,17 @@ limitations under the License.
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-1'>
 										<label for='mail_stop' class="data-entry-label">Mail Stop</label>
 										<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input" value="#mail_stop#">
 									</div>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-1'>
 										<label for='addr_remarks' class="data-entry-label">Address Remark</label>
 										<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input" value="#addr_remarks#">
 									</div>
 								</div>
 								<div class='form-row'>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-2'>
 										<cfif isdefined("addr_id") and len(#addr_id#) GT 0>
 											<input type='submit' class='btn btn-xs btn-primary' value='Save Changes' >
 											<cfset errmsg = "updating an address for an agent">
@@ -1997,7 +1982,7 @@ limitations under the License.
 											<cfset errmsg = "adding an address to an agent">
 										</cfif>
 									</div>
-									<div class='col-12 col-md-6'>
+									<div class='col-12 col-md-6 my-2'>
 										<div id='newAddressStatus'></div>
 									</div>
 								</div>
@@ -2238,8 +2223,7 @@ limitations under the License.
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
@@ -2270,8 +2254,7 @@ limitations under the License.
 			<cfthrow message="Not Authorized">
 		</cfif>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
@@ -2316,8 +2299,7 @@ limitations under the License.
 		</cfif>
 		<cfreturn agent_id>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>

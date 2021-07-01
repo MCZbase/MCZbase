@@ -40,4 +40,42 @@ limitations under the License.
 	</cfoutput>
 </cffunction>
 
+<cffunction name="cfcatchToErrorMessage" access="public" returntype="any" returnformat="plain">
+	<cfargument name="cfcatchcopy" type="any" required="yes">
+
+		<cfset error_message = "Error.  Undefined Error.">
+		<cftry>
+			<cfset errorLine ="">
+			<cfset errorMessage ="">
+			<cfset errorDetail ="">
+			<cfif isDefined("cfcatchcopy.queryError") ><cfset queryError=cfcatchcopy.queryError><cfelse><cfset queryError = ''></cfif>
+			<cftry>
+				<cfif structKeyExists(cfcatchcopy,"Cause") AND structKeyExists(cfcatchcopy.cause,"TagContext")>
+					<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
+					<cfset errorLine = errorLine & " line #cfcatchcopy.cause.tagcontext[1].line#.">
+				</cfif>
+			<cfcatch>
+			</cfcatch>
+			</cftry>
+			<cftry>
+				<cfif structKeyExists(cfcatchcopy,"RootCause") AND structKeyExists(cfcatchcopy.rootcause,"TagContext")>
+					<cfif cfcatchcopy.cause.tagcontext[1].line NEQ cfcatchcopy.rootcause.tagcontext[1].line >
+						<cfset errorLine = errorLine & "See #cfcatchcopy.rootcause.tagcontext[1].template#">
+						<cfset errorLine = errorLine & " line #cfcatchcopy.rootcause.tagcontext[1].line#.">
+					</cfif>
+				</cfif>
+			<cfcatch>
+			</cfcatch>
+			</cftry>
+		<cfif errorLine contains Application.webDirectory ><cfset errorLine = replace(errorLine,Application.webDirectory,"/")></cfif>
+		<cfif isDefined("cfcatchcopy.message") ><cfset errorMessage=cfcatchcopy.message></cfif>
+		<cfif isDefined("cfcatchcopy.detail") ><cfset errorDetail=cfcatchcopy.detail></cfif>
+		<cfset error_message = trim(errorMessage & " " & errorDetail & " " & queryError & " " & errorLine) >
+	<cfcatch>
+		<cfset error_message = "Error.  Unable to generate error message, no cfcatch object or error extracting data from cfcatch.">
+	</cfcatch>
+	</cftry>
+	<cfreturn error_message>
+</cffunction>
+
 </cfcomponent>
