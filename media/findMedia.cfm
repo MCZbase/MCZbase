@@ -382,7 +382,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-#keycols#">
 										<div class="form-group mb-2">
 											<label for="aspect" class="data-entry-label mb-0" id="aspect_label">Aspect 
 												<span class="small">
