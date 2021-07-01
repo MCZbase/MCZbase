@@ -198,13 +198,13 @@ limitations under the License.
 											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#media_uri#" aria-labelledby="media_uri_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-1">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
 											<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
 										</div>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="media_type" class="data-entry-label mb-0" id="media_type_label">Media Type</label>
 											<select id="media_type" name="media_type" class="data-entry-select">
@@ -287,7 +287,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-2 col-xl-3">
 										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 											<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
