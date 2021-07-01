@@ -1041,7 +1041,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="loanItemHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
-												Reconciled loan items (#loan_item.recordcount#):
+												Reconciled loan items (#loan_item.recordcount#)
 											</h2>
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
@@ -1661,7 +1661,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header py-0">
-											<h2 class="h4 my-1 mx-2">This Agent record is linked to:</h2>
+											<h2 class="h4 my-1 mx-2">Agent Record Link Summary</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1683,7 +1683,7 @@ limitations under the License.
 											<cfif okToDelete>
 												<h3 class="h4 px-2 mb-0">This Agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-0">This Agent record is linked to these other MCZbase tables</h3>
+												<h3 class="h4 px-2 mb-0">This Agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
