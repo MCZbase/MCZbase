@@ -511,13 +511,13 @@ limitations under the License.
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-11 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-11 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -619,7 +619,7 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 													<div class="form-check">
 														<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input">
-														<label for "unlinked" class="form-check-label">Limit to Media not yet linked to any record.</label>
+														<label for "unlinked" class="form-check-label small90">Limit to Media not yet linked to any record.</label>
 													</div>
 												</cfif>
 											</div>
@@ -630,7 +630,7 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 													<div class="form-check">
 														<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input">
-														<label for "multilink" class="form-check-label">Limit to Media linked to more than one record.</label>
+														<label for "multilink" class="form-check-label small90">Limit to Media linked to more than one record.</label>
 													</div>
 												</cfif>
 											</div>
@@ -641,7 +641,7 @@ limitations under the License.
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 													<div class="form-check">
 														<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input">
-														<label for "multitypelink" class="form-check-label">Limit to Media with more than one type of relationship.</label>
+														<label for "multitypelink" class="form-check-label small90">Limit to Media with more than one type of relationship.</label>
 													</div>
 												</cfif>
 											</div>
@@ -649,7 +649,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-4">
+									<div class="col-12 col-md-4">
 									<div class="form-group mb-2">
 										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
