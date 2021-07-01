@@ -341,7 +341,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3 col-xl-3">
 										<div class="form-group mb-2">
-											<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
+											<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original File
 												<span class="small">
 													(<button type="button" tabindex="-1" aria-hidden="true"  class="border-0 bg-light m-0 p-0 btn-link" onclick="var e=document.getElementById('original_filename');e.value='='+e.value;">=</button><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													NULL, NOT NULL)
