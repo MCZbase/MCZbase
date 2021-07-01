@@ -1398,9 +1398,10 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
+														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
 														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-															<span class="badge badge-primary badge-pill pb-1">#citation_count# citations</span>
+															<span class="badge badge-primary badge-pill pb-1">#citation_count# citation#citplural#</span>
 															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
 														</li>
 													</cfloop>
