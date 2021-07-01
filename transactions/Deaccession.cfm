@@ -741,15 +741,7 @@ limitations under the License.
 										$('##saveResultDiv').addClass('text-danger');
 										$('##saveResultDiv').removeClass('text-success');
 										$('##saveResultDiv').removeClass('text-warning');
-										var message = "";
-										if (error == 'timeout') {
-											message = ' Server took too long to respond.';
-										} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-											message = ' Backing method did not return JSON.';
-										} else {
-											message = jqXHR.responseText;
-										}
-										messageDialog('Error saving transaction record: '+message, 'Error: '+error.substring(0,50));
+										handleFail(jqXHR,textStatus,error,'saving deaccession record');
 									}
 								});
 							};

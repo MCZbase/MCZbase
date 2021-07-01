@@ -804,38 +804,7 @@ limitations under the License.
 								monitorForChanges('editBorrowForm',handleChange);
 							});
 							function saveEdits(){ 
-								$('##saveResultDiv').html('Saving....');
-								$('##saveResultDiv').addClass('text-warning');
-								$('##saveResultDiv').removeClass('text-success');
-								$('##saveResultDiv').removeClass('text-danger');
-								jQuery.ajax({
-									url : "/transactions/component/functions.cfc",
-									type : "post",
-									dataType : "json",
-									data : $('##editBorrowForm').serialize(),
-									success : function (data) {
-										$('##saveResultDiv').html('Saved.');
-										$('##saveResultDiv').addClass('text-success');
-										$('##saveResultDiv').removeClass('text-danger');
-										$('##saveResultDiv').removeClass('text-warning');
-										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editBorrowForm",handleChange);
-									},
-									error: function(jqXHR,textStatus,error){
-										$('##saveResultDiv').html('Error.');
-										$('##saveResultDiv').addClass('text-danger');
-										$('##saveResultDiv').removeClass('text-success');
-										$('##saveResultDiv').removeClass('text-warning');
-										var message = "";
-										if (error == 'timeout') {
-											message = ' Server took too long to respond.';
-										} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-											message = ' Backing method did not return JSON.';
-										} else {
-											message = jqXHR.responseText;
-										}
-										messageDialog('Error saving transaction record: '+message, 'Error: '+error.substring(0,50));
-									}
-								});
+								saveEditsFromForm("editBorrowForm","/transactions/component/functions.cfc","saveResultDiv","saving borrow record");
 							};
 						</script>
 					</form>

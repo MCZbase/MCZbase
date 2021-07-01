@@ -133,13 +133,12 @@ limitations under the License.
 		<cfset table_name = listlast(media_relationship," ")>
 		<cfif table_name is "locality">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					higher_geog || ': ' || spec_locality data
-				from
-					locality,
-					geog_auth_rec
-				where
-					locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
+				FROM
+					locality
+					LEFT JOIN geog_auth_rec on locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id
+				WHERE
 					locality.locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
@@ -153,88 +152,77 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 		<cfelseif table_name is "collecting_event">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					higher_geog || ': ' || spec_locality || ' (' || verbatim_date || ')' data
-				from
-					collecting_event,
-					locality,
-					geog_auth_rec
-				where
-					collecting_event.locality_id=locality.locality_id and
-					locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
+				FROM
+					collecting_event
+					LEFT JOIN locality on collecting_event.locality_id=locality.locality_id
+					LEFT JOIN geog_auth_rec on locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id
+				WHERE
 					collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
 		<cfelseif table_name is "accn">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					collection || ' ' || accn_number data
-				from
-					collection,
-					trans,
-					accn
-				where
-					collection.collection_id=trans.collection_id and
-					trans.transaction_id=accn.transaction_id and
+				FROM
+					collection
+					LEFT JOIN trans on collection.collection_id=trans.collection_id 
+					LEFT JOIN accn on trans.transaction_id=accn.transaction_id
+				WHERE
 					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/transactions/Accession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "deaccession">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT 
 					collection || ' ' || deacc_number data
-				from
-					collection,
-					trans,
-					deaccession
-				where
-					collection.collection_id=trans.collection_id and
-					trans.transaction_id=deaccession.transaction_id and
+				FROM
+					collection 
+					LEFT JOIN trans on collection.collection_id=trans.collection_id
+					LEFT JOIN deaccession on trans.transaction_id=deaccession.transaction_id
+				WHERE
 					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Deaccession.cfm?action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "loan">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					collection || ' ' || loan_number data
-				from
-					collection,
-					trans,
-					loan
-				where
-					collection.collection_id=trans.collection_id and
-					trans.transaction_id=loan.transaction_id and
+				FROM
+					collection
+					LEFT JOIN trans on collection.collection_id=trans.collection_id
+					LEFT JOIN loan on trans.transaction_id=loan.transaction_id
+				WHERE
 					loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Loan.cfm?Action=editLoan&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "borrow">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					collection || ' ' || borrow_number data
-				from
-					collection,
-					trans,
-					borrow
-				where
-					collection.collection_id=trans.collection_id and
-					trans.transaction_id=borrow.transaction_id and
+				FROM
+					collection
+					LEFT JOIN trans on collection.collection_id=trans.collection_id
+					LEFT JOIN borrow on trans.transaction_id=borrow.transaction_id 
+				WHERE
 					borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/transactions/Borrow.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
 		<cfelseif table_name is "permit">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
+				SELECT
 					permit_Type || ' ' || agent_name || ' ' || permit_Num data
-				from
-					permit,
-					preferred_agent_name
-				where
-					permit.issued_by_agent_id = preferred_agent_name.agent_id (+) and
+				FROM
+					permit
+					LEFT JOIN preferred_agent_name on permit.issued_by_agent_id = preferred_agent_name.agent_id
+				WHERE
 					permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" >
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>

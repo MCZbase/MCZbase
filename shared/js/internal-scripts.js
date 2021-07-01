@@ -556,3 +556,29 @@ function openAnnotationsDialog(dialogid, target_type, target_id) {
 		}
 	});
 }
+
+function saveEditsFromForm(formId,methodUrl,outputDivId,action){ 
+	$('#'+outputDivId).html('Saving....');
+	$('#'+outputDivId).addClass('text-warning');
+	$('#'+outputDivId).removeClass('text-success');
+	$('#'+outputDivId).removeClass('text-danger');
+	jQuery.ajax({
+		url : methodUrl,
+		type : "post",
+		dataType : "json",
+		data : $('#' + formId).serialize(),
+		success : function (data) {
+			$('#'+outputDivId).html('Saved.');
+			$('#'+outputDivId).addClass('text-success');
+			$('#'+outputDivId).removeClass('text-danger');
+			$('#'+outputDivId).removeClass('text-warning');
+		},
+		error: function(jqXHR,textStatus,error){
+			$('#'+outputDivId).html('Error.');
+			$('#'+outputDivId).addClass('text-danger');
+			$('#'+outputDivId).removeClass('text-success');
+			$('#'+outputDivId).removeClass('text-warning');
+			handleFail(jqXHR,textStatus,error,action);
+		}
+	});
+};

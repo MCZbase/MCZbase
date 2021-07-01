@@ -144,9 +144,11 @@ limitations under the License.
 				</cftry>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -202,9 +204,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -263,9 +267,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -480,9 +486,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -639,9 +647,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -693,9 +703,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -746,9 +758,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -911,7 +925,9 @@ limitations under the License.
 					</cfif>
 				</div>
 			<cfcatch>
-				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<span>Error in #function_called#: #error_message#</span>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -927,35 +943,45 @@ limitations under the License.
 	<cfargument name="transaction_type" type="string" required="yes">
 	<cfset relword="documents">
 	<cfthread name="getMediaForTransHtmlThread">
-		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct
-				media.media_id as media_id,
-				preview_uri,
-				media.media_uri,
-				media.mime_type,
-				media.media_type as media_type,
-				MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-				nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
-			from
-				media_relations left join media on media_relations.media_id = media.media_id
-			where
-				media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
-				and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-		</cfquery>
-		<cfoutput>
-			<cfif query.recordcount gt 0>
-				<ul class='pl-4 pr-0 list-style-disc mt-2'>
-				<cfloop query="query">
-					<cfset puri=getMediaPreview(preview_uri,media_type) >
-					<li class='mb-2'>
-						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove Media</a>
-					</li>
-				</cfloop>
-				</ul>
-			<cfelse>
-				<p>None</p>
-			</cfif>
-		</cfoutput>
+		<cftry>
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct
+					media.media_id as media_id,
+					preview_uri,
+					media.media_uri,
+					media.mime_type,
+					media.media_type as media_type,
+					MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+					nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
+				from
+					media_relations left join media on media_relations.media_id = media.media_id
+				where
+					media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
+					and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			</cfquery>
+			<cfoutput>
+				<cfif query.recordcount gt 0>
+					<ul class='pl-4 pr-0 list-style-disc mt-2'>
+					<cfloop query="query">
+						<cfset puri=getMediaPreview(preview_uri,media_type) >
+						<li class='mb-2'>
+							<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove Media</a>
+						</li>
+					</cfloop>
+					</ul>
+				<cfelse>
+					<p>None</p>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getMediaForTransHtmlThread" />
 	<cfreturn getMediaForTransHtmlThread.output>
@@ -1105,7 +1131,9 @@ limitations under the License.
 				</cfif>
 					</div><!--- shipments div --->
 			<cfcatch>
-				  <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -1563,7 +1591,9 @@ limitations under the License.
 				</script>
 				<div id='permitSearchResults'></div>
 			<cfcatch>
-				Error: #cfcatch.Message# #cfcatch.Detail#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				Error in #function_called# #error_message#
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -1743,7 +1773,9 @@ limitations under the License.
 					<cfset i=i+1>
 				</cfloop>
 			<cfcatch>
-				<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset result = "Error in #function_called#: #error_message#">
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -1781,7 +1813,9 @@ limitations under the License.
 			<cfif cfcatch.detail CONTAINS "ORA-00001: unique constraint (MCZBASE.PKEY_PERMIT_TRANS">
 				<cfset result = "Error: This permit is already linked to #transaction_label#">
 			<cfelse>
-				<cfset result = "Error: #cfcatch.message# #cfcatch.detail#">
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfset result = "Error in #function_called#: #error_message#">
 			</cfif>
 		</cfcatch>
 		</cftry>
@@ -2330,8 +2364,11 @@ limitations under the License.
 			</div>
 		</cfoutput>
 	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfoutput>
-			<h2>Error: #cfcatch.Message# #cfcatch.Detail#</h2>
+			<h2 class="h3">Error in #function_called#:</h2>
+			<div>#error_message#</div>
 		</cfoutput>
 	</cfcatch>
 	</cftry>
@@ -2496,7 +2533,9 @@ limitations under the License.
 		</cfloop>
 				<cfset result = result & "</div>	">
 	<cfcatch>
-		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset result = "Error in #function_called#: #error_message#">
 	</cfcatch>
 	</cftry>
 	<cfreturn result>
@@ -2953,8 +2992,11 @@ limitations under the License.
 				<div id='permitAddResults'></div>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2 class="h3">Error: #cfcatch.Message# #cfcatch.Detail#</h2>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -3117,8 +3159,10 @@ limitations under the License.
 		</cfif>
 		<cftransaction action="commit">
 	<cfcatch>
-		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
 		<cftransaction action="rollback">
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset result = "Error in #function_called#: #error_message#">
 	</cfcatch>
 	</cftry>
 	</cftransaction>
@@ -3406,9 +3450,11 @@ limitations under the License.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -3741,9 +3787,11 @@ limitations under the License.
 				</ul>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -3797,9 +3845,11 @@ limitations under the License.
 				</ul>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -3823,14 +3873,16 @@ limitations under the License.
             	<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_borrow_items">MCZ Return Receipt Items</a></li>
 				</ul>
    			<div class="p-1 border border-warning" style="width: 25rem;">
-					<strong>The return shipment must be entered and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).<strong>
+					<strong>The return shipment must be entered and marked 'Printed on invoice' (make sure that you don't have the shipment to the MCZ marked as 'Printed on invoice', or else the addresses will show up in the wrong places on the return receipt header).</strong>
 				</div>
 				</ul>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -3912,9 +3964,11 @@ limitations under the License.
 				</ul>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -4214,9 +4268,11 @@ limitations under the License.
 				</script>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -4359,9 +4415,11 @@ limitations under the License.
 					</cfif>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -4443,9 +4501,11 @@ limitations under the License.
 				</div>
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -4590,9 +4650,11 @@ limitations under the License.
 			
 			</cfoutput>
 		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
 		</cftry>
@@ -5622,21 +5684,9 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="width: 50px;" class="mr-3 float-left">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
-		</cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
 	</cftry>
@@ -5659,7 +5709,9 @@ limitations under the License.
 		<cfif cfcatch.queryError contains 'ORA-00001'>
 			<cfset result["message"] = "Error: That value is already a specific type of permit.">
 		<cfelse>
-			<cfset result["message"] = "Error #cfcatch.message# #cfcatch.queryError#">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfset result["message"] = "Error in #function_called#: #error_message#">
 		</cfif>
 	</cfcatch>
 	</cftry>
