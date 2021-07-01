@@ -539,7 +539,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-4 col-xl-4">
+									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-row mx-0 mb-2">
 											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
 												<span class="small">
