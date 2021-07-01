@@ -707,7 +707,7 @@ function makePublicationPicker(nameControl, idControl) {
  * @param jqXHR error object from ajax fail invocation
  * @param textStatus error status value from ajax fail invocation
  * @param error error value from ajax fail invocation
- * @param contect text added by calling fail implementation to indicate the origin of the message. 
+ * @param context text added by calling fail implementation to indicate the origin of the message. 
  */
 function handleFail(jqXHR,textStatus,error,context) { 
 	var message = "";
@@ -719,7 +719,7 @@ function handleFail(jqXHR,textStatus,error,context) {
 		if (jqXHR.responseText == jqXHR.statusText) {
 			message = jqXHR.statusText;
 		} else { 
-			message = jqXHR.responseText + ' ' + jqXHR.statusText;
+			message = prepareErrorMessage(jqXHR.responseText) + ' ' + jqXHR.statusText;
 		}
 	}
 	var details = 'Error:' + context + ': ' + message;
