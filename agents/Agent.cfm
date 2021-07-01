@@ -186,7 +186,7 @@ limitations under the License.
 							</section>
 	
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-								<!--- group members --->
+								<!--- group members (members within this group agent) --->
 								<section class="accordion" id="groupMembersSection">
 									<div class="card mb-2 bg-light">
 										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
@@ -410,7 +410,7 @@ limitations under the License.
 								</div>
 							</section>
 
-							<!--- group membership --->
+							<!--- group membership (other agents of which this agent is a group member) --->
 							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembership_result">
 								SELECT
 									group_agent_id,
@@ -442,7 +442,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="groupMembershipHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
-												Group Members (#groupMembership.recordcount#)
+												Group Membership (#groupMembership.recordcount#)
 											</h2>
 										</div>
 										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
