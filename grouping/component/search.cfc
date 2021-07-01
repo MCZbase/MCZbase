@@ -181,4 +181,44 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Obtain a list of the specimens in a named group in a form suitable for display in a jqxgrid. 
+  @param underscore_collection_id the surrogate numeric primary key identifying the named group.
+  @return a json data structure with specimen data 
+--->
+<cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.higher_geog, flat.spec_locality, 
+				flat.othercatalognumbers, flat.full_taxon_name
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid is not null
+			ORDER BY flat.guid asc
+		</cfquery>
+		<cfset i = 1>
+		<cfset data = ArrayNew(1)>
+		<cfloop query="qrySpecimens">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

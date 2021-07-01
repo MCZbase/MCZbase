@@ -73,16 +73,15 @@
 										datatype: "json",
 										datafields:
 										[
-											{ name: 'GUID', type: 'string' },
-											{ name: 'SCIENTIFIC_NAME', type: 'string' },
-											{ name: 'VERBATIM_DATE', type: 'string' },
-											{ name: 'HIGHER_GEOG', type: 'string' },
-											{ name: 'SPEC_LOCALITY', type: 'string' },
-											{ name: 'OTHERCATALOGNUMBERS', type: 'string' },
-											{ name: 'FULL_TAXON_NAME', type: 'string' }
-											
+											{ name: 'guid', type: 'string' },
+											{ name: 'scientific_name', type: 'string' },
+											{ name: 'verbatim_date', type: 'string' },
+											{ name: 'higher_geog', type: 'string' },
+											{ name: 'spec_locality', type: 'string' },
+											{ name: 'othercatalognumbers', type: 'string' },
+											{ name: 'full_taxon_name', type: 'string' }
 										],
-										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
+										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#'
 									};
 
 									var dataAdapter = new $.jqx.dataAdapter(source);
@@ -107,14 +106,13 @@
 										enabletooltips: true,
 										pageable: true,
 										columns: [
-											{ text: 'GUID', datafield: 'GUID', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
-											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
-											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
-											{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', width:'350'},
-											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'350' },
-											{ text: 'Other Catalog Numbers', datafield: 'OTHERCATALOGNUMBERS',width:'350' },
-											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'350'}
-											
+											{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
+											{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
+											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
+											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
+											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
+											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
 								});
