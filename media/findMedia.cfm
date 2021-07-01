@@ -649,7 +649,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-6">
+									<div class="col-12 col-md-6 col-xl-4">
 									<div class="form-group mb-2">
 										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
