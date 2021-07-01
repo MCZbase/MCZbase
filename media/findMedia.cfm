@@ -365,7 +365,7 @@ limitations under the License.
 											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-#keycols# col-xl-5">
+									<div class="col-12 col-md-#keycols# col-xl-4">
 										<div class="form-group mb-2">
 											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
 											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
