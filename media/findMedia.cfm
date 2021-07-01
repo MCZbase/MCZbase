@@ -357,7 +357,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										<cfset keycols="3">
 									<cfelse>
-										<cfset keycols="5">
+										<cfset keycols="3">
 									</cfif>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
@@ -371,7 +371,7 @@ limitations under the License.
 											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
