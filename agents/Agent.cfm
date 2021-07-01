@@ -1552,7 +1552,8 @@ limitations under the License.
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
@@ -1563,7 +1564,8 @@ limitations under the License.
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
@@ -1574,7 +1576,8 @@ limitations under the License.
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
@@ -1603,12 +1606,18 @@ limitations under the License.
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+																permissions and rights documents issued to #encodeForHtml(prefName)#
+															</a>
+														</li>
 														<cfloop query="getPermitsTo">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued to #encodeForHtml(prefName)#
@@ -1618,12 +1627,18 @@ limitations under the License.
 													<cfif getPermitsFrom.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+																permissions and rights documents issued by #encodeForHtml(prefName)#
+															</a>
+														</li>
 														<cfloop query="getPermitsFrom">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued by #encodeForHtml(prefName)#
@@ -1633,12 +1648,18 @@ limitations under the License.
 													<cfif getPermitContacts.recordcount EQ 0>
 														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+																permissions and rights documents where #encodeForHtml(prefName)# is a contact
+															</a>
+														</li>
 														<cfloop query="getPermitContacts">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																#encodeForHtml(prefName)# is contact for 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 															</li>
