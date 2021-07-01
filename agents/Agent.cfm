@@ -1213,7 +1213,7 @@ limitations under the License.
 														<li class="col-12 col-md-4 col-xl-3">
 															<a class="p-md-2 d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
 														</li>
-														<li class="col-12 col-md-4 col-xl-9">
+														<li class="col-12 col-md-8 col-xl-9">
 															<ul class="list-group my-2">
 																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
 																<li class="list-group-item">#getMedia.descriptor#</li>
