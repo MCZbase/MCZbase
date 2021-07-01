@@ -1,4 +1,3 @@
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <!---
 specimens/component/functions.cfc
 Copyright 2019 President and Fellows of Harvard College
@@ -13,6 +12,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
 
