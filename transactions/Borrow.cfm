@@ -804,26 +804,7 @@ limitations under the License.
 								monitorForChanges('editBorrowForm',handleChange);
 							});
 							function saveEdits(){ 
-								$('##saveResultDiv').html('Saving....');
-								$('##saveResultDiv').addClass('text-warning');
-								$('##saveResultDiv').removeClass('text-success');
-								$('##saveResultDiv').removeClass('text-danger');
-								jQuery.ajax({
-									url : "/transactions/component/functions.cfc",
-									type : "post",
-									dataType : "json",
-									data : $('##editBorrowForm').serialize(),
-									success : function (data) {
-										$('##saveResultDiv').html('Saved.');
-										$('##saveResultDiv').addClass('text-success');
-										$('##saveResultDiv').removeClass('text-danger');
-										$('##saveResultDiv').removeClass('text-warning');
-										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editBorrowForm",handleChange);
-									},
-									error: function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,'saving transaction record');
-									}
-								});
+								saveEditsFromForm("editBorrowForm","/transactions/component/functions.cfc","saveResultDiv","saving borrow record");
 							};
 						</script>
 					</form>

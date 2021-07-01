@@ -251,6 +251,16 @@ limitations under the License.
 								</div>
 							</div>
 							</div>
+							<!--  TODO: Change to ajax save of form. 
+							<script>
+								$(document).ready(function() {
+									monitorForChanges('editMediaForm',handleChange);
+								});
+								function saveEdits(){ 
+									saveEditsFromForm("editMediaForm","/media/component/functions.cfc","saveResultDiv","saving media record");
+								};
+							</script>
+							-->
 						</form>
 					</div>
 				</div>
