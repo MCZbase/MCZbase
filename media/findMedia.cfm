@@ -506,7 +506,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 										<cfset datecolm="4">
 										<cfset datecolx="2">
-											<cfset asdate = "<span class='small'>(as date)</span>">
+											<cfset asdate = "(as date)">
 									</cfif>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
@@ -649,7 +649,7 @@ limitations under the License.
 									</div>
 								</cfif>
 								<div class="form-row">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-6">
 									<div class="form-group mb-2">
 										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
@@ -682,7 +682,7 @@ limitations under the License.
 											onchange="$('##collection_object_id').val('');">
 									</div>
 								</div>
-									<div class="col-12 col-md-8 col-xl-4">
+									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
 										<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Relationship
 											<span class="small">
@@ -713,7 +713,7 @@ limitations under the License.
 										</script>
 									</div>
 									</div>
-									<div class="col-12 col-md-8 col-xl-4">
+									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
 										<label for="media_label_type_1" class="data-entry-label mb-0" id="nedia_label_type_label_1">Relationship
 											<span class="small">
