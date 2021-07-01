@@ -439,7 +439,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="groupMembershipHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
-												Group Members (#groupMembership.recordcount#):
+												Group Members (#groupMembership.recordcount#)
 											</h2>
 										</div>
 										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
