@@ -981,7 +981,7 @@ limitations under the License.
 				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
-		</cfthread>
+		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getMediaForTransHtmlThread" />
 	<cfreturn getMediaForTransHtmlThread.output>
