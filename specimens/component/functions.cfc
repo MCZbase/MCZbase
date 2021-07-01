@@ -1,3 +1,4 @@
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <!---
 specimens/component/functions.cfc
 Copyright 2019 President and Fellows of Harvard College
@@ -286,6 +287,10 @@ limitations under the License.
 								<h2>Internal Server Error.</h2>
 								<p>#message#</p>
 								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+									<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+										<cfset function_called = "#GetFunctionCalledName()#">
+										<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+										<cfabort>
 							</div>
 						</div>
 					</div>
