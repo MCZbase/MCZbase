@@ -339,7 +339,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="col-12 col-md-4 col-xl-2">
+									<div class="col-12 col-md-2 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="original_filename" class="data-entry-label mb-0" id="original_filename_label">Original Filename
 												<span class="small">
