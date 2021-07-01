@@ -480,7 +480,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-4 col-xl-2">
+									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-group mb-2">
 											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -500,7 +500,7 @@ limitations under the License.
 										});
 									</script>
 									<!--- setup to hide search for date as text from most users --->
-									<cfset datecolm="4">
+									<cfset datecolm="2">
 									<cfset datecolx="3">
 									<cfset asdate = "">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -511,13 +511,13 @@ limitations under the License.
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-11 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-xl-11 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 col-md-11 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 col-md-10 col-xl-11 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -539,7 +539,7 @@ limitations under the License.
 											</div>
 										</div>
 									</cfif>
-									<div class="col-12 col-md-8 col-xl-4">
+									<div class="col-12 col-md-4 col-xl-4">
 										<div class="form-row mx-0 mb-2">
 											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
 												<span class="small">
