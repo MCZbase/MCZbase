@@ -1681,9 +1681,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-0">This Agent is not used and is eligible for deletion</h3>
+												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-0">This Agent record is linked to these other MCZbase tables:</h3>
+												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
