@@ -1002,6 +1002,12 @@ limitations under the License.
 						},
 						initrowdetails: initRowDetails
 					});
+					$("#jqxbutton").jqxButton();
+				$("#jqxbutton").on('click', function() {
+					var cardView = $("#jqxgrid").jqxGrid('cardview');
+					
+					$("#jqxgrid").jqxGrid({cardview: !cardView});
+				});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
 						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
