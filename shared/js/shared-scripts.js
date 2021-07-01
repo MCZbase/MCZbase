@@ -17,11 +17,12 @@ function prepareErrorMessage(message) {
 		result = message;
 	} else { 
 		result = "No Error Message Text";
+		message = "No Error Message Text";
 	}
-	if (message.indexof('<!-- \" --->')>-1) {
+	if (message.indexOf('<!-- \" --->')>-1) {
 		result = message.replace(/<\/?[^>]+(>|$)/g, "");
 		if (result.indexOf("Error Occurred While Processing Request") > -1) { 
-			result = result.substr(result.indexOf("Error Occurred While Processing Request"));
+			result = result.substr(result.indexOf("Error Occurred While Processing Request")+40);
 			if (result.indexOf("Error Occurred While Processing Request") > -1) { 
 				result = result.substr(result.indexOf("Error Occurred While Processing Request"));
 			}
