@@ -480,7 +480,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-2">
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="created_by_agent_name" id="created_by_agent_name_label" class="data-entry-label mb-0 pb-0 small">Created By Agent
 												<h5 id="created_by_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
@@ -506,7 +506,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
 										<cfset datecolm="4">
 										<cfset datecolx="2">
-										<cfset asdate = "(as date)">
+											<cfset asdate = "<span class='small'>(as date)</span>">
 									</cfif>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
@@ -524,9 +524,9 @@ limitations under the License.
 										<!--- hide search for date as text from most users, too confusing --->
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
-												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date (as text)
+												<label for="text_made_date" class="data-entry-label mb-0" id="text_made_date_label">Made Date 
 													<span class="small">
-														(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
+														(as text) (<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('text_made_date');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 														NULL, NOT NULL)
 													</span>
 												</label>
