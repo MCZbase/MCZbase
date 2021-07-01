@@ -500,7 +500,7 @@ limitations under the License.
 										});
 									</script>
 									<!--- setup to hide search for date as text from most users --->
-									<cfset datecolm="6">
+									<cfset datecolm="4">
 									<cfset datecolx="3">
 									<cfset asdate = "">
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
