@@ -355,9 +355,9 @@ limitations under the License.
 									<!--- TODO: controls in this row aren't stable enough yet to make responsive, when stable, typically col-md-4 col-xl-2 ratio --->
 									<!--- Set columns for keywords control depending on whether mask search is enabled or not --->
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<cfset keycols="3">
-									<cfelse>
 										<cfset keycols="2">
+									<cfelse>
+										<cfset keycols="3">
 									</cfif>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
