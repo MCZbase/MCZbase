@@ -540,7 +540,7 @@ limitations under the License.
 										</div>
 									</cfif>
 									<div class="col-12 col-md-8 col-xl-4">
-										<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 											<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
 												<span class="small">
 													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -677,7 +677,7 @@ limitations under the License.
 									</div>
 								</div>
 									<div class="col-12 col-md-8 col-xl-4">
-									<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 										<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Relationship
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -706,9 +706,9 @@ limitations under the License.
 											});
 										</script>
 									</div>
-								</div>
+									</div>
 									<div class="col-12 col-md-8 col-xl-4">
-									<div class="form-row mb-2">
+										<div class="form-row mx-0 mb-2">
 										<label for="media_label_type_1" class="data-entry-label mb-0" id="nedia_label_type_label_1">Relationship
 											<span class="small">
 												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value_1');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
@@ -737,8 +737,8 @@ limitations under the License.
 											});
 										</script>
 									</div>
-								</div>
-									<div class="col-12 px-0 pt-0">
+									</div>
+									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
