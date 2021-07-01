@@ -1051,7 +1051,7 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif loan_item.recordcount EQ 0>
-														<li class="list-group-item">None.</li>
+														<li class="list-group-item">None</li>
 													<cfelse>
 														<cfloop query="loan_item">
 															<li class="list-group-item">Reconciled #cnt# items for Loan 
