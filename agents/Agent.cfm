@@ -186,7 +186,7 @@ limitations under the License.
 							</section>
 	
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
-								<!--- group members --->
+								<!--- group members (members within this group agent) --->
 								<section class="accordion" id="groupMembersSection">
 									<div class="card mb-2 bg-light">
 										<cfquery name="groupMembers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembers_result">
@@ -410,7 +410,7 @@ limitations under the License.
 								</div>
 							</section>
 
-							<!--- group membership --->
+							<!--- group membership (other agents of which this agent is a group member) --->
 							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembership_result">
 								SELECT
 									group_agent_id,
@@ -421,6 +421,9 @@ limitations under the License.
 									left join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
 								WHERE
 									member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									<cfif oneOfUs NEQ 1>
+										AND agent_name not like 'MCZ%Data%'
+									</cfif>
 								ORDER BY
 									agent_name
 							</cfquery>
@@ -439,7 +442,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="groupMembershipHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
-												Group Members (#groupMembership.recordcount#):
+												Group Membership (#groupMembership.recordcount#)
 											</h2>
 										</div>
 										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
@@ -1398,9 +1401,10 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
+														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
 														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-															<span class="badge badge-primary badge-pill pb-1">#citation_count# citations</span>
+															<span class="badge badge-primary badge-pill pb-1">#citation_count# citation#citplural#</span>
 															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
 														</li>
 													</cfloop>
@@ -1544,33 +1548,36 @@ limitations under the License.
 								<section class="accordion">
 									<div class="card mb-2 bg-light" id="permitsCard">
 										<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
 												ISSUED_TO_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="getPermitsFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsFrom_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
 												ISSUED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="getPermitContacts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitContacts_result">
-											SELECT
+											SELECT distinct
 												permit_num,
 												permit_title,
 												permit_type,
-												specific_type
+												specific_type,
+												permit_id
 											FROM
 												permit 
 											WHERE 
@@ -1599,12 +1606,18 @@ limitations under the License.
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+																permissions and rights documents issued to #encodeForHtml(prefName)#
+															</a>
+														</li>
 														<cfloop query="getPermitsTo">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToaAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued to #encodeForHtml(prefName)#
@@ -1614,12 +1627,18 @@ limitations under the License.
 													<cfif getPermitsFrom.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+																permissions and rights documents issued by #encodeForHtml(prefName)#
+															</a>
+														</li>
 														<cfloop query="getPermitsFrom">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued by #encodeForHtml(prefName)#
@@ -1629,12 +1648,18 @@ limitations under the License.
 													<cfif getPermitContacts.recordcount EQ 0>
 														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
+														<li class="list-group-item">
+															#getPermitsTo.recordcount# recorded
+															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+																permissions and rights documents where #encodeForHtml(prefName)# is a contact
+															</a>
+														</li>
 														<cfloop query="getPermitContacts">
 															<cfif len(permit_num) EQ 0><cfset pnrDoc = permit_title><cfelse><cfset pnrDoc=permit_num></cfif>
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																#encodeForHtml(prefName)# is contact for 
-																<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 															</li>
@@ -1661,7 +1686,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="card-header py-0">
-											<h2 class="h4 my-1 mx-2">Agent Record Link Summary</h2>
+											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1681,9 +1706,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-0">This Agent is not used and is eligible for deletion</h3>
+												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-0">This Agent record is linked to these other MCZbase tables:</h3>
+												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">

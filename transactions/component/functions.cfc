@@ -1415,7 +1415,7 @@ limitations under the License.
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		</cfabort>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 
