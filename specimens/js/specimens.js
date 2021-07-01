@@ -319,7 +319,7 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 		dataType: "html"
 	});
 };
-function openEditMediaDetailsDialog(media_id,dialogId,callback) {
+function openEditMediaDetailsDialog(media_id,dialogId,guid,callback) {
 	var title = "Edit Media for Item";
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
