@@ -777,7 +777,24 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-									<script>
+								<div id="columnPickDialogButton"></div>
+								<cfif Application.serverrole NEQ "production" >
+									<div id="gridCardToggleButton"></div>
+								</cfif>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0"> 
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<script>
 			window.columnHiddenSettings = new Object();
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
@@ -925,7 +942,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
-							cardview: true,
+							cardview: false,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
@@ -1124,24 +1141,6 @@ limitations under the License.
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 mx-0 my-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
-								<div id="columnPickDialogButton"></div>
-								<cfif Application.serverrole NEQ "production" >
-									<div id="gridCardToggleButton"></div>
-								</cfif>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0"> 
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
-
-	
 	</cfoutput>
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
 		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
