@@ -617,8 +617,10 @@ limitations under the License.
 											<div class="form-group mb-2">
 												<cfif len(unlinked) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<label for "unlinked" class="data-entry-label">Limit to Media not yet linked to any record.</label>
-													<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="data-entry-checkbox">
+													<div class="form-check">
+														<input type="checkbox" #checked# name="unlinked" id="unlinked" value="true" class="form-check-input">
+														<label for "unlinked" class="form-check-label">Limit to Media not yet linked to any record.</label>
+													</div>
 												</cfif>
 											</div>
 										</div>
@@ -626,8 +628,10 @@ limitations under the License.
 											<div class="form-group mb-2">
 												<cfif len(multilink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<label for "multilink" class="data-entry-label">Limit to Media linked to more than one record.</label>
-													<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="data-entry-checkbox">
+													<div class="form-check">
+														<input type="checkbox" #checked# name="multilink" id="multilink" value="true" class="form-check-input">
+														<label for "multilink" class="form-check-label">Limit to Media linked to more than one record.</label>
+													</div>
 												</cfif>
 											</div>
 										</div>
@@ -635,8 +639,10 @@ limitations under the License.
 											<div class="form-group mb-2">
 												<cfif len(multitypelink) GT 0><cfset checked = "checked"><cfelse><cfset checked = ""></cfif>
 												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-													<label for "multitypelink" class="data-entry-label">Limit to Media with more than one type of relationship.</label>
-													<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="data-entry-checkbox">
+													<div class="form-check">
+														<input type="checkbox" #checked# name="multitypelink" id="multitypelink" value="true" class="form-check-input">
+														<label for "multitypelink" class="form-check-label">Limit to Media with more than one type of relationship.</label>
+													</div>
 												</cfif>
 											</div>
 										</div>
