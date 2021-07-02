@@ -189,7 +189,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 
 	<cftry>
-		<cfquery name="qrySpecimens"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
 			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.higher_geog, flat.spec_locality, 
 				flat.othercatalognumbers, flat.full_taxon_name
 			FROM
@@ -203,7 +203,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		</cfquery>
 		<cfset i = 1>
 		<cfset data = ArrayNew(1)>
-		<cfloop query="qrySpecimens">
+		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
