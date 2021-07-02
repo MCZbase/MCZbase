@@ -10,16 +10,15 @@
 		<cfset underscore_collection_id = "161">
 	</cfif>
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
-		select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,
+		SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 			case 
 				when underscore_agent_id is null then '[No Agent]'
 			else 
 				MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 			end
-			as agentname,
+			as agent_name,
 			mask_fg
 		FROM underscore_collection
-			LEFT JOIN agent_name on underscore_collection.underscore_agent_id = agent_name.agent_id
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<cfloop query="getNamedGroup">
