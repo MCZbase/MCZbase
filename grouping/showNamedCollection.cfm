@@ -84,7 +84,11 @@
 											{ name: 'othercatalognumbers', type: 'string' },
 											{ name: 'full_taxon_name', type: 'string' }
 										],
-										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#'
+										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#',
+										timeout: 30000,  // units not specified, miliseconds? 
+										loadError: function(jqXHR, textStatus, error) { 
+											handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+										}
 									};
 
 									var dataAdapter = new $.jqx.dataAdapter(source);
@@ -116,11 +120,7 @@
 											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
 											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
 											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
-										],
-										timeout: 30000,  // units not specified, miliseconds? 
-										loadError: function(jqXHR, textStatus, error) { 
-											handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
-										}
+										]
 									});
 								});
 							</script>
