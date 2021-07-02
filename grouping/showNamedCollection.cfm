@@ -6,8 +6,7 @@
 		a:focus {box-shadow: none;}
 	</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
-		<!--- TODO: Remove temporary hard coded default collection, replace with redirect to search if not provided an underscore collection id. --->
-		<cfset underscore_collection_id = "161">
+		<cfthrow message="No named group specified to show.">
 	</cfif>
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 		SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
@@ -34,7 +33,7 @@
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name# 
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<div class="d-inline-block float-right">
-											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span>
+											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a>
 										</div>
 									</cfif>
 								</h1>
