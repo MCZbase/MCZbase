@@ -33,7 +33,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select count(underscore_relation.collection_object_id) as specimen_count, 
+			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
@@ -44,13 +44,16 @@ limitations under the License.
 					end
 				as agentname,
 				decode(mask_fg,1,'Hidden','Public') as visibility
-			from underscore_collection
+			FROM underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
 					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
 				</cfif>
 			WHERE
 				underscore_collection.underscore_collection_id is not null
+				<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+					AND mask_fg = 0
+				</cfif>
 				<cfif isDefined("collection_name") and len(collection_name) gt 0>
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
 				</cfif>
@@ -78,7 +81,7 @@ limitations under the License.
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
 				</cfif>
-			group by 
+			GROUP BY
 				underscore_collection.underscore_collection_id,
 				collection_name,
 				description,
