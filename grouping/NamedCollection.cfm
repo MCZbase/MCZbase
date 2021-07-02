@@ -251,6 +251,7 @@ limitations under the License.
 								[
 									{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
 									{ name: 'COLLECTION_NAME', type: 'string' },
+									{ name: 'VISIBILITY', type: 'string' },
 									{ name: 'DESCRIPTION', type: 'string' },
 									{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 									{ name: 'AGENTNAME', type: 'string' },
@@ -316,6 +317,7 @@ limitations under the License.
 									<cfelse>
 										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_ID', true) },
 									</cfif>
+									{text: 'Visibility', datafield: 'VISIBILITY', width: 100, hidable: true, hidden: getColHidProp('VISIBILITY', true) },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: getColHidProp('AGENTNAME', false) },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
@@ -386,7 +388,7 @@ limitations under the License.
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
+						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
