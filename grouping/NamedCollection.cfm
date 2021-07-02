@@ -24,16 +24,16 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset pageTitle = "Search Named Collections">
+		<cfset pageTitle = "Search Named Groups">
 	</cfcase>
 	<cfcase value="new">
-		<cfset pageTitle = "Add New Named Collection">
+		<cfset pageTitle = "Add New Named Group">
 	</cfcase>
 	<cfcase value="edit">
-		<cfset pageTitle = "Edit a Named_ Collection">
+		<cfset pageTitle = "Edit a Named Group">
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Named Collection">
+		<cfset pageTitle = "Named Group of Cataloged Items">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
