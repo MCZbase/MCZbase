@@ -29,7 +29,9 @@ limitations under the License.
 			AND mask_fg = 0
 		</cfif>
 	</cfquery>
-	<cfset pageTitle = getTitle.collection_name>
+	<cfif getTitle.recordcount EQ 1>
+		<cfset pageTitle = getTitle.collection_name>
+	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
 
