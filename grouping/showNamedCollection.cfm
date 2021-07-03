@@ -55,8 +55,9 @@ limitations under the License.
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<cfloop query="getNamedGroup">
-		<cfif getNamedGroup.mask_fg EQ 0 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
-			 <cflocation url="/errors/forbidden.cfm" addtoken="false">
+		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
+			<!--- mask_fg = 1 = Hidden --->
+			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif> 
 		<main class="container-fluid py-3">
 			<div class="row mx-0">
