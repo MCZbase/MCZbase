@@ -159,7 +159,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 mt-3">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_collection_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
@@ -603,7 +603,7 @@ limitations under the License.
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 												<cfloop query="marine">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
+														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
 													</li>
 												</cfloop>
 											</ul>
@@ -641,7 +641,7 @@ limitations under the License.
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
 													</li>
 												</cfloop>
 											</ul>
@@ -665,7 +665,7 @@ limitations under the License.
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														#continent_ocean#:
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
+														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
 															#islandsQuery.island#
 														</a>
 													</li>
