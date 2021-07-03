@@ -1,4 +1,36 @@
+<!---
+grouping/showNamedCollection.cfm
+
+For read only public view of arbitrary groupings of collection objects and
+added value html describing them.
+
+Copyright 2021 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfset pageTitle = "Named Group">
+<cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
+	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+		SELECT collection_name
+		FROM underscore_collection
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+			AND mask_fg = 0
+		</cfif>
+	</cfquery>
+	<cfset pageTitle = getTitle.collection_name>
+</cfif>
 <cfinclude template="/shared/_header.cfm">
 
 <cfoutput>
