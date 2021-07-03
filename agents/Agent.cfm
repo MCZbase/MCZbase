@@ -687,7 +687,7 @@ limitations under the License.
 												<ul class="list-group">
 													<cfloop query="getNamedGroups">
 														<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
-															<li class="list-group-item"><a href="/grouping/showNamedCollection?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
+															<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
 														<cfelse>
 															<li class="list-group-item">#collection_name#</li>
 														</cfif>
