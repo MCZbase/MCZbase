@@ -946,7 +946,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			</cfif>
 <!------------------------------------ collections ---------------------------------------------->
 			<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
-				select distinct collection_name, underscore_collection.underscore_collection_id 
+				select distinct collection_name, underscore_collection.underscore_collection_id, mask_fg
 				from underscore_relation
 					left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 				where
@@ -969,8 +969,8 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<div class="detailBlock">
 						<ul>
 							<cfloop query="collectionsQuery">
-								<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
-									<li><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">#collection_name#</a></li>
+								<cfif collectionsQuery.mask_fg EQ 0 OR (isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user"))>
+									<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a></li>
 								<cfelse>
 									<li>#collection_name#</li>
 								</cfif>
