@@ -802,7 +802,7 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="line-height: 100px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
 			};
 			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -821,7 +821,7 @@ limitations under the License.
 				if (puri != "") { 
 					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
 				} else { 
-					return '<span style="margin-top: 5px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
 			function toggleCardView() { 
