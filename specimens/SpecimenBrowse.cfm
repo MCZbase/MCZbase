@@ -20,11 +20,16 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT collection_name, underscore_collection_id, mask_fg
+	SELECT count(flat.collection_object_id) ct, underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 	FROM UNDERSCORE_COLLECTION
+	LEFT JOIN underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+	LEFT JOIN<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+		on underscore_relation.collection_object_id = flat.collection_object_id
 	<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
-		WHERE mask_fg = 0
+		WHERE underscore_collection.mask_fg = 0
 	</cfif>
+	GROUP BY
+		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
 </cfquery>
 <cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, country 
@@ -73,7 +78,13 @@ limitations under the License.
 				<h1 class="h2">Featured Groups of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
-						<li><a href="/grouping/showNamedCollection.cfm">#country#</a> (#ct#)</li>
+						<cfset mask="">
+						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") GT 0>
+							<cfif namedGroups.mask_fg EQ 1>
+								<cfset mask=" [Hidden]">
+							</cfif>
+						</cfif>
+						<li><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#">#collection_name#</a> (#ct#)#mask#</li>
 					</cfloop>
 				</ul>
 			</div>
