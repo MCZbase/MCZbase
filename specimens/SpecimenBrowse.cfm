@@ -88,7 +88,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</div>
-			<cfif findNoCase('redesign',gitBranch) GT 0>
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
 				<cfset specimenSearch="/Specimens.cfm?execute=true">
 			<cfelse>
 				<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
