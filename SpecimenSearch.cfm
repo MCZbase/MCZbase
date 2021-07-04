@@ -1335,13 +1335,14 @@
          <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	select flags from ctflags
          </cfquery>
-         <cfif listcontainsnocase(session.roles,"manage_specimens")>
-				<!--- NOTE: if widened beyond manage_specimens to public, include the mask_fg = 0 in the query. --->
-	         <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   	      	select underscore_collection_id, collection_name from underscore_collection
-					order by collection_name
-         	</cfquery>
-			</cfif>
+	      <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   	     	select underscore_collection_id, collection_name, mask_fg 
+				from underscore_collection
+         	<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+					where mask_fg = 0
+				</cfif>
+				order by collection_name
+         </cfquery>
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">

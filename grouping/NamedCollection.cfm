@@ -24,16 +24,16 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset pageTitle = "Search Named Collections">
+		<cfset pageTitle = "Search Named Groups">
 	</cfcase>
 	<cfcase value="new">
-		<cfset pageTitle = "Add New Named Collection">
+		<cfset pageTitle = "Add New Named Group">
 	</cfcase>
 	<cfcase value="edit">
-		<cfset pageTitle = "Edit a Named_ Collection">
+		<cfset pageTitle = "Edit a Named Group">
 	</cfcase>
 	<cfdefaultcase>
-		<cfset pageTitle = "Named Collection">
+		<cfset pageTitle = "Named Group of Cataloged Items">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
@@ -222,11 +222,7 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						<cfif findNoCase('redesign',gitBranch) EQ 0>
-							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-						<cfelse>
-							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
-						</cfif>
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -255,6 +251,7 @@ limitations under the License.
 								[
 									{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
 									{ name: 'COLLECTION_NAME', type: 'string' },
+									{ name: 'VISIBILITY', type: 'string' },
 									{ name: 'DESCRIPTION', type: 'string' },
 									{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 									{ name: 'AGENTNAME', type: 'string' },
@@ -320,6 +317,7 @@ limitations under the License.
 									<cfelse>
 										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_ID', true) },
 									</cfif>
+									{text: 'Visibility', datafield: 'VISIBILITY', width: 100, hidable: true, hidden: getColHidProp('VISIBILITY', true) },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: getColHidProp('AGENTNAME', false) },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
@@ -390,7 +388,7 @@ limitations under the License.
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
 						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
+						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
@@ -619,7 +617,10 @@ limitations under the License.
 				<!--- save name for later use outside this output section --->
 				<main id="content" class="pb-5">
 					<section class="container pt-3">
-						<h1 class="h2" id="formheading"> Edit Named Group of Cataloged Items</h1>
+						<h1 class="h2" id="formheading">
+							Edit Named Group of Cataloged Items: 
+							<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#"><span id="headingNameOfCollection">#collection_name#</span></a>
+						</h1>
 					<div class="row border rounded py-3" aria-labelledby="formheading">
 						<div class="col-12 px-3">
 							<form name="editUndColl" id="editUndColl">
@@ -709,39 +710,14 @@ limitations under the License.
 													$('##editUndColl input[type=text]').on("change",changed);
 													$('##description').on("change",changed);
 												});
+												function updateFromSave() { 
+													$('##headingNameOfCollection').html($('#collection_name#').val());
+												}
 												function saveChanges(){ 
 													var agenttext = $('##underscore_agent_name').val();
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
-														$('##saveResultDiv').html('Saving....');
-														$('##saveResultDiv').addClass('text-warning');
-														$('##saveResultDiv').removeClass('text-success');
-														$('##saveResultDiv').removeClass('text-danger');
-														jQuery.ajax({
-															url : "/grouping/component/functions.cfc",
-															type : "post",
-															dataType : "json",
-															data : $('##editUndColl').serialize(),
-															success : function (data) {
-																$('##saveResultDiv').html('Saved.');
-																$('##saveResultDiv').addClass('text-success');
-																$('##saveResultDiv').removeClass('text-danger');
-																$('##saveResultDiv').removeClass('text-warning');
-															},
-															error: function(jqXHR,textStatus,error){
-																$('##saveResultDiv').html('Error.');
-																$('##saveResultDiv').addClass('text-danger');
-																$('##saveResultDiv').removeClass('text-success');
-																$('##saveResultDiv').removeClass('text-warning');
-																var message = "";
-																if (error == 'timeout') {
-																	message = ' Server took too long to respond.';
-																} else {
-																	message = jqXHR.responseText;
-																}
-																messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
-															}
-														});
+														saveEditsFromFormCallback("editUndCol","/grouping/component/functions.cfc","saveResultsDiv","saving named grouping",updateFromSave);
 													} else { 
 														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');

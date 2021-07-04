@@ -666,7 +666,7 @@ limitations under the License.
 							<section class="accordion" id="namedgroupSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select collection_name, underscore_collection_id
+										select collection_name, underscore_collection_id, mask_fg
 										from underscore_collection 
 										WHERE
 											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
@@ -686,7 +686,11 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="getNamedGroups">
-														<li class="list-group-item">#collection_name#</li>
+														<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
+															<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
+														<cfelse>
+															<li class="list-group-item">#collection_name#</li>
+														</cfif>
 													</cfloop>
 												</ul>
 											</cfif>

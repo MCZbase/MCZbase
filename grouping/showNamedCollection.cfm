@@ -1,4 +1,38 @@
+<!---
+grouping/showNamedCollection.cfm
+
+For read only public view of arbitrary groupings of collection objects and
+added value html describing them.
+
+Copyright 2021 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfset pageTitle = "Named Group">
+<cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
+	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+		SELECT collection_name
+		FROM underscore_collection
+		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+			AND mask_fg = 0
+		</cfif>
+	</cfquery>
+	<cfif getTitle.recordcount EQ 1>
+		<cfset pageTitle = getTitle.collection_name>
+	</cfif>
+</cfif>
 <cfinclude template="/shared/_header.cfm">
 
 <cfoutput>
@@ -6,25 +40,24 @@
 		a:focus {box-shadow: none;}
 	</style>
 	<cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
-		<!--- TODO: Remove temporary hard coded default collection, replace with redirect to search if not provided an underscore collection id. --->
-		<cfset underscore_collection_id = "161">
+		<cfthrow message="No named group specified to show.">
 	</cfif>
 	<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
-		select underscore_collection_id, collection_name, description, underscore_agent_id, html_description, agent_name,
+		SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 			case 
 				when underscore_agent_id is null then '[No Agent]'
 			else 
 				MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 			end
-			as agentname,
+			as agent_name,
 			mask_fg
 		FROM underscore_collection
-			LEFT JOIN agent_name on underscore_collection.underscore_agent_id = agent_name.agent_id
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 	</cfquery>
 	<cfloop query="getNamedGroup">
-		<cfif getNamedGroup.mask_fg EQ 0 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
-			 <cflocation url="/errors/forbidden.cfm" addtoken="false">
+		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
+			<!--- mask_fg = 1 = Hidden --->
+			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif> 
 		<main class="container-fluid py-3">
 			<div class="row mx-0">
@@ -33,7 +66,11 @@
 						<div class="row mx-0">
 							<div class="col-12 border-dark mt-4">
 								<h1 class="pb-2 w-100 border-bottom-black">#getNamedGroup.collection_name# 
-									<div class="d-inline-block float-right"><a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm">Search Named Groups</a></span></div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										<div class="d-inline-block float-right">
+											<a target="_blank" class="px-2 btn-xs btn-primary text-decoration-none" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">Edit</a>
+										</div>
+									</cfif>
 								</h1>
 							</div>
 						</div>
@@ -73,16 +110,19 @@
 										datatype: "json",
 										datafields:
 										[
-											{ name: 'GUID', type: 'string' },
-											{ name: 'SCIENTIFIC_NAME', type: 'string' },
-											{ name: 'VERBATIM_DATE', type: 'string' },
-											{ name: 'HIGHER_GEOG', type: 'string' },
-											{ name: 'SPEC_LOCALITY', type: 'string' },
-											{ name: 'OTHERCATALOGNUMBERS', type: 'string' },
-											{ name: 'FULL_TAXON_NAME', type: 'string' }
-											
+											{ name: 'guid', type: 'string' },
+											{ name: 'scientific_name', type: 'string' },
+											{ name: 'verbatim_date', type: 'string' },
+											{ name: 'higher_geog', type: 'string' },
+											{ name: 'spec_locality', type: 'string' },
+											{ name: 'othercatalognumbers', type: 'string' },
+											{ name: 'full_taxon_name', type: 'string' }
 										],
-										url: '/grouping/component/functions.cfc?method=getSpecimens&underscore_collection_id=#underscore_collection_id#'
+										url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#',
+										timeout: 30000,  // units not specified, miliseconds? 
+										loadError: function(jqXHR, textStatus, error) { 
+											handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+										}
 									};
 
 									var dataAdapter = new $.jqx.dataAdapter(source);
@@ -107,20 +147,19 @@
 										enabletooltips: true,
 										pageable: true,
 										columns: [
-											{ text: 'GUID', datafield: 'GUID', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
-											{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:'250' },
-											{ text: 'Date Collected', datafield: 'VERBATIM_DATE', width:'150'},
-											{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', width:'350'},
-											{ text: 'Locality', datafield: 'SPEC_LOCALITY',width:'350' },
-											{ text: 'Other Catalog Numbers', datafield: 'OTHERCATALOGNUMBERS',width:'350' },
-											{ text: 'Taxonomy', datafield: 'FULL_TAXON_NAME', width:'350'}
-											
+											{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
+											{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
+											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
+											{ text: 'Locality', datafield: 'spec_locality',width:'350' },
+											{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
+											{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'}
 										]
 									});
 								});
 							</script>
 							<div class="col-12 mt-3">
-								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_collection_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
@@ -564,7 +603,7 @@
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 												<cfloop query="marine">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
+														<a class="h4" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a>
 													</li>
 												</cfloop>
 											</ul>
@@ -602,7 +641,7 @@
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a>
 													</li>
 												</cfloop>
 											</ul>
@@ -626,7 +665,7 @@
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														#continent_ocean#:
-														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_collection_id=#getNamedGroup.underscore_collection_id#">
+														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
 															#islandsQuery.island#
 														</a>
 													</li>

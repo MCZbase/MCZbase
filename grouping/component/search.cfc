@@ -33,7 +33,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select count(underscore_relation.collection_object_id) as specimen_count, 
+			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
@@ -42,14 +42,18 @@ limitations under the License.
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
-				as agentname
-			from underscore_collection
+				as agentname,
+				decode(mask_fg,1,'Hidden','Public') as visibility
+			FROM underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
 					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
 				</cfif>
 			WHERE
 				underscore_collection.underscore_collection_id is not null
+				<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+					AND mask_fg = 0
+				</cfif>
 				<cfif isDefined("collection_name") and len(collection_name) gt 0>
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
 				</cfif>
@@ -77,7 +81,7 @@ limitations under the License.
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
 				</cfif>
-			group by 
+			GROUP BY
 				underscore_collection.underscore_collection_id,
 				collection_name,
 				description,
@@ -85,7 +89,8 @@ limitations under the License.
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end
+					end,
+				mask_fg
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -176,6 +181,46 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 				</div>
 			</cfoutput>
 		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- Obtain a list of the specimens in a named group in a form suitable for display in a jqxgrid. 
+  @param underscore_collection_id the surrogate numeric primary key identifying the named group.
+  @return a json data structure with specimen data 
+--->
+<cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
+			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.higher_geog, flat.spec_locality, 
+				flat.othercatalognumbers, flat.full_taxon_name
+			FROM
+				underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid is not null
+			ORDER BY flat.guid asc
+		</cfquery>
+		<cfset i = 1>
+		<cfset data = ArrayNew(1)>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+	   <cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
