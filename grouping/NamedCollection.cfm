@@ -686,6 +686,9 @@ limitations under the License.
 												$(document).ready(function() {
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 													$('##editUndColl input[type=text]').on("change",changed);
+													$('##editUndColl' input[type=checkbox]').on("change",changed);
+													$('##editUndColl' select').on("change",changed);
+													$('##editUndColl' textarea').on("change",changed);
 													$('##description').on("change",changed);
 												});
 												function updateFromSave() { 
