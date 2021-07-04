@@ -164,7 +164,7 @@ limitations under the License.
 	<cfset Session.gitBranch = gitBranch>
 </cfif>
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
-<cfif findNoCase('redesign',gitBranch) EQ 0>
+<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
 	<cfset collection_link_color = "white">
@@ -236,7 +236,7 @@ limitations under the License.
 			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-		<cfif findNoCase('redesign',gitBranch) GT 0>
+		<cfif findNoCase('redesign',Session.gitBranch) GT 0>
 			<!--- checkout is redesign, redesign2, or similar --->
 			<cfset targetMenu = "redesign">
 		<cfelse>
