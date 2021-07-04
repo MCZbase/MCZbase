@@ -30,6 +30,7 @@ limitations under the License.
 	</cfif>
 	GROUP BY
 		underscore_collection.collection_name, underscore_collection.underscore_collection_id, underscore_collection.mask_fg
+	ORDER BY underscore_collection.collection_name
 </cfquery>
 <cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, country 
@@ -74,7 +75,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container">
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12">
 				<h1 class="h2">Featured Groups of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
@@ -88,6 +89,8 @@ limitations under the License.
 					</cfloop>
 				</ul>
 			</div>
+		</div>
+		<div class="row">
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
 				<cfset specimenSearch="/Specimens.cfm?execute=true">
 			<cfelse>
