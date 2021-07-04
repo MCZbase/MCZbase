@@ -708,6 +708,9 @@ limitations under the License.
 												$(document).ready(function() {
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 													$('##editUndColl input[type=text]').on("change",changed);
+													$('##editUndColl input[type=checkbox]').on("change",changed);
+													$('##editUndColl select').on("change",changed);
+													$('##editUndColl textarea').on("change",changed);
 													$('##description').on("change",changed);
 												});
 												function updateFromSave() { 
@@ -717,7 +720,7 @@ limitations under the License.
 													var agenttext = $('##underscore_agent_name').val();
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
-														saveEditsFromFormCallback("editUndCol","/grouping/component/functions.cfc","saveResultsDiv","saving named grouping",updateFromSave);
+														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named grouping",updateFromSave);
 													} else { 
 														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
@@ -734,7 +737,7 @@ limitations under the License.
 												class="btn btn-xs btn-primary"
 												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges(); } " 
 												>
-										<div id="saveResultDiv" class="ml-2">&nbsp;</div>
+										<output id="saveResultDiv" class="ml-2">&nbsp;</output>
 									</div>
 								</div>
 							</form>
