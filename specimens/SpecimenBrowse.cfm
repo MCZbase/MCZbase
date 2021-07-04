@@ -19,6 +19,13 @@ limitations under the License.
 -->
 <cfinclude template = "/shared/_header.cfm">
 
+<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT collection_name, underscore_collection_id, mask_fg
+	FROM UNDERSCORE_COLLECTION
+	<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+		WHERE mask_fg = 0
+	</cfif>
+</cfquery>
 <cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, country 
 	from 
@@ -63,13 +70,26 @@ limitations under the License.
 	<main class="container">
 		<div class="row">
 			<div class="col-12 col-md-6">
+				<h1 class="h2">Featured Groups of Cataloged Items</h1>
+				<ul>
+					<cfloop query="namedGroups">
+						<li><a href="/grouping/showNamedCollection.cfm">#country#</a> (#ct#)</li>
+					</cfloop>
+				</ul>
+			</div>
+			<cfif findNoCase('redesign',gitBranch) GT 0>
+				<cfset specimenSearch="/Specimens.cfm?execute=true">
+			</cfif>
+				<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
+			</cfif>
+			<div class="col-12 col-md-6">
 				<h1 class="h2">Browse by higher geography</h1>
 				<ul>
 					<cfloop query="countries">
-						<li><a href="/Specimens.cfm?country=#country#&execute=true">#country#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#country=#country#">#country#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notcountries">
-						<li><a href="/Specimens.cfm?country=NULL&continent_ocean=#continent_ocean#&execute=true">#continent_ocean#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#country=NULL&continent_ocean=#continent_ocean#">#continent_ocean#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
@@ -77,13 +97,13 @@ limitations under the License.
 				<h1 class="h2">Browse by higher taxonomy</h1>
 				<ul>
 					<cfloop query="phyla">
-						<li><a href="/Specimens.cfm?phylum=#phylum#&execute=true">#phylum#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#phylum=#phylum#">#phylum#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notphyla">
-						<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#">#kingdom#:#phylorder#</a> (#ct#)</li>
 					</cfloop>
 					<cfloop query="notkingdoms">
-						<li><a href="/Specimens.cfm?phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#&execute=true">#scientific_name#</a> (#ct#)</li>
+						<li><a href="#specimenSearch#phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#">#scientific_name#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>

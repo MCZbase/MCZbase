@@ -360,6 +360,15 @@
 		<cfset ecid="">
 	</cfif>
 	<cfset setDbUser(ecid)>
+	<!--- determine which git branch is currently checked out --->
+	<cftry>
+		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+	<cfcatch>
+		<cfset gitBranch = "unknown">
+	</cfcatch>
+	</cftry>
+	<cfset Session.gitBranch = gitBranch>
 	</cfoutput>
 	<cfreturn true>
 </cffunction>
