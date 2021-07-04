@@ -923,7 +923,7 @@ limitations under the License.
 						width: '100%',
 						autoheight: 'true',
 						autorowheight: 'true',
-						rowsheight: 100,
+						rowsheight: 83,
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
@@ -958,7 +958,7 @@ limitations under the License.
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
-							{text: 'Preview URI', datafield: 'preview_uri', width: 100, height: 99, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
+							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: getColHidProp('mask_media_fg', true) },
 							</cfif>
