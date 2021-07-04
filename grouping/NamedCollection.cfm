@@ -695,7 +695,7 @@ limitations under the License.
 													var agenttext = $('##underscore_agent_name').val();
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
-														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultsDiv","saving named grouping",updateFromSave);
+														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named grouping",updateFromSave);
 													} else { 
 														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
@@ -712,7 +712,7 @@ limitations under the License.
 												class="btn btn-xs btn-primary"
 												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges(); } " 
 												>
-										<div id="saveResultDiv" class="ml-2">&nbsp;</div>
+										<output id="saveResultDiv" class="ml-2">&nbsp;</output>
 									</div>
 								</div>
 							</form>
