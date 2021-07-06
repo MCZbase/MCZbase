@@ -136,9 +136,8 @@ limitations under the License.
 
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
-					<div class="d-block mb-5">
-						<div class="col-12 col-md-6 px-1 float-left">
-							<!--- agent names --->
+					<div class="d-block mb-5 containFlex">
+						<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
 								<div class="card-header py-0">
@@ -183,11 +182,7 @@ limitations under the License.
 									</ul>
 								</div>
 							</section>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 mb-2">
-					<div class="form-row containFlex">
+	
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 								<!--- group members (members within this group agent) --->
 								<section class="accordion" id="groupMembersSection">
@@ -1178,7 +1173,6 @@ limitations under the License.
 								</section>
 							</cfif>
 	
-						</div>
 						<!--- split between left and right agent columns ********************************************************************************************************* --->
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
@@ -1726,8 +1720,8 @@ limitations under the License.
 									</cftry>
 								</section>
 							</cfif>
-				</div><!--- end of right column --->
-
+					</div><!--- end of columns --->
+				</div>
 			</cfloop><!--- getAgent --->
 		</div>
 	</div>
