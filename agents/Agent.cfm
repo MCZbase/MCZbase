@@ -136,7 +136,7 @@ limitations under the License.
 
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
-					<div class="d-block mb-5 containFlex">
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex3<cfelse>containFlex2</cfif>">
 						<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->

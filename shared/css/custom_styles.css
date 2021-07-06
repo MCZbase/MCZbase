@@ -1890,7 +1890,13 @@ th {
 	height: 223px;
 	width: auto;
 }
-.containFlex {
+.containFlex2 {
+	column-gap: 10px;
+	flex-wrap: wrap;
+	max-width: 100%;
+	column-count: 2;
+}
+.containFlex3 {
 	column-gap: 10px;
 	flex-wrap: wrap;
 	max-width: 100%;
