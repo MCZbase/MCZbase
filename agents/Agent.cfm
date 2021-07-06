@@ -135,10 +135,9 @@ limitations under the License.
 				</div>
 
 				<!--- two columns of information about the agent gleaned from related tables --->
-				<div class="col-12 mb-2" id="agentTwoCollsWrapper">
-					<div class="form-row" id="agentTwoCollsRowWrapper">
-						<div class="col-12 col-md-6 px-1 float-left" id="leftAgentColl">
-						
+				<div class="col-12">
+					<div class="d-block mb-5">
+						<div class="col-12 col-md-6 px-1 float-left">
 							<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
@@ -184,7 +183,11 @@ limitations under the License.
 									</ul>
 								</div>
 							</section>
-	
+						</div>
+					</div>
+				</div>
+				<div class="col-12 mb-2">
+					<div class="form-row containFlex">
 							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
 								<!--- group members (members within this group agent) --->
 								<section class="accordion" id="groupMembersSection">
@@ -1177,8 +1180,6 @@ limitations under the License.
 	
 						</div>
 						<!--- split between left and right agent columns ********************************************************************************************************* --->
-						<div class="col-12 col-md-6 px-1 float-left" id="rightAgentColl">
-	
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
@@ -1676,7 +1677,6 @@ limitations under the License.
 								</section>
 							</cfif>
 	
-	
 							<!--- foreign key relationships to other tables --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<section class="card mb-2 bg-light">
@@ -1726,11 +1726,8 @@ limitations under the License.
 									</cftry>
 								</section>
 							</cfif>
-	
-						</div><!--- end of right column --->
+				</div><!--- end of right column --->
 
-					</div><!-- end of agentTowCollsRowWrapper --->
-				</div><!--- end of agentTwoCollsWrapper --->
 			</cfloop><!--- getAgent --->
 		</div>
 	</div>
