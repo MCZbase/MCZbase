@@ -923,7 +923,7 @@ limitations under the License.
 						width: '100%',
 						autoheight: 'true',
 						autorowheight: 'true',
-						rowsheight: 83,
+						rowsheight: 'auto',
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
