@@ -757,7 +757,7 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row {height: 659px;}									
+			.jqx-grid-card-row table {height: 659px;}									
 		</style>
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
