@@ -1683,7 +1683,7 @@ limitations under the License.
 											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
 											ORDER BY dba_constraints.table_name
 										</cfquery>
-										<div class="card-header py-0">
+										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
 											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
