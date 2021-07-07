@@ -830,6 +830,10 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
+					width: '100%',
+						autoheight: 'false',
+						autorowheight: 'false',
+						rowsheight: 'auto',
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
@@ -931,9 +935,9 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
-		//				autoheight: 'true',
-//						autorowheight: 'true',
-						//rowsheight: '50',
+						autoheight: 'true',
+						autorowheight: 'true',
+						rowsheight: '50',
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
