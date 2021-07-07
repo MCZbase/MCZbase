@@ -130,6 +130,16 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 	<cfset searchText = "">
 </cfif>
 
+<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
+<script>
+// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
+// uses the crypto library to obtain a random number and generates RFC4122 version 4 UUID.
+function getVersion4UUID() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+</script>
 <div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -449,8 +459,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 						<!---Fixed Search tab panel--->
 						<div id="panel-3" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
 						<form id="fixedSearchForm">
-							<cfset searchIdentifier = createUUID() >
-							<input id="result_id_fixedSearch" type="hidden" name="result_id" value="#searchIdentifier#" class="keeponclear">
+							<input id="result_id_fixedSearch" type="hidden" name="result_id" value="">
 							<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
 							<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 							<div class="container">
@@ -750,6 +759,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
+				//getVersion4UUID()
 
 				$("##overlay").show();
 
@@ -890,6 +900,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 			/* Setup jqxgrid for keyword Search */
 			$('##builderSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
+				//getVersion4UUID()
 
 				$("##overlay").show();
 
@@ -1030,6 +1041,8 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 			/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
+				var uuid = getVersion4UUID();
+				$("##result_id_fixedSearch").val(uuid);
 
 				$("##overlay").show();
 
