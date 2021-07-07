@@ -757,7 +757,7 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row {height: 650px;}									
+			.jqx-grid-card-row {height: 659px;}									
 		</style>
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
@@ -830,20 +830,18 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
-					rowsheight: 650,
+					rowsheight: 659,
 						cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
 								{ width: 'auto', datafield: 'media_type' },
 								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri' }
-				//									 ,
-//								{ width: 'auto', datafield: 'aspect' },
-//								{ width: 'auto', datafield: 'description' },
-//								{ width: 'auto', datafield: 'original_filename' },
-//								{ width: 'auto', datafield: 'height' },
-//								{ width: 'auto', datafield: 'width' },
-//								
+								{ width: 'auto', datafield: 'media_uri'},
+								{ width: 'auto', datafield: 'aspect' },
+								{ width: 'auto', datafield: 'description' },
+								{ width: 'auto', datafield: 'original_filename' },
+								{ width: 'auto', datafield: 'height' },
+								{ width: 'auto', datafield: 'width' }							
 							]
 					});
 			};
