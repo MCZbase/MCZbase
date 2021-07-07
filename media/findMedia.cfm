@@ -834,19 +834,7 @@ limitations under the License.
 					rowsheight: 700,
 					autoHeight: false,
 					autorowHeigt: false,
-					cardsize: 4,
-						cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri'},
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'description' },
-								{ width: 'auto', datafield: 'original_filename' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' }							
-							]
+
 					
 					});
 				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;"></div>');
@@ -956,6 +944,19 @@ limitations under the License.
 						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
+						cardsize: 4,
+						cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'media_uri'},
+								{ width: 'auto', datafield: 'aspect' },
+								{ width: 'auto', datafield: 'description' },
+								{ width: 'auto', datafield: 'original_filename' },
+								{ width: 'auto', datafield: 'height' },
+								{ width: 'auto', datafield: 'width' }							
+							],
 						autoshowfiltericon: true,
 						autoshowcolumnsmenubutton: false,
 						autoshowloadelement: false,  // overlay acts as load element for form+results
