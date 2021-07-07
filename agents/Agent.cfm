@@ -82,7 +82,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0 px-0">
-						<div class="col-12 col-sm-10 px-1">
+						<div class="col-12 col-sm-10 px-2">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -115,7 +115,7 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item px-1">
+									<li class="list-group-item px-2">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
