@@ -830,10 +830,7 @@ limitations under the License.
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState,
-					rowsheight: 700,
-					autoHeight: false,
-					autorowHeight: false
+					cardview: !currentState;
 				});
 				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;overflow-y:scroll;"></div>');
 			};
