@@ -785,7 +785,7 @@ limitations under the License.
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="searchResultsGrid" class="jqxGrid" role="table" style="min-height: 800px;" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
