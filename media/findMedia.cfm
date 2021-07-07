@@ -846,7 +846,7 @@ limitations under the License.
 //								{ width: 'auto', datafield: 'height' },
 //								{ width: 'auto', datafield: 'width' },
 //								
-							],
+							]
 					});
 			};
 	
