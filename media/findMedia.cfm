@@ -833,11 +833,9 @@ limitations under the License.
 					cardview: !currentState,
 					rowsheight: 700,
 					autoHeight: false,
-					autorowHeight: false,
-
-					
-					});
-				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;"></div>');
+					autorowHeight: false
+				});
+				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;overflow-y:scroll;"></div>');
 			};
 	
 			$(document).ready(function() {
