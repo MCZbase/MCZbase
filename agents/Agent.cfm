@@ -75,14 +75,14 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<div class="container">
-		<div class="row">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container<cfelse> </cfif>">
+		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0 px-0">
-						<div class="col-12 col-sm-10 px-0">
+						<div class="col-12 col-sm-10 px-1">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -96,7 +96,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h1 class="h2 mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
 							<cfif len(trim(getAgent.collections_scope)) GT 0>
-								<h2 class="h4">Collector: #getAgent.collections_scope#</h2>
+								<h2 class="h4 my-1">Collector: #getAgent.collections_scope#</h2>
 							</cfif>
 						</div>
 						<div class="col-12 col-sm-2">
@@ -107,7 +107,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0 px-0">
-						<div class="col-12">
+						<div class="col-12 px-1">
 							<ul class="list-group mb-1 py-0 list-unstyled">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
@@ -127,7 +127,7 @@ limitations under the License.
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<h2 class="h4">Internal Remarks</h2>
+								<h2 class="h4 my-1">Internal Remarks</h2>
 								<div class="col-12">#agent_remarks#</div>
 							</cfif>
 						</cfif>
@@ -136,7 +136,7 @@ limitations under the License.
 
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex3<cfelse>containFlex2</cfif>">
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 						<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
@@ -1379,7 +1379,7 @@ limitations under the License.
 											formatted_publication.formatted_publication
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<cfif publicationAuthor.recordcount GT 20>
+									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR publicationAuthor.recordcount GT 20>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
