@@ -785,7 +785,7 @@ limitations under the License.
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" style="height:auto;min-height:800px;" aria-label="Search Results Table"></div>
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -921,9 +921,9 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
-//						autoheight: 'true',
-//						autorowheight: 'true',
-//						rowsheight: '50',
+						autoheight: 'true',
+						autorowheight: 'true',
+						//rowsheight: '50',
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
