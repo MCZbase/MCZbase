@@ -923,8 +923,8 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
-		//				autoheight: 'true',
-//						autorowheight: 'true',
+					autoheight: 'true',
+					autorowheight: 'true',
 						//rowsheight: '50',
 						source: dataAdapter,
 						filterable: true,
