@@ -850,7 +850,7 @@ limitations under the License.
 							]
 				});
 				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState,
+					cardview: !currentState
 					
 					
 					});
