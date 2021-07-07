@@ -828,8 +828,7 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({
+				var currentState = $("##searchResultsGrid").jqxGrid({
 					cardview: true,
 					rowsheight: 650,
 					height: 'auto',
