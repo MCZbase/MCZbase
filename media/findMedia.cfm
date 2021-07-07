@@ -945,16 +945,16 @@ limitations under the License.
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
 							cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'description' },
-								{ width: 'auto', datafield: 'original_filename' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' },
-								{ width: 'auto', datafield: 'media_uri' }
+								{ width: 'auto', height: 20, datafield: 'media_id' },
+								{ width: 'auto', height: 20, datafield: 'preview_uri' },
+								{ width: 'auto', height: 20, datafield: 'media_type' },
+								{ width: 'auto', height: 20, datafield: 'mime_type' },
+								{ width: 'auto', height: 20, datafield: 'aspect' },
+								{ width: 200, height: 20, datafield: 'description' },
+								{ width: 'auto', height: 20, datafield: 'original_filename' },
+								{ width: 'auto', height: 20, datafield: 'height' },
+								{ width: 'auto', height: 20, datafield: 'width' },
+								{ width: 'auto', height: 20, datafield: 'media_uri' }
 							],
 						</cfif>
 						columns: [
