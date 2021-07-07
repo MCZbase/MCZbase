@@ -828,8 +828,12 @@ limitations under the License.
 			};
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({cardview: !currentState,
-												 rowsheight: 650});
+				$("##searchResultsGrid").jqxGrid({
+					cardview: !currentState,
+					rowsheight: 650,
+					autoheight: 'false',
+					autorowheight: 'false'
+					});
 			};
 	
 			$(document).ready(function() {
@@ -924,10 +928,10 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
-					//autoheight: 'true',
-					//autorowheight: 'true',
-						//rowsheight: '50',
 						source: dataAdapter,
+						rowsheight: 50,
+						autoheight: 'false',
+						autorowheight: 'false',
 						filterable: true,
 						sortable: true,
 						pageable: true,
