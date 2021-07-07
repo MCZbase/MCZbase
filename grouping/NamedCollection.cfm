@@ -603,6 +603,9 @@ limitations under the License.
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
+			<cfif undColl_result.recordcount EQ 0>
+				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id#]">
+			</cfif>
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
 				<!--- save name for later use outside this output section --->
@@ -615,13 +618,13 @@ limitations under the License.
 					<div class="row border rounded py-3" aria-labelledby="formheading">
 						<div class="col-12 px-3">
 							<form name="editUndColl" id="editUndColl">
-								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
+								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#encodeForHtml(underscore_collection_id)#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" 
-												required value="#collection_name#" aria-labelledby="collection_name_label" >
+												required value="#encodeForHtml(collection_name)#" aria-labelledby="collection_name_label" >
 									</div>
 									<div class="col-md-3">
 										<label for="mask_fg" class="data_entry_label">Record Visibility</label>
@@ -641,7 +644,7 @@ limitations under the License.
 										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description"></span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
-												rows="3" aria-labelledby="description_label" >#description#</textarea>
+												rows="3" aria-labelledby="description_label" >#encodeForHtml(description)#</textarea>
 									</div>
 									<script>
 										// make selected textareas autogrow as text is entered.
@@ -656,7 +659,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="html_description" id="html_description_label" class="data-entry-label">Featured Data</label>
-										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#html_description#</textarea>
+										<textarea id="html_description" name="html_description" class="w-100" aria-labelledby="html_description_label" >#encodeForHtml(html_description)#</textarea>
 									</div>
 									<script>
 										$(document).ready(function () {
@@ -779,17 +782,23 @@ limitations under the License.
 						</div>
 					</section>
 				
-				<cfif undColl_result.recordcount GT 0>
-					<!--- TODO: Rework as jqxgrid --->
+					<!--- list specimens in the collection, link out by guid --->
 					<cfquery name="undCollRelationsSum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollRelationsSum_result">
 						SELECT count(*) as ct
 						FROM underscore_relation 
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					</cfquery>
-					<div class="col-12 mt-3">
-						<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a></h2>
-						<div id="jqxgrid"></div>
-					</div>
+					<section class="container mt-2">
+						<div class="border rounded row">
+							<div class="col-12 mt-3">
+								<h2 class="h3">
+									Cataloged items in this named collection 
+									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
+								</h2>
+								<div id="jqxgrid"></div>
+							</div>
+						</div>
+					</section>
 					<script type="text/javascript">
 						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							if (value > 1) {
@@ -866,80 +875,7 @@ limitations under the License.
 							});
 						});
 					</script>
-					<!--- list specimens in the collection, link out by guid --->
-					<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
-						select guid, underscore_relation_id
-						from #session.flatTableName#
-							left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-						order by guid
-					</cfquery>
-						<section class="container mt-2">
-							<script>
-								function removeUndRelation(id) { 
-									jQuery.ajax({
-										url : "/grouping/component/functions.cfc",
-										type : "post",
-										dataType : "json",
-										data : { 
-											method: "removeObjectFromUndColl",
-											underscore_relation_id: id 
-										},
-										success : function (data) {
-											$.ajax({
-												url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
-												type : "get",
-												dataType : "html",
-												success : function(data2){
-													$('##divListOfContainedObjects').html(data2);
-												}
-											});
-										},
-										error: function(jqXHR,textStatus,error){
-											$('##saveResultDiv').html('Error.');
-											var message = "";
-											if (error == 'timeout') {
-												message = ' Server took too long to respond.';
-											} else {
-												message = jqXHR.responseText;
-											}
-											messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
-										}
-									});
-								}
-							</script>
-							<div class="border rounded row">
-								<div class="col-12 px-4" aria-labelledby="existingvalues" id="divListOfContainedObjects">
-									<cfif undCollUse_result.recordcount EQ 0>
-										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
-										<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
-											<input type="hidden" name="action" value="delete">
-											<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-											<button class="btn btn-xs btn-danger mb-3" id="deleteButton" aria-label="Delete this collection.">Delete</button>
-											<script>
-												$(document).ready(function() {
-													$('##deleteButton').bind('click', function(evt){
-														evt.preventDefault();
-														confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
-													});
-												});
-											</script>
-										</form>
-									<cfelse>
-										<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
-										<ul class="list-style-disc px-4">
-											<cfloop query="undCollUse">
-												<li class="my-1">
-													<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
-													<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
-												</li>
-											</cfloop>
-										</ul>
-									</cfif>
-								</div>
-							</div>
-						</section>
-					</cfif>
+
 				</main><!--- container ---> 
 			</cfoutput>
 		</cfif>
