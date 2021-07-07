@@ -756,7 +756,9 @@ limitations under the License.
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-		
+		<style>
+			.jqx-grid-card-row {height: 650px;}									
+		</style>
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
@@ -785,7 +787,7 @@ limitations under the License.
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="searchResultsGrid" style="height: auto;" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -826,7 +828,15 @@ limitations under the License.
 			};
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
+				$("##searchResultsGrid").jqxGrid({
+					cardview: !currentState,
+							cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'media_uri' }],
+					});
 			};
 	
 			$(document).ready(function() {
@@ -943,21 +953,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
-							cardview: true,
-							cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri' }
-				//									 ,
-//								{ width: 'auto', datafield: 'aspect' },
-//								{ width: 'auto', datafield: 'description' },
-//								{ width: 'auto', datafield: 'original_filename' },
-//								{ width: 'auto', datafield: 'height' },
-//								{ width: 'auto', datafield: 'width' },
-//								
-							],
+							cardview: true
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
