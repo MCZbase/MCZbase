@@ -828,30 +828,9 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid(
-				{	
-					cardview: true,
-					rowsheight: 620,
-					height: 2000,
-					autoHeight: false,
-					autorowHeigt: false,
-					cardsize: 4,
-						cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri'},
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'description' },
-								{ width: 'auto', datafield: 'original_filename' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' }							
-							]});
+				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState;
-					
-					
 					});
 			};
 	
