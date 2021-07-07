@@ -107,15 +107,15 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0 px-0">
-						<div class="col-12 px-1">
-							<ul class="list-group mb-1 py-0 list-unstyled">
+						<div class="col-12 px-0">
+							<ul class="list-group mb-1 py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item">
+									<li class="list-group-item px-1">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
@@ -127,7 +127,7 @@ limitations under the License.
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<h2 class="h4 my-1">Internal Remarks</h2>
+								<h2 class="h4 my-1 px-2">Internal Remarks</h2>
 								<div class="col-12">#agent_remarks#</div>
 							</cfif>
 						</cfif>

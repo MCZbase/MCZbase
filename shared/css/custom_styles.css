@@ -1957,7 +1957,8 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	.containFlex {column-count: 1;}
+	.containFlex2 {column-count: 1;}
+	.containFlex4 {column-count: 2;}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
@@ -2063,6 +2064,8 @@ and also iPads specifically.
 		column-span: all;
 		margin-left: 4px;
 	}
+	.containFlex2 {column-count: 1;}
+	.containFlex4 {column-count: 1;}
 }
 @media screen and (max-width: 55.1875em) {
 	.cbp-spmenu-horizontal {
