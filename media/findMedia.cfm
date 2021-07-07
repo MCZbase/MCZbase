@@ -829,8 +829,10 @@ limitations under the License.
 			};
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
-				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:2000px;overflow-y:scroll;"></div>');
+				$("##searchResultsGrid").jqxGrid({
+					cardview: !currentState
+		
+					});
 			};
 	
 			$(document).ready(function() {
@@ -851,7 +853,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:auto;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:700px;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -927,8 +929,8 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-						autoheight: true,
-						autorowheight: true,
+//						autoheight: 'false',
+//						autorowheight: 'false',
 						filterable: true,
 						sortable: true,
 						pageable: true,
@@ -937,8 +939,19 @@ limitations under the License.
 						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
-						cardsize: 4,
-						cardviewcolumns: [
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						autoshowloadelement: false,  // overlay acts as load element for form+results
+						columnsreorder: true,
+						groupable: true,
+						selectionmode: 'singlerow',
+						altrows: true,
+						showtoolbar: false,
+						<cfif Application.serverrole NEQ "production" >
+							cardview: false,
+									rowsheight: 650,
+							cardsize: 4,
+							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
 								{ width: 'auto', datafield: 'media_type' },
@@ -950,16 +963,6 @@ limitations under the License.
 								{ width: 'auto', datafield: 'height' },
 								{ width: 'auto', datafield: 'width' }							
 							],
-						autoshowfiltericon: true,
-						autoshowcolumnsmenubutton: false,
-						autoshowloadelement: false,  // overlay acts as load element for form+results
-						columnsreorder: true,
-						groupable: true,
-						selectionmode: 'singlerow',
-						altrows: true,
-						showtoolbar: false,
-						<cfif Application.serverrole NEQ "production" >
-							cardview: false,
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
