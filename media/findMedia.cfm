@@ -787,7 +787,7 @@ limitations under the License.
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" style="height: auto;" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
 							</div>
 						</div>
@@ -850,7 +850,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:auto;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
