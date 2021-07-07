@@ -2064,14 +2064,14 @@ and also iPads specifically.
 		column-span: all;
 		margin-left: 4px;
 	}
-	.containFlex2 {column-count: 1;}
-	.containFlex4 {column-count: 1;}
 }
 @media screen and (max-width: 55.1875em) {
 	.cbp-spmenu-horizontal {
 		font-size: 75%;
 		height: 90px;
 	}
+	.containFlex2 {column-count: 1;}
+	.containFlex4 {column-count: 1;}
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
