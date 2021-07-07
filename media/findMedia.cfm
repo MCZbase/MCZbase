@@ -757,7 +757,7 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row  {height: 2659px;}
+			.jqx-grid-card-row  {height: 1059px;}
 			.jqx-grid-card-cell table {height: 250px;}
 		</style>
 			<!--- Results table as a jqxGrid. --->
@@ -828,12 +828,10 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				var currentState = $("##searchResultsGrid").jqxGrid({cardview: true, rowsheight: 720,autoheight: false,autorowheight: false});
 				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState,
-					rowsheight: 750
-		
-					});
+					cardview: !currentState
+				});
 			};
 	
 			$(document).ready(function() {
