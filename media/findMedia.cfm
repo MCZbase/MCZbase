@@ -921,9 +921,9 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						width: '100%',
-						autoheight: 'true',
-						autorowheight: 'true',
-						rowsheight: '50',
+//						autoheight: 'true',
+//						autorowheight: 'true',
+//						rowsheight: '50',
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
@@ -945,16 +945,17 @@ limitations under the License.
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
 							cardviewcolumns: [
-								{ width: 'auto', height: 200, datafield: 'media_id' },
-								{ width: 'auto', height: 200, datafield: 'preview_uri' },
-								{ width: 'auto', height: 200, datafield: 'media_type' },
-								{ width: 'auto', height: 200, datafield: 'mime_type' },
-								{ width: 'auto', height: 200, datafield: 'aspect' },
-								{ width: 200, height: 200, datafield: 'description' },
-								{ width: 'auto', height: 200, datafield: 'original_filename' },
-								{ width: 'auto', height: 200, datafield: 'height' },
-								{ width: 'auto', height: 200, datafield: 'width' },
-								{ width: 'auto', height: 200, datafield: 'media_uri' }
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' }
+				//									 ,
+//								{ width: 'auto', datafield: 'aspect' },
+//								{ width: 'auto', datafield: 'description' },
+//								{ width: 'auto', datafield: 'original_filename' },
+//								{ width: 'auto', datafield: 'height' },
+//								{ width: 'auto', datafield: 'width' },
+//								{ width: 'auto', datafield: 'media_uri' }
 							],
 						</cfif>
 						columns: [
