@@ -831,9 +831,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
 					rowsheight: 650,
-					autoheight: 'false',
-					autorowheight: 'false',
-												cardviewcolumns: [
+						cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
 								{ width: 'auto', datafield: 'media_type' },
