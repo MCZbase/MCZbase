@@ -780,6 +780,92 @@ limitations under the License.
 					</section>
 				
 				<cfif undColl_result.recordcount GT 0>
+					<!--- TODO: Rework as jqxgrid --->
+					<cfquery name="undCollRelationsSum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollRelationsSum_result">
+						SELECT count(*) as ct
+						FROM underscore_relation 
+						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					</cfquery>
+					<div class="col-12 mt-3">
+						<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
+						<div id="jqxgrid"></div>
+					</div>
+					<script type="text/javascript">
+						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							if (value > 1) {
+								return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+							}
+							else {
+								return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+							}
+						}
+						$(document).ready(function () {
+							var source =
+							{
+								datatype: "json",
+								datafields:
+								[
+									{ name: 'underscore_relation_id', type: 'string' },
+									{ name: 'guid', type: 'string' },
+									{ name: 'scientific_name', type: 'string' },
+									{ name: 'verbatim_date', type: 'string' },
+									{ name: 'higher_geog', type: 'string' },
+									{ name: 'spec_locality', type: 'string' },
+									{ name: 'othercatalognumbers', type: 'string' },
+									{ name: 'full_taxon_name', type: 'string' }
+								],
+								url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#',
+								timeout: 30000,  // units not specified, miliseconds? 
+								loadError: function(jqXHR, textStatus, error) { 
+									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
+								}
+							};
+
+							var dataAdapter = new $.jqx.dataAdapter(source);
+							// initialize jqxGrid
+							$("##jqxgrid").jqxGrid(
+							{
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								showfilterrow: true,
+								sortable: true,
+								pageable: true,
+								editable: false,
+								pagesize: '50',
+								pagesizeoptions: ['5','50','100','#undCollRelationsSum.ct#'],
+								columnsresize: false,
+								autoshowfiltericon: false,
+								autoshowcolumnsmenubutton: false,
+								altrows: true,
+								showtoolbar: false,
+								enabletooltips: true,
+								pageable: true,
+								columns: [
+									{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
+									{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
+									{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
+									{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
+									{ text: 'Locality', datafield: 'spec_locality',width:'350' },
+									{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
+									{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'},
+									{ text: 'Remove', datafield: 'Remove', columntype: 'button', 
+										cellsrenderer: function () {
+				                  	return "Edit";
+										}, buttonclick: function (row) { 
+											var record = $("##jqxgrid").jqxGrid('getrowdata', row);
+											var guidtoremove = record.guid;
+											var idtoremove = record.underscore_relation_id;
+											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
+												removeUndRelation(idtoremove);
+											});
+										}
+									} 
+								]
+							});
+						});
+					</script>
 					<!--- list specimens in the collection, link out by guid --->
 					<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
 						select guid, underscore_relation_id
