@@ -831,7 +831,10 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
-					rowsheight: 250,
+					rowsheight: 700,
+					autoHeight: false,
+					autorowHeigt: false,
+					cardsize: 4,
 						cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
@@ -865,7 +868,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:700px;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:auto;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -941,8 +944,8 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-//						autoheight: 'false',
-//						autorowheight: 'false',
+						autoheight: 'true',
+						autorowheight: 'true',
 						filterable: true,
 						sortable: true,
 						pageable: true,
@@ -956,13 +959,11 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						cardsize: 4,
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
