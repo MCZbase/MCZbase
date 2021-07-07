@@ -944,12 +944,12 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'singlerow',
+						selectionmode: 'multiplecellsadvanced',
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-									rowsheight: 650,
+							rowsheight: 650,
 							cardsize: 4,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
