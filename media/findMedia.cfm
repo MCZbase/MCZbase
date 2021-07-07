@@ -953,7 +953,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
-							cardview: true
+							cardview: true,
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
