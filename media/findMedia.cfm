@@ -819,7 +819,7 @@ limitations under the License.
 				var muri = rowData['media_uri'];
 				var alt = rowData['ac_description'];
 				if (puri != "") { 
-					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
+					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="50%"></a></span>';
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
@@ -943,19 +943,20 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
-							cardview: false,
+							cardview: true,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
 								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' }
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'media_uri' }
 				//									 ,
 //								{ width: 'auto', datafield: 'aspect' },
 //								{ width: 'auto', datafield: 'description' },
 //								{ width: 'auto', datafield: 'original_filename' },
 //								{ width: 'auto', datafield: 'height' },
 //								{ width: 'auto', datafield: 'width' },
-//								{ width: 'auto', datafield: 'media_uri' }
+//								
 							],
 						</cfif>
 						columns: [
