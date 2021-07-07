@@ -832,7 +832,21 @@ limitations under the License.
 					cardview: !currentState,
 					rowsheight: 650,
 					autoheight: 'false',
-					autorowheight: 'false'
+					autorowheight: 'false',
+												cardviewcolumns: [
+								{ width: 'auto', datafield: 'media_id' },
+								{ width: 'auto', datafield: 'preview_uri' },
+								{ width: 'auto', datafield: 'media_type' },
+								{ width: 'auto', datafield: 'mime_type' },
+								{ width: 'auto', datafield: 'media_uri' }
+				//									 ,
+//								{ width: 'auto', datafield: 'aspect' },
+//								{ width: 'auto', datafield: 'description' },
+//								{ width: 'auto', datafield: 'original_filename' },
+//								{ width: 'auto', datafield: 'height' },
+//								{ width: 'auto', datafield: 'width' },
+//								
+							],
 					});
 			};
 	
@@ -951,20 +965,7 @@ limitations under the License.
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-							cardviewcolumns: [
-								{ width: 'auto', datafield: 'media_id' },
-								{ width: 'auto', datafield: 'preview_uri' },
-								{ width: 'auto', datafield: 'media_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri' }
-				//									 ,
-//								{ width: 'auto', datafield: 'aspect' },
-//								{ width: 'auto', datafield: 'description' },
-//								{ width: 'auto', datafield: 'original_filename' },
-//								{ width: 'auto', datafield: 'height' },
-//								{ width: 'auto', datafield: 'width' },
-//								
-							],
+
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
