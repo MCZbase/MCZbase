@@ -831,8 +831,8 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid(
 				{
 					cardview: true,
-					rowsheight: 620,
-					height: 2000,
+					rowsheight: 650,
+					height: 'auto',
 					autoHeight: false,
 					autorowHeigt: false,
 					cardsize: 4,
