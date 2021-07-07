@@ -756,9 +756,10 @@ limitations under the License.
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-		<style>
-			.jqx-grid-card-row table {height: 659px;}									
-		</style>
+<!---		<style>
+			.jqx-grid-card-row  {height: 624px;}
+			.jqx-grid-card-cell table {height: 624px;}
+		</style>--->
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
@@ -827,10 +828,14 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState,
-					rowsheight: 659,
+				var currentState = $("##searchResultsGrid").jqxGrid(
+				{
+					cardview: true,
+					rowsheight: 650,
+					height: 'auto',
+					autoHeight: false,
+					autorowHeigt: false,
+					cardsize: 4,
 						cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
@@ -843,6 +848,11 @@ limitations under the License.
 								{ width: 'auto', datafield: 'height' },
 								{ width: 'auto', datafield: 'width' }							
 							]
+				});
+				$("##searchResultsGrid").jqxGrid({
+					cardview: !currentState
+					
+					
 					});
 			};
 	
@@ -940,8 +950,8 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-//						autoheight: 'false',
-//						autorowheight: 'false',
+						autoheight: 'true',
+						autorowheight: 'true',
 						filterable: true,
 						sortable: true,
 						pageable: true,
@@ -955,13 +965,11 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						cardsize: 4,
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-
 						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
