@@ -847,7 +847,9 @@ limitations under the License.
 								{ width: 'auto', datafield: 'height' },
 								{ width: 'auto', datafield: 'width' }							
 							]
+					
 					});
+				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;"></div>');
 			};
 	
 			$(document).ready(function() {
