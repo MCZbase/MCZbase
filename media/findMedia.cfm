@@ -830,7 +830,8 @@ limitations under the License.
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState
+					cardview: !currentState,
+					rowsheight: 750
 		
 					});
 			};
@@ -929,8 +930,8 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-//						autoheight: 'false',
-//						autorowheight: 'false',
+						autoheight: 'false',
+						autorowheight: 'false',
 						filterable: true,
 						sortable: true,
 						pageable: true,
@@ -949,7 +950,6 @@ limitations under the License.
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-							rowsheight: 650,
 							cardsize: 4,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
