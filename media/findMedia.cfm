@@ -757,7 +757,8 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row table {height: 659px;}									
+			.jqx-grid-card-row  {height: 2659px;}
+			.jqx-grid-card-cell table {height: 650px;}
 		</style>
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
@@ -864,7 +865,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:auto;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:700px;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
