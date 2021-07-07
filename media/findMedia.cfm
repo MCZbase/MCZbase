@@ -828,10 +828,11 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid({
+				var currentState = $("##searchResultsGrid").jqxGrid(
+				{	
 					cardview: true,
-					rowsheight: 650,
-					height: 'auto',
+					rowsheight: 620,
+					height: 2000,
 					autoHeight: false,
 					autorowHeigt: false,
 					cardsize: 4,
@@ -846,11 +847,13 @@ limitations under the License.
 								{ width: 'auto', datafield: 'original_filename' },
 								{ width: 'auto', datafield: 'height' },
 								{ width: 'auto', datafield: 'width' }							
-							]
+							]});
+				$("##searchResultsGrid").jqxGrid({
+					cardview: !currentState;
+					
+					
 					});
-				$("##jqxgrid").jqxGrid({cardview: !cardView});
-			});
-		
+			};
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
