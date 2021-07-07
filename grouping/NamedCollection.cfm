@@ -787,7 +787,7 @@ limitations under the License.
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					</cfquery>
 					<div class="col-12 mt-3">
-						<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSuma.recordcount#)</a></h2>
+						<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a></h2>
 						<div id="jqxgrid"></div>
 					</div>
 					<script type="text/javascript">
