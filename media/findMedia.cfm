@@ -949,6 +949,7 @@ limitations under the License.
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
 							cardsize: 4,
+							width: '100%',
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id' },
 								{ width: 'auto', datafield: 'preview_uri' },
