@@ -1358,7 +1358,7 @@ limitations under the License.
 								</section>
 							</cfif>
 	<style>
-		section#publicationSection {box-sizing: unset!important;}									
+		section##publicationSection {box-sizing: unset!important;}									
 	</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
