@@ -756,10 +756,10 @@ limitations under the License.
 					</div><!--- search box --->
 				</div><!--- row --->
 			</section>
-		<style>
+<!---		<style>
 			.jqx-grid-card-row  {height: 624px;}
 			.jqx-grid-card-cell table {height: 624px;}
-		</style>
+		</style>--->
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row mx-0">
@@ -832,6 +832,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
 					rowsheight: 620,
+					height: 2000,
 					autoHeight: false,
 					autorowHeigt: false,
 					cardsize: 4,
@@ -849,7 +850,6 @@ limitations under the License.
 							]
 					
 					});
-				$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;height:4000px;"></div>');
 			};
 	
 			$(document).ready(function() {
