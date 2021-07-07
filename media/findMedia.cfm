@@ -938,6 +938,7 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
+						cardsize: 4,
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
