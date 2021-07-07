@@ -604,7 +604,7 @@ limitations under the License.
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<cfif undColl_result.recordcount EQ 0>
-				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id#]">
+				<cfthrow message="No such named group found (underscore_collection_id=[#encodeForHtml(underscore_collection_id)#])" >
 			</cfif>
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
