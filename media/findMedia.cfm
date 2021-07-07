@@ -849,7 +849,7 @@ limitations under the License.
 								{ width: 'auto', datafield: 'width' }							
 							]
 					});
-				$("#jqxgrid").jqxGrid({cardview: !cardView});
+				$("##jqxgrid").jqxGrid({cardview: !cardView});
 			});
 		
 	
