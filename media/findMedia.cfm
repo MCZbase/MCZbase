@@ -895,7 +895,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
