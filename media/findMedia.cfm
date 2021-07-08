@@ -952,7 +952,7 @@ limitations under the License.
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
-							cardsize: 4,
+							cardsize: 5,
 							width: '100%',
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id',hidable: true},
