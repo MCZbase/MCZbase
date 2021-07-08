@@ -966,7 +966,7 @@ limitations under the License.
 								{ width: 'auto', datafield: 'filename',hidable: true,hidden: getColHidProp('filename', true)},
 								{ width: 'auto', datafield: 'extension',hidable: true,hidden: getColHidProp('extension', true)},
 								{ width: 'auto', datafield: 'aspect',hidable: true,hidden: getColHidProp('aspect', true)},
-								{ width: 'auto', datafield: 'description',hidable: true},
+								{ width: 'auto', datafield: 'description',hidable: true, hidden: getColHidProp('description', false)},
 								{ width: 'auto', datafield: 'made_date',hidable: true,hidden: getColHidProp('made_date', true)},
 								{ width: 'auto', datafield: 'subject',hidable: true,hidden: getColHidProp('subject', true)},
 								{ width: 'auto', datafield: 'original_filename',hidable: true,hidden: getColHidProp('original_filename', false)},
