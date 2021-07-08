@@ -747,15 +747,8 @@ limitations under the License.
 											dataType : "json",
 											data : $('##addCollObjectsUndColl').serialize(),
 											success : function (data) {
-												$.ajax({
-													url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
-													type : "get",
-													dataType : "html",
-													success : function(data2){
-														$('##divListOfContainedObjects').html(data2);
-													}
-												});
 												$('##addResultDiv').html("Added " + data[0].added);
+												$("##catalogedItemsGrid").jqxGrid("updateBoundData");
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##addResultDiv').html("Error.");
@@ -828,7 +821,7 @@ limitations under the License.
 								},
 								success : function (data) {
 									$.ajax({
-										// TODO: Remove row from grid.
+										$("##catalogedItemsGrid").jqxGrid("updateBoundData");
 									});
 								},
 								error: function(jqXHR,textStatus,error){
