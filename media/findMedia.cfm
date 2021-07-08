@@ -933,7 +933,7 @@ limitations under the License.
 						rowsheight: 50,
 						height: '100%',
 						autoheight: 'true',
-						autorowheight: 'true',
+						//autorowheight: 'true',
 						filterable: true,
 						sortable: true,
 						pageable: true,
