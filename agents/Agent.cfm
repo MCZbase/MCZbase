@@ -335,7 +335,9 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	
+															
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 							<!--- relationships --->
 							<section class="accordion" id="relationshipsSection"> 
 								<div class="card mb-2 bg-light">
@@ -696,7 +698,8 @@ limitations under the License.
 									</div><!--- end namedgroupCardBodyWrap --->
 								</div>
 							</section>
-
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 							<cfif oneOfUs EQ 1>
 								<!--- records entered --->
 								<section class="accordion" id="enteredSection"> 
@@ -888,6 +891,8 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 	
 							<cfif oneOfUs EQ 1>
 								<!--- media relationships and labels --->
@@ -1172,7 +1177,8 @@ limitations under the License.
 									</div><!--- end shipmentsCard --->
 								</section>
 							</cfif>
-	
+												</div>
+											<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 						<!--- split between left and right agent columns ********************************************************************************************************* --->
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
@@ -1415,6 +1421,9 @@ limitations under the License.
 									</div>
 								</div>
 							</section>
+										</div>
+										<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
+										
 	
 							<!--- transactions roles --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
@@ -1722,7 +1731,8 @@ limitations under the License.
 									</cftry>
 								</section>
 							</cfif>
-					</div><!--- end of columns --->
+											
+					</div>	<!--- end of columns --->
 				</div>
 			</cfloop><!--- getAgent --->
 		</div>
