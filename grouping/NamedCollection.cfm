@@ -789,34 +789,36 @@ limitations under the License.
 						FROM underscore_relation 
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					</cfquery>
-					<section class="container mt-2">
-						<div class="border rounded row">
-							<div class="col-12 mt-3">
-								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-									<h2 class="h3">
-										Cataloged items in this named group
-										<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
-									</h2>
-									<div id="columnPickDialog">
-										<div class="container-fluid">
-											<div class="row">
-												<div class="col-12 col-md-6">
-													<div id="columnPick" class="px-1"></div>
-												</div>
-												<div class="col-12 col-md-6">
-													<div id="columnPick1" class="px-1"></div>
+					<section class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12">
+								<div class="mb-5">
+									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+										<h2 class="h3">
+											Cataloged items in this named group
+											<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
+										</h2>
+										<div id="columnPickDialog">
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-12 col-md-6">
+														<div id="columnPick" class="px-1"></div>
+													</div>
+													<div class="col-12 col-md-6">
+														<div id="columnPick1" class="px-1"></div>
+													</div>
 												</div>
 											</div>
 										</div>
+										<div id="columnPickDialogButton"></div>
+										<div id="resultDownloadButtonContainer"></div>
+									</div>
+									<div class="row mt-0"> 
+										<!--- Grid Related code is below along with search handlers --->
+										<div id="catalogedItemsGrid" class="jqxGrid" role="table" aria-label="Cataloged items in this named group"></div>
+										<div id="enableselection"></div>
 									</div>
 								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0 mx-0">
-								<!--- Grid Related code is below --->
-								<div id="catalogedItemsGrid" class="jqxGrid" role="table" aria-label="Cataloged items in this named group"></div>
-								<div id="enableselection"></div>
 							</div>
 						</div>
 					</section>
