@@ -580,7 +580,7 @@ limitations under the License.
 			</cfquery>
 			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 			<cfcatch>
-				<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
+				<cfthrow type="Application" message="Error Saving new Named Group: #cfcatch.Message# #cfcatch.Detail#">
 			</cfcatch>
 		</cftry>
 	</cfcase>
