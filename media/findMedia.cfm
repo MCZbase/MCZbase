@@ -956,7 +956,7 @@ limitations under the License.
 						cardview: false,
 						cardsize: 5,
 						width: '100%',
-						cardheight: 300,
+						cardheight: 620,
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
 							{ width: 'auto', datafield: 'preview_uri',hidable: true},
