@@ -465,7 +465,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
@@ -921,55 +921,7 @@ limitations under the License.
 									</div><!--- end preparatorCardBodyWrap --->
 								</div>
 							</section>
-							<!--- foreign key relationships to other tables --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<section class="card mb-2 bg-light">
-									<!--- always open, not a collapsable card --->
-									<cftry>
-										<cfquery name="getFKFields" datasource="uam_god">
-											SELECT dba_constraints.table_name, column_name, delete_rule 
-											FROM dba_constraints
-												left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
-											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
-											ORDER BY dba_constraints.table_name
-										</cfquery>
-										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
-											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
-										</div>
-										<cfset relatedTo = StructNew() >
-										<cfset okToDelete = true>
-										<cfloop query="getFKFields">
-											<cfif getFKFields.delete_rule EQ "NO ACTION">
-												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
-													SELECT count(*) as ct 
-													FROM #getFKFields.table_name#
-													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-												</cfquery>
-												<cfif getRels.ct GT 0>
-													<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
-													<cfset okToDelete = false>
-													<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
-												</cfif>
-											</cfif>
-										</cfloop>
-										<div class="card-body py-1 mb-1">
-											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
-											<cfelse>
-												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
-											</cfif>
-											<ul class="list-group">
-												<cfloop collection="#relatedTo#" item="key">
-													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
-												</cfloop>
-											</ul>
-										</div>
-									<cfcatch>
-										<!--- some issue with user access to metadata tables --->
-									</cfcatch>
-									</cftry>
-								</section>
-							</cfif>
+
 					</div>
 					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
 							<!--- records entered --->
@@ -1707,6 +1659,55 @@ limitations under the License.
 									</div>
 								</div>
 							</section>
+							<!--- foreign key relationships to other tables --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<section class="card mb-2 bg-light">
+									<!--- always open, not a collapsable card --->
+									<cftry>
+										<cfquery name="getFKFields" datasource="uam_god">
+											SELECT dba_constraints.table_name, column_name, delete_rule 
+											FROM dba_constraints
+												left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
+											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
+											ORDER BY dba_constraints.table_name
+										</cfquery>
+										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
+											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
+										</div>
+										<cfset relatedTo = StructNew() >
+										<cfset okToDelete = true>
+										<cfloop query="getFKFields">
+											<cfif getFKFields.delete_rule EQ "NO ACTION">
+												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+													SELECT count(*) as ct 
+													FROM #getFKFields.table_name#
+													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+												</cfquery>
+												<cfif getRels.ct GT 0>
+													<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+													<cfset okToDelete = false>
+													<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+												</cfif>
+											</cfif>
+										</cfloop>
+										<div class="card-body py-1 mb-1">
+											<cfif okToDelete>
+												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
+											<cfelse>
+												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
+											</cfif>
+											<ul class="list-group">
+												<cfloop collection="#relatedTo#" item="key">
+													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
+												</cfloop>
+											</ul>
+										</div>
+									<cfcatch>
+										<!--- some issue with user access to metadata tables --->
+									</cfcatch>
+									</cftry>
+								</section>
+							</cfif>
 					</div>
 				</div>
 			</cfloop><!--- getAgent --->
