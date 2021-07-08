@@ -927,7 +927,7 @@ limitations under the License.
 										cellsrenderer: function () {
 				                  	return "Remove";
 										}, buttonclick: function (row) { 
-											var record = $("##jqxgrid").jqxGrid('getrowdata', row);
+											var record = $("##catalogedItemsGrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
 											var idtoremove = record.underscore_relation_id;
 											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
