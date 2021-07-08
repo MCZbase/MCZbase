@@ -956,12 +956,12 @@ limitations under the License.
 								{ width: 'auto', datafield: 'preview_uri' },
 								{ width: 'auto', datafield: 'media_type' },
 								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'media_uri'},
 								{ width: 'auto', datafield: 'aspect' },
 								{ width: 'auto', datafield: 'description' },
 								{ width: 'auto', datafield: 'original_filename' },
 								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' }							
+								{ width: 'auto', datafield: 'width' },
+								{ width: 'auto', datafield: 'media_uri'}
 							],
 						</cfif>
 						columns: [
@@ -1000,7 +1000,7 @@ limitations under the License.
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
 						],
-						rowdetails: true,
+						rowdetails: false,
 						rowdetailstemplate: {
 							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 							rowdetailsheight: 1 // row details will be placed in popup dialog
