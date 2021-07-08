@@ -757,9 +757,9 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row  {height: 620px;}
-			.jqx-grid-card-cell {height:620px;overflow:hidden;}
-			.jqx-grid-card-cell table {height: 600px;overflow-y:hidden!important;}
+			.jqx-grid-card-row  {height: 250px;}
+			.jqx-grid-card-cell {height:250px;overflow:hidden;}
+			.jqx-grid-card-cell table {height: 250px;overflow-y:hidden!important;}
 			.jqx-grid-card-cell-label {width: 30%;font-size: 11px;}
 			
 		</style>
@@ -834,11 +834,12 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
-					autoHeight: false,
+					autoHeight: true,
 					autorowheight: false,
 					cardsize: 5,
 					cardheight: 250,
 					width: '100%',
+					showemptyrow: false,
 					cardviewcolumns: [
 						{ width: 'auto', datafield: 'media_id',hidable: true},
 						{ width: 'auto', datafield: 'preview_uri',hidable: true},
