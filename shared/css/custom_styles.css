@@ -1883,6 +1883,9 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 th {
 	font-weight: 500;
 }
+.card-header h2 {
+	cursor: pointer;
+}
 .jqx-editor-content {
 	resize: vertical;
 	overflow: hidden;
