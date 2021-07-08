@@ -133,7 +133,6 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
 					<div class="d-block mb-5 float-left pr-2 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
@@ -741,9 +740,8 @@ limitations under the License.
 									</div><!--- end attributeCardBodyWrap --->
 								</div>
 							</section>
-	
+							<!--- Georeferences --->
 							<cfif oneOfUs EQ 1>
-								<!--- Georeferences --->
 								<section class="accordion" id="georefSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getLatLongDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongDet_result">
@@ -788,6 +786,188 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
+								</section>
+							</cfif>
+							<!--- Media --->
+							<section class="accordion" id="mediaSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+										SELECT media.media_id,
+											mczbase.get_media_descriptor(media.media_id) as descriptor,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											media.media_uri,
+											media.media_type,
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+											MCZBASE.get_media_credit(media.media_id) as credit 
+										FROM media_relations 
+											left join media on media_relations.media_id = media.media_id
+											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+										WHERE media_relationship like '% agent'
+											and media_relationship <> 'created by agent'
+											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and mczbase.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+									<div class="card-header" id="mediaHeader">
+										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
+											Subject of #getMedia.recordcount# media record#plural#
+										</h2>
+									</div>
+									<div id="mediaCardBodyWrap" class="collapse show" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+										<cfif getMedia.recordcount eq 0>
+											<cfset mediaLink = "No Media records">
+										<cfelse>
+											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+										</cfif>
+										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
+										<div class="card-body py-1 mb-1">
+											<cfif getMedia.recordcount GT 0>
+												<cfloop query="getMedia">
+													<ul class="list-group list-group-horizontal-md border p-2 m-2">
+													<cfif getMedia.media_type IS "image">
+														<li class="col-12 col-md-4 col-xl-3 px-0">
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
+														</li>
+														<li class="col-12 col-md-8 col-xl-9 px-0">
+															<ul class="list-group">
+																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
+																<li class="list-group-item">#getMedia.descriptor#</li>
+																<li class="list-group-item">#getMedia.subject#</li>
+																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
+																<li class="list-group-item">#getMedia.credit#</li>
+															</ul>
+														
+														</li>
+													</cfif>
+													</ul>
+												</cfloop>
+											</cfif>
+										</div>
+									</div><!--- end mediaCardBodyWrap --->
+								</div>
+							</section>
+							<!--- Preparator--->
+							<section class="accordion" id="preparatorSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
+										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
+										from (
+											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
+											from agent
+												left join collector on agent.agent_id = collector.AGENT_ID
+												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+											where collector.COLLECTOR_ROLE = 'p'
+												and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
+												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by flat.collection_cde, flat.collection_id
+											union
+											select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
+											from agent
+												left join collector on agent.agent_id = collector.AGENT_ID
+												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+											where collector.COLLECTOR_ROLE = 'p'
+												and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
+												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by flat.collection_cde, flat.collection_id, 0
+										) 
+										group by collection_cde, collection_id
+									</cfquery>
+									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+									<div class="card-header" id="preparatorHeader">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
+											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
+										</h2>
+									</div>
+									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
+										<div class="card-body py-1 mb-1">
+											<cfif getAgentPrepScope.recordcount EQ 0>
+												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
+											<cfelse>
+												<ul class="list-group">
+													<cfset earlyeststart = "">
+													<cfset latestend = "">
+													<cfloop query="getAgentPrepScope">
+														<cfif len(earlyeststart) EQ 0 AND NOT getAgentPrepScope.startyear IS "0" ><cfset earlyeststart = getAgentPrepScope.startyear></cfif>
+														<cfif len(latestend) EQ 0 AND NOT getAgentPrepScope.endyear IS "0"><cfset latestend = getAgentPrepScope.endyear></cfif>
+														<cfif len(getAgentPrepScope.startyear) GT 0 and NOT getAgentPrepScope.startyear IS "0">
+															<cfif compare(getAgentPrepScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentPrepScope.startyear></cfif>
+														</cfif>
+														<cfif compare(getAgentPrepScope.endyear,latestend) GT 0><cfset latestend=getAgentPrepScope.endyear></cfif>
+														<cfif getAgentPrepScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+														<cfif getAgentPrepScope.startyear IS getAgentPrepScope.endyear>
+															<cfif len(getAgentPrepScope.startyear) EQ 0 or getAgentPrepScope.startyear IS "0">
+																<cfset yearbit=" none known to year">
+															<cfelse>
+																<cfset yearbit=" in year #getAgentPrepScope.startyear#">
+															</cfif>
+														<cfelse>
+															<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
+														</cfif>
+														<cfif len(getAgentPrepScope.collection_cde) GT 0>
+															<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
+														</cfif>
+													</cfloop>
+												</ul>
+												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
+													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
+														<h2 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h2>
+													</cfif>
+												</cfif>
+											</cfif>
+										</div>
+									</div><!--- end preparatorCardBodyWrap --->
+								</div>
+							</section>
+							<!--- foreign key relationships to other tables --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<section class="card mb-2 bg-light">
+									<!--- always open, not a collapsable card --->
+									<cftry>
+										<cfquery name="getFKFields" datasource="uam_god">
+											SELECT dba_constraints.table_name, column_name, delete_rule 
+											FROM dba_constraints
+												left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
+											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
+											ORDER BY dba_constraints.table_name
+										</cfquery>
+										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
+											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
+										</div>
+										<cfset relatedTo = StructNew() >
+										<cfset okToDelete = true>
+										<cfloop query="getFKFields">
+											<cfif getFKFields.delete_rule EQ "NO ACTION">
+												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
+													SELECT count(*) as ct 
+													FROM #getFKFields.table_name#
+													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+												</cfquery>
+												<cfif getRels.ct GT 0>
+													<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+													<cfset okToDelete = false>
+													<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
+												</cfif>
+											</cfif>
+										</cfloop>
+										<div class="card-body py-1 mb-1">
+											<cfif okToDelete>
+												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
+											<cfelse>
+												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
+											</cfif>
+											<ul class="list-group">
+												<cfloop collection="#relatedTo#" item="key">
+													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
+												</cfloop>
+											</ul>
+										</div>
+									<cfcatch>
+										<!--- some issue with user access to metadata tables --->
+									</cfcatch>
+									</cftry>
 								</section>
 							</cfif>
 					</div>
@@ -1006,7 +1186,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
@@ -1065,7 +1245,6 @@ limitations under the License.
 									</div><!--- end loanItemsCard --->
 								</section>
 							</cfif>
-	
 							<!--- shipments --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 								<section class="accordion" id="shipmentsSection">
@@ -1167,146 +1346,8 @@ limitations under the License.
 									</div><!--- end shipmentsCard --->
 								</section>
 							</cfif>
-					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
-						<!--- split between left and right agent columns ********************************************************************************************************* --->
-							<!--- Media --->
-							<section class="accordion" id="mediaSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-										SELECT media.media_id,
-											mczbase.get_media_descriptor(media.media_id) as descriptor,
-											mczbase.get_medialabel(media.media_id,'subject') as subject,
-											media.media_uri,
-											media.media_type,
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-											MCZBASE.get_media_credit(media.media_id) as credit 
-										FROM media_relations 
-											left join media on media_relations.media_id = media.media_id
-											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like '% agent'
-											and media_relationship <> 'created by agent'
-											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and mczbase.is_media_encumbered(media.media_id) < 1
-									</cfquery>
-									<div class="card-header" id="mediaHeader">
-										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
-											Subject of #getMedia.recordcount# media record#plural#
-										</h2>
-									</div>
-									<div id="mediaCardBodyWrap" class="collapse show" aria-labelledby="mediaHeader" data-parent="##mediaSection">
-										<cfif getMedia.recordcount eq 0>
-											<cfset mediaLink = "No Media records">
-										<cfelse>
-											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-										</cfif>
-										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
-										<div class="card-body py-1 mb-1">
-											<cfif getMedia.recordcount GT 0>
-												<cfloop query="getMedia">
-													<ul class="list-group list-group-horizontal-md border p-2 m-2">
-													<cfif getMedia.media_type IS "image">
-														<li class="col-12 col-md-4 col-xl-3 px-0">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" class="w-100"></a>
-														</li>
-														<li class="col-12 col-md-8 col-xl-9 px-0">
-															<ul class="list-group">
-																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
-																<li class="list-group-item">#getMedia.descriptor#</li>
-																<li class="list-group-item">#getMedia.subject#</li>
-																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																<li class="list-group-item">#getMedia.credit#</li>
-															</ul>
-														
-														</li>
-													</cfif>
-													</ul>
-												</cfloop>
-											</cfif>
-										</div>
-									</div><!--- end mediaCardBodyWrap --->
-								</div>
-							</section>
-	
-							<!--- Preparator--->
-							<section class="accordion" id="preparatorSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
-										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
-										from (
-											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
-											from agent
-												left join collector on agent.agent_id = collector.AGENT_ID
-												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
-													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
-											where collector.COLLECTOR_ROLE = 'p'
-												and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
-												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by flat.collection_cde, flat.collection_id
-											union
-											select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
-											from agent
-												left join collector on agent.agent_id = collector.AGENT_ID
-												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
-													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
-											where collector.COLLECTOR_ROLE = 'p'
-												and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
-												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by flat.collection_cde, flat.collection_id, 0
-										) 
-										group by collection_cde, collection_id
-									</cfquery>
-									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<div class="card-header" id="preparatorHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
-											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
-										</h2>
-									</div>
-									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
-										<div class="card-body py-1 mb-1">
-											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
-											<cfelse>
-												<ul class="list-group">
-													<cfset earlyeststart = "">
-													<cfset latestend = "">
-													<cfloop query="getAgentPrepScope">
-														<cfif len(earlyeststart) EQ 0 AND NOT getAgentPrepScope.startyear IS "0" ><cfset earlyeststart = getAgentPrepScope.startyear></cfif>
-														<cfif len(latestend) EQ 0 AND NOT getAgentPrepScope.endyear IS "0"><cfset latestend = getAgentPrepScope.endyear></cfif>
-														<cfif len(getAgentPrepScope.startyear) GT 0 and NOT getAgentPrepScope.startyear IS "0">
-															<cfif compare(getAgentPrepScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentPrepScope.startyear></cfif>
-														</cfif>
-														<cfif compare(getAgentPrepScope.endyear,latestend) GT 0><cfset latestend=getAgentPrepScope.endyear></cfif>
-														<cfif getAgentPrepScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<cfif getAgentPrepScope.startyear IS getAgentPrepScope.endyear>
-															<cfif len(getAgentPrepScope.startyear) EQ 0 or getAgentPrepScope.startyear IS "0">
-																<cfset yearbit=" none known to year">
-															<cfelse>
-																<cfset yearbit=" in year #getAgentPrepScope.startyear#">
-															</cfif>
-														<cfelse>
-															<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
-														</cfif>
-														<cfif len(getAgentPrepScope.collection_cde) GT 0>
-															<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
-														</cfif>
-													</cfloop>
-												</ul>
-												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
-													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h2 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h2>
-													</cfif>
-												</cfif>
-											</cfif>
-										</div>
-									</div><!--- end preparatorCardBodyWrap --->
-								</div>
-							</section>
-	
+							<!--- Project sponsor and other project roles --->
 							<cfif oneOfUs EQ 1>
-								<!--- Project sponsor and other project roles --->
 								<section class="accordion" id="projectSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getProjRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProjRoles_result">
@@ -1353,68 +1394,6 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	<style>
-		section##publicationSection {max-height: 600px;overflow-y:visible;}									
-	</style>
-							<!--- Author --->
-							<section class="accordion" id="publicationSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
-										SELECT
-											count(citation.collection_object_id) citation_count,
-											formatted_publication.publication_id,
-											formatted_publication.formatted_publication
-										FROM
-											agent_name 
-											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
-											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
-											left join citation on formatted_publication.publication_id = citation.publication_id
-										where
-											formatted_publication.format_style = 'long' and
-											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										group by
-											formatted_publication.publication_id,
-											formatted_publication.formatted_publication
-									</cfquery>
-									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR publicationAuthor.recordcount GT 20>
-										<!--- cardState = collapsed --->
-										<cfset bodyClass = "collapse">
-										<cfset ariaExpanded ="false">
-									<cfelse>
-										<!--- cardState = expanded --->
-										<cfset bodyClass = "collapse show">
-										<cfset ariaExpanded ="true">
-									</cfif>
-									<div class="card-header">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# Citing MCZ material (#publicationAuthor.recordcount#)
-										</h2>
-									</div>
-									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
-										<div class="card-body py-1 mb-1">
-											<cfif publicationAuthor.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-0">No Publication Citing MCZ material</h3>
-											<cfelse>
-												<ul class="list-group">
-													<cfloop query="publicationAuthor">
-														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
-														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
-															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-															<span class="badge badge-primary badge-pill pb-1">#citation_count# citation#citplural#</span>
-															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
-														</li>
-													</cfloop>
-												</ul>
-											</cfif>
-										</div>
-									</div>
-								</div>
-							</section>
-										</div>
-										<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
-										
-	
 							<!--- transactions roles --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="transactionsSection">
@@ -1542,7 +1521,6 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	
 							<!--- permissions and rights roles --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion">
@@ -1671,58 +1649,65 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	
-							<!--- foreign key relationships to other tables --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<section class="card mb-2 bg-light">
-									<!--- always open, not a collapsable card --->
-									<cftry>
-										<cfquery name="getFKFields" datasource="uam_god">
-											SELECT dba_constraints.table_name, column_name, delete_rule 
-											FROM dba_constraints
-												left join dba_cons_columns on dba_constraints.constraint_name = dba_cons_columns.constraint_name and dba_constraints.owner = dba_cons_columns.owner
-											WHERE r_constraint_name in (select constraint_name from dba_constraints where table_name='AGENT')
-											ORDER BY dba_constraints.table_name
-										</cfquery>
-										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
-											<h2 class="h4 my-1 mx-2 px-1">Agent Record Link Summary</h2>
-										</div>
-										<cfset relatedTo = StructNew() >
-										<cfset okToDelete = true>
-										<cfloop query="getFKFields">
-											<cfif getFKFields.delete_rule EQ "NO ACTION">
-												<cfquery name="getRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRels_result">
-													SELECT count(*) as ct 
-													FROM #getFKFields.table_name#
-													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-												</cfquery>
-												<cfif getRels.ct GT 0>
-													<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
-													<cfset okToDelete = false>
-													<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
-												</cfif>
-											</cfif>
-										</cfloop>
+							<style>
+								section##publicationSection {max-height: 600px;overflow-y:visible;}									
+							</style>
+							<!--- Author --->
+							<section class="accordion" id="publicationSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+										SELECT
+											count(citation.collection_object_id) citation_count,
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+										FROM
+											agent_name 
+											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
+											left join citation on formatted_publication.publication_id = citation.publication_id
+										where
+											formatted_publication.format_style = 'long' and
+											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										group by
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+									</cfquery>
+									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR publicationAuthor.recordcount GT 20>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+									</cfif>
+									<div class="card-header">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
+											Publication#plural# Citing MCZ material (#publicationAuthor.recordcount#)
+										</h2>
+									</div>
+									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 										<div class="card-body py-1 mb-1">
-											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
+											<cfif publicationAuthor.recordcount EQ 0>
+												<h3 class="h4 px-2 mb-0">No Publication Citing MCZ material</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
+												<ul class="list-group">
+													<cfloop query="publicationAuthor">
+														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
+														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
+															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
+															<span class="badge badge-primary badge-pill pb-1">#citation_count# citation#citplural#</span>
+															<span>&nbsp;</span><!--- custom_styles.css sets display: none on last item in a li in a card. --->
+														</li>
+													</cfloop>
+												</ul>
 											</cfif>
-											<ul class="list-group">
-												<cfloop collection="#relatedTo#" item="key">
-													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
-												</cfloop>
-											</ul>
 										</div>
-									<cfcatch>
-										<!--- some issue with user access to metadata tables --->
-									</cfcatch>
-									</cftry>
-								</section>
-							</cfif>
-											
-					</div>	<!--- end of columns --->
+									</div>
+								</div>
+							</section>
+					</div>
 				</div>
 			</cfloop><!--- getAgent --->
 		</div>
