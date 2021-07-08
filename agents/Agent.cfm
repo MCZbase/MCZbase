@@ -137,48 +137,50 @@ limitations under the License.
 				<div class="col-12">
 					<div class="d-block mb-5 float-left pr-md-2 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
 						<!--- agent names --->
-							<section class="card mb-2 bg-light">
-								<!--- always open, not a collapsable card --->
-								<div class="card-header py-0">
-									<h2 class="h4 my-1 mx-2">Names for this agent</h2>
-								</div>
-								<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
-									SELECT
-										agent_name_id,
-										agent_id,
-										agent_name_type,
-										agent_name
-									FROM agent_name
-									WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										AND agent_name_type = 'preferred'
-								</cfquery>
-								<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
-									SELECT
-										agent_name_id,
-										agent_id,
-										agent_name_type,
-										agent_name
-									FROM agent_name
-									WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										AND agent_name_type <> 'preferred'
-								</cfquery>
-								<div class="card-body py-1 mb-1">
-									<ul class="list-group">
-										<!--- preferred name --->
-										<cfloop query="preferredNames">
-											<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
-										</cfloop>
-										<cfloop query="notPrefNames">
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-												<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
-											<cfelse>
-												<!--- don't display login name to non-admin users --->
-												<cfif notPrefNames.agent_name_type NEQ "login">
+							<section class="accordion">
+								<div class="card mb-2 bg-light">
+									<!--- always open, not a collapsable card --->
+									<div class="card-header py-0">
+										<h2 class="h4 my-1 mx-2">Names for this agent</h2>
+									</div>
+									<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
+										SELECT
+											agent_name_id,
+											agent_id,
+											agent_name_type,
+											agent_name
+										FROM agent_name
+										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											AND agent_name_type = 'preferred'
+									</cfquery>
+									<cfquery name="notPrefNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="notPrefNames_result">
+										SELECT
+											agent_name_id,
+											agent_id,
+											agent_name_type,
+											agent_name
+										FROM agent_name
+										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											AND agent_name_type <> 'preferred'
+									</cfquery>
+									<div class="card-body py-1 mb-1">
+										<ul class="list-group">
+											<!--- preferred name --->
+											<cfloop query="preferredNames">
+												<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
+											</cfloop>
+											<cfloop query="notPrefNames">
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 													<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+												<cfelse>
+													<!--- don't display login name to non-admin users --->
+													<cfif notPrefNames.agent_name_type NEQ "login">
+														<li class="list-group-item">#notPrefNames.agent_name# (#notPrefNames.agent_name_type#)</li>
+													</cfif>
 												</cfif>
-											</cfif>
-										</cfloop>
-									</ul>
+											</cfloop>
+										</ul>
+									</div>
 								</div>
 							</section>
 	
