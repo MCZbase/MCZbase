@@ -487,10 +487,10 @@ limitations under the License.
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
-										<textarea name="biography" id="biography" class="w-100">#encodeForHtml(trim(biography))#</textarea>
+										<textarea name="biography" id="biography" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
-												$('##biography').jqxEditor({lineBreak:"div"});
+												$('##biography').jqxEditor({lineBreak:"p",val:"#encodeForHtml(trim(biography))#"});
 											});
 										</script>
 									</div>
