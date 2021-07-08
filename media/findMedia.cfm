@@ -832,9 +832,18 @@ limitations under the License.
 			};
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({
+			//	$("##searchResultsGrid").jqxGrid({
+//					cardview: !currentState
+//				});
+				if (currentState) { 
+					$("##searchResultsGrid").jqxGrid("autoheight",false);
+					$("##searchResultsGrid").jqxGrid("autorowsheight",false);
+					cardview: currentState
+					} else {
+					$("##searchResultsGrid").jqxGrid("autoheight",true);
+					$("##searchResultsGrid").jqxGrid("autorowsheight",true);
 					cardview: !currentState
-				});
+					}
 			};
 	
 			$(document).ready(function() {
@@ -931,8 +940,8 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-						height: 2614,
-						autoheight: 'true',
+						//height: 2614,
+						//autoheight: 'true',
 						//autorowheight: 'true',
 						filterable: true,
 						sortable: true,
