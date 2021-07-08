@@ -82,9 +82,7 @@ function messageDialog(dialogText, dialogTitle) {
  * @param okFunction callback function to invoke upon a press of the OK button.
  */
 function confirmDialog(dialogText, dialogTitle, okFunction) {
-	var maxZIndex = getMaxZIndex();
-	var zindex = maxZIndex + 3;
-	$('<div style="padding: 10px; max-width: 500px; z-index: '+zindex+'; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; z-index: '+zindex+'; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
@@ -104,6 +102,7 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 			 $(this).dialog( "destroy" );
 		}
 	});
+	confirmDialog.dialog('moveToTop');
 };
 
 /** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
@@ -115,7 +114,7 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
  * @param okFunction callback function to invoke upon a press of the OK button.
  */
 function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
-	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
@@ -139,6 +138,7 @@ function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
 			 $(this).dialog( "destroy" );
 		}
 	});
+	confirmDialog.dialog('moveToTop');
 };
 
 
