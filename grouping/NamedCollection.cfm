@@ -360,7 +360,7 @@ limitations under the License.
 	
 					function gridLoaded(gridId, searchType) { 
 						if (Object.keys(window.columnHiddenSettings).length == 0) { 
-							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 							</cfif>
@@ -417,7 +417,7 @@ limitations under the License.
 							reszable: true, 
 							buttons: { 
 								Ok: function(){
-									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+									window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 										saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 									</cfif>
@@ -880,7 +880,6 @@ limitations under the License.
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
-					
 								createRowDetailsDialog('catalogedItemsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
@@ -932,7 +931,7 @@ limitations under the License.
 									{ text: 'Specific Locality', datafield: 'spec_locality', hideable: true, hidden: getColHidProp('spec_locality', false) },
 									{ text: 'Remove', datafield: 'Remove', columntype: 'button', 
 										cellsrenderer: function () {
-				                  	return "Remove";
+											return "Remove";
 										}, buttonclick: function (row) { 
 											var record = $("##catalogedItemsGrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
@@ -970,7 +969,7 @@ limitations under the License.
 						// gridLoaded for cataloged items ***********
 						function gridLoaded(gridId, searchType) { 
 							if (Object.keys(window.columnHiddenSettings).length == 0) { 
-								window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
+								window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
 								</cfif>
@@ -1051,7 +1050,7 @@ limitations under the License.
 									{
 										text: "Ok",
 										click: function(){ 
-											window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
+											window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
 											</cfif>
@@ -1096,7 +1095,7 @@ limitations under the License.
 			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 					delete from underscore_collection 
 					where
-					 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<h1 class="h2">"Collection" successfully deleted.</h1>
 			<ul>
