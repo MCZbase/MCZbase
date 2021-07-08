@@ -875,13 +875,22 @@ limitations under the License.
 										) 
 										group by collection_cde, collection_id
 									</cfquery>
+										<cfif getAgentPrepScope.recordcount GT 10 OR getAgentPrepScope.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<div class="card-header" id="preparatorHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="true" aria-controls="preparatorCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
 											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
 										</h2>
 									</div>
-									<div id="preparatorCardBodyWrap" class="collapse show" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
+									<div id="preparatorCardBodyWrap" class="#bodyClass#" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentPrepScope.recordcount EQ 0>
 												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
