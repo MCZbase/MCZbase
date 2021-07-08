@@ -931,7 +931,7 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-					//	height: 1000,
+						height: 900,
 						autoheight: 'true',
 //						autorowheight: 'false',
 						filterable: true,
