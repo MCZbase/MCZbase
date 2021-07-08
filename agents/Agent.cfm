@@ -1043,7 +1043,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
