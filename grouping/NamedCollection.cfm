@@ -792,11 +792,31 @@ limitations under the License.
 					<section class="container mt-2">
 						<div class="border rounded row">
 							<div class="col-12 mt-3">
-								<h2 class="h3">
-									Cataloged items in this named collection 
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
-								</h2>
-								<div id="jqxgrid"></div>
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+									<h2 class="h3">
+										Cataloged items in this named group
+										<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
+									</h2>
+									<div id="columnPickDialog">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div id="columnPick" class="px-1"></div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div id="columnPick1" class="px-1"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0 mx-0">
+								<!--- Grid Related code is below --->
+								<div id="catalogedItemsGrid" class="jqxGrid" role="table" aria-label="Cataloged items in this named group"></div>
+								<div id="enableselection"></div>
 							</div>
 						</div>
 					</section>
@@ -830,28 +850,33 @@ limitations under the License.
 									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 								}
 							};
-
 							var dataAdapter = new $.jqx.dataAdapter(source);
+
 							// initialize jqxGrid
-							$("##jqxgrid").jqxGrid(
+							$("##catalogedItemsGrid").jqxGrid(
 							{
 								width: '100%',
 								autoheight: 'true',
 								source: dataAdapter,
 								filterable: true,
-								showfilterrow: true,
 								sortable: true,
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['5','50','100','#undCollRelationsSum.ct#'],
-								columnsresize: false,
-								autoshowfiltericon: false,
+								pagesizeoptions: ['5','50','100','#condCollRelationsSum.ct#'], // reset in gridLoaded
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
 								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false,  // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
-								enabletooltips: true,
-								pageable: true,
+								ready: function () {
+									$("##searchResultsGrid").jqxGrid('selectrow', 0);
+								},
 								columns: [
 									{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
 									{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
@@ -862,7 +887,7 @@ limitations under the License.
 									{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'},
 									{ text: 'Remove', datafield: 'Remove', columntype: 'button', 
 										cellsrenderer: function () {
-				                  	return "Edit";
+				                  	return "Remove";
 										}, buttonclick: function (row) { 
 											var record = $("##jqxgrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
@@ -872,9 +897,148 @@ limitations under the License.
 											});
 										}
 									} 
-								]
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight:  1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##catalogedItemsGrid").on("bindingcomplete", function(event) {
+								gridLoaded('catalogedItemsGrid','taxon record');
+							});
+							$('##catalogedItemsGrid').on('rowexpand', function (event) {
+								//  Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('catalogedItemsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##catalogedItemsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##catalogedItemsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 							});
 						});
+						function gridLoaded(gridId, searchType) { 
+							if (Object.keys(window.columnHiddenSettings).length == 0) { 
+								window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+								</cfif>
+							}
+							$("##overlay").hide();
+							$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
+							var now = new Date();
+							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+							var filename = searchType + '_results_' + nowstring + '.csv';
+							// set maximum page size
+							if (rowcount > 100) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+								$('##' + gridId).jqxGrid({ pagesize: 50});
+							} else if (rowcount > 50) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+								$('##' + gridId).jqxGrid({ pagesize: 50});
+							} else { 
+								$('##' + gridId).jqxGrid({ pageable: false });
+							}
+							// add a control to show/hide columns
+							var columns = $('##' + gridId).jqxGrid('columns').records;
+							var halfcolumns = Math.round(columns.length/2);
+							var columnListSource = [];
+							for (i = 1; i < halfcolumns; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource.push(listRow);
+								}
+							} 
+							$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							var columnListSource1 = [];
+							for (i = halfcolumns; i < columns.length; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource1.push(listRow);
+								}
+							} 
+							$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick1").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							$("##columnPickDialog").dialog({ 
+								height: 'auto', 
+								width: 'auto',
+								adaptivewidth: true,
+								title: 'Show/Hide Columns',
+								autoOpen: false,
+								modal: true, 
+								reszable: true, 
+								buttons: [
+									{
+										text: "Ok",
+										click: function(){ 
+											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+											</cfif>
+											$(this).dialog("close"); 
+										},
+										tabindex: 0
+									}
+								],
+								open: function (event, ui) { 
+									var maxZIndex = getMaxZIndex();
+									// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+									$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+								} 
+							});
+							$("##columnPickDialogButton").html(
+								`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide 
+									<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+									<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
+									<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
+									<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
+								</span>
+								<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
+								`
+							);
+							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+							var maxZIndex = getMaxZIndex();
+							$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-cell').css({'border-color': '##aaa'});
+							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'catalogedItemsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						}
 					</script>
 
 				</main><!--- container ---> 
