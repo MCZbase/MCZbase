@@ -358,8 +358,8 @@ limitations under the License.
 											ORDER BY agent_relationship
 										</cfquery>
 
-									</cfif>
-									<cfif totalRelCount GT 15 OR totalRelCount eq 0>
+							
+										<cfif totalRelCount GT 15 OR totalRelCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -413,6 +413,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div><!--- end relationshipsCardBodyWrap --->
+								</cfif>
 								</div>
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
