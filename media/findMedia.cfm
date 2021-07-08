@@ -931,7 +931,7 @@ limitations under the License.
 						
 						source: dataAdapter,
 						rowsheight: 50,
-						height: 650,
+						//height: 650,
 						autoHeight: true,
 						//autorowheight: true,
 						filterable: true,
