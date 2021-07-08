@@ -950,7 +950,7 @@ limitations under the License.
 						selectionmode: 'multiplecellsadvanced',
 						altrows: true,
 						showtoolbar: false,
-						autoresizecolumns: true,
+						autoresizecolumns: 'column',
 						width: '100%',
 						<cfif Application.serverrole NEQ "production" >
 						cardview: false,
