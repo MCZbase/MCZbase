@@ -874,6 +874,7 @@ limitations under the License.
 								{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
 							]
 				});
+				};
 			};
 	
 			$(document).ready(function() {
