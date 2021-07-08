@@ -836,7 +836,7 @@ limitations under the License.
 					cardview: !currentState,
 					autoHeight: false,
 					autorowheight: false,
-					height: 2614
+					height: 'auto'
 				});
 			};
 	
