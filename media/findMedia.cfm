@@ -930,10 +930,10 @@ limitations under the License.
 					$("##searchResultsGrid").jqxGrid({
 						
 						source: dataAdapter,
-						rowsheight: 50,
-						height: 650,
+						//rowsheight: 50,
+						//height: 650,
 						autoHeight: true,
-						//autorowheight: true,
+						autorowheight: true,
 						filterable: true,
 						sortable: true,
 						pageable: true,
