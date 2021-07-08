@@ -523,7 +523,6 @@ limitations under the License.
 										group by phylclass, family
 										order by ct desc
 									</cfquery>
-									
 									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
 									<cfif getAgentFamilyScope.recordcount GT 50>
@@ -631,7 +630,7 @@ limitations under the License.
 											collection.collection_id,
 											collection.collection
 									</cfquery>
-										<cfif identification.recordcount EQ GT 15 OR identification.recordcount EQ eq 0>
+										<cfif identification.recordcount EQ GT 15 OR identification.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
