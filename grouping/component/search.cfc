@@ -196,7 +196,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
 			SELECT DISTINCT flat.guid, flat.scientific_name,  flat.verbatim_date, flat.higher_geog, flat.spec_locality, 
-				flat.othercatalognumbers, flat.full_taxon_name
+				flat.othercatalognumbers, flat.full_taxon_name,
+				underscore_relation.underscore_relation_id
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id

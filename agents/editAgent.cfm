@@ -487,19 +487,21 @@ limitations under the License.
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6 mt-1" >
 										<label for="biography" class="data-entry-label">Public Biography</label>
-										<textarea name="biography" id="biography" class="w-100">#biography#</textarea>
+										<textarea name="biography" id="biography" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
-												$('##biography').jqxEditor();
+												$('##biography').jqxEditor({lineBreak:"p"});
+												$('##biography').jqxEditor("val","#trim(biography)#");
 											});
 										</script>
 									</div>
 									<div class="col-12 col-md-6 mt-1">
 										<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
-										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#agent_remarks#</textarea>
+										<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
-												$('##agent_remarks').jqxEditor();
+												$('##agent_remarks').jqxEditor({lineBreak:"p"});
+												$('##agent_remarks').jqxEditor("val","#trim(agent_remarks)#");
 											});
 										</script>
 									</div>
