@@ -836,11 +836,11 @@ limitations under the License.
 //					cardview: !currentState
 //				});
 				if (currentState) { 
-					$("##searchResultsGrid").jqxGrid("autoheight",false);
-					$("##searchResultsGrid").jqxGrid("autorowsheight",false);
+					$("##searchResultsGrid").jqxGrid({autoheight:'false'},);
+					$("##searchResultsGrid").jqxGrid({autorowsheight:'false'},);
 					} else {
-					$("##searchResultsGrid").jqxGrid("autoheight",true);
-					$("##searchResultsGrid").jqxGrid("autorowsheight",true);
+					$("##searchResultsGrid").jqxGrid({autoheight:'true'},);
+					$("##searchResultsGrid").jqxGrid({autorowsheight:'true'},);
 					cardview: !currentState
 					}
 			};
