@@ -431,19 +431,19 @@ limitations under the License.
 								ORDER BY
 									agent_name
 							</cfquery>
+							<cfif groupMembership.recordcount GT 15 OR groupMembership.recordcount EQ 0>
+								<!--- cardState = collapsed --->
+								<cfset bodyClass = "collapse">
+								<cfset ariaExpanded ="false">
+							<cfelse>
+								<!--- cardState = expanded --->
+								<cfset bodyClass = "collapse show">
+								<cfset ariaExpanded ="true">
+							</cfif>
 							<cfif groupMembership.recordcount GT 0 >
 								<section class="accordion" id="groupMembershipSection">
 									<div class="card mb-2 bg-light">
 										<cfif groupMembership.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif groupMembership.recordcount GT 10>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
 										<div class="card-header" id="groupMembershipHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
 												Group Membership (#groupMembership.recordcount#)
