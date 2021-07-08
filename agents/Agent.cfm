@@ -347,7 +347,7 @@ limitations under the License.
 										ORDER BY agent_relationship
 									</cfquery>
 									<cfset totalRelCount = getAgentRel.recordcount>
-									<cfif oneOfUs EQ 1>
+									
 										<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 												agent_remarks
@@ -413,7 +413,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div><!--- end relationshipsCardBodyWrap --->
-								</cfif>
+								
 								</div>
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
