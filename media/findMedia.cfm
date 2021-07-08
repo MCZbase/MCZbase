@@ -810,9 +810,9 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['media_id'] + '">'+value+'</a></span>';
 			};
-			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var licenseCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var luri = rowData['licence_uri'];
+				var luri = rowData['license_uri'];
 				if (luri != "") { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + luri + '">'+value+'</a></span>';
 				} else { 
@@ -869,8 +869,8 @@ limitations under the License.
 								{ name: 'mask_media_fg', type: 'string' },
 							</cfif>
 							{ name: 'credit', type: 'string' },
-							{ name: 'licence_uri', type: 'string' },
-							{ name: 'licence_display', type: 'string' },
+							{ name: 'license_uri', type: 'string' },
+							{ name: 'license_display', type: 'string' },
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
 							{ name: 'protocol', type: 'string' },
@@ -966,7 +966,7 @@ limitations under the License.
 								{ width: 'auto', datafield: 'filename',hidable: true,hidden: getColHidProp('filename', false)},
 								{ width: 'auto', datafield: 'extension',hidable: true,hidden: getColHidProp('extension', false)},
 								{ width: 'auto', datafield: 'aspect',hidable: true,hidden: getColHidProp('aspect', false)},
-								{ width: 'auto', datafield: 'description',hidable: true},
+								{ width: 'auto', datafield: 'description',hidable: truehidden: getColHidProp('description', false)},
 								{ width: 'auto', datafield: 'made_date',hidable: true,hidden: getColHidProp('made_date', false)},
 								{ width: 'auto', datafield: 'subject',hidable: true,hidden: getColHidProp('subject', false)},
 								{ width: 'auto', datafield: 'original_filename',hidable: true,hidden: getColHidProp('original_filename', false)},
@@ -1018,7 +1018,7 @@ limitations under the License.
 							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: getColHidProp('owner', true) },
 							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: getColHidProp('credit', true) },
 							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: getColHidProp('dc_rights', true) },
-							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
+							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenseCellRenderer },
 							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
 							{text: 'Alt Text', datafield: 'ac_description', width: 200, hidable: true, hidden: getColHidProp('ac_description', true) },
 							{text: 'Media URI', datafield: 'media_uri', hideable: true, hidden: getColHidProp('media_uri', false) }
