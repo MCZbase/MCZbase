@@ -824,6 +824,11 @@ limitations under the License.
 					</section>
 					<!---- setup grid for cataloged items --->
 					<script type="text/javascript">
+						window.columnHiddenSettings = new Object();
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							lookupColumnVisibilities ('#cgi.script_name#','Default');
+						</cfif>
+
 						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							if (value > 1) {
 								return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
