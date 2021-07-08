@@ -963,7 +963,7 @@ limitations under the License.
 								{ width: 'auto', datafield: 'protocol'},
 								{ width: 'auto', datafield: 'host'},
 								{ width: 'auto', datafield: 'path'},
-								{ width: 'auto', datafield: 'filename'},
+								{ width: 'auto', datafield: 'filename',hidable: true,},
 								{ width: 'auto', datafield: 'extension'},
 								{ width: 'auto', datafield: 'aspect' },
 								{ width: 'auto', datafield: 'description' },
