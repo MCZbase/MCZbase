@@ -820,9 +820,7 @@ limitations under the License.
 									underscore_relation_id: id 
 								},
 								success : function (data) {
-									$.ajax({
-										$("##catalogedItemsGrid").jqxGrid("updateBoundData");
-									});
+									$("##catalogedItemsGrid").jqxGrid("updateBoundData");
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
@@ -940,7 +938,6 @@ limitations under the License.
 											var guidtoremove = record.guid;
 											var idtoremove = record.underscore_relation_id;
 											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
-												// TODO: Fix Z Index
 												removeUndRelation(idtoremove);
 											});
 										}
