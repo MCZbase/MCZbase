@@ -758,14 +758,8 @@ limitations under the License.
 												$('##addResultDiv').html("Added " + data[0].added);
 											},
 											error: function(jqXHR,textStatus,error){
-												var message = "";
-												if (error == 'timeout') {
-													message = ' Server took too long to respond.';
-												} else {
-													message = jqXHR.responseText;
-												}
-												messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
 												$('##addResultDiv').html("Error.");
+												handleFail(jqXHR,textStatus,error,"saving named group");
 											}
 										});
 									};
@@ -822,6 +816,28 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
+					<script>
+						function removeUndRelation(id) { 
+							jQuery.ajax({
+								url : "/grouping/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data : { 
+									method: "removeObjectFromUndColl",
+									underscore_relation_id: id 
+								},
+								success : function (data) {
+									$.ajax({
+										// TODO: Remove row from grid.
+									});
+								},
+								error: function(jqXHR,textStatus,error){
+									$('##saveResultDiv').html('Error.');
+									handleFail(jqXHR,textStatus,error,"removing cataloged item from named group");
+								}
+							});
+						}
+					</script>
 					<!---- setup grid for cataloged items --->
 					<script type="text/javascript">
 						window.columnHiddenSettings = new Object();
@@ -931,6 +947,7 @@ limitations under the License.
 											var guidtoremove = record.guid;
 											var idtoremove = record.underscore_relation_id;
 											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
+												// TODO: Fix Z Index
 												removeUndRelation(idtoremove);
 											});
 										}
