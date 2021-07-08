@@ -834,7 +834,8 @@ limitations under the License.
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
-					autoHeight: false
+					autoHeight: false,
+					autorowheight: false
 				});
 			};
 	
@@ -934,7 +935,7 @@ limitations under the License.
 						rowsheight: 50,
 						//height: 2614,
 						autoHeight: 'true',
-						//autorowheight: 'true',
+						autorowheight: 'true',
 						filterable: true,
 						sortable: true,
 						pageable: true,
