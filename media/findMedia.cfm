@@ -835,8 +835,7 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState,
 					autoHeight: false,
-					autorowheight: false,
-					height: 'auto'
+					autorowheight: false
 				});
 			};
 	
