@@ -135,7 +135,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
-					<div class="d-block mb-5 float-left pr-md-2 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 float-left px-1 col-12 col-md-4 col-xl-auto h-100">
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -478,7 +478,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 pr-md-2 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 pr-md-2 float-left h-100 col-12 col-md-4 col-xl-auto">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
@@ -1047,7 +1047,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 float-left h-100 col-12 col-md-4 col-xl-auto px-1">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
