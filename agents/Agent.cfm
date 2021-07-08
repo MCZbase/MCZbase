@@ -1421,7 +1421,7 @@ limitations under the License.
 										</cfquery>
 										<cfset totalPermitCount = getPermitsTo.recordcount + getPermitsFrom.recordCount + getPermitContacts.recordcount>
 										<cfif totalPermitCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalPermitCount GT 10>
+										<cfif totalPermitCount GT 15 OR totalPermitCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
