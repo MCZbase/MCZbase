@@ -1061,6 +1061,7 @@ limitations under the License.
 								} 
 							});
 							$("##columnPickDialogButton").html(
+								`
 								<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
 								<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 								`
