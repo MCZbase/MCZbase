@@ -758,7 +758,7 @@ limitations under the License.
 			</section>
 		<style>
 			.jqx-grid-card-row  {height: 620px;}
-			.jqx-grid-card-cell {overflow:hidden;}
+			.jqx-grid-card-cell {height:620px;overflow:hidden;}
 			.jqx-grid-card-cell table {height: 600px;overflow-y:hidden!important;}
 			.jqx-grid-card-cell-label {width: 30%;font-size: 11px;}
 			
@@ -955,7 +955,7 @@ limitations under the License.
 						<cfif Application.serverrole NEQ "production" >
 							cardview: false,
 							cardsize: 5,
-							cardheight: 620,
+							cardheight: 'auto',
 							width: '100%',
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id',hidable: true},
