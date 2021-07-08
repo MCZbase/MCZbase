@@ -202,8 +202,8 @@ limitations under the License.
 											ORDER BY
 												member_order
 										</cfquery>
-										<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif groupMembers.recordcount GT 10>
+										
+										<cfif groupMembers.recordcount GT 15 OR groupMembers.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -212,6 +212,7 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="groupMembersHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
 												Group Members (#groupMembers.recordcount#):
@@ -243,7 +244,6 @@ limitations under the License.
 							</cfif>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
-								
 								<section class="accordion" id="eaddressSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getAgentElecAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -337,6 +337,7 @@ limitations under the License.
 								</section>
 							</cfif>
 							<!--- relationships --->
+							
 							<section class="accordion" id="relationshipsSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="getAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -349,7 +350,7 @@ limitations under the License.
 										ORDER BY agent_relationship
 									</cfquery>
 									<cfset totalRelCount = getAgentRel.recordcount>
-									<cfif oneOfUs EQ 1>
+								
 										<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
 												agent_remarks
@@ -370,7 +371,7 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
+									<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 									<div class="card-header" id="relationshipsHeader">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
 											Relationships with other agents (#totalRelCount#)
@@ -415,7 +416,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div><!--- end relationshipsCardBodyWrap --->
-								</cfif>
+							
 								</div>
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
