@@ -523,6 +523,7 @@ limitations under the License.
 										group by phylclass, family
 										order by ct desc
 									</cfquery>
+									
 									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
 									<cfif getAgentFamilyScope.recordcount GT 50>
@@ -630,13 +631,22 @@ limitations under the License.
 											collection.collection_id,
 											collection.collection
 									</cfquery>
+										<cfif identification.recordcount EQ GT 15 OR identification.recordcount EQ eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 									<cfif identification.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<div class="card-header" id="determinerHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="true" aria-controls="determinerCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="determinerCardBodyWrap">
 											Determiner (in #identification.recordcount# collection#plural#) 
 										</h2>
 									</div>
-									<div id="determinerCardBodyWrap" class="collapse show" aria-labelledby="determinerHeader" data-parent="##determinerSection">
+									<div id="determinerCardBodyWrap" class="#bodyClass#" aria-labelledby="determinerHeader" data-parent="##determinerSection">
 										<div class="card-body py-1 mb-1">
 											<cfif identification.recordcount EQ 0>
 												<ul class="list-group">
@@ -680,7 +690,7 @@ limitations under the License.
 											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
 										</h2>
 									</div>
-									<div id="namedgroupCardBodyWrap" class="bodyClass" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
+									<div id="namedgroupCardBodyWrap" class="#bodyClass#" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getnamedGroups.recordcount EQ 0>
 												<ul class="list-group">
@@ -767,12 +777,22 @@ limitations under the License.
 												from lat_long 
 												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
+										<cfif getLatLongDet.recordcount GT 15 OR getLatLongDet.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 										<div class="card-header" id="georefHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="true" aria-controls="georefCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
 												Georeferences
 											</h2>
 										</div>
-										<div id="georefCardBodyWrap" class="collapse show" aria-labelledby="georefHeader" data-parent="##georefSection">
+											
+										<div id="georefCardBodyWrap" class="#bodyClass#" aria-labelledby="georefHeader" data-parent="##georefSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getLatLongDet.recordcount EQ 0>
 													<ul class="list-group">
