@@ -840,6 +840,7 @@ limitations under the License.
 							autoHeight: true,
 							autorowheight: true,
 							cardsize: 5,
+						adaptivewidth:true,
 							cardheight: 620,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id',hidable: true},
