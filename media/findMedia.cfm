@@ -837,8 +837,8 @@ limitations under the License.
 				});
 				if (currentState) { 
 					$("##searchResultsGrid").jqxGrid({
-							autoHeight: false,
-							autorowheight: false,
+							autoHeight: true,
+							autorowheight: true,
 							cardsize: 5,
 							cardheight: 620,
 							cardviewcolumns: [
@@ -972,8 +972,8 @@ limitations under the License.
 						source: dataAdapter,
 						rowsheight: 50,
 						//height: 2614,
-						autoHeight: 'true',
-						autorowheight: 'true',
+						autoHeight: true,
+						autorowheight: true,
 						filterable: true,
 						sortable: true,
 						pageable: true,
