@@ -732,12 +732,21 @@ limitations under the License.
 											collection,
 											attribute_type
 									</cfquery>
+									<cfif attributes.recordcount GT 15 OR attributes.recordcount EQ 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 									<div class="card-header" id="attributeHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="true" aria-controls="attributeCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="attributeCardBodyWrap">
 											Attribute Determiner
 										</h2>
 									</div>
-									<div id="attributeCardBodyWrap" class="collapse show" aria-labelledby="attributeHeader" data-parent="##attributeSection">
+									<div id="attributeCardBodyWrap" class="#bodyClass#" aria-labelledby="attributeHeader" data-parent="##attributeSection">
 										<div class="card-body py-1 mb-1">
 											<cfif attributes.recordcount EQ 0>
 												<ul class="list-group">
