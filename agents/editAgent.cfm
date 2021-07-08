@@ -490,7 +490,8 @@ limitations under the License.
 										<textarea name="biography" id="biography" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
-												$('##biography').jqxEditor({lineBreak:"p",val:"#encodeForHtml(trim(biography))#"});
+												$('##biography').jqxEditor({lineBreak:"p"});
+												$('##biography').jqxEditor("val","#encodeForHtml(trim(biography))#"};
 											});
 										</script>
 									</div>
