@@ -507,7 +507,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function () {
-											$('##html_description').jqxEditor();
+											$('##html_description').jqxEditor({lineBreak:"p"});
 										});
 									</script>
 								</div>
@@ -682,7 +682,7 @@ limitations under the License.
 									<script>
 										$(document).ready(function () {
 											$('##html_description').jqxEditor({lineBreak:"p"});
-											$('##html_description').jqxEditor("val","#trim(html_description)#");
+											$('##html_description').jqxEditor("val","#encodeForJavaScript(trim(html_description))#");
 										});
 									</script>
 								</div>
@@ -807,18 +807,46 @@ limitations under the License.
 						FROM underscore_relation 
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 					</cfquery>
-					<section class="container mt-2">
-						<div class="border rounded row">
-							<div class="col-12 mt-3">
-								<h2 class="h3">
-									Cataloged items in this named collection 
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
-								</h2>
-								<div id="jqxgrid"></div>
+					<section class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12">
+								<div class="mb-5">
+									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+										<h2 class="h3">
+											Cataloged items in this named group
+											<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#undCollRelationsSum.ct#)</a>
+										</h2>
+										<div id="columnPickDialog">
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-12 col-md-6">
+														<div id="columnPick" class="px-1"></div>
+													</div>
+													<div class="col-12 col-md-6">
+														<div id="columnPick1" class="px-1"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="columnPickDialogButton"></div>
+										<div id="resultDownloadButtonContainer"></div>
+									</div>
+									<div class="row mt-0"> 
+										<!--- Grid Related code is below along with search handlers --->
+										<div id="catalogedItemsGrid" class="jqxGrid" role="table" aria-label="Cataloged items in this named group"></div>
+										<div id="enableselection"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>
+					<!---- setup grid for cataloged items --->
 					<script type="text/javascript">
+						window.columnHiddenSettings = new Object();
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							lookupColumnVisibilities ('#cgi.script_name#?action=edit','Default');
+						</cfif>
+
 						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							if (value > 1) {
 								return '<a href="/guid/'+value+'"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
@@ -836,10 +864,20 @@ limitations under the License.
 									{ name: 'underscore_relation_id', type: 'string' },
 									{ name: 'guid', type: 'string' },
 									{ name: 'scientific_name', type: 'string' },
+									{ name: 'author_text', type: 'string' },
 									{ name: 'verbatim_date', type: 'string' },
+									{ name: 'date_collected', type: 'string' },
 									{ name: 'higher_geog', type: 'string' },
+									{ name: 'continent_ocean', type: 'string' },
+									{ name: 'country', type: 'string' },
+									{ name: 'state_prov', type: 'string' },
+									{ name: 'county', type: 'string' },
 									{ name: 'spec_locality', type: 'string' },
 									{ name: 'othercatalognumbers', type: 'string' },
+									{ name: 'phylym', type: 'string' },
+									{ name: 'phylclass', type: 'string' },
+									{ name: 'phylorder', type: 'string' },
+									{ name: 'family', type: 'string' },
 									{ name: 'full_taxon_name', type: 'string' }
 								],
 								url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#',
@@ -848,39 +886,64 @@ limitations under the License.
 									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 								}
 							};
-
 							var dataAdapter = new $.jqx.dataAdapter(source);
-							// initialize jqxGrid
-							$("##jqxgrid").jqxGrid(
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							}
+
+							// initialize jqxGrid for cataloged items *****
+							$("##catalogedItemsGrid").jqxGrid(
 							{
 								width: '100%',
 								autoheight: 'true',
 								source: dataAdapter,
 								filterable: true,
-								showfilterrow: true,
 								sortable: true,
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['5','50','100','#undCollRelationsSum.ct#'],
-								columnsresize: false,
-								autoshowfiltericon: false,
+								pagesizeoptions: ['5','50','100','#undCollRelationsSum.ct#'], // reset in gridLoaded
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
 								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false,  // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
-								enabletooltips: true,
-								pageable: true,
+								ready: function () {
+									$("##searchResultsGrid").jqxGrid('selectrow', 0);
+								},
 								columns: [
-									{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
-									{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
-									{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
-									{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
-									{ text: 'Locality', datafield: 'spec_locality',width:'350' },
-									{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:'350' },
-									{ text: 'Taxonomy', datafield: 'full_taxon_name', width:'350'},
+									{ text: 'GUID', datafield: 'guid', width:150,cellsalign: 'left',cellsrenderer: cellsrenderer, hideable: false},
+									{ text: 'Scientific Name', datafield: 'scientific_name', width:250, hideable: true, hidden: getColHidProp('scientific_name', false) },
+									{ text: 'Authorship', datafield: 'author_text', width:110, hideable: true, hidden: getColHidProp('author_text', true) },
+									{ text: 'Higher Taxonomy', datafield: 'full_taxon_name', width:350, hideable: true, hidden: getColHidProp('taxonomy', true) },
+									{ text: 'Phylum', datafield: 'phylum', width:110, hideable: true, hidden: getColHidProp('phylum', true) },
+									{ text: 'Class', datafield: 'phylclass', width:110, hideable: true, hidden: getColHidProp('phylclass', true) },
+									{ text: 'Order', datafield: 'phylorder', width:110, hideable: true, hidden: getColHidProp('phylorder', true) },
+									{ text: 'Family', datafield: 'family', width:110, hideable: true, hidden: getColHidProp('family', false) },
+									{ text: 'Other Catalog Numbers', datafield: 'othercatalognumbers',width:350, hideable: true, hidden: getColHidProp('othercatalognumbers', true) },
+									{ text: 'Verbatim Date', datafield: 'verbatim_date', width:150, hideable: true, hidden: getColHidProp('verbatim_date', true) },
+									{ text: 'Date Collected', datafield: 'date_collected', width:150, hideable: true, hidden: getColHidProp('date_collected', false) },
+									{ text: 'Higher Geography', datafield: 'higher_geog', width:350, hideable: true, hidden: getColHidProp('higher_geog', true) },
+									{ text: 'Continent/Ocean', datafield: 'continent_ocean', width:110, hideable: true, hidden: getColHidProp('continent_ocean', true) },
+									{ text: 'Country', datafield: 'country', width:350, hideable: true, hidden: getColHidProp('country', false) },
+									{ text: 'State/Province', datafield: 'state_prov', width:110, hideable: true, hidden: getColHidProp('state_prov', false) },
+									{ text: 'County', datafield: 'county', width:110, hideable: true, hidden: getColHidProp('county', true) },
+									{ text: 'Specific Locality', datafield: 'spec_locality', hideable: true, hidden: getColHidProp('spec_locality', false) },
 									{ text: 'Remove', datafield: 'Remove', columntype: 'button', 
 										cellsrenderer: function () {
-				                  	return "Edit";
+				                  	return "Remove";
 										}, buttonclick: function (row) { 
 											var record = $("##jqxgrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
@@ -890,10 +953,144 @@ limitations under the License.
 											});
 										}
 									} 
-								]
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight:  1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##catalogedItemsGrid").on("bindingcomplete", function(event) {
+								gridLoaded('catalogedItemsGrid','taxon record');
+							});
+							$('##catalogedItemsGrid').on('rowexpand', function (event) {
+								//  Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('catalogedItemsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##catalogedItemsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##catalogedItemsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 							});
 						});
+						// gridLoaded for cataloged items ***********
+						function gridLoaded(gridId, searchType) { 
+							if (Object.keys(window.columnHiddenSettings).length == 0) { 
+								window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
+								</cfif>
+							}
+							$("##overlay").hide();
+							$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
+							var now = new Date();
+							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+							var filename = searchType + '_results_' + nowstring + '.csv';
+							// set maximum page size
+							var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+							var rowcount = datainformation.rowscount;
+							if (rowcount > 100) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+								$('##' + gridId).jqxGrid({ pagesize: 50});
+							} else if (rowcount > 50) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize: 50});
+								$('##' + gridId).jqxGrid({ pagesize: 50});
+							} else { 
+								$('##' + gridId).jqxGrid({ pageable: false });
+							}
+							// add a control to show/hide columns
+							var columns = $('##' + gridId).jqxGrid('columns').records;
+							var halfcolumns = Math.round(columns.length/2);
+							var columnListSource = [];
+							for (i = 1; i < halfcolumns; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource.push(listRow);
+								}
+							} 
+							$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							var columnListSource1 = [];
+							for (i = halfcolumns; i < columns.length; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource1.push(listRow);
+								}
+							} 
+							$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick1").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							$("##columnPickDialog").dialog({ 
+								height: 'auto', 
+								width: 'auto',
+								adaptivewidth: true,
+								title: 'Show/Hide Columns',
+								autoOpen: false,
+								modal: true, 
+								reszable: true, 
+								buttons: [
+									{
+										text: "Ok",
+										click: function(){ 
+											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
+											</cfif>
+											$(this).dialog("close"); 
+										},
+										tabindex: 0
+									}
+								],
+								open: function (event, ui) { 
+									var maxZIndex = getMaxZIndex();
+									// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+									$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+								} 
+							});
+							$("##columnPickDialogButton").html(`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>`);
+							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+							var maxZIndex = getMaxZIndex();
+							$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-cell').css({'border-color': '##aaa'});
+							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'catalogedItemsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						}
 					</script>
+					<!---- end setup grid for cataloged items **** --->
 
 				</main><!--- container ---> 
 			</cfoutput>

@@ -491,7 +491,7 @@ limitations under the License.
 										<script>
 											$(document).ready(function () {
 												$('##biography').jqxEditor({lineBreak:"p"});
-												$('##biography').jqxEditor("val","#trim(biography)#");
+												$('##biography').jqxEditor("val","#encodeForJavaScript(trim(biography))#");
 											});
 										</script>
 									</div>
@@ -501,7 +501,7 @@ limitations under the License.
 										<script>
 											$(document).ready(function () {
 												$('##agent_remarks').jqxEditor({lineBreak:"p"});
-												$('##agent_remarks').jqxEditor("val","#trim(agent_remarks)#");
+												$('##agent_remarks').jqxEditor("val","#encodeForJavascript(trim(agent_remarks))#");
 											});
 										</script>
 									</div>
