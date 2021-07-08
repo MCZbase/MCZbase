@@ -196,10 +196,12 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
 			SELECT DISTINCT flat.guid, flat.scientific_name, flat.author_text,
+				flat.collectors,
 				mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
 				flat.verbatim_date, 
 				flat.higher_geog, flat.spec_locality,
 				flat.country, flat.state_prov, flat.continent_ocean, flat.county,
+				flat.island, flat.island_group,
 				flat.phylum, flat.phylclass, flat.phylorder, flat.family,
 				flat.othercatalognumbers, flat.full_taxon_name,
 				underscore_relation.underscore_relation_id
