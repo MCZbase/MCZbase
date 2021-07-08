@@ -931,7 +931,7 @@ limitations under the License.
 						
 						source: dataAdapter,
 						rowsheight: 50,
-						height: 2614,
+						height: 650,
 						autoHeight: true,
 						//autorowheight: true,
 						filterable: true,
@@ -942,6 +942,7 @@ limitations under the License.
 						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
+						keyboardnavigation: true,
 						autoshowfiltericon: true,
 						autoshowcolumnsmenubutton: false,
 						autoshowloadelement: false,  // overlay acts as load element for form+results
