@@ -908,7 +908,7 @@ limitations under the License.
 								columns: [
 									{ text: 'GUID', datafield: 'guid', width:150,cellsalign: 'left',cellsrenderer: cellsrenderer, hideable: false},
 									{ text: 'Scientific Name', datafield: 'scientific_name', width:250, hideable: true, hidden: getColHidProp('scientific_name', false) },
-									{ text: 'Authorship', datafield: 'scientific_name', width:250, hideable: true, hidden: getColHidProp('author_text', true) },
+									{ text: 'Authorship', datafield: 'author_text', width:110, hideable: true, hidden: getColHidProp('author_text', true) },
 									{ text: 'Higher Taxonomy', datafield: 'full_taxon_name', width:350, hideable: true, hidden: getColHidProp('taxonomy', true) },
 									{ text: 'Phylum', datafield: 'phylum', width:110, hideable: true, hidden: getColHidProp('phylum', true) },
 									{ text: 'Class', datafield: 'phylclass', width:110, hideable: true, hidden: getColHidProp('phylclass', true) },
