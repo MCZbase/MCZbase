@@ -974,6 +974,8 @@ limitations under the License.
 							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 							var filename = searchType + '_results_' + nowstring + '.csv';
 							// set maximum page size
+							var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+							var rowcount = datainformation.rowscount;
 							if (rowcount > 100) { 
 								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 								$('##' + gridId).jqxGrid({ pagesize: 50});
