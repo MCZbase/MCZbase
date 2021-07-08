@@ -765,25 +765,12 @@ limitations under the License.
 											dataType : "json",
 											data : $('##addCollObjectsUndColl').serialize(),
 											success : function (data) {
-												$.ajax({
-													url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
-													type : "get",
-													dataType : "html",
-													success : function(data2){
-														$('##divListOfContainedObjects').html(data2);
-													}
-												});
 												$('##addResultDiv').html("Added " + data[0].added);
+												$("##catalogedItemsGrid").jqxGrid("updateBoundData");
 											},
 											error: function(jqXHR,textStatus,error){
-												var message = "";
-												if (error == 'timeout') {
-													message = ' Server took too long to respond.';
-												} else {
-													message = jqXHR.responseText;
-												}
-												messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
 												$('##addResultDiv').html("Error.");
+												handleFail(jqXHR,textStatus,error,"saving named group");
 											}
 										});
 									};
@@ -840,6 +827,26 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
+					<script>
+						function removeUndRelation(id) { 
+							jQuery.ajax({
+								url : "/grouping/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data : { 
+									method: "removeObjectFromUndColl",
+									underscore_relation_id: id 
+								},
+								success : function (data) {
+									$("##catalogedItemsGrid").jqxGrid("updateBoundData");
+								},
+								error: function(jqXHR,textStatus,error){
+									$('##saveResultDiv').html('Error.');
+									handleFail(jqXHR,textStatus,error,"removing cataloged item from named group");
+								}
+							});
+						}
+					</script>
 					<!---- setup grid for cataloged items --->
 					<script type="text/javascript">
 						window.columnHiddenSettings = new Object();
@@ -892,7 +899,7 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								createRowDetailsDialog('catalogedItemsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -914,14 +921,14 @@ limitations under the License.
 								columnsresize: true,
 								autoshowfiltericon: true,
 								autoshowcolumnsmenubutton: false,
-								autoshowloadelement: false,  // overlay acts as load element for form+results
+								autoshowloadelement: true, 
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
 								ready: function () {
-									$("##searchResultsGrid").jqxGrid('selectrow', 0);
+									$("##catalogedItemsGrid").jqxGrid('selectrow', 0);
 								},
 								columns: [
 									{ text: 'GUID', datafield: 'guid', width:150,cellsalign: 'left',cellsrenderer: cellsrenderer, hideable: false},
@@ -945,7 +952,7 @@ limitations under the License.
 										cellsrenderer: function () {
 				                  	return "Remove";
 										}, buttonclick: function (row) { 
-											var record = $("##jqxgrid").jqxGrid('getrowdata', row);
+											var record = $("##catalogedItemsGrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
 											var idtoremove = record.underscore_relation_id;
 											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
@@ -1062,7 +1069,7 @@ limitations under the License.
 									{
 										text: "Ok",
 										click: function(){ 
-											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
 											</cfif>
@@ -1078,7 +1085,9 @@ limitations under the License.
 									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 								} 
 							});
-							$("##columnPickDialogButton").html(`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>`);
+							$("##columnPickDialogButton").html(
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+							);
 							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 							var maxZIndex = getMaxZIndex();

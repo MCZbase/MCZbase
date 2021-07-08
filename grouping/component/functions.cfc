@@ -287,28 +287,4 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cftry>
 </cffunction>
 
-<!--- Given an underscore_collection_id return an html rendering of the collection objects in that collection.  --->
-<!--- TODO: Replace with json to populate grid. --->
-<cffunction name="getUndCollObjectsHTML" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="underscore_collection_id" type="string" required="yes">
-
-	<cfset result = "">
-	<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
-		select guid, underscore_relation_id
-			from #session.flatTableName#
-				left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
-			where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-			order by guid
-	</cfquery>
-	<cfset result="<h2 id='existingvalues'>Collection objects in this named collection</h2><ul>" >
-	<cfloop query="undCollUse">
-		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a> " >
-		<cfset result =  result & "<button class='btn-xs btn-secondary mx-1' onclick='removeUndRelation(#undCollUse.underscore_relation_id#);'>Remove</button>" >
-		<cfset result =  result & "</li>" >
-	</cfloop>
-	<cfset result=result & '</ul>'>
-
-	<cfreturn result>
-</cffunction>
-		
 </cfcomponent>

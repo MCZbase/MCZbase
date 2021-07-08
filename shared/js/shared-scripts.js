@@ -82,7 +82,7 @@ function messageDialog(dialogText, dialogTitle) {
  * @param okFunction callback function to invoke upon a press of the OK button.
  */
 function confirmDialog(dialogText, dialogTitle, okFunction) {
-	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
@@ -100,8 +100,15 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
-		}
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		} 
 	});
+	confirmDialog.dialog('moveToTop');
 };
 
 /** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
@@ -113,7 +120,7 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
  * @param okFunction callback function to invoke upon a press of the OK button.
  */
 function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
-	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
@@ -135,8 +142,15 @@ function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
-		}
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		} 
 	});
+	confirmDialog.dialog('moveToTop');
 };
 
 
