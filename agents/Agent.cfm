@@ -808,13 +808,22 @@ limitations under the License.
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
+										<cfif getMedia.recordcount GT 15 OR getMedia.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 									<div class="card-header" id="mediaHeader">
 										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="true" aria-controls="mediaCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
 											Subject of #getMedia.recordcount# media record#plural#
 										</h2>
 									</div>
-									<div id="mediaCardBodyWrap" class="collapse show" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+									<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
 											<cfset mediaLink = "No Media records">
 										<cfelse>
@@ -875,7 +884,7 @@ limitations under the License.
 										) 
 										group by collection_cde, collection_id
 									</cfquery>
-										<cfif getAgentPrepScope.recordcount GT 10 OR getAgentPrepScope.recordcount eq 0>
+										<cfif getAgentPrepScope.recordcount GT 15 OR getAgentPrepScope.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
