@@ -758,6 +758,7 @@ limitations under the License.
 			</section>
 		<style>
 			.jqx-grid-card-row  {height: 250px;}
+			.jqx-grid-card-cell {overflow:hidden;}
 			.jqx-grid-card-cell table {height: 250px;overflow-y:hidden!important;}
 			.jqx-grid-card-cell-label {width: 25%;}
 			
