@@ -837,7 +837,7 @@ limitations under the License.
 					autoHeight: false,
 					autorowheight: false,
 							cardsize: 5,
-							cardheight: 250,
+							cardheight: 620,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id',hidable: true},
 								{ width: 'auto', datafield: 'preview_uri',hidable: true},
