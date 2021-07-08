@@ -932,7 +932,7 @@ limitations under the License.
 						source: dataAdapter,
 						rowsheight: 50,
 						height: 1000,
-//						autoheight: 'false',
+						autoheight: 'true',
 //						autorowheight: 'false',
 						filterable: true,
 						sortable: true,
