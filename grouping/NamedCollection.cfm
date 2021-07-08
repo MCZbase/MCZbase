@@ -863,7 +863,7 @@ limitations under the License.
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['5','50','100','#condCollRelationsSum.ct#'], // reset in gridLoaded
+								pagesizeoptions: ['5','50','100','#undCollRelationsSum.ct#'], // reset in gridLoaded
 								showaggregates: true,
 								columnsresize: true,
 								autoshowfiltericon: true,
