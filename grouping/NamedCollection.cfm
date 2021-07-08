@@ -896,7 +896,7 @@ limitations under the License.
 								columnsresize: true,
 								autoshowfiltericon: true,
 								autoshowcolumnsmenubutton: false,
-								autoshowloadelement: false,  // overlay acts as load element for form+results
+								autoshowloadelement: true, 
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: 'singlerow',
