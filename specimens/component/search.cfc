@@ -105,30 +105,27 @@ limitations under the License.
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfset implementation = 'cfproc'>
-		<cfset implementation = 'cfquery'>
-		<cfif implementation EQ 'cfquery'>
-			<cfquery name="prepareSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
-				call build_query(
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">, 
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
-					<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#search_json#">)
-			</cfquery>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT * 
-				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-					left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
-				WHERE
-					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			</cfquery>
-		<cfelse>
-			<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes">
-				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">	
-				<cfprocresult name="search">
-			</cfstoredproc>
-		</cfif>
+		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">	
+			<cfprocresult name="search">
+		</cfstoredproc>
+		<!--- TODO implement return code in build_query and check return code for error value here. --->
+		<!---
+		<cfdump var="#prepareSearch_result#">
+		<cfabort>
+		<cfif prepareSearch_result NEQ 0>
+			<cfthrow message = "failed to run search, build_query returned a non zero status code">
+		</cfif>	
+		--->
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT * 
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
 
 		<cfset rows = 0>
 		<cfset data = ArrayNew(1)>
