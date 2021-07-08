@@ -759,7 +759,7 @@ limitations under the License.
 		<style>
 			.jqx-grid-card-row  {height: 600px;}
 			.jqx-grid-card-cell {height:600px;overflow:hidden;}
-			.jqx-grid-card-cell table {height: 600px;overflow-y:hidden!important;}
+			.jqx-grid-card-cell table {height: 570px;overflow-y:hidden!important;}
 			.jqx-grid-card-cell-label {width: 30%;font-size: 11px;}
 			
 		</style>
@@ -939,7 +939,6 @@ limitations under the License.
 						pageable: 'true',
 						editable: 'false',
 						pagesize: 50,
-						width: '100%',
 						pagesizeoptions: ['5','50','100'],
 						showaggregates:'true',
 						columnsresize: 'true',
@@ -954,7 +953,7 @@ limitations under the License.
 						<cfif Application.serverrole NEQ "production" >
 							cardview: 'false',
 							cardsize: 5,
-							cardheight: 550,
+							cardheight: 600,
 							cardviewcolumns: [
 								{ width: 'auto', datafield: 'media_id',hidable: 'true'},
 								{ width: 'auto', datafield: 'preview_uri',hidable: 'true'},
