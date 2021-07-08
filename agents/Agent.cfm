@@ -881,10 +881,10 @@ limitations under the License.
 												<cfloop query="getMedia">
 													<ul class="list-group list-group-horizontal-md border p-2 m-2">
 													<cfif getMedia.media_type IS "image">
-														<li class="col-12 col-md-4 col-xl-3 px-0">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="120"></a>
+														<li class="col-12 col-md-4 col-xl-2 px-0">
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="110"></a>
 														</li>
-														<li class="col-12 col-md-8 col-xl-9 px-0">
+														<li class="col-12 col-md-8 col-xl-10">
 															<ul class="list-group">
 																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
 																<li class="list-group-item">#getMedia.descriptor#</li>
