@@ -357,14 +357,23 @@ limitations under the License.
 												and agent_relationship not like '% duplicate of'
 											ORDER BY agent_relationship
 										</cfquery>
+										<cfif totalRelCount GT 15 OR totalRelCount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 									</cfif>
 									<div class="card-header" id="relationshipsHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="true" aria-controls="relationshipsCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="ariaExpanded" aria-controls="relationshipsCardBodyWrap">
 											Relationships with other agents (#totalRelCount#)
 										</h2>
 									</div>
-									<div id="relationshipsCardBodyWrap" class="collapse show" aria-labelledby="relationshipsHeader" data-parent="##relationshipsSection">
+									<div id="relationshipsCardBodyWrap" class="#bodyClass#" aria-labelledby="relationshipsHeader" data-parent="##relationshipsSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentRel.recordcount EQ 0>
 												<ul class="list-group">
