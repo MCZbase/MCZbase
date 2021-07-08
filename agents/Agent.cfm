@@ -335,9 +335,6 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-															
-					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 							<!--- relationships --->
 							<section class="accordion" id="relationshipsSection"> 
 								<div class="card mb-2 bg-light">
@@ -409,7 +406,6 @@ limitations under the License.
 									</div><!--- end relationshipsCardBodyWrap --->
 								</div>
 							</section>
-
 							<!--- group membership (other agents of which this agent is a group member) --->
 							<cfquery name="groupMembership" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="groupMembership_result">
 								SELECT
@@ -469,7 +465,8 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
