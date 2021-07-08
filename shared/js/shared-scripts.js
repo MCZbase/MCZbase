@@ -100,7 +100,13 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
-		}
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		} 
 	});
 	confirmDialog.dialog('moveToTop');
 };
@@ -136,7 +142,13 @@ function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
 		},
 		close: function() {
 			 $(this).dialog( "destroy" );
-		}
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		} 
 	});
 	confirmDialog.dialog('moveToTop');
 };
