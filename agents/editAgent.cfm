@@ -491,16 +491,17 @@ limitations under the License.
 										<script>
 											$(document).ready(function () {
 												$('##biography').jqxEditor({lineBreak:"p"});
-												$('##biography').jqxEditor("val","#encodeForHtml(trim(biography))#");
+												$('##biography').jqxEditor("val","#trim(biography)#");
 											});
 										</script>
 									</div>
 									<div class="col-12 col-md-6 mt-1">
 										<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
-										<textarea name="agent_remarks" id="agent_remarks" class="w-100">#encodeForHtml(trim(agent_remarks))#</textarea>
+										<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
 												$('##agent_remarks').jqxEditor({lineBreak:"div"});
+												$('##agent_remarks').jqxEditor("val","#trim(agent_remarks)#");
 											});
 										</script>
 									</div>
