@@ -833,7 +833,14 @@ limitations under the License.
 			function toggleCardView() { 
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
 				$("##searchResultsGrid").jqxGrid({
-					cardview: !currentState
+					cardview: !currentState,
+//						if (currentState) { 
+//						autoheight:false,
+//						autorowsheight:'false,
+//						} else {
+						autoheight:true,
+						autorowsheight:true,
+						}
 				});
 		
 			};
@@ -932,13 +939,6 @@ limitations under the License.
 						width: '100%',
 						source: dataAdapter,
 						rowsheight: 50,
-						if (currentState) { 
-						autoheight:false,
-						autorowsheight:'false,
-						} else {
-						autoheight:true,
-						autorowsheight:true,
-						}
 						//height: 2614,
 						//autoheight: 'true',
 						//autorowheight: 'true',
