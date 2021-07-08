@@ -1060,12 +1060,7 @@ limitations under the License.
 									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 								} 
 							});
-							$("##columnPickDialogButton").html(
-								`
-								<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-								<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
-								`
-							);
+							$("##columnPickDialogButton").html(`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>`);
 							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 							var maxZIndex = getMaxZIndex();
