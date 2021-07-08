@@ -136,7 +136,7 @@ limitations under the License.
 
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12">
-					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 float-left pr-2 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
 						<!--- agent names --->
 							<section class="card mb-2 bg-light">
 								<!--- always open, not a collapsable card --->
@@ -466,7 +466,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
+					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
@@ -611,7 +611,6 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
-	
 							<!--- Determiner --->
 							<section class="accordion" id="determinerSection"> 
 								<div class="card mb-2 bg-light">
@@ -658,7 +657,6 @@ limitations under the License.
 									</div><!--- end determinerCardBodyWrap --->
 								</div>
 							</section>
-							
 							<!--- named groups --->
 							<section class="accordion" id="namedgroupSection"> 
 								<div class="card mb-2 bg-light">
@@ -695,102 +693,6 @@ limitations under the License.
 									</div><!--- end namedgroupCardBodyWrap --->
 								</div>
 							</section>
-					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
-							<cfif oneOfUs EQ 1>
-								<!--- records entered --->
-								<section class="accordion" id="enteredSection"> 
-									<div class="card mb-2 bg-light">
-										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
-											select
-												count(*) cnt,
-												collection,
-												collection.collection_id
-											from 
-												coll_object,
-												cataloged_item,
-												collection
-											where 
-												coll_object.collection_object_id = cataloged_item.collection_object_id and
-												cataloged_item.collection_id=collection.collection_id and
-												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by
-												collection,
-												collection.collection_id
-										</cfquery>
-										<div class="card-header" id="enteredHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered
-											</h2>
-										</div>
-										<div id="enteredCardBodyWrap" class="collapse show" aria-labelledby="enteredHeader" data-parent="##enteredSection">
-											<div class="card-body py-1 mb-1">
-												<cfif entered.recordcount EQ 0>
-													<ul class="list-group">
-														<li class="list-group-item">None</li>
-													</ul>
-												<cfelse>
-													<ul class="list-group">
-														<cfloop query="entered">
-															<li class="list-group-item">
-																<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
-															</li>
-														</cfloop>
-													</ul>
-												</cfif>
-											</div>
-										</div><!--- end enteredCardBodyWrap --->
-									</div>
-								</section>
-							</cfif>
-	
-							<cfif oneOfUs EQ 1>
-								<!--- records last edited by --->
-								<section class="accordion" id="lastEditSection"> 
-									<div class="card mb-2 bg-light">
-										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
-											select 
-												count(*) cnt,
-												collection,
-												collection.collection_id
-											from 
-												coll_object,
-												cataloged_item,
-												collection
-											where 
-												coll_object.collection_object_id = cataloged_item.collection_object_id and
-												cataloged_item.collection_id=collection.collection_id and
-												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by
-												collection,
-												collection.collection_id
-										</cfquery>
-										<div class="card-header" id="lastEditHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent
-											</h2>
-										</div>
-										<div id="lastEditCardBodyWrap" class="collapse show" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
-											<div class="card-body py-1 mb-1">
-												<cfif lastEdit.recordcount EQ 0>
-														<ul class="list-group">
-														<li class="list-group-item">None</li>
-													</ul>
-												<cfelse>
-													<ul class="list-group">
-														<cfloop query="lastEdit">
-															<li class="list-group-item">
-																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
-															</li>
-														</cfloop>
-													</ul>
-												</cfif>
-											</div>
-										</div><!--- end lastEditCardBodyWrap --->
-									</div>
-								</section>
-							</cfif>
-	
 							<!--- attribute determinations --->
 							<section class="accordion" id="attributeSection"> 
 								<div class="card mb-2 bg-light">
@@ -889,67 +791,101 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
-	
+					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
+							<!--- records entered --->
 							<cfif oneOfUs EQ 1>
-								<!--- media relationships and labels --->
-								<section class="accordion" id="mediametaSection"> 
+								<section class="accordion" id="enteredSection"> 
 									<div class="card mb-2 bg-light">
-										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
-											SELECT count(distinct media_id) as ct
-											FROM media_relations 
-											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												and media_relationship = 'created by agent'
+										<cfquery name="entered" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="entered_result">
+											select
+												count(*) cnt,
+												collection,
+												collection.collection_id
+											from 
+												coll_object,
+												cataloged_item,
+												collection
+											where 
+												coll_object.collection_object_id = cataloged_item.collection_object_id and
+												cataloged_item.collection_id=collection.collection_id and
+												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by
+												collection,
+												collection.collection_id
 										</cfquery>
-										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
-											SELECT count(distinct media_id) as ct
-											FROM media_relations 
-											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										</cfquery>
-										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
-											SELECT count(distinct media_id) ct,
-												media_label
-											FROM media_labels 
-											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											GROUP BY media_label
-										</cfquery>
-										<div class="card-header" id="mediametaHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
-												Media Records Edited
+										<div class="card-header" id="enteredHeader">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
+												MCZbase Records Entered
 											</h2>
 										</div>
-										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
+										<div id="enteredCardBodyWrap" class="collapse show" aria-labelledby="enteredHeader" data-parent="##enteredSection">
 											<div class="card-body py-1 mb-1">
-												<ul class="list-group">
-													<cfif getMediaCreation.ct EQ 0>
-														<li class="list-group-item">Created No Media Records.</li>
-													<cfelse>
-														<li class="list-group-item">
-															Created #getMediaCreation.ct# 
-															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
-														</li>
-													</cfif>
-													<cfif media_assd_relations.ct EQ 0>
-														<li class="list-group-item">Created No Media Relationships.</li>
-													<cfelse>
-														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
-													</cfif>
-													<cfif media_labels.recordcount EQ 0>
-														<li class="list-group-item">Assigned no media label values.</li>
-													<cfelse>
-														<cfloop query="media_labels">
-															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
+												<cfif entered.recordcount EQ 0>
+													<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="entered">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?entered_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
+															</li>
 														</cfloop>
-													</cfif>
-												</ul>
+													</ul>
+												</cfif>
 											</div>
-										</div><!--- end mediametaCardBodyWrap --->
+										</div><!--- end enteredCardBodyWrap --->
 									</div>
 								</section>
 							</cfif>
-	
+							<!--- records last edited by --->
 							<cfif oneOfUs EQ 1>
-								<!--- encumbrances --->
+								<section class="accordion" id="lastEditSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="lastEdit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lastEdit_result">
+											select 
+												count(*) cnt,
+												collection,
+												collection.collection_id
+											from 
+												coll_object,
+												cataloged_item,
+												collection
+											where 
+												coll_object.collection_object_id = cataloged_item.collection_object_id and
+												cataloged_item.collection_id=collection.collection_id and
+												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by
+												collection,
+												collection.collection_id
+										</cfquery>
+										<div class="card-header" id="lastEditHeader">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
+												MCZbase Records Last Edited By this agent
+											</h2>
+										</div>
+										<div id="lastEditCardBodyWrap" class="collapse show" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+											<div class="card-body py-1 mb-1">
+												<cfif lastEdit.recordcount EQ 0>
+														<ul class="list-group">
+														<li class="list-group-item">None</li>
+													</ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfloop query="lastEdit">
+															<li class="list-group-item">
+																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+															</li>
+														</cfloop>
+													</ul>
+												</cfif>
+											</div>
+										</div><!--- end lastEditCardBodyWrap --->
+									</div>
+								</section>
+							</cfif>
+							<!--- encumbrances --->
+							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="encumbrancesSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getEncumbCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumbCount_result">
@@ -1013,7 +949,64 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-	
+							<!--- media relationships and labels --->
+							<cfif oneOfUs EQ 1>
+								<section class="accordion" id="mediametaSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												and media_relationship = 'created by agent'
+										</cfquery>
+										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
+											SELECT count(distinct media_id) ct,
+												media_label
+											FROM media_labels 
+											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											GROUP BY media_label
+										</cfquery>
+										<div class="card-header" id="mediametaHeader">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
+												Media Records Edited
+											</h2>
+										</div>
+										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
+											<div class="card-body py-1 mb-1">
+												<ul class="list-group">
+													<cfif getMediaCreation.ct EQ 0>
+														<li class="list-group-item">Created No Media Records.</li>
+													<cfelse>
+														<li class="list-group-item">
+															Created #getMediaCreation.ct# 
+															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
+														</li>
+													</cfif>
+													<cfif media_assd_relations.ct EQ 0>
+														<li class="list-group-item">Created No Media Relationships.</li>
+													<cfelse>
+														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
+													</cfif>
+													<cfif media_labels.recordcount EQ 0>
+														<li class="list-group-item">Assigned no media label values.</li>
+													<cfelse>
+														<cfloop query="media_labels">
+															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
+														</cfloop>
+													</cfif>
+												</ul>
+											</div>
+										</div><!--- end mediametaCardBodyWrap --->
+									</div>
+								</section>
+							</cfif>
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
@@ -1174,8 +1167,8 @@ limitations under the License.
 									</div><!--- end shipmentsCard --->
 								</section>
 							</cfif>
-												</div>
-											<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
+					</div>
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex4<cfelse>containFlex2</cfif>">
 						<!--- split between left and right agent columns ********************************************************************************************************* --->
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
