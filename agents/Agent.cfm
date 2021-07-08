@@ -1609,6 +1609,7 @@ limitations under the License.
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR publicationAuthor.recordcount GT 20>
+										<cfif publicationAuthor.recordcount GT 15 OR publicationAuthor.recordcount eq 0>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -1616,6 +1617,7 @@ limitations under the License.
 										<!--- cardState = expanded --->
 										<cfset bodyClass = "collapse show">
 										<cfset ariaExpanded ="true">
+										</cfif>
 									</cfif>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
