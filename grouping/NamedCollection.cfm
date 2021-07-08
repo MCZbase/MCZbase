@@ -1073,7 +1073,7 @@ limitations under the License.
 								} 
 							});
 							$("##columnPickDialogButton").html(
-								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2 mx-3' >Show/Hide Columns</button>"
 							);
 							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
