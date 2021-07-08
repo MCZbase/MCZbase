@@ -1705,12 +1705,21 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
+										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 										<div class="card-header" id="lastEditHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="true" aria-controls="lastEditCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
 												MCZbase Records Last Edited By this agent
 											</h2>
 										</div>
-										<div id="lastEditCardBodyWrap" class="collapse show" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
+										<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
 											<div class="card-body py-1 mb-1">
 												<cfif lastEdit.recordcount EQ 0>
 														<ul class="list-group">
