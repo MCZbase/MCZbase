@@ -1231,12 +1231,21 @@ limitations under the License.
 											WHERE
 												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
+										<cfif getProjRoles.recordcount GT 15 OR getProjRoles.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded--->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 										<div class="card-header">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="true" aria-controls="projectCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="projectCardBodyWrap">
 												Project Roles (#getProjRoles.recordcount#)
 											</h2>
 										</div>
-										<div id="projectCardBodyWrap" class="collapse show" aria-labelledby="projectHeader" data-parent="##projectSection">
+										<div id="projectCardBodyWrap" class="#bodyClass#" aria-labelledby="projectHeader" data-parent="##projectSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getProjRoles.recordcount EQ 0>
 													<h3 class="h4 px-2 mb-1">No project roles in MCZbase</h3>
