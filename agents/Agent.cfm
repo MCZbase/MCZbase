@@ -361,7 +361,6 @@ limitations under the License.
 											ORDER BY agent_relationship
 										</cfquery>
 
-							
 										<cfif totalRelCount GT 15 OR totalRelCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
