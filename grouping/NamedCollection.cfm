@@ -874,7 +874,7 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								createRowDetailsDialog('catalogedItemsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -903,7 +903,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								ready: function () {
-									$("##searchResultsGrid").jqxGrid('selectrow', 0);
+									$("##catalogedItemsGrid").jqxGrid('selectrow', 0);
 								},
 								columns: [
 									{ text: 'GUID', datafield: 'guid', width:150,cellsalign: 'left',cellsrenderer: cellsrenderer, hideable: false},
@@ -1044,7 +1044,7 @@ limitations under the License.
 									{
 										text: "Ok",
 										click: function(){ 
-											window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+											window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												saveColumnVisibilities('#cgi.script_name#?action=edit',window.columnHiddenSettings,'Default');
 											</cfif>
@@ -1060,7 +1060,9 @@ limitations under the License.
 									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 								} 
 							});
-							$("##columnPickDialogButton").html(`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>`);
+							$("##columnPickDialogButton").html(
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-1 mx-3' >Show/Hide Columns</button>"
+							);
 							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 							var maxZIndex = getMaxZIndex();
