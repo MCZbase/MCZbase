@@ -491,7 +491,7 @@ limitations under the License.
 										<script>
 											$(document).ready(function () {
 												$('##biography').jqxEditor({lineBreak:"p"});
-												$('##biography').jqxEditor("val","#encodeForHtml(trim(biography))#"};
+												$('##biography').jqxEditor("val","#encodeForHtml(trim(biography))#");
 											});
 										</script>
 									</div>
