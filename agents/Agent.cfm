@@ -1091,7 +1091,7 @@ limitations under the License.
 										</cfquery>
 										<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
 										<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalShipCount GT 10>
+										<cfif totalShipCount GT 10 OR totalShipCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
