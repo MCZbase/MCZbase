@@ -838,7 +838,6 @@ limitations under the License.
 				if (currentState) { 
 					$("##searchResultsGrid").jqxGrid("autoheight",false);
 					$("##searchResultsGrid").jqxGrid("autorowsheight",false);
-					cardview: currentState
 					} else {
 					$("##searchResultsGrid").jqxGrid("autoheight",true);
 					$("##searchResultsGrid").jqxGrid("autorowsheight",true);
