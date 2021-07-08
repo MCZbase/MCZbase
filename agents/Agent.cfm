@@ -369,7 +369,7 @@ limitations under the License.
 										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 									</cfif>
 									<div class="card-header" id="relationshipsHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="ariaExpanded" aria-controls="relationshipsCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
 											Relationships with other agents (#totalRelCount#)
 										</h2>
 									</div>
