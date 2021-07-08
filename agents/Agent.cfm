@@ -921,9 +921,6 @@ limitations under the License.
 									</div><!--- end preparatorCardBodyWrap --->
 								</div>
 							</section>
-
-					</div>
-					<div class="d-block mb-5 float-left <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
 							<!--- records entered --->
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="enteredSection"> 
