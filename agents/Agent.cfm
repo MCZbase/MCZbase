@@ -666,12 +666,21 @@ limitations under the License.
 											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 										order by collection_name
 									</cfquery>
+										<cfif getnamedGroups.recordcount GT 15 OR getnamedGroups.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 									<div class="card-header" id="namedgroupHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="true" aria-controls="namedgroupCardBodyWrap">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
 											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
 										</h2>
 									</div>
-									<div id="namedgroupCardBodyWrap" class="collapse show" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
+									<div id="namedgroupCardBodyWrap" class="bodyClass" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getnamedGroups.recordcount EQ 0>
 												<ul class="list-group">
