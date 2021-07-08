@@ -820,6 +820,7 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
+					<!---- setup grid for cataloged items --->
 					<script type="text/javascript">
 						var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							if (value > 1) {
@@ -851,8 +852,18 @@ limitations under the License.
 								}
 							};
 							var dataAdapter = new $.jqx.dataAdapter(source);
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							}
 
-							// initialize jqxGrid
+							// initialize jqxGrid for cataloged items *****
 							$("##catalogedItemsGrid").jqxGrid(
 							{
 								width: '100%',
@@ -922,6 +933,7 @@ limitations under the License.
 								$("##catalogedItemsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 							});
 						});
+						// gridLoaded for cataloged items ***********
 						function gridLoaded(gridId, searchType) { 
 							if (Object.keys(window.columnHiddenSettings).length == 0) { 
 								window.columnHiddenSettings = getColumnVisibilities('catalogedItemsGrid');		
@@ -1040,6 +1052,7 @@ limitations under the License.
 							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'catalogedItemsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 						}
 					</script>
+					<!---- end setup grid for cataloged items **** --->
 
 				</main><!--- container ---> 
 			</cfoutput>
