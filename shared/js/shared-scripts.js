@@ -82,7 +82,7 @@ function messageDialog(dialogText, dialogTitle) {
  * @param okFunction callback function to invoke upon a press of the OK button.
  */
 function confirmDialog(dialogText, dialogTitle, okFunction) {
-	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; z-index: '+zindex+'; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
