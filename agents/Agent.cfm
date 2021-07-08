@@ -979,7 +979,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex2<cfelse>containFlex1</cfif>">
+					<div class="d-block mb-5 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>containFlex1<cfelse>containFlex1</cfif>">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
@@ -1381,7 +1381,7 @@ limitations under the License.
 							</cfif>
 							<!--- permissions and rights roles --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
-								<section class="accordion">
+								<section class="accordion" id="permitAccord">
 									<div class="card mb-2 bg-light" id="permitsCard">
 										<cfquery name="getPermitsTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPermitsTo_result">
 											SELECT distinct
@@ -1435,7 +1435,7 @@ limitations under the License.
 												Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
 											</h2>
 										</div>
-										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##rightAgentColl">
+										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
 											<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
