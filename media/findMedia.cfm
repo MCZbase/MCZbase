@@ -757,9 +757,9 @@ limitations under the License.
 				</div><!--- row --->
 			</section>
 		<style>
-			.jqx-grid-card-row  {height: 250px;}
-			.jqx-grid-card-cell {height:250px;overflow:hidden;}
-			.jqx-grid-card-cell table {height: 250px;overflow-y:hidden!important;}
+			.jqx-grid-card-row  {height: 600px;}
+			.jqx-grid-card-cell {height:600px;overflow:hidden;}
+			.jqx-grid-card-cell table {height: 600px;overflow-y:hidden!important;}
 			.jqx-grid-card-cell-label {width: 30%;font-size: 11px;}
 			
 		</style>
@@ -837,7 +837,7 @@ limitations under the License.
 					autoHeight: true,
 					autorowheight: false,
 					cardsize: 5,
-					cardheight: 250,
+					cardheight: 600,
 					width: '100%',
 					showemptyrow: true,
 					cardviewcolumns: [
