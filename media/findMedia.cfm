@@ -812,7 +812,7 @@ limitations under the License.
 			};
 			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var luri = rowData['licence_uri'];
+				var luri = rowData['license_uri'];
 				if (luri != "") { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + luri + '">'+value+'</a></span>';
 				} else { 
@@ -869,7 +869,7 @@ limitations under the License.
 								{ name: 'mask_media_fg', type: 'string' },
 							</cfif>
 							{ name: 'credit', type: 'string' },
-							{ name: 'licence_uri', type: 'string' },
+							{ name: 'license_uri', type: 'string' },
 							{ name: 'licence_display', type: 'string' },
 							{ name: 'media_type', type: 'string' },
 							{ name: 'mime_type', type: 'string' },
