@@ -120,7 +120,9 @@ limitations under the License.
 					<div class="row mx-0 px-0">
 						<!--- edit button at upper right for those authorized to edit agent records --->
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+						<div class="col-12">
 							<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+						</div>
 						</cfif>
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
