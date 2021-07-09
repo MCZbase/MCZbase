@@ -1986,6 +1986,13 @@ and also iPads specifically.
 		padding-left: 0;
 	}
 }
+@media (min-width:1200px) and (max-width: 1347px) {
+	.agentBlocks.col-xl-5 {
+		-ms-flex: 0 0 38%;
+		flex: 0 0 38%;
+		max-width: 38%;
+	}
+}
 @media (min-width:1200px) and (max-width: 1700px) {
 	#searchHelpTextBlock {
 		width: 100%;

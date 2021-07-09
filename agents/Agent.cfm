@@ -134,7 +134,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
-				<div class="col-12">
+				<div class="col-12 agentBlocks">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 h-auto">
 						<!--- agent names --->
 							<section class="accordion">
