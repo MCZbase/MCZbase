@@ -1610,7 +1610,7 @@ limitations under the License.
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 								
-										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+										<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") and publicationAuthor.recordcount GT 15>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
