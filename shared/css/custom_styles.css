@@ -2152,9 +2152,9 @@ and also iPads specifically.
 }
 @media (min-width: 1200px) {
 .col-xl-agentDetails {
-	-ms-flex: 0 0 39.666667%;
-	flex: 0 0 39.666667%;
-	max-width: 39.666667%;
+	-ms-flex: 0 0 37.666667%;
+	flex: 0 0 37.666667%;
+	max-width: 37.666667%;
 	}
 }
 @media(min-width: 1600px) {
