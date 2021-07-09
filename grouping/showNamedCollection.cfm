@@ -524,21 +524,22 @@ limitations under the License.
 							<div class="col mt-0 <cfif specimenImageQuery.recordcount gt 1>mt-md-5</cfif> float-left">
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) gt 0>
-										<h2 class="h2">Overview</h2>
-										<p class="">#getNamedGroup.description#</p>
+										<h2>Overview</h2>
+										<p>#getNamedGroup.description#</p>
 									</cfif>
 								</div>
-								<cfif len(underscore_agent_id) gt 0>
-									<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-										<div class="mt-2 py-3">
-											<h3 class="mt-2 pt-2">Associated Agent</h2>
-											<p class="rounded-0 border-top border-dark">
-												<a class="h4 px-2 d-block mt-3" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
-											</p>
-										</div>
+							
+								<div class="row pb-4">
+									<cfif len(underscore_agent_id) gt 0>
+										<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
+											<div class="col-12">
+												<h3>Associated Agent</h2>
+												<p class="rounded-0 border-top border-dark">
+													<a class="h4 px-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
+												</p>
+											</div>
+										</cfif>
 									</cfif>
-								</cfif>
-								<div class="row pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
