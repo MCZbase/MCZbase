@@ -478,7 +478,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 pr-md-2 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
+					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
