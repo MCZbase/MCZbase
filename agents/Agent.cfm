@@ -1586,9 +1586,9 @@ limitations under the License.
 								</section>
 							</cfif>
 							<style>
-								section##publicationSection {max-height: 500px;overflow-y:scroll;}
-								section##transactionsSection {max-height: 500px;overflow-y:scroll;}
-								section##shipmentsSection {max-height: 500px;overflow-y:scroll;}
+								section##publicationCardBodyWrap {max-height: 500px;overflow-y:scroll;}
+								section##transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
+								section##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 							</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
