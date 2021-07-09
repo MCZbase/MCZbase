@@ -1029,7 +1029,7 @@ limitations under the License.
 													<ul class="list-group list-group-horizontal-md border p-2 m-2">
 													<cfif getMedia.media_type IS "image">
 														<li class="">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="90"></a>
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="80"></a>
 														</li>
 														<li class="col-auto px-0">
 															<ul class="list-group">
