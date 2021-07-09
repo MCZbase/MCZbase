@@ -79,7 +79,7 @@ limitations under the License.
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
-									<div class="pb-2">#getNamedGroup.html_description# </div>
+									<div class="pb-0">#getNamedGroup.html_description# </div>
 								</cfif>
 							</div>
 						</div>	
@@ -147,7 +147,7 @@ limitations under the License.
 										enabletooltips: true,
 										pageable: true,
 										columns: [
-											{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
 											{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
 											{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
 											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
@@ -158,36 +158,37 @@ limitations under the License.
 									});
 								});
 							</script>
-							<div class="col-12 mt-3">
+							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
 						</div>
 						<div class="row mx-0 clearfix">
 					
-								<!--- obtain a random set of images, limited to a small number --->
-								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
-									SELECT * FROM (
-										SELECT DISTINCT media_uri, preview_uri,media_type,
-											MCZBASE.get_media_descriptor(media.media_id) as alt,
-											MCZBASE.get_media_credit(media.media_id) as credit,
-											flat.guid
-										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join media_relations on flat.collection_object_id = media_relations.related_primary_key
-											left join media on media_relations.media_id = media.media_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											AND flat.guid IS NOT NULL
-											AND media_relations.media_relationship = 'shows cataloged_item'
-											AND media.media_type = 'image'
-											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-										ORDER BY DBMS_RANDOM.RANDOM
-									) 
-									WHERE rownum < 16
-								</cfquery>
+						<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
+						<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
+							SELECT * FROM (
+								SELECT DISTINCT media_uri, preview_uri,media_type,
+									MCZBASE.get_media_descriptor(media.media_id) as alt,
+									MCZBASE.get_media_credit(media.media_id) as credit,
+									flat.guid
+								FROM
+									underscore_collection
+									left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+										on underscore_relation.collection_object_id = flat.collection_object_id
+									left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+									left join media on media_relations.media_id = media.media_id
+								WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									AND flat.guid IS NOT NULL
+									AND media_relations.media_relationship = 'shows cataloged_item'
+									AND media.media_type = 'image'
+									AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+								ORDER BY DBMS_RANDOM.RANDOM
+							) 
+							WHERE rownum < 16
+						</cfquery>
 						<cfif specimenImageQuery.recordcount gt 0>
 							<div class="col-12 col-md-6 mb-4 float-left mt-0">
 								<!--- find out how many images there are in total --->
@@ -207,7 +208,14 @@ limitations under the License.
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
-								<cfif specimenImagesShown GT 0>
+								<cfif specimenImagesShown EQ 0>
+									<cfif specimenImageQuery.recordcount GT 0>
+										<!--- TODO: Add a list or link to other media records. This is a placeholder, unreachable code --->
+										<h2 class="mt-2 pt-3">Specimen Images</h2>
+										<p>#specImageCt.ct# Specimen Images (#specimenImageQuery.recordcount#)</p>
+										<div>None are directly visible as images</div>
+									</cfif>
+								<cfelse>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
 										<cfset shown = " (#specimenImagesShown# shown)">
 									<cfelse>
@@ -517,21 +525,22 @@ limitations under the License.
 							<div class="col mt-0 <cfif specimenImageQuery.recordcount gt 1>mt-md-5</cfif> float-left">
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) gt 0>
-										<h2 class="h2">Overview</h2>
-										<p class="">#getNamedGroup.description#</p>
+										<h2 class="mt-3">Overview</h2>
+										<p>#getNamedGroup.description#</p>
 									</cfif>
 								</div>
-								<cfif len(underscore_agent_id) gt 0>
-									<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-										<div class="mt-2 py-3">
-											<h3 class="mt-2 pt-2">Associated Agent</h2>
-											<p class="rounded-0 border-top border-dark">
-												<a class="h4 px-2 d-block mt-3" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
-											</p>
-										</div>
+							
+								<div class="row pb-4">
+									<cfif len(underscore_agent_id) gt 0>
+										<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
+											<div class="col-12 pt-3">
+												<h3>Associated Agent</h2>
+												<p class="rounded-0 border-top border-dark">
+													<a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
+												</p>
+											</div>
+										</cfif>
 									</cfif>
-								</cfif>
-								<div class="row pb-3">
 									<cfquery name="taxonQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
@@ -579,7 +588,8 @@ limitations under the License.
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
 												<cfloop query="taxonQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														<a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a>
+														<!--- a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a --->
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a>
 													</li>
 												</cfloop>
 											</ul>
@@ -599,7 +609,7 @@ limitations under the License.
 									</cfquery>
 									<cfif marine.recordcount GT 0>
 										<div class="col-12">
-											<h3>Oceans</h3>
+											<h3 class="px-2">Oceans</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top rounded-0 border-dark">
 												<cfloop query="marine">
 													<li class="list-group-item col-12 col-md-3 float-left">

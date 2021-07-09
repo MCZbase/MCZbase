@@ -195,7 +195,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
-			SELECT DISTINCT flat.guid, flat.scientific_name, flat.author_text,
+			SELECT DISTINCT flat.guid, flat.collection_cde, flat.scientific_name, flat.author_text,
 				flat.collectors,
 				mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
 				flat.verbatim_date, 
@@ -212,7 +212,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid is not null
-			ORDER BY flat.guid asc
+			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
 		</cfquery>
 		<cfset i = 1>
 		<cfset data = ArrayNew(1)>

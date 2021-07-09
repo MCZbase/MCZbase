@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle = "Add to Named Collection">
+<cfset pageTitle = "Add to Named Group">
 <cfinclude template="/shared/_header.cfm">
 <cfif NOT isdefined("action") >
 	<cfset action="selectColl">

@@ -108,7 +108,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-md-5">
-												<label for="description" class="data-entry-label" id="description_label">Description</label>
+												<label for="description" class="data-entry-label" id="description_label">Overview</label>
 												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 											</div>
 											<div class="col-md-2">
@@ -155,7 +155,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 mt-1 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">Agent Associated with this Named Group (use <i>[no agent data]</i> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
@@ -174,11 +174,11 @@ limitations under the License.
 										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
-												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
+												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named groups of cataloged items">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
+												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new named group search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
+													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named group" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
 												</cfif>
 											</div>
 										</div>
@@ -322,7 +322,7 @@ limitations under the License.
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
 									{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: getColHidProp('HTML_DESCRIPTION', true) },
-									{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
+									{text: 'Overview', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -454,7 +454,7 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="new">
-		<!--- Add a new ____ collection, link to agent ---> 
+		<!--- Add a new ____ collection/named group, link to agent ---> 
 		<cfoutput>
 			<main class="container mt-3">
 				<section class="row">
@@ -479,7 +479,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
+										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description">0 characters, 4000 left</span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
@@ -514,7 +514,7 @@ limitations under the License.
 								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
 										<span>
-											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
 											<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 											</label>
 										</span>
@@ -522,7 +522,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller bg-light" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm rounded-right data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm rounded-right data-entry-input" value="" aria-label="Agent associated with this named group" aria-describedby="underscore_agent_name_label">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 										</div>
 										<script>
@@ -589,7 +589,7 @@ limitations under the License.
 			</cfquery>
 			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 			<cfcatch>
-				<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
+				<cfthrow type="Application" message="Error Saving new Named Group: #cfcatch.Message# #cfcatch.Detail#">
 			</cfcatch>
 		</cftry>
 	</cfcase>
@@ -650,7 +650,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-12">
-										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description"></span>)</label>
+										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description"></span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#encodeForHtml(description)#</textarea>
@@ -688,7 +688,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
-										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
 											<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
 										<div class="input-group">
@@ -720,9 +720,9 @@ limitations under the License.
 													var agenttext = $('##underscore_agent_name').val();
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0) || (agentid.length == 0 && agenttext == '[No Agent]') ) { 
-														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named grouping",updateFromSave);
+														saveEditsFromFormCallback("editUndColl","/grouping/component/functions.cfc","saveResultDiv","saving named group",updateFromSave);
 													} else { 
-														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														messageDialog('Error saving named group: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
 														$('##saveResultDiv').addClass('text-danger');
 														$('##saveResultDiv').removeClass('text-success');
@@ -891,7 +891,7 @@ limitations under the License.
 									{ name: 'full_taxon_name', type: 'string' }
 								],
 								url: '/grouping/component/search.cfc?method=getSpecimensInGroup&underscore_collection_id=#underscore_collection_id#',
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: 60000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) { 
 									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 								}
@@ -960,7 +960,7 @@ limitations under the License.
 											var record = $("##catalogedItemsGrid").jqxGrid('getrowdata', row);
 											var guidtoremove = record.guid;
 											var idtoremove = record.underscore_relation_id;
-											confirmDialog('Remove '+ guidtoremove +' from collection? ', 'Remove?', function(){ 
+											confirmDialog('Remove '+ guidtoremove +' from this named group? ', 'Remove?', function(){ 
 												removeUndRelation(idtoremove);
 											});
 										}
@@ -1127,7 +1127,7 @@ limitations under the License.
 				<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
 			</ul>
 		<cfcatch>
-			<cfthrow type="Application" message="Error deleting Named Collection: #cfcatch.Message# #cfcatch.Detail#">
+			<cfthrow type="Application" message="Error deleting Named Group: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 		</cftry>
 	</cfcase>

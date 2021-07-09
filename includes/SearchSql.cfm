@@ -606,6 +606,48 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	    </cfif>
     </cfif>
 </cfif>
+<cfif isdefined("phylorder") AND len(phylorder) gt 0>
+	<cfset mapurl = "#mapurl#&phylorder=#phylorder#">
+	<cfif basJoin does not contain " identification ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification ON
+		(cataloged_item.collection_object_id = identification.collection_object_id)">
+	</cfif>
+	<cfif basJoin does not contain " identification_taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN identification_taxonomy ON
+		(identification.identification_id = identification_taxonomy.identification_id)">
+	</cfif>
+	<cfif basJoin does not contain " taxonomy ">
+		<cfset basJoin = " #basJoin# INNER JOIN taxonomy ON
+		(identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id)">
+	</cfif>
+    <cfif phylorder contains "|">
+        <cfset clause = "">
+        <cfset orbit = "">
+        <cfif left(phylorder,1) is '='>
+            <cfset phylorder = Replace(phylorder,"=","","All")>
+            <cfloop index="classbit" list="#phylorder#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) = '#ucase(trim(classbit))#'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        <cfelse>
+            <cfset phylorder = Replace(phylorder,"=","","All")>
+            <cfloop index="classbit" list="#phylorder#" delimiters="|">
+	    	     <cfset clause = " #clause# #orbit# upper(taxonomy.phylorder) like '%#ucase(trim(classbit))#%'">
+                 <cfset orbit = " OR ">
+            </cfloop>
+	    	<cfset basQual = " #basQual# AND (#clause#) ">
+        </cfif>
+    <cfelse>
+    	<cfif left(phylorder,1) is '='>
+	    	<cfset basQual = " #basQual# AND upper(taxonomy.phylorder) = '#ucase(right(phylorder,len(phylorder)-1))#'">
+    	<cfelseif compare(phylorder,"NULL") is 0>
+		    <cfset basQual = " #basQual# AND taxonomy.phylorder is NULL">
+	    <cfelse>
+		    <cfset basQual = " #basQual# AND upper(taxonomy.phylorder) like '%#ucase(phylorder)#%'">
+	    </cfif>
+    </cfif>
+</cfif>
 <cfif isdefined("family") AND len(family) gt 0>
 	<cfset mapurl = "#mapurl#&family=#family#">
 	<cfif basJoin does not contain " identification ">
