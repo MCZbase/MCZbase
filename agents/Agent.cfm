@@ -134,7 +134,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
-				<div class="col-12 agentBlocks">
+				<div class="col-12">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 h-auto">
 						<!--- agent names --->
 							<section class="accordion">
@@ -478,7 +478,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
+					<div class="agentBlocks d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
@@ -979,7 +979,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
+					<div class="agentBlocks d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
 						
 						<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
@@ -1590,6 +1590,13 @@ limitations under the License.
 								##transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								##permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
+								@media (min-width:1200px) and (max-width: 1347px) {
+									.agentBlocks .col-xl-5 {
+										-ms-flex: 0 0 38%;
+										flex: 0 0 38%;
+										max-width: 38%;
+									}
+								}
 							</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
