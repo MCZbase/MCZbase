@@ -1979,6 +1979,13 @@ and also iPads specifically.
 	.containFlex2 {column-count: 1;}
 	.containFlex4 {column-count: 2;}
 }
+@media (min-width:1200px) and (max-width: 1232px) {
+	.col-xl-5 {
+		-ms-flex: 0 0 39.666667%;
+		flex: 0 0 39.666667%;
+		max-width: 39.666667%;
+	}
+}
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
 		display: none;
