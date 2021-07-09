@@ -79,7 +79,7 @@ limitations under the License.
 								<!--- arbitrary html clob, could be empty, could be tens of thousands of characters plus rich media content --->
 								<!--- WARNING: This section MUST go at the top, and must be allowed the full width of the page --->
 								<cfif len(html_description)gt 0>
-									<div class="pb-2">#getNamedGroup.html_description# </div>
+									<div class="pb-0">#getNamedGroup.html_description# </div>
 								</cfif>
 							</div>
 						</div>	
@@ -533,7 +533,7 @@ limitations under the License.
 									<cfif len(underscore_agent_id) gt 0>
 										<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
 											<div class="col-12 pt-3">
-												<h3 class="px-2">Associated Agent</h2>
+												<h3>Associated Agent</h2>
 												<p class="rounded-0 border-top border-dark">
 													<a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
 												</p>
@@ -583,7 +583,7 @@ limitations under the License.
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12">
-											<h3 class="px-2">Taxa</h3>
+											<h3>Taxa</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap rounded-0 border-top border-dark">
 												<cfloop query="taxonQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
@@ -646,7 +646,7 @@ limitations under the License.
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12">
-											<h3 class="px-2">Geography</h3>
+											<h3>Geography</h3>
 											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="geogQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
@@ -669,7 +669,7 @@ limitations under the License.
 									</cfquery>
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12">
-											<h3 class="px-2">Islands</h3>
+											<h3>Islands</h3>
 											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
@@ -700,7 +700,7 @@ limitations under the License.
 
 									<cfif agents.recordcount GT 0>
 										<div class="col-12">
-											<h3 class="px-2">Collectors</h3>
+											<h3>Collectors</h3>
 											<ul class="list-group d-inline-block py-3 border-top rounded-0 border-dark w-100">
 												<cfloop query="agents">
 													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
