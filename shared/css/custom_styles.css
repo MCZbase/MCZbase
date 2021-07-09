@@ -2150,6 +2150,13 @@ and also iPads specifically.
 		width: 300px;
 	}
 }
+@media (min-width: 1200px) {
+.col-xl-agentDetails {
+	-ms-flex: 0 0 41.666667%;
+	flex: 0 0 41.666667%;
+	max-width: 41.666667%;
+	}
+}
 @media(min-width: 1600px) {
 	.container {
 		max-width: 1540px;
