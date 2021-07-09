@@ -99,12 +99,6 @@ limitations under the License.
 								<h2 class="h4 my-1">Collector: #getAgent.collections_scope#</h2>
 							</cfif>
 						</div>
-						<div class="col-12 col-sm-2">
-							<!--- edit button at upper right for those authorized to edit agent records --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-							</cfif>
-						</div>
 					</div>
 					<div class="row mx-0 px-0">
 						<div class="col-12 px-0">
@@ -124,6 +118,10 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0 px-0">
+						<!--- edit button at upper right for those authorized to edit agent records --->
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+							<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+						</cfif>
 						<div class="col-12">#biography#</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
@@ -133,20 +131,6 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-<style>
-		##agentBlocks.col-xxl-5 {
-		-ms-flex: 0 0 41.666667%;
-		flex: 0 0 41.666667%;
-		max-width: 41.666667%!important;
-	}
-@media (min-width:1200px) and (max-width: 1232px) {
-	##agentBlocks.col-xxl-5 {
-		-ms-flex: 0 0 39.666667%;
-		flex: 0 0 39.666667%;
-		max-width: 39.666667%!important;
-	}
-}
-</style>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 h-auto">
