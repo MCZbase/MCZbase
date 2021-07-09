@@ -207,7 +207,7 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
-								<cfset specimenImagesShown = specimenImageQuery.recordcount>
+								<cfset specimenImagesShown eq specimenImageQuery.recordcount>
 								<cfif specimenImagesShown EQ 0>
 									<cfif specimenImageQuery.recordcount GT 0>
 										<h2 class="mt-2 pt-3">Specimen Images</h2>
