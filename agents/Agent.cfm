@@ -118,18 +118,20 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0 px-0">
-						<div class="col-11 float-left">#biography#</div>
-						<cfif oneOfUs EQ 1>
-							<cfif len(agent_remarks) GT 0>
-								<h2 class="h4 my-1 px-2">Internal Remarks</h2>
-								<div class="col-12">#agent_remarks#</div>
+						<div class="col-10">
+							<div class="col-11 float-left">#biography#</div>
+							<cfif oneOfUs EQ 1>
+								<cfif len(agent_remarks) GT 0>
+									<h2 class="h4 my-1 px-2">Internal Remarks</h2>
+									<div class="col-12">#agent_remarks#</div>
+								</cfif>
 							</cfif>
-						</cfif>
-						<div class="col-1 float-right">
-						<!--- edit button at upper right for those authorized to edit agent records --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-							<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-						</cfif>
+							<div class="col-1 float-right">
+							<!--- edit button at upper right for those authorized to edit agent records --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+							</cfif>
+							</div>
 						</div>
 					</div>
 				</div>
