@@ -921,7 +921,67 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-							<!--- Media --->
+							
+							<!--- media relationships and labels --->
+							<cfif oneOfUs EQ 1>
+								<section class="accordion" id="mediametaSection"> 
+									<div class="card mb-2 bg-light">
+										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												and media_relationship = 'created by agent'
+										</cfquery>
+										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
+											SELECT count(distinct media_id) as ct
+											FROM media_relations 
+											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										</cfquery>
+										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
+											SELECT count(distinct media_id) ct,
+												media_label
+											FROM media_labels 
+											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											GROUP BY media_label
+										</cfquery>
+										<div class="card-header" id="mediametaHeader">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
+												Media Records Edited
+											</h2>
+										</div>
+										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
+											<div class="card-body py-1 mb-1">
+												<ul class="list-group">
+													<cfif getMediaCreation.ct EQ 0>
+														<li class="list-group-item">Created No Media Records.</li>
+													<cfelse>
+														<li class="list-group-item">
+															Created #getMediaCreation.ct# 
+															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
+														</li>
+													</cfif>
+													<cfif media_assd_relations.ct EQ 0>
+														<li class="list-group-item">Created No Media Relationships.</li>
+													<cfelse>
+														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
+													</cfif>
+													<cfif media_labels.recordcount EQ 0>
+														<li class="list-group-item">Assigned no media label values.</li>
+													<cfelse>
+														<cfloop query="media_labels">
+															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
+														</cfloop>
+													</cfif>
+												</ul>
+											</div>
+										</div><!--- end mediametaCardBodyWrap --->
+									</div>
+								</section>
+							</cfif>
+					</div>
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-4 px-0 px-md-1">
+						
+						<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
@@ -989,64 +1049,6 @@ limitations under the License.
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
 							</section>
-							<!--- media relationships and labels --->
-							<cfif oneOfUs EQ 1>
-								<section class="accordion" id="mediametaSection"> 
-									<div class="card mb-2 bg-light">
-										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
-											SELECT count(distinct media_id) as ct
-											FROM media_relations 
-											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												and media_relationship = 'created by agent'
-										</cfquery>
-										<cfquery name="media_assd_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_assd_relations_result">
-											SELECT count(distinct media_id) as ct
-											FROM media_relations 
-											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										</cfquery>
-										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
-											SELECT count(distinct media_id) ct,
-												media_label
-											FROM media_labels 
-											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											GROUP BY media_label
-										</cfquery>
-										<div class="card-header" id="mediametaHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
-												Media Records Edited
-											</h2>
-										</div>
-										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
-											<div class="card-body py-1 mb-1">
-												<ul class="list-group">
-													<cfif getMediaCreation.ct EQ 0>
-														<li class="list-group-item">Created No Media Records.</li>
-													<cfelse>
-														<li class="list-group-item">
-															Created #getMediaCreation.ct# 
-															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
-														</li>
-													</cfif>
-													<cfif media_assd_relations.ct EQ 0>
-														<li class="list-group-item">Created No Media Relationships.</li>
-													<cfelse>
-														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
-													</cfif>
-													<cfif media_labels.recordcount EQ 0>
-														<li class="list-group-item">Assigned no media label values.</li>
-													<cfelse>
-														<cfloop query="media_labels">
-															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
-														</cfloop>
-													</cfif>
-												</ul>
-											</div>
-										</div><!--- end mediametaCardBodyWrap --->
-									</div>
-								</section>
-							</cfif>
-					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-4 px-0 px-md-1">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
