@@ -478,7 +478,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="agentBlocks d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
+					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
 							<!--- Collector --->
 							<section class="accordion" id="collectorSection">
 								<div class="card mb-2 bg-light">
@@ -1591,7 +1591,7 @@ limitations under the License.
 								##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								##permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								@media (min-width:1200px) and (max-width: 1347px) {
-									.col-xl-5 {
+									.agentBlocks.col-xl-5 {
 										-ms-flex: 0 0 38%;
 										flex: 0 0 38%;
 										max-width: 38%;
