@@ -212,7 +212,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid is not null
-			ORDER BY flat.guid asc
+			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.cat_num, '\d+')) asc, flat.guid asc
 		</cfquery>
 		<cfset i = 1>
 		<cfset data = ArrayNew(1)>
