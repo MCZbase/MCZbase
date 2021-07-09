@@ -1666,12 +1666,22 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
+									<cfif entered.cnt GT 15 OR entered.cnt EQ 0>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+										
+									</cfif>
 										<div class="card-header" id="enteredHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="true" aria-controls="enteredCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
 												MCZbase Records Entered
 											</h2>
 										</div>
-										<div id="enteredCardBodyWrap" class="collapse show" aria-labelledby="enteredHeader" data-parent="##enteredSection">
+										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
 											<div class="card-body py-1 mb-1">
 												<cfif entered.recordcount EQ 0>
 													<ul class="list-group">
