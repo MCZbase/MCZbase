@@ -1591,7 +1591,7 @@ limitations under the License.
 								##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								##permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								@media (min-width:1200px) and (max-width: 1347px) {
-									.agentBlocks .col-xl-5 {
+									.col-xl-5 {
 										-ms-flex: 0 0 38%;
 										flex: 0 0 38%;
 										max-width: 38%;
