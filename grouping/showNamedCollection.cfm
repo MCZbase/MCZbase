@@ -532,10 +532,10 @@ limitations under the License.
 								<div class="row pb-4">
 									<cfif len(underscore_agent_id) gt 0>
 										<cfif getNamedGroup.agent_name NEQ '[No Agent]'>
-											<div class="col-12 pt-2">
-												<h3>Associated Agent</h2>
+											<div class="col-12 pt-3">
+												<h3 class="px-2">Associated Agent</h2>
 												<p class="rounded-0 border-top border-dark">
-													<a class="h4 px-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
+													<a class="h4 px-2 pt-3 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a>
 												</p>
 											</div>
 										</cfif>
