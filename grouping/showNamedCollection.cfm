@@ -587,7 +587,7 @@ limitations under the License.
 												<cfloop query="taxonQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
 														<!--- a class="h4" href="/Taxa.cfm?execute=true&method=getTaxa&action=search&#taxonQuery.rank#=%3D#taxonQuery.taxonlink#">#taxonQuery.taxon#</a --->
-														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.raxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a>
+														<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a>
 													</li>
 												</cfloop>
 											</ul>

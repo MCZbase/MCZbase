@@ -91,6 +91,9 @@ table td .small {
 .border-wide-grey { 
 	border: 2px solid darkgrey !important;
 }
+.border-bottom-black {
+	border-bottom: 8px solid black;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
