@@ -135,7 +135,7 @@ limitations under the License.
 				</div>
 <style>
 @media (min-width:1200px) and (max-width: 1232px) {
-	#agentBlocks.col-xl-5 {
+	##agentBlocks.col-xl-5 {
 		-ms-flex: 0 0 39.666667%;
 		flex: 0 0 39.666667%;
 		max-width: 39.666667%!important;
