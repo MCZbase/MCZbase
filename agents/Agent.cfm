@@ -979,7 +979,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-4 px-0 px-md-1">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
 						
 						<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
