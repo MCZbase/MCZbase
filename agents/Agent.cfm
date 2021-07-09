@@ -75,7 +75,7 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse>container</cfif>">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse></cfif>">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
