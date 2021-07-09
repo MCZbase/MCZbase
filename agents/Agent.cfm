@@ -1586,7 +1586,7 @@ limitations under the License.
 								</section>
 							</cfif>
 							<style>
-								section##publicationSection {max-height: 600px;overflow-y:visible;}									
+								section##publicationSection {max-height: 600px;overflow-y:scroll;}									
 							</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
