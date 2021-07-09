@@ -134,13 +134,13 @@ limitations under the License.
 					</div>
 				</div>
 <style>
-		##agentBlocks.col-xl-5 {
+		##agentBlocks.col-xxl-5 {
 		-ms-flex: 0 0 41.666667%;
 		flex: 0 0 41.666667%;
 		max-width: 41.666667%!important;
 	}
 @media (min-width:1200px) and (max-width: 1232px) {
-	##agentBlocks.col-xl-5 {
+	##agentBlocks.col-xxl-5 {
 		-ms-flex: 0 0 39.666667%;
 		flex: 0 0 39.666667%;
 		max-width: 39.666667%!important;
@@ -993,7 +993,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 col-xxl-5 px-0 px-md-1">
 						
 						<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
