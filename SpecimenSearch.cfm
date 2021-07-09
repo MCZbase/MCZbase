@@ -433,6 +433,15 @@
          	</tr>
          	<tr>
          		<td class="lbl">
+         			<span id="_phylorder">Order:</span>
+         		</td>
+         		<td class="srch">
+         		 	<input type="text" name="phylorder" id="phylorder" size="50">
+         			<span class="infoLink" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;">Add = for exact match</span>
+         		</td>
+         	</tr>
+         	<tr>
+         		<td class="lbl">
          			<span id="_family">Family:</span>
          		</td>
          		<td class="srch">
