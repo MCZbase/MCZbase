@@ -183,7 +183,7 @@ limitations under the License.
 											AND flat.guid IS NOT NULL
 											AND media_relations.media_relationship = 'shows cataloged_item'
 											AND media.media_type = 'image'
-											AND (media.mime_type 'image/jpeg' OR media.mime_type = 'image/png')
+											AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										ORDER BY DBMS_RANDOM.RANDOM
 									) 
