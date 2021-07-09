@@ -158,7 +158,7 @@ limitations under the License.
 									});
 								});
 							</script>
-							<div class="col-12 mt-3">
+							<div class="col-12 mt-2">
 								<h2 class="">Specimen Records <a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">(#specimens.recordcount#)</a></h2>
 								<div id="jqxgrid"></div>
 							</div>
@@ -524,7 +524,7 @@ limitations under the License.
 							<div class="col mt-0 <cfif specimenImageQuery.recordcount gt 1>mt-md-5</cfif> float-left">
 								<div class="my-2 py-3 border-bottom-black">
 									<cfif len(getNamedGroup.description) gt 0>
-										<h2>Overview</h2>
+										<h2 class="mt-3">Overview</h2>
 										<p>#getNamedGroup.description#</p>
 									</cfif>
 								</div>
