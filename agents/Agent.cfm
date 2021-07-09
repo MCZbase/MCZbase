@@ -133,6 +133,15 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
+<style>
+@media (min-width:1200px) and (max-width: 1232px) {
+	#agentBlocks.col-xl-5 {
+		-ms-flex: 0 0 39.666667%;
+		flex: 0 0 39.666667%;
+		max-width: 39.666667%!important;
+	}
+}
+</style>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 h-auto">
