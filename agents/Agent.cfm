@@ -81,8 +81,8 @@ limitations under the License.
 				<cfset prefName = getAgent.preferred_agent_name>
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
-					<div class="row mx-0 px-0">
-						<div class="col-12 col-sm-10 px-2">
+					<div class="row mx-0">
+						<div class="col-12 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -100,8 +100,8 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-					<div class="row mx-0 px-0">
-						<div class="col-12 px-0">
+					<div class="row mx-0">
+						<div class="col-12 px-3">
 							<ul class="list-group mb-1 py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
@@ -117,7 +117,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
-					<div class="row mx-0 px-0">
+					<div class="row mx-0">
 						<div class="col-10 px-0">
 							<div class="col-11 float-left">#biography#</div>
 							<cfif oneOfUs EQ 1>
