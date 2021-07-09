@@ -979,7 +979,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="agentBlocks d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-xl-5 px-0 px-md-1">
 						
 						<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
@@ -1585,19 +1585,6 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-							<style>
-								##publicationCardBodyWrap {max-height: 500px;overflow-y:scroll;}
-								##transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
-								##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
-								##permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
-								@media (min-width:1200px) and (max-width: 1347px) {
-									.agentBlocks.col-xl-5 {
-										-ms-flex: 0 0 38%;
-										flex: 0 0 38%;
-										max-width: 38%;
-									}
-								}
-							</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
