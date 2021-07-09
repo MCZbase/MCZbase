@@ -1589,6 +1589,7 @@ limitations under the License.
 								section##publicationCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								section##transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 								section##shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
+								section##permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 							</style>
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
