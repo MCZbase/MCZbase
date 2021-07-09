@@ -147,7 +147,7 @@ limitations under the License.
 										enabletooltips: true,
 										pageable: true,
 										columns: [
-											{ text: 'GUID', datafield: 'guid', width:'150',cellsalign: 'left',cellsrenderer: cellsrenderer },
+											{ text: 'GUID', datafield: 'guid', width:'180',cellsalign: 'left',cellsrenderer: cellsrenderer },
 											{ text: 'Scientific Name', datafield: 'scientific_name', width:'250' },
 											{ text: 'Date Collected', datafield: 'verbatim_date', width:'150'},
 											{ text: 'Higher Geography', datafield: 'higher_geog', width:'350'},
