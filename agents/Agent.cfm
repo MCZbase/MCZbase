@@ -1031,7 +1031,7 @@ limitations under the License.
 														<li class="col-auto px-0">
 															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></a>
 														</li>
-														<li class="col-10 px-0">
+														<li class="col-10 col-md-8 col-xl-10 px-0">
 															<ul class="list-group small">
 																<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
 																<li class="list-group-item pt-0">#getMedia.descriptor#</li>
