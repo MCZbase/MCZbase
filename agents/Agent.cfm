@@ -623,6 +623,89 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
+							<!--- Preparator--->
+							<section class="accordion" id="preparatorSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
+										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
+										from (
+											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
+											from agent
+												left join collector on agent.agent_id = collector.AGENT_ID
+												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+											where collector.COLLECTOR_ROLE = 'p'
+												and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
+												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by flat.collection_cde, flat.collection_id
+											union
+											select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
+											from agent
+												left join collector on agent.agent_id = collector.AGENT_ID
+												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
+													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
+											where collector.COLLECTOR_ROLE = 'p'
+												and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
+												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											group by flat.collection_cde, flat.collection_id, 0
+										) 
+										group by collection_cde, collection_id
+									</cfquery>
+										<cfif getAgentPrepScope.recordcount GT 15 OR getAgentPrepScope.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
+									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+									<div class="card-header" id="preparatorHeader">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
+											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
+										</h2>
+									</div>
+									<div id="preparatorCardBodyWrap" class="#bodyClass#" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
+										<div class="card-body py-1 mb-1">
+											<cfif getAgentPrepScope.recordcount EQ 0>
+												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
+											<cfelse>
+												<ul class="list-group">
+													<cfset earlyeststart = "">
+													<cfset latestend = "">
+													<cfloop query="getAgentPrepScope">
+														<cfif len(earlyeststart) EQ 0 AND NOT getAgentPrepScope.startyear IS "0" ><cfset earlyeststart = getAgentPrepScope.startyear></cfif>
+														<cfif len(latestend) EQ 0 AND NOT getAgentPrepScope.endyear IS "0"><cfset latestend = getAgentPrepScope.endyear></cfif>
+														<cfif len(getAgentPrepScope.startyear) GT 0 and NOT getAgentPrepScope.startyear IS "0">
+															<cfif compare(getAgentPrepScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentPrepScope.startyear></cfif>
+														</cfif>
+														<cfif compare(getAgentPrepScope.endyear,latestend) GT 0><cfset latestend=getAgentPrepScope.endyear></cfif>
+														<cfif getAgentPrepScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+														<cfif getAgentPrepScope.startyear IS getAgentPrepScope.endyear>
+															<cfif len(getAgentPrepScope.startyear) EQ 0 or getAgentPrepScope.startyear IS "0">
+																<cfset yearbit=" none known to year">
+															<cfelse>
+																<cfset yearbit=" in year #getAgentPrepScope.startyear#">
+															</cfif>
+														<cfelse>
+															<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
+														</cfif>
+														<cfif len(getAgentPrepScope.collection_cde) GT 0>
+															<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
+														</cfif>
+													</cfloop>
+												</ul>
+												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
+													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
+														<h2 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h2>
+													</cfif>
+												</cfif>
+											</cfif>
+										</div>
+									</div><!--- end preparatorCardBodyWrap --->
+								</div>
+							</section>
 							<!--- Determiner --->
 							<section class="accordion" id="determinerSection"> 
 								<div class="card mb-2 bg-light">
@@ -906,90 +989,6 @@ limitations under the License.
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
 							</section>
-							<!--- Preparator--->
-							<section class="accordion" id="preparatorSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentPrepScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
-										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
-										from (
-											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
-											from agent
-												left join collector on agent.agent_id = collector.AGENT_ID
-												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
-													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
-											where collector.COLLECTOR_ROLE = 'p'
-												and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
-												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by flat.collection_cde, flat.collection_id
-											union
-											select count(*) ct, flat.collection_cde, flat.collection_id, 0 as st, 0 as en
-											from agent
-												left join collector on agent.agent_id = collector.AGENT_ID
-												left join <cfif session.flatTableName EQ "flat">flat<cfelse>filtered_flat</cfif> flat
-													on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
-											where collector.COLLECTOR_ROLE = 'p'
-												and (flat.began_date is null or substr(flat.began_date,0,4) <> substr(flat.ENDED_DATE,0,4))
-												and agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											group by flat.collection_cde, flat.collection_id, 0
-										) 
-										group by collection_cde, collection_id
-									</cfquery>
-										<cfif getAgentPrepScope.recordcount GT 15 OR getAgentPrepScope.recordcount eq 0>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
-									<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-									<div class="card-header" id="preparatorHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
-											Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
-										</h2>
-									</div>
-									<div id="preparatorCardBodyWrap" class="#bodyClass#" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
-										<div class="card-body py-1 mb-1">
-											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
-											<cfelse>
-												<ul class="list-group">
-													<cfset earlyeststart = "">
-													<cfset latestend = "">
-													<cfloop query="getAgentPrepScope">
-														<cfif len(earlyeststart) EQ 0 AND NOT getAgentPrepScope.startyear IS "0" ><cfset earlyeststart = getAgentPrepScope.startyear></cfif>
-														<cfif len(latestend) EQ 0 AND NOT getAgentPrepScope.endyear IS "0"><cfset latestend = getAgentPrepScope.endyear></cfif>
-														<cfif len(getAgentPrepScope.startyear) GT 0 and NOT getAgentPrepScope.startyear IS "0">
-															<cfif compare(getAgentPrepScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentPrepScope.startyear></cfif>
-														</cfif>
-														<cfif compare(getAgentPrepScope.endyear,latestend) GT 0><cfset latestend=getAgentPrepScope.endyear></cfif>
-														<cfif getAgentPrepScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<cfif getAgentPrepScope.startyear IS getAgentPrepScope.endyear>
-															<cfif len(getAgentPrepScope.startyear) EQ 0 or getAgentPrepScope.startyear IS "0">
-																<cfset yearbit=" none known to year">
-															<cfelse>
-																<cfset yearbit=" in year #getAgentPrepScope.startyear#">
-															</cfif>
-														<cfelse>
-															<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
-														</cfif>
-														<cfif len(getAgentPrepScope.collection_cde) GT 0>
-															<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
-														</cfif>
-													</cfloop>
-												</ul>
-												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
-													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h2 class="h3">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h2>
-													</cfif>
-												</cfif>
-											</cfif>
-										</div>
-									</div><!--- end preparatorCardBodyWrap --->
-								</div>
-							</section>
-
 							<!--- media relationships and labels --->
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="mediametaSection"> 
