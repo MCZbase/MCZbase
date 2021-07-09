@@ -165,7 +165,7 @@ limitations under the License.
 						</div>
 						<div class="row mx-0 clearfix">
 					
-								<!--- obtain a random set of images, limited to a small number --->
+								<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
 								<cfquery name="specimenImageQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 									SELECT * FROM (
 										SELECT DISTINCT media_uri, preview_uri,media_type,
@@ -183,6 +183,7 @@ limitations under the License.
 											AND flat.guid IS NOT NULL
 											AND media_relations.media_relationship = 'shows cataloged_item'
 											AND media.media_type = 'image'
+											AND (media.mime_type 'image/jpeg' OR media.mime_type = 'image/png')
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										ORDER BY DBMS_RANDOM.RANDOM
 									) 
@@ -207,7 +208,13 @@ limitations under the License.
 										AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 								</cfquery>
 								<cfset specimenImagesShown = specimenImageQuery.recordcount>
-								<cfif specimenImagesShown GT 0>
+								<cfif specimenImagesShown EQ 0>
+									<cfif specimenImageQuery.recordcount GT 0>
+										<h2 class="mt-2 pt-3">Specimen Images</h2>
+										<p>#specImageCt.ct# Specimen Images (#specimenImageQuery.recordcount#)</p>
+										<div>None are directly visible as images</div>
+									</cfif>
+								<cfelse>
 									<cfif specimenImageQuery.recordcount LT specImageCt.ct>
 										<cfset shown = " (#specimenImagesShown# shown)">
 									<cfelse>
