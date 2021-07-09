@@ -108,7 +108,7 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-md-5">
-												<label for="description" class="data-entry-label" id="description_label">Description</label>
+												<label for="description" class="data-entry-label" id="description_label">Overview</label>
 												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 											</div>
 											<div class="col-md-2">
@@ -322,7 +322,7 @@ limitations under the License.
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
 									{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: getColHidProp('HTML_DESCRIPTION', true) },
-									{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
+									{text: 'Overview', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
@@ -479,7 +479,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
+										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description">0 characters, 4000 left</span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
@@ -641,7 +641,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-12">
-										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description"></span>)</label>
+										<label for="description" id="description_label" class="data-entry-label">Overview (<span id="length_description"></span>)</label>
 										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#encodeForHtml(description)#</textarea>
