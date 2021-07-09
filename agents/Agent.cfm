@@ -1033,11 +1033,11 @@ limitations under the License.
 														</li>
 														<li class="col-auto px-0">
 															<ul class="list-group">
-																<li class="list-group-item"><a href="/media/#getMedia.media_id#">Media Details</a></li>
-																<li class="list-group-item">#getMedia.descriptor#</li>
-																<li class="list-group-item">#getMedia.subject#</li>
-																<li class="list-group-item"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																<li class="list-group-item">#getMedia.credit#</li>
+																<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
+																<li class="list-group-item pt-0">#getMedia.descriptor#</li>
+																<li class="list-group-item pt-0">#getMedia.subject#</li>
+																<li class="list-group-item pt-0"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
+																<li class="list-group-item pt-0">#getMedia.credit#</li>
 															</ul>
 														
 														</li>
