@@ -668,11 +668,11 @@ limitations under the License.
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Islands</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														#continent_ocean#:
 														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
+															#continent_ocean#:
 															#islandsQuery.island#
 														</a>
 													</li>
@@ -681,7 +681,7 @@ limitations under the License.
 										</div>
 									</cfif>
 	
-									<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_collection
@@ -696,13 +696,13 @@ limitations under the License.
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
-									<cfif agents.recordcount GT 0>
+									<cfif collectors.recordcount GT 0>
 										<div class="col-12">
 											<h3>Collectors</h3>
-											<ul class="list-group d-inline-block py-3 border-top rounded-0 border-dark w-100">
-												<cfloop query="agents">
-													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
-														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+												<cfloop query="collectors">
+													<li class="list-group-item col-12 col-md-3 float-left">
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a>
 													</li>
 												</cfloop>
 											</ul>
