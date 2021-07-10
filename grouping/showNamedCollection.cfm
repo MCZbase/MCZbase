@@ -199,8 +199,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
+										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -223,8 +222,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
+										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -247,8 +245,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
-										MCZBASE.get_media_credit(media.media_id) as credit,
-										flat.guid
+										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
