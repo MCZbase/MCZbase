@@ -182,7 +182,7 @@ limitations under the License.
 										left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 											on underscore_relation.collection_object_id = flat.collection_object_id
-										left join media_relations on flat.collection_object_id = media_relations.related_primary_key
+										left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
 										left join media on media_relations.media_id = media.media_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 										AND flat.guid IS NOT NULL
@@ -599,8 +599,7 @@ limitations under the License.
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											and flat.country is null
-											and flat.continent_ocean is not null
+											and flat.continent_ocean like '%Ocean%'
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
 									<cfif marine.recordcount GT 0>
@@ -668,11 +667,11 @@ limitations under the License.
 									<cfif islandsQuery.recordcount GT 0>
 										<div class="col-12">
 											<h3>Islands</h3>
-											<ul class="list-group py-3 list-group-horizontal flex-wrap border-top border-bottom rounded-0 border-dark">
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
 												<cfloop query="islandsQuery">
 													<li class="list-group-item col-12 col-md-3 float-left">
-														#continent_ocean#:
 														<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">
+															#continent_ocean#:
 															#islandsQuery.island#
 														</a>
 													</li>
@@ -681,14 +680,14 @@ limitations under the License.
 										</div>
 									</cfif>
 	
-									<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
+									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
 											underscore_collection
 											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
-											left join collector on flat.collection_object_id = collector.collection_object_id
+											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
 											left join person on preferred_agent_name.agent_id = person.person_id
 										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -696,13 +695,13 @@ limitations under the License.
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
-									<cfif agents.recordcount GT 0>
+									<cfif collectors.recordcount GT 0>
 										<div class="col-12">
 											<h3>Collectors</h3>
-											<ul class="list-group d-inline-block py-3 border-top rounded-0 border-dark w-100">
-												<cfloop query="agents">
-													<li class="list-group-item list-group-horizontal col-3 flex-wrap float-left d-inline mr-2">
-														<a class="h4" href="/agents/Agent.cfm?agent_id=#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+											<ul class="list-group py-3 border-top list-group-horizontal flex-wrap rounded-0 border-dark">
+												<cfloop query="collectors">
+													<li class="list-group-item col-12 col-md-3 float-left">
+														<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a>
 													</li>
 												</cfloop>
 											</ul>
