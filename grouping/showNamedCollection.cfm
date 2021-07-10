@@ -455,14 +455,13 @@ limitations under the License.
 												<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+														underscore_relation
 														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 															on underscore_relation.collection_object_id = flat.collection_object_id
 														left join collector on flat.collection_object_id = collector.collection_object_id
 														left join media_relations on collector.agent_id = media_relations.related_primary_key
 														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 														AND flat.guid IS NOT NULL
 														AND collector.collector_role = 'c'
 														AND media_relations.media_relationship = 'shows agent' 
