@@ -268,7 +268,7 @@ limitations under the License.
 								) 
 								WHERE rownum < 16
 							</cfquery>
-							<cfif specimenImageQuery.recordcount GT 0 locImageQuery.recordcount GT 0 OR collImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
+							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
 								<!--- display images in left hand column --->
 								<div class="col-12 col-md-6 mb-4 float-left mt-0">
 									<cfset leftHandColumnOn = true>
