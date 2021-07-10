@@ -241,7 +241,7 @@ limitations under the License.
 								WHERE rownum < 16
 							</cfquery>
 							<!--- obtain a random set of collector images, limited to a small number --->
-							<cfquery name="collImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collImageQuery_result">
+							<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
@@ -265,7 +265,7 @@ limitations under the License.
 								) 
 								WHERE rownum < 16
 							</cfquery>
-							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
+							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collectorImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
 								<!--- display images in left hand column --->
 								<div class="col-12 col-md-6 mb-4 float-left mt-0">
 									<cfset leftHandColumnOn = true>
@@ -449,10 +449,10 @@ limitations under the License.
 											</div>
 										</cfif><!--- end collecting event images block --->
 
-										<cfif collImageQuery.recordcount GT 0>
+										<cfif collectorImageQuery.recordcount GT 0>
 											<div class="col-12">
 												<!--- find out how many collector images there are in total --->
-												<cfquery name="collImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_collection
@@ -469,34 +469,34 @@ limitations under the License.
 														AND media.media_type = 'image'
 														AND MCZBASE.is_media_encumbered(media.media_id) < 1 
 												</cfquery>
-												<cfset collImagesShown = collImageQuery.recordcount >
-												<cfif collImagesShown GT 0>
-													<cfif collImageQuery.recordcount LT collImageCt.ct >
-														<cfset shown = " (#collImagesShown# shown)" >
+												<cfset collectorImagesShown = collectorImageQuery.recordcount >
+												<cfif collectorImagesShown GT 0>
+													<cfif collectorImageQuery.recordcount LT collectorImageCt.ct >
+														<cfset shown = " (#collectorImagesShown# shown)" >
 													<cfelse>
 														<cfset shown = "">
 													</cfif>
 													<h2 class="mt-2 pt-3">Images of Collectors</h2>
-													<p>#collImageCt.ct# Collector Images#shown#</p>
+													<p>#collectorImageCt.ct# Collector Images#shown#</p>
 													<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
-															<cfloop index="i" from="0" to="#collImagesShown#">
+															<cfloop index="i" from="0" to="#collectorImagesShown#">
 																<li data-target="##carousel-example-4" data-slide-to="#i#" #active#></li>
 																<cfset active = "">
 															</cfloop>
 														</ol>
 														<div class="carousel-inner" role="listbox">
 															<cfset active = "active" >
-															<cfloop query="collImageQuery">
+															<cfloop query="collectorImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#collImageQuery.media_uri#" alt="#collImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#collectorImageQuery.media_uri#" alt="#collectorImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
-																		<h3 class="h3-responsive">#collImageQuery.alt#</h3>
-																		<p>#collImageQuery.credit#</p>
+																		<h3 class="h3-responsive">#collectorImageQuery.alt#</h3>
+																		<p>#collectorImageQuery.credit#</p>
 																	</div>
 																</div>
 																<cfset active = "" >
