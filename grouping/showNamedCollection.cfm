@@ -275,7 +275,7 @@ limitations under the License.
 											<div class="col-12">
 												<!--- find out how many specimen images there are in total --->
 												<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(media.media_id) as ct
+													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_collection
 														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -339,7 +339,7 @@ limitations under the License.
 											<div class="col-12">
 												<!--- find out how many locality images there are in total --->
 												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(media.media_id) as ct
+													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_collection
 														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -396,7 +396,7 @@ limitations under the License.
 											<div class="col-12">
 												<!--- find out how many collecting event images there are in total --->
 												<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(media.media_id) as ct
+													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_collection
 														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -453,7 +453,7 @@ limitations under the License.
 											<div class="col-12">
 												<!--- find out how many collector images there are in total --->
 												<cfquery name="collImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(media.media_id) as ct
+													SELECT count(distinct media.media_id) as ct
 													FROM
 														underscore_collection
 														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
