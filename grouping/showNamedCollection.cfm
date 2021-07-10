@@ -190,7 +190,7 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND MCZBASE.get_medialabel(media.media_id) < 2001
+										AND MCZBASE.get_medialabel(media.media_id,'width') < 2001
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
