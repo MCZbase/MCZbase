@@ -360,8 +360,9 @@ limitations under the License.
 													<cfelse>
 														<cfset shown = "">
 													</cfif>
-													<h2 class="mt-2 pt-3">Locality Images</h2>
-													<p>#locImageCt.ct# Locality Images#shown#</p>
+													<cfif locImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+													<h2 class="mt-2 pt-3">Locality Image#plural#</h2>
+													<p>#locImageCt.ct# Locality Image#plural##shown#</p>
 													<div id="carousel-example-3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
@@ -417,8 +418,9 @@ limitations under the License.
 													<cfelse>
 														<cfset shown = "">
 													</cfif>
-													<h2 class="mt-2 pt-3">Locality Images</h2>
-													<p>#collEventImageCt.ct# Collecting Event Images#shown#</p>
+													<cfif collEventImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+													<h2 class="mt-2 pt-3">Locality Image#plural#</h2>
+													<p>#collEventImageCt.ct# Collecting Event Image#plural##shown#</p>
 													<div id="carousel-example-3" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
@@ -475,8 +477,9 @@ limitations under the License.
 													<cfelse>
 														<cfset shown = "">
 													</cfif>
-													<h2 class="mt-2 pt-3">Images of Collectors</h2>
-													<p>#collectorImageCt.ct# Collector Images#shown#</p>
+													<cfif collectorImageCt.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+													<h2 class="mt-2 pt-3">Image#plural# of Collectors</h2>
+													<p>#collectorImageCt.ct# Collector Image#plural##shown#</p>
 													<div id="carousel-example-4" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel" data-pause="hover" > 
 														<ol class="carousel-indicators">
 															<cfset active = 'class="active"' >
