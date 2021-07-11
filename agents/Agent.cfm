@@ -95,6 +95,10 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h1 class="h2 my-2">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
+						</div>
+					</div>
+					<div class="row mx-0">
+						<div class="col-12 px-3">		
 							<cfif len(trim(getAgent.collections_scope)) GT 0>
 								<h2 class="h4 my-1">Collector: #getAgent.collections_scope#</h2>
 							</cfif>
