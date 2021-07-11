@@ -137,8 +137,8 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-10 px-0">
-							<div class="col-11 float-left">#biography#</div>
+						<div class="col-12 px-0">
+							<div class="col-12">#biography#</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
 									<h2 class="h4 my-1 px-2">Internal Remarks</h2>
