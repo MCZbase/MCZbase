@@ -141,7 +141,7 @@ limitations under the License.
 							<div class="col-12">#biography#</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<h2 class="h4 my-1 px-2">Internal Remarks</h2>
+									<h2 class="h4 my-1 px-3">Internal Remarks</h2>
 									<div class="col-12">#agent_remarks#</div>
 								</cfif>
 							</cfif>
@@ -382,7 +382,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
-											<div class="card-body py-1 px-3 mb-1 small90">
+											<div class="card-body py-1 mb-1 small90">
 												<cfif getAgentAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
