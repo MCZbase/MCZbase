@@ -736,7 +736,7 @@ limitations under the License.
 										group by collection_cde, collection_id
 										order by ct desc
 									</cfquery>
-									<cfquery name="getAgentFamilyScope2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
+									<cfquery name="getAgentFamilyScope2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result2">
 										select sum(ct) as ct, phylclass, family, sum(st) as startyear, sum(en) as endyear 
 										from (
 											select count(*) ct, flat.phylclass as phylclass, flat.family as family, 
@@ -822,7 +822,7 @@ limitations under the License.
 														<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
-															<cfloop query="getAgentFamilyScope">
+															<cfloop query="getAgentFamilyScope2">
 																<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope2.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope2.startyear></cfif>
 																<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope2.endyear IS "0"><cfset latestend = getAgentFamilyScope2.endyear></cfif>
 																<cfif len(getAgentFamilyScope2.startyear) GT 0 and NOT getAgentFamilyScope2.startyear IS "0">
