@@ -1609,7 +1609,7 @@ limitations under the License.
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 								
-									<cfif (publicationAuthor.recordcount GT 15 OR publicationAuthor.recordcount EQ 0) OR oneOfUs EQ 1>
+									<cfif (publicationAuthor.recordcount EQ 0) OR oneOfUs EQ 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
