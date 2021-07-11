@@ -622,7 +622,7 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
-									<cfif getAgentFamilyScope.recordcount eq 250>
+									<cfif getAgentFamilyScope.recordcount eq 750>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -633,7 +633,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header" id="collectorHeader1">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">
-											Collector (in #getAgentCollScope.recordcount# collection#plural# and #getAgentFamilyScope.recordcount# famil#fplural#)
+											Collector (in #getAgentCollScope.recordcount# collection#plural#)
 										</h2>
 									</div>
 									<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
