@@ -1171,7 +1171,7 @@ limitations under the License.
 												collection				
 										</cfquery>
 										<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif loan_item.recordcount GT 10>
+										<cfif loan_item.recordcount GT 10 OR loan_item.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
