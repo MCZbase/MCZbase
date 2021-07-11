@@ -77,7 +77,7 @@ limitations under the License.
 		SELECT agent_relationship as relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 		FROM agent_relations 
 		WHERE
-			agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+			agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAgent.agent_id#">
 			and agent_relationship not like '% duplicate of'
 		ORDER BY agent_relationship
 	</cfquery>
