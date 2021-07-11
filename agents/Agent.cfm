@@ -137,7 +137,7 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12">
+						<div class="col-12 px-0">
 							<div class="col-12">#biography#</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
@@ -258,6 +258,74 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
+						<!--- Media --->
+							<section class="accordion" id="mediaSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+										SELECT media.media_id,
+											mczbase.get_media_descriptor(media.media_id) as descriptor,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											media.media_uri,
+											media.media_type,
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+											MCZBASE.get_media_credit(media.media_id) as credit 
+										FROM media_relations 
+											left join media on media_relations.media_id = media.media_id
+											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+										WHERE media_relationship like '% agent'
+											and media_relationship <> 'created by agent'
+											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and mczbase.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+										<cfif getMedia.recordcount GT 15 OR getMedia.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
+									<div class="card-header" id="mediaHeader">
+										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+											Subject of #getMedia.recordcount# media record#plural#
+										</h2>
+									</div>
+									<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+										<cfif getMedia.recordcount eq 0>
+											<cfset mediaLink = "No Media records">
+										<cfelse>
+											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+										</cfif>
+										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
+										<div class="card-body py-1 mb-1">
+											<cfif getMedia.recordcount GT 0>
+												<cfloop query="getMedia">
+													<ul class="list-group list-group-horizontal-md border p-2 my-2">
+													<cfif getMedia.media_type IS "image">
+														<li class="col-auto px-0">
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></a>
+														</li>
+														<li class="col-10 col-md-8 col-xl-10 px-0">
+															<ul class="list-group small">
+																<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
+																<li class="list-group-item pt-0">#getMedia.descriptor#</li>
+																<li class="list-group-item pt-0">#getMedia.subject#</li>
+																<li class="list-group-item pt-0"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
+																<li class="list-group-item pt-0">#getMedia.credit#</li>
+															</ul>
+														
+														</li>
+													</cfif>
+													</ul>
+												</cfloop>
+											</cfif>
+										</div>
+									</div><!--- end mediaCardBodyWrap --->
+								</div>
+							</section>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="eaddressSection"> 
@@ -997,74 +1065,7 @@ limitations under the License.
 					</div>
 					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1">
 						
-						<!--- Media --->
-							<section class="accordion" id="mediaSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-										SELECT media.media_id,
-											mczbase.get_media_descriptor(media.media_id) as descriptor,
-											mczbase.get_medialabel(media.media_id,'subject') as subject,
-											media.media_uri,
-											media.media_type,
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-											MCZBASE.get_media_credit(media.media_id) as credit 
-										FROM media_relations 
-											left join media on media_relations.media_id = media.media_id
-											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like '% agent'
-											and media_relationship <> 'created by agent'
-											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and mczbase.is_media_encumbered(media.media_id) < 1
-									</cfquery>
-										<cfif getMedia.recordcount GT 15 OR getMedia.recordcount eq 0>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
-									<div class="card-header" id="mediaHeader">
-										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
-											Subject of #getMedia.recordcount# media record#plural#
-										</h2>
-									</div>
-									<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
-										<cfif getMedia.recordcount eq 0>
-											<cfset mediaLink = "No Media records">
-										<cfelse>
-											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-										</cfif>
-										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
-										<div class="card-body py-1 mb-1">
-											<cfif getMedia.recordcount GT 0>
-												<cfloop query="getMedia">
-													<ul class="list-group list-group-horizontal-md border p-2 my-2">
-													<cfif getMedia.media_type IS "image">
-														<li class="col-auto px-0">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></a>
-														</li>
-														<li class="col-10 col-md-8 col-xl-10 px-0">
-															<ul class="list-group small">
-																<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
-																<li class="list-group-item pt-0">#getMedia.descriptor#</li>
-																<li class="list-group-item pt-0">#getMedia.subject#</li>
-																<li class="list-group-item pt-0"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																<li class="list-group-item pt-0">#getMedia.credit#</li>
-															</ul>
-														
-														</li>
-													</cfif>
-													</ul>
-												</cfloop>
-											</cfif>
-										</div>
-									</div><!--- end mediaCardBodyWrap --->
-								</div>
-							</section>
+
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
