@@ -82,7 +82,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-12 px-3">
+						<div class="col-11 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
@@ -95,6 +95,12 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h1 class="h2 my-2">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
+						</div>
+						<div class="col-1 float-right">
+							<!--- edit button at upper right for those authorized to edit agent records --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+							</cfif>
 						</div>
 					</div>
 					<div class="row mx-0">
