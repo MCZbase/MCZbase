@@ -1416,7 +1416,7 @@ limitations under the License.
 										<div id="projectCardBodyWrap" class="#bodyClass#" aria-labelledby="projectHeader" data-parent="##projectSection">
 											<div class="card-body py-1 mb-1">
 												<cfif getProjRoles.recordcount EQ 0>
-													<h3 class="h4 px-2 mb-1">No project roles in MCZbase</h3>
+													<ul class="list-group"><li class="list-group-item">No project roles in MCZbase</li></ul>
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
