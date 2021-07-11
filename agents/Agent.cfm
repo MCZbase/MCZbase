@@ -994,7 +994,7 @@ limitations under the License.
 											collection,
 											attribute_type
 									</cfquery>
-									<cfif attributes.recordcount GT 15 OR attributes.recordcount EQ 0>
+									<cfif attributes.recordcount GT 15>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
