@@ -1415,7 +1415,7 @@ limitations under the License.
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
-													<h3 class="h4 mb-0">Not a Transaction Agent in MCZbase</h3>
+													<ul class="list-group"><li class="list-group-item">Not a Transaction Agent in MCZbase</li></ul>
 												<cfelse>
 													<ul class="list-group">
 														<cfset lastTrans ="">
