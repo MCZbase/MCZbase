@@ -74,7 +74,7 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-	<cfquery name="getAgentRelforAlertColor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getAgentRelforAlertColor" dbtype="query">
 		SELECT agent_relationship as relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 		FROM agent_relations 
 		WHERE
