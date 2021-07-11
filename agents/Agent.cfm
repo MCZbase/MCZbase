@@ -671,37 +671,6 @@ limitations under the License.
 														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
 													</cfif>
 												</cfif>
-			
-												<cfif getAgentFamilyScope.recordcount GT 0>
-													<div class="w-100"> 
-														<h3 class="h4 px-2 mb-0">Families Collected</h3>
-														<ul class="list-group">
-															<cfset earlyeststart = "">
-															<cfset latestend = "">
-															<cfloop query="getAgentFamilyScope">
-																<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
-																<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
-																<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
-																	<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
-																</cfif>
-																<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
-																<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-																<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
-																	<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
-																		<cfset yearbit=" none known to year">
-																	<cfelse>
-																		<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
-																	</cfif>
-																<cfelse>
-																	<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
-																</cfif>
-																<cfif len(getAgentFamilyScope.family) GT 0>
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
-																</cfif>
-															</cfloop>
-														</ul>
-													</div>
-												</cfif><!--- getAgentFamilyScope.recordcount > 0 --->
 											</cfif><!--- getAgentCollScope.recordcount > 1 --->
 										</div>
 									</div><!--- end collectorCardBodyWrap --->
