@@ -752,39 +752,8 @@ limitations under the License.
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope2.recordcount EQ 0>
-												<h3 class="h5 px-2 mb-0 mt-1">Not a collector of any material in MCZbase</h3>
+											
 											<cfelse>
-												<ul class="list-group">
-													<cfset earlyeststart = "">
-													<cfset latestend = "">
-													<cfloop query="getAgentCollScope2">
-														<cfif len(earlyeststart) EQ 0 AND NOT getAgentCollScope2.startyear IS "0" ><cfset earlyeststart = getAgentCollScope.startyear></cfif>
-														<cfif len(latestend) EQ 0 AND NOT getAgentCollScope2.endyear IS "0"><cfset latestend = getAgentCollScope2.endyear></cfif>
-														<cfif len(getAgentCollScope.startyear) GT 0 and NOT getAgentCollScope2.startyear IS "0">
-															<cfif compare(getAgentCollScope2.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentCollScope2.startyear></cfif>
-														</cfif>
-														<cfif compare(getAgentCollScope2.endyear,latestend) GT 0><cfset latestend=getAgentCollScope2.endyear></cfif>
-														<cfif getAgentCollScope2.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<cfif getAgentCollScope2.startyear IS getAgentCollScope2.endyear>
-															<cfif len(getAgentCollScope2.startyear) EQ 0 or getAgentCollScope2.startyear IS "0">
-																<cfset yearbit=" none known to year">
-															<cfelse>
-																<cfset yearbit=" in year #getAgentCollScope2.startyear#">
-															</cfif>
-														<cfelse>
-															<cfset yearbit=" in years #getAgentCollScope2.startyear#-#getAgentCollScope2.endyear#">
-														</cfif>
-														<cfif len(getAgentCollScope2.collection_cde) GT 0>
-															<li class="list-group-item">#getAgentCollScope2.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope2.ct# record#plural#</a>) #yearbit#</li>
-														</cfif>
-													</cfloop>
-												</ul>
-												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
-													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
-													</cfif>
-												</cfif>
-			
 												<cfif getAgentFamilyScope2.recordcount GT 0>
 													<div class="w-100"> 
 														<h3 class="h4 px-2 mb-0">Families Collected</h3>
