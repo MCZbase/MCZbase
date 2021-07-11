@@ -1724,7 +1724,9 @@ limitations under the License.
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 										<div class="card-body py-1 mb-1">
 											<cfif publicationAuthor.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-0">No Publication Citing MCZ material</h3>
+												<ul class="list-group">
+													<li class="list-group-item">No Publication Citing MCZ material</li>
+												</ul>
 											<cfelse>
 												<ul class="list-group">
 													<cfloop query="publicationAuthor">
