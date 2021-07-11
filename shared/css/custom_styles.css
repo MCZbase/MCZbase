@@ -563,7 +563,7 @@ background: -webkit-linear-gradient(left, rgba(222,235,236,1) 0%, rgba(232,232,2
 background: -o-linear-gradient(left, rgba(222,235,236,1) 0%, rgba(232,232,232,1) 100%);
 background: linear-gradient(to right, rgba(222,235,236,1) 0%, rgba(232,232,232,1) 100%);/*W3C,IE10+,FF16+,Chrome26+,Opera12+,Safari7+*/
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6e066dab', endColorstr='#00c5deea', GradientType=0); /*IE6-9 */
-	border: 1px solid #aaa;
+	border: 1px solid #c5c5c5;
 }
 .card-columns .card {
 	margin-bottom: 0;
