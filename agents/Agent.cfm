@@ -50,6 +50,7 @@ limitations under the License.
 
 <cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
+		agent.agent_id,
 		agent.agent_type, 
 		agent.edited as vetted, 
 		agent_remarks, 
