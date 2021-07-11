@@ -835,7 +835,7 @@ limitations under the License.
 									<div id="preparatorCardBodyWrap" class="#bodyClass#" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentPrepScope.recordcount EQ 0>
-												<h3 class="h4 px-2 mb-1">Not a preparator of any material in MCZbase</h3>
+												<ul class="list-group"><li class="list-group-item">Not a preparator of any material in MCZbase</li></ul>
 											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
