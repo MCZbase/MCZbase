@@ -186,7 +186,7 @@ limitations under the License.
 								</div>
 							</section>
 	
-							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel">
+							<cfif #getAgent.agent_type# IS "group" OR #getAgent.agent_type# IS "expedition" OR #getAgent.agent_type# IS "vessel" OR #getAgent.agent_type# is "person">
 								<!--- group members (members within this group agent) --->
 								<section class="accordion" id="groupMembersSection">
 									<div class="card mb-2 bg-light">
