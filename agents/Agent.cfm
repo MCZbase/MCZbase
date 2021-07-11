@@ -74,7 +74,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 	<cfquery name="getAgentRelforAlertColor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
+		SELECT agent_relationship as relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 		FROM agent_relations 
 		WHERE
 			agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
@@ -149,7 +149,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto py-2 <cfif getAgentRelforAlertColor.agent_relationship IS 'employedby' and getAgentRelforAlertColor.related_name contains 'MCZ'>primaryType<cfelse>secondaryType</cfif>">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto py-2 <cfif getAgentRelforAlertColor.relationship eq 'employedby' AND getAgentRelforAlertColor.related_name contains 'MCZ'>primaryType<cfelse>secondaryType</cfif>">
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
