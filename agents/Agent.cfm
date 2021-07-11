@@ -622,7 +622,7 @@ limitations under the License.
 									</cfquery>
 									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
-									<cfif getAgentFamilyScope.recordcount GT 50>
+									<cfif getAgentFamilyScope.recordcount eq 250>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
