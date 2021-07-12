@@ -595,7 +595,7 @@ limitations under the License.
 									</cfquery>
 									
 									<cfif getAgentCollScope.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-									<cfif getAgentCollScope.recordcount gt 15 OR getAgentCollScope.recordcount EQ 0>
+									<cfif getAgentCollScope.recordcount gt 600 OR getAgentCollScope.recordcount EQ 0>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -611,10 +611,9 @@ limitations under the License.
 									</div>
 									<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
 										<div class="card-body py-1 mb-1">
-											<cfif getAgentCollScope.recordcount gt 15 OR getAgentCollScope.recordcount EQ 0>
+											<cfif getAgentCollScope.recordcount EQ 0>
 												<ul class="list-group"><li class="list-group-item">Not a collector of any material in MCZbase</li></ul>
-											</cfif>
-											<cfif getAgentCollScope.recordcount gt 15> 
+											<cfelse>
 												<ul class="list-group">
 													<cfset earlyeststart = "">
 													<cfset latestend = "">
@@ -653,7 +652,6 @@ limitations under the License.
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
-
 									<cfquery name="getAgentFamilyScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentFamilyScope_result">
 										select sum(ct) as ct, phylclass, family, sum(st) as startyear, sum(en) as endyear 
 										from (
