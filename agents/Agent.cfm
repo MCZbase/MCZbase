@@ -184,7 +184,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body pt-1 pb-2" style="background-color:rgb(30 165 255 / 3%)!important;">
+									<div class="card-body pt-1 pb-2" style="background-color:rgb(0 200 255 / 3%)!important;">
 										<ul class="list-group">
 											<!--- preferred name --->
 											<cfloop query="preferredNames">
