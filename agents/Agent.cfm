@@ -753,7 +753,6 @@ limitations under the License.
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
 										<div class="card-body py-1 mb-1">
 											<cfif getAgentCollScope2.recordcount EQ 0>
-											
 											<cfelse>
 												<cfif getAgentFamilyScope2.recordcount GT 0>
 													<div class="w-100"> 
