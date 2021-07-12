@@ -74,7 +74,7 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<cfquery name="getAgentRelforColor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="getAgentRelforColor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
 			agent_remarks
 		FROM agent_relations 
@@ -82,7 +82,7 @@ limitations under the License.
 			agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 			and agent_relationship not like '% duplicate of'
 		ORDER BY agent_relationship
-	</cfquery>
+	</cfquery>--->
 <cfoutput>
 	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse></cfif>">
 		<div class="row mx-0">
@@ -151,7 +151,8 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto pt-2">
+					<!--- <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>agentInternal<cfelse>agentExternal</cfif>">--->
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -562,7 +563,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
+					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -1145,7 +1146,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1 pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1">
 						
 
 							<!--- loan item reconciliation --->
