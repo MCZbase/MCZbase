@@ -1952,6 +1952,7 @@ section#mediaSection.accordion {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
 }
+.badge {verical-align: top; padding: .25rem .4rem .35rem .4rem!important;}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
