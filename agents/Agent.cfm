@@ -752,13 +752,14 @@ limitations under the License.
 										</h2>
 									</div>
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
+										<cfif getAgentFamilyScope2.recordcount GT 0>
 										<div class="card-body py-1 mb-1">
 											<div class="w-100"> 
 												<h3 class="h4 px-2 mb-0">Families Collected</h3>
 												<ul class="list-group">
-														<cfset earlyeststart = "">
-														<cfset latestend = "">
-														<cfloop query="getAgentFamilyScope2">
+													<cfset earlyeststart = "">
+													<cfset latestend = "">
+													<cfloop query="getAgentFamilyScope2">
 															<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope2.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope2.startyear></cfif>
 															<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope2.endyear IS "0"><cfset latestend = getAgentFamilyScope2.endyear></cfif>
 															<cfif len(getAgentFamilyScope2.startyear) GT 0 and NOT getAgentFamilyScope2.startyear IS "0">
@@ -779,9 +780,10 @@ limitations under the License.
 																<li class="list-group-item">#getAgentFamilyScope2.phylclass#: #getAgentFamilyScope2.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope2.family#" target="_blank">#getAgentFamilyScope2.ct# record#plural#</a>) #yearbit#</li>
 															</cfif>
 														</cfloop>
-													</ul>
+												</ul>
 											</div>
 										</div>
+										</cfif>
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
