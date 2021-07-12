@@ -151,7 +151,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto pt-2">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto">
 					<!--- <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>agentInternal<cfelse>agentExternal</cfif>">--->
 						<!--- agent names --->
 							<section class="accordion">
@@ -567,7 +567,7 @@ limitations under the License.
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
-									<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result1">
+									<cfquery name="getAgentCollScope" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgentCollScope_result">
 										select sum(ct) as ct, collection_cde, collection_id, sum(st) as startyear, sum(en) as endyear 
 										from (
 											select count(*) ct, flat.collection_cde, flat.collection_id, to_number(min(substr(flat.began_date,0,4))) st, to_number(max(substr(flat.ended_date,0,4))) en
