@@ -696,7 +696,7 @@ limitations under the License.
 									<!---	<cfif getAgentFamilyScope2.recordcount GT 0>--->
 										<div class="card-body py-1 mb-1">
 											<div class="w-100"> 
-									<!---			<h3 class="h4 px-2 mb-0">Families Collected</h3>--->
+												<!---<h3 class="h4 px-2 mb-0">Families Collected</h3>--->
 												<ul class="list-group">
 													<cfset earlyeststart = "">
 													<cfset latestend = "">
