@@ -641,7 +641,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#). </h3>
+														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
 													</cfif>
 												</cfif>
 											</cfif><!--- getAgentCollScope.recordcount > 1 --->
