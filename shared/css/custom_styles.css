@@ -1944,7 +1944,7 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-#publicationCardBodyWrap {max-height: 800px;overflow-y:scroll;}
+#publicationCardBodyWrap {max-height: 650px;overflow-y:scroll;}
 #transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 #shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 #permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
