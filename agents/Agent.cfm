@@ -120,7 +120,7 @@ limitations under the License.
 						</div>
 					</div>--->
 					<div class="row mx-0">
-						<div class="col-10 px-3">
+						<div class="col-10 px-0">
 							<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
@@ -137,7 +137,7 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-10 px-3">
+						<div class="col-10 px-0">
 							<div class="col-12">
 								#biography#
 							</div>
