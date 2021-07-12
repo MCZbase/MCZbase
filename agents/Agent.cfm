@@ -112,13 +112,6 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-<!---					<div class="row mx-0">
-						<div class="col-12 px-3">		
-							<cfif len(trim(getAgent.collections_scope)) GT 0>
-								<h2 class="h4 my-1">Collector: #getAgent.collections_scope#</h2>
-							</cfif>
-						</div>
-					</div>--->
 					<div class="row mx-0">
 						<div class="col-10 px-3">
 							<ul class="list-group py-0 list-unstyled px-0">
