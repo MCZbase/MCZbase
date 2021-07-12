@@ -37,23 +37,23 @@ a {
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOut.gif);
+	content: "\a0"url(/shared/images/linkOut.gif);
 }
 a.external:link:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOut.gif);
+	content: "\a0"url(/shared/images/linkOut.gif);
 }
 a.external:hover:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutHover.gif);
+	content: "\a0"url(/shared/images/linkOutHover.gif);
 }
 a.external:visited:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutVisited.gif);
+	content: "\a0"url(/shared/images/linkOutVisited.gif);
 }
 a.external:hover:visited:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutHover.gif);
+	content: "\a0"url(/shared/images/linkOutHover.gif);
 }
 /*.imgsize:nth-child(3n+1) {
 	width: 31.5%;
@@ -89,16 +89,16 @@ table td .small {
 .bg-verylightgreen {
 	background-color: #EBFFEB !important;
 }
-.border-white { 
+.border-white {
 	border: 1px solid white;
 }
-.border-green { 
+.border-green {
 	border: 1px solid green !important;
 }
-.border-wide-green { 
+.border-wide-green {
 	border: 2px solid green !important;
 }
-.border-wide-grey { 
+.border-wide-grey {
 	border: 2px solid darkgrey !important;
 }
 .border-bottom-black {
@@ -166,7 +166,7 @@ h6, .h6 {
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
-span.caps { 
+span.caps {
 	text-transform: capitalize;
 }
 #resultLink a {
@@ -212,7 +212,9 @@ p:focus {
 div:focus, div > span:focus {
 	box-shadow: 0 0 0 0;
 }
-div:focus, div > span:focus {box-shadow: 0 0 0 0;}
+div:focus, div > span:focus {
+	box-shadow: 0 0 0 0;
+}
 .info {
 	position: absolute;
 	left: -9000px;
@@ -282,7 +284,7 @@ label {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-.btn-xs {  /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
+.btn-xs { /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
 	display: inline-block;
 	font-weight: 500;
 	color: #212529;
@@ -314,12 +316,11 @@ button#showRelatedDataBtn.btn-xs {
 	font-size: .875rem;
 	line-height: 1.15rem;
 	border-radius: .2rem;
-	color:#007bff;
+	color: #007bff;
 }
 .btn-outline-primary {
 	background-color: white;
 }
-
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
@@ -1117,7 +1118,7 @@ table.inputTable tr {
 .search-box-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
-	margin-top:-1px;
+	margin-top: -1px;
 }
 ::-ms-clear {
 	display: none;
@@ -1348,7 +1349,7 @@ span.data-entry-label {
 	background-color: #fff;
 	border-radius: .2rem;
 	vertical-align: middle;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 }
@@ -1437,7 +1438,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: .2rem 0 0 .2rem;
 	padding: .14rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
@@ -1457,7 +1458,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-select-input:active {
@@ -1491,7 +1492,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: .2rem 0 0 .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-addon {
@@ -1504,7 +1505,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: 0 .2rem .2rem 0;
 	padding: .2rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-height {
@@ -1678,7 +1679,7 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
-.card-header h1 button.collapsed span:before{
+.card-header h1 button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
@@ -1693,11 +1694,11 @@ tr.line-top:first-child {
 	float: left !important;
 }
 .card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
-	font-family: "Font Awesome 5 Free"; 
+	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content:"\f068";
+	content: "\f068";
 	padding-right: 5px;
-	float:left!important;
+	float: left !important;
 	cursor: pointer;
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
@@ -1711,7 +1712,7 @@ tr.line-top:first-child {
 }
 .card-body li.list-group-item span:last-child {
 	display: none;
-   /* Caution, this directive will have unexpected side effects such as hiding badge spans */  
+	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
 input#readMore_check_id {
 	display: none;
@@ -1819,7 +1820,7 @@ input#readMore_check_id {
 	border-left: 1px solid #deebec;
 }
 button[tabindex="-1"]:focus {
-	outline: 0!important;
+	outline: 0 !important;
 	box-shadow: none;
 }
 .card-header {
@@ -1831,7 +1832,7 @@ button[tabindex="-1"]:focus {
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
-	outline:0;
+	outline: 0;
 }
 .tab-content div[aria-hidden='false'] {
 	display: block;
@@ -1846,18 +1847,18 @@ div[aria-hidden='false'] {
 	display: none;
 }
 .show {
-	display:block;
+	display: block;
 }
 a.btn-outline-primary {
 	background-color: white;
 	padding-bottom: .05rem;
 	color: #007bff;
-	text-decoration:none;
+	text-decoration: none;
 	font-size: .785rem;
 }
-a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
+a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled):active {
 	background-color: #007bff;
-	text-decoration:none;
+	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
@@ -1866,30 +1867,30 @@ a.btn-danger {
 	background-color: white;
 	padding-bottom: .05rem;
 	color: #bd2130;
-	text-decoration:none;
+	text-decoration: none;
 	font-size: .785rem;
 }
-a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
+a.btn-danger:hover, a.btn-danger:not(:disabled):not(.disabled):active {
 	background-color: #bd2130;
-	text-decoration:none;
+	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
 }
 .jqx-grid-cell-selected-light a.btn-danger:focus, .jqx-fill-state-pressed a.btn-danger {
-	color: #bd2130 !important; 
+	color: #bd2130 !important;
 	text-decoration: none;
 }
 .jqx-fill-state-pressed a.btn-danger:hover, .jqx-fill-state-pressed a.btn-danger.hover {
-	color: #ffffff !important; 
+	color: #ffffff !important;
 	text-decoration: none;
 }
 #agentDiv ul {
 	font-size: 0.95rem;
 }
 #citationsDialog_div:empty {
-	background-color: lime;display:none;
-	
+	background-color: lime;
+	display: none;
 }
 th {
 	font-weight: 500;
@@ -1944,23 +1945,32 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-#publicationCardBodyWrap {max-height: 650px;overflow-y:auto;}
-#transactionsCardBodyWrap {max-height: 500px;overflow-y:auto;}
-#shipmentsCardBodyWrap {max-height: 500px;overflow-y:auto;}
+#publicationCardBodyWrap {
+	max-height: 650px;
+	overflow-y: auto;
+}
+#transactionsCardBodyWrap {
+	max-height: 500px;
+	overflow-y: auto;
+}
+#shipmentsCardBodyWrap {
+	max-height: 500px;
+	overflow-y: auto;
+}
 #permitsCardBodyWrap {
 	max-height: 500px;
-	overflow-y:auto;
+	overflow-y: auto;
 }
 .internalRemarks p {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
 }
 .badge {
-	verical-align: top; 
-	padding: .25rem .4rem .35rem .4rem!important;
+	verical-align: top;
+	padding: .25rem .4rem .35rem .4rem !important;
 }
 .bg-teal {
-	background-color:rgb(199 251 255 / .35)!important;
+	background-color: rgb(199 251 255 / .35) !important;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
@@ -1979,7 +1989,6 @@ section#mediaSection.accordion {
 	.w-350 {
 		width: 100%;
 	}
-	
 }
 /* 
 Max width before this PARTICULAR table gets nasty
@@ -2001,10 +2010,13 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	.containFlex2 {column-count: 1;}
-	.containFlex4 {column-count: 2;}
+	.containFlex2 {
+		column-count: 1;
+	}
+	.containFlex4 {
+		column-count: 2;
+	}
 }
-
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
 		display: none;
@@ -2016,7 +2028,6 @@ and also iPads specifically.
 		padding-left: 0;
 	}
 }
-
 @media (min-width:1200px) and (max-width: 1700px) {
 	#searchHelpTextBlock {
 		width: 100%;
@@ -2116,8 +2127,12 @@ and also iPads specifically.
 		font-size: 75%;
 		height: 90px;
 	}
-	.containFlex2 {column-count: 1;}
-	.containFlex4 {column-count: 1;}
+	.containFlex2 {
+		column-count: 1;
+	}
+	.containFlex4 {
+		column-count: 1;
+	}
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
@@ -2176,10 +2191,10 @@ and also iPads specifically.
 	}
 }
 @media (min-width: 1200px) {
-.col-xl-agentDetails {
-	-ms-flex: 0 0 37.666667%;
-	flex: 0 0 37.666667%;
-	max-width: 37.666667%;
+	.col-xl-agentDetails {
+		-ms-flex: 0 0 37.666667%;
+		flex: 0 0 37.666667%;
+		max-width: 37.666667%;
 	}
 }
 @media(min-width: 1600px) {
@@ -2219,7 +2234,6 @@ and also iPads specifically.
 		margin-left: 4px;
 	}
 }
-
 @media(max-width:1023px) {
 	.card-columns {
 		column-count: 1;
