@@ -84,7 +84,7 @@ limitations under the License.
 		ORDER BY agent_relationship
 	</cfquery>--->
 <cfoutput>
-	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse></cfif>">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container<cfelse>container</cfif>">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
