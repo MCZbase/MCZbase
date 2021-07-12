@@ -611,9 +611,10 @@ limitations under the License.
 									</div>
 									<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
 										<div class="card-body py-1 mb-1">
-											<cfif getAgentCollScope.recordcount EQ 0>
+											<cfif getAgentCollScope.recordcount gt 15 OR getAgentCollScope.recordcount EQ 0>
 												<ul class="list-group"><li class="list-group-item">Not a collector of any material in MCZbase</li></ul>
-											<cfelse>
+											</cfif>
+											<cfif getAgentCollScope.recordcount gt 15> 
 												<ul class="list-group">
 													<cfset earlyeststart = "">
 													<cfset latestend = "">
