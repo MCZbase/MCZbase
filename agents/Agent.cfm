@@ -120,7 +120,7 @@ limitations under the License.
 						</div>
 					</div>--->
 					<div class="row mx-0">
-						<div class="col-10 px-0">
+						<div class="col-10 px-3">
 							<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
@@ -128,7 +128,7 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item px-0 pt-1 pb-2">
+									<li class="list-group-item px-0 pt-0 pb-2">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
@@ -138,12 +138,12 @@ limitations under the License.
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
 						<div class="col-10 px-0">
-							<div class="col-12">
+							<div class="col-12 px-3">
 								#biography#
 							</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<div class="col-12">
+									<div class="col-12 px-3">
 										<h2 class="h4 my-1">Internal Remarks</h2>
 										#agent_remarks#
 									</div>
