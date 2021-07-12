@@ -232,7 +232,7 @@ limitations under the License.
 										<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="groupMembersHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
-												Group Members (#groupMembers.recordcount#):
+												Group Members (#groupMembers.recordcount#)
 											</h2>
 										</div>
 										<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
