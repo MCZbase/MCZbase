@@ -22,7 +22,7 @@ limitations under the License.
 	<cfset fitWidth = 300>
 </cfif>
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
-	<cfset target = "/shared/images/missing_image_icon_298822.png">
+	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 <cfelse>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 		SELECT
@@ -35,29 +35,29 @@ limitations under the License.
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
-				<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','') >
-				<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','') >
+				<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+				<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 			<cfelse>
 				<cfif media_type EQ 'image'>
-					<cfset target = "/shared/images/noExternalImage.png">
+					<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
 				<cfelse>
 					<!--- TODO: icons for other media types --->
-					<cfset target = "/shared/images/noThumbDoc.png">
+					<cfset target = "#Application.webDirectory#/shared/images/noThumbDoc.png">
 				</cfif>
 			</cfif>
 		</cfloop>
 	<cfelse>
-		<cfset target = "/shared/images/missing_image_icon_298822.png">
+		<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 	</cfif>
 </cfif>
 
 <cfif isImageFile(target)>
 	<cfimage source="#target#" name="targetImage">
 	<cfset ImageSetAntialiasing(targetImage,"on")>
-	<cfset ImageScaleToFit(targetImage,100,"","lanczos")>
+	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
 	<cfimage source="#targetImage#" action="writeToBrowser">
 <cfelse>
-	<cfset target = "/shared/images/missing_image_icon_298822.png">
+	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 	<cfimage source="#target#" name="targetImage">
 	<cfimage source="#targetImage#" action="writeToBrowser">
 </cfif>
