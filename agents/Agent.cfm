@@ -751,11 +751,11 @@ limitations under the License.
 										</h2>
 									</div>
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
-										<div class="card-body py-1 mb-1">
-												<cfif getAgentFamilyScope2.recordcount GT 0>
-													<div class="w-100"> 
-														<h3 class="h4 px-2 mb-0">Families Collected</h3>
-														<ul class="list-group">
+										<cfif getAgentFamilyScope2.recordcount GT 0>
+											<div class="card-body py-1 mb-1">
+												<div class="w-100"> 
+													<h3 class="h4 px-2 mb-0">Families Collected</h3>
+													<ul class="list-group">
 															<cfset earlyeststart = "">
 															<cfset latestend = "">
 															<cfloop query="getAgentFamilyScope2">
@@ -780,9 +780,9 @@ limitations under the License.
 																</cfif>
 															</cfloop>
 														</ul>
-													</div>
-												</cfif><!--- getAgentFamilyScope.recordcount > 0 --->
-										</div>
+												</div>
+											</div>
+										</cfif><!--- getAgentFamilyScope.recordcount > 0 --->
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
