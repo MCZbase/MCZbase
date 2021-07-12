@@ -500,7 +500,7 @@ limitations under the License.
 										<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
 										<script>
 											$(document).ready(function () {
-												$('##agent_remarks').jqxEditor({lineBreak:"p"});
+												$('##agent_remarks').jqxEditor({lineBreak:"p",localization:{"size":".875rem"}});
 												$('##agent_remarks').jqxEditor("val","#encodeForJavascript(trim(agent_remarks))#");
 											});
 										</script>
