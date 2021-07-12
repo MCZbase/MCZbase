@@ -1929,14 +1929,14 @@ th {
 	column-count: 4;
 }
 .accordion {
--webkit-column-break-inside: avoid;
-          page-break-inside: avoid;
-               break-inside: avoid;
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
 }
 section#mediaSection.accordion {
 	-webkit-column-break-inside: auto;
-          page-break-inside: auto;
-               break-inside: auto;
+	page-break-inside: auto;
+	break-inside: auto;
 }
 .border-top-black {
 	border-top: 8px solid black;
@@ -1947,12 +1947,21 @@ section#mediaSection.accordion {
 #publicationCardBodyWrap {max-height: 650px;overflow-y:auto;}
 #transactionsCardBodyWrap {max-height: 500px;overflow-y:auto;}
 #shipmentsCardBodyWrap {max-height: 500px;overflow-y:auto;}
-#permitsCardBodyWrap {max-height: 500px;overflow-y:auto;}
+#permitsCardBodyWrap {
+	max-height: 500px;
+	overflow-y:auto;
+}
 .internalRemarks p {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
 }
-.badge {verical-align: top; padding: .25rem .4rem .35rem .4rem!important;}
+.badge {
+	verical-align: top; 
+	padding: .25rem .4rem .35rem .4rem!important;
+}
+.bg-teal {
+	background-color:rgb(199 251 255 / .35)!important;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/

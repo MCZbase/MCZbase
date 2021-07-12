@@ -74,15 +74,6 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<!---<cfquery name="getAgentRelforColor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
-			agent_remarks
-		FROM agent_relations 
-		WHERE
-			agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-			and agent_relationship not like '% duplicate of'
-		ORDER BY agent_relationship
-	</cfquery>--->
 <cfoutput>
 	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse></cfif>">
 		<div class="row mx-0">
@@ -149,7 +140,6 @@ limitations under the License.
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded rounded h-auto">
-					<!--- <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>agentInternal<cfelse>agentExternal</cfif>">--->
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -177,7 +167,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body pt-1 pb-2" style="background-color:rgb(199 251 255 / .35)!important;">
+									<div class="card-body pt-1 pb-2 bg-teal">
 										<ul class="list-group">
 											<!--- preferred name --->
 											<cfloop query="preferredNames">
@@ -497,7 +487,6 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div><!--- end relationshipsCardBodyWrap --->
-							
 								</div>
 							</section>
 							<!--- group membership (other agents of which this agent is a group member) --->
