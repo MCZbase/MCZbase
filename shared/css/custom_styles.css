@@ -1950,7 +1950,7 @@ section#mediaSection.accordion {
 #permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 .internalRemarks p {
 	font-size: .875rem;
-	margin: .3rem 0;
+	margin: .25rem 0 .5rem 0;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
