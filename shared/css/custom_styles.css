@@ -1948,6 +1948,9 @@ section#mediaSection.accordion {
 #transactionsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 #shipmentsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
 #permitsCardBodyWrap {max-height: 500px;overflow-y:scroll;}
+.internalRemarks p {
+	font-size: .875rem;
+}
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
