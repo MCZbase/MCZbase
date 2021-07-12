@@ -752,8 +752,6 @@ limitations under the License.
 									</div>
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
 										<div class="card-body py-1 mb-1">
-											<cfif getAgentCollScope2.recordcount EQ 0>
-											<cfelse>
 												<cfif getAgentFamilyScope2.recordcount GT 0>
 													<div class="w-100"> 
 														<h3 class="h4 px-2 mb-0">Families Collected</h3>
@@ -784,7 +782,6 @@ limitations under the License.
 														</ul>
 													</div>
 												</cfif><!--- getAgentFamilyScope.recordcount > 0 --->
-											</cfif><!--- getAgentCollScope.recordcount > 1 --->
 										</div>
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
