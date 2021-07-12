@@ -103,7 +103,7 @@ limitations under the License.
 								<cfset dates = assembleYearRange(start_year="#getAgent.start_date#",end_year="#getAgent.end_date#",year_only=true) >
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
-							<h1 class="h2 my-2">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
+							<h1 class="h2 mt-2 mb-0">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
 						</div>
 						<div class="col-1 mt-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
@@ -121,7 +121,7 @@ limitations under the License.
 					</div>--->
 					<div class="row mx-0">
 						<div class="col-10 px-3">
-							<ul class="list-group mb-1 py-0 list-unstyled px-0">
+							<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
 										<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
