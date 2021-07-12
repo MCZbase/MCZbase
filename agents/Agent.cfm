@@ -694,7 +694,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header" id="collectorHeader2">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##collectorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap2">
-											Collector (in #getAgentFamilyScope2.recordcount# famil#fplural#)
+											Collector (in #getAgentFamilyScope.recordcount# famil#fplural#)
 										</h2>
 									</div>
 									<div id="collectorCardBodyWrap2" class="#bodyClass#" aria-labelledby="collectorHeader2" data-parent="##collectorSection2">
