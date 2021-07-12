@@ -128,7 +128,7 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item px-0 pt-1 pb-3">
+									<li class="list-group-item px-0 pt-1 pb-2">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
@@ -137,7 +137,7 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12 px-0">
+						<div class="col-10 px-3">
 							<div class="col-12">
 								#biography#
 							</div>
