@@ -871,51 +871,6 @@ limitations under the License.
 									</div><!--- end determinerCardBodyWrap --->
 								</div>
 							</section>
-							<!--- named groups --->
-							<section class="accordion" id="namedgroupSection"> 
-								<div class="card mb-2 bg-light">
-									<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select collection_name, underscore_collection_id, mask_fg
-										from underscore_collection 
-										WHERE
-											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-										order by collection_name
-									</cfquery>
-										<cfif getnamedGroups.recordcount GT 15 OR getnamedGroups.recordcount eq 0>
-											<!--- cardState = collapsed --->
-											<cfset bodyClass = "collapse">
-											<cfset ariaExpanded ="false">
-										<cfelse>
-											<!--- cardState = expanded --->
-											<cfset bodyClass = "collapse show">
-											<cfset ariaExpanded ="true">
-										</cfif>
-									<div class="card-header" id="namedgroupHeader">
-										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
-											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
-										</h2>
-									</div>
-									<div id="namedgroupCardBodyWrap" class="#bodyClass#" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
-										<div class="card-body py-1 mb-1">
-											<cfif getnamedGroups.recordcount EQ 0>
-												<ul class="list-group">
-													<li class="list-group-item">None</li>
-												</ul>
-											<cfelse>
-												<ul class="list-group">
-													<cfloop query="getNamedGroups">
-														<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
-															<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
-														<cfelse>
-															<li class="list-group-item">#collection_name#</li>
-														</cfif>
-													</cfloop>
-												</ul>
-											</cfif>
-										</div>
-									</div><!--- end namedgroupCardBodyWrap --->
-								</div>
-							</section>
 							<!--- attribute determinations --->
 							<section class="accordion" id="attributeSection"> 
 								<div class="card mb-2 bg-light">
@@ -971,6 +926,51 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div><!--- end attributeCardBodyWrap --->
+								</div>
+							</section>
+							<!--- named groups --->
+							<section class="accordion" id="namedgroupSection"> 
+								<div class="card mb-2 bg-light">
+									<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select collection_name, underscore_collection_id, mask_fg
+										from underscore_collection 
+										WHERE
+											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+										order by collection_name
+									</cfquery>
+										<cfif getnamedGroups.recordcount GT 15 OR getnamedGroups.recordcount eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
+									<div class="card-header" id="namedgroupHeader">
+										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
+											Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
+										</h2>
+									</div>
+									<div id="namedgroupCardBodyWrap" class="#bodyClass#" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
+										<div class="card-body py-1 mb-1">
+											<cfif getnamedGroups.recordcount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getNamedGroups">
+														<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
+															<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
+														<cfelse>
+															<li class="list-group-item">#collection_name#</li>
+														</cfif>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</div><!--- end namedgroupCardBodyWrap --->
 								</div>
 							</section>
 							<!--- Georeferences --->
