@@ -128,7 +128,7 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
-									<li class="list-group-item px-0">
+									<li class="list-group-item px-0 py-1">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
 								</cfif>
