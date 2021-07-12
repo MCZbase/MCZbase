@@ -84,8 +84,7 @@ limitations under the License.
 		ORDER BY agent_relationship
 	</cfquery>
 <cfoutput>
-
-		<div class="rounded p-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'><cfelse>secondaryType</cfif>">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")><cfelse></cfif>">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
@@ -152,7 +151,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'><cfelse>secondaryType</cfif>">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -563,7 +562,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
+					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -1146,7 +1145,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1 pt-2 pb-1 <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>secondaryType<cfelse></cfif>">
 						
 
 							<!--- loan item reconciliation --->
