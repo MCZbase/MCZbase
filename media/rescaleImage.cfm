@@ -30,6 +30,7 @@ limitations under the License.
 		FROM media
 		WHERE
 			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="media_id">
+			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
@@ -47,7 +48,7 @@ limitations under the License.
 		</cfloop>
 	<cfelse>
 		<cfset target = "/shared/images/missing_image_icon_298822.png">
-	<cfif>
+	</cfif>
 </cfif>
 
 <cfif isImageFile(target)>
