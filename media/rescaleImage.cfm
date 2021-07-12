@@ -29,7 +29,7 @@ limitations under the License.
 			media_type, mime_type, media_uri
 		FROM media
 		WHERE
-			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="media_id">
+			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfif media.recordcount EQ 1>
