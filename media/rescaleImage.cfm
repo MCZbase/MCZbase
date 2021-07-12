@@ -55,9 +55,11 @@ limitations under the License.
 	<cfimage source="#target#" name="targetImage">
 	<cfset ImageSetAntialiasing(targetImage,"on")>
 	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
-	<cfimage source="#targetImage#" action="writeToBrowser">
+	<cfxml variable="imageXml">
+		<cfimage source="#targetImage#" action="writeToBrowser">
+	</cfxml>
+	<cfset imageSrc = imageXml.xmlRoot.xmlAttributes.src >
 <cfelse>
-	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
-	<cfimage source="#target#" name="targetImage">
-	<cfimage source="#targetImage#" action="writeToBrowser">
+	<cfset imageSrc = "/shared/images/missing_image_icon_298822.png">
 </cfif>
+<cflocation URL="#Application.serverRootUrl##imageSrc#">
