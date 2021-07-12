@@ -105,7 +105,7 @@ limitations under the License.
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<h1 class="h2 mt-2 mb-2">#preferred_agent_name# #vetted_marker# #dates# <span class="small">#agent_type#</span></h1>
 						</div>
-						<div class="col-1 mt-2 float-right">
+						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
 							<!--- edit button at upper right for those authorized to edit agent records --->
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
@@ -143,7 +143,7 @@ limitations under the License.
 							</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<div class="col-12 px-2 m-1 card">
+									<div class="col-12 px-2 my-0 m-md-1 card">
 										<h2 class="h5">Internal Remarks</h2>
 										#agent_remarks#
 									</div>
