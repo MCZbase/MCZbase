@@ -151,7 +151,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded mx-1 rounded h-auto">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded rounded h-auto">
 					<!--- <cfif getAgentRelforColor.agent_relationship eq 'employed by' AND getAgentRelforColor.related_name contains 'MCZ'>agentInternal<cfelse>agentExternal</cfif>">--->
 						<!--- agent names --->
 							<section class="accordion">
