@@ -17,18 +17,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-mod_jk.conf needs to enable access to CFFileServelet for delivery of generated images
-
-Alias /CFFileServlet "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet"
-<Directory "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet">
-  Options Indexes FollowSymLinks
-  AllowOverride None
-  Order allow,deny
-  Allow from all
-</Directory>
+Streams directly to response without use of CFFileServelet
 
 --->
-<cfif NOT isdefined("fitWidth") OR len(fitWidth) EQ 0>
+<cfif isdefined("width") AND len(width) GT 0 and IsNumeric(width)>
+	<cfset fitWidth = width>
+<cfelse>
 	<cfset fitWidth = 300>
 </cfif>
 <cfset mimeType = "image/png">
@@ -67,12 +61,6 @@ Alias /CFFileServlet "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet"
 	<cfimage source="#target#" name="targetImage">
 	<cfset ImageSetAntialiasing(targetImage,"on")>
 	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
-	<!---
-	<cfxml variable="imageXml">
-		<cfimage source="#targetImage#" action="writeToBrowser">
-	</cfxml>
-	<cfset imageSrc = imageXml.xmlRoot.xmlAttributes.src >
-	--->
 	<cfset response = getPageContext().getFusionContext().getResponse()>
 	<cfheader name="Content-Type" value="#mimeType#">
 	<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
