@@ -31,6 +31,7 @@ Alias /CFFileServlet "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet"
 <cfif NOT isdefined("fitWidth") OR len(fitWidth) EQ 0>
 	<cfset fitWidth = 300>
 </cfif>
+<cfset mimeType = "image/png">
 <cfif NOT isdefined("media_id") OR len(media_id) EQ 0>
 	<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 <cfelse>
@@ -47,6 +48,7 @@ Alias /CFFileServlet "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet"
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
 				<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
 				<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+				<cfset mimeType = "#mime_type#">
 			<cfelse>
 				<cfif media_type EQ 'image'>
 					<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
@@ -65,11 +67,17 @@ Alias /CFFileServlet "/opt/coldfusion11/cfusion/tmpCache/CFFileServlet"
 	<cfimage source="#target#" name="targetImage">
 	<cfset ImageSetAntialiasing(targetImage,"on")>
 	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
+	<!---
 	<cfxml variable="imageXml">
 		<cfimage source="#targetImage#" action="writeToBrowser">
 	</cfxml>
 	<cfset imageSrc = imageXml.xmlRoot.xmlAttributes.src >
+	--->
+	<cfset response = getPageContext().getFusionContext().getResponse()>
+	<cfheader name="Content-Type" value="#mimeType#">
+	<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
+	<cfabort>
 <cfelse>
 	<cfset imageSrc = "/shared/images/missing_image_icon_298822.png">
+	<cflocation URL="#Application.serverRootUrl##imageSrc#">
 </cfif>
-<cflocation URL="#Application.serverRootUrl##imageSrc#">
