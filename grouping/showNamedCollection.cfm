@@ -369,7 +369,7 @@ limitations under the License.
 											</cfcase>
 											<cfdefaultcase>
 												<cfset colClass = "col-3">
-											</cfcase>
+											</cfdefaultcase>
 										</cfswitch>
 										
 										<cfif locImageQuery.recordcount GT 0>
