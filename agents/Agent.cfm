@@ -1038,7 +1038,7 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfset mediaTotalRoles = #getMediaCreation.ct# + #getMediaRelation.ct# + #media_labels.ct#>
+										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
 												Media Records (#mediaTotalRoles#) 
