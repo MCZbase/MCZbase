@@ -98,7 +98,7 @@ limitations under the License.
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfset join = 'join="",'>
+		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
 	</cfif>
 	<cfif isDefined("family") AND len(family) GT 0>
 		<cfset field = 'field: "family"'>
@@ -114,23 +114,7 @@ limitations under the License.
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfset join = 'join="",'>
-	</cfif>
-	<cfif isDefined("collector") AND len(collector) GT 0>
-		<cfset field = 'field: "collector"'>
-		<cfif left(collector,1) is "=">
-			<cfset value="#ucase(right(collector,len(collector)-1))#">
-			<cfset comparator = 'comparator: "equals"'>
-		<cfelseif left(collector,1) IS "!">
-			<cfset value="#ucase(right(collector,len(collector)-1))#">
-			<cfset comparator = 'comparator: "not like"'>
-		<cfelse>
-			<cfset comparator = 'comparator: "like"'>
-			<cfset value = encodeForJavaScript(collector)>
-		</cfif>
-		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
-		<cfset separator = ",">
-		<cfset join = 'join="",'>
+		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
 	</cfif>
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = 'field: "collector_agent_id"'>
@@ -138,7 +122,24 @@ limitations under the License.
 		<cfset value = encodeForJavaScript(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfset join = 'join="",'>
+		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+	<cfelse>
+		<cfif isDefined("collector") AND len(collector) GT 0>
+			<cfset field = 'field: "collector"'>
+			<cfif left(collector,1) is "=">
+				<cfset value="#ucase(right(collector,len(collector)-1))#">
+				<cfset comparator = 'comparator: "equals"'>
+			<cfelseif left(collector,1) IS "!">
+				<cfset value="#ucase(right(collector,len(collector)-1))#">
+				<cfset comparator = 'comparator: "not like"'>
+			<cfelse>
+				<cfset comparator = 'comparator: "like"'>
+				<cfset value = encodeForJavaScript(collector)>
+			</cfif>
+			<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+			<cfset separator = ",">
+			<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+		</cfif>
 	</cfif>
 	
 	<cfset search_json = "#search_json#]">
