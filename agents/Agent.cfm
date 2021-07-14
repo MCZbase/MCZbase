@@ -1643,7 +1643,7 @@ limitations under the License.
 										<cfset bodyClass = "collapse show">
 										<cfset ariaExpanded ="true">
 									</cfif>
-												<cfset i = 1>
+												<cfset i = 0>
 												<cfloop query="publicationAuthor">
 													<cfif citation_count eq 0>
 														<cfset i = i + 1>
