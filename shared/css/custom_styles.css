@@ -2191,14 +2191,12 @@ and also iPads specifically.
 	}
 }
 @media (min-width: 1200px) {
-	.col-xl-agentDetails {
-		-ms-flex: 0 0 37.666667%;
-		flex: 0 0 37.666667%;
-		max-width: 37.666667%;
+	.container-xl {
+		max-width: 1600px;
 	}
 }
 @media(min-width: 1600px) {
-	.container {
+	.container,  {
 		max-width: 1540px;
 	}
 }

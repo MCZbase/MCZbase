@@ -75,7 +75,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfoutput>
-	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container<cfelse>container</cfif>">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container-xl<cfelse>container-xl</cfif>">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
