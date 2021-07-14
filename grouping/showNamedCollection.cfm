@@ -175,7 +175,7 @@ limitations under the License.
 							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
 							<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
@@ -203,7 +203,7 @@ limitations under the License.
 							<!--- obtain a random set of locality images, limited to a small number --->
 							<cfquery name="locImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
@@ -230,7 +230,7 @@ limitations under the License.
 							<!--- obtain a random set of collecting event images, limited to a small number --->
 							<cfquery name="collEventImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
@@ -257,7 +257,7 @@ limitations under the License.
 							<!--- obtain a random set of collector images, limited to a small number --->
 							<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
