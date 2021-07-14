@@ -1304,18 +1304,17 @@ limitations under the License.
 													<cfif getEncumbCount.ct EQ 0>
 														<li class="list-group-item">Owns No Encumbrances</li>
 													<cfelse>
-<!---													<cfloop query="getEncumb">
+													<cfloop query="getEncumb">
 															<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
 														</cfloop>
-													</cfif>--->
-														<cfloop query="coll_object_encumbrance">
-															<li class="list-group-item">
-																Encumbered 
-																<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
-																#specs# #collection#</a> records
-															</li>
-														</cfloop>
 													</cfif>
+													<cfloop query="coll_object_encumbrance">
+														<li class="list-group-item">
+															Encumbered 
+															<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
+															#specs# #collection#</a> records
+														</li>
+													</cfloop>
 												</ul>
 											</div>
 										</div><!--- end encumbrancesCardBodyWrap --->
