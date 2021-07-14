@@ -1039,7 +1039,7 @@ limitations under the License.
 											GROUP BY media_label
 										</cfquery>
 										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
-										<cfif mediaTotalRoles GT 20 OR mediaTotalRoles eq 0>
+										<cfif #mediaTotalRoles# GT 20 OR #mediaTotalRoles# eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
