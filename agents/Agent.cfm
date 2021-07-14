@@ -1040,6 +1040,7 @@ limitations under the License.
 										</cfquery>
 										<cfset i = 0>
 										<cfloop query="media_labels">
+											media_label
 											i = i+1
 										</cfloop>
 											#i#
