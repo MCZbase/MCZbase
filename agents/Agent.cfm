@@ -75,11 +75,11 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfoutput>
-	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container-xl<cfelse>container-xl</cfif>">
+	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container-xl px-0<cfelse>container-xl px-0</cfif>">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 mt-2">
+				<div id="agentTopDiv" class="col-12 px-0 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
 						<div class="col-auto px-3">
@@ -138,8 +138,8 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
-				<div class="col-12 ml-auto" id="agentBlocks">
-					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-4 col-xl-3 rounded rounded h-auto">
+				<div class="col-12 px-0" id="agentBlocks">
+					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 						<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -549,7 +549,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-auto">
+					<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -1073,7 +1073,7 @@ limitations under the License.
 								</section>
 							</cfif>
 					</div>
-					<div class="d-block mb-5 float-left h-auto col-12 col-md-4 col-lg-4 col-xl-agentDetails px-0 px-md-1">
+					<div class="d-block mb-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
 						
 
 							<!--- loan item reconciliation --->
