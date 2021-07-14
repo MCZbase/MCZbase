@@ -1660,7 +1660,8 @@ limitations under the License.
 														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
 														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
-															<span class="badge badge-primary badge-pill pb-1"><cfif citation_count eq 0>&nbsp;<cfelse>#citation_count#</cfif>citation#citplural#
+															<span class="badge badge-primary badge-pill pb-1">
+																<cfif citation_count eq 0>&nbsp;<cfelse>#citation_count# citation#citplural#</cfif>
 															</span>
 														</li>
 													</cfloop>
