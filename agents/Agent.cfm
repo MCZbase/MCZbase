@@ -1295,7 +1295,7 @@ limitations under the License.
 												<cfset encumbCount = "">
 											</cfif>
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="true" aria-controls="encumbrancesCardBodyWrap">
-												Encumbrances (#getEncumb.ct#)
+												Encumbrances (#getEncumbCount.ct#)
 											</h2>
 										</div>
 										<div id="encumbrancesCardBodyWrap" class="collapse show" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
