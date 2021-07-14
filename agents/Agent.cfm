@@ -1274,7 +1274,7 @@ limitations under the License.
 												left join cataloged_item on coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id
 												left join collection on cataloged_item.collection_id=collection.collection_id
 											WHERE
-												encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+												encumbering_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> and collection is not null
 											GROUP BY
 												collection,
 												collection.collection_id
