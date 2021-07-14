@@ -663,7 +663,7 @@ limitations under the License.
 											group by flat.phylclass, flat.family, 0
 										) 
 										group by phylclass, family
-										order by ct desc
+										order by phylclass, family, ct desc
 									</cfquery>
 							
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
