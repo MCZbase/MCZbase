@@ -1049,7 +1049,7 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getMediaCreation.ct EQ 0>
-														<li class="list-group-item">Created No Media Records.</li>
+														<li class="list-group-item">Created No Media Records</li>
 													<cfelse>
 														<li class="list-group-item">
 															Created #getMediaCreation.ct# 
@@ -1057,15 +1057,15 @@ limitations under the License.
 														</li>
 													</cfif>
 													<cfif media_assd_relations.ct EQ 0>
-														<li class="list-group-item">Created No Media Relationships.</li>
+														<li class="list-group-item">Created No Media Relationships</li>
 													<cfelse>
-														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships.</li>
+														<li class="list-group-item">Created #media_assd_relations.ct# Media Relationships</li>
 													</cfif>
 													<cfif media_labels.recordcount EQ 0>
-														<li class="list-group-item">Assigned no media label values.</li>
+														<li class="list-group-item">Assigned no media label values</li>
 													<cfelse>
 														<cfloop query="media_labels">
-															<li class="list-group-item">#media_labels.media_label# (#media_labels.ct#)</li>
+															<li class="list-group-item">Label: #media_labels.media_label# (#media_labels.ct#)</li>
 														</cfloop>
 													</cfif>
 												</ul>
