@@ -1049,7 +1049,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (#getMediaCreation.ct# changes) 
+												Media Records (#getMediaCreation.ct# #media_labels.ct# #media_assd_relations# changes) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
