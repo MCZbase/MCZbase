@@ -526,26 +526,37 @@ function getVersion4UUID() {
 											<cfset collector="">
 										</cfif>
 										<cfif not isdefined("collector_agent_id")>
-											<cfif not isdefined("collector")>
+											<cfif len(collector) EQ 0>
 												<cfset collector_agent_id ="">
 											<cfelse>
+												<cfset collector_agent_id ="">
 												<!--- lookup collector's agent_id --->
 												<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT agent_id FROM preferred_agent_name WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> and rownum < 2
+													SELECT agent_id 
+													FROM preferred_agent_name 
+													WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
+														AND rownum < 2
 												</cfquery>
-												<cfset collector_agent_id = collectorLookup.agent_id>
+												<cfloop query="collectorLookup">
+													<cfset collector_agent_id = collectorLookup.agent_id>
+												</cfloop>
 											</cfif>
 										<cfelse>
-											<cfif not isdefined("collector")>
-												<!--- lookup collector --->
-												<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT agent_name FROM preferred_agent_name WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
-												</cfquery>
-												<cfset collector = collectorLookup.agent_name>
+											<!--- lookup collector --->
+											<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT agent_name 
+												FROM preferred_agent_name 
+												WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+													AND rownum < 2
+											</cfquery>
+											<cfif collectorLookup.recordcount GT 0>
+												<cfloop query="collectorLookup">
+													<cfset collector = collectorLookup.agent_name>
+												</cfloop>
 											</cfif>
 										</cfif>
-										<input type="text" id="collector" name="collector" class="data-entry-input" value="collector">
-										<input type="hidden" id="collector_agent_id" name="collector_agent_id">
+										<input type="text" id="collector" name="collector" class="data-entry-input" value="#collector#">
+										<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="##collector_agent_id">
 										<script>
 											jQuery(document).ready(function() {
 												$(makeConstrainedAgentPicker('collector','collector_agent_id','transaction_agent'));
