@@ -1289,11 +1289,11 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="encumbrancesHeader">
-											<cfif getEncumbCount.ct GT 0>
+						<!---					<cfif getEncumbCount.ct GT 0>
 												<cfset encumbCount = "(#getEncumbCount.ct#)">
 											<cfelse>
 												<cfset encumbCount = "">
-											</cfif>
+											</cfif>--->
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="encumbrancesCardBodyWrap">
 												Encumbrances (#getEncumbCount.ct#)
 											</h2>
@@ -1304,10 +1304,10 @@ limitations under the License.
 													<cfif getEncumbCount.ct EQ 0>
 														<li class="list-group-item">Owns No Encumbrances</li>
 													<cfelse>
-														<cfloop query="getEncumb">
+	<!---													<cfloop query="getEncumb">
 															<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
 														</cfloop>
-													</cfif>
+													</cfif>--->
 													<cfloop query="coll_object_encumbrance">
 														<li class="list-group-item">
 															Encumbered 
