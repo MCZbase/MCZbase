@@ -1038,14 +1038,23 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
+										<cfif mediaTotalRoles GT 20 OR mediaTotalRoles eq 0>
+											<!--- cardState = collapsed --->
+											<cfset bodyClass = "collapse">
+											<cfset ariaExpanded ="false">
+										<cfelse>
+											<!--- cardState = expanded --->
+											<cfset bodyClass = "collapse show">
+											<cfset ariaExpanded ="true">
+										</cfif>
 										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
 										<div class="card-header" id="mediametaHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
 												Media Records (#mediaTotalRoles# changes) 
 											</h2>
 										</div>
 										
-										<div id="mediametaCardBodyWrap" class="collapse show" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
+										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getMediaCreation.ct EQ 0>
@@ -1065,7 +1074,7 @@ limitations under the License.
 														<li class="list-group-item">Assigned no media label values</li>
 													<cfelse>
 														<cfloop query="media_labels">
-															<li class="list-group-item">Assigned label: #media_labels.media_label# (#media_labels.ct#)</li>
+															<li class="list-group-item">Assigned labels: #media_labels.media_label# (#media_labels.ct#)</li>
 														</cfloop>
 													</cfif>
 												</ul>
