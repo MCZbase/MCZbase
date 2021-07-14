@@ -100,6 +100,46 @@ limitations under the License.
 		<cfset separator = ",">
 		<cfset join = 'join="",'>
 	</cfif>
+	<cfif isDefined("family") AND len(family) GT 0>
+		<cfset field = 'field: "family"'>
+		<cfif left(family,1) is "=">
+			<cfset value="#ucase(right(family,len(family)-1))#">
+			<cfset comparator = 'comparator: "equals"'>
+		<cfelseif left(family,1) IS "!">
+			<cfset value="#ucase(right(family,len(family)-1))#">
+			<cfset comparator = 'comparator: "not like"'>
+		<cfelse>
+			<cfset comparator = 'comparator: "like"'>
+			<cfset value = encodeForJavaScript(family)>
+		</cfif>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+		<cfset separator = ",">
+		<cfset join = 'join="",'>
+	</cfif>
+	<cfif isDefined("collector") AND len(collector) GT 0>
+		<cfset field = 'field: "collector"'>
+		<cfif left(collector,1) is "=">
+			<cfset value="#ucase(right(collector,len(collector)-1))#">
+			<cfset comparator = 'comparator: "equals"'>
+		<cfelseif left(collector,1) IS "!">
+			<cfset value="#ucase(right(collector,len(collector)-1))#">
+			<cfset comparator = 'comparator: "not like"'>
+		<cfelse>
+			<cfset comparator = 'comparator: "like"'>
+			<cfset value = encodeForJavaScript(collector)>
+		</cfif>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+		<cfset separator = ",">
+		<cfset join = 'join="",'>
+	</cfif>
+	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
+		<cfset field = 'field: "collector_agent_id"'>
+		<cfset comparator = 'comparator: "equals"'>
+		<cfset value = encodeForJavaScript(collector_agent_id)>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+		<cfset separator = ",">
+		<cfset join = 'join="",'>
+	</cfif>
 	
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
