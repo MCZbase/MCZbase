@@ -1645,7 +1645,7 @@ limitations under the License.
 									</cfif>
 												<cfset i = 1>
 												<cfloop query="publicationAuthor">
-													<cfif len(citation_count) gt 0>
+													<cfif citation_count is not null>
 														<cfset i = i + 1>
 													</cfif>
 												</cfloop>
