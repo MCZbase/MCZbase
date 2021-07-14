@@ -1649,10 +1649,10 @@ limitations under the License.
 														<cfset citcount = i + 1>
 													</cfif>
 												</cfloop>
-										
+										<cfset citedNumber = (#citation_count#-#citcount#)>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citcount#)]
+											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citedNumber#)]
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
