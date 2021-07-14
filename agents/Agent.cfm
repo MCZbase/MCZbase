@@ -1060,7 +1060,7 @@ limitations under the License.
 
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (Created #getMediaCreation.ct#, Created #media_assd_relations.ct#, Edited #totallabels# labels ) 
+												Media Records (#getMediaCreation.ct# record, #media_assd_relations.ct# relationship, #totallabels# labels ) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
