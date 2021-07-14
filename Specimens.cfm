@@ -460,7 +460,6 @@ function getVersion4UUID() {
 										<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end"> <a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> </div>
 									</div>
 								</div>
-<<<<<<< HEAD
 								<span class="d-flex justify-content-center col-sm-12 px-1">
 								<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
 								<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="searchbuilder save">Save to My Account <i class="fa fa-user-cog"></i></button>
