@@ -109,7 +109,9 @@ limitations under the License.
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes">
+		<!--- TODO: Impllement returnCode from build_query, 0=success, non zero error condition. --->
+		<!--- cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
+		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">	
