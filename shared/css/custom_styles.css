@@ -1711,7 +1711,7 @@ tr.line-top:first-child {
 	transform: rotate(-90deg);
 }
 .card-body li.list-group-item span:last-child {
-	display: none;
+	/*display: none;*/  
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
 input#readMore_check_id {
@@ -2196,7 +2196,7 @@ and also iPads specifically.
 	}
 }
 @media(min-width: 1600px) {
-	.container,  {
+	.container  {
 		max-width: 1540px;
 	}
 }
