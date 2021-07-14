@@ -60,6 +60,12 @@ limitations under the License.
 			<cfset execute="fixed">
 		</cfif>
 	</cfcase>
+	<cfdefaultcase>
+		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfif isdefined("execute")>
+			<cfset execute="keyword">
+		</cfif>
+	</cfdefaultcase>
 </cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 
@@ -84,45 +90,45 @@ limitations under the License.
 		collection
 	ORDER BY collection.collection
 </cfquery>
-	<cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select orig_elev_units from CTORIG_ELEV_UNITS
+<cfquery name="ctElevUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select orig_elev_units from CTORIG_ELEV_UNITS
 </cfquery>
-	<cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select depth_units from ctDepth_Units
+<cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select depth_units from ctDepth_Units
 </cfquery>
-	<cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select continent_ocean from ctContinent ORDER BY continent_ocean
+<cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select continent_ocean from ctContinent ORDER BY continent_ocean
 </cfquery>
-	<cfquery name="Country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select distinct(country) from geog_auth_rec order by country
+<cfquery name="Country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(country) from geog_auth_rec order by country
 </cfquery>
-	<cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select island_group from ctIsland_Group order by Island_Group
+<cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select island_group from ctIsland_Group order by Island_Group
 </cfquery>
-	<cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select distinct(Feature) from geog_auth_rec order by Feature
+<cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(Feature) from geog_auth_rec order by Feature
 </cfquery>
-	<cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
+<cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct(Water_Feature) from geog_auth_rec order by Water_Feature
 </cfquery>
-	<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select attribute from geology_attribute_hierarchy group by attribute order by attribute
+<cfquery name="ctgeology_attribute"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select attribute from geology_attribute_hierarchy group by attribute order by attribute
 </cfquery>
-	<cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value
+<cfquery name="ctgeology_attribute_val"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select attribute_value from geology_attribute_hierarchy group by attribute_value order by attribute_value
 </cfquery>
-	<cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units
+<cfquery name="ctlat_long_error_units"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select lat_long_error_units from ctlat_long_error_units group by lat_long_error_units order by lat_long_error_units
 </cfquery>
-	<cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus
+<cfquery name="ctverificationstatus"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select verificationstatus from ctverificationstatus group by verificationstatus order by verificationstatus
 </cfquery>
-	<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-select media_type from ctmedia_type order by media_type
+<cfquery name="ctmedia_type" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
+	select media_type from ctmedia_type order by media_type
 </cfquery>
 
 <cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
+	select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
 
 <!--- ensure that pass through parameters for linking to a search are defined --->
@@ -250,6 +256,12 @@ function getVersion4UUID() {
 								<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 									<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 										<div class="col-md-3 col-sm-12 p-0 mx-1">
+											<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
+												SELECT search_category, table_name, column_name, data_type, label
+												FROM cf_spec_search_cols
+												ORDER BY
+													search_category, table_name, label
+											</cfquery>
 											<label for="selectType" class="sr-only">Select type</label>
 											<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
 												<option>Select Type...</option>
@@ -462,7 +474,7 @@ function getVersion4UUID() {
 							<input id="result_id_fixedSearch" type="hidden" name="result_id" value="">
 							<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
 							<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-							<div class="container">
+							<div class="container-flex">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-3">
 										<label for="multi-select" class="data-entry-label">Collection</label>
