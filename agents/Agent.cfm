@@ -79,7 +79,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 px-0 mt-2">
+				<div id="agentTopDiv" class="col-12 mt-2">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
 						<div class="col-auto px-3">
@@ -138,7 +138,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
-				<div class="col-12 px-0" id="agentBlocks">
+				<div class="col-12" id="agentBlocks">
 					<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 						<!--- agent names --->
 							<section class="accordion">
