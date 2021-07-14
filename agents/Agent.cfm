@@ -888,7 +888,7 @@ limitations under the License.
 										</cfif>
 									<div class="card-header" id="attributeHeader">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="attributeCardBodyWrap">
-											Attribute Determiner
+											Attribute Determiner (#attributes.recordcount#)
 										</h2>
 									</div>
 									<div id="attributeCardBodyWrap" class="#bodyClass#" aria-labelledby="attributeHeader" data-parent="##attributeSection">
