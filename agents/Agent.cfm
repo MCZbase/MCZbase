@@ -1615,9 +1615,9 @@ limitations under the License.
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="publicationAuthorExt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+									<cfquery name="publicationAuthorExt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthorExt_result">
 										SELECT
-											count(publication_author_name.collection_object_id) publication_count,
+											count(formatted_publication.collection_object_id) publication_count,
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
@@ -1662,7 +1662,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# (#publication.publication_count#) [Those Citing MCZ material (#publicationAuthor.recordcount#)]
+											Publication#plural# (#publicationAuthorExt.publication_count#) [Those Citing MCZ material (#publicationAuthor.recordcount#)]
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
