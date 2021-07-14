@@ -1040,6 +1040,7 @@ limitations under the License.
 										</cfquery>
 										<cfset i = 1>
 										<cfloop query="media_labels">
+											#media_labels.ct#
 											<cfset i = i+1>
 										</cfloop>
 										<cfset totaledits = #i# * #media_labels.ct#>#totaledits#
