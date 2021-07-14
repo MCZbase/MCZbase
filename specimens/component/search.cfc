@@ -98,7 +98,7 @@ limitations under the License.
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("family") AND len(family) GT 0>
 		<cfset field = 'field: "family"'>
@@ -114,7 +114,7 @@ limitations under the License.
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = 'field: "collector_agent_id"'>
@@ -122,7 +122,7 @@ limitations under the License.
 		<cfset value = encodeForJavaScript(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
-		<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+		<cfset join='join="and",'>
 	<cfelse>
 		<cfif isDefined("collector") AND len(collector) GT 0>
 			<cfset field = 'field: "collector"'>
@@ -138,7 +138,7 @@ limitations under the License.
 			</cfif>
 			<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 			<cfset separator = ",">
-			<cfif len(join) EQ 0><cfset join = 'join="",'><cfelse><cfset join='join="and"'></cfif>
+			<cfset join='join="and",'>
 		</cfif>
 	</cfif>
 	
