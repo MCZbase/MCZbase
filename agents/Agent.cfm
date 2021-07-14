@@ -266,7 +266,7 @@ limitations under the License.
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
-										<cfif getMedia.recordcount GT 20>
+										<cfif getMedia.recordcount GT 20 OR getMedia.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1039,6 +1039,7 @@ limitations under the License.
 											GROUP BY media_label
 										</cfquery>
 										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
+											#mediaTotalRoles#
 										<cfif mediaTotalRoles GT 20 OR mediaTotalRoles eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
