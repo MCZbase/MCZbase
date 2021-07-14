@@ -1062,7 +1062,7 @@ limitations under the License.
 										<cfif totallabels EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (#getMediaCreation.ct# record#plural#, #media_assd_relations.ct# relation#plural#, #totallabels# label#plural# ) 
+												Media Records (#getMediaCreation.ct# record#plural#, #media_assd_relations.ct# relationship#plural#, #totallabels# label#plural# ) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
