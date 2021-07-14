@@ -1017,7 +1017,7 @@ limitations under the License.
 							</cfif>
 							
 							<!--- media relationships and labels --->
-							<cfif listcontainsnocase(session.roles, "manage_media")>
+							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="mediametaSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
@@ -1039,8 +1039,7 @@ limitations under the License.
 											GROUP BY media_label
 										</cfquery>
 										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
-									
-										<cfif mediaTotalRoles GT 20 OR mediaTotalRoles eq 0>
+										<cfif #mediaTotalRoles# GT 20 OR #mediaTotalRoles# eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1049,13 +1048,11 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-										
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
 												Media Records (#mediaTotalRoles# changes) 
 											</h2>
 										</div>
-										
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1087,8 +1084,6 @@ limitations under the License.
 							</cfif>
 					</div>
 					<div class="d-block mb-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
-						
-
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 
