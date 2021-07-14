@@ -1617,7 +1617,8 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 										SELECT
-											count(citation.collection_object_id) citation_count,
+											count(citation.collection_object_id) pub_count,
+											<cfif citation.collection_object_id gt 0>count(citation.collection_object_id) citation_count,</cfif>
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
@@ -1646,7 +1647,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# (#publicationAuthor.recordcount#) <cfif publicationAuthor.citation_count gt 0>[Those Citing MCZ material (#citation_count#)]</cfif>
+											Publication#plural# (#publicationAuthor.recordcount#) <cfloop query = "publicationAuthor"><cfif citation_count gt 0>[Those Citing MCZ material (#citation_count#)]</cfif></cfloop>
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
