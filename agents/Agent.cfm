@@ -1705,7 +1705,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-									<cfif entered.recordcount GT 15>
+									<cfif entered.recordcount GT 15 OR entered.recordcount eq 0>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
