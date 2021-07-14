@@ -104,7 +104,7 @@ limitations under the License.
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
 		<cfdump var="#search_json#">
-		</cfabort>
+		<cfabort>
 	</cfif>
 
 	<cftry>
