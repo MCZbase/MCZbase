@@ -1017,7 +1017,7 @@ limitations under the License.
 							</cfif>
 							
 							<!--- media relationships and labels --->
-							<cfif #oneOfUs# EQ 1>
+							<cfif listcontainsnocase(session.roles, "manage_media")>
 								<section class="accordion" id="mediametaSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getMediaCreation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMediaCreation_result">
