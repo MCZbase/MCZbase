@@ -1073,7 +1073,7 @@ limitations under the License.
 													<cfelse>
 														<li class="list-group-item">
 															Created #getMediaCreation.ct# 
-															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Records</a>
+															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Record#plural#</a>
 														</li>
 													</cfif>
 													<cfif media_assd_relations.ct EQ 0>
