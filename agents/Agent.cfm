@@ -1646,7 +1646,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# (#publicationAuthor.recordcount#) <cfloop query = "publicationAuthor"><cfset citationsTotal = 1 * (citation_count gt 0></cfset><cfif citation_count gt 0>[Those Citing MCZ material (#citationsTotal#)]</cfif></cfloop>
+											Publication#plural# (#publicationAuthor.recordcount#) <cfif citation_count gt 0>[Those Citing MCZ material (number)]</cfif>
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
