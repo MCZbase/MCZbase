@@ -1038,8 +1038,7 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-									
-										<cfif #getMediaCreation.ct# GT 20 OR #getMediaCreation.ct# eq 0>
+										<cfif #getMediaCreation.ct# GT 20 OR #getMediaCreation.ct# eq 0 OR #media_labels.ct# GT 20 OR #media_assd_relations# gt 20>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
