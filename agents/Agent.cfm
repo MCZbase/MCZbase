@@ -207,7 +207,7 @@ limitations under the License.
 												member_order
 										</cfquery>
 										
-										<cfif groupMembers.recordcount GT 15 OR groupMembers.recordcount eq 0>
+										<cfif groupMembers.recordcount GT 20 OR groupMembers.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -266,7 +266,7 @@ limitations under the License.
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
-										<cfif getMedia.recordcount GT 15 OR getMedia.recordcount eq 0>
+										<cfif getMedia.recordcount GT 20 OR getMedia.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -433,7 +433,7 @@ limitations under the License.
 											ORDER BY agent_relationship
 										</cfquery>
 
-										<cfif totalRelCount GT 15 OR totalRelCount eq 0>
+										<cfif totalRelCount GT 20 OR totalRelCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -506,7 +506,7 @@ limitations under the License.
 								ORDER BY
 									agent_name
 							</cfquery>
-							<cfif groupMembership.recordcount GT 15 OR groupMembership.recordcount EQ 0>
+							<cfif groupMembership.recordcount GT 20 OR groupMembership.recordcount EQ 0>
 								<!--- cardState = collapsed --->
 								<cfset bodyClass = "collapse">
 								<cfset ariaExpanded ="false">
@@ -663,11 +663,11 @@ limitations under the License.
 											group by flat.phylclass, flat.family, 0
 										) 
 										group by phylclass, family
-										order by phylclass, family, ct desc
+										order by phylclass, family
 									</cfquery>
 							
 									<cfif getAgentFamilyScope.recordcount EQ 1><cfset fplural="y"><cfelse><cfset fplural="ies"></cfif>
-									<cfif getAgentFamilyScope.recordcount GT 15 OR getAgentFamilyScope.recordcount eq 0>
+									<cfif getAgentFamilyScope.recordcount GT 20 OR getAgentFamilyScope.recordcount eq 0>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -745,7 +745,7 @@ limitations under the License.
 										) 
 										group by collection_cde, collection_id
 									</cfquery>
-										<cfif getAgentPrepScope.recordcount GT 15 OR getAgentPrepScope.recordcount eq 0>
+										<cfif getAgentPrepScope.recordcount GT 20 OR getAgentPrepScope.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -820,7 +820,7 @@ limitations under the License.
 											collection.collection_id,
 											collection.collection
 									</cfquery>
-										<cfif identification.recordcount GT 15 OR identification.recordcount EQ 0>
+										<cfif identification.recordcount GT 20 OR identification.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -877,7 +877,7 @@ limitations under the License.
 											collection,
 											attribute_type
 									</cfquery>
-									<cfif attributes.recordcount GT 15>
+									<cfif attributes.recordcount GT 20>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -922,7 +922,7 @@ limitations under the License.
 											underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 										order by collection_name
 									</cfquery>
-										<cfif getnamedGroups.recordcount GT 15 OR getnamedGroups.recordcount eq 0>
+										<cfif getnamedGroups.recordcount GT 20 OR getnamedGroups.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -975,7 +975,7 @@ limitations under the License.
 												from lat_long 
 												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfif getLatLongDet.recordcount GT 15 OR getLatLongDet.recordcount eq 0>
+										<cfif getLatLongDet.recordcount GT 20 OR getLatLongDet.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1099,7 +1099,7 @@ limitations under the License.
 												collection				
 										</cfquery>
 										<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif loan_item.recordcount GT 10 OR loan_item.recordcount EQ 0>
+										<cfif loan_item.recordcount GT 20 OR loan_item.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1187,7 +1187,7 @@ limitations under the License.
 										</cfquery>
 										<cfset totalShipCount = packedBy.recordcount + shippedTo.recordcount + shippedFrom.recordcount>
 										<cfif totalShipCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalShipCount GT 10 OR totalShipCount eq 0>
+										<cfif totalShipCount GT 20 OR totalShipCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1327,7 +1327,7 @@ limitations under the License.
 											WHERE
 												 agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfif getProjRoles.recordcount GT 15 OR getProjRoles.recordcount eq 0>
+										<cfif getProjRoles.recordcount GT 20 OR getProjRoles.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1413,7 +1413,7 @@ limitations under the License.
 										</cfif>
 										<cfset totalTransCount = getTransCount.ct>
 										<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalTransCount GT 10 OR getTransactions.recordcount EQ 0>
+										<cfif totalTransCount GT 20 OR getTransactions.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1526,7 +1526,7 @@ limitations under the License.
 										</cfquery>
 										<cfset totalPermitCount = getPermitsTo.recordcount + getPermitsFrom.recordCount + getPermitContacts.recordcount>
 										<cfif totalPermitCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalPermitCount GT 15 OR totalPermitCount eq 0>
+										<cfif totalPermitCount GT 20 OR totalPermitCount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
