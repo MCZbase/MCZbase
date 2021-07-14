@@ -1047,9 +1047,13 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfif #getMediaCreation.ct# gt 1><cfset mediaCreationRole = 1></cfif>
+										<cfif #media_labels.ct# gt 1><cfset mediaLabelRole = 1></cfif>
+										<cfif #media_assd_relations.ct# gt 1><cfset mediaRelationRole = 1></cfif>
+										<cfset mediaRoles = #mediaCreationRole# + #mediaLabelRole# + #MediaRelationRole#>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (#getMediaCreation.ct# #media_labels.ct# #media_assd_relations.ct# changes) 
+												Media Records (#mediaRoles# roles in editing) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
