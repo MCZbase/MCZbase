@@ -413,7 +413,7 @@ limitations under the License.
 															<cfloop query="locImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#locImageQuery.media_id#" alt="#locImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm&media_id=#locImageQuery.media_id#" alt="#locImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -530,7 +530,7 @@ limitations under the License.
 															<cfloop query="collectorImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#collectorImageQuery.media_id#" alt="#collectorImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm&media_id=#collectorImageQuery.media_id#" alt="#collectorImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
