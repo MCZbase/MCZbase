@@ -565,7 +565,7 @@ function getVersion4UUID() {
 										<input type="text" class="data-entry-input" id="when" diabled>
 									</div>
 									<div class="col-12 col-md-2">
-										<cfif findNoCase('redesign',gitBranch) EQ 0>
+										<cfif findNoCase('redesign',gitBranch) GT 0>
 											<label class="data-entry-label" for="debug">Debug</label>
 											<select title="debug" name="debug" id="dbug" class="data-entry-select">
 												<option value=""></option>
