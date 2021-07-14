@@ -973,7 +973,9 @@ function makeTaxonAutocomplete(fieldId, targetRank) {
 				data: { term: request.term, method: 'getHigherRankAutocomplete', rank: targetRank },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : handleError
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a taxon autocomplete");
+				}
 			})
 		},
 		minLength: 3
@@ -997,7 +999,8 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 				data: { term: request.term, method: 'getHigherRankAutocomplete', rank: targetRank },
 				dataType: 'json',
 				success : function (data) { response(data); },
-				error : handleError
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a taxon search autocomplete");
 			})
 		},
 		select: function (event, result) {
