@@ -552,17 +552,27 @@ function getVersion4UUID() {
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
 										<label for="part_name" class="data-entry-label">Part Name</label>
 										<input type="text" id="part_name" name="part_name" class="data-entry-input" disabled>
 									</div>
-									<div class="col-12 col-md-3">
-										<label for="place" class="col-sm-2 data-entry-label align-right-center">Loan Number</label>
+									<div class="col-12 col-md-2">
+										<label for="place" class="data-entry-label">Loan Number</label>
 										<input type="text" name="place" class="data-entry-input" id="place" disabled>
 									</div>
 									<div class="col-12 col-md-3">
-										<label class="col-sm-2 data-entry-label align-right-center" for="when">Verbatim Date</label>
+										<label class="data-entry-label" for="when">Verbatim Date</label>
 										<input type="text" class="data-entry-input" id="when" diabled>
+									</div>
+									<div class="col-12 col-md-2">
+										<cfif findNoCase('redesign',gitBranch) EQ 0>
+											<label class="data-entry-label" for="debug">Debug</label>
+											<select title="debug" name="debug" id="dbug" class="data-entry-select">
+												<option value=""></option>
+												<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="true" #selected#>Debug JSON</option>
+											</select>
+										</cfif>
 									</div>
 								</div>
 								<div class="form-row mt-1">
