@@ -1643,16 +1643,16 @@ limitations under the License.
 										<cfset bodyClass = "collapse show">
 										<cfset ariaExpanded ="true">
 									</cfif>
-											<cfset i = 1>
+												<cfset i = 1>
 												<cfloop query="publicationAuthor">
 													<cfif len(citation_count) gt 0>
-														<cfset i = i ++>
+														<cfset i = i + 1>
 													</cfif>
 												</cfloop>
-											<cfset citnumber = #i#>
+										
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citnumber#)]
+											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#i#)]
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
