@@ -294,13 +294,12 @@ limitations under the License.
 												<cfquery name="specImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+														underscore_relation
 														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 															on underscore_relation.collection_object_id = flat.collection_object_id
 														left join media_relations on flat.collection_object_id = media_relations.related_primary_key
 														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 														AND flat.guid IS NOT NULL
 														AND media_relations.media_relationship = 'shows cataloged_item'
 														AND media.media_type = 'image'
@@ -377,13 +376,12 @@ limitations under the License.
 												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+														underscore_relation 
 														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 															on underscore_relation.collection_object_id = flat.collection_object_id
 														left join media_relations on flat.locality_id = media_relations.related_primary_key
 														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 														AND flat.guid IS NOT NULL
 														AND media_relations.media_relationship = 'shows locality' 
 														AND media.media_type = 'image'
@@ -435,13 +433,12 @@ limitations under the License.
 												<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
 													FROM
-														underscore_collection
-														left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+														underscore_relation 
 														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 															on underscore_relation.collection_object_id = flat.collection_object_id
 														left join media_relations on flat.collecting_event_id = media_relations.related_primary_key
 														left join media on media_relations.media_id = media.media_id
-													WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+													WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 														AND flat.guid IS NOT NULL
 														AND media_relations.media_relationship = 'shows collecting_event' 
 														AND media.media_type = 'image'
@@ -577,11 +574,10 @@ limitations under the License.
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.PHYLCLASS is not null
 										ORDER BY flat.phylclass asc
 									</cfquery>
@@ -591,11 +587,10 @@ limitations under the License.
 											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
 												flat.phylclass, flat.phylorder
 											FROM
-												underscore_collection
-												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												underscore_relation 
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 												and flat.PHYLCLASS is not null and flat.phylorder is not null
 											ORDER BY flat.phylclass asc, flat.phylorder asc
 										</cfquery>
@@ -606,11 +601,10 @@ limitations under the License.
 											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
 												flat.phylorder, flat.family
 											FROM
-												underscore_collection
-												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												underscore_relation 
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 												and flat.PHYLCLASS is not null and flat.family is not null
 											ORDER BY flat.phylorder asc, flat.family asc
 										</cfquery>
@@ -630,11 +624,10 @@ limitations under the License.
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
 										SELECT DISTINCT flat.continent_ocean as ocean
 										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.continent_ocean like '%Ocean%'
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
@@ -653,11 +646,10 @@ limitations under the License.
 									<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 										SELECT DISTINCT flat.country as geog, flat.country as geoglink, 'Country' as rank
 										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.country is not null
 										ORDER BY flat.country asc
 									</cfquery>
@@ -667,11 +659,10 @@ limitations under the License.
 											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
 												flat.country, flat.state_prov
 											FROM
-												underscore_collection
-												left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+												underscore_relation 
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 													on underscore_relation.collection_object_id = flat.collection_object_id
-											WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 												and flat.state_prov is not null
 											ORDER BY flat.country asc, flat.state_prov asc
 										</cfquery>
@@ -692,11 +683,10 @@ limitations under the License.
 									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
 										SELECT DISTINCT flat.continent_ocean, flat.island as island
 										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.island is not null
 										ORDER BY flat.continent_ocean, flat.island asc
 									</cfquery>
@@ -719,14 +709,13 @@ limitations under the License.
 									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
-											underscore_collection
-											left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+											underscore_relation 
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 												on underscore_relation.collection_object_id = flat.collection_object_id
 											left join collector on underscore_relation.collection_object_id = collector.collection_object_id
 											left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
 											left join person on preferred_agent_name.agent_id = person.person_id
-										WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.collectors is not null
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
