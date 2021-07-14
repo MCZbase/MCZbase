@@ -1040,8 +1040,9 @@ limitations under the License.
 										</cfquery>
 										<cfset i = 0>
 										<cfloop query="media_labels">
-											totalLabels = #media_labels.ct# + i
+											#media_labels.ct# + i
 										</cfloop>
+											#i#
 										<cfif #getMediaCreation.ct# gt 0><cfset mediaCreationRole = 1><cfelse><cfset mediaCreationRole = 0></cfif>
 										<cfif #media_labels.ct# gt 0><cfset mediaLabelRole = 1><cfelse><cfset mediaLabelRole = 0></cfif>
 										<cfif #media_assd_relations.ct# gt 0><cfset mediaRelationRole = 1><cfelse><cfset mediaRelationRole = 0></cfif>
