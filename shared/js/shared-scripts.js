@@ -1001,6 +1001,7 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
 					handleFail(jqXHR,textStatus,error,"making a taxon search autocomplete");
+				}
 			})
 		},
 		select: function (event, result) {
