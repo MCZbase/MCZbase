@@ -1617,7 +1617,7 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthorExt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthorExt_result">
 										SELECT
-											count(formatted_publication.publication_id) publication_count,
+											count(publication_author_name.agent_name_id) publication_count,
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
