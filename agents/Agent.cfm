@@ -1615,7 +1615,7 @@ limitations under the License.
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="citAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+									<cfquery name="citAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citAuthor_result">
 										SELECT
 											count(citation.collection_object_id) pub_count,
 											formatted_publication.publication_id,
@@ -1635,7 +1635,7 @@ limitations under the License.
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 										SELECT
 											count(citation.collection_object_id) pub_count,
-											<cfif citAuthor_result.collection_object_id gt 0>count(citation.collection_object_id) citation_count,</cfif>
+											<cfif citAuthor.collection_object_id gt 0>count(citation.collection_object_id) citation_count,</cfif>
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
