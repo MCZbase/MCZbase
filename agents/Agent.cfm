@@ -986,7 +986,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="georefHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
-												Georeferences (#getLatLongDet.cnt#)
+												Georeferences (#getLatLongDet.cnt# determined)
 											</h2>
 										</div>
 											
