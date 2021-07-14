@@ -1643,13 +1643,13 @@ limitations under the License.
 										<cfset bodyClass = "collapse show">
 										<cfset ariaExpanded ="true">
 									</cfif>
-												<cfset i = 0>
-												<cfloop query="publicationAuthor">
-													<cfif citation_count eq 0>
-														<cfset i = i + 1>
-													</cfif>
-												</cfloop>
-										<cfset citedNumber = (#publicationAuthor.recordcount#-#i#)>
+									<cfset i = 0>
+									<cfloop query="publicationAuthor">
+										<cfif citation_count eq 0>
+											<cfset i = i + 1>
+										</cfif>
+									</cfloop>
+									<cfset citedNumber = (#publicationAuthor.recordcount#-#i#)>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citedNumber#)]
@@ -1717,7 +1717,7 @@ limitations under the License.
 									</cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered
+												MCZbase Records Entered (#entered.recordcount#)
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
