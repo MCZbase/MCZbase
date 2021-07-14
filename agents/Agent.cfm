@@ -1615,6 +1615,22 @@ limitations under the License.
 							<!--- Author --->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
+									<cfquery name="publicationAuthorExt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
+										SELECT
+											count(publication_author_name.collection_object_id) publication_count,
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+										FROM
+											agent_name 
+											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
+											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
+										where
+											formatted_publication.format_style = 'long' and
+											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+										group by
+											formatted_publication.publication_id,
+											formatted_publication.formatted_publication
+									</cfquery>
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 										SELECT
 											count(citation.collection_object_id) citation_count,
@@ -1646,7 +1662,7 @@ limitations under the License.
 									</cfif>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
-											Publication#plural# Citing MCZ material (#publicationAuthor.recordcount#)
+											Publication#plural# (#publication.publication_count#) [Those Citing MCZ material (#publicationAuthor.recordcount#)]
 										</h2>
 									</div>
 									<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
