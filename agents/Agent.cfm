@@ -1047,6 +1047,7 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
+										<cfset mediaCreationRole = 0>
 										<cfif #getMediaCreation.ct# gt 1><cfset mediaCreationRole = 1></cfif>
 										<cfif #media_labels.ct# gt 1><cfset mediaLabelRole = 1></cfif>
 										<cfif #media_assd_relations.ct# gt 1><cfset mediaRelationRole = 1></cfif>
