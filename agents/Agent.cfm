@@ -1038,8 +1038,8 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
-										<cfif #mediaTotalRoles# GT 20 OR #mediaTotalRoles# eq 0>
+									
+										<cfif #getMediaCreation.ct# GT 20 OR #getMediaCreation.ct# eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1050,7 +1050,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (#mediaTotalRoles# changes) 
+												Media Records (#getMediaCreation.ct# changes) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
