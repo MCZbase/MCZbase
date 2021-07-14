@@ -168,12 +168,14 @@ limitations under the License.
 							<!--- This row holds everything else --->
 
 							<cfset leftHandColumnOn = false>
+							<cfset hasSpecImages = false>
+							<cfset otherImageTypes = 0>
 			
 							<!--- count images of different types to decide if there will be a left hand image column or not --->
 							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
 							<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
@@ -190,15 +192,18 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										AND MCZBASE.get_medialabel(media.media_id,'width') < 2001
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
 							</cfquery>
+							<cfif specimenImageQuery.recordcount GT 0>
+								<cfset hasSpecImages = true>
+							</cfif>
 							<!--- obtain a random set of locality images, limited to a small number --->
 							<cfquery name="locImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
@@ -214,14 +219,18 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
 							</cfquery>
+							<cfif locImageQuery.recordcount GT 0>
+								<cfset otherImageTypes = otherImageTypes + 1>
+							</cfif>
 							<!--- obtain a random set of collecting event images, limited to a small number --->
 							<cfquery name="collEventImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="locImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
@@ -237,14 +246,18 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
 							</cfquery>
+							<cfif collEventImageQuery.recordcount GT 0>
+								<cfset otherImageTypes = otherImageTypes + 1>
+							</cfif>
 							<!--- obtain a random set of collector images, limited to a small number --->
 							<cfquery name="collectorImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectorImageQuery_result">
 								SELECT * FROM (
-									SELECT DISTINCT media_uri, preview_uri,media_type,
+									SELECT DISTINCT media_uri, preview_uri,media_type, media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
@@ -262,10 +275,14 @@ limitations under the License.
 										AND media.media_type = 'image'
 										AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
 									ORDER BY DBMS_RANDOM.RANDOM
 								) 
 								WHERE rownum < 16
 							</cfquery>
+							<cfif collectorImageQuery.recordcount GT 0>
+								<cfset otherImageTypes = otherImageTypes + 1>
+							</cfif>
 							<cfif specimenImageQuery.recordcount GT 0 OR locImageQuery.recordcount GT 0 OR collectorImageQuery.recordcount GT 0 OR collEventImageQuery.recordcount GT 0>
 								<!--- display images in left hand column --->
 								<div class="col-12 col-md-6 mb-4 float-left mt-0">
@@ -319,7 +336,7 @@ limitations under the License.
 															<cfloop query="specimenImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#specimenImageQuery.media_uri#" alt="#specimenImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#" alt="#specimenImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -336,8 +353,27 @@ limitations under the License.
 											</div>
 										</cfif><!--- end specimen images block --->
 
+										<!--- figure out widths of sub blocks, adapt to number of blocks --->
+										<cfswitch expression="#otherImageTypes#">
+											<cfcase value="1">
+												<cfset colClass = "col-12">
+												<cfset imgWidth = 600>
+											</cfcase>
+											<cfcase value="2">
+												<cfset colClass = "col-6">
+												<cfset imgWidth = 400>
+											</cfcase>
+											<cfcase value="3">
+												<cfset colClass = "col-4">
+												<cfset imgWidth = 300>
+											</cfcase>
+											<cfdefaultcase>
+												<cfset colClass = "col-3">
+											</cfcase>
+										</cfswitch>
+										
 										<cfif locImageQuery.recordcount GT 0>
-											<div class="col-12">
+											<div class="#colClass#">
 												<!--- find out how many locality images there are in total --->
 												<cfquery name="locImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
@@ -377,7 +413,7 @@ limitations under the License.
 															<cfloop query="locImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#locImageQuery.media_uri#" alt="#locImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#locImageQuery.media_id#" alt="#locImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -395,7 +431,7 @@ limitations under the License.
 										</cfif><!--- end locality images block --->
 			
 										<cfif collEventImageQuery.recordcount GT 0>
-											<div class="col-12">
+											<div class="#colClass#">
 												<!--- find out how many collecting event images there are in total --->
 												<cfquery name="collEventImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
@@ -435,7 +471,7 @@ limitations under the License.
 															<cfloop query="collEventImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#collEventImageQuery.media_uri#" alt="#collEventImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#collEventImageQuery.media_id#" alt="#collEventImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -453,7 +489,7 @@ limitations under the License.
 										</cfif><!--- end collecting event images block --->
 
 										<cfif collectorImageQuery.recordcount GT 0>
-											<div class="col-12">
+											<div class="#colClass#">
 												<!--- find out how many collector images there are in total --->
 												<cfquery name="collectorImageCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT count(distinct media.media_id) as ct
@@ -494,7 +530,7 @@ limitations under the License.
 															<cfloop query="collectorImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#collectorImageQuery.media_uri#" alt="#collectorImageQuery.alt#"/>
+																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#collectorImageQuery.media_id#" alt="#collectorImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
