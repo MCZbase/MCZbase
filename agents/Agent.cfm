@@ -1647,12 +1647,10 @@ limitations under the License.
 												<cfloop query="publicationAuthor">
 													<cfif citation_count eq 0>
 														#i#
-													<cfelse>
-														#citation_count#
 													</cfif>
 													<cfset i = i + 1>
 												</cfloop>
-											<cfset citnumber = #citation_count# - #i#>
+											<cfset citnumber = #publicationAuthor.citation_count# - #i#>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citnumber#)]
