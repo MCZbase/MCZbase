@@ -1279,7 +1279,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfif getEncumbCount.ct GT 20 OR getEncumbCount.ct eq 0>
+										<cfif getEncumbCount.recordcount GT 20 OR getEncumbCount.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1294,11 +1294,11 @@ limitations under the License.
 											<cfelse>
 												<cfset encumbCount = "">
 											</cfif>
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="true" aria-controls="encumbrancesCardBodyWrap">
+											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="encumbrancesCardBodyWrap">
 												Encumbrances (#getEncumbCount.ct#)
 											</h2>
 										</div>
-										<div id="encumbrancesCardBodyWrap" class="collapse show" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
+										<div id="encumbrancesCardBodyWrap" class="#bodyClass#" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getEncumbCount.ct EQ 0>
