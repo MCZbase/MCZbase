@@ -1038,7 +1038,7 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfset mediaTotalRoles = #getMediaCreation.ct# + #media_assd_relations.ct# + #media_labels.ct#>
+										<cfset mediaTotalRoles = <cfif #getMediaCreation.ct# gt 0>1<cfelse>0</cfif> + <cfif #media_assd_relations.ct# gt 0>1<cfelse>0</cfif> + <cfelse #media_labels.ct# gt 0>1</cfelse>0<cfif>>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="true" aria-controls="mediametaCardBodyWrap">
 												Media Records (#mediaTotalRoles#) 
@@ -1065,7 +1065,7 @@ limitations under the License.
 														<li class="list-group-item">Assigned no media label values</li>
 													<cfelse>
 														<cfloop query="media_labels">
-															<li class="list-group-item">Label: #media_labels.media_label# (#media_labels.ct#)</li>
+															<li class="list-group-item">Assigned label: #media_labels.media_label# (#media_labels.ct#)</li>
 														</cfloop>
 													</cfif>
 												</ul>
