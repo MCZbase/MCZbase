@@ -1038,10 +1038,8 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfset i = 0>
+										<cfset i = 1>
 										<cfloop query="media_labels">
-											#media_label#.#i#
-											#media_labels.ct#
 											<cfset i = i+1>
 										</cfloop>
 										<cfset totaledits = #i# * #media_labels.ct#>#totaledits#
