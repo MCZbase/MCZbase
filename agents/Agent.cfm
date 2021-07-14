@@ -1043,7 +1043,7 @@ limitations under the License.
 											
 											<cfset i = i+ #media_labels.ct#>
 										</cfloop>
-										<cfset totaledits = #i#>#totaledits#
+										<cfset totallabels = #i#>
 										<cfif #getMediaCreation.ct# gt 0><cfset mediaCreationRole = 1><cfelse><cfset mediaCreationRole = 0></cfif>
 										<cfif #media_labels.ct# gt 0><cfset mediaLabelRole = 1><cfelse><cfset mediaLabelRole = 0></cfif>
 										<cfif #media_assd_relations.ct# gt 0><cfset mediaRelationRole = 1><cfelse><cfset mediaRelationRole = 0></cfif>
@@ -1060,7 +1060,7 @@ limitations under the License.
 
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (Created #getMediaCreation.ct#, Edit ) 
+												Media Records (Created #getMediaCreation.ct#, Created #media_assd_relations.ct#, Edited #totallabels# labels ) 
 											</h2>
 										</div>
 										<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
