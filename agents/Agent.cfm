@@ -1661,7 +1661,7 @@ limitations under the License.
 														<li class="border list-group-item d-flex justify-content-between align-items-center mt-1 pb-1">
 															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
 															<span class="badge badge-primary badge-pill pb-1">
-																<cfif citation_count eq 0>&nbsp;<cfelse>#citation_count# citation#citplural#</cfif>
+																<cfif citation_count eq 0><cfelse>#citation_count# citation#citplural#</cfif>
 															</span>
 														</li>
 													</cfloop>
