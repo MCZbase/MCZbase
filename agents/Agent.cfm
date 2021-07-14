@@ -1051,7 +1051,7 @@ limitations under the License.
 										
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
-												Media Records (#mediaTotalRoles# changes) 
+												Media Records (<cfif #mediaTotalRoles# gt 0>#mediaTotalRoles#<cfelse>0</cfif> changes) 
 											</h2>
 										</div>
 										
