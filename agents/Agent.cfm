@@ -1645,7 +1645,7 @@ limitations under the License.
 										
 									</cfif>
 									<div class="card-header">
-									<cfset citationPubs = publicationAuthor.recordcount - citation_count> 
+									<cfset citationPubs = publicationAuthor.recordcount - publicationAuthor.citation_count)> 
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 											Publication#plural# <cfif citationPubs gt 0>(#citationPubs#)</cfif> [Those Citing MCZ material (#publicationAuthor.recordcount#)]
 										</h2>
