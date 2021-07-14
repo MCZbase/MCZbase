@@ -1038,7 +1038,11 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfif #getMediaCreation.ct# GT 20 OR #getMediaCreation.ct# eq 0 OR #media_labels.ct# GT 20 OR #media_assd_relations.ct# gt 20>
+										<cfif #getMediaCreation.ct# gt 0><cfset mediaCreationRole = 1><cfelse><cfset mediaCreationRole = 0></cfif>
+										<cfif #media_labels.ct# gt 0><cfset mediaLabelRole = 1><cfelse><cfset mediaLabelRole = 0></cfif>
+										<cfif #media_assd_relations.ct# gt 0><cfset mediaRelationRole = 1><cfelse><cfset mediaRelationRole = 0></cfif>
+										<cfset mediaRoles = #mediaCreationRole# + #mediaLabelRole# + #MediaRelationRole#>
+										<cfif #mediaRoles# GT 20 OR #mediaRoles# eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1047,10 +1051,7 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-										<cfif #getMediaCreation.ct# gt 0><cfset mediaCreationRole = 1><cfelse><cfset mediaCreationRole = 0></cfif>
-										<cfif #media_labels.ct# gt 0><cfset mediaLabelRole = 1><cfelse><cfset mediaLabelRole = 0></cfif>
-										<cfif #media_assd_relations.ct# gt 0><cfset mediaRelationRole = 1><cfelse><cfset mediaRelationRole = 0></cfif>
-										<cfset mediaRoles = #mediaCreationRole# + #mediaLabelRole# + #MediaRelationRole#>
+
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
 												Media Records (#mediaRoles# roles in editing) 
