@@ -78,6 +78,7 @@ limitations under the License.
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
+	<cfargument name="debug" type="string" required="no">
 
 	<cfset search_json = "[">
 	<cfset separator = "">
@@ -99,9 +100,12 @@ limitations under the License.
 		<cfset separator = ",">
 		<cfset join = 'join="",'>
 	</cfif>
-
 	
-	<cfset search_json = "]">
+	<cfset search_json = "#search_json#]">
+	<cfif isdefined("debug") AND len(debug) GT 0>
+		<cfdump var="#search_json#">
+		</cfabort>
+	</cfif>
 
 	<cftry>
 		<cfset username = session.dbuser>
