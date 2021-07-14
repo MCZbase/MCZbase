@@ -1705,7 +1705,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-									<cfif entered.cnt GT 15>
+									<cfif entered.recordcount GT 15>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -1717,7 +1717,7 @@ limitations under the License.
 									</cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered (#entered.recordcount#)
+												MCZbase Records Entered (in #entered.recordcount# collections)
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
