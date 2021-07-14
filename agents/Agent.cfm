@@ -1634,7 +1634,7 @@ limitations under the License.
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 								
-									<cfif publicationAuthor.recordcount LT 0>
+									<cfif publicationAuthor.recordcount eq 0 and #oneofus# eq 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -1643,13 +1643,13 @@ limitations under the License.
 										<cfset bodyClass = "collapse show">
 										<cfset ariaExpanded ="true">
 									</cfif>
-												<cfset i = 0>
-												<cfloop query="publicationAuthor">
-													<cfif citation_count eq 0>
-														<cfset i = i + 1>
-													</cfif>
-												</cfloop>
-										<cfset citedNumber = (#publicationAuthor.recordcount#-#i#)>
+									<cfset i = 0>
+									<cfloop query="publicationAuthor">
+										<cfif citation_count eq 0>
+											<cfset i = i + 1>
+										</cfif>
+									</cfloop>
+									<cfset citedNumber = (#publicationAuthor.recordcount#-#i#)>
 									<div class="card-header">
 										<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 											Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citedNumber#)]
@@ -1705,7 +1705,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-									<cfif entered.cnt GT 15>
+									<cfif entered.recordcount GT 15 OR entered.recordcount eq 0>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -1717,7 +1717,7 @@ limitations under the License.
 									</cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
-												MCZbase Records Entered
+												MCZbase Records Entered (in #entered.recordcount# collections)
 											</h2>
 										</div>
 										<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
@@ -1761,7 +1761,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfif lastEdit.recordcount GT 15>
+										<cfif lastEdit.recordcount GT 15 OR lastEdit.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1772,13 +1772,13 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="lastEditHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
-												MCZbase Records Last Edited By this agent
+												MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
 											</h2>
 										</div>
 										<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
 											<div class="card-body py-1 mb-1">
 												<cfif lastEdit.recordcount EQ 0>
-														<ul class="list-group">
+													<ul class="list-group">
 														<li class="list-group-item">None</li>
 													</ul>
 												<cfelse>
