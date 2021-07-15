@@ -294,7 +294,7 @@ limitations under the License.
 													<ul class="list-group list-group-horizontal-md border p-2 my-2">
 													<cfif getMedia.media_type IS "image">
 														<li class="col-auto px-0">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></a>
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(media_preview) gt 0><img src="#getMedia.media_preview#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
 														</li>
 														<li class="col-10 col-md-8 col-xl-10 px-0">
 															<ul class="list-group small">
