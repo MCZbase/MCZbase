@@ -1293,7 +1293,7 @@ limitations under the License.
 											<cfset i = 0> 
 											<cfloop query="coll_object_encumbrance">
 												<cfset i = i+ #coll_object_encumbrance.specs#>
-													<cfquery name="" dbtype="query">select count(*) as inEnc from encumbrance where encumbrance_id = #getEncumb.encumbrance#</cfquery>
+													<cfquery name="collEncSpec" dbtype="query">select count(*) as inEnc from encumbrance where encumbrance_id = #getEncumb.encumbrance#</cfquery>
 											</cfloop>
 											<cfset totalSpecEnc = #i#>
 												
