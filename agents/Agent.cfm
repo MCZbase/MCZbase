@@ -975,7 +975,7 @@ limitations under the License.
 												from lat_long 
 												where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfif getLatLongDet.cnt GT 20 OR getLatLongDet.cnt eq 0>
+										<cfif getLatLongDet.cnt GT 20 OR getLatLongDet.cnt eq 0 OR getLatLongVer.cnt GT 20 OR getLatLongVer.cnt eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -986,7 +986,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="georefHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
-												Georeferences (#getLatLongDet.cnt# determined)
+												Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.cnt# verified)
 											</h2>
 										</div>
 											
