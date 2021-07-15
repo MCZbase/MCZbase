@@ -76,7 +76,11 @@ Streams directly to response without use of CFFileServelet
 	<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
 	<cfabort>
 <cfcatch>
-	<cfset imageSrc = "/shared/images/missing_image_icon_298822.png">
+	<cfif isDefined("debug") AND len(debug) GT 0>
+		<cfdump var="#cfcatch#">
+		<cfabort>
+	</cfif>
+	<cfset imageSrc = "/shared/images/broken_image_icon_211476.png">
 	<cflocation URL="#Application.serverRootUrl##imageSrc#">
 </cfcatch>
 </cftry>
