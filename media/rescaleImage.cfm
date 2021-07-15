@@ -41,9 +41,15 @@ Streams directly to response without use of CFFileServelet
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
-				<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-				<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-				<cfset mimeType = "#mime_type#">
+				<cfif fitWidth GT media.width >
+					<!--- just deliver the image --->
+					<cflocation URL="#media.media_uri#">
+					<cfabort>
+				<cfelse>
+					<cfset target = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+					<cfset target = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+					<cfset mimeType = "#mime_type#">
+				</cfif>
 			<cfelse>
 				<cfif media_type EQ 'image'>
 					<cfif fitWidth GT media.width >
