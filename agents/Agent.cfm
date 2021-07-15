@@ -1293,7 +1293,6 @@ limitations under the License.
 											<cfset i = 0> 
 											<cfloop query="coll_object_encumbrance">
 												<cfset i = i+ #coll_object_encumbrance.specs#>
-													<cfquery name="collEncSpec" dbtype="query">select count(*) as inEnc from encumbrance where encumbrance_id = #getEncumb.encumbrance#</cfquery>
 											</cfloop>
 											<cfset totalSpecEnc = #i#>
 												
@@ -1323,7 +1322,7 @@ limitations under the License.
 															<li class="list-group-item">Owns No Encumbrances</li>
 														<cfelse>
 														<cfloop query="getEncumb">
-																<li class="list-group-item">#getEncumb.ENCUMBRANCE# #collEncSpec.inEnc#</li>
+																<li class="list-group-item">#getEncumb.ENCUMBRANCE# </li>
 															</cfloop>
 														</cfif>
 														<cfloop query="coll_object_encumbrance">
