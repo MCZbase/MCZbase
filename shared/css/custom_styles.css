@@ -1711,7 +1711,9 @@ tr.line-top:first-child {
 	transform: rotate(-90deg);
 }
 .card-body li.list-group-item span:last-child {
-	/*display: none;*/  
+	/*display: none;  */
+	display: block;
+	margin-bottom: .5rem;
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
 input#readMore_check_id {
