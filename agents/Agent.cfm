@@ -254,7 +254,7 @@ limitations under the License.
 											mczbase.get_media_descriptor(media.media_id) as descriptor,
 											mczbase.get_medialabel(media.media_id,'subject') as subject,
 											media.media_uri,
-											media.media_preview,
+											media.preview_uri,
 											media.media_type,
 											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
 											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
@@ -295,7 +295,7 @@ limitations under the License.
 													<ul class="list-group list-group-horizontal-md border p-2 my-2">
 													<cfif getMedia.media_type IS "image">
 														<li class="col-auto px-0">
-															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(media_preview) gt 0><img src="#getMedia.media_preview#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
+															<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(preview_uri) gt 0><img src="#getMedia.preview_uri#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
 														</li>
 														<li class="col-10 col-md-8 col-xl-10 px-0">
 															<ul class="list-group small">
