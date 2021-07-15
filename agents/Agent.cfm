@@ -126,7 +126,7 @@ limitations under the License.
 							</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<div class="col-12">
+									<div class="col-12 px-0">
 										<div class="col-auto m-2 internalRemarks card">
 											<h3 class="small95 mb-0">Internal Remarks</h3>
 											#agent_remarks#
