@@ -1057,7 +1057,7 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-										<cfif #getMediaCreation.ct# EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif #getMediaCreation.ct# EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>#getMediaCreation.ct#
 										<cfif media_assd_relations.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif totallabels EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="mediametaHeader">
