@@ -176,6 +176,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit,
 										flat.guid
 									FROM
@@ -204,6 +205,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
@@ -231,6 +233,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
@@ -258,6 +261,7 @@ limitations under the License.
 								SELECT * FROM (
 									SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
 										MCZBASE.get_media_descriptor(media.media_id) as alt,
+										MCZBASE.get_medialabel(media.media_id,'width') as width,
 										MCZBASE.get_media_credit(media.media_id) as credit
 									FROM
 										underscore_collection
@@ -334,7 +338,12 @@ limitations under the License.
 															<cfloop query="specimenImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#" alt="#specimenImageQuery.alt#"/>
+																		<cfif specimenImageQuery.width GT 1000 >
+																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
+																		<cfelse>
+																			<cfset src="#specimenImageQuery.media_uri#">
+																		</cfif>
+																		<img class="d-block w-100" src="#src#" alt="#specimenImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -410,7 +419,12 @@ limitations under the License.
 															<cfloop query="locImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm&media_id=#locImageQuery.media_id#" alt="#locImageQuery.alt#"/>
+																		<cfif locImageQuery.width GT 1000 >
+																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#locImageQuery.media_id#">
+																		<cfelse>
+																			<cfset src="#locImageQuery.media_uri#">
+																		</cfif>
+																		<img class="d-block w-100" src="#src#" alt="#locImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -467,7 +481,12 @@ limitations under the License.
 															<cfloop query="collEventImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm?media_id=#collEventImageQuery.media_id#" alt="#collEventImageQuery.alt#"/>
+																		<cfif collEventImageQuery.width GT 1000 >
+																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collEventImageQuery.media_id#">
+																		<cfelse>
+																			<cfset src="#collEventImageQuery.media_uri#">
+																		</cfif>
+																		<img class="d-block w-100" src="#src#" alt="#collEventImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
@@ -526,7 +545,12 @@ limitations under the License.
 															<cfloop query="collectorImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<img class="d-block w-100" src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=#imgWidth#cfm&media_id=#collectorImageQuery.media_id#" alt="#collectorImageQuery.alt#"/>
+																		<cfif collectorImageQuery.width GT 1000 >
+																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collectorImageQuery.media_id#">
+																		<cfelse>
+																			<cfset src="#collectorImageQuery.media_uri#">
+																		</cfif>
+																		<img class="d-block w-100" src="#src#" alt="#collectorImageQuery.alt#"/>
 																		<div class="mask rgba-black-strong"></div>
 																	</div>
 																	<div class="carousel-caption">
