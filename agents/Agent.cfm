@@ -1290,6 +1290,20 @@ limitations under the License.
 													collection,
 													collection.collection_id
 											</cfquery>
+											<cfquery name="inEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="inEnc_result">
+												SELECT 
+													count(distinct(coll_object_encumbrance.collection_object_id)) specs,
+													encumbrance.encumbrance_id
+												FROM
+													encumbrance
+													left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
+													left join cataloged_item on coll_object_encumbrance.collection_object_id=cataloged_item.collection_object_id
+													left join collection on cataloged_item.collection_id=collection.collection_id
+												WHERE
+													encumbering_agent_id=3359 and collection is not null
+												GROUP BY
+													encumbrance.encumbrance_id
+											</cfquery>
 											<cfset i = 0> 
 											<cfloop query="coll_object_encumbrance">
 												<cfset i = i+ #coll_object_encumbrance.specs#>
@@ -1322,7 +1336,7 @@ limitations under the License.
 															<li class="list-group-item">Owns No Encumbrances</li>
 														<cfelse>
 														<cfloop query="getEncumb">
-																<li class="list-group-item">#getEncumb.ENCUMBRANCE# </li>
+																<li class="list-group-item">#getEncumb.ENCUMBRANCE# #inEnc.spec#</li>
 															</cfloop>
 														</cfif>
 														<cfloop query="coll_object_encumbrance">
