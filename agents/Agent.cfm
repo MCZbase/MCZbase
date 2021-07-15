@@ -128,7 +128,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
 									<div class="col-12 px-2 my-1 mx-0 mx-md-1 mt-md-1 mb-md-2 internalRemarks card">
-										<h3 class="h5 mb-0">Internal Remarks</h3>
+										<h3 class="small95 mb-0">Internal Remarks</h3>
 										#agent_remarks#
 									</div>
 								</cfif>
@@ -224,7 +224,7 @@ limitations under the License.
 										</div>
 										<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
 											<cfif groupMembers.recordcount GT 0>
-												<h3 class="h4 px-3 mb-0">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
+												<h3 class="small95 px-3 mb-0">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif groupMembers.recordcount EQ 0>
@@ -287,7 +287,7 @@ limitations under the License.
 										<cfelse>
 											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 										</cfif>
-										<h3 class="h4 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
+										<h3 class="small95 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
 										<div class="card-body py-1 mb-1">
 											<cfif getMedia.recordcount GT 0>
 												<cfloop query="getMedia">
@@ -399,7 +399,7 @@ limitations under the License.
 															<cfset listgroupclass="border-light">
 														</cfif>
 																
-															<h3 class="h4 mb-1 mt-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
+															<h3 class="small95 mb-0 px-2 mt-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
@@ -526,7 +526,7 @@ limitations under the License.
 										</div>
 										<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
 											<cfif groupMembership.recordcount GT 0>
-												<h2 class="h4 px-3 mb-0">#prefName# is a member of #groupMembership.recordcount# group#plural#</h2>
+												<h3 class="small95 px-3 mb-0">#prefName# is a member of #groupMembership.recordcount# group#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<cfif groupMembership.recordcount EQ 0>
@@ -626,7 +626,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h4">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
+														<h3 class="small95 px-3 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
 													</cfif>
 												</cfif>
 											</cfif><!--- getAgentCollScope.recordcount > 1 --->
@@ -792,7 +792,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="h5 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h2>
+														<h3 class="small95 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h2>
 													</cfif>
 												</cfif>
 											</cfif>
@@ -1135,7 +1135,7 @@ limitations under the License.
 										</div>
 										<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
 											<cfif loan_item.recordcount GT 0>
-												<h3 class="h4 px-3 mt-2 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
+												<h3 class="small95 px-3 mt-2 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1223,7 +1223,7 @@ limitations under the License.
 										</div>
 										<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
 											<cfif totalShipCount GT 0>
-												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
+												<h3 class="small95 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 											</cfif>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
@@ -1458,9 +1458,9 @@ limitations under the License.
 										</div>
 										<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
 											<cfif getTransCount.ct EQ 0>
-												<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
+												<h3 class="small95 px-3 mb-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 											<cfelse>
-												<h3 class="h4 px-3 mb-0">
+												<h3 class="small95 px-3 mb-0">
 													#prefName# has some role in 
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 													#getTransCount.ct# Transaction#plural#
@@ -1570,7 +1570,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
-											<h3 class="h4 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
+											<h3 class="small95 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body py-1 mb-1">
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
@@ -1857,9 +1857,9 @@ limitations under the License.
 										</cfloop>
 										<div class="card-body py-1 mb-1">
 											<cfif okToDelete>
-												<h3 class="h4 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
+												<h3 class="small95 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
 											<cfelse>
-												<h3 class="h4 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
+												<h3 class="small95 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
 											<ul class="list-group">
 												<cfloop collection="#relatedTo#" item="key">
