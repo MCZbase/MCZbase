@@ -188,29 +188,49 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 <!--- Obtain a list of the specimens in a named group in a form suitable for display in a jqxgrid. 
   @param underscore_collection_id the surrogate numeric primary key identifying the named group.
+  @param smallerfieldlist, set to true to return only the subset of fields used by the showNamedGroup grid
   @return a json data structure with specimen data 
 --->
 <cffunction name="getSpecimensInGroup" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="smallerfieldlist" type="string" required="no">
 
+	<!--- 
+	fields in the showNamedGroup grid
+		{ name: 'guid', type: 'string' },
+		{ name: 'scientific_name', type: 'string' },
+		{ name: 'verbatim_date', type: 'string' },
+		{ name: 'higher_geog', type: 'string' },
+		{ name: 'spec_locality', type: 'string' },
+		{ name: 'othercatalognumbers', type: 'string' },
+		{ name: 'full_taxon_name', type: 'string' }
+	--->
 	<cftry>
 		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
-			SELECT DISTINCT flat.guid, flat.collection_cde, flat.scientific_name, flat.author_text,
-				flat.collectors,
-				mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
+			SELECT DISTINCT 
+				flat.guid, 
+				flat.scientific_name, 
 				flat.verbatim_date, 
-				flat.higher_geog, flat.spec_locality,
-				flat.country, flat.state_prov, flat.continent_ocean, flat.county,
-				flat.island, flat.island_group,
-				flat.phylum, flat.phylclass, flat.phylorder, flat.family,
-				flat.othercatalognumbers, flat.full_taxon_name,
-				underscore_relation.underscore_relation_id
+				flat.higher_geog, 
+				flat.spec_locality,
+				flat.othercatalognumbers, 
+				flat.full_taxon_name
+				<cfif NOT isDefined("smallerfieldlist") OR len(smallerfieldlist) GT 0>
+					,
+					flat.collectors,
+					flat.author_text,
+					flat.collection_cde, 
+					mczbase.get_pretty_date(flat.verbatim_date,flat.began_date,flat.ended_date,1,0) as date_collected,
+					flat.country, flat.state_prov, flat.continent_ocean, flat.county,
+					flat.island, flat.island_group,
+					flat.phylum, flat.phylclass, flat.phylorder, flat.family,
+					underscore_relation.underscore_relation_id
+				</cfif>
 			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				underscore_relation 
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+			WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				and flat.guid is not null
 			ORDER BY flat.collection_cde asc, to_number(regexp_substr(flat.guid, '\d+')) asc, flat.guid asc
 		</cfquery>
