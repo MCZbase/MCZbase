@@ -121,13 +121,13 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12 pl-0 pr-2">
+						<div class="col-12 px-0">
 							<div class="col-12 px-3 mb-2">
 								#biography#
 							</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<div class="col-12 px-2 my-1 mx-0 mx-md-1 mt-md-1 mb-md-2 internalRemarks card">
+									<div class="col-12 px-2 my-1 mx-0 mt-md-1 mb-md-2 internalRemarks card">
 										<h3 class="small95 mb-0">Internal Remarks</h3>
 										#agent_remarks#
 									</div>
