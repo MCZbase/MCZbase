@@ -1322,7 +1322,7 @@ limitations under the License.
 															<li class="list-group-item">Owns No Encumbrances</li>
 														<cfelse>
 														<cfloop query="getEncumb">
-																<li class="list-group-item">#getEncumb.ENCUMBRANCE# (#getEncumb.ct#)</li>
+																<li class="list-group-item">#getEncumb.ENCUMBRANCE# </li>
 															</cfloop>
 														</cfif>
 														<cfloop query="coll_object_encumbrance">
