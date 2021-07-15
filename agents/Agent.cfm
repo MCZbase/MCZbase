@@ -127,7 +127,7 @@ limitations under the License.
 							</div>
 							<cfif oneOfUs EQ 1>
 								<cfif len(agent_remarks) GT 0>
-									<div class="col-12 px-2 my-1 mx-0 mt-md-1 mb-md-2 internalRemarks card">
+									<div class="col-12 px-2 m-2 internalRemarks card">
 										<h3 class="small95 mb-0">Internal Remarks</h3>
 										#agent_remarks#
 									</div>
@@ -1288,7 +1288,7 @@ limitations under the License.
 												collection,
 												collection.collection_id
 										</cfquery>
-										<cfif getEncumbCount.recordcount GT 20 OR getEncumbCount.recordcount eq 0>
+										<cfif getEncumbCount.recordcount GT 20 OR getEncumb.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
