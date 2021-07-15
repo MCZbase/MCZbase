@@ -32,7 +32,7 @@ Streams directly to response without use of CFFileServelet
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 		SELECT
 			media_type, mime_type, media_uri,
-			MCZBASE.get_medialabel(media.media_id,'width') as width,
+			MCZBASE.get_medialabel(media.media_id,'width') as width
 		FROM media
 		WHERE
 			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
