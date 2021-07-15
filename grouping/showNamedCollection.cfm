@@ -338,7 +338,7 @@ limitations under the License.
 															<cfloop query="specimenImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<cfif specimenImageQuery.width GT 1000 >
+																		<cfif len(specimenImageQuery.width) GT 0 AND specimenImageQuery.width GT 0 AND specimenImageQuery.width GT 1000 >
 																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#specimenImageQuery.media_id#">
 																		<cfelse>
 																			<cfset src="#specimenImageQuery.media_uri#">
@@ -419,7 +419,7 @@ limitations under the License.
 															<cfloop query="locImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<cfif locImageQuery.width GT 1000 >
+																		<cfif len(locImageQuery.width) GT 0 AND locImageQuery.width GT 0 AND locImageQuery.width GT 1000 >
 																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#locImageQuery.media_id#">
 																		<cfelse>
 																			<cfset src="#locImageQuery.media_uri#">
@@ -481,7 +481,7 @@ limitations under the License.
 															<cfloop query="collEventImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
-																		<cfif collEventImageQuery.width GT 1000 >
+																		<cfif len(collEventImageQuery.width) GT 0 AND collEventImageQuery.width GT 0 AND collEventImageQuery.width GT 1000 >
 																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collEventImageQuery.media_id#">
 																		<cfelse>
 																			<cfset src="#collEventImageQuery.media_uri#">
@@ -545,6 +545,7 @@ limitations under the License.
 															<cfloop query="collectorImageQuery">
 																<div class="carousel-item #active#">
 																	<div class="view">
+																		<cfif len(collectorImageQuery.width) GT 0 AND collectorImageQuery.width GT 0 AND collectorImageQuery.width GT 1000 >
 																		<cfif collectorImageQuery.width GT 1000 >
 																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collectorImageQuery.media_id#">
 																		<cfelse>
