@@ -31,7 +31,8 @@ Streams directly to response without use of CFFileServelet
 <cfelse>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 		SELECT
-			media_type, mime_type, media_uri
+			media_type, mime_type, media_uri,
+			MCZBASE.get_medialabel(media.media_id,'width') as width,
 		FROM media
 		WHERE
 			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -45,19 +46,28 @@ Streams directly to response without use of CFFileServelet
 				<cfset mimeType = "#mime_type#">
 			<cfelse>
 				<cfif media_type EQ 'image'>
-					<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
+					<cfif fitWidth GT media.width >
+						<!--- just deliver the image --->
+						<cflocation URL="#media.media_uri#">
+						<cfabort>
+					<cfelse>
+						<!--- setup to rescale --->
+						<cfset target = "#Application.webDirectory#/shared/images/noExternalImage.png">
+					</cfif>
 				<cfelse>
+					<!--- not an image file --->
 					<!--- TODO: icons for other media types --->
 					<cfset target = "#Application.webDirectory#/shared/images/noThumbDoc.png">
 				</cfif>
 			</cfif>
 		</cfloop>
 	<cfelse>
+		<!--- no matching media file found --->
 		<cfset target = "#Application.webDirectory#/shared/images/missing_image_icon_298822.png">
 	</cfif>
 </cfif>
 
-<cfif isImageFile(target)>
+<cftry>
 	<cfimage source="#target#" name="targetImage">
 	<cfset ImageSetAntialiasing(targetImage,"on")>
 	<cfset ImageScaleToFit(targetImage,#fitWidth#,"","highestPerformance")>
@@ -65,7 +75,8 @@ Streams directly to response without use of CFFileServelet
 	<cfheader name="Content-Type" value="#mimeType#">
 	<cfset response.getOutputStream().writeThrough(ImageGetBlob(targetImage))>
 	<cfabort>
-<cfelse>
+<cfcatch>
 	<cfset imageSrc = "/shared/images/missing_image_icon_298822.png">
 	<cflocation URL="#Application.serverRootUrl##imageSrc#">
-</cfif>
+</cfcatch>
+</cftry>
