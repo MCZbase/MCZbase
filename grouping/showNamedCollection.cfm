@@ -546,7 +546,6 @@ limitations under the License.
 																<div class="carousel-item #active#">
 																	<div class="view">
 																		<cfif len(collectorImageQuery.width) GT 0 AND collectorImageQuery.width GT 0 AND collectorImageQuery.width GT 1000 >
-																		<cfif collectorImageQuery.width GT 1000 >
 																			<cfset src="#Application.serverRootUrl#/media/rescaleImage.cfm?width=600&media_id=#collectorImageQuery.media_id#">
 																		<cfelse>
 																			<cfset src="#collectorImageQuery.media_uri#">
