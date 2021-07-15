@@ -1038,9 +1038,6 @@ limitations under the License.
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
 										</cfquery>
-										<cfif getMediaCreation.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif media_assd_relations.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										
 										<cfset i = 0> 
 										<cfloop query="media_labels">
 											
@@ -1060,7 +1057,9 @@ limitations under the License.
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
 										</cfif>
-<cfif totallabels EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif getMediaCreation.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif media_assd_relations.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+										<cfif totallabels EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="mediametaHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
 												Media Records (#getMediaCreation.ct# record#plural#, #media_assd_relations.ct# relationship#plural#, #totallabels# label#plural# ) 
