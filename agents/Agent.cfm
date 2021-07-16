@@ -140,7 +140,7 @@ limitations under the License.
 				</div>
 				<!--- two columns of information about the agent gleaned from related tables --->
 				
-				<div class="col-12" id="agentBlocks">
+				<div class="col-12 mt-2" id="agentBlocks">
 					<div class="row mx-0">
 						<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 							<!--- agent names --->
