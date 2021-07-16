@@ -1698,8 +1698,9 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	float: left !important;
-	content: "\f067";
+	/*content: "\f067";*/
 	content: "\f0fe";
+	content: "\f146";
 	padding-top: 2px;
 	cursor: pointer;
 }
@@ -1707,8 +1708,9 @@ tr.line-top:first-child {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	content: "\f068";
+	/*content: "\f068";*/
 	content: "\f146";
+	content: "\f0fe";
 	padding-right: 5px;
 	padding-top: 2px;
 	float: left !important;
