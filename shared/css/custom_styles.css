@@ -1699,7 +1699,7 @@ tr.line-top:first-child {
 	font-size: smaller;
 	float: left !important;
 	/*content: "\f067";*/
-	content: "\f0fe";
+	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 }
@@ -1708,23 +1708,22 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	/*content: "\f068";*/
-	content: "\f146";
+	content: "\f146"; /*minus*/
 	padding-right: 5px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
 }
-/*.card-header h2 button:before {
+.card-header h2 button.collapsed:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	/*content: "\f068";*/
-	/*content: "\f146";
-	padding-right: 5px;
-	padding-top: 2px;
 	float: left !important;
+	/*content: "\f067";*/
+	content: "\f0fe";/*plus*/
+	padding-top: 2px;
 	cursor: pointer;
-}*/
+}
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
