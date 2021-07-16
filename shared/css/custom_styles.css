@@ -1664,7 +1664,7 @@ tr.line-top:first-child {
 .smaller {
 	font-size: .7em !important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button.collapsed:before {
+.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
@@ -1693,7 +1693,14 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 }
-.card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
+.card-header h2 button.collapsed:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: normal;
+	float: left !important;
+	content: "\f067";
+	cursor: pointer;
+}
+.card-header h3 a:before, .card-header h2 a:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
@@ -1701,9 +1708,16 @@ tr.line-top:first-child {
 	float: left !important;
 	cursor: pointer;
 }
+.card-header h2 button:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: normal;
+	content: "\f068";
+	padding-right: 5px;
+	float: left !important;
+	cursor: pointer;
+}
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
-	font-weight: normal;
 }
 .nav-link.dropdown-toggle:hover:before {
 	transform: rotate(0deg);
