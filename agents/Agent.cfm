@@ -484,15 +484,20 @@ limitations under the License.
 															and agent_relationship not like '% duplicate of'
 														ORDER BY agent_relationship
 													</cfquery>
-													<cfif getRevAgentRel.recordcount EQ 0>
+													<cfif getRelAgentRel.recordcount EQ 0>
 														<ul class="list-group">
 															<li class="list-group-item">None from other agents</li>
 														</ul>
 													<cfelse>
 														<ul class="list-group">
 															<cfloop query="getRevAgentRel">
-																<cfif len(getRevAgentRel.agent_remarks) GT 0><cfset rem=" [#getRevAgentRel.agent_remarks#]"><cfelse><cfset rem=""></cfif>
-																<li class="list-group-item"><a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
+																<cfif len(getRevAgentRel.agent_remarks) GT 0>
+																	<cfset rem=" [#getRevAgentRel.agent_remarks#]">
+																		<cfelse>
+																	<cfset rem="">
+																</cfif>
+																<li class="list-group-item">
+																	<a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
 															</cfloop>
 														</ul>
 													</cfif>
