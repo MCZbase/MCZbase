@@ -1671,7 +1671,7 @@ tr.line-top:first-child {
 	content: "\f067";
 	cursor: pointer;
 }
-.card-header h3 a:before {
+.card-header h3 a:before, .card-header h2 a:before  {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f068";
@@ -1698,14 +1698,6 @@ tr.line-top:first-child {
 	font-weight: normal;
 	float: left !important;
 	content: "\f067";
-	cursor: pointer;
-}
-.card-header h3 a:before, .card-header h2 a:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	content: "\f068";
-	padding-right: 5px;
-	float: left !important;
 	cursor: pointer;
 }
 .card-header h2 button:before {
