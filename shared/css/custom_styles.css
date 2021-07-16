@@ -1703,6 +1703,7 @@ tr.line-top:first-child {
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
+	font-weight: normal;
 }
 .nav-link.dropdown-toggle:hover:before {
 	transform: rotate(0deg);
