@@ -592,8 +592,8 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="collectorHeader1">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" >
-												<button type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
+											<h2>
+												<button class="float-left btn-link h4 w-100 mx-2 my-0" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
 											</h2>
 										</div>
 										<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
