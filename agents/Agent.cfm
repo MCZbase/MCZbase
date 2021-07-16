@@ -1711,9 +1711,9 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<cfif citedNumber EQ 0>
 													<ul class="list-group">
-														<li class="list-group-item">No Cited Publications</li>
+														<li class="list-group-item">None Citing MCZ Publications <cfif publicationAuthor.recordcount eq 0><br>No Publications</cfif></li>
 													</ul>
-													<cfif publicationAuthor.recordcount eq 0>No Publications</cfif>
+													
 												<cfelse>
 													<ul class="list-group">
 														<cfset i = 1>
