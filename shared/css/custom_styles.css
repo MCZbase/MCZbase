@@ -1694,7 +1694,7 @@ tr.line-top:first-child {
 	float: left !important;
 }
 .card-header h2 button {
-	font-weight:bold;
+	font-weight:500;
 }
 /*.card-header h2 button.collapsed:before {
 	font-family: "Font Awesome 5 Free";
