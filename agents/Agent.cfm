@@ -484,7 +484,7 @@ limitations under the License.
 															and agent_relationship not like '% duplicate of'
 														ORDER BY agent_relationship
 													</cfquery>
-													<cfif getRelAgentRel.recordcount EQ 0>
+													<cfif totalRelCount EQ 0>
 														<ul class="list-group">
 															<li class="list-group-item">None from other agents</li>
 														</ul>
