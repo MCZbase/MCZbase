@@ -75,7 +75,13 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfoutput>
-	<div class="<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>container-xl px-0<cfelse>container-xl px-0</cfif>">
+	<!--- TODO: These are defined identically, is this an error? --->
+	<cfif oneOfUs EQ 1>
+		<cfset mainDivClass="container-xl px-0">
+	<cfelse>
+		<cfset mainDivClass="container-xl px-0">
+	</cfif>
+	<div class="#mainDivClass#">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
@@ -85,7 +91,7 @@ limitations under the License.
 						<div class="col-auto px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
-								<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") OR len(getAgent.death_date) GT 0>
+								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
 									<!--- add birth death dates --->
 									<cfset dates = assembleYearRange(start_year="#getAgent.birth_date#",end_year="#getAgent.death_date#",year_only=false) >
 								</cfif>
@@ -142,6 +148,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 							<!--- agent names --->
+<!--- TOOD: Indentation is broken from here on, need to review line by line and fix --->
 								<section class="accordion">
 									<div class="card mb-2 bg-light">
 										<!--- always open, not a collapsable card --->
