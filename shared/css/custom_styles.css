@@ -1695,14 +1695,16 @@ tr.line-top:first-child {
 }
 .card-header h2 button.collapsed:before {
 	font-family: "Font Awesome 5 Free";
-	font-weight: normal;
+	font-weight: 600;
+	font-size: smaller;
 	float: left !important;
 	content: "\f067";
 	cursor: pointer;
 }
 .card-header h2 button:before {
 	font-family: "Font Awesome 5 Free";
-	font-weight: normal;
+	font-weight: 600;
+	font-size: smaller;
 	content: "\f068";
 	padding-right: 5px;
 	float: left !important;
