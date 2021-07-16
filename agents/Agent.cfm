@@ -121,24 +121,22 @@ limitations under the License.
 					</div>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-							<div class="col-12 px-3 mb-0">
-								#biography#
-							</div>
-							<cfif oneOfUs EQ 1>
-								<cfif len(agent_remarks) GT 0>
-									<div class="col-12 px-0">
-										<div class="col-auto mt-2 mx-1 internalRemarks card">
-											<h3 class="small95 mb-0">Internal Remarks</h3>
-											#agent_remarks#
-										</div>
-									</div>
-								</cfif>
-							</cfif>
-
+						<div class="col-12 px-3 mb-0">
+							#biography#
 						</div>
+						<cfif oneOfUs EQ 1>
+							<cfif len(agent_remarks) GT 0>
+								<div class="col-12 px-0">
+									<div class="col-auto mt-2 mx-1 internalRemarks card">
+										<h3 class="small95 mb-0">Internal Remarks</h3>
+										#agent_remarks#
+									</div>
+								</div>
+							</cfif>
+						</cfif>
 					</div>
 				</div>
-				<!--- two columns of information about the agent gleaned from related tables --->
+				<!--- three columns of information about the agent gleaned from related tables --->
 				
 				<div class="col-12 mt-2" id="agentBlocks">
 					<div class="row mx-0">
