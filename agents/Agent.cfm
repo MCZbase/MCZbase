@@ -79,7 +79,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
-				<div id="agentTopDiv" class="col-12 mt-2">
+				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
 						<div class="col-auto px-3">
@@ -937,7 +937,7 @@ limitations under the License.
 											</cfif>
 										<div class="card-header" id="namedgroupHeader">
 											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
-												Agent for Named Groups of cataloged items (#getNamedGroups.recordcount#)
+												Associated Agent for Named Groups (#getNamedGroups.recordcount#)
 											</h2>
 										</div>
 										<div id="namedgroupCardBodyWrap" class="#bodyClass#" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
