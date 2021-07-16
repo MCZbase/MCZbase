@@ -1699,6 +1699,7 @@ tr.line-top:first-child {
 	font-size: smaller;
 	float: left !important;
 	content: "\f067";
+	content: "\f146";
 	cursor: pointer;
 }
 .card-header h2 button:before {
@@ -1706,6 +1707,7 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	content: "\f068";
+	content: "\f0fe";
 	padding-right: 5px;padding-top: 3px;
 	float: left !important;
 	cursor: pointer;
