@@ -592,7 +592,7 @@ limitations under the License.
 											<cfset ariaExpanded ="true">
 										</cfif>
 										<div class="card-header" id="collectorHeader1">
-											<h2 class="h4 my-0 mx-2">
+											<h2 class="h4 my-0">
 												<button class="border-0 btn-link" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
 											</h2>
 										</div>
