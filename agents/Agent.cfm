@@ -1709,10 +1709,11 @@ limitations under the License.
 										</div>
 										<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 											<div class="card-body py-1 mb-1">
-												<cfif publicationAuthor.recordcount EQ 0>
+												<cfif citedNumber EQ 0>
 													<ul class="list-group">
-														<li class="list-group-item">No Publication Citing MCZ material</li>
+														<li class="list-group-item">No Cited Publications</li>
 													</ul>
+													<cfif publicationAuthor.recordcount eq 0>No Publications</cfif>
 												<cfelse>
 													<ul class="list-group">
 														<cfset i = 1>
