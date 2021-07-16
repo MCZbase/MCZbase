@@ -219,8 +219,10 @@ limitations under the License.
 											</cfif>
 											<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<div class="card-header" id="groupMembersHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
 													Group Members (#groupMembers.recordcount#)
+													</button>
 												</h2>
 											</div>
 											<div id="groupMembersCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembersHeader" data-parent="##groupMembersSection">
@@ -279,8 +281,10 @@ limitations under the License.
 											</cfif>
 										<div class="card-header" id="mediaHeader">
 											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
 												Subject of #getMedia.recordcount# media record#plural#
+												</button>
 											</h2>
 										</div>
 										<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
@@ -328,8 +332,10 @@ limitations under the License.
 												order by address_type
 											</cfquery>
 											<div class="card-header" id="elecAddrHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
 													Phone/Email
+													</button>
 												</h2>
 											</div>
 											<div id="elecAddrCardBodyWrap" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
@@ -367,8 +373,10 @@ limitations under the License.
 												order by addr_type, valid_addr_fg desc
 											</cfquery>
 											<div class="card-header" id="addressHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
 													Postal Addresses
+													</button>
 												</h2>
 											</div>
 											<div id="addressCardBodyWrap" class="collapse show" aria-labelledby="addressHeader" data-parent="##addressSection">
@@ -446,8 +454,10 @@ limitations under the License.
 											</cfif>
 										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 										<div class="card-header" id="relationshipsHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
 												Relationships with other agents (#totalRelCount#)
+												</button>
 											</h2>
 										</div>
 										<div id="relationshipsCardBodyWrap" class="#bodyClass#" aria-labelledby="relationshipsHeader" data-parent="##relationshipsSection">
@@ -522,8 +532,10 @@ limitations under the License.
 										<div class="card mb-2 bg-light">
 											<cfif groupMembership.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<div class="card-header" id="groupMembershipHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
 													Group Membership (#groupMembership.recordcount#)
+													</button>
 												</h2>
 											</div>
 											<div id="groupMembershipCardBodyWrap" class="#bodyClass#" aria-labelledby="groupMembershipHeader" data-parent="##groupMembershipSection">
@@ -760,8 +772,10 @@ limitations under the License.
 											</cfif>
 										<cfif getAgentPrepScope.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="preparatorHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##preparatorCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="preparatorCardBodyWrap">
 												Preparator (of material in #getAgentPrepScope.recordcount# collection#plural#)
+												</button>
 											</h2>
 										</div>
 										<div id="preparatorCardBodyWrap" class="#bodyClass#" aria-labelledby="preparatorHeader" data-parent="##preparatorSection">
@@ -796,7 +810,7 @@ limitations under the License.
 													</ul>
 													<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 														<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-															<h3 class="small95 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h2>
+															<h3 class="small95 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
 														</cfif>
 													</cfif>
 												</cfif>
@@ -835,8 +849,10 @@ limitations under the License.
 											</cfif>
 										<cfif identification.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<div class="card-header" id="determinerHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="determinerCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##determinerCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="determinerCardBodyWrap">
 												Determiner (in #identification.recordcount# collection#plural#) 
+												</button>
 											</h2>
 										</div>
 										<div id="determinerCardBodyWrap" class="#bodyClass#" aria-labelledby="determinerHeader" data-parent="##determinerSection">
@@ -891,8 +907,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 										<div class="card-header" id="attributeHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="attributeCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##attributeCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="attributeCardBodyWrap">
 												Attribute Determiner (#attributes.recordcount# categories)
+												</button>
 											</h2>
 										</div>
 										<div id="attributeCardBodyWrap" class="#bodyClass#" aria-labelledby="attributeHeader" data-parent="##attributeSection">
@@ -936,8 +954,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 										<div class="card-header" id="namedgroupHeader">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##namedgroupCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="namedgroupCardBodyWrap">
 												Associated Agent for Named Groups (#getNamedGroups.recordcount#)
+												</button>
 											</h2>
 										</div>
 										<div id="namedgroupCardBodyWrap" class="#bodyClass#" aria-labelledby="namedgroupHeader" data-parent="##namedgroupSection">
@@ -989,8 +1009,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="georefHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##georefCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="georefCardBodyWrap">
 													Georeferences (#getLatLongDet.cnt# determined, #getLatLongVer.cnt# verified)
+													</button>
 												</h2>
 											</div>
 
@@ -1064,8 +1086,10 @@ limitations under the License.
 											<cfif #media_assd_relations.ct# EQ 1><cfset plural2=""><cfelse><cfset plural2="s"></cfif>
 											<cfif totallabels EQ 1><cfset plural3=""><cfelse><cfset plural3="s"></cfif>
 											<div class="card-header" id="mediametaHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##mediametaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediametaCardBodyWrap">
 													Media Records (#getMediaCreation.ct# record#plural#, #media_assd_relations.ct# relationship#plural2#, #totallabels# label#plural3#) 
+													</button>
 												</h2>
 											</div>
 											<div id="mediametaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediametaHeader" data-parent="##mediametaSection">
@@ -1132,8 +1156,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="loanItemHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##loanItemCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="loanItemCardBodyWrap">
 													Reconciled loan items (#loan_item.recordcount#)
+													</button>
 												</h2>
 											</div>
 											<div id="loanItemCardBodyWrap" class="#bodyClass#" aria-labelledby="loanItemHeader" data-parent="##loanItemSection">
@@ -1220,8 +1246,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="shipmentsHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##shipmentsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentsCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button class="border-0 btn-link" type="button" data-toggle="collapse" data-target="##shipmentsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="shipmentsCardBodyWrap">
 													Roles in Shipment#plural# (#totalShipCount#)
+													</button>
 												</h2>
 											</div>
 											<div id="shipmentsCardBodyWrap" class="#bodyClass#" aria-labelledby="shipmenstHeader" data-parent="##shipmentsSection">
@@ -1320,13 +1348,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="encumbrancesHeader">
-							<!---					<cfif getEncumbCount.ct GT 0>
-													<cfset encumbCount = "(#getEncumbCount.ct#)">
-												<cfelse>
-													<cfset encumbCount = "">
-												</cfif>--->
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="encumbrancesCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##encumbrancesCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="encumbrancesCardBodyWrap">
 													Encumbrances (Owns #getEncumbCount.ct#, Encumbered #totalSpecEnc# in #coll_object_encumbrance.recordcount# Collections)
+													</button>
 												</h2>
 											</div>
 											<div id="encumbrancesCardBodyWrap" class="#bodyClass#" aria-labelledby="encumbrancesHeader" data-parent="##encumbrancesSection">
@@ -1389,8 +1414,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="projectCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##projectCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="projectCardBodyWrap">
 													Project Roles (#getProjRoles.recordcount#)
+													</button>
 												</h2>
 											</div>
 											<div id="projectCardBodyWrap" class="#bodyClass#" aria-labelledby="projectHeader" data-parent="##projectSection">
@@ -1475,8 +1502,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="transactionsHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="transactionsCardBodyWrap">
 													Roles in Transaction#plural# (#totalTransCount#)
+													</button>
 												</h2>
 											</div>
 											<div id="transactionsCardBodyWrap" class="#bodyClass#" aria-labelledby="transactionsHeader" data-parent="##transactionsSection">
@@ -1588,8 +1617,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="permitsHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##permitsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="permitsCardBodyWrap">
 													Roles in Permissions and Rights Document#plural# (#totalPermitCount#)
+													</button>
 												</h2>
 											</div>
 											<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
@@ -1703,8 +1734,10 @@ limitations under the License.
 										</cfloop>
 										<cfset citedNumber = (#publicationAuthor.recordcount#-#i#)>
 										<div class="card-header">
-											<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
+											<h2 class="h4 my-0">
+												<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##publicationCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="publicationCardBodyWrap">
 												Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citedNumber#)]
+												</button>
 											</h2>
 										</div>
 										<div id="publicationCardBodyWrap" class="#bodyClass# <cfif oneOfUs EQ 1>publicationWrap<cfelse></cfif>" aria-labelledby="publicationHeader" data-parent="##publicationSection">
@@ -1768,8 +1801,10 @@ limitations under the License.
 
 										</cfif>
 											<div class="card-header" id="enteredHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##enteredCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="enteredCardBodyWrap">
 													MCZbase Records Entered (in #entered.recordcount# collections)
+													</button>
 												</h2>
 											</div>
 											<div id="enteredCardBodyWrap" class="#bodyClass#" aria-labelledby="enteredHeader" data-parent="##enteredSection">
@@ -1823,8 +1858,10 @@ limitations under the License.
 												<cfset ariaExpanded ="true">
 											</cfif>
 											<div class="card-header" id="lastEditHeader">
-												<h2 class="float-left btn-link h4 w-100 mx-2 my-0" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
+												<h2 class="h4 my-0">
+													<button type="button" class="border-0 btn-link" data-toggle="collapse" data-target="##lastEditCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="lastEditCardBodyWrap">
 													MCZbase Records Last Edited By this agent (<cfif #lastEdit.cnt# gt 0>#lastEdit.cnt#<cfelse>0</cfif>)
+													</button>
 												</h2>
 											</div>
 											<div id="lastEditCardBodyWrap" class="#bodyClass#" aria-labelledby="lastEditHeader" data-parent="##lastEditSection">
