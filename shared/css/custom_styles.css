@@ -1948,7 +1948,7 @@ section#mediaSection.accordion {
 	border-bottom: 8px solid black;
 }
 #publicationCardBodyWrap {
-	max-height: 650px;
+	max-height: 500px;
 	overflow-y: auto;
 }
 #transactionsCardBodyWrap {
