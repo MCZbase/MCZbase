@@ -593,7 +593,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="collectorHeader1">
 											<h2 class="h4 my-0">
-												<button class="border-0 btn-link" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
+												<button class="border-0 btn-link font-weight-bold" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
 											</h2>
 										</div>
 										<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
