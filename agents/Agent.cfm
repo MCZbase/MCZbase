@@ -1707,7 +1707,7 @@ limitations under the License.
 												Publication#plural# (#publicationAuthor.recordcount#) [Those Citing MCZ material (#citedNumber#)]
 											</h2>
 										</div>
-										<div id="publicationCardBodyWrap" class="#bodyClass#" aria-labelledby="publicationHeader" data-parent="##publicationSection">
+										<div id="publicationCardBodyWrap" class="#bodyClass# publicationWrap" aria-labelledby="publicationHeader" data-parent="##publicationSection">
 											<div class="card-body py-1 mb-1">
 												<cfif publicationAuthor.recordcount eq 0>
 													<ul class="list-group">

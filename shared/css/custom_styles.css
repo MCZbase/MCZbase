@@ -1947,7 +1947,7 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-#publicationCardBodyWrap {
+#publicationWrap {
 	max-height: 500px;
 	overflow-y: auto;
 }
