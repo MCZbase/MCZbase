@@ -129,7 +129,7 @@ limitations under the License.
 								<div class="col-12 px-0">
 									<div class="col-auto mt-2 pb-2 mx-1 internalRemarks card">
 										<h3 class="small95 mb-1">Internal Remarks</h3>
-										#agent_remarks#
+										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
 							</cfif>
