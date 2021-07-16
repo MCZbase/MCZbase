@@ -1706,7 +1706,7 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	content: "\f068";
-	padding-right: 5px;
+	padding-right: 5px;padding-top: 3px;
 	float: left !important;
 	cursor: pointer;
 }
