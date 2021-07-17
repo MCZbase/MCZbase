@@ -611,7 +611,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="collectorHeader1">
 											<h2 class="h4 my-0">
-												<button class="border-0 headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
+												<button class="headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap1" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap1">Collector (in #getAgentCollScope.recordcount# collection#plural#)</button>
 											</h2>
 										</div>
 										<div id="collectorCardBodyWrap1" class="#bodyClass#" aria-labelledby="collectorHeader1" data-parent="##collectorSection1">
@@ -698,7 +698,7 @@ limitations under the License.
 										</cfif>
 										<div class="card-header" id="collectorHeader2">
 											<h2 class="h4 my-0">
-												<button class="border-0 headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap2">
+												<button class="headerLnk text-left w-100 h-100" type="button" data-toggle="collapse" data-target="##collectorCardBodyWrap2" aria-expanded="#ariaExpanded#" aria-controls="collectorCardBodyWrap2">
 												Collector (in #getAgentFamilyScope.recordcount# famil#fplural#)
 												</button>
 											</h2>
