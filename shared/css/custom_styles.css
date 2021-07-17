@@ -1984,7 +1984,7 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-.publicationWrap {
+/*.publicationWrap {
 	max-height: 500px;
 	overflow-y: auto;
 }
@@ -1999,7 +1999,7 @@ section#mediaSection.accordion {
 #permitsCardBodyWrap {
 	max-height: 500px;
 	overflow-y: auto;
-}
+}*/
 .internalRemarks p {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
