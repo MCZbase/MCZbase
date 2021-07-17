@@ -71,11 +71,33 @@ limitations under the License.
 	group by scientific_name
 	order by scientific_name
 </cfquery> 
+<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT collection, collection_id, toptypestatus, count(*) as ct
+	FROM
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+	WHERE
+		topytypestatuskind = 'Primary'
+	GROUP BY
+		collection, collection_id, toptypestatus
+</cfquery>
 
 <cfoutput>
 	<main class="container">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-4">
+				<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+					<cfset specimenSearch="/Specimens.cfm?execute=true">
+				<cfelse>
+					<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
+				</cfif>
+				<h1 class="h2">Primary Types</h1>
+				<ul>
+					<cfloop query="primaryTypes">
+						<li><a href="#specimenSearch#&collection_id=#primaryTypes.collection_id#&type_status=#toptypestatus#">#collection# #toptypestatus#</a> (#ct#)</li>
+					</cfloop>
+				</ul>
+			</div>
+			<div class="col-8">
 				<h1 class="h2">Featured Groups of Cataloged Items</h1>
 				<ul>
 					<cfloop query="namedGroups">
