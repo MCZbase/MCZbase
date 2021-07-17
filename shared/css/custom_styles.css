@@ -1737,6 +1737,7 @@ tr.line-top:first-child {
 .headerLnk {
 	color: #036ee0!important;
 	text-decoration: none;
+	padding: 0 .5rem;
 }
 .headerLnk:focus {
 	outline: 0;
