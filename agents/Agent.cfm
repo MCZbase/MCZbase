@@ -992,7 +992,7 @@ limitations under the License.
 											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
-										<cfif #getLatLongVer# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
+										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
 										<cfset totalRoles = #GeoDet# + #GeoVer#>
 										<cfif totalRoles GT 1>
 											<!--- cardState = collapsed --->
