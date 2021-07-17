@@ -1867,7 +1867,7 @@ button[tabindex="-1"]:focus {
 	padding: .25rem 1rem;
 }
 .accordion button:focus {
-	border: 2px dotted #ccc;
+	border: 1px dotted #969696;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;

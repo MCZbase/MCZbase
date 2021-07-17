@@ -221,7 +221,7 @@ limitations under the License.
 											<cfif groupMembers.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<div class="card-header" id="groupMembersHeader">
 												<h2 class="h4 my-0">
-													<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##groupMembersCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembersCardBodyWrap">
 													Group Members (#groupMembers.recordcount#)
 													</button>
 												</h2>
@@ -283,7 +283,7 @@ limitations under the License.
 										<div class="card-header" id="mediaHeader">
 											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 											<h2 class="h4 my-0">
-												<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
 												Subject of #getMedia.recordcount# media record#plural#
 												</button>
 											</h2>
@@ -334,7 +334,7 @@ limitations under the License.
 											</cfquery>
 											<div class="card-header" id="elecAddrHeader">
 												<h2 class="h4 my-0">
-													<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##elecAddrCardBodyWrap" aria-expanded="true" aria-controls="elecAddrCardBodyWrap">
 													Phone/Email
 													</button>
 												</h2>
@@ -375,7 +375,7 @@ limitations under the License.
 											</cfquery>
 											<div class="card-header" id="addressHeader">
 												<h2 class="h4 my-0">
-													<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##addressCardBodyWrap" aria-expanded="true" aria-controls="addressCardBodyWrap">
 													Postal Addresses
 													</button>
 												</h2>
@@ -456,7 +456,7 @@ limitations under the License.
 										<cfset totalRelCount = totalRelCount + getRevAgentRel.recordcount>
 										<div class="card-header" id="relationshipsHeader">
 											<h2 class="h4 my-0">
-												<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
+												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##relationshipsCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="relationshipsCardBodyWrap">
 												Relationships with other agents (#totalRelCount#)
 												</button>
 											</h2>
@@ -539,7 +539,7 @@ limitations under the License.
 											<cfif groupMembership.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<div class="card-header" id="groupMembershipHeader">
 												<h2 class="h4 my-0">
-													<button type="button" class="border-0 headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
+													<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##groupMembershipCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="groupMembershipCardBodyWrap">
 													Group Membership (#groupMembership.recordcount#)
 													</button>
 												</h2>
