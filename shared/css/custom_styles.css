@@ -1866,6 +1866,9 @@ button[tabindex="-1"]:focus {
 .accordion .card-header h2 button {
 	padding: .25rem 1rem;
 }
+.accordion .card-header h2:focus button {
+	outline: 1px solid black;
+}
 .tab-content div[aria-hidden='true'] {
 	display: none;
 	outline: 0;
