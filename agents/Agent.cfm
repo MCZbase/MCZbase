@@ -994,7 +994,7 @@ limitations under the License.
 										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
 										<cfif #getLatLongVer.cnt# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
 										<cfset totalRoles = #GeoDet# + #GeoVer#>
-										<cfif totalRoles gt 0>
+										<cfif totalRoles eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
