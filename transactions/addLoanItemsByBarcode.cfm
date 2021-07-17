@@ -143,7 +143,7 @@ limitations under the License.
 					return_due_date,
 					trans.collection_id,
 					collection.collection,
-					MCZBASE.get_transagents)trans.transaction_id,1,'') as agents,
+					MCZBASE.get_transagents(trans.transaction_id,1,'') as agents,
 					MCZBASE.concattransagent(trans.transaction_id,'entered by') as enteredby,
 					trans.transaction_id
 				FROM
