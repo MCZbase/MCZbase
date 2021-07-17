@@ -153,12 +153,12 @@ limitations under the License.
 				WHERE
 					trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery> 
-			<p>Add parts to loan #getLoan.collection# <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#l.transaction_id#">#l.loan_number#</a> by barcode.<p>
+			<p>Add parts to loan #getLoan.collection# <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#getLoan.transaction_id#">#getLoan.loan_number#</a> by barcode.<p>
 			<ul>
 				<li>Status: #getLoan.loan_status#</li>
 				<li>Instructions: #getLoan.loan_instructions#</li>
 				<li>Nature of material: #getLoan.nature_of_material#</li>
-				<li>Agents: #l.agents#</li>
+				<li>Agents: #getLoan.agents#</li>
 			</ul>
 			
 			<cfquery name="getPartLoanRequests" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
