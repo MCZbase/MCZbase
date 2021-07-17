@@ -1734,15 +1734,7 @@ tr.line-top:first-child {
 	margin-bottom: .5rem;
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
-.headerLnk {
-	color: #036ee0!important;
-	text-decoration: none;
-	padding: 0 .5rem;
-}
-.headerLnk:focus {
-	outline: 0;
-	box-shadow: 0 0 0 0.15rem rgba(206, 212, 218, .45);
-}
+
 input#readMore_check_id {
 	display: none;
 }
@@ -1855,6 +1847,15 @@ button[tabindex="-1"]:focus {
 .card-header {
 /*	padding: .9rem 0rem 0rem 0rem;
 	padding: .5rem .25rem 0rem .25rem;*/
+}
+.headerLnk {
+	color: #036ee0!important;
+	text-decoration: none;
+	padding: 0 .5rem;
+}
+.headerLnk:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.15rem rgba(206, 212, 218, .45);
 }
 .accordion .card-header {
 	padding: 0;
