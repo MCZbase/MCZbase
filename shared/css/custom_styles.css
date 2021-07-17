@@ -1852,8 +1852,8 @@ button[tabindex="-1"]:focus {
 	box-shadow: none;
 }
 .card-header {
-	padding: .9rem 0rem 0rem 0rem;
-	padding: .5rem .25rem 0rem .25rem;
+/*	padding: .9rem 0rem 0rem 0rem;
+	padding: .5rem .25rem 0rem .25rem;*/
 }
 .accordion .card-header {
 	padding: 0;
