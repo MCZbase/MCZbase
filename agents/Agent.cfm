@@ -153,7 +153,7 @@ limitations under the License.
 									<div class="card mb-2 bg-light">
 										<!--- always open, not a collapsable card --->
 										<div class="card-header py-0">
-											<h2 class="h4 my-1 mx-2">Names for this agent</h2>
+											<h2 class="h4 my-1 mx-2 px-2">Names for this agent</h2>
 										</div>
 										<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 											SELECT
