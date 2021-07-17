@@ -1740,7 +1740,7 @@ tr.line-top:first-child {
 }
 .headerLnk:focus {
 	outline: 0;
-	box-shadow: 0 0 0 0.15rem rgba(204, 204, 204, .15);
+	box-shadow: 0 0 0 0.15rem rgba(199, 251, 255, .45);
 }
 input#readMore_check_id {
 	display: none;
