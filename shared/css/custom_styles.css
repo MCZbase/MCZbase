@@ -166,6 +166,7 @@ h6, .h6 {
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
+
 span.caps {
 	text-transform: capitalize;
 }
@@ -1732,6 +1733,14 @@ tr.line-top:first-child {
 	display: block;
 	margin-bottom: .5rem;
 	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
+}
+.accordion > .btn-link {
+	color: #036ee0!important;
+	text-decoration: none;
+}
+.accordion > .btn-link:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0.15rem rgba(204, 204, 204, .15);
 }
 input#readMore_check_id {
 	display: none;
