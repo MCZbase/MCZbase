@@ -143,14 +143,14 @@ limitations under the License.
 					return_due_date,
 					trans.collection_id,
 					collection.collection,
-					MCZBASE.get_transagents)trans.transaction_id,1,'') agents,
-					concattransagent(trans.transaction_id,'entered by') enteredby,
+					MCZBASE.get_transagents)trans.transaction_id,1,'') as agents,
+					MCZBASE.concattransagent(trans.transaction_id,'entered by') as enteredby,
 					trans.transaction_id
 				FROM
 					loan
 					left join trans on loan.transaction_id = trans.transaction_id
-					left join collection on trans.collection_id=collection.collection_id
-				WHERE 
+					left join collection on trans.collection_id = collection.collection_id
+				WHERE
 					trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery> 
 			<p>Add parts to loan #getLoan.collection# <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#l.transaction_id#">#l.loan_number#</a> by barcode.<p>
