@@ -75,13 +75,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfoutput>
-	<!--- TODO: These are defined identically, is this an error? --->
-	<cfif oneOfUs EQ 1>
-		<cfset mainDivClass="container-xl px-0">
-	<cfelse>
-		<cfset mainDivClass="container-xl px-0">
-	</cfif>
-	<div class="#mainDivClass#">
+	<div class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
