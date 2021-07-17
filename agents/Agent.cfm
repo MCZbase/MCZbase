@@ -71,7 +71,7 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfoutput>
-	<div class="container-xl px-0" id="content">
+	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
 				<cfset prefName = getAgent.preferred_agent_name>
@@ -991,7 +991,10 @@ limitations under the License.
 											from lat_long 
 											where determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
-										<cfif getLatLongDet.cnt GT 20 OR getLatLongDet.cnt eq 0 OR getLatLongVer.cnt GT 20 OR getLatLongVer.cnt eq 0>
+										<cfif #getLatLongDet.cnt# gt 0><cfset GeoDet = 1><cfelse><cfset GeoDet = 0></cfif>
+										<cfif #getLatLongVer# gt 0><cfset GeoVer = 1><cfelse><cfset GeoVer = 0></cfif>
+										<cfset totalRoles = #GeoDet# + #GeoVer#>
+										<cfif totalRoles GT 1>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
@@ -1926,6 +1929,6 @@ limitations under the License.
 				</div>
 			</cfloop><!--- getAgent --->
 		</div>
-	</div>
+	</main>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
