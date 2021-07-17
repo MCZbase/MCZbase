@@ -649,6 +649,7 @@ limitations under the License.
 																<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 															<else>
 																<li>No specimens were collected.</li>
+															</cfif>
 														</cfloop>
 													</ul>
 													<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
