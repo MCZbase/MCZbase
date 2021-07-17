@@ -1860,8 +1860,8 @@ button[tabindex="-1"]:focus {
 .accordion .card-header {
 	padding: 0;
 }
-.accordion .card-header:focus {
-	outline:1px solid black;
+.accordion.focus {
+  border-color: hsl(216, 94%, 73%);
 }
 .accordion .card-header h2 button {
 	padding: .25rem 1rem;
