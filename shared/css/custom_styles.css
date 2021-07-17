@@ -1855,7 +1855,7 @@ button[tabindex="-1"]:focus {
 	border: none;
 }
 .headerLnk:focus {
-	outline: 4px inset black;
+	outline: 1px solid black;
 	box-shadow: 0 0 0 0.15rem rgba(206, 212, 218, .45);
 }
 .accordion .card-header {
