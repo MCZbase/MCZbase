@@ -1861,7 +1861,7 @@ button[tabindex="-1"]:focus {
 	padding: 0;
 }
 .accordion .card-header {
-	outline: 1px solid aliceblue;
+	outline: 1px solid black;
 }
 .accordion .card-header h2 button {
 	padding: .25rem 1rem;
