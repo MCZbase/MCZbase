@@ -1869,6 +1869,10 @@ button[tabindex="-1"]:focus {
 .tab-content div[aria-hidden='false'] {
 	display: block;
 }
+a.anchorFocus {
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
+}
 div[aria-hidden='true'] {
 	display: none;
 }
