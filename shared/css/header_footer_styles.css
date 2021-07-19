@@ -4,9 +4,9 @@
 	outline: 0;
 }
 :focus {
-	outline: #ccc auto 1px;
+/*	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
-	border: none;
+	border: none;*/
 /*	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);*/
 }
 .navbar-nav input:focus {
