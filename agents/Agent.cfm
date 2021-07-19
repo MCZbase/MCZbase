@@ -695,31 +695,35 @@ limitations under the License.
 										<!---	<cfif getAgentFamilyScope2.recordcount GT 0>--->
 										<div class="card-body py-1 mb-1">
 											<div class="w-100"> 
-												<ul class="list-group">
-													<cfset earlyeststart = "">
-													<cfset latestend = "">
-													<cfloop query="getAgentFamilyScope">
-														<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
-														<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
-														<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
-														<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
-														</cfif>
-														<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
-														<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-														<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
-															<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
-																<cfset yearbit=" none known to year">
-															<cfelse>
-																<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
+												<cfif getAgentCollScope.recordcount EQ 0>
+													<ul class="list-group"><li class="list-group-item">Not a collector of any material in MCZbase</li></ul>
+												<cfelse>
+													<ul class="list-group">
+														<cfset earlyeststart = "">
+														<cfset latestend = "">
+														<cfloop query="getAgentFamilyScope">
+															<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
+															<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
+															<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
+															<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
 															</cfif>
-														<cfelse>
-															<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
-														</cfif>
-														<cfif len(getAgentFamilyScope.family) GT 0>
-															<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
-														</cfif>
-													</cfloop>
-												</ul>
+															<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
+															<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+															<cfif getAgentFamilyScope.startyear IS getAgentFamilyScope.endyear>
+																<cfif len(getAgentFamilyScope.startyear) EQ 0 or getAgentFamilyScope.startyear IS "0">
+																	<cfset yearbit=" none known to year">
+																<cfelse>
+																	<cfset yearbit=" in year #getAgentFamilyScope.startyear#">
+																</cfif>
+															<cfelse>
+																<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
+															</cfif>
+															<cfif len(getAgentFamilyScope.family) GT 0>
+																<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
+															</cfif>
+														</cfloop>
+													</ul>
+												</cfif>
 											</div>
 										</div>
 									</div><!--- end collectorCardBodyWrap --->
@@ -1713,6 +1717,7 @@ limitations under the License.
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
+										
 									<cfelse>
 										<!--- cardState = expanded --->
 										<cfset bodyClass = "collapse show">
