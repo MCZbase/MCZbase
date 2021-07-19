@@ -1870,11 +1870,11 @@ button[tabindex="-1"]:focus {
 	padding: .25rem 1rem;
 }
 .accordion .card-header h2 button {
-	border: 1px dotted transparent;
-		box-shadow: none;
+	border: 2px dotted transparent;
+	box-shadow: none;
 }
 .accordion .card-header h2 button:focus {
-	border: 1px dotted rgba(255, 193, 7, .2)!important;
+	border: 2px dotted rgba(255, 193, 7, .2)!important;
 	box-shadow: 0 0 0 0.12rem rgba(255, 193, 7, .2)!important;
 }
 .tab-content div[aria-hidden='true'] {
