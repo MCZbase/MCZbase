@@ -1683,7 +1683,7 @@ limitations under the License.
 														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
 														<li class="list-group-item">
-															#getPermitsContacts.recordcount# recorded
+															#getPermitContacts.recordcount# recorded
 															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 																permissions and rights documents where #encodeForHtml(prefName)# is a contact
 															</a>
