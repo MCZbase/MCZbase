@@ -165,6 +165,10 @@ limitations under the License.
 									</cfquery>
 									<div class="card-body pt-1 pb-2 bg-teal">
 										<ul class="list-group">
+											<!--- person name --->
+											<cfif getAgent.agent_type EQ "person">
+												<li class="list-group-item" >#getAgent.prefix# #getAgent.first_name# #getAgent.middle_name# #getAgent.last_name# #getAgent.suffix#</li>
+											</cfif>
 											<!--- preferred name --->
 											<cfloop query="preferredNames">
 												<li class="list-group-item" >#preferredNames.agent_name# (#preferredNames.agent_name_type#)</li>
