@@ -198,15 +198,17 @@ limitations under the License.
 					<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 					<div class="card-header" id="heading1">
 						<cfif len(#blockident#) gt 10> 
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##identificationsPane">Identifications</a>
+							<h3 class="h4 my-0">
+								<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane">Identifications</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Edit</button>
 							</cfif>
 						<cfelse>
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								Identifications
+							<h3 class="h4 my-0">
+								<button class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane">
+									Identifications
+								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
