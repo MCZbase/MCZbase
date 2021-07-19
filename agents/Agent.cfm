@@ -401,7 +401,6 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-
 															<h3 class="small95 mb-0 px-2 mt-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
@@ -705,7 +704,7 @@ limitations under the License.
 															<cfif len(earlyeststart) EQ 0 AND NOT getAgentFamilyScope.startyear IS "0" ><cfset earlyeststart = getAgentFamilyScope.startyear></cfif>
 															<cfif len(latestend) EQ 0 AND NOT getAgentFamilyScope.endyear IS "0"><cfset latestend = getAgentFamilyScope.endyear></cfif>
 															<cfif len(getAgentFamilyScope.startyear) GT 0 and NOT getAgentFamilyScope.startyear IS "0">
-															<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
+																<cfif compare(getAgentFamilyScope.startyear,earlyeststart) LT 0><cfset earlyeststart=getAgentFamilyScope.startyear></cfif>
 															</cfif>
 															<cfif compare(getAgentFamilyScope.endyear,latestend) GT 0><cfset latestend=getAgentFamilyScope.endyear></cfif>
 															<cfif getAgentFamilyScope.ct EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
@@ -1286,7 +1285,7 @@ limitations under the License.
 									</div><!--- end shipmentsCard --->
 								</section>
 							</cfif>
-								<!--- encumbrances --->
+							<!--- encumbrances --->
 							<cfif oneOfUs EQ 1>
 								<section class="accordion" id="encumbrancesSection"> 
 									<div class="card mb-2 bg-light">
@@ -1719,7 +1718,6 @@ limitations under the License.
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
-										
 									<cfelse>
 										<!--- cardState = expanded --->
 										<cfset bodyClass = "collapse show">
@@ -1759,7 +1757,7 @@ limitations under the License.
 																</span>
 															</cfif>
 														</li>
-													<cfset i = i + 1>
+														<cfset i = i + 1>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1796,7 +1794,6 @@ limitations under the License.
 											<!--- cardState = expanded --->
 											<cfset bodyClass = "collapse show">
 											<cfset ariaExpanded ="true">
-
 										</cfif>
 										<div class="card-header" id="enteredHeader">
 											<h2 class="h4 my-0">
