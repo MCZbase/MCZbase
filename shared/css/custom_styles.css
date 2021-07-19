@@ -1703,7 +1703,7 @@ tr.line-top:first-child {
 	font-size: smaller;
 	float: left !important;
 	content: "\f067";
-	/*content: "\f0fe";*//*plus*/
+	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
 	padding-right: 6px;
@@ -1713,7 +1713,7 @@ tr.line-top:first-child {
 	font-weight: 600;
 	font-size: smaller;
 	content: "\f068";
-	/*content: "\f146";*//*minus*/
+	content: "\f146";/*minus*/
 	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
