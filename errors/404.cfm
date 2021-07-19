@@ -1,5 +1,6 @@
 <cfif not isdefined("headerPath")>
 	<!---  if header has been included, headerPath will have a value --->
+	<cfset pageTitle = "MCZbase: 404 Error: Resource not found">
 	<cfinclude template="/shared/_header.cfm">
 </cfif>
 <cfoutput>
