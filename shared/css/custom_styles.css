@@ -1706,6 +1706,7 @@ tr.line-top:first-child {
 	content: "\f0fe";/*plus*/
 	padding-top: 2px;
 	cursor: pointer;
+	padding-right: 6px;
 }
 .card-header h2 button[aria-expanded="true"]:before {
 	font-family: "Font Awesome 5 Free";
@@ -1713,7 +1714,7 @@ tr.line-top:first-child {
 	font-size: smaller;
 	content: "\f068";
 	content: "\f146";/*minus*/
-	padding-right: 5px;
+	padding-right: 6px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
