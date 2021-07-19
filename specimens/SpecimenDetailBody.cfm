@@ -202,7 +202,7 @@ limitations under the License.
 								<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 									Identifications
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+										<a id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 											Edit
 										</a>
 									</cfif>
