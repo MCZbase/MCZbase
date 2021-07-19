@@ -1688,7 +1688,7 @@ limitations under the License.
 									</div>
 								</section>
 							</cfif>
-							<!--- Author --->
+							<!--- Author of Publications--->
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">

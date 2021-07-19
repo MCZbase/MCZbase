@@ -1697,27 +1697,27 @@ tr.line-top:first-child {
 .card-header h2 button {
 	font-weight:500;
 }
-/*.card-header h2 button.collapsed:before {
+.card-header h2 button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
-	float: left !important;*/
-	/*content: "\f067";*/
-/*	content: "\f0fe";*//*plus*/
-/*	padding-top: 2px;
+	float: left !important;
+	content: "\f067";
+	content: "\f0fe";/*plus*/
+	padding-top: 2px;
 	cursor: pointer;
-}*/
-/*.card-header h2 button:before {
+}
+.card-header h2 button[aria-expanded="true"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
-	font-size: smaller;*/
-	/*content: "\f068";*/
-	/*content: "\f146";*/ /*minus*/
-/*	padding-right: 5px;
+	font-size: smaller;
+	content: "\f068";
+	content: "\f146";/*minus*/
+	padding-right: 5px;
 	padding-top: 2px;
 	float: left !important;
 	cursor: pointer;
-}*/
+}
 
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
