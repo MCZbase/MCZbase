@@ -1849,7 +1849,7 @@ button[tabindex="-1"]:focus {
 /*	padding: .9rem 0rem 0rem 0rem;
 	padding: .5rem .25rem 0rem .25rem;*/
 }
-.headerLnk {
+/*.headerLnk {
 	color: #036ee0!important;
 	text-decoration: none;
 	padding: 0 .5rem;
@@ -1857,15 +1857,18 @@ button[tabindex="-1"]:focus {
 }
 .headerLnk:focus {
 	box-shadow: 0 0 0 0.15rem rgba(206, 212, 218, .45);
-}
+}*/
 .accordion .card-header {
 	padding: 0;
 }
-.accordion.focus {
+/*.accordion.focus {
   border-color: hsl(216, 94%, 73%);
-}
+}*/
 .accordion .card-header h2 button {
 	padding: .25rem 1rem;
+}
+.accordion button {
+	border: 1px dotted transparent;
 }
 .accordion button:focus {
 	border: 1px dotted #aaaaaa3;
