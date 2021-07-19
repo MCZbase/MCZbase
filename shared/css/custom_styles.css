@@ -1850,10 +1850,11 @@ button[tabindex="-1"]:focus {
 	padding: .5rem .25rem 0rem .25rem;*/
 }
 .headerLnk {
-	color: #036ee0!important;
+	color: #036ee0;
+	color: #555!important;
 	text-decoration: none;
 	padding: 0 .5rem;
-	border: 1px solid transparent;
+/*	border: 1px solid transparent;*/
 }
 /*
 .headerLnk:focus {
