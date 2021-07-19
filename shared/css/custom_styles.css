@@ -1822,7 +1822,7 @@ button[tabindex="-1"]:focus {
 	border: 2px dotted transparent;
 	box-shadow: none;
 }
-.accordion .card-header h2 button:focus {
+.accordion .card-header h2 button:focus, ,.accordion .card-header h3:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
 }
@@ -1865,13 +1865,18 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	cursor: pointer;
 }
-
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
 a.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
+	padding: .4rem 1.25rem;
+}
+a.anchorFocus:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
+	padding: .4rem 1.25rem;
 }
 div[aria-hidden='true'] {
 	display: none;
