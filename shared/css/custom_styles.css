@@ -1875,7 +1875,7 @@ button[tabindex="-1"]:focus {
 }
 .accordion .card-header h2 button:focus {
 	border: 2px dotted rgba(255, 193, 7, .2)!important;
-	box-shadow: 0 0 0 0.12rem rgba(255, 193, 7, .2)!important;
+	box-shadow: inset .1em .1em .15em gold, .1em .1em .15em gold!important;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
