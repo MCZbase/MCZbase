@@ -1661,7 +1661,7 @@ limitations under the License.
 														<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 													<cfelse>
 														<li class="list-group-item">
-															#getPermitsTo.recordcount# recorded
+															#getPermitsFrom.recordcount# recorded
 															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 																permissions and rights documents issued by #encodeForHtml(prefName)#
 															</a>
@@ -1682,7 +1682,7 @@ limitations under the License.
 														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
 														<li class="list-group-item">
-															#getPermitsTo.recordcount# recorded
+															#getPermitsContacts.recordcount# recorded
 															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 																permissions and rights documents where #encodeForHtml(prefName)# is a contact
 															</a>
