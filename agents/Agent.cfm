@@ -1713,14 +1713,17 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
 										SELECT
-											count(citation.collection_object_id) citation_count,
+											<cfif ucase(#session.flatTableName#) EQ 'FLAT'>
+												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,1) citation_count,
+											<cfelse>
+												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,0) citation_count,
+											</cfif> 
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
 											agent_name 
 											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
-											left join citation on formatted_publication.publication_id = citation.publication_id
 										where
 											formatted_publication.format_style = 'long' and
 											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
