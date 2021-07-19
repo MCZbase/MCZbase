@@ -1263,6 +1263,7 @@ limitations under the License.
 														<cfloop query="packedBy">
 															<li class="list-group-item">
 																Packed Shipment for #transaction_type#
+																Packed shipment for #transaction_type#
 																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 																	#collection# #specific_number#
 																</a>
@@ -1270,6 +1271,17 @@ limitations under the License.
 														</cfloop>
 														<cfif shippedTo.recordcount EQ 0>
 															<li class="list-group-item">Recipient of no shipments for transactions</li>
+														</cfif>
+														<cfloop query="shippedTo">
+															<li class="list-group-item">
+																Recipient of shipment for #transaction_type#
+																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+																	#collection# #specific_number#
+																</a>
+															</li>
+														</cfloop>
+														<cfif shippedFrom.recordcount EQ 0>
+															<li class="list-group-item">Sender of no shipments for transactions</li>
 														</cfif>
 														<cfloop query="shippedFrom">
 															<li class="list-group-item">
@@ -1650,7 +1662,7 @@ limitations under the License.
 														<li class="list-group-item">No recorded permissions and rights documents issued by #encodeForHtml(prefName)#</li>
 													<cfelse>
 														<li class="list-group-item">
-															#getPermitsTo.recordcount# recorded
+															#getPermitsFrom.recordcount# recorded
 															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
 																permissions and rights documents issued by #encodeForHtml(prefName)#
 															</a>
@@ -1671,7 +1683,7 @@ limitations under the License.
 														<li class="list-group-item">#encodeForHtml(prefName)# is the contact for no recorded permissions and rights documents</li>
 													<cfelse>
 														<li class="list-group-item">
-															#getPermitsTo.recordcount# recorded
+															#getPermitsContacts.recordcount# recorded
 															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
 																permissions and rights documents where #encodeForHtml(prefName)# is a contact
 															</a>

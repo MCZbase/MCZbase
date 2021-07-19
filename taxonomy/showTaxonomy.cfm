@@ -484,26 +484,47 @@
 
 				<div id="specTaxMedia">
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct
-							flattable.guid,
-							flattable.typestatus, 
-							media_relationship,
-							media_uri, preview_uri, media_type, mime_type,
-							mczbase.get_media_descriptor(media.media_id) as media_descriptor 
-						from media_relations
-							left join #session.flatTableName# flattable on related_primary_key = flattable.collection_object_id
-							left join media on media_relations.media_id = media.media_id
-							left join identification on flattable.collection_object_id = identification.collection_object_id
-							left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
-							left join citation on flattable.collection_object_id = citation.collection_object_id
-						where
-							media_relationship = 'shows cataloged_item'
-							and (
-								identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#"> OR
-								citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-							)
-							and rownum < 20
-						order by typestatus
+						select * from (
+							select distinct * from (
+								select distinct
+										flattable.guid,
+									flattable.typestatus, 
+									media_relationship,
+									media_uri, preview_uri, media_type, mime_type,
+									mczbase.get_media_descriptor(media.media_id) as media_descriptor 
+								from media_relations
+									left join #session.flatTableName# flattable on related_primary_key = flattable.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+									left join identification on flattable.collection_object_id = identification.collection_object_id
+									left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+									left join citation on flattable.collection_object_id = citation.collection_object_id
+								where
+									media_relationship = 'shows cataloged_item'
+									and (
+										identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#"> OR
+										citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+									)
+								union
+								select distinct
+									flattable.guid,
+									flattable.typestatus, 
+									media_relationship,
+									media_uri, preview_uri, media_type, mime_type,
+									mczbase.get_media_descriptor(media.media_id) as media_descriptor 
+								from media_relations
+									left join #session.flatTableName# flattable on related_primary_key = flattable.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+									left join identification on flattable.collection_object_id = identification.collection_object_id
+									left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+									left join citation on flattable.collection_object_id = citation.collection_object_id
+								where
+									media_relationship = 'shows cataloged_item'
+									and (
+										identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#"> OR
+										citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+									)
+							) order by typestatus
+						) where rownum  < 20
 					</cfquery>
 					<div class="row" id="taxSpecimenMedia">
 						<div class="col-12">

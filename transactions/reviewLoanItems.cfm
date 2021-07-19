@@ -43,8 +43,21 @@ limitations under the License.
 </cfloop>
 <cfset ctDispSource = "#ctDispSource#]">
 
-<cfif not isdefined("transaction_id")>
-	<cfthrow message="No transaction specified.">
+<cfif NOT isdefined("transaction_id") OR len(transaction_id) EQ 0>
+	<cfthrow message="No transaction specified">
+</cfif>
+<cfquery name="checkForLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkForLoan_result">
+	SELECT count(*) ct
+	FROM
+		loan
+		left join trans on loan.transaction_id = trans.transaction_id
+	WHERE
+		trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		AND trans.transaction_type='loan'
+		AND loan.transaction_id is not null
+</cfquery> 
+<cfif checkForLoan.ct NEQ 1>
+	<cfthrow message="Provided transaction_id [#encodeForHtml(transaction_id)#] does not specify a loan">
 </cfif>
 
 <!---

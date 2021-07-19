@@ -41,7 +41,7 @@ Streams directly to response without use of CFFileServelet
 	<cfif media.recordcount EQ 1>
 		<cfloop query="media">
 			<cfif mime_type EQ 'image/jpeg' OR mime_type EQ 'image/png'>
-				<cfif fitWidth GT media.width >
+				<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width >
 					<!--- just deliver the image --->
 					<cflocation URL="#media.media_uri#">
 					<cfabort>
@@ -52,7 +52,7 @@ Streams directly to response without use of CFFileServelet
 				</cfif>
 			<cfelse>
 				<cfif media_type EQ 'image'>
-					<cfif fitWidth GT media.width >
+					<cfif len(media.width) GT 0 and media.width GT 0 AND fitWidth GT media.width >
 						<!--- just deliver the image --->
 						<cflocation URL="#media.media_uri#">
 						<cfabort>
