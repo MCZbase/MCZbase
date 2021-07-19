@@ -1712,7 +1712,7 @@ limitations under the License.
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
-										SELECT
+										SELECT distinct
 											<cfif ucase(#session.flatTableName#) EQ 'FLAT'>
 												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,1) citation_count,
 											<cfelse>
@@ -1727,9 +1727,6 @@ limitations under the License.
 										where
 											formatted_publication.format_style = 'long' and
 											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										group by
-											formatted_publication.publication_id,
-											formatted_publication.formatted_publication
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<cfif publicationAuthor.recordcount eq 0 and #oneofus# eq 1>
