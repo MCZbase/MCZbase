@@ -1871,13 +1871,13 @@ button[tabindex="-1"]:focus {
 a.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
-	padding: .4rem 1.25rem;
+	margin: .4rem 1.25rem;
+	display:block;
 }
 a.anchorFocus:focus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .4rem 1.25rem;
-	display:block;
 }
 div[aria-hidden='true'] {
 	display: none;
