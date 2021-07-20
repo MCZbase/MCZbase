@@ -215,7 +215,7 @@ limitations under the License.
 																loadMedia(#media_id#,'mediaCardBody');
 															}
 														</script>
-														<button type="button" id="btn_pane4" class="btn btn-xs small mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
+														<button type="button" id="btn_pane4" class="btn btn-xs small py-0 mt-1 float-right" onClick="openEditMediaDetailsDialog(#media_id#,'mediaDialog','#guid#',reloadMedia)">Edit</button>
 														<cfif #media.media_type# eq "audio">
 															<!--- check for a transcript, link if present --->
 															<cfquery name="checkForTranscript" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
