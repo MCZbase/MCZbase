@@ -1818,7 +1818,7 @@ button[tabindex="-1"]:focus {
 	padding: 0;
 }
 .accordion .card-header h2 button,.accordion .card-header h3 button {
-	padding: .25rem .875rem;
+	padding: .15rem .875rem;
 	border: 2px dotted transparent;
 	box-shadow: none;
 }
