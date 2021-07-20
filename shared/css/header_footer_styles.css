@@ -9,7 +9,6 @@
 	border: none;*/
 /*	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);*/
 	outline: 1px dotted rgb(44 91 144 / 62%);
-	border-radius: .2rem;
 }
 .navbar-nav input:focus {
 	box-shadow:none;
