@@ -605,12 +605,12 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-								<button class="px-5 #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-								<button class="px-5 #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
-								<button class="px-5 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
-							</div>
+							<button class="px-5 col-12 col-md-2 mb-1 mb-md-0  #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
+							<button class="px-5 col-12 col-md-2 mb-1 mb-md-0  #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
+							<button class="px-5 col-12 col-md-2 mb-1 mb-md-0  #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+							<button class="px-5 col-12 col-md-2 mb-1 mb-md-0  #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
+							<button class="px-5 col-12 col-md-2 mb-1 mb-md-0 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
+						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content"> 
