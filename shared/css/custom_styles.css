@@ -1845,27 +1845,15 @@ button[tabindex="-1"]:focus {
 	outline: 0 !important;
 	box-shadow: none;
 }
-.card-header {
-/*	padding: .9rem 0rem 0rem 0rem;
-	padding: .5rem .25rem 0rem .25rem;*/
-}
 .headerLnk {
 	color: #036ee0;
 	color: #555!important;
 	text-decoration: none;
 	padding: 0 .5rem;
-/*	border: 1px solid transparent;*/
 }
-/*
-.headerLnk:focus {
-	box-shadow: 0 0 0 0.15rem rgba(206, 212, 218, .45);
-}*/
 .accordion .card-header {
 	padding: 0;
 }
-/*.accordion.focus {
-  border-color: hsl(216, 94%, 73%);
-}*/
 .accordion .card-header h2 button {
 	padding: .15rem .875rem;
 }
@@ -1992,22 +1980,6 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-/*.publicationWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#transactionsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#shipmentsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#permitsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}*/
 .internalRemarks p {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
