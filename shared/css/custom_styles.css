@@ -1822,9 +1822,12 @@ button[tabindex="-1"]:focus {
 	border: 2px dotted transparent;
 	box-shadow: none;
 }
-.accordion .card-header h2 button:focus, .accordion .card-header h3:focus {
+.accordion .card-header h2 button:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
+}
+.accordion .card-header h3:focus {
+	border: 1px solid rgba(255, 193, 7, .2)!important;
 }
 .card-header h1 button.collapsed span:before {
 	font-family: "Font Awesome 5 Free";
