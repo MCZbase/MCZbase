@@ -826,13 +826,15 @@ limitations under the License.
 					</cfif>
 					<div class="accordion w-100" id="itemAccordion">
 						<div class="card">
-							<h3 class="card-header" id="itemAccordHeadingOne">
-								<button class="btn btn-link btn-block text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
-									Add Borrowed Item
-								</button>
-							</h3>
-   						<div id="itemCollapseOne" class="collapse #openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
-						      <div class="card-body">
+							<div class="card-header" id="itemAccordHeadingOne">
+								<h3>
+									<button class="headerLnk btn-block text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+										Add Borrowed Item
+									</button>
+								</h3>
+							</div>
+							<div id="itemCollapseOne" class="collapse #openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+								<div class="card-body">
 									<form id="addBorrowItemform">
 										<div class="row mx-0">
 											<input type="hidden" name="method" value="addBorrowItem">
@@ -881,11 +883,13 @@ limitations under the License.
 							</div>
 						</div>
 					<div class="card-item">
-						<h2 class="card-header" id="itemAccordHeadingTwo">
-							<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
-								Upload Items From CSV File
-							</button>
-						</h2>
+						<div class="card-header" id="itemAccordHeadingTwo">
+							<h3>
+								<button class="headerLnk btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+									Upload Items From CSV File
+								</button>
+							</h3>
+						</div>
 						<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
 							<div class="card-body">
 								<div class="w-100">
