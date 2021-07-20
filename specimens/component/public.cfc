@@ -778,7 +778,7 @@ limitations under the License.
 			<cfquery name="ctPart" dbtype="query">
 				select count(*) as ct from parts
 			</cfquery>
-			<table class="table border-bottom mb-0">
+			<table class="table border-bottom mb-0 mt-1">
 				<thead>
 					<tr class="bg-light">
 						<th><span>Part Name</span></th>
