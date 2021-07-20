@@ -113,10 +113,10 @@ limitations under the License.
 						</cfcatch>
 						</cftry>
 					</cfif>
-					<cfoutput>
-						<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
-					</cfoutput>
 				</cfloop>
+				<cfoutput>
+					<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
+				</cfoutput>
 			</cfloop>
 		</div>
 	</section>
