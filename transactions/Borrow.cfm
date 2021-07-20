@@ -745,7 +745,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12">
+							<div class="col-12 pt-1">
 								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea type="text" name="lenders_instructions" id="lenders_instructions" 
 									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
@@ -753,7 +753,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12">
+							<div class="col-12 pt-1">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
@@ -761,7 +761,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12">
+							<div class="col-12 pt-1">
 								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
 								<textarea name="description_of_borrow" id="description_of_borrow" rows="1" 
 									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
@@ -769,7 +769,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12">
+							<div class="col-12 pt-1">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
@@ -786,7 +786,7 @@ limitations under the License.
 							});
 						</script> 
 						<div class="form-row">
-							<div class="form-group col-12 mb-3 mt-1">
+							<div class="form-group col-12 mb-3 pt-1 mt-1">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkEditBorrowFormValidity($('##editBorrowForm')[0])) { saveEdits(); } " 
 									id="submitButton" >
