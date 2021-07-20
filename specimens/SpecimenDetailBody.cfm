@@ -340,12 +340,12 @@ limitations under the License.
 							</script>
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
-									<button type="button" role="button" data-control="PartsPane" data-toggle="collapse" data-target="##PartsPane">
+									<button type="button" role="button" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										Parts
 									</button>
 									<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="##" type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
+										<a href="##" type="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
 											Edit
 										</a>
 									</cfif>
