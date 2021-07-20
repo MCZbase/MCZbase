@@ -152,7 +152,7 @@ limitations under the License.
 		</div>
 	</div>
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row mx-0">
 			<!----------------------------- one left column for media ---------------------------------->
 			<cfif ctmedia.ct gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
