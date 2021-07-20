@@ -208,7 +208,7 @@ limitations under the License.
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Edit
 											</a>
 										</cfif>
@@ -219,7 +219,7 @@ limitations under the License.
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Add
 											</a>
 										</cfif>
