@@ -341,9 +341,9 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
 									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts
+										Parts <span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
 									</button>
-									<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
+									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="##" type="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
 											Edit
