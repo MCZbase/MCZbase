@@ -214,12 +214,12 @@ limitations under the License.
 								<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-controls="identificationPane">
 									Identifications
 								</button>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a id="btn_pane" tabindex="1" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+										Add
+									</a>
+								</cfif>
 							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<a id="btn_pane" tabindex="1" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
-									Add
-								</a>
-							</cfif>
 						</cfif>
 					</div>
 					<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -247,23 +247,23 @@ limitations under the License.
 								<button type="button" href="##" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
 									Citations
 								</button>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+										Edit
+									</a>
+								</cfif>
 							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-									Edit
-								</a>
-							</cfif>
 						<cfelse>
 							<h3 class="h4 my-0">
 								<button type="button" href="##" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
 									Citations
 								</button>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+										Add
+									</a>
+								</cfif>
 							</h3>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
-									Add
-								</a>
-							</cfif>
 						</cfif>
 					</div>
 					<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
