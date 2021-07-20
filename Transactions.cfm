@@ -605,11 +605,11 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-							<button class="px-5 col-12 col-md-auto mb-1 mb-md-0  #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
-							<button class="px-5 col-12 col-md-auto mb-1 mb-md-0  #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
-							<button class="px-4 col-12 col-md-auto mb-1 mb-md-0  #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-							<button class="px-4 col-12 col-md-auto mb-1 mb-md-0  #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
-							<button class="px-5 col-12 col-md-auto mb-1 mb-md-0 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-sm-0  #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-sm-0  #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-sm-0  #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-sm-0  #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-sm-0 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
 						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
