@@ -295,26 +295,26 @@ limitations under the License.
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
 									<h3 class="h4 my-0">
-										<button role="button" data-control="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a type="button" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+												Edit
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
-											Edit
-										</a>
-									</cfif>
 								<cfelse>
 									<h3 class="h4 my-0">
-										<button role="button" data-control="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										<button type="button" role="button" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a type="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+												Add
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
-											Add
-										</a>
-									</cfif>
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
