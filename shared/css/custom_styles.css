@@ -1665,7 +1665,7 @@ tr.line-top:first-child {
 .smaller {
 	font-size: .7em !important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
+/*.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	float: left !important;
@@ -1679,50 +1679,7 @@ tr.line-top:first-child {
 	padding-right: 5px;
 	float: left !important;
 	cursor: pointer;
-}
-.card-header h1 button.collapsed span:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	float: left !important;
-	content: "\f067";
-	cursor: pointer;
-}
-.card-header h1 button span:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	content: "\f068";
-	padding-right: 5px;
-	float: left !important;
-}
-.card-header h2 button, .card-header h3 button {
-	font-weight:500;
-}
-.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 600;
-	font-size: smaller;
-	float: left !important;
-	content: "\f067";
-	content: "\f0fe";/*plus*/
-	padding-top: 2px;
-	cursor: pointer;
-	padding-right: 6px;
-}
-.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before {
-	font-family: "Font Awesome 5 Free";
-	font-weight: 600;
-	font-size: smaller;
-	content: "\f068";
-	content: "\f146";/*minus*/
-	padding-right: 6px;
-	padding-top: 2px;
-	float: left !important;
-	cursor: pointer;
-}
-
-.card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
-	text-decoration: none;
-}
+}*/
 .nav-link.dropdown-toggle:hover:before {
 	transform: rotate(0deg);
 }
@@ -1841,27 +1798,27 @@ input#readMore_check_id {
 	border-right: 1px solid #deebec;
 	border-left: 1px solid #deebec;
 }
+.tab-content div[aria-hidden='true'] {
+	display: none;
+	outline: 0;
+}
+.tab-content div[aria-hidden='false'] {
+	display: block;
+}
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
 	box-shadow: none;
-}
-.card-header {
-/*	padding: .9rem 0rem 0rem 0rem;
-	padding: .5rem .25rem 0rem .25rem;*/
 }
 .headerLnk {
 	color: #036ee0;
 	color: #555!important;
 	text-decoration: none;
-	padding: 0 .5rem;
 }
 .accordion .card-header {
 	padding: 0;
 }
-.accordion .card-header h2 button {
-	padding: .25rem 1rem;
-}
-.accordion .card-header h2 button {
+.accordion .card-header h2 button,.accordion .card-header h3 button {
+	padding: .25rem .875rem;
 	border: 2px dotted transparent;
 	box-shadow: none;
 }
@@ -1869,12 +1826,60 @@ button[tabindex="-1"]:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
 }
-.tab-content div[aria-hidden='true'] {
-	display: none;
-	outline: 0;
+.accordion .card-header h3:focus {
+	border: 1px solid rgba(255, 193, 7, .26)!important;
 }
-.tab-content div[aria-hidden='false'] {
-	display: block;
+.card-header h1 button.collapsed span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	float: left !important;
+	content: "\f067";
+	cursor: pointer;
+}
+.card-header h1 button span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f068";
+	padding-right: 5px;
+	float: left !important;
+}
+.card-header h2 button, .card-header h3 button {
+	font-weight:500;
+}
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	float: left !important;
+	content: "\f067";
+	content: "\f0fe";/*plus*/
+	padding-top: 2px;
+	cursor: pointer;
+	padding-right: 6px;
+}
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	content: "\f068";
+	content: "\f146";/*minus*/
+	padding-right: 6px;
+	padding-top: 2px;
+	float: left !important;
+	cursor: pointer;
+}
+.card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
+	text-decoration: none;
+}
+a.anchorFocus {
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
+	margin: .4rem .875rem;
+	display:block;
+}
+a.anchorFocus:focus {
+	outline: 0;
+	box-shadow: 0 0 0 0 transparent;
 }
 div[aria-hidden='true'] {
 	display: none;
