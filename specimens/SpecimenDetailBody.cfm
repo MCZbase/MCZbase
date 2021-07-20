@@ -294,18 +294,26 @@ limitations under the License.
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##OtherIDsPane">Other IDs</a>
+									<h3 class="h4 my-0">
+										<button role="button" data-control="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+											Other IDs
+										</button>
 									</h3>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Edit</button>
+										<a type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+											Edit
+										</a>
 									</cfif>
 								<cfelse>
-									<h3 class="h4 my-0 float-left collapsed text-black">
-										Other IDs
+									<h3 class="h4 my-0">
+										<button role="button" data-control="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+											Other IDs
+										</button>
 									</h3>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Add</button>
+										<a type="button" class="btn btn-xs small py-0 float-right" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+											Add
+										</a>
 									</cfif>
 								</cfif>
 							</div>
@@ -331,13 +339,17 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingParts">
-								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##PartsPane">Parts</a>
-										<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
+								<h3 class="h4 my-0">
+									<button type="button" role="button" data-control="PartsPane" data-toggle="collapse" data-target="##PartsPane">
+										Parts
+									</button>
+									<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="##" type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
+											Edit
+										</a>
+									</cfif>
 								</h3>
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">Edit</button>
-								</cfif>
 							</div>
 							<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body py-1 w-100 mb-1 float-left" id="partsCardBody">
