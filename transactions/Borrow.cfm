@@ -825,10 +825,10 @@ limitations under the License.
 						<cfset btnAccord = "">
 					</cfif>
 					<div class="accordion w-100" id="itemAccordion">
-						<div class="card">
+						<div class="card mb-2 bg-light">
 							<div class="card-header" id="itemAccordHeadingOne">
-								<h3>
-									<button class="headerLnk btn-block text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+								<h3 class="h4 my-0">
+									<button class="headerLnk btn-block text-left py-2 #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
 										Add Borrowed Item
 									</button>
 								</h3>
@@ -885,7 +885,7 @@ limitations under the License.
 					<div class="card-item">
 						<div class="card-header" id="itemAccordHeadingTwo">
 							<h3>
-								<button class="headerLnk btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+								<button class="headerLnk btn-block text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
 									Upload Items From CSV File
 								</button>
 							</h3>
