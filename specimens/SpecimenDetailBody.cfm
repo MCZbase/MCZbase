@@ -216,7 +216,7 @@ limitations under the License.
 								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<a id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+								<a id="btn_pane" tabindex="1" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 									Add
 								</a>
 							</cfif>
