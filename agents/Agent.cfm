@@ -295,7 +295,7 @@ limitations under the License.
 											<div class="card-body py-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
 													<cfloop query="getMedia">
-														<ul class="list-group list-group-horizontal border p-2 my-2">
+														<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
 														<cfif getMedia.media_type IS "image">
 															<li class="col-auto px-0">
 																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(preview_uri) gt 0><img src="#getMedia.preview_uri#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
@@ -1713,21 +1713,21 @@ limitations under the License.
 							<section class="accordion" id="publicationSection"> 
 								<div class="card mb-2 bg-light">
 									<cfquery name="publicationAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="publicationAuthor_result">
-										SELECT
-											count(citation.collection_object_id) citation_count,
+										SELECT distinct
+											<cfif ucase(#session.flatTableName#) EQ 'FLAT'>
+												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,1) citation_count,
+											<cfelse>
+												MCZBASE.get_publication_citation_count(publication_author_name.publication_id,0) citation_count,
+											</cfif> 
 											formatted_publication.publication_id,
 											formatted_publication.formatted_publication
 										FROM
 											agent_name 
 											left join publication_author_name on agent_name.agent_name_id = publication_author_name.agent_name_id
 											left join formatted_publication on publication_author_name.publication_id = formatted_publication.publication_id
-											left join citation on formatted_publication.publication_id = citation.publication_id
 										where
 											formatted_publication.format_style = 'long' and
 											agent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-										group by
-											formatted_publication.publication_id,
-											formatted_publication.formatted_publication
 									</cfquery>
 									<cfif publicationAuthor.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 									<cfif publicationAuthor.recordcount eq 0 and #oneofus# eq 1>
