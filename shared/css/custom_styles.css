@@ -1872,7 +1872,11 @@ a.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
 	margin: .4rem .875rem;
-	display:block;
+	display: block;
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	right: 0;
 }
 a.anchorFocus:focus {
 	outline: 0;

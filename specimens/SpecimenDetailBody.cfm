@@ -200,11 +200,11 @@ limitations under the License.
 					<div class="card-header" id="heading1">
 						<cfif len(#blockident#) gt 10> 
 							<h3 class="h4 my-0" tabindex="0">
-								<button type="button" class="headerLnk text-left w-100" style="position: relative;z-index: 1;" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
+								<button type="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 									Identifications
 								</button>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0" style="position:absolute;z-index: 3; right: 0;top:0;" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 										Edit
 									</a>
 								</cfif>
@@ -243,7 +243,7 @@ limitations under the License.
 					<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 					<div class="card-header" id="headingCitations">
 						<cfif len(#blockcit#) gt 10> 
-							<h3 class="h4 my-0 float-left collapsed btn-link">
+							<h3 class="h4 my-0"> float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
