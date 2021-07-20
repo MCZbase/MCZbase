@@ -33,6 +33,7 @@ limitations under the License.
 		media_type = 'image'
 		AND auto_host = 'mczbase.mcz.harvard.edu'
 		AND (mime_type = 'image/png' OR mime_type = 'image/jpeg')
+		AND media_id not in (select media_id from media_label where media_label = 'width')
 </cfquery>
 
 <main class="container" id="content">
