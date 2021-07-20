@@ -200,25 +200,25 @@ limitations under the License.
 					<div class="card-header" id="heading1">
 						<cfif len(#blockident#) gt 10> 
 							<h3 class="h4 my-0" tabindex="0">
-								<button type="button" class="headerLnk text-left w-75" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
+								<button type="button" class="headerLnk text-left w-100" style="position: relative;z-index: 1;" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 									Identifications
 								</button>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0 float-right" style="position:absolute;z-index: 3;" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 										Edit
 									</a>
 								</cfif>
 							</h3>
 						<cfelse>
-							<h3 class="h4 my-0">
-								<button class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane">
+							<h3 class="h4 my-0" tabindex="0">
+								<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-controls="identificationPane">
 									Identifications
 								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+								<a id="btn_pane" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 									Add
-								</button>
+								</a>
 							</cfif>
 						</cfif>
 					</div>
