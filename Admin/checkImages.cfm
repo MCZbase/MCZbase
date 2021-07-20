@@ -114,7 +114,7 @@ limitations under the License.
 						</cftry>
 					</cfif>
 					<cfoutput>
-						<p>#encodeForHtml(paths.auto_path#: #media.recordcount# files, added height or width to #hwadded#</p>
+						<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
 					</cfoutput>
 				</cfloop>
 			</cfloop>
