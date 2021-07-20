@@ -516,7 +516,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0 float-left collapsed text-black">
+									<h3 class="h4 my-0">
 										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" type="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
 											Collectors and Preparators
 										</button>
@@ -596,7 +596,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="card mb-2">
+							<!---<div class="card mb-2">
 								<div class="card-header pt-1 float-left w-100">
 									<h3 class="h4 my-0 mx-2 pb-1 float-left">
 									Metadata
@@ -619,7 +619,7 @@ limitations under the License.
 										</cfif>
 									</ul>
 								</div>
-							</div>
+							</div>--->
 						</cfif>
 					</cfif>
 				</div>
