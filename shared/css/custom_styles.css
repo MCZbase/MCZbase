@@ -1871,7 +1871,7 @@ button[tabindex="-1"]:focus {
 a.anchorFocus {
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
-	margin: .4rem .875rem;
+	margin: .25rem .75rem;
 	display: block;
 	position: absolute;
 	z-index: 3;

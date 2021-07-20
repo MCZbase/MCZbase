@@ -216,7 +216,7 @@ limitations under the License.
 								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<a id="btn_pane" tabindex="1" class="btn btn-xs small py-0 float-right" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+								<a id="btn_pane" tabindex="1" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 									Add
 								</a>
 							</cfif>
@@ -243,18 +243,26 @@ limitations under the License.
 					<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 					<div class="card-header" id="headingCitations">
 						<cfif len(#blockcit#) gt 10> 
-							<h3 class="h4 my-0"> float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##citationsPane">Citations</a>
+							<h3 class="h4 my-0">
+								<button type="button" href="##" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
+									Citations
+								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Edit</button>
+								<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+									Edit
+								</a>
 							</cfif>
 						<cfelse>
-							<h3 class="h4 my-0 float-left collapsed text-black">
-								Citations
+							<h3 class="h4 my-0">
+								<button type="button" href="##" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
+									Citations
+								</button>
 							</h3>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<button type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add</button>
+								<a type="button" id="addbtn" class="btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+									Add
+								</a>
 							</cfif>
 						</cfif>
 					</div>
