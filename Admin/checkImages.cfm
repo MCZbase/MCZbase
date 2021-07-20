@@ -60,6 +60,9 @@ limitations under the License.
 					<cfif len(width) EQ 0 OR len(height) EQ 0>
 						<cftry>
 							<cfset somethingadded = 0>
+							<cfset target = replace(media.media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfset target = replace(media.media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfimage source="#target#" name="targetImage">
 							<cfset info = imageInfo(targetImage)>
 							<cfif len(media.width) EQ 0 OR media.width EQ 0 >
 								<cfquery name="mediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediawidth_result">
@@ -111,7 +114,7 @@ limitations under the License.
 						</cftry>
 					</cfif>
 					<cfoutput>
-						<p>#encodeForHtml(paths.auto_path#: #media.recordcount# files, added height or width to #hwadded#</p>
+						<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
 					</cfoutput>
 				</cfloop>
 			</cfloop>
