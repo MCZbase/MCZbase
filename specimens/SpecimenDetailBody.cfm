@@ -227,7 +227,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
-								<div class="card-body py-1 mb-1 float-left" id="identificationsCardBody">
+								<div class="card-body py-1 mb-1 w-100 float-left" id="identificationsCardBody">
 									#blockident#
 									<div id="identificationHTML"></div>
 								</div>
