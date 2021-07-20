@@ -244,7 +244,7 @@ limitations under the License.
 					<div class="card-header" id="headingCitations">
 						<cfif len(#blockcit#) gt 10> 
 							<h3 class="h4 my-0">
-								<button type="button" href="##" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
+								<button type="button" href="##" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
 									Citations
 								</button>
 							</h3>
@@ -255,7 +255,7 @@ limitations under the License.
 							</cfif>
 						<cfelse>
 							<h3 class="h4 my-0">
-								<button type="button" href="##" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
+								<button type="button" href="##" class="headerLnk text-left w-100 h-100" aria-expanded="true" data-toggle="collapse" data-target="##citationsPane" aria-controls="citationsPane">
 									Citations
 								</button>
 							</h3>
