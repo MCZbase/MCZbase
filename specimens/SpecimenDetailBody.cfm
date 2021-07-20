@@ -505,23 +505,23 @@ limitations under the License.
 							<cfset blockcollectors = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCollectors">
 								<cfif len(#blockcollectors#) gt 5>
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<button role="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="CollectorsPane" aria-expanded="true" data-target="##CollectorsPane">
+									<h3 class="h4 my-0">
+										<button type="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="CollectorsPane" aria-expanded="true" data-target="##CollectorsPane">
 											Collectors and Preparators
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
 												Edit
 											</a>
 										</cfif>
 									</h3>
 								<cfelse>
 									<h3 class="h4 my-0 float-left collapsed text-black">
-										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" role="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
+										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" type="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
 											Collectors and Preparators
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
 												Add
 											</a>
 										</cfif>
@@ -546,12 +546,16 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingTransactions">
-								<h3 class="h4 my-0 float-left collapsed btn-link">
-									<a href="##" role="button" data-toggle="collapse" data-target="##TransactionsPane">Transactions</a>
+								<h3 class="h4 my-0">
+									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
+										Transactions
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">
+											Edit
+										</a>
+									</cfif>
 								</h3>
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditTransactionsDialog(#collection_object_id#,'transactionsDialog','#guid#',reloadTransactions)">Edit</button>
-								</cfif>
 							</div>
 							<div id="TransactionsPane" class="collapse show" aria-labelledby="headingTransactions" data-parent="##accordionTransactions">
 								<div class="card-body py-1 mb-1 float-left" id="transactionsCardBody">
@@ -574,12 +578,16 @@ limitations under the License.
 									</script>
 									<cfset blockMeta = getMetadataHTML(collection_object_id = "#collection_object_id#")>
 									<div class="card-header" id="headingMetadata">
-										<h3 class="h4 my-0 float-left collapsed btn-link">
-											<a href="##" role="button" data-toggle="collapse" data-target="##MetadataPane">Meta Data</a>
+										<h3 class="h4 my-0">
+											<button type="button" data-toggle="collapse" aria-expanded="true" aria-collapse="MetadataPane" data-target="##MetadataPane">
+												Meta Data
+											</button>
+											<cfif listcontainsnocase(session.roles,"manage_specimens")>
+												<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">
+													Edit
+												</a>
+											</cfif>
 										</h3>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Edit</button>
-										</cfif>
 									</div>
 									<div id="MetadataPane" class="collapse show" aria-labelledby="headingMetadata" data-parent="##accordionMetadata">
 										<div class="card-body py-2 mb-2 float-left" id="metadataCardBody">
