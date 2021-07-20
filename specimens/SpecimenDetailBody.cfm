@@ -375,20 +375,22 @@ limitations under the License.
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
 									<h3 class="h4 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">Attributes</button>
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+											Attributes
+										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
 												Edit
 											</a>
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0 float-left collapsed">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
 											Attributes
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
 												Add
 											</a>
 										</cfif>
@@ -416,26 +418,26 @@ limitations under the License.
 							<div class="card-header" id="headingRelations">
 								<cfif len(#blockrel#) gt 60> 
 									<h3 class="h4 my-0">
-										<button type="button" role="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
 											Relationships
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
 												Edit
 											</a>
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0 float-left collapsed text-black">
-										<button type="button" role="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
 											Relationships
 										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+												Add
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a type="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-											Add
-										</a>
-									</cfif>
 								</cfif>
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
@@ -460,19 +462,27 @@ limitations under the License.
 							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingLocality">
 								<cfif len(#blocklocality#) gt 60>
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
+									<h3 class="h4 my-0">
+										<button type="button" data-toggle="collapse" aria-expanded="true" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
+											Location and Collecting Event
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
+												Edit
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Edit</button>
-									</cfif>
 								<cfelse>
-									<h3 class="h4 my-0 float-left collapsed">
-										<a href="##" role="button" data-toggle="collapse" data-target="##LocalityPane">Location and Collecting Event</a>
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" aria-controls="LocalityPane" data-target="##LocalityPane">
+											Location and Collecting Event
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
+												Add
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right text-black" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">Add</button>
-									</cfif>
 								</cfif>
 							</div>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
@@ -496,18 +506,26 @@ limitations under the License.
 							<div class="card-header" id="headingCollectors">
 								<cfif len(#blockcollectors#) gt 5>
 									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
+										<button role="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="CollectorsPane" aria-expanded="true" data-target="##CollectorsPane">
+											Collectors and Preparators
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
+												Edit
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Edit</button>
-									</cfif>
 								<cfelse>
 									<h3 class="h4 my-0 float-left collapsed text-black">
-										<a href="##" role="button" data-toggle="collapse" data-target="##CollectorsPane">Collectors and Preparators</a>
+										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" role="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
+											Collectors and Preparators
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
+												Add
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">Add</button>
-									</cfif>
 								</cfif>
 							</div>
 							<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
