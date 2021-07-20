@@ -579,7 +579,7 @@ limitations under the License.
 									<cfset blockMeta = getMetadataHTML(collection_object_id = "#collection_object_id#")>
 									<div class="card-header" id="headingMetadata">
 										<h3 class="h4 my-0">
-											<button type="button" data-toggle="collapse" aria-expanded="true" aria-collapse="MetadataPane" data-target="##MetadataPane">
+											<button type="button" class="w-100 h-100 text-left headerLnk" data-toggle="collapse" aria-expanded="true" aria-collapse="MetadataPane" data-target="##MetadataPane">
 												Meta Data
 											</button>
 											<cfif listcontainsnocase(session.roles,"manage_specimens")>
