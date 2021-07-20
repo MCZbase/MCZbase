@@ -152,8 +152,7 @@ limitations under the License.
 		<cfset twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 pb-1 px-2 text-center ml-xl-1"> </span>'>
 	</cfif>
-
-	<div class="container-fluid">
+	<div class="container-fluid" id="content">
 		<cfif isDefined("cited_as") and len(cited_as) gt 0>
 			<cfif toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
@@ -205,54 +204,54 @@ limitations under the License.
 		</section>
 	</div>
 	<div class="container-fluid">
-	<section class="row">
-		<div class="col-12 px-2">
-			<!--- TODO: Cleanup indendation from here on ---> 
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
-				<form name="incPg" method="post" action="/specimens/Specimen.cfm">
-					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-					<input type="hidden" name="suppressHeader" value="true">
-					<input type="hidden" name="action" value="nothing">
-					<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
-					<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
-						<cfset isPrev = "no">
-						<cfset isNext = "no">
-						<cfset currPos = 0>
-						<cfset lenOfIdList = 0>
-						<cfset firstID = collection_object_id>
-						<cfset nextID = collection_object_id>
-						<cfset prevID = collection_object_id>
-						<cfset lastID = collection_object_id>
-						<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
-						<cfset lenOfIdList = listlen(session.collObjIdList)>
-						<cfset firstID = listGetAt(session.collObjIdList,1)>
-						<cfif currPos lt lenOfIdList>
-							<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
-						</cfif>
-						<cfif currPos gt 1>
-							<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-						</cfif>
-						<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-						<cfif lenOfIdList gt 1>
-							<cfif currPos gt 1>
-								<cfset isPrev = "yes">
-							</cfif>
+		<section class="row">
+			<div class="col-12 px-2">
+				<!--- TODO: Cleanup indendation from here on ---> 
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
+					<form name="incPg" method="post" action="/specimens/Specimen.cfm">
+						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+						<input type="hidden" name="suppressHeader" value="true">
+						<input type="hidden" name="action" value="nothing">
+						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
+						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+							<cfset isPrev = "no">
+							<cfset isNext = "no">
+							<cfset currPos = 0>
+							<cfset lenOfIdList = 0>
+							<cfset firstID = collection_object_id>
+							<cfset nextID = collection_object_id>
+							<cfset prevID = collection_object_id>
+							<cfset lastID = collection_object_id>
+							<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+							<cfset lenOfIdList = listlen(session.collObjIdList)>
+							<cfset firstID = listGetAt(session.collObjIdList,1)>
 							<cfif currPos lt lenOfIdList>
-								<cfset isNext = "yes">
+								<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
 							</cfif>
+							<cfif currPos gt 1>
+								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+							</cfif>
+							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+							<cfif lenOfIdList gt 1>
+								<cfif currPos gt 1>
+									<cfset isPrev = "yes">
+								</cfif>
+								<cfif currPos lt lenOfIdList>
+									<cfset isNext = "yes">
+								</cfif>
+							</cfif>
+						<cfelse>
+							<cfset isNext="">
+							<cfset isPrev="">
 						</cfif>
-					<cfelse>
-						<cfset isNext="">
-						<cfset isPrev="">
-					</cfif>
-				</form>
-			</cfif>
-			
+					</form>
+				</cfif>
+			</div>					
+		</section>
+	</div>
 </cfoutput>
-
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
-
 <!--- (5) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">
