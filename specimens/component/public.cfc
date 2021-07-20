@@ -658,7 +658,7 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							<div class="col-1 px-0 mt-1 mx-2 float-left d-inline">
+							<div class="col-2 px-3 mt-1 mx-2 float-left d-inline">
 								<cfset mt = #mime_type#>
 								<cfset muri = #media_uri#>
 								<a href="#media_uri#" target="_blank">
