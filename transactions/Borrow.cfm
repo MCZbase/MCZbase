@@ -1234,7 +1234,7 @@ limitations under the License.
 								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
 								<cfset permitsBlock = getPermitsForTransHtml(transaction_id="#transaction_id#") >
-								<div id="transactionFormPermits" class="col-12 px-0 pb-1">#permitsBlock#</div>
+								<div id="transactionFormPermits" class="col-12 px-0 pb-2">#permitsBlock#</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
 									<input type='button' 
 										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
