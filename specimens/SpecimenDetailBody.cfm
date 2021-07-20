@@ -170,7 +170,7 @@ limitations under the License.
 								<h3 class="h4 my-0 float-left text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 										Media
-										<span class="text-success small">(#ctmedia.ct# media records)</span>
+										<span class="text-success small">(#ctmedia.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
@@ -343,7 +343,7 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
 									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
+										Parts <span class="text-success small ml-1">(#ctPart.ct#)</span>
 									</button>
 									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
