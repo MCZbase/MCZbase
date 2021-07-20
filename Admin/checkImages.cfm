@@ -33,7 +33,7 @@ limitations under the License.
 		media_type = 'image'
 		AND auto_host = 'mczbase.mcz.harvard.edu'
 		AND (mime_type = 'image/png' OR mime_type = 'image/jpeg')
-		AND media_id not in (select media_id from media_label where media_label = 'width')
+		AND media_id not in (select media_id from media_labels where media_label = 'width')
 </cfquery>
 
 <main class="container" id="content">
@@ -68,14 +68,14 @@ limitations under the License.
 							<cfif len(media.width) EQ 0 OR media.width EQ 0 >
 								<cfquery name="mediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediawidth_result">
 									SELECT label_value 
-									FROM media_label
+									FROM media_labels
 									WHERE
 										media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										AND media_label='width'
 								</cfquery>
 								<cfif mediawidth.recordcount EQ 0>
 									<cfquery name="addmediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediawidth_result">
-										INSERT INTO media_label 
+										INSERT INTO media_labels
 											(media_label,label_value,assigned_by_agent_id) 
 										VALUES (
 											'width',
@@ -88,15 +88,15 @@ limitations under the License.
 							</cfif>
 							<cfif len(media.height) EQ 0 OR media.height EQ 0 >
 								<cfquery name="mediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaheight_result">
-									SELECT label_value 
-									FROM media_label
+									SELECT label_value
+									FROM media_labels
 									WHERE
 										media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										AND media_label='height'
 								</cfquery>
 								<cfif mediaheight.recordcount EQ 0>
 									<cfquery name="addmediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediaheight_result">
-										INSERT INTO media_label 
+										INSERT INTO media_labels
 											(media_label,label_value,assigned_by_agent_id) 
 										VALUES (
 											'height',
