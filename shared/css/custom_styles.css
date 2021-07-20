@@ -1865,6 +1865,10 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	cursor: pointer;
 }
+.accordion .card-header h3 button:focus {
+	border: 2px inset rgba(255, 193, 7, .2)!important;
+	box-shadow: none;
+}
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
