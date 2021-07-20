@@ -208,7 +208,7 @@ limitations under the License.
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Edit
 											</a>
 										</cfif>
@@ -219,7 +219,7 @@ limitations under the License.
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+											<a role="button" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Add
 											</a>
 										</cfif>
@@ -252,7 +252,7 @@ limitations under the License.
 											Citations
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" type="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
 												Edit
 											</a>
 										</cfif>
@@ -263,7 +263,7 @@ limitations under the License.
 											Citations
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" type="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
+											<a href="##" role="button" class="anchorFocus btn btn-xs small py-0 float-right" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">
 												Add
 											</a>
 										</cfif>
@@ -312,7 +312,7 @@ limitations under the License.
 											Other IDs
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a type="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
+											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Add
 											</a>
 										</cfif>
@@ -342,12 +342,12 @@ limitations under the License.
 							</script>
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
-									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										Parts <span class="text-success small ml-1">(#ctPart.ct#)</span>
 									</button>
 									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a href="##" type="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
+										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
 											Edit
 										</a>
 									</cfif>
