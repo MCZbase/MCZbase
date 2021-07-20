@@ -204,7 +204,7 @@ limitations under the License.
 									Identifications
 								</button>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0 float-right" style="position:absolute;z-index: 3;" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
+									<a id="btn_pane" class="anchorFocus btn btn-xs small py-0" style="position:absolute;z-index: 3; right: 1rem;top:.4rem;" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 										Edit
 									</a>
 								</cfif>
