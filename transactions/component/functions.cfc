@@ -1115,7 +1115,7 @@ limitations under the License.
 							</div>
 						</div> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 						<cfif shippermit.recordcount eq 0>
-							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'>
+							 <div class='deletestyle mb-0' id='removeShipment_#shipment_id#'>
 								<input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " >
 							</div>
 						<cfelse>
