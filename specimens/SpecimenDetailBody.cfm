@@ -198,7 +198,7 @@ limitations under the License.
 					<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 					<div class="card-header" id="heading1">
 						<cfif len(#blockident#) gt 10> 
-							<h3 class="h4 my-0">
+							<h3 class="h4 my-0" tabindex="-1">
 								<button type="button" class="headerLnk text-left w-75" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 									Identifications
 								</button>
