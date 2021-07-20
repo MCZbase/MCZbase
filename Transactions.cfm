@@ -516,7 +516,7 @@ limitations under the License.
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<!--- Tab header div --->
-					<div class="tabs card-header tab-card-header pb-0">
+					<div class="tabs card-header tab-card-header px-1 pb-0">
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
