@@ -1886,7 +1886,7 @@ a.anchorFocus:focus {
 	border: 2px inset rgba(0, 123,255, .25)!important;
 	outline: 0;
 	box-shadow: 0 0 0 0 transparent;
-	margin: .25rem .75rem;
+	margin: .17rem .75rem;
 }
 div[aria-hidden='true'] {
 	display: none;
