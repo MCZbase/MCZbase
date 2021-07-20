@@ -1883,8 +1883,8 @@ a.anchorFocus {
 	right: 0;
 }
 a.anchorFocus:focus {
-	outline: 0;
-	box-shadow: 0 0 0 0 transparent;
+	border: 2px inset rgba(0, 123,255, .25)!important;
+	box-shadow: none;
 }
 div[aria-hidden='true'] {
 	display: none;
