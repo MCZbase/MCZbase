@@ -295,7 +295,7 @@ limitations under the License.
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
 									<h3 class="h4 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
