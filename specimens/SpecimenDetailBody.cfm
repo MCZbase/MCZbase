@@ -413,18 +413,26 @@ limitations under the License.
 							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRelations">
 								<cfif len(#blockrel#) gt 60> 
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##RelationsPane">Relationships</a>
+									<h3 class="h4 my-0">
+										<button type="button" role="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+											Relationships
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+												Edit
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Edit</button>
-									</cfif>
 								<cfelse>
 									<h3 class="h4 my-0 float-left collapsed text-black">
-										Relationships
+										<button type="button" role="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+											Relationships
+										</button>
 									</h3>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">Add</button>
+										<a type="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+											Add
+										</a>
 									</cfif>
 								</cfif>
 							</div>
