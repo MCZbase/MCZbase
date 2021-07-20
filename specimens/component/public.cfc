@@ -321,10 +321,10 @@ limitations under the License.
 							AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfif accepted_id_fg is 1>
-						<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-							<div class="d-inline-block mb-2 h4 text-success">Current Identification</div>
+						<ul class="list-group border-green rounded px-3 py-2 h4 font-weight-normal">
+							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
+								<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 									</cfif>
@@ -364,7 +364,7 @@ limitations under the License.
 										common_name order by common_name
 								</cfquery>
 								<cfif len(cName.common_name) gt 0>
-									<div class="h5 mb-1 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+									<div class="h5 mb-1 mt-0 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 								</cfif>
 								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 							</cfloop>
