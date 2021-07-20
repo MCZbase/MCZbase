@@ -1822,7 +1822,7 @@ button[tabindex="-1"]:focus {
 	border: 2px dotted transparent;
 	box-shadow: none;
 }
-.accordion .card-header h2 button:focus, ,.accordion .card-header h3:focus {
+.accordion .card-header h2 button:focus, .accordion .card-header h3:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
 }
