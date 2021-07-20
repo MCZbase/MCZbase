@@ -1697,7 +1697,7 @@ tr.line-top:first-child {
 .card-header h2 button {
 	font-weight:500;
 }
-.card-header h2 button[aria-expanded="false"]:before {
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
@@ -1708,7 +1708,7 @@ tr.line-top:first-child {
 	cursor: pointer;
 	padding-right: 6px;
 }
-.card-header h2 button[aria-expanded="true"]:before {
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before {
 	font-family: "Font Awesome 5 Free";
 	font-weight: 600;
 	font-size: smaller;
