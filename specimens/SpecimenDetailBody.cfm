@@ -340,7 +340,7 @@ limitations under the License.
 							</script>
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
-									<button type="button" role="button" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
+									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										Parts
 									</button>
 									<span class="text-success small ml-2">(count: #ctPart.ct# parts)</span>
@@ -372,19 +372,25 @@ limitations under the License.
 							<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
-									<h3 class="h4 my-0 float-left collapsed btn-link">
-										<a href="##" role="button" data-toggle="collapse" data-target="##AttributesPane">Attributes</a>
+									<h3 class="h4 my-0">
+										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">Attributes</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+												Edit
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Edit</button>
-									</cfif>
 								<cfelse>
 									<h3 class="h4 my-0 float-left collapsed">
-										Attributes
+										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+											Attributes
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">
+												Add
+											</a>
+										</cfif>
 									</h3>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<button type="button" class="btn btn-xs small py-0 float-right text-black" onClick="openEditAttributesDialog(#collection_object_id#,'attributesDialog','#guid#',reloadAttributes)">Add</button>
-									</cfif>
 								</cfif>
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
