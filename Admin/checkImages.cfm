@@ -33,6 +33,7 @@ limitations under the License.
 		media_type = 'image'
 		AND auto_host = 'mczbase.mcz.harvard.edu'
 		AND (mime_type = 'image/png' OR mime_type = 'image/jpeg')
+		AND media_id not in (select media_id from media_labels where media_label = 'width')
 </cfquery>
 
 <main class="container" id="content">
@@ -42,7 +43,8 @@ limitations under the License.
 
 			<cfloop query="paths">
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
-					SELECT
+					SELECT 
+						media_id,
 						auto_path, auto_filename, auto_extension,
 						mime_type, media_uri,
 						MCZBASE.get_medialabel(media.media_id,'width') as width,
@@ -67,19 +69,20 @@ limitations under the License.
 							<cfif len(media.width) EQ 0 OR media.width EQ 0 >
 								<cfquery name="mediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediawidth_result">
 									SELECT label_value 
-									FROM media_label
+									FROM media_labels
 									WHERE
 										media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										AND media_label='width'
 								</cfquery>
 								<cfif mediawidth.recordcount EQ 0>
 									<cfquery name="addmediawidth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediawidth_result">
-										INSERT INTO media_label 
-											(media_label,label_value,assigned_by_agent_id) 
+										INSERT INTO media_labels
+											(media_label,label_value,assigned_by_agent_id,media_id) 
 										VALUES (
 											'width',
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#info.width#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 										)
 									</cfquery>
 									<cfset somethingadded = 1>
@@ -87,20 +90,21 @@ limitations under the License.
 							</cfif>
 							<cfif len(media.height) EQ 0 OR media.height EQ 0 >
 								<cfquery name="mediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaheight_result">
-									SELECT label_value 
-									FROM media_label
+									SELECT label_value
+									FROM media_labels
 									WHERE
 										media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 										AND media_label='height'
 								</cfquery>
 								<cfif mediaheight.recordcount EQ 0>
 									<cfquery name="addmediaheight" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addmediaheight_result">
-										INSERT INTO media_label 
-											(media_label,label_value,assigned_by_agent_id) 
+										INSERT INTO media_labels
+											(media_label,label_value,assigned_by_agent_id,media_id) 
 										VALUES (
 											'height',
 											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#info.height#">,
-											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent.agent_id#">,
+											<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 										)
 									</cfquery>
 									<cfset somethingadded = 1>
@@ -113,10 +117,10 @@ limitations under the License.
 						</cfcatch>
 						</cftry>
 					</cfif>
-					<cfoutput>
-						<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
-					</cfoutput>
 				</cfloop>
+				<cfoutput>
+					<p>#encodeForHtml(paths.auto_path)#: #media.recordcount# files, added height or width to #hwadded#</p>
+				</cfoutput>
 			</cfloop>
 		</div>
 	</section>
