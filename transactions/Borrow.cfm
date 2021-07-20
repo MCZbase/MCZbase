@@ -1219,7 +1219,7 @@ limitations under the License.
 
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pt-2 pb-3" title="Subsection: Permissions and Rights Documents">
 							<script>
 								// callback for ajax methods to reload permits from dialog
 								function reloadTransPermits() { 
@@ -1230,7 +1230,7 @@ limitations under the License.
 									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
 							</script>
-								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
+								<h2 class="h3 mt-1">Permissions and Rights documents (e.g. Permits):</h2>
 								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
 								<cfset permitsBlock = getPermitsForTransHtml(transaction_id="#transaction_id#") >
@@ -1244,8 +1244,8 @@ limitations under the License.
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" title="Subsection: Media">
-							<div class="col-12 mb-2">
-								<h2 class="h3">
+							<div class="col-12 mb-2 pt-2">
+								<h2 class="h3 mt-1">
 									Media documenting this Borrow
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attatch collecting permits as permissions and rights documents, not here.</span>
 								</h2>
@@ -1275,8 +1275,8 @@ limitations under the License.
 							</div> 
 						</section>
 						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" title="Subsection: Shipments">
-							<div class="col-12 pb-3">
-								<h2 class="h3">Shipment Information</h2>
+							<div class="col-12 pb-3 pt-2">
+								<h2 class="h3 pt-1">Shipment Information</h2>
 								<script>
 									function opendialog(page,id,title) {
 									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
@@ -1311,8 +1311,8 @@ limitations under the License.
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<div class="row">
-									<div class="col-12 py-1">
-										<h2 class="h3 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+									<div class="col-12 pt-2 pb-1">
+										<h2 class="h3 pt-1 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 										<button class="btn btn-secondary btn-xs ml-2" onclick=" updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv'); " value="Refresh"><i class="fas fa-sync"></i> Refresh</button>
 									</div>
 									<div class="col-12">
@@ -1323,8 +1323,8 @@ limitations under the License.
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
-							<div class="col-12 pb-0 px-0">
-								<h2 class="h3 px-3">
+							<div class="col-12 pb-0 px-0 pt-2">
+								<h2 class="h3 px-3 mt-1">
 									Projects associated with this borrow
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
 								</h2>
