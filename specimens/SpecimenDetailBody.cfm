@@ -91,7 +91,7 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<div class="container-lg d-none d-md-block mb-2 mb-md-1">
+	<div class="container-lg d-none d-md-block mb-2 my-md-1">
 		<div class="row">
 			<cfif #oneOfUs# eq 1>
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
@@ -151,7 +151,7 @@ limitations under the License.
 			</cfif>
 		</div>
 	</div>
-	<div class="container-fluid">
+	<div class="container-fluid mt-3 mt-lg-0">
 		<div class="row mx-0">
 			<!----------------------------- one left column for media ---------------------------------->
 			<cfif ctmedia.ct gt 0>
