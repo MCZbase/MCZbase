@@ -861,7 +861,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-									<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+									<button id="addSpecificTypeButton" class="btn-light rounded btn btn-xs" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
 									<div id="newPermitASTDialog"></div>
 								</cfif>
 							</div>
