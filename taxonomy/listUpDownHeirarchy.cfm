@@ -47,7 +47,7 @@
 					</cfif>
 				</cfif>
 			</div>
-			<div class="accordion col-12 col-lg-9 col-xl-7 px-0" id="accordionForTaxa">
+			<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForTaxa">
 				<!--- included subspecies --->
 				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 

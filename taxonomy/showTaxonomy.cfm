@@ -519,7 +519,7 @@
 					</cfquery>
 					<div class="row" id="taxSpecimenMedia">
 						<div class="col-12">
-							<h2 class="h4">Media</h2>
+							<h2 class="h4">Media:</h2>
 							<cfset hasSpecimenMedia = true>
 							<cfif media.recordcount EQ 0>
 								<p>No MCZbase specimens identified as this taxon have images</p>
