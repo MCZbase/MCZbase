@@ -1325,7 +1325,7 @@ limitations under the License.
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<div class="row">
 									<div class="col-12 pt-2 pb-1">
-										<h2 class="h3 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+										<h2 class="h3 d-inline-block">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 										<button class="btn btn-secondary btn-xs ml-2" onclick=" updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv'); " value="Refresh"><i class="fas fa-sync"></i> Refresh</button>
 									</div>
 									<div class="col-12">
