@@ -113,7 +113,7 @@ limitations under the License.
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available accession number"> 
 					<div id="nextNumDiv">
-						<h2 class="h4 float-left" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: &nbsp; &nbsp;</h2>
+						<h2 class="h4 float-left mt-2" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: &nbsp; &nbsp;</h2>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
 						</cfquery>
