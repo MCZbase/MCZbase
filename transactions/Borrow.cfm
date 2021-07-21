@@ -825,7 +825,7 @@ limitations under the License.
 						<cfset btnAccord = "">
 					</cfif>
 					<div class="accordion w-100" id="itemAccordion">
-						<div class="card mb-2 bg-light">
+						<div class="card bg-light">
 							<div class="card-header" id="itemAccordHeadingOne">
 								<h3 class="h4 my-0">
 									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
