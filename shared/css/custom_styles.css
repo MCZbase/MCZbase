@@ -171,7 +171,8 @@ h1.h3 {
 	margin-top: .45rem;
 }
 h1.h4 {
-	margin-top: .5rem
+	margin-top: .5rem;
+	line-height: 1.75;
 }
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
