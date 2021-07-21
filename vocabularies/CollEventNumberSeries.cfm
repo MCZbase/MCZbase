@@ -58,7 +58,7 @@ limitations under the License.
 								<div class="col-12 px-4 mt-3 py-1">
 									<form name="searchForm" id="searchForm"> 
 										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
-										<div class="form-row mb-2">
+										<div class="form-row my-2">
 											<div class="col-md-6">
 												<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
 												<input type="text" id="number_series" name="number_series" class="data-entry-input" value="#number_series#" aria-labelledby="number_series_label" >
