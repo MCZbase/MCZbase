@@ -1288,8 +1288,8 @@ limitations under the License.
 							</div> 
 						</section>
 						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" title="Subsection: Shipments">
-							<div class="col-12 pb-3 pt-2">
-								<h2 class="h3 pt-1">Shipment Information</h2>
+							<div class="col-12 pb-3">
+								<h2 class="h3">Shipment Information</h2>
 								<script>
 									function opendialog(page,id,title) {
 									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
@@ -1324,8 +1324,8 @@ limitations under the License.
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<div class="row">
-									<div class="col-12 pt-2 pb-1">
-										<h2 class="h3 pt-1 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+									<div class="col-12 py-1">
+										<h2 class="h3 d-inline">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 										<button class="btn btn-secondary btn-xs ml-2" onclick=" updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv'); " value="Refresh"><i class="fas fa-sync"></i> Refresh</button>
 									</div>
 									<div class="col-12">
@@ -1336,8 +1336,8 @@ limitations under the License.
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
-							<div class="col-12 pb-0 px-0 pt-2">
-								<h2 class="h3 px-3 mt-1">
+							<div class="col-12 pb-0 px-0 pt-1">
+								<h2 class="h3 px-3">
 									Projects associated with this borrow
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
 								</h2>
