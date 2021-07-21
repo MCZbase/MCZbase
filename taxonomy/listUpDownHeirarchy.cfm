@@ -155,7 +155,7 @@
 								<div class="col-12 col-md-6">
 									<cfif d.recordcount EQ 0>No</cfif>
 									<br>Included Species:
-									<ul>
+									<ul class="px-0">
 										<cfloop query="d">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
 										</cfloop>
