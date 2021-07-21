@@ -1257,8 +1257,8 @@ limitations under the License.
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" title="Subsection: Media">
-							<div class="col-12 mb-2 pt-2">
-								<h2 class="h3 mt-1">
+							<div class="col-12 mb-2">
+								<h2 class="h3">
 									Media documenting this Borrow
 									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attatch collecting permits as permissions and rights documents, not here.</span>
 								</h2>
