@@ -178,7 +178,7 @@ limitations under the License.
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select" required >
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1" required >
 									<option value=""></option>
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -187,11 +187,11 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="borrow_number" class="data-entry-label">Borrow Number (Byyyy-n-Coll)</label>
-								<input type="text" name="borrow_number" class="reqdClr data-entry-input" id="borrow_number" required pattern="#BORROWNUMBERPATTERN#">
+								<input type="text" name="borrow_number" class="reqdClr data-entry-input mb-1" id="borrow_number" required pattern="#BORROWNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="borrow_status" id="status" class="reqdClr data-entry-select" required >
+								<select name="borrow_status" id="status" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctBorrowStatus">
 											<cfif #ctBorrowStatus.borrow_status# is "in process">
 												<cfset selected = "selected='selected'">
@@ -204,25 +204,25 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lenders_trans_num_cde" class="data-entry-label">Lender's Loan Number</label>
-								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input" >
+								<input type="text" name="lenders_trans_num_cde" id="lenders_trans_num_cde" class="data-entry-input mb-1" >
 							</div>
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lender_loan_type" class="data-entry-label">Lender's Loan Type</label>
-								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input" >
+								<input type="text" name="lender_loan_type" id="lender_loan_type" class="data-entry-input mb-1" >
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="lenders_loan_date" class="data-entry-label">Lender's Loan Date</label>
-								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input">
+								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
-								<input type="text" name="no_of_specimens" id="no_of_specimens" class="reqdClr data-entry-input" required>
+								<input type="text" name="no_of_specimens" id="no_of_specimens" class="reqdClr data-entry-input mb-1" required>
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
 								<label for="return_acknowledged" class="data-entry-label">Lender acknowledged as returned?</label>
-								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select">
+								<select name="LENDERS_INVOICE_RETURNED_FG" id="return_acknowledged" size="1" class="data-entry-select mb-1">
 									<option value="0" selected="selected">no</option>
 									<option value="1">yes</option>
 								</select>
@@ -231,18 +231,18 @@ limitations under the License.
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="due_date" class="data-entry-label">Due Date</label>
-								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input">
+								<input type="text" name="due_date" id="due_date" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="received_date" class="data-entry-label">Received Date</label>
-								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input">
+								<input type="text" name="received_date" id="received_date" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4 mb-1 mb-md-0">
 								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 data-entry-input">
+									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 						</div>
 						<div class="form-row mb-0 mb-md-2">
@@ -253,7 +253,7 @@ limitations under the License.
 										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -271,7 +271,7 @@ limitations under the License.
 										<span id="overseenby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="overseenby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -289,7 +289,7 @@ limitations under the License.
 										<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -309,7 +309,7 @@ limitations under the License.
 										<span id="received_from_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="received_from_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -327,7 +327,7 @@ limitations under the License.
 										<span id="lending_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="lending_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -345,7 +345,7 @@ limitations under the License.
 										<span id="inhouse_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="inhouse_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -365,7 +365,7 @@ limitations under the License.
 										<span id="outside_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="outside_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -383,7 +383,7 @@ limitations under the License.
 										<span id="additional_out_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="additional_out_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -401,7 +401,7 @@ limitations under the License.
 										<span id="for_use_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="for_use_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -418,7 +418,7 @@ limitations under the License.
 								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
 									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
-									class="data-entry-textarea autogrow" 
+									class="data-entry-textarea autogrow mb-1" 
 									></textarea>
 							</div>
 						</div>
@@ -427,7 +427,7 @@ limitations under the License.
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr data-entry-textarea autogrow" 
+									class="reqdClr data-entry-textarea autogrow mb-1" 
 									required ></textarea>
 							</div>
 						</div>
@@ -436,7 +436,7 @@ limitations under the License.
 								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
 								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
 									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
-									class="reqdClr data-entry-textarea autogrow" 
+									class="reqdClr data-entry-textarea autogrow mb-1" 
 									required ></textarea>
 							</div>
 						</div>
@@ -445,7 +445,7 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="data-entry-textarea autogrow" 
+									class="data-entry-textarea autogrow mb-1" 
 									rows="2"></textarea>
 							</div>
 						</div>
