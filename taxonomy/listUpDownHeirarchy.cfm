@@ -96,7 +96,7 @@
 						<div id="collapseRelatedTaxa" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 							<div class="row">
 								<div class="col-12 col-md-6">
-									<h3 class="h4"><cfif qspecies.recordcount EQ 0>No</cfif> Congeneric Species:</h3>
+									<h3 class="h4 mt-2"><cfif qspecies.recordcount EQ 0>No</cfif> Congeneric Species<cfif qspecies.recordcount EQ 0>:</cfif></h3>
 									<ul class="px-0">
 										<cfloop query="qspecies">
 											<li><a href="/name/#scientific_name#">#display_name#</a></li>
@@ -104,7 +104,7 @@
 									</ul>
 								</div>
 								<div class="col-12 col-md-6">
-									<h3 class="h4"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>Included </cfif>Subspecies:</h3>
+									<h3 class="h4 mt-2"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>Included </cfif>Subspecies<cfif qsubspecies.recordcount EQ 0>:</cfif></h3>
 									<ul class="px-0">
 										<cfloop query="qsubspecies">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#qsubspecies.author_text#</span></a></li>
@@ -149,7 +149,7 @@
 						<div id="collapseSpecies" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForSpecies">
 							<div class="row">
 								<div class="col-12 col-md-6">
-									<h3 class="h4"><cfif d.recordcount EQ 0>No</cfif> Included Species:</h3>
+									<h3 class="h4 mt-2"><cfif d.recordcount EQ 0>No</cfif> Included Species:</h3>
 									<ul class="px-0">
 										<cfloop query="d">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
