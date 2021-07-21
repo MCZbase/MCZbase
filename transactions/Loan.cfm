@@ -382,35 +382,35 @@ limitations under the License.
 						</script>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label mb-1">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									class="reqdClr form-control form-control-sm w-100 autogrow mb-2" 
 									required ></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label mb-1">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+									class="form-control form-control-sm w-100 autogrow mb-2" rows="2"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label mb-1">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
+									rows="2" class="form-control form-control-sm w-100 autogrow mb-2"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label mb-1">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+									class="form-control form-control-sm w-100 autogrow mb-2" rows="2"></textarea>
 							</div>
 						</div>
 						<script>
@@ -882,7 +882,7 @@ limitations under the License.
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
-							<h2 class="h3">Disposition of material in loan:</h2>
+							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
 							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 								from loan 
@@ -928,8 +928,8 @@ limitations under the License.
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
-							<div class="col-12">
-								<h2 class="h3">
+							<div class="col-12 pt-1">
+								<h2 class="h3 mt-2">
 									Media documenting this Loan 
 									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</span>
 								</h2>
@@ -975,8 +975,8 @@ limitations under the License.
 							</div> 
 						</section>
 						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
-							<div class="col-12 pb-3">
-								<h2 class="h3">Shipment Information</h2>
+							<div class="col-12 pb-3 pt-1">
+								<h2 class="h3 mt-2">Shipment Information</h2>
 								<script>
 									function opendialog(page,id,title) {
 									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
@@ -1021,8 +1021,8 @@ limitations under the License.
 						</section>
 						<cfinclude template="/transactions/shipmentDialog.cfm">
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
-							<div class="col-12 pb-3" tabindex="0">
-								<h2 class="h3">Countries of Origin of items in this loan</h2>
+							<div class="col-12 pb-3 pt-1" tabindex="0">
+								<h2 class="h3 mt-1">Countries of Origin of items in this loan</h2>
 								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select count(*) as ct, sovereign_nation 
 									from loan_item 
@@ -1050,9 +1050,9 @@ limitations under the License.
 						</section>
 						<div class="row mx-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
-								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
+								<div class="border bg-light float-left pt-1 pl-2 pb-0 h-100 w-100 rounded">
 									<div>
-										<h2 class="h3 pl-2">Accessions of material in this loan</h2>
+										<h2 class="h3 pl-2 mt-2">Accessions of material in this loan</h2>
 										<!--- List Accessions for collection objects included in the Loan --->
 										<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
@@ -1111,9 +1111,9 @@ limitations under the License.
 							</section>	
 							<!--- Print permits associated with these accessions --->
 							<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 p-0" tabindex="0">
-								<div class="border bg-light float-left pl-3 py-0 h-100 w-100 rounded">
+								<div class="border bg-light float-left pl-3 pt-1 py-0 h-100 w-100 rounded">
 									<div>
-										<h2 class="h3">
+										<h2 class="h3 mt-2">
 											Permissions and Rights Documents 
 											<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and Shipments of this Loan</span>
 										</h2>
@@ -1185,8 +1185,8 @@ limitations under the License.
 							</section>
 						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
-							<div class="col-12 pb-0 px-0">
-								<h2 class="h3 px-3">
+							<div class="col-12 pb-0 px-0 pt-1">
+								<h2 class="h3 px-3 mt-2">
 									Projects associated with this loan
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 								</h2>
