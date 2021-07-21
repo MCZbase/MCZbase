@@ -714,7 +714,7 @@ limitations under the License.
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
 					<div class="form-row mb-1">
-						<div class="col-12 col-md-4 py-2">
+						<div class="col-12 col-md-4">
 							<script>
 								function changeType() { 
 									var selectedType = $('##agent_type').val();
