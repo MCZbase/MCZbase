@@ -180,7 +180,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 									</cfloop>
@@ -188,11 +188,11 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+								<input type="text" name="loan_number" class="reqdClr data-entry-input mb-1" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
-								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
+								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 									</cfloop>
@@ -200,7 +200,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_status" class="data-entry-label">Loan Status</label>
-								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
+								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctLoanStatus">
 										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 											<cfif #ctLoanStatus.loan_status# is "open">
@@ -222,7 +222,7 @@ limitations under the License.
 										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -240,7 +240,7 @@ limitations under the License.
 										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -259,7 +259,7 @@ limitations under the License.
 										<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -277,7 +277,7 @@ limitations under the License.
 										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -297,7 +297,7 @@ limitations under the License.
 										<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -315,7 +315,7 @@ limitations under the License.
 										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -328,21 +328,21 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input">
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="return_due_date" class="data-entry-label">Return Due Date</label>
-								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input" >
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input mb-1" >
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
 							<div class="col-12 col-md-4">
 								<label for="insurance_value" class="data-entry-label">Insurance value</label>
-								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
+								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
+								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input mb-1">
 							</div>
 						</div>
 						<script>
