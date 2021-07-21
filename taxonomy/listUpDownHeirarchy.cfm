@@ -86,7 +86,7 @@
 				</cfif>
 				<div class="card mb-2 bg-light">
 					<div class="card-header py-0 w-100" id="headingPart">
-						<h2 class="h4 my-1 float-left">  
+						<h2 class="h4 my-0 float-left">  
 							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseRelatedTaxa">
 								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species): 
 							</button>
