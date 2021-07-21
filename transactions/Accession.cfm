@@ -130,7 +130,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select" required >
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1" required >
 									<option value=""></option>
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -139,11 +139,11 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_number" class="data-entry-label">Accession Number (nnnnn)</label>
-								<input type="text" name="accn_number" class="reqdClr data-entry-input" id="accn_number" required pattern="#ACCNNUMBERPATTERN#">
+								<input type="text" name="accn_number" class="reqdClr data-entry-input mb-1" id="accn_number" required pattern="#ACCNNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="accn_status" id="status" class="reqdClr data-entry-select" required >
+								<select name="accn_status" id="status" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctAccnStatus">
 											<cfif #ctAccnStatus.accn_status# is "in process">
 												<cfset selected = "selected='selected'">
@@ -156,7 +156,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="accn_type" class="data-entry-label">Accession Type</label>
-								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
+								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select mb-1" required >
 									<option value=""></option>
 									<cfloop query="ctAccnType">
 											<option value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
@@ -172,7 +172,7 @@ limitations under the License.
 										<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -190,7 +190,7 @@ limitations under the License.
 										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -210,9 +210,11 @@ limitations under the License.
 										<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon">
+											<i class="fa fa-user" aria-hidden="true"></i>
+										</span> 
 									</div>
 									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="form-control form-control-sm data-entry-input">
 								</div>
@@ -228,7 +230,7 @@ limitations under the License.
 										<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -243,21 +245,21 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input">
+								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="received_date" class="data-entry-label">Date Received</label>
 								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 data-entry-input">
+									class="reqdClr w-100 data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="date_entered" class="data-entry-label">Date Entered</label>
 								<input type="text" name="date_entered" id="date_entered"
 									disabled="true"
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 data-entry-input">
+									class="w-100 data-entry-input mb-1">
 							</div>
 						</div>
 						<div class="form-row mb-2">
