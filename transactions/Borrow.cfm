@@ -973,12 +973,12 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12 mb-3">
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-									<h1 class="h4">
+									<h2 class="h4 mt-2 pt-1 px-1">
 										Borrow Items 
 										<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
 											<a class="messageResults" tabindex="0" aria-label="search results"></a>
 										</span> 
-									</h1>
+									</h2>
 									<span id="resultLink" class="d-inline-block px-1 pt-2"></span>
 									<div id="columnPickDialog">
 										<div class="container-fluid">
