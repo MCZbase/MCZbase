@@ -128,10 +128,6 @@ h1, .h1 {
 	font-size: 1.35rem;
 	margin-bottom: 1rem;
 }
-h3.h3 {
-	margin-top: .5rem;
-	padding-top: .25rem;
-}
 dl, ol, ul {
 	margin-top: 0;
 	margin-bottom: 1rem;
@@ -166,6 +162,10 @@ h5, .h5 {
 }
 h6, .h6 {
 	font-size: .75rem;
+}
+h2.h3 {
+	margin-top: .5rem;
+	padding-top: .25rem;
 }
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
