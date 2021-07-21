@@ -1336,7 +1336,7 @@ limitations under the License.
 							</div>
 						</section>	
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
-							<div class="col-12 pb-0 px-0 pt-1">
+							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
 									Projects associated with this borrow
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
