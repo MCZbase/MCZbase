@@ -818,22 +818,22 @@ limitations under the License.
 					<cfset itemCount = borrowItemCount.ct>
 					<cfif itemCount GT 0>
 						<!--- Open accordion card for entering new items if there are no attached items --->
-						<cfset openAccord = "">
-						<cfset btnAccord = "collapsed">
+						<cfset bodyClass = "collapse">
+						<cfset ariaExpanded ="false">
 					<cfelse>
 						<cfset openAccord = "collapse show">
-						<cfset btnAccord = "">
+						<cfset ariaExpanded = "true">
 					</cfif>
 					<div class="accordion w-100" id="itemAccordion">
 						<div class="card bg-light">
 							<div class="card-header" id="itemAccordHeadingOne">
 								<h3 class="h4 my-0">
-									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+									<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseOne">
 										Add Borrowed Item
 									</button>
 								</h3>
 							</div>
-							<div id="itemCollapseOne" class="#openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
+							<div id="itemCollapseOne" class="#bodyClass#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
 								<div class="card-body px-3">
 									<form id="addBorrowItemform">
 										<div class="row mx-0">
@@ -885,12 +885,12 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="itemAccordHeadingTwo">
 								<h3 class="h4 my-0">
-									<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+									<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseTwo">
 										Upload Items From CSV File
 									</button>
 								</h3>
 							</div>
-							<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
+							<div id="itemCollapseTwo" class="#bodyClass#" aria-labelledby="headingTwo" data-parent="##itemAccordion">
 								<div class="card-body px-2">
 									<div class="col-12 mt-2">
 										<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
