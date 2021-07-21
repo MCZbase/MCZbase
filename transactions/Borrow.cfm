@@ -1232,7 +1232,7 @@ limitations under the License.
 
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pt-2 pb-3" title="Subsection: Permissions and Rights Documents">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
 							<script>
 								// callback for ajax methods to reload permits from dialog
 								function reloadTransPermits() { 
@@ -1243,7 +1243,7 @@ limitations under the License.
 									updateBorrowLimitations('#transaction_id#','borrowLimitationsDiv');
 								};
 							</script>
-								<h2 class="h3 mt-1">Permissions and Rights documents (e.g. Permits):</h2>
+								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
 								<p>List here all permissions and rights related documents associated with this borrow such as collecting permits, CITES Permits, access benefit sharing agreements and other compliance or permit-like documents.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the borrow or here under the borrow, list it at least here.</strong>
 								</p>
 								<cfset permitsBlock = getPermitsForTransHtml(transaction_id="#transaction_id#") >
