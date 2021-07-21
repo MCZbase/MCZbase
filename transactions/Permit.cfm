@@ -610,6 +610,7 @@ limitations under the License.
 								<label for="permit_title" class="data-entry-label">Document Title</label>
 								<input type="text" name="permit_title" id="permit_title" class="data-entry-input">
 							</div>
+						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label for="specific_type" class="data-entry-label">Specific Document Type</label>
