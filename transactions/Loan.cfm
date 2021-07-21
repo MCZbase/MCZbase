@@ -382,7 +382,7 @@ limitations under the License.
 						</script>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="nature_of_material" class="data-entry-label mb-1">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr form-control form-control-sm w-100 autogrow mb-2" 
@@ -391,7 +391,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_description" class="data-entry-label mb-1">Description (<span id="length_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
 									class="form-control form-control-sm w-100 autogrow mb-2" rows="2"></textarea>
@@ -399,7 +399,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_instructions" class="data-entry-label mb-1">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 									rows="2" class="form-control form-control-sm w-100 autogrow mb-2"></textarea>
@@ -407,7 +407,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="trans_remarks" class="data-entry-label mb-1">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow mb-2" rows="2"></textarea>
