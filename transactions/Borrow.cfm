@@ -828,13 +828,13 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="itemAccordHeadingOne">
 								<h3 class="h4 my-0">
-									<button class="headerLnk btn-block text-left py-2 #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
+									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
 										Add Borrowed Item
 									</button>
 								</h3>
 							</div>
 							<div id="itemCollapseOne" class="collapse #openAccord#" aria-labelledby="itemAccordHeadingOne" data-parent="##itemAccordion">
-								<div class="card-body">
+								<div class="card-body px-3">
 									<form id="addBorrowItemform">
 										<div class="row mx-0">
 											<input type="hidden" name="method" value="addBorrowItem">
@@ -884,14 +884,14 @@ limitations under the License.
 						</div>
 					<div class="card-item">
 						<div class="card-header" id="itemAccordHeadingTwo">
-							<h3>
-								<button class="headerLnk btn-block text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
+							<h3 class="h4 my-0">
+								<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
 									Upload Items From CSV File
 								</button>
 							</h3>
 						</div>
 						<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
-							<div class="card-body">
+							<div class="card-body px-3">
 								<div class="w-100">
 									<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 										<input type="hidden" name="action" value="getFile">
