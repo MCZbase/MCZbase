@@ -876,7 +876,7 @@ limitations under the License.
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 					</div>
-					<div class="col-12 pt-2 pb-3">
+					<div class="col-12 pt-2">
 						<div id="loanItemCountDiv" tabindex="0"></div>
 						<script>
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
