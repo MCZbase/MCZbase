@@ -877,7 +877,7 @@ limitations under the License.
 							onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 					</div>
 					<div class="col-12 pt-2">
-						<div id="loanItemCountDiv" tabindex="0"></div>
+						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
