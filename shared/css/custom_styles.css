@@ -128,6 +128,10 @@ h1, .h1 {
 	font-size: 1.35rem;
 	margin-bottom: 1rem;
 }
+h3.h3 {
+	margin-top: .5rem;
+	padding-top: .25rem;
+}
 dl, ol, ul {
 	margin-top: 0;
 	margin-bottom: 1rem;
