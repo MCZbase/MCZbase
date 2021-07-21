@@ -820,17 +820,15 @@ limitations under the License.
 						<!--- Open accordion card for entering new items if there are no attached items --->
 						<cfset openAccord = "">
 						<cfset btnAccord = "collapsed">
-						<cfset ariaExpanded ="false">
 					<cfelse>
 						<cfset openAccord = "collapse show">
 						<cfset btnAccord = "">
-						<cfset ariaExpanded ="true">
 					</cfif>
 					<div class="accordion w-100" id="itemAccordion">
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="itemAccordHeadingOne">
 								<h3 class="h4 my-0">
-									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="#ariaExpande#" aria-controls="itemCollapseOne">
+									<button class="headerLnk w-100 text-left #btnAccord#" type="button" data-toggle="collapse" data-target="##itemCollapseOne" aria-expanded="true" aria-controls="itemCollapseOne">
 										Add Borrowed Item
 									</button>
 								</h3>
@@ -887,7 +885,7 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="itemAccordHeadingTwo">
 								<h3 class="h4 my-0">
-									<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="#ariaExpanded#" aria-controls="itemCollapseTwo">
+									<button class="headerLnk w-100 text-left" type="button" data-toggle="collapse" data-target="##itemCollapseTwo" aria-expanded="false" aria-controls="itemCollapseTwo">
 										Upload Items From CSV File
 									</button>
 								</h3>
