@@ -890,109 +890,118 @@ limitations under the License.
 									</button>
 								</h3>
 							</div>
-						<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
-							<div class="card-body px-3">
-								<div class="w-100">
-									<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
-										<input type="hidden" name="action" value="getFile">
-										<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
-										<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
-										<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
-									</cfform>
+							<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
+								<div class="card-body px-3">
+									<div class="col-12 mt-2">
+										<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
+											<input type="hidden" name="action" value="getFile">
+											<input type="hidden" name="transaction_id" id="transaction_id" value="#transaction_id#">
+											<input type="file" name="FiletoUpload" size="45" class="btn btn-xs btn-secondary">
+											<input type="submit" value="Upload this file" class="btn btn-xs btn-secondary">
+										</cfform>
+									</div>
+									<div class="col-12 my-2">
+										<label for="t" class="data-entry-label">
+											<a href='data:text/csv;charset=utf-8,"CATALOG_NUMBER","SCI_NAME","NO_OF_SPEC","SPEC_PREP","TYPE_STATUS","COUNTRY_OF_ORIGIN","OBJECT_REMARKS"'
+												download="borrow_items.csv" 
+												target="_blank">
+												Download a template
+											</a>
+											, or copy the following header line and save it as a .csv file:
+										</label>
+										<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS
+										</textarea>
+									</div>
 								</div>
 							</div>
-							<div class="w-100">
-								<label for="t" class="data-entry-label">
-									<a href='data:text/csv;charset=utf-8,"CATALOG_NUMBER","SCI_NAME","NO_OF_SPEC","SPEC_PREP","TYPE_STATUS","COUNTRY_OF_ORIGIN","OBJECT_REMARKS"'
-										download="borrow_items.csv" 
-										target="_blank">Download a template</a>
-									, or copy the following header line and save it as a .csv file:
-								</label>
-								<textarea rows="2" cols="120" id="t" class="w-100" class="data-entry-textarea">CATALOG_NUMBER,SCI_NAME,NO_OF_SPEC,SPEC_PREP,TYPE_STATUS,COUNTRY_OF_ORIGIN,OBJECT_REMARKS</textarea>
-							</div>
+							<script>
+							function addBorrowItem() {
+								$('##addItemFeedback').html("Saving...");
+								$('##addItemFeedback').addClass('text-warning');
+								$('##addItemFeedback').removeClass('text-success');
+								$('##addItemFeedback').removeClass('text-danger');
+								jQuery.ajax( {
+									url : "/transactions/component/borrowFunctions.cfc",
+									type : "post",
+									dataType : "json",
+									data : $("##addBorrowItemform").serialize(),
+									success : function (data) {
+										$('##addItemFeedback').html("Added borrow item.");
+										$('##addItemFeedback').addClass('text-success');
+										$('##addItemFeedback').removeClass('text-warning');
+										$('##addItemFeedback').removeClass('text-danger');
+										$("##catalog_number").val('');
+										$("##no_of_spec").val('');
+										$("##type_status").val('');
+										reloadBorrowItems(#transaction_id#);
+									},
+									error: function(jqXHR,textStatus,error){
+										$('##addItemFeedback').html("Error");
+										$('##addItemFeedback').addClass('text-danger');
+										$('##addItemFeedback').removeClass('text-success');
+										$('##addItemFeedback').removeClass('text-warning');
+										handleFail(jqXHR,textStatus,error,"adding borrow item");
+									}
+								});
+							};
+							function deleteBorrowItem(borrow_item_id) {
+								jQuery.ajax({
+									url : "/transactions/component/borrowFunctions.cfc",
+									type : "post",
+									dataType : "json",
+									data : {
+										method : "deleteBorrowItem",
+										returnformat : "json",
+										queryformat : 'column',
+										borrow_item_id : borrow_item_id
+									},
+									success : function (data) {
+										reloadBorrowItems(#transaction_id#);
+									},
+									error: function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"adding borrow item");
+									}
+								});
+							};
+							function reloadBorrowItems(transaction_id) {
+								reloadGrid();
+							};
+						</script>
 						</div>
 					</div>
-
-					<script>
-						function addBorrowItem() {
-							$('##addItemFeedback').html("Saving...");
-							$('##addItemFeedback').addClass('text-warning');
-							$('##addItemFeedback').removeClass('text-success');
-							$('##addItemFeedback').removeClass('text-danger');
-							jQuery.ajax( {
-								url : "/transactions/component/borrowFunctions.cfc",
-								type : "post",
-								dataType : "json",
-								data : $("##addBorrowItemform").serialize(),
-								success : function (data) {
-									$('##addItemFeedback').html("Added borrow item.");
-									$('##addItemFeedback').addClass('text-success');
-									$('##addItemFeedback').removeClass('text-warning');
-									$('##addItemFeedback').removeClass('text-danger');
-									$("##catalog_number").val('');
-									$("##no_of_spec").val('');
-									$("##type_status").val('');
-									reloadBorrowItems(#transaction_id#);
-								},
-								error: function(jqXHR,textStatus,error){
-									$('##addItemFeedback').html("Error");
-									$('##addItemFeedback').addClass('text-danger');
-									$('##addItemFeedback').removeClass('text-success');
-									$('##addItemFeedback').removeClass('text-warning');
-									handleFail(jqXHR,textStatus,error,"adding borrow item");
-								}
-							});
-						};
-						function deleteBorrowItem(borrow_item_id) {
-							jQuery.ajax({
-								url : "/transactions/component/borrowFunctions.cfc",
-								type : "post",
-								dataType : "json",
-								data : {
-									method : "deleteBorrowItem",
-									returnformat : "json",
-									queryformat : 'column',
-									borrow_item_id : borrow_item_id
-								},
-								success : function (data) {
-									reloadBorrowItems(#transaction_id#);
-			 					},
-								error: function(jqXHR,textStatus,error){
-									handleFail(jqXHR,textStatus,error,"adding borrow item");
-								}
-							});
-						};
-						function reloadBorrowItems(transaction_id) {
-							reloadGrid();
-						};
-					</script>
 					<div class="container-fluid">
-					<div class="row">
-						<div class="col-12 mb-3">
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4">Borrow Items <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
-								<div id="columnPickDialog">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-12 col-md-6">
-												<div id="columnPick" class="px-1"></div>
-											</div>
-											<div class="col-12 col-md-6">
-												<div id="columnPick1" class="px-1"></div>
+						<div class="row">
+							<div class="col-12 mb-3">
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+									<h1 class="h4">
+										Borrow Items 
+										<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
+											<a class="messageResults" tabindex="0" aria-label="search results"></a>
+										</span> 
+									</h1>
+									<span id="resultLink" class="d-inline-block px-1 pt-2"></span>
+									<div id="columnPickDialog">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div id="columnPick" class="px-1"></div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div id="columnPick1" class="px-1"></div>
+												</div>
 											</div>
 										</div>
 									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
 								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0 mx-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
+								<div class="row mt-0 mx-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 				</section>
 				<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
