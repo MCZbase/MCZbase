@@ -104,7 +104,7 @@ limitations under the License.
 					group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 				</cfquery>
 				<cfif getDispositions.RecordCount EQ 0 >
-					<h4>There are no attached collection objects.</h4>
+					<p>There are no attached collection objects.</p>
 				<cfelse>
 					<table class="table table-responsive">
 						<thead class="thead-light">
