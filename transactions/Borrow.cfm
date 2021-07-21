@@ -415,7 +415,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12 mb-1 mb-md-0">
-								<label for="lenders_instructions" class="data-entry-label">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
+								<label for="lenders_instructions" class="data-entry-label mb-1">Lender's Instructions (<span id="length_lenders_instructions"></span>)</label>
 								<textarea name="lenders_instructions" id="lenders_instructions" rows="2" 
 									onkeyup="countCharsLeft('lenders_instructions', 4000, 'length_lenders_instructions');"
 									class="data-entry-textarea autogrow" 
@@ -424,7 +424,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12 mb-1 mb-md-0">
-								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label mb-1">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr data-entry-textarea autogrow" 
@@ -433,7 +433,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12 mb-1 mb-md-0">
-								<label for="description_of_borrow" class="data-entry-label">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
+								<label for="description_of_borrow" class="data-entry-label mb-1">Description of Borrow (<span id="length_description_of_borrow"></span>)</label>
 								<textarea name="description_of_borrow" id="description_of_borrow" rows="2" 
 									onkeyup="countCharsLeft('description_of_borrow', 4000, 'length_description_of_borrow');"
 									class="reqdClr data-entry-textarea autogrow" 
@@ -442,7 +442,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-0 mb-md-2">
 							<div class="col-12 col-md-12 mb-1 mb-md-0">
-								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label mb-1">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="data-entry-textarea autogrow" 
@@ -971,7 +971,7 @@ limitations under the License.
 					</div>
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-12 mb-3">
+							<div class="col-12 mb-3 mt-1">
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 									<h2 class="h4 mt-2 pt-1 px-1">
 										Borrow Items 
