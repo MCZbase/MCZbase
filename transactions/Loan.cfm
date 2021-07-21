@@ -783,30 +783,30 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-xl-6">
-								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label mb-1">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(loanDetails.nature_of_material)#</textarea>
+									class="reqdClr autogrow data-entry-textarea mb-2" required >#encodeForHTML(loanDetails.nature_of_material)#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
-								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label mb-1">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="1"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.loan_description)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.loan_description)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-xl-6">
-								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label mb-1">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.loan_instructions)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.loan_instructions)#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
-								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label mb-1">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.trans_remarks)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.trans_remarks)#</textarea>
 							</div>
 						</div>
 						<script>
