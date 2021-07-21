@@ -873,7 +873,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="row mx-0">
-											<div class="form-group col-12 px-1 pt-1">
+											<div class="form-group col-12 px-1 pt-2">
 												<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addBorrowItem();" value="Add Item">Add Item</button>
 												<span id="addItemFeedback" class="text-danger">&nbsp;</span>
 											</div>
