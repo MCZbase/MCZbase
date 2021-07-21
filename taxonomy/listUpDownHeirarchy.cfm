@@ -47,7 +47,7 @@
 					</cfif>
 				</cfif>
 			</div>
-			<div class="accordion col-12 col-lg-9 px-0" id="accordionForTaxa">
+			<div class="accordion col-12 col-lg-9 col-xl-7 px-0" id="accordionForTaxa">
 				<!--- included subspecies --->
 				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
@@ -95,7 +95,7 @@
 					<div class="card-body px-3 py-0">
 						<div id="collapseRelatedTaxa" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 							<div class="row">
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-md-6">
 									<br>
 									<cfif qspecies.recordcount EQ 0>No</cfif>
 									Congeneric Species:
@@ -105,7 +105,7 @@
 										</cfloop>
 									</ul>
 								</div>
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-md-6">
 									<br>
 									<cfif qsubspecies.recordcount EQ 0>No</cfif>
 									<cfif len(t.subspecies) gt 0>Included </cfif>Subspecies:
