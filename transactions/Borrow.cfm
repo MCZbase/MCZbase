@@ -891,7 +891,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="itemCollapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##itemAccordion">
-								<div class="card-body px-3">
+								<div class="card-body px-2">
 									<div class="col-12 mt-2">
 										<cfform name="csv" method="post" action="/transactions/Borrow.cfm" enctype="multipart/form-data">
 											<input type="hidden" name="action" value="getFile">
