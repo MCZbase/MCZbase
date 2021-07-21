@@ -187,7 +187,7 @@ limitations under the License.
 							});
 						</script>
 
-						<div class="col-12 pt-3 pb-2">
+						<div class="col-12 pt-3 px-4 pb-2">
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getMedia">
 								<div class="form-row">
