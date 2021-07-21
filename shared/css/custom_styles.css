@@ -167,10 +167,15 @@ h2.h3 {
 	margin-top: .5rem;
 	padding-top: .25rem;
 }
+h1.h3 {
+	margin-top: .45rem;
+}
+h1.h4 {
+	margin-top: .5rem
+}
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
-
 span.caps {
 	text-transform: capitalize;
 }
