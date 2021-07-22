@@ -277,7 +277,7 @@
 				display_name
 		</cfquery>
 			<h2 class="h3">Taxonomic Annotations</h2>
-			<table class="border table table-responsive table-striped">
+			<table class="border table table-responsive">
 				<cfset i=1>
 				<cfloop query="t">
 					<tr>
@@ -285,7 +285,7 @@
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
-							<table class="table table-responsive">
+							<table class="table table-responsive bg-light">
 								<cfloop query="itemAnno">
 									<tr>
 										<td><label class="data-entry-label px-0">Annotation by</label> <span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
