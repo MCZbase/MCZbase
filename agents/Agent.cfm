@@ -337,7 +337,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="elecAddrCardBodyWrap" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
-											<div class="card-body pt-0 pb-1 mb-1">
+											<div class="card-body pb-1 mb-1">
 												<cfif getAgentElecAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
