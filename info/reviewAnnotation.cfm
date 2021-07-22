@@ -129,7 +129,7 @@
 					</cfquery>
 					<tr>
 						<td colspan="5">
-							<h3 class="h5 mb-0 mt-1">
+							<h3 class="h5 mb-1 mt-2">
 								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> 
 								<span class="mr-3">ID: <em>#idAs#</em></span> 
 								<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
@@ -137,8 +137,7 @@
 						</td>
 					</tr>
 					<cfloop query="itemAnno">
-						<tr>
-							<td><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+						<tr><td><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
 							<td><span class="small">#annotation#</span></td>
 							<form name="r" method="post" action="reviewAnnotation.cfm">
 								<input type="hidden" name="action" value="saveReview">
