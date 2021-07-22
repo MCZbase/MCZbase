@@ -406,7 +406,7 @@ limitations under the License.
 															<cfset listgroupclass="border-light">
 														</cfif>
 															<h3 class="small95 my-1 pb-1 px-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
-														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
+														<div class="#listgroupclass# px-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
 											</div>
