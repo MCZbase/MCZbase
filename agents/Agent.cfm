@@ -141,7 +141,7 @@ limitations under the License.
 								<div class="card mb-2 bg-light">
 									<!--- always open, not a collapsable card --->
 									<div class="card-header py-0">
-										<h2 class="h4 my-1 mx-2 px-2">Names for this agent</h2>
+										<h2 class="h4 my-1 text-dark-gray mx-2 px-2">Names for this agent</h2>
 									</div>
 									<cfquery name="preferredNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preferredNames_result">
 										SELECT
@@ -281,7 +281,7 @@ limitations under the License.
 											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
-												Subject of #getMedia.recordcount# media record#plural#
+													Subject of #getMedia.recordcount# media record#plural#
 												</button>
 											</h2>
 										</div>
@@ -1637,7 +1637,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
-											<h3 class="small95 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
+											<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body pb-1 mb-1">
 												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
@@ -1907,7 +1907,7 @@ limitations under the License.
 											ORDER BY dba_constraints.table_name
 										</cfquery>
 										<div class="accordion card-header py-0"><!---accordion class needs to be there for the break-inside:avoid attribute--->
-											<h2 class="h4 py-1 w-100 my-0 px-2">Agent Record Link Summary</h2>
+											<h2 class="h4 py-1 text-dark-gray w-100 my-0 px-2">Agent Record Link Summary</h2>
 										</div>
 										<cfset relatedTo = StructNew() >
 										<cfset okToDelete = true>
@@ -1925,13 +1925,13 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</cfloop>
-										<div class="card-body py-1 mb-1">
+										<div class="card-body py-1 mt-1 mb-1">
 											<cfif okToDelete>
 												<h3 class="small95 px-2 mb-0">This agent is not used and is eligible for deletion</h3>
 											<cfelse>
 												<h3 class="small95 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
-											<ul class="list-group">
+											<ul class="list-group mt-1">
 												<cfloop collection="#relatedTo#" item="key">
 													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
 												</cfloop>

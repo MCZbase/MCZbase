@@ -173,6 +173,9 @@ h1.h3 {
 h1.h4 {
 	margin-top: .5rem;
 }
+.text-dark-gray {
+	color: #524e4e;
+}
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
