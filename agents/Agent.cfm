@@ -281,13 +281,13 @@ limitations under the License.
 											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
 											<h2 class="h4 my-0">
 												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
-													Subject of #getMedia.recordcount# media record#plural#
+													Subject of #getMedia.recordcount# Media Record#plural#
 												</button>
 											</h2>
 										</div>
 										<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 											<cfif getMedia.recordcount eq 0>
-												<cfset mediaLink = "No Media records">
+												<cfset mediaLink = "no media records">
 											<cfelse>
 												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 											</cfif>
