@@ -748,7 +748,7 @@ function getVersion4UUID() {
 
 			$("##overlay").show();
 
-			$("##keywordsearchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+			$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 			$('##keywordresultCount').html('');
 			$('##keywordresultLink').html('');
 			/*var debug = $('##kewordSearchForm').serialize();
@@ -890,9 +890,9 @@ function getVersion4UUID() {
 
 			$("##overlay").show();
 
-			$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-			$('##resultCount').html('');
-			$('##resultLink').html('');
+			$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+			$('##builderresultCount').html('');
+			$('##builderresultLink').html('');
 			/*var debug = $('##builderSearchForm').serialize();
 			console.log(debug);*/
 			/*var datafieldlist = [ ];//add synchronous call to cf component*/
@@ -949,7 +949,7 @@ function getVersion4UUID() {
 				$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
 			}
 
-			$("##searchResultsGrid").jqxGrid({
+			$("##buildersearchResultsGrid").jqxGrid({
 				width: '100%',
 				autoheight: 'true',
 				source: dataAdapter,
@@ -970,7 +970,7 @@ function getVersion4UUID() {
 				altrows: true,
 				showtoolbar: false,
 				ready: function () {
-					$("##searchResultsGrid").jqxGrid('selectrow', 0);
+					$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
 				},
 				// This part needs to be dynamic.
 				columns: [
@@ -996,31 +996,31 @@ function getVersion4UUID() {
 				initrowdetails: initRowDetails
 			});
 
-			$("##searchResultsGrid").on("bindingcomplete", function(event) {
+			$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
 				// add a link out to this search, serializing the form as http get parameters
-				$('##resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+				$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 				gridLoaded('buildersearchResultsGrid','occurence record','builder');
 			});
-			$('##searchResultsGrid').on('rowexpand', function (event) {
+			$('##buildersearchResultsGrid').on('rowexpand', function (event) {
 				//  Create a content div, add it to the detail row, and make it into a dialog.
 				var args = event.args;
 				var rowIndex = args.rowindex;
 				var datarecord = args.owner.source.records[rowIndex];
 				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 			});
-			$('##searchResultsGrid').on('rowcollapse', function (event) {
+			$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
 				// remove the dialog holding the row details
 				var args = event.args;
 				var rowIndex = args.rowindex;
-				$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+				$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
 			});
 			// display selected row index.
-			$("##searchResultsGrid").on('rowselect', function (event) {
-				$("##selectrowindex").text(event.args.rowindex);
+			$("##buildersearchResultsGrid").on('rowselect', function (event) {
+				$("##builderselectrowindex").text(event.args.rowindex);
 			});
 			// display unselected row index.
-			$("##searchResultsGrid").on('rowunselect', function (event) {
-				$("##unselectrowindex").text(event.args.rowindex);
+			$("##buildersearchResultsGrid").on('rowunselect', function (event) {
+				$("##builderunselectrowindex").text(event.args.rowindex);
 			});
 		});
 		/* End Setup jqxgrid for builder Search ************************************************************************************************/
@@ -1033,7 +1033,7 @@ function getVersion4UUID() {
 
 			$("##overlay").show();
 
-			$("##fixedsearchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+			$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 			$('##fixedresultCount').html('');
 			$('##fixedresultLink').html('');
 			/*var debug = $('##fixedSearchForm').serialize();
