@@ -180,7 +180,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
-								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select mb-1">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 									</cfloop>
@@ -188,11 +188,11 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+								<input type="text" name="loan_number" class="reqdClr data-entry-input mb-1" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
-								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
+								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
 									</cfloop>
@@ -200,7 +200,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_status" class="data-entry-label">Loan Status</label>
-								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
+								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select mb-1" required >
 									<cfloop query="ctLoanStatus">
 										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
 											<cfif #ctLoanStatus.loan_status# is "open">
@@ -222,7 +222,7 @@ limitations under the License.
 										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -240,7 +240,7 @@ limitations under the License.
 										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -259,7 +259,7 @@ limitations under the License.
 										<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -277,7 +277,7 @@ limitations under the License.
 										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -297,7 +297,7 @@ limitations under the License.
 										<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -315,7 +315,7 @@ limitations under the License.
 										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 									</label>
 								</span>
-								<div class="input-group">
+								<div class="input-group mb-1">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
@@ -328,21 +328,21 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input">
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="return_due_date" class="data-entry-label">Return Due Date</label>
-								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input" >
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input mb-1" >
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
 							<div class="col-12 col-md-4">
 								<label for="insurance_value" class="data-entry-label">Insurance value</label>
-								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
+								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
+								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input mb-1">
 							</div>
 						</div>
 						<script>
@@ -381,11 +381,11 @@ limitations under the License.
 							});
 						</script>
 						<div class="form-row mb-2">
-							<div class="col-12 ">
+							<div class="col-12 mt-1">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									class="reqdClr form-control form-control-sm w-100 autogrow mb-1" 
 									required ></textarea>
 							</div>
 						</div>
@@ -394,7 +394,7 @@ limitations under the License.
 								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+									class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -402,7 +402,7 @@ limitations under the License.
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
+									rows="2" class="form-control form-control-sm w-100 autogrow mb-1"></textarea>
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -410,7 +410,7 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+									class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 							</div>
 						</div>
 						<script>
@@ -783,30 +783,30 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-xl-6">
-								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label mb-1">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr autogrow data-entry-textarea" required >#encodeForHTML(loanDetails.nature_of_material)#</textarea>
+									class="reqdClr autogrow data-entry-textarea mb-2" required >#encodeForHTML(loanDetails.nature_of_material)#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
-								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label mb-1">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="1"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.loan_description)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.loan_description)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-xl-6">
-								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label mb-1">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.loan_instructions)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.loan_instructions)#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
-								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label mb-1">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="autogrow data-entry-textarea">#encodeForHTML(loanDetails.trans_remarks)#</textarea>
+									class="autogrow data-entry-textarea mb-2">#encodeForHTML(loanDetails.trans_remarks)#</textarea>
 							</div>
 						</div>
 						<script>
@@ -876,13 +876,13 @@ limitations under the License.
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 					</div>
-					<div class="col-12 pt-2 pb-3">
-						<div id="loanItemCountDiv" tabindex="0"></div>
+					<div class="col-12 pt-2">
+						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
-							<h2 class="h3">Disposition of material in loan:</h2>
+							<h2 class="h3 mt-2 pt-1">Disposition of material in loan:</h2>
 							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 								from loan 

@@ -433,6 +433,9 @@
 				AND locality.locality_id IN (select locality_id from lat_long)
 				AND locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)
 			</cfif>
+			<cfif isdefined("findNoAccGeoRefStrict") and len(#findNoAccGeoRefStrict#) gt 0>
+				AND locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)
+			</cfif>
 			<cfif isdefined("findNoGeoRef") and len(#findNoGeoRef#) gt 0>
 				AND locality.locality_id NOT IN (select locality_id from lat_long)
 			</cfif>

@@ -104,7 +104,7 @@ limitations under the License.
 					group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 				</cfquery>
 				<cfif getDispositions.RecordCount EQ 0 >
-					<h4>There are no attached collection objects.</h4>
+					<p>There are no attached collection objects.</p>
 				<cfelse>
 					<table class="table table-responsive">
 						<thead class="thead-light">
@@ -1115,7 +1115,7 @@ limitations under the License.
 							</div>
 						</div> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 						<cfif shippermit.recordcount eq 0>
-							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'>
+							 <div class='deletestyle mb-0' id='removeShipment_#shipment_id#'>
 								<input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " >
 							</div>
 						<cfelse>
@@ -4183,9 +4183,9 @@ limitations under the License.
 					<div class="row my-1 bg-grayish pb-1 border rounded">
 						<div class="w-100 text-center m-0 p-0" tabindex="0">
 							<cfif okToPrint >
-								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
+								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0 mx-0 mt-0 mb-2">OK to print</div>
 							<cfelse>
-								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
+								<div class="alert alert-danger small rounded-0 p-1 mb-2 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
 							</cfif>
 						</div>
 						<div class="col-12 mt-0" id="transactionAgentsTable">
