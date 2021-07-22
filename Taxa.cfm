@@ -457,7 +457,12 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4">Results: <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
+							<h1 class="h4 pt-1">Results: 
+								<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
+									<a class="messageResults" tabindex="0" aria-label="search results"></a>
+								</span> 
+							</h1>
+							<span id="resultLink" class="d-inline-block px-1 my-1 py-2"></span>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
 									<div class="row">
@@ -500,7 +505,7 @@ limitations under the License.
 		</script>
 		<!--- links --->
 		<script>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
 					};

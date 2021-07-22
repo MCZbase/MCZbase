@@ -1,6 +1,7 @@
-<cfif not isdefined("toProperCase")>
-	<!---  if header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
-	<cfinclude template="/includes/_header.cfm">
+<cfif not isdefined("headerPath")>
+	<!---  if header has been included, headerPath will have a value --->
+	<cfset pageTitle = "MCZbase: 404 Error: Resource not found">
+	<cfinclude template="/shared/_header.cfm">
 </cfif>
 <cfoutput>
 	<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
@@ -157,4 +158,8 @@
 	 </p>
         </div>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfif headerPath IS "includes">
+	<cfinclude template="/includes/_footer.cfm">
+<cfelse>
+	<cfinclude template="/shared/_footer.cfm">
+</cfif>

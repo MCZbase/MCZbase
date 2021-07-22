@@ -516,7 +516,7 @@ limitations under the License.
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<!--- Tab header div --->
-					<div class="tabs card-header tab-card-header pb-0">
+					<div class="tabs card-header tab-card-header px-1 pb-0">
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
@@ -605,12 +605,12 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-								<button class="px-5 #allTabActive#" id="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-								<button class="px-5 #deaccnTabActive#" id="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
-								<button class="px-5 #borrowTabActive#" id="5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
-							</div>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #allTabActive#" id="tab-1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #loanTabActive#" id="tab-2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #accnTabActive#" id="tab-3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #deaccnTabActive#" id="tab-4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0 #borrowTabActive#" id="tab-5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
+						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content"> 

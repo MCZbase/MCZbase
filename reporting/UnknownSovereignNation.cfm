@@ -52,7 +52,7 @@ Report on localities, by department, with a value of sovereign_nation of [unknow
 								<cfquery name="getcid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcid_result">
 									select collection_id from collection where collection_cde=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls#">
 								</cfquery>
-								<li class="py-1"><a href="/Locality.cfm?action=findLocality&collection_id=#getcid.collection_id#&collnOpr=usedOnlyBy&sovereign_nation=[unknown]&findNoAccGeoRef=on">#getcounts.colls#</a> (#getcounts.ct#)</li>
+								<li class="py-1"><a href="/Locality.cfm?action=findLocality&collection_id=#getcid.collection_id#&collnOpr=usedOnlyBy&sovereign_nation=[unknown]&findNoAccGeoRefStrict=on">#getcounts.colls#</a> (#getcounts.ct#)</li>
 							</cfif>
 						</cfloop>
 						<cfif accumulate_shared NEQ 0>
