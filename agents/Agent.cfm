@@ -1541,7 +1541,7 @@ limitations under the License.
 														<cfset statusDate ="">
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
-																<li class="list-group-item pt-0 pb-1">
+																<li class="">
 																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
@@ -1556,7 +1556,7 @@ limitations under the License.
 																	<span><!-- workaround --></span>
 																</li>
 															<cfelse>
-																<li class="list-group-item pt-0 pb-1">
+																<li class="">
 																	<cfif lastTrans NEQ getTransactions.specific_number>
 																		<cfif lastTrans NEQ "">
 																			#statusDate#
