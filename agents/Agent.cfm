@@ -163,7 +163,7 @@ limitations under the License.
 										WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											AND agent_name_type <> 'preferred'
 									</cfquery>
-									<div class="card-body pt-1 pb-2 bg-teal">
+									<div class="card-body py-1 pb-2 bg-teal">
 										<ul class="list-group">
 											<!--- person name --->
 											<cfif getAgent.agent_type EQ "person">
@@ -227,7 +227,7 @@ limitations under the License.
 											<cfif groupMembers.recordcount GT 0>
 												<h3 class="small95 mt-2 px-3 mb-0">#prefName# consists of #groupMembers.recordcount# member#plural#</h3>
 											</cfif>
-											<div class="card-body py-1 mb-1">
+											<div class="card-body pb-1 mb-1">
 												<cfif groupMembers.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -292,7 +292,7 @@ limitations under the License.
 												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 											</cfif>
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
-											<div class="card-body py-1 mb-1">
+											<div class="card-body pb-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
 													<cfloop query="getMedia">
 														<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
@@ -540,7 +540,7 @@ limitations under the License.
 											<cfif groupMembership.recordcount GT 0>
 												<h3 class="small95 mt-2 px-3 mb-0">#prefName# is a member of #groupMembership.recordcount# group#plural#</h3>
 											</cfif>
-											<div class="card-body py-1 mb-1">
+											<div class="card-body pb-1 mb-1">
 												<cfif groupMembership.recordcount EQ 0>
 													<!--- which won't be reached, as we hide the entire section if this is the case --->
 													<ul class="list-group">
@@ -1169,7 +1169,7 @@ limitations under the License.
 												<cfif loan_item.recordcount GT 0>
 													<h3 class="small95 px-3 mt-2 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 												</cfif>
-												<div class="card-body py-1 mb-1">
+												<div class="card-body pb-1 mb-1">
 													<ul class="list-group">
 														<cfif loan_item.recordcount EQ 0>
 															<li class="list-group-item">None</li>
@@ -1259,7 +1259,7 @@ limitations under the License.
 												<cfif totalShipCount GT 0>
 													<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 												</cfif>
-												<div class="card-body py-1 mb-1">
+												<div class="card-body pb-1 mb-1">
 													<ul class="list-group">
 														<cfif packedBy.recordcount EQ 0>
 															<li class="list-group-item">Packed no shipments for transactions</li>
@@ -1532,7 +1532,7 @@ limitations under the License.
 													</a>
 												</h3>
 											</cfif>
-											<div class="card-body py-1 mb-1">
+											<div class="card-body pb-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
 													<ul class="list-group"><li class="list-group-item">Not a Transaction Agent in MCZbase</li></ul>
 												<cfelse>
