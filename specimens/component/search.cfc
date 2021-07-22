@@ -69,8 +69,10 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---   Function executeFixedSearch backing method for specimen search
+<!--- Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
+	@param debug if given a value, dump the json that would be sent to build_query instead of 
+	  running the query and returning a result.
 --->
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
@@ -80,7 +82,6 @@ limitations under the License.
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
-	<cfset result_id = CreateUUID()>
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
@@ -152,7 +153,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset username = session.dbuser>
-		<!--- TODO: Impllement returnCode from build_query, 0=success, non zero error condition. --->
+		<!--- TODO: Implement returnCode from build_query, 0=success, non zero error condition. --->
 		<!--- cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
 		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
@@ -185,7 +186,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset data[i]  = row>
+			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
 	<cfcatch>
