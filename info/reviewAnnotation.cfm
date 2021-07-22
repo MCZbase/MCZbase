@@ -57,72 +57,72 @@
 				<cfset collection_object_id=id>
 			</cfif>
 			<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select
-				 annotations.ANNOTATION_ID,
-				 annotations.ANNOTATE_DATE,
-				 annotations.CF_USERNAME,
-				 annotations.COLLECTION_OBJECT_ID,
-				 annotations.annotation,	 
-				 annotations.reviewer_agent_id,
-				 preferred_agent_name.agent_name reviewer,
-				 annotations.reviewed_fg,
-				 annotations.reviewer_comment,
-				 collection.collection,
-				 cataloged_item.cat_num,
-				 identification.scientific_name idAs,
-				 geog_auth_rec.higher_geog,
-				 locality.spec_locality,
-				 cf_user_data.email
-			FROM
-				annotations,
-				cataloged_item,
-				collection,
-				collecting_event,
-				locality,
-				geog_auth_rec,
-				identification,
-				cf_user_data,
-				cf_users,
-				preferred_agent_name
-			WHERE
-				annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID AND
-				annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-				cataloged_item.collection_id = collection.collection_id AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
-				accepted_id_fg=1 AND
-				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-				collecting_event.locality_id = locality.locality_id AND
-				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-				annotations.CF_USERNAME=cf_users.username (+) and
-				cf_users.user_id = cf_user_data.user_id (+)
-				<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
-					AND annotations.collection_object_id = #collection_object_id#
-				</cfif>
-				<cfif isdefined("collection") and len(#collection#) gt 0>
-					AND collection.collection = '#collection#'
-				</cfif>
-		</cfquery>
+				select
+					 annotations.ANNOTATION_ID,
+					 annotations.ANNOTATE_DATE,
+					 annotations.CF_USERNAME,
+					 annotations.COLLECTION_OBJECT_ID,
+					 annotations.annotation,	 
+					 annotations.reviewer_agent_id,
+					 preferred_agent_name.agent_name reviewer,
+					 annotations.reviewed_fg,
+					 annotations.reviewer_comment,
+					 collection.collection,
+					 cataloged_item.cat_num,
+					 identification.scientific_name idAs,
+					 geog_auth_rec.higher_geog,
+					 locality.spec_locality,
+					 cf_user_data.email
+				FROM
+					annotations,
+					cataloged_item,
+					collection,
+					collecting_event,
+					locality,
+					geog_auth_rec,
+					identification,
+					cf_user_data,
+					cf_users,
+					preferred_agent_name
+				WHERE
+					annotations.COLLECTION_OBJECT_ID = cataloged_item.COLLECTION_OBJECT_ID AND
+					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
+					cataloged_item.collection_id = collection.collection_id AND
+					cataloged_item.collection_object_id = identification.collection_object_id AND
+					accepted_id_fg=1 AND
+					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+					collecting_event.locality_id = locality.locality_id AND
+					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+					annotations.CF_USERNAME=cf_users.username (+) and
+					cf_users.user_id = cf_user_data.user_id (+)
+					<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
+						AND annotations.collection_object_id = #collection_object_id#
+					</cfif>
+					<cfif isdefined("collection") and len(#collection#) gt 0>
+						AND collection.collection = '#collection#'
+					</cfif>
+			</cfquery>
 			<cfquery name="catitem" dbtype="query">
-			select
-				COLLECTION_OBJECT_ID,
-				collection,
-				cat_num,
-				idAs,
-				higher_geog,
-				spec_locality
-			from 
-				ci 
-			group by
-				COLLECTION_OBJECT_ID,
-				collection,
-				cat_num,
-				idAs,
-				higher_geog,
-				spec_locality
-		</cfquery>
+				select
+					COLLECTION_OBJECT_ID,
+					collection,
+					cat_num,
+					idAs,
+					higher_geog,
+					spec_locality
+				from 
+					ci 
+				group by
+					COLLECTION_OBJECT_ID,
+					collection,
+					cat_num,
+					idAs,
+					higher_geog,
+					spec_locality
+			</cfquery>
 			<h2 class="h3 mt-3">Annotations</h2>
-			<table class="table border table-responsive table-striped">
-				<Cfset i=1>
+			<table class="table table-responsive">
+				<cfset i=1>
 				<cfloop query="catitem">
 					<cfquery name="itemAnno" dbtype="query">
 						select * from ci where collection_object_id = #collection_object_id#
@@ -160,43 +160,43 @@
 			</table>
 			<cfelseif type is "publication_id">
 			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
-				publication.publication_title,
-				annotations.ANNOTATION_ID,
-				annotations.ANNOTATE_DATE,
-				annotations.CF_USERNAME,
-				annotations.annotation,	 
-				annotations.reviewer_agent_id,
-				preferred_agent_name.agent_name reviewer,
-				annotations.reviewed_fg,
-				annotations.reviewer_comment,
-				cf_user_data.email,
-				annotations.publication_id
-			FROM
-				annotations,
-				publication,
-				cf_user_data,
-				cf_users,
-				preferred_agent_name
-			WHERE
-				annotations.publication_id = publication.publication_id AND
-				annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
-				annotations.CF_USERNAME=cf_users.username (+) and
-				cf_users.user_id = cf_user_data.user_id (+)
-				<cfif isdefined("publication_id") and len(publication_id) gt 0>
-					AND annotations.publication_id = #publication_id#
-				</cfif>
-		</cfquery>
+				select 
+					publication.publication_title,
+					annotations.ANNOTATION_ID,
+					annotations.ANNOTATE_DATE,
+					annotations.CF_USERNAME,
+					annotations.annotation,	 
+					annotations.reviewer_agent_id,
+					preferred_agent_name.agent_name reviewer,
+					annotations.reviewed_fg,
+					annotations.reviewer_comment,
+					cf_user_data.email,
+					annotations.publication_id
+				FROM
+					annotations,
+					publication,
+					cf_user_data,
+					cf_users,
+					preferred_agent_name
+				WHERE
+					annotations.publication_id = publication.publication_id AND
+					annotations.reviewer_agent_id=preferred_agent_name.agent_id (+) and
+					annotations.CF_USERNAME=cf_users.username (+) and
+					cf_users.user_id = cf_user_data.user_id (+)
+					<cfif isdefined("publication_id") and len(publication_id) gt 0>
+						AND annotations.publication_id = #publication_id#
+					</cfif>
+			</cfquery>
 			<cfquery name="t" dbtype="query">
-			select
-				publication_title,
-				publication_id
-			from 
-				tax 
-			group by
-				publication_title,
-				publication_id
-		</cfquery>
+				select
+					publication_title,
+					publication_id
+				from 
+					tax 
+				group by
+					publication_title,
+					publication_id
+			</cfquery>
 			<h2 class="h3">Publication Annotations</h2>
 			<table class="table table-responsive">
 				<cfset i=1>
