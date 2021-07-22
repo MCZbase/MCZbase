@@ -615,7 +615,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#" #allTabShow#>
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
