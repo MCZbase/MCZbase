@@ -386,7 +386,7 @@
 			SET
 				coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisposition#">,
 				condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisCondition#">,
-				lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLotCountModifier#",
+				lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLotCountModifier#">,
 				lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLotCount#">
 			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 		</cfquery>
