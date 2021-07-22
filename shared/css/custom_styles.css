@@ -1813,11 +1813,12 @@ button[tabindex="-1"]:focus {
 	color: #036ee0;
 	color: #555!important;
 	text-decoration: none;
+	padding: 0 .5rem;
 }
 .accordion .card-header {
 	padding: 0;
 }
-.accordion .card-header h2 button,.accordion .card-header h3 button {
+.accordion .card-header h2 button {
 	padding: .15rem .875rem;
 	border: 2px dotted transparent;
 	box-shadow: none;
@@ -1997,22 +1998,6 @@ section#mediaSection.accordion {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-/*.publicationWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#transactionsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#shipmentsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}
-#permitsCardBodyWrap {
-	max-height: 500px;
-	overflow-y: auto;
-}*/
 .internalRemarks p {
 	font-size: .875rem;
 	margin: .25rem 0 .5rem 0;
