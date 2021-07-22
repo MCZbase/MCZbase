@@ -1638,8 +1638,8 @@ limitations under the License.
 										</div>
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
-											<div class="card-body pb-1 mb-1">
-												<ul class="list-group">
+											<div class="card-body pt-0 pb-1 mb-1">
+												<ul class="list-group mt-0">
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 													<cfelse>
