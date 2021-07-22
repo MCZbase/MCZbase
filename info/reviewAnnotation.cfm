@@ -129,7 +129,7 @@
 					</cfquery>
 					<tr>
 						<td colspan="5">
-							<h3 class="h5">
+							<h3 class="h5 mb-0 mt-1">
 								<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> 
 								<span class="mr-3">ID: <em>#idAs#</em></span> 
 								<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span>
