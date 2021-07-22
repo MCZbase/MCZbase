@@ -32,7 +32,7 @@
 			LEFT OUTER JOIN container parentContainer ON (thisContainer.parent_container_id = parentContainer.container_id)
 			LEFT OUTER JOIN coll_object_remark ON (specimen_part.collection_object_id = coll_object_remark.collection_object_id)
 		WHERE
-			cataloged_item.collection_object_id = #collection_object_id#
+			cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		ORDER BY sampled_from_obj_id DESC,part_name ASC, preserve_method
 	</cfquery>
 	<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -42,22 +42,22 @@
 		select modifier from ctnumeric_modifiers order by modifier desc
 	</cfquery>
 	<cfquery name="ctPreserveMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select preserve_method
-		from ctspecimen_preserv_method
-		where collection_cde = '#getParts.collection_cde#'
-		order by preserve_method
+		SELECT preserve_method
+		FROM ctspecimen_preserv_method
+		WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_cde#">
+		ORDER BY preserve_method
 	</cfquery>
-    <div class="ipad_scrolling" >
-        <b>Edit Specimen Parts</b>
-	<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Part Locations</a>
-	<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#" style="font-size: smaller;">New Container</a>
-	<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Print Labels</a>
-	<cfset i = 1>
-	<cfset listedParts = "">
-	<form name="parts" method="post" action="editParts.cfm" class="edit_part">
-		<input type="hidden" name="action" value="saveEdits">
-		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-		<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
+	<div class="ipad_scrolling" >
+      <b>Edit Specimen Parts</b>
+		<br><a href="/findContainer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Part Locations</a>
+		<br><a href="/editContainer.cfm?action=newContainer&label=#getParts.collection_cde#:#getParts.cat_num#" style="font-size: smaller;">New Container</a>
+		<br><a href="/Reports/report_printer.cfm?collection_object_id=#collection_object_id#" style="font-size: smaller;">Print Labels</a>
+		<cfset i = 1>
+		<cfset listedParts = "">
+		<form name="parts" method="post" action="editParts.cfm" class="edit_part">
+			<input type="hidden" name="action" value="saveEdits">
+			<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+			<input type="hidden" name="institution_acronym" value="#getParts.institution_acronym#">
 
 	<table border>
 	<cfloop query="getParts">
@@ -184,7 +184,7 @@
 					</td>
 				</tr>
 				<cfquery name="pAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
+					SELECT
 						 part_attribute_id,
 						 attribute_type,
 						 attribute_value,
@@ -193,12 +193,11 @@
 						 determined_by_agent_id,
 						 attribute_remark,
 						 agent_name
-					from
-						specimen_part_attribute,
-						preferred_agent_name
-					where
-						specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-						collection_object_id=#partID#
+					FROM
+						specimen_part_attribute
+						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 				</cfquery>
 				<tr bgcolor="#bgc#">
 					<td colspan="11" align="center">
@@ -333,16 +332,15 @@
 
 <!----------------------------------------------------------------------------------->
 <cfif #Action# is "deletePart">
-
 <cfoutput>
-
-
 	<cftransaction>
 	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
+		DELETE FROM coll_object_remark 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
 	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM specimen_part WHERE collection_object_id = #partID#
+		DELETE FROM specimen_part 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
 </cftransaction>
 <cflocation url="editParts.cfm?collection_object_id=#collection_object_id#">
@@ -352,7 +350,9 @@
 <cfif #Action# is "saveEdits">
 <cfoutput>
 	<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#' group by agent_id
+		SELECT distinct agent_id 
+		FROM agent_name 
+		WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif getEntBy.recordcount is 0>
 		<cfabort showerror = "You aren't a recognized agent!">
@@ -375,41 +375,51 @@
 		<cfset thisparentContainerId = #evaluate("parentContainerId" & n)#>
 		<cfset thispartContainerId = #evaluate("partContainerId" & n)#>
 		<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE specimen_part SET
-				Part_name = '#thisPartName#',
-				preserve_method = '#thisPreserveMethod#'
-			WHERE collection_object_id = #thisPartId#
+			UPDATE specimen_part 
+			SET
+				Part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPartName#">,
+				preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreserveMethod#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 		</cfquery>
 		<cfquery name="upPartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET
-				coll_obj_disposition = '#thisDisposition#'
-				,condition = '#thisCondition#',
-				lot_count_modifier= '#thisLotCountModifier#',
-				lot_count = #thisLotCount#
-			WHERE collection_object_id = #thisPartId#
+			UPDATE coll_object 
+			SET
+				coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisposition#">,
+				condition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisCondition#">,
+				lot_count_modifier= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLotCountModifier#",
+				lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLotCount#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 		</cfquery>
 		<cfif len(thiscoll_object_remarks) gt 0>
 			<cfquery name="ispartRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select coll_object_remarks from coll_object_remark where
-				collection_object_id = #thisPartId#
+				SELECT coll_object_remarks 
+				FROM coll_object_remark 
+				WHERE
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 			</cfquery>
 			<cfif ispartRem.recordcount is 0>
 				<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-					VALUES (#thisPartId#, '#thiscoll_object_remarks#')
+					VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">, 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thiscoll_object_remarks#">
+					)
 				</cfquery>
 			<cfelse>
 				<cfquery name="updateCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE coll_object_remark SET
-					coll_object_remarks = '#thiscoll_object_remarks#'
-					 WHERE collection_object_id = #thisPartId#
+					UPDATE coll_object_remark 
+					SET
+						coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thiscoll_object_remarks#">
+					WHERE 
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 				</cfquery>
 			</cfif>
 		<cfelse>
 			<cfquery name="killRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE coll_object_remark SET
-				coll_object_remarks = null
-				 WHERE collection_object_id = #thisPartId#
+				UPDATE coll_object_remark 
+				SET coll_object_remarks = null
+				WHERE 
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 			</cfquery>
 		</cfif>
 		<cfif len(thisnewCode) gt 0>
@@ -419,15 +429,16 @@
 				FROM
 					container
 				WHERE
-					barcode = '#thisnewCode#'
+					barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisnewCode#">
 					AND container_type <> 'collection object'
-					AND institution_acronym = '#institution_acronym#'
+					AND institution_acronym = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
 			</cfquery>
 			<cfif #isCont.container_type# is 'cryovial label'>
 				<cfquery name="upCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update container set container_type='cryovial'
-					where container_id=#isCont.container_id# and
-					container_type='cryovial label'
+					UPDATE container 
+					SET container_type='cryovial'
+					WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
+						AND container_type='cryovial label'
 				</cfquery>
 			</cfif>
 			<cfif isCont.recordcount is 1>
@@ -437,20 +448,22 @@
 					FROM
 						coll_obj_cont_hist
 					WHERE
-					collection_object_id = #thisPartId#
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisPartId#">
 				</cfquery>
 				<cfquery name="upPartBC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						container
 					SET
 						parent_install_date = sysdate,
-						parent_container_id = #isCont.container_id#
+						parent_container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
 					WHERE
-						container_id = #thisCollCont.container_id#
+						container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisCollCont.container_id#">
 				</cfquery>
 				<cfquery name="upPartPLF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE container SET print_fg = #thisprint_fg# WHERE
-					container_id = #isCont.container_id#
+					UPDATE container 
+					SET print_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisprint_fg#">
+					WHERE
+						container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isCont.container_id#">
 				</cfquery>
 			</cfif>
 			<cfif isCont.recordcount lt 1>
@@ -466,8 +479,10 @@
 		</cfif>
 		<cfif len(thislabel) gt 0>
 			<cfquery name="upPartPLF" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE container SET print_fg = #thisprint_fg# WHERE
-				container_id = #thisparentContainerId#
+				UPDATE container 
+				SET print_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisprint_fg#">
+				WHERE
+					container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisparentContainerId#">
 			</cfquery>
 		</cfif>
 		<cfif len(#thislabel#) is 0 AND len(#thisparentContainerId#) gt 0 AND #thisprint_fg# gt 0>
@@ -483,58 +498,65 @@
 <!----------------------------------------------------------------------------------->
 <cfif #Action# is "newpart">
 	<cfquery name= "getEntBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_id FROM agent_name WHERE agent_name = '#session.username#'  group by agent_id
+		SELECT distinct agent_id 
+		FROM agent_name 
+		WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
-				<cfif getEntBy.recordcount is 0>
-					<cfabort showerror = "You aren't a recognized agent!">
-				<cfelseif getEntBy.recordcount gt 1>
-					<cfabort showerror = "Your login has has multiple matches.">
-				</cfif>
-				<cfset enteredbyid = getEntBy.agent_id>
+	<cfif getEntBy.recordcount is 0>
+		<cfabort showerror = "You aren't a recognized agent!">
+	<cfelseif getEntBy.recordcount gt 1>
+		<cfabort showerror = "Your login has has multiple matches.">
+	</cfif>
+	<cfset enteredbyid = getEntBy.agent_id>
 	<cftransaction>
-	<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO coll_object (
-			COLLECTION_OBJECT_ID,
-			COLL_OBJECT_TYPE,
-			ENTERED_PERSON_ID,
-			COLL_OBJECT_ENTERED_DATE,
-			LAST_EDITED_PERSON_ID,
-			COLL_OBJ_DISPOSITION,
-			LOT_COUNT_MODIFIER,
-			LOT_COUNT,
-			CONDITION,
-			FLAGS )
-		VALUES (
-			sq_collection_object_id.nextval,
-			'SP',
-			#enteredbyid#,
-			sysdate,
-			#enteredbyid#,
-			'#COLL_OBJ_DISPOSITION#',
-			'#lot_count_modifier#',
-			#lot_count#,
-			'#condition#',
-			0 )
-	</cfquery>
-	<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO specimen_part (
-			  COLLECTION_OBJECT_ID,
-			  PART_NAME,
-			  preserve_method,
-			DERIVED_FROM_cat_item)
+		<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO coll_object (
+				COLLECTION_OBJECT_ID,
+				COLL_OBJECT_TYPE,
+				ENTERED_PERSON_ID,
+				COLL_OBJECT_ENTERED_DATE,
+				LAST_EDITED_PERSON_ID,
+				COLL_OBJ_DISPOSITION,
+				LOT_COUNT_MODIFIER,
+				LOT_COUNT,
+				CONDITION,
+				FLAGS )
+			VALUES (
+				sq_collection_object_id.nextval,
+				'SP',
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+				sysdate,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#enteredbyid#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_DISPOSITION#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lot_count#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#condition#">,
+				0 )
+		</cfquery>
+		<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO specimen_part (
+				COLLECTION_OBJECT_ID,
+				PART_NAME,
+				preserve_method,
+				DERIVED_FROM_cat_item)
 			VALUES (
 				sq_collection_object_id.currval,
-			  '#PART_NAME#',
-			  '#preserve_method#',
-			#collection_object_id#)
-	</cfquery>
-	<cfif len(#coll_object_remarks#) gt 0>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preserve_method#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			)
+		</cfquery>
+		<cfif len(#coll_object_remarks#) gt 0>
 			<!---- new remark --->
 			<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-				VALUES (sq_collection_object_id.currval, '#coll_object_remarks#')
+				INSERT INTO coll_object_remark 
+				(collection_object_id, coll_object_remarks)
+				VALUES (
+					sq_collection_object_id.currval, 
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_object_remarks#">
+				)
 			</cfquery>
-	</cfif>
+		</cfif>
 	</cftransaction>
 	<cflocation url="editParts.cfm?collection_object_id=#collection_object_id#">
 </cfif>
