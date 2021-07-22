@@ -540,7 +540,7 @@ limitations under the License.
 											<cfif groupMembership.recordcount GT 0>
 												<h3 class="small95 mt-2 px-3 mb-0">#prefName# is a member of #groupMembership.recordcount# group#plural#</h3>
 											</cfif>
-											<div class="card-body pb-1 mb-1">
+											<div class="card-body pt-0 pb-1 mb-1">
 												<cfif groupMembership.recordcount EQ 0>
 													<!--- which won't be reached, as we hide the entire section if this is the case --->
 													<ul class="list-group">
