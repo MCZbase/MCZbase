@@ -133,7 +133,7 @@
 					</tr>
 					<cfloop query="itemAnno">
 						<tr>
-							<td><label class="data-entry-label"> Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+							<td><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
 							<td><span class="small">#annotation#</span></td>
 							<form name="r" method="post" action="reviewAnnotation.cfm">
 								<input type="hidden" name="action" value="saveReview">
@@ -213,7 +213,7 @@
 								<tbody class="bg-light">
 									<cfloop query="itemAnno">
 										<tr>
-											<td> <label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+											<td><label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
 											<td><span>#annotation#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
