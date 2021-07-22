@@ -1172,10 +1172,10 @@ limitations under the License.
 												<div class="card-body pt-0 pb-1 mb-1">
 													<ul class="list-group mt-0">
 														<cfif loan_item.recordcount EQ 0>
-															<li class="list-group-item mt-1">None</li>
+															<li class="list-group-item">None</li>
 														<cfelse>
 															<cfloop query="loan_item">
-																<li class="list-group-item mt-1">Reconciled #cnt# items for Loan 
+																<li class="list-group-item">Reconciled #cnt# items for Loan 
 																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 																</li>		
 															</cfloop>
@@ -1525,7 +1525,7 @@ limitations under the License.
 											<cfif getTransCount.ct EQ 0>
 												<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalTransCount# transaction#plural#.</h3>
 											<cfelse>
-												<h3 class="small95 mt-2 px-3 mb-0">
+												<h3 class="small95 mt-2 px-3 mb-1">
 													#prefName# has some role in 
 													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
 													#getTransCount.ct# Transaction#plural#
