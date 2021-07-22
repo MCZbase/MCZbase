@@ -150,7 +150,7 @@ function getVersion4UUID() {
 	<main id="content" class="container-fluid">
 		<div class="row">
 			<div class="col-12 pt-1 pb-3">
-				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count  font-italic color-green mx-0"><small> #getCount.cnt# records</small></span></h1>
+				<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getCount.cnt# records</small></span></h1>
 				<!--- Tab header div --->
 				<div class="tabs card-header tab-card-header px-2 pt-3">
 					<cfswitch expression="#action#">
@@ -511,9 +511,8 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mt-1">
-											<label class="sr-only col-sm-2 position-col-form-label" for="submitbtn" style="position:static;">Submit button</label>
 											<div class="col-sm-10">
-												<button type="submit" class="btn-sm mr-1 px-3 btn-primary float-right" id="submitbtn">Search MCZbase <i class="fa fa-search"></i></button>
+												<button type="submit" class="btn mr-1 px-3 pb-1 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 											</div>
 										</div>
 									</div><!--- end container-flex --->
