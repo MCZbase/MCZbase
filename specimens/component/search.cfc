@@ -31,9 +31,9 @@ limitations under the License.
 		<!---conditional to handle different search methods keyword/querybuilder&fixed--->
 		<cfif isDefined("searchText") and len(searchText) gt 0>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT 
+				SELECT
 					f.guid,
-					f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date, 
+					f.imageurl, f.collection_object_id,f.collection,f.cat_num,f.began_date, f.ended_date,
 					f.scientific_name,f.spec_locality,f.locality_id, f.higher_geog, f.collectors, f.verbatim_date,f.coll_obj_disposition,f.othercatalognumbers
 				FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> F
 					left join FLAT_TEXT FT ON f.COLLECTION_OBJECT_ID = FT.COLLECTION_OBJECT_ID
@@ -69,7 +69,7 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---   Function executeFixedSearch backing method for specimen search 
+<!---   Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
 --->
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
@@ -80,6 +80,7 @@ limitations under the License.
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
 
+	<cfset result_id = CreateUUID()>
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
@@ -141,10 +142,11 @@ limitations under the License.
 			<cfset join='join="and",'>
 		</cfif>
 	</cfif>
-	
+
 	<cfset search_json = "#search_json#]">
 	<cfif isdefined("debug") AND len(debug) GT 0>
 		<cfdump var="#search_json#">
+		<cfdump var="#session.dbuser#">
 		<cfabort>
 	</cfif>
 
@@ -154,8 +156,8 @@ limitations under the License.
 		<!--- cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
 		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">	
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 			<cfprocresult name="search">
 		</cfstoredproc>
 		<!--- TODO implement return code in build_query and check return code for error value here. --->
@@ -164,10 +166,10 @@ limitations under the License.
 		<cfabort>
 		<cfif prepareSearch_result NEQ 0>
 			<cfthrow message = "failed to run search, build_query returned a non zero status code">
-		</cfif>	
+		</cfif>
 		--->
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT * 
+			SELECT *
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
 			WHERE
