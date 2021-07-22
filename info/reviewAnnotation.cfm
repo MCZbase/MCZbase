@@ -286,7 +286,7 @@
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 							</cfquery>
-							<table class="table table-responsive bg-light">
+							<table class="table table-responsive">
 								<tbody class="bg-light">
 									<cfloop query="itemAnno">
 										<tr>
