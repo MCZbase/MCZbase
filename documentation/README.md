@@ -106,7 +106,7 @@ At the top of each new page include the following block:
 	<!--
 	{filename}.{extension}
 
-	Copyright 2020 President and Fellows of Harvard College
+	Copyright 2021 President and Fellows of Harvard College
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -333,7 +333,7 @@ MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most fr
 * header, used inside /shared/\_header.cfm
 * nav, used inside /shared/\_header.cfm
 * main, use once on all pages which include /shared/\_header.cfm
-  * section, include, and repeat, when needed on pages
+* section, include, and repeat, when needed on pages
 * article, use rarely
 * aside, use rarely
 * footer, used inside /shared/\_footer.cfm
@@ -349,7 +349,7 @@ Use the following semantic tags to organize the body of the page:
 		</section>
 	</main>
 
-A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.  
+A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
 
 For Ajax feedback, use `<output>`
 

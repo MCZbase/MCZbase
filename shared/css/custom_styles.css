@@ -25,6 +25,9 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .small90 {
 	font-size: 89%
 }
+.small95 {
+	font-size: .9rem;
+}
 .font-weight-lessbold {
 	font-weight: 500;
 }
@@ -34,25 +37,25 @@ a {
 /** Styling of external links out, shared with production **/
 .external:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOut.gif);
+	content: "\a0"url(/shared/images/linkOut.gif);
 }
 a.external:link:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOut.gif);
+	content: "\a0"url(/shared/images/linkOut.gif);
 }
 a.external:hover:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutHover.gif);
+	content: "\a0"url(/shared/images/linkOutHover.gif);
 }
 a.external:visited:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutVisited.gif);
+	content: "\a0"url(/shared/images/linkOutVisited.gif);
 }
 a.external:hover:visited:after {
 	text-decoration: none !important;
-	content: "\a0" url(/shared/images/linkOutHover.gif);
+	content: "\a0"url(/shared/images/linkOutHover.gif);
 }
-.imgsize:nth-child(3n+1) {
+/*.imgsize:nth-child(3n+1) {
 	width: 31.5%;
 	margin: 0;
 }
@@ -63,6 +66,13 @@ a.external:hover:visited:after {
 .imgsize:nth-child(3n+3) {
 	width: 31.5%;
 	margin: 0 2%;
+}*/
+.imgsize {
+	width: 31.15%;
+	margin: 0 1%;
+}
+.imgsize:last-child {
+	margin-right: 0;
 }
 table {
 	font-size: 0.875rem;
@@ -79,16 +89,16 @@ table td .small {
 .bg-verylightgreen {
 	background-color: #EBFFEB !important;
 }
-.border-white { 
+.border-white {
 	border: 1px solid white;
 }
-.border-green { 
+.border-green {
 	border: 1px solid green !important;
 }
-.border-wide-green { 
+.border-wide-green {
 	border: 2px solid green !important;
 }
-.border-wide-grey { 
+.border-wide-grey {
 	border: 2px solid darkgrey !important;
 }
 .border-bottom-black {
@@ -110,8 +120,8 @@ select:focus {
 	outline: 0;
 }
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-	line-height: 1.25;
-	margin: .5rem 0;
+/*	line-height: 1.25;
+	margin: .5rem 0;*/
 	font-weight: 500;
 }
 h1, .h1 {
@@ -153,10 +163,23 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem;
 }
+h2.h3 {
+	margin-top: .5rem;
+	padding-top: .25rem;
+}
+h1.h3 {
+	margin-top: .45rem;
+}
+h1.h4 {
+	margin-top: .5rem;
+}
+.text-dark-gray {
+	color: #524e4e;
+}
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;
 }
-span.caps { 
+span.caps {
 	text-transform: capitalize;
 }
 #resultLink a {
@@ -202,7 +225,9 @@ p:focus {
 div:focus, div > span:focus {
 	box-shadow: 0 0 0 0;
 }
-div:focus, div > span:focus {box-shadow: 0 0 0 0;}
+div:focus, div > span:focus {
+	box-shadow: 0 0 0 0;
+}
 .info {
 	position: absolute;
 	left: -9000px;
@@ -215,7 +240,7 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .brackets {
 	width: 5px;
 	font-size: 24px;
-	margin-top:-4px;
+	margin-top: -4px;
 }
 .warning {
 	border: 5px solid red;
@@ -233,11 +258,11 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	line-height: 1.15;
 }
 .non-field-text {
-    padding: .15rem .5rem;
-    border-radius: .2rem;
-    font-size: .875rem;
-    font-weight: 500;
-    line-height: 1.15rem;
+	padding: .15rem .5rem;
+	border-radius: .2rem;
+	font-size: .875rem;
+	font-weight: 500;
+	line-height: 1.15rem;
 }
 .text-other {
 	font-size: .875em;
@@ -251,7 +276,7 @@ label {
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
-		border: 1px solid #bac5c6 !important;
+	border: 1px solid #bac5c6 !important;
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
@@ -272,7 +297,7 @@ label {
 *************************
 BELOW: Small Form button (bootstrap override)
 ************************/
-.btn-xs {
+.btn-xs { /*********Changed padding and font size to see if the text is more vertically aligned; vertical-align:middle; hasn't worked**********/
 	display: inline-block;
 	font-weight: 500;
 	color: #212529;
@@ -304,12 +329,11 @@ button#showRelatedDataBtn.btn-xs {
 	font-size: .875rem;
 	line-height: 1.15rem;
 	border-radius: .2rem;
-	color:#007bff;
+	color: #007bff;
 }
 .btn-outline-primary {
 	background-color: white;
 }
-
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
@@ -328,7 +352,7 @@ button#showRelatedDataBtn.btn-xs {
 BELOW: Main button (bootstrap override)
 ************************/
 button:focus, input:focus, select:focus, button.focus, input.focus, select.focus {
-	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+	box-shadow: 0 0 0 0.12rem rgba(38, 143, 255, 0.5);
 	outline: 0;
 	border: 1px dotted #ccc;
 }
@@ -362,6 +386,21 @@ span.data-entry-addon {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid #ced4da;
+}
+.btn-powder-blue {
+	color: #1b1b1b;
+	letter-spacing: .04rem;
+	background-color: #d9e8fa;
+	border: 1px solid hsl(0, 0%, 62%);
+	font-size: small;
+	font-weight: 490;
+}
+.btn-powder-blue:hover {
+	/*background-color: #d3dfe0;*/
+	color: #fff;
+	background: #54a4f9;
+	letter-spacing: .04rem;
+	border: 1px solid hsl(0, 2%, 47%);
 }
 .btn-secondary {
 	background-color: #d7d7d7;
@@ -500,7 +539,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	font-weight: bold;
 	background-color: white;
 	border: 1px solid #ccc;
-		border: 1px solid #aaa;
+	border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1rem;
 	width: auto;
@@ -519,18 +558,26 @@ BELOW: SPECIMEN DETAIL STYLES
 	position: absolute;
 	margin-left: -500px;
 }
-/*.card {
-	background-color: transparent;
-	font-size: .90rem;
-}*/
+.primaryType {
+	background-color: white;
+	-webkit-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	-moz-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
+	border-bottom: 1px double #ccc;
+	background: -moz-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*FF3.6-15*/
+	background: -webkit-linear-gradient(top, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*Chrome10-25,Safari5.1-6*/
+	background: linear-gradient(to bottom, rgba(165, 28, 48, .3) 0%, rgba(160, 77, 88, 0.12) 100%, rgba(109, 0, 25, 0) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a51c30', endColorstr='#0a6d0019', GradientType=0); /* IE6-9 */
+	border: 1px solid #aaa;
+}
 .card-columns .card {
 	margin-bottom: 0;
 }
 .card-body {
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: .25rem .5rem;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	min-height: 1px;
+	padding: .25rem .5rem;
 }
 .card-body ul li {
 	padding-left: .5rem;
@@ -1065,13 +1112,13 @@ table.inputTable tr {
 }
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f8f9fa;
+	background-color: #f8f9fa;
 }
 .table-responsive {
 	font-size: .875rem;
 }
 .card-header:first-child {
-    border-radius: .25rem .25rem 0 0;
+	border-radius: .25rem .25rem 0 0;
 }
 .search-box {
 	background-color: #f5f5f5;
@@ -1084,7 +1131,7 @@ table.inputTable tr {
 .search-box-header {
 	background-color: #3e6f7d;
 	padding: .15rem 1rem .1rem 1.65rem;
-	margin-top:-1px;
+	margin-top: -1px;
 }
 ::-ms-clear {
 	display: none;
@@ -1198,9 +1245,9 @@ table#pairs, th, td {
 	border: 1px solid #cdcdcd;
 }
 .table td, .table th {
-    padding: .25rem .75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
+	padding: .25rem .75rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
 }
 /* Sortable class for tables, used with /lib/misc/sorttable.js */
 .sortable {
@@ -1249,7 +1296,15 @@ table#pairs, th, td {
 .form-control-sm {
 	width: 100%;
 	border: 1px solid #ccc;
-    height: calc(1.15em + .5rem + 2px);
+	height: calc(1.15em + .5rem + 2px);
+}
+#collapseParts .table td, #collapseParts.table th {
+	padding: .35rem 1rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+}
+#collapseParts .table th {
+	font-weight: 500;
 }
 #collapseParts .table td, #collapseParts.table th {
 	padding: .35rem 1rem;
@@ -1287,12 +1342,12 @@ table#pairs, th, td {
 	text-align: center;
 }
 .data-entry-label {
-    width: 100%;
-    font-size: .875rem;
-    border: none;
-    padding: 0 .25rem .11rem .25rem;
-    font-weight: 450;
-    display: block;
+	width: 100%;
+	font-size: .875rem;
+	border: none;
+	padding: 0 .25rem .11rem .25rem;
+	font-weight: 450;
+	display: block;
 }
 span.data-entry-label {
 	margin-top: 2px;
@@ -1307,7 +1362,7 @@ span.data-entry-label {
 	background-color: #fff;
 	border-radius: .2rem;
 	vertical-align: middle;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15rem;
 }
@@ -1396,7 +1451,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: .2rem 0 0 .2rem;
 	padding: .14rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
@@ -1416,7 +1471,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-select-input:active {
@@ -1450,7 +1505,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: .2rem 0 0 .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-entry-addon {
@@ -1463,7 +1518,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: 0 .2rem .2rem 0;
 	padding: .2rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	line-height: 1.15rem;
 }
 .data-height {
@@ -1472,7 +1527,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 textarea {
 	padding-left: .5rem;
 	padding-right: .5rem;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .data-entry-textarea { /* Caution: used on autogrow textareas, if changed check that autogrow behavior doesn't break */
 	width: 100%;
@@ -1485,9 +1540,9 @@ textarea {
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
-	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font: 500 .875rem apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
-.autogrow { 
+.autogrow {
 	/* autogrow textareas must have a vertical padding in pixels for
 	the autogrow calculation of the height to work correctly,
 	otherwise the textareas grow in height with each keystroke.  */
@@ -1526,13 +1581,13 @@ tr.line-top:first-child {
 	line-height: .875rem;
 	border-radius: .2rem;
 	display: inline-block;
-	max-width:100px;
+	max-width: 100px;
 }
 .loginfields {
 	padding: 0 .25rem .14rem .25rem;
-	line-height:1.2rem;
+	line-height: 1.2rem;
 	font-size: .875rem;
-	margin-bottom:.25rem;
+	margin-bottom: .25rem;
 	border: 1px solid #A51C30;
 }
 .fa-info-circle {
@@ -1616,44 +1671,87 @@ tr.line-top:first-child {
 .fas-info-circle, .fa-info-circle {
 	color: #036ee0 !important;
 	position: relative;
-	top:-3px;
+	top: -3px;
 	font-size: .875rem;
 }
 .smaller {
-	font-size: .7em!important;
+	font-size: .7em !important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button.collapsed:before {
-	font-family: "Font Awesome 5 Free"; 
+.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
+	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	float:left !important;
-	content:"\f067";
+	float: left !important;
+	content: "\f067";
 	cursor: pointer;
 }
-.card-header h3 a:before, .card-header h2 a:before, .card-header h2 button:before {
-	font-family: "Font Awesome 5 Free"; 
+.card-header h3 a:before, .card-header h2 a:before  {
+	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content:"\f068";
+	content: "\f068";
 	padding-right: 5px;
-	float:left!important;
+	float: left !important;
 	cursor: pointer;
 }
+.card-header h1 button.collapsed span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	float: left !important;
+	content: "\f067";
+	cursor: pointer;
+}
+.card-header h1 button span:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f068";
+	padding-right: 5px;
+	float: left !important;
+}
+.card-header h2 button {
+	font-weight:500;
+}
+.card-header h2 button[aria-expanded="false"]:before, .card-header h3 button[aria-expanded="false"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	float: left !important;
+	content: "\f067";
+	content: "\f0fe";/*plus*/
+	padding-top: 2px;
+	cursor: pointer;
+	padding-right: 6px;
+}
+.card-header h2 button[aria-expanded="true"]:before, .card-header h3 button[aria-expanded="true"]:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 600;
+	font-size: smaller;
+	content: "\f068";
+	content: "\f146";/*minus*/
+	padding-right: 6px;
+	padding-top: 2px;
+	float: left !important;
+	cursor: pointer;
+}
+
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {
 	text-decoration: none;
 }
 .nav-link.dropdown-toggle:hover:before {
-	transform:rotate(0deg);
+	transform: rotate(0deg);
 }
 .nav-link.dropdown-toggle:hover:after {
-	transform:rotate(-90deg);
+	transform: rotate(-90deg);
 }
 .card-body li.list-group-item span:last-child {
-	display:none;
-/* Caution, this directive will have unexpected side effects such as hiding badge spans */  
+	/*display: none;  */
+	display: block;
+	margin-bottom: .5rem;
+	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
 }
+
 input#readMore_check_id {
-	display:none;
+	display: none;
 }
-.jqx-grid-load { 
+.jqx-grid-load {
 	background-image: url("../../images/spinner_712_sm.gif");
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -1667,9 +1765,9 @@ input#readMore_check_id {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0,0,0,.5);
+	background: rgba(0, 0, 0, .5);
 	opacity: 0.99;
-	display:none;
+	display: none;
 }
 .MediaAccordionHide {
 	display: block;
@@ -1756,19 +1854,30 @@ input#readMore_check_id {
 	border-left: 1px solid #deebec;
 }
 button[tabindex="-1"]:focus {
-	outline: 0!important;
+	outline: 0 !important;
 	box-shadow: none;
 }
-.card-header {
-	padding: .9rem 0rem 0rem 0rem;
-	padding: .5rem .25rem 0rem .25rem;
+.headerLnk {
+	color: #036ee0;
+	color: #555!important;
+	text-decoration: none;
+	padding: 0 .5rem;
 }
 .accordion .card-header {
-	padding: .25rem .5rem;
+	padding: 0;
+}
+.accordion .card-header h2 button, .accordion .card-header h3 button {
+	padding: .15rem .875rem;
+	border: 2px dotted transparent;
+	box-shadow: none;
+}
+.accordion .card-header h2 button:focus, .accordion .card-header h3 button:focus {
+	border: 2px inset rgba(255, 193, 7, .2)!important;
+	box-shadow: none;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
-	outline:0;
+	outline: 0;
 }
 .tab-content div[aria-hidden='false'] {
 	display: block;
@@ -1783,18 +1892,18 @@ div[aria-hidden='false'] {
 	display: none;
 }
 .show {
-	display:block;
+	display: block;
 }
 a.btn-outline-primary {
 	background-color: white;
 	padding-bottom: .05rem;
 	color: #007bff;
-	text-decoration:none;
+	text-decoration: none;
 	font-size: .785rem;
 }
-a.btn-outline-primary:hover,a.btn-outline-primary:not(:disabled):not(.disabled):active {
+a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled):active {
 	background-color: #007bff;
-	text-decoration:none;
+	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
@@ -1803,26 +1912,36 @@ a.btn-danger {
 	background-color: white;
 	padding-bottom: .05rem;
 	color: #bd2130;
-	text-decoration:none;
+	text-decoration: none;
 	font-size: .785rem;
 }
-a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
+a.btn-danger:hover, a.btn-danger:not(:disabled):not(.disabled):active {
 	background-color: #bd2130;
-	text-decoration:none;
+	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
 }
 .jqx-grid-cell-selected-light a.btn-danger:focus, .jqx-fill-state-pressed a.btn-danger {
-	color: #bd2130 !important; 
+	color: #bd2130 !important;
 	text-decoration: none;
 }
 .jqx-fill-state-pressed a.btn-danger:hover, .jqx-fill-state-pressed a.btn-danger.hover {
-	color: #ffffff !important; 
+	color: #ffffff !important;
 	text-decoration: none;
 }
 #agentDiv ul {
 	font-size: 0.95rem;
+}
+#citationsDialog_div:empty {
+	background-color: lime;
+	display: none;
+}
+th {
+	font-weight: 500;
+}
+.card-header h2 {
+	cursor: pointer;
 }
 .jqx-editor-content {
 	resize: vertical;
@@ -1831,11 +1950,56 @@ a.btn-danger:hover,a.btn-danger:not(:disabled):not(.disabled):active {
 	height: 223px;
 	width: auto;
 }
-.containFlex {
-	column-width: 47%!important;
-	column-gap: 3px;
+.containFlex1 {
+	column-gap: 10px;
 	flex-wrap: wrap;
-	max-width: 1270px!important;
+	max-width: 100%;
+	column-count: 1;
+}
+.containFlex2 {
+	column-gap: 10px;
+	flex-wrap: wrap;
+	max-width: 100%;
+	column-count: 2;
+}
+.containFlex3 {
+	column-gap: 10px;
+	flex-wrap: wrap;
+	max-width: 100%;
+	column-count: 3;
+}
+.containFlex4 {
+	column-gap: 10px;
+	flex-wrap: wrap;
+	max-width: 100%;
+	column-count: 4;
+}
+.accordion {
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+section#mediaSection.accordion {
+	-webkit-column-break-inside: auto;
+	page-break-inside: auto;
+	break-inside: auto;
+}
+.border-top-black {
+	border-top: 8px solid black;
+}
+.border-bottom-black {
+	border-bottom: 8px solid black;
+}
+.internalRemarks p {
+	font-size: .875rem;
+	margin: .25rem 0 .5rem 0;
+}
+.badge {
+	verical-align: top;
+	padding: .25rem .4rem .35rem .4rem !important;
+}
+.bg-teal {
+	background-color: rgb(199 251 255 / .35) !important;
 }
 /************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
@@ -1875,6 +2039,12 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
+	.containFlex2 {
+		column-count: 1;
+	}
+	.containFlex4 {
+		column-count: 2;
+	}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
@@ -1888,74 +2058,74 @@ and also iPads specifically.
 	}
 }
 @media (min-width:1200px) and (max-width: 1700px) {
-	#searchHelpTextBlock{
-	  	width: 100%;
-	  	margin-left: auto;
-	  	margin-right: auto;
-	  	list-style-type: none;
+	#searchHelpTextBlock {
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		list-style-type: none;
 		font-size: .875rem;
 		margin-bottom: 1rem;
 	}
-	div span.ilt  {
-  		display: block;
-  		height: 100%;
-  		text-decoration: none;
-  		color: black;
-  		padding-left: 0px;
-  		position: relative;
-  		-webkit-transition: background .3s;
-        transition: background .3s;
+	div span.ilt {
+		display: block;
+		height: 100%;
+		text-decoration: none;
+		color: black;
+		padding-left: 0px;
+		position: relative;
+		-webkit-transition: background .3s;
+		transition: background .3s;
 	}
 	div span.ilt:hover {
-	  	background: #cdcbc4; 
+		background: #cdcbc4;
 	}
-	.readMore { 
-	  	position: relative; 
-	  	height: auto;
-	  	border-top: 0;
+	.readMore {
+		position: relative;
+		height: auto;
+		border-top: 0;
 	}
 	#searchHelpTextBlock[type="checkbox"] {
-  		position: absolute;
-  		left:  -9999px;            
+		position: absolute;
+		left: -9999px;
 	}
-	label.read{
-  		background: aliceblue;
-  		display: block;
-  		width: 70px;
-  		cursor: pointer;
-  		position: relative;
+	label.read {
+		background: aliceblue;
+		display: block;
+		width: 70px;
+		cursor: pointer;
+		position: relative;
 		float: right;
 	}
-	label.read:before,label.read:after {
+	label.read:before, label.read:after {
 		position: absolute;
 	}
 	label.read:before {
-	  	content: 'More';
-	  	left: 10px;
+		content: 'More';
+		left: 10px;
 	}
 	label.read:after {
-	  content: '⇣';
-	  right: 10px;
-	  -webkit-animation: sudo .85s linear infinite alternate;
-			  animation: sudo .85s linear infinite alternate;
+		content: '⇣';
+		right: 10px;
+		-webkit-animation: sudo .85s linear infinite alternate;
+		animation: sudo .85s linear infinite alternate;
 	}
 	.readMore [type="checkbox"] ~ span.ilt {
-	  width: 100%;
-	display: none;
+		width: 100%;
+		display: none;
 	}
 	.readMore [type="checkbox"]:checked ~ span.ilt {
-	  display: block;
-	} 
+		display: block;
+	}
 	.readMore [type="checkbox"]:checked + label.read {
-	  	position: absolute; 
-	  	top: 100%;
+		position: absolute;
+		top: 100%;
 		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
-	  content: 'Less';
+		content: 'Less';
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
-	content: '⇡'; 
+		content: '⇡';
 	}
 }
 @media screen and (min-width: 68.5333333em) { /*  sizes greater than old iPad  78=  */
@@ -1986,6 +2156,12 @@ and also iPads specifically.
 		font-size: 75%;
 		height: 90px;
 	}
+	.containFlex2 {
+		column-count: 1;
+	}
+	.containFlex4 {
+		column-count: 1;
+	}
 }
 @media screen and (max-height: 26.375em) {
 	.cbp-spmenu-vertical {
@@ -2013,24 +2189,24 @@ and also iPads specifically.
 @media(min-width:576px) {
 	.card-columns {
 		-webkit-column-count: 2;
-    	-moz-column-count: 2;
+		-moz-column-count: 2;
 		column-count: 2;
 		-webkit-column-gap: .35rem;
-    	-moz-column-gap: .35rem;
+		-moz-column-gap: .35rem;
 		column-gap: .35rem;
 		orphans: 1;
 		widows: 1;
 		column-span: all;
 		margin-right: 0px;
-    	margin-left: 4px;
+		margin-left: 4px;
 	}
 	.one-column {
 		column-count: 1;
 		column-gap: 0;
-		widows:1;
-		orphans:1;
-		column-span:all;
-		margin-left:4px;
+		widows: 1;
+		orphans: 1;
+		column-span: all;
+		margin-left: 4px;
 	}
 	.card-body h5 {
 		margin-top: -0.25rem;
@@ -2043,12 +2219,17 @@ and also iPads specifically.
 		width: 300px;
 	}
 }
-@media (min-width: 1600px) {
-	.container {
+@media (min-width: 1200px) {
+	.container-xl {
+		max-width: 1600px;
+	}
+}
+@media(min-width: 1600px) {
+	.container  {
 		max-width: 1540px;
 	}
 }
-@media (min-width: 1800px) {
+@media(min-width: 1800px) {
 	.container {
 		max-width: 1600px;
 	}

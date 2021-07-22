@@ -621,7 +621,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-									<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+									<button id="addSpecificTypeButton" class="btn-light rounded btn btn-xs" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
 									<div id="newPermitASTDialog"></div>
 								</cfif>
 							</div>
@@ -752,8 +752,8 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<main class="container pt-4 pb-5">
-				<h1 class="h2 wikilink my-3 ml-3" id="editPermitFormSectionLabel" >
+			<main class="container pt-2 pb-5">
+				<h1 class="h2 wikilink my-2 ml-3" id="editPermitFormSectionLabel" >
 					Edit Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
 				</h1>
@@ -766,7 +766,7 @@ limitations under the License.
 						<cfif isdefined("headless") and headless EQ 'true'>
 							<input type="hidden" name="headless" value="true">
 						</cfif>
-						<div class="form-row my-2">
+						<div class="form-row my-2 pt-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="issued_by_agent_name" class="data-entry-label">
@@ -861,7 +861,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-									<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+									<button id="addSpecificTypeButton" class="btn-light rounded btn btn-xs" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
 									<div id="newPermitASTDialog"></div>
 								</cfif>
 							</div>

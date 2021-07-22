@@ -58,7 +58,7 @@ limitations under the License.
 								<div class="col-12 px-4 mt-3 py-1">
 									<form name="searchForm" id="searchForm"> 
 										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
-										<div class="form-row mb-2">
+										<div class="form-row my-2">
 											<div class="col-md-6">
 												<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
 												<input type="text" id="number_series" name="number_series" class="data-entry-input" value="#number_series#" aria-labelledby="number_series_label" >
@@ -76,11 +76,11 @@ limitations under the License.
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0">
-												<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-												<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-												<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+												<button class="btn-xs mr-1 btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="mr-1 btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="mr-1 btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
+													<button type="button" class="mr-1 btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
 												</cfif>
 											</div>
 										</div>

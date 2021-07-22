@@ -47,7 +47,7 @@
 					</cfif>
 				</cfif>
 			</div>
-			<div class="accordion w-100" id="accordionForTaxa">
+			<div class="accordion col-12 col-lg-9 col-xl-7 px-0 mb-3" id="accordionForTaxa">
 				<!--- included subspecies --->
 				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
@@ -84,32 +84,28 @@
 					<cfset collapsed = "collapsed">
 					<cfset collapseshow = "collapse">
 				</cfif>
-				<div class="card mb-2">
-					<div class="card-header py-0 w-100" id="headingPart">
-						<h2 class="h4 my-1 float-left">  
-							<a class="btn btn-link #collapsed#" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
-								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species): 
-							</a>
-						</h2>
+				<div class="card mb-2 bg-light">
+					<div class="card-header py-0" id="headingPart">
+						<h3 class="h4 my-0">
+							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseRelatedTaxa">
+								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species) 
+							</button>
+						</h3>
 					</div>
 					<div class="card-body px-3 py-0">
 						<div id="collapseRelatedTaxa" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 							<div class="row">
-								<div class="col-12 col-lg-6">
-									<br>
-									<cfif qspecies.recordcount EQ 0>No</cfif>
-									Congeneric Species:
-									<ul>
+								<div class="col-12 col-md-6">
+									<h4 class="mt-2"><cfif qspecies.recordcount EQ 0>No</cfif> Congeneric Species<cfif qspecies.recordcount GT 0>:</cfif></h4>
+									<ul class="px-0">
 										<cfloop query="qspecies">
 											<li><a href="/name/#scientific_name#">#display_name#</a></li>
 										</cfloop>
 									</ul>
 								</div>
-								<div class="col-12 col-lg-6">
-									<br>
-									<cfif qsubspecies.recordcount EQ 0>No</cfif>
-									<cfif len(t.subspecies) gt 0>Included </cfif>Subspecies:
-									<ul>
+								<div class="col-12 col-md-6">
+									<h4 class="mt-2"><cfif qsubspecies.recordcount EQ 0>No</cfif> <cfif len(t.subspecies) gt 0>Included </cfif>Subspecies<cfif qsubspecies.recordcount gt 0>:</cfif></h4>
+									<ul class="px-0">
 										<cfloop query="qsubspecies">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#qsubspecies.author_text#</span></a></li>
 										</cfloop>
@@ -121,7 +117,7 @@
 				</div>
 			</div><!--- accordion --->
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
-			<div class="accordion w-100" id="accordionForSpecies">
+			<div class="accordion col-12 col-lg-9 col-xl-7 px-0" id="accordionForSpecies">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
@@ -142,20 +138,19 @@
 					<cfset collapseshow = "collapse">
 				</cfif>
 				<div class="card mb-2">
-					<div class="card-header w-100" id="speciesHeadingPart">
-						<h2 class="h4 my-0 float-left">  
-							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseSpecies">
-								Included Species (#d.recordcount#): 
-							</a>
-						</h2>
+					<div class="card-header" id="speciesHeadingPart">
+						<h3 class="h4 my-0">  
+							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseSpecies">
+								Included Species (#d.recordcount#) 
+							</button>
+						</h3>
 					</div>
 					<div class="card-body px-3 py-0">
 						<div id="collapseSpecies" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForSpecies">
 							<div class="row">
-								<div class="col-12 col-lg-6">
-									<cfif d.recordcount EQ 0>No</cfif>
-									<br>Included Species:
-									<ul>
+								<div class="col-12 col-md-6">
+									<h4 class="mt-2"><cfif d.recordcount EQ 0>No</cfif> Included Species<cfif d.recordcount GT 0>:</cfif></h4>
+									<ul class="px-0">
 										<cfloop query="d">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
 										</cfloop>
