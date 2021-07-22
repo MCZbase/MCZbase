@@ -1359,7 +1359,7 @@ function saveSearch(returnURL){
 //			}
 //		);
 //	}
-//}
+}
 
 </script>
 <!---  script>
