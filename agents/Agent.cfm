@@ -337,7 +337,7 @@ limitations under the License.
 											</h2>
 										</div>
 										<div id="elecAddrCardBodyWrap" class="collapse show" aria-labelledby="elecAddrHeader" data-parent="##eaddressSection">
-											<div class="card-body py-1 mb-1">
+											<div class="card-body pt-0 pb-1 mb-1">
 												<cfif getAgentElecAddr.recordcount EQ 0>
 													<ul class="list-group">
 														<li class="list-group-item">None</li>
@@ -405,7 +405,7 @@ limitations under the License.
 																<cfset addressCurrency="Invalid">
 															<cfset listgroupclass="border-light">
 														</cfif>
-															<h3 class="small95 mb-0 px-2 mt-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
+															<h3 class="small95 my-1 px-2"> <span class="caps">#addr_type#</span> Address &ndash;&nbsp;#addressCurrency##rem##addressUse#</h3>
 														<div class="#listgroupclass# p-2 rounded w-100">#formatted_addr#</div>
 													</cfloop>
 												</cfif>
@@ -1169,8 +1169,8 @@ limitations under the License.
 												<cfif loan_item.recordcount GT 0>
 													<h3 class="small95 px-3 mt-2 mb-0">#prefName# reconciled #loan_item.recordcount# loan item#plural#</h3>
 												</cfif>
-												<div class="card-body pb-1 mb-1">
-													<ul class="list-group">
+												<div class="card-body pt-0 pb-1 mb-1">
+													<ul class="list-group mt-0">
 														<cfif loan_item.recordcount EQ 0>
 															<li class="list-group-item">None</li>
 														<cfelse>
@@ -1532,11 +1532,11 @@ limitations under the License.
 													</a>
 												</h3>
 											</cfif>
-											<div class="card-body pb-1 mb-1">
+											<div class="card-body pt-0 pb-1 mb-1">
 												<cfif getTransactions.recordcount EQ 0>
 													<ul class="list-group"><li class="list-group-item">Not a Transaction Agent in MCZbase</li></ul>
 												<cfelse>
-													<ul class="list-group">
+													<ul class="list-group mt-0">
 														<cfset lastTrans ="">
 														<cfset statusDate ="">
 														<cfloop query="getTransactions">
@@ -1639,7 +1639,7 @@ limitations under the License.
 										<div id="permitsCardBodyWrap" class="#bodyClass#" aria-labelledby="permitsHeader" data-parent="##permitAccord">
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalPermitCount# permissions and rights document#plural#.</h3>
 											<div class="card-body pt-0 pb-1 mb-1">
-												<ul class="list-group mt-0">
+												<ul class="list-group">
 													<cfif getPermitsTo.recordcount EQ 0>
 														<li class="list-group-item">No recorded permissions and rights documents issued to #encodeForHtml(prefName)#</li>
 													<cfelse>
@@ -1931,7 +1931,7 @@ limitations under the License.
 											<cfelse>
 												<h3 class="small95 px-2 mb-0">This agent record is linked to these other MCZbase tables:</h3>
 											</cfif>
-											<ul class="list-group mt-1">
+											<ul class="list-group mt-0">
 												<cfloop collection="#relatedTo#" item="key">
 													<li class="list-group-item">#key# (#relatedTo[key]#)</li>
 												</cfloop>
