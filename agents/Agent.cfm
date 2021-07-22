@@ -1266,7 +1266,6 @@ limitations under the License.
 														</cfif>
 														<cfloop query="packedBy">
 															<li class="list-group-item">
-																Packed Shipment for #transaction_type#
 																Packed shipment for #transaction_type#
 																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
 																	#collection# #specific_number#

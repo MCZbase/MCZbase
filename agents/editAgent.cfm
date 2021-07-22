@@ -903,7 +903,6 @@ limitations under the License.
 							});
 						</script>
 					</div>
-
 					<div class="form-row mb-1">
 						<div class="col-12">
 							<label for="biography" class="data-entry-label">Public Biography</label>
