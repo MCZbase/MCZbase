@@ -132,7 +132,7 @@
 					</td>
 					<td style="width: 130px;">
 						<label for="coll_object_remarks#i#">Remark</label>
-						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#getparts.coll_object_remarks#" size="26">
+						<input type="text" name="coll_object_remarks#i#" id="coll_object_remarks#i#" value="#encodeForHtml(getparts.coll_object_remarks)#" size="26">
 					</td>
 					<td>
 					<div class="ipad">
@@ -180,7 +180,7 @@
 								newPart.lot_count.value='#lot_count#';
 								newPart.coll_obj_disposition.value='#coll_obj_disposition#';
 								newPart.condition.value='#condition#';
-								newPart.coll_object_remarks.value='#coll_object_remarks#';">
+								newPart.coll_object_remarks.value='#encodeForHtml(coll_object_remarks)#';">
 					</td>
 				</tr>
 				<cfquery name="pAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
