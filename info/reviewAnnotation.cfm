@@ -203,7 +203,7 @@
 				<cfloop query="t">
 					<tr>
 						<td>
-							<h5 class="mb-1">
+							<h5 class="my-1">
 								<a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#publication_title#</a>
 							</h5>
 							<cfquery name="itemAnno" dbtype="query">
