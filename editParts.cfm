@@ -180,7 +180,7 @@
 								newPart.lot_count.value='#lot_count#';
 								newPart.coll_obj_disposition.value='#coll_obj_disposition#';
 								newPart.condition.value='#condition#';
-								newPart.coll_object_remarks.value='#encodeForHtml(coll_object_remarks)#';">
+								newPart.coll_object_remarks.value='#encodeForJavaScript(coll_object_remarks)#';">
 					</td>
 				</tr>
 				<cfquery name="pAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
