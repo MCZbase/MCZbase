@@ -638,7 +638,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="small95 mt-2 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
+														<h3 class="small95 mt-1 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
 													</cfif>
 												</cfif>
 											</cfif><!--- getAgentCollScope.recordcount > 1 --->
@@ -1172,10 +1172,10 @@ limitations under the License.
 												<div class="card-body pt-0 pb-1 mb-1">
 													<ul class="list-group mt-0">
 														<cfif loan_item.recordcount EQ 0>
-															<li class="list-group-item">None</li>
+															<li class="list-group-item pt-1">None</li>
 														<cfelse>
 															<cfloop query="loan_item">
-																<li class="list-group-item">Reconciled #cnt# items for Loan 
+																<li class="list-group-item pt-1">Reconciled #cnt# items for Loan 
 																	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 																</li>		
 															</cfloop>
@@ -1259,7 +1259,7 @@ limitations under the License.
 												<cfif totalShipCount GT 0>
 													<h3 class="small95 mt-2 px-3 mb-0">#prefName# has some role in #totalShipCount# shipment#plural#</h3>
 												</cfif>
-												<div class="card-body pb-1 mb-1">
+												<div class="card-body pt-0 pb-1 mb-1">
 													<ul class="list-group">
 														<cfif packedBy.recordcount EQ 0>
 															<li class="list-group-item">Packed no shipments for transactions</li>
