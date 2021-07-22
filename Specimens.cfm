@@ -306,7 +306,7 @@ function getVersion4UUID() {
 																<optgroup label="fields.search_category">
 																<cfset optgroupOpen = true>
 																<cfset category = fields.search_category>
-															<cfif>
+															</cfif>
 															<option value="#fields.table_name#:#fields.column_name#">#fields.label#</option>
 														</cfloop>
 														<cfif optgroupOpen>
