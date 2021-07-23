@@ -269,7 +269,7 @@ limitations under the License.
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
-																			<input type="button" value="Remove from Specimen Record" aria-label="Save Changes" class="btn btn-xs btn-danger" onclick="if (checkFormValidity($('#editMediaForm')[0])) { editMediaSubmit();  } ">
+																			<input type="button" value="Remove from Specimen Record" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="if (checkFormValidity($('##editMediaForm')[0])) { editMediaSubmit();  } ">
 																			<output id="saveMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
