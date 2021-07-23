@@ -2,13 +2,6 @@
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm">
 
-<cffunction name="getExternalStatus" access="remote">
-	<cfargument name="uri" type="string" required="yes">
-
-	<cfhttp url="#uri#" method="head"></cfhttp>
-	<cfreturn left(cfhttp.statuscode,3)>
-</cffunction>
-
 <!--- updateCondition update the condition on a part identified by the part's collection object id 
  @param part_id the collection_object_id for the part to update
  @param condition the new condition to update the part to 
