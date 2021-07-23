@@ -93,7 +93,9 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header p-0 m-0" id="headingMedia1">
 										<h2 class="h4 my-0">
-											<button type="button" class="bg-light border-0 px-3 py-2 headerLnk w-100 text-left" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="false" aria-controls="collapseMedia1">Add New Media Record &amp; Link it to this Specimen</button>
+											<button type="button" class="bg-light border-0 px-3 py-2 headerLnk w-100 text-left" style="font-size: 1.15rem;" data-toggle="collapse" data-target="##collapseMedia1" aria-expanded="false" aria-controls="collapseMedia1">
+												Add New Media Record &amp; Link it to this Specimen
+											</button>
 										</h2>
 									</div>
 									<div id="collapseMedia1" class="collapse" aria-labelledby="headingMedia1" data-parent="##accordionMediaDialog">
@@ -162,8 +164,8 @@ limitations under the License.
 								<div class="card">
 									<div class="card-header p-0 m-0" id="headingMedia2">
 										<h2 class="h4 my-0">
-											<button type="button" class="bg-light border-0 px-3 py-2 headerLnk w-100 text-left" data-toggle="collapse" data-target="##collapseMedia2" aria-expanded="true" aria-controls="collapseMedia2">Remove Media from this Specimen Record 
-												
+											<button type="button" class="bg-light border-0 px-3 py-2 headerLnk w-100 text-left" style="font-size: 1.15rem;" data-toggle="collapse" data-target="##collapseMedia2" aria-expanded="true" aria-controls="collapseMedia2">
+												Remove Media from this Specimen Record 
 											</button>
 										</h2>
 									</div>
