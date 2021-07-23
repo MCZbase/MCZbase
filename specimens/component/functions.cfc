@@ -82,9 +82,13 @@ limitations under the License.
 				<div class="container-fluid my-4">
 					<div class="row mx-0">
 						<div class="col-12">
-							<h1>Add media to or remove media from this specimen record</h1>
+							<h1>Add media to or remove media from this specimen record 
+								<a href="javascript:void(0);" onClick="getMCZDocs('media')">
+									<i class="fa fa-info-circle"></i>
+								</a> 
+							</h1>
 						</div>
-						<div class="col-9 float-left px-0">
+						<div class="col-12 float-left px-0">
 							<div id="accordionMediaDialog">
 								<div class="card">
 									<div class="card-header" id="headingMedia1">
@@ -159,9 +163,7 @@ limitations under the License.
 									<div class="card-header" id="headingMedia2">
 										<h2 class="h4 my-0">
 											<button class="p-0 headerLnk w-100 text-left" data-toggle="collapse" data-target="##collapseMedia2" aria-expanded="true" aria-controls="collapseMedia2"> Remove Media from this Specimen Record 
-												<a href="javascript:void(0);" onClick="getMCZDocs('media')">
-													<i class="fa fa-info-circle"></i>
-												</a> 
+												
 											</button>
 										</h2>
 									</div>
