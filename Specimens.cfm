@@ -1186,7 +1186,7 @@ function getVersion4UUID() {
 
 	function gridLoaded(gridId, searchType, whichGrid) {
 			if (Object.keys(window.columnHiddenSettings).length == 0) { 
-				window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+				window.columnHiddenSettings = getColumnVisibilities(gridId);		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 				</cfif>
@@ -1273,7 +1273,7 @@ function getVersion4UUID() {
 					{
 						text: "Ok",
 						click: function(){ 
-							window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
+							window.columnHiddenSettings = getColumnVisibilities(gridId);		
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
 							</cfif>
@@ -1307,7 +1307,7 @@ function getVersion4UUID() {
 			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-			$('##"+whichGrid+"resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 		}
 </script>
 
