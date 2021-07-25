@@ -90,7 +90,7 @@ limitations under the License.
 		<cfset field = 'field: "genus"'>
 		<cfif left(genus,1) is "=">
 			<cfset value="#ucase(right(genus,len(genus)-1))#">
-			<cfset comparator = 'comparator: "equals"'>
+			<cfset comparator = 'comparator: "="'>
 		<cfelseif left(genus,1) IS "!">
 			<cfset value="#ucase(right(genus,len(genus)-1))#">
 			<cfset comparator = 'comparator: "not like"'>
@@ -106,7 +106,7 @@ limitations under the License.
 		<cfset field = 'field: "family"'>
 		<cfif left(family,1) is "=">
 			<cfset value="#ucase(right(family,len(family)-1))#">
-			<cfset comparator = 'comparator: "equals"'>
+			<cfset comparator = 'comparator: "="'>
 		<cfelseif left(family,1) IS "!">
 			<cfset value="#ucase(right(family,len(family)-1))#">
 			<cfset comparator = 'comparator: "not like"'>
@@ -120,7 +120,7 @@ limitations under the License.
 	</cfif>
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = 'field: "collector_agent_id"'>
-		<cfset comparator = 'comparator: "equals"'>
+		<cfset comparator = 'comparator: "="'>
 		<cfset value = encodeForJavaScript(collector_agent_id)>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
@@ -130,7 +130,7 @@ limitations under the License.
 			<cfset field = 'field: "collector"'>
 			<cfif left(collector,1) is "=">
 				<cfset value="#ucase(right(collector,len(collector)-1))#">
-				<cfset comparator = 'comparator: "equals"'>
+				<cfset comparator = 'comparator: "="'>
 			<cfelseif left(collector,1) IS "!">
 				<cfset value="#ucase(right(collector,len(collector)-1))#">
 				<cfset comparator = 'comparator: "not like"'>
@@ -154,8 +154,8 @@ limitations under the License.
 	<cftry>
 		<cfset username = session.dbuser>
 		<!--- TODO: Implement returnCode from build_query, 0=success, non zero error condition. --->
-		<!--- cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
-		<cfstoredproc procedure="build_query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+		<!--- cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
+		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
