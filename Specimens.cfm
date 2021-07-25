@@ -1314,8 +1314,37 @@ function getVersion4UUID() {
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 	$(document).ready(function(){
-		// <!--- TODO: Replace with a lookup of fields from the metadata table --->
-		$(".addCF").click(function(){$("##customFields").append('<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2"><select title="Join Operator" name="JoinOperator" id="joinOperator" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select></li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2"><select title="Select Type" name="SelectType" class="data-entry-select bg-white d-flex"><option>Select Type...</option><optgroup label="Identifiers"><option>MCZ Catalog (Collection)</option><option>Catalog Number</option><option>Number plus other identifiers?</option><option>Other Identifier Type</option><option>Accession</option><option>Accession Agency</option></optgroup><optgroup label="Taxonomy"><option>Any Taxonomic Element</option><option>Scientific Name</option><option>Began Date</option><option>Ended Date</option></optgroup></select></li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2"><select title="Comparator" name="comparator" id="comparator" class="bg-white data-entry-select d-flex"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="data-entry-input" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/></li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end"><button href="javascript:void(0);" arial-label="remove" class="btn-xs px-3 btn-primary remCF mr-auto">Remove</button></li></ul>');
+		var newControls = '<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
+      newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
+      newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
+
+		newControls = newControls + '<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">';
+		newControls = newControls + '<option>Select Type...</option>';
+		<cfset category = "">
+		<cfset optgroupOpen = false>
+		<cfloop query="fields">
+			<cfif category NEQ fields.search_category>
+				<cfif optgroupOpen>
+					newControls = newControls + '</optgroup>';
+					<cfset optgroupOpen = false>
+				</cfif>
+				newControls = newControls + '<optgroup label="fields.search_category">';
+				<cfset optgroupOpen = true>
+				<cfset category = fields.search_category>
+			</cfif>
+			newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label#</option>';
+		</cfloop>
+		<cfif optgroupOpen>
+			newControls = newControls + '</optgroup>';
+		</cfif>
+		newControls = newControls + '</select>';
+
+		newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
+      newControls = newControls + '<select title="Comparator" name="comparator" id="comparator" class="bg-white data-entry-select d-flex"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="data-entry-input" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/>';
+		newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
+		newControls = newControls + '<button href="javascript:void(0);" arial-label="remove" class="btn-xs px-3 btn-primary remCF mr-auto">Remove</button>';
+		newControls = newControls + '</li></ul>';
+		$(".addCF").click(function(){$("##customFields").append(newControls);
 		$("##customFields").on('click','.remCF',function(){
 			$(this).parent().parent().remove();
 			});
