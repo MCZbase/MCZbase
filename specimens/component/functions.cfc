@@ -269,7 +269,7 @@ limitations under the License.
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
-																			<button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeMedia(#related_primary_key#, #media_id#)">Remove from Specimen Record</button>
+																			<button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeMedia(#collection_object_id#, #media_id#)">Remove from Specimen Record</button>
 																			<output id="removeMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
