@@ -451,7 +451,7 @@ function getVersion4UUID() {
 												<cfif not isdefined("collector")>
 													<cfset collector="">
 												</cfif>
-												<cfif not isdefined("collector_agent_id")>
+												<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
 													<cfif len(collector) EQ 0>
 														<cfset collector_agent_id ="">
 													<cfelse>
@@ -754,7 +754,7 @@ function getVersion4UUID() {
 		$("##"+gridPrefix+"resultCount").html("");
 		$("##"+gridPrefix+"resultLink").html("");
 		var debug = $("##"+gridPrefix+"SearchForm").serialize();
-		console.log(debug);*/
+		console.log(debug);
 		/*var datafieldlist = [ ];//add synchronous call to cf component*/
 
 		var search =
