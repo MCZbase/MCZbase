@@ -168,9 +168,9 @@ limitations under the License.
 							</script>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h4 my-0 float-left text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-										<span class="text-success small">(#ctmedia.ct#)</span>
+										<span class="text-success font-weight-light">(#ctmedia.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
@@ -343,7 +343,7 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-success small ml-1">(#ctPart.ct#)</span>
+										Parts <span class="text-success font-weight-light">(#ctPart.ct#)</span>
 									</button>
 									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
