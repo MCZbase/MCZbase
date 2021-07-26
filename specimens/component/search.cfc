@@ -78,6 +78,18 @@ limitations under the License.
 		<cfif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = 'comparator: "="'>
+		<cfelseif left(anyName,1) is "~">
+			<cfset value="#ucase(right(value,len(value)-1))#">
+			<cfset comparator = 'comparator: "JARO_WINKLER"'>
+		<cfelseif left(anyName,2) is "!~">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = 'comparator: "NOT JARO_WINKLER"'>
+		<cfelseif left(anyName,1) is "$">
+			<cfset value="#ucase(right(value,len(value)-1))#">
+			<cfset comparator = 'comparator: "SOUNDEX"'>
+		<cfelseif left(anyName,2) is "!$">
+			<cfset value="#ucase(right(value,len(value)-2))#">
+			<cfset comparator = 'comparator: "NOT SOUNDEX"'>
 		<cfelseif left(value,1) IS "!">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = 'comparator: "not like"'>
@@ -116,20 +128,10 @@ limitations under the License.
 
 	<cfif isDefined("genus") AND len(genus) GT 0>
 		<cfset field = 'field: "genus"'>
-		<cfif left(genus,1) is "=">
-			<cfset value="#ucase(right(genus,len(genus)-1))#">
-			<cfset comparator = 'comparator: "="'>
-		<cfelseif left(genus,1) IS "!">
-			<cfset value="#ucase(right(genus,len(genus)-1))#">
-			<cfset comparator = 'comparator: "not like"'>
-		<cfelse>
-			<cfset comparator = 'comparator: "like"'>
-			<cfset value = encodeForJavaScript(genus)>
-		</cfif>
-		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
-		<cfset separator = ",">
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
 		<cfset join='join="and",'>
 	</cfif>
+
 	<cfif isDefined("family") AND len(family) GT 0>
 		<cfset field = 'field: "family"'>
 		<cfif left(family,1) is "=">
