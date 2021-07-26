@@ -304,13 +304,14 @@ limitations under the License.
 		<cfthread name="removeMediaThread"> 
 		<cfoutput>
 			<cftry>
+				
 				<cfquery name="mediaDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete
 						media_relations
 					where
 						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
 					and 
-						media_relations.related_primary_key = <cfqueryparam value=#related_primary_key# CFSQLType="CF_SQL_DECIMAL" >
+						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
 				<cfcatch>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
