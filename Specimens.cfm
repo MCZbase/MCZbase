@@ -423,7 +423,7 @@ function getVersion4UUID() {
 										<div class="form-row mb-2">
 											<div class="col-12 col-md-3">
 												<label for="taxa" class="data-entry-label">Any Taxonomy</label>
-												<input id="taxa" class="data-entry-input" aria-label="any taxonomy" disabled>
+												<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy">
 											</div>
 											<div class="col-12 col-md-3">
 												<label for="family" class="data-entry-label">Family</label>

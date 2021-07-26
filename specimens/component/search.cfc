@@ -69,6 +69,26 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="constructJsonForField">
+	<cfargument name="join" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+
+	<cfset search_json = "">
+		<cfif left(value,1) is "=">
+			<cfset value="#ucase(right(value,len(value)-1))#">
+			<cfset comparator = 'comparator: "="'>
+		<cfelseif left(value,1) IS "!">
+			<cfset value="#ucase(right(value,len(value)-1))#">
+			<cfset comparator = 'comparator: "not like"'>
+		<cfelse>
+			<cfset comparator = 'comparator: "like"'>
+			<cfset value = encodeForJavaScript(value)>
+		</cfif>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+	<cfreturn #search_json#>
+</cfunction>
+
 <!--- Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
 	@param debug if given a value, dump the json that would be sent to build_query instead of
@@ -76,6 +96,7 @@ limitations under the License.
 --->
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
@@ -85,6 +106,13 @@ limitations under the License.
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
+
+	<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
+		<cfset field = 'field: "full_taxon_name"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
 
 	<cfif isDefined("genus") AND len(genus) GT 0>
 		<cfset field = 'field: "genus"'>
@@ -199,6 +227,7 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
 <!---
 Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substring match on guid, returning json suitable for jquery-ui autocomplete
  with a _renderItem overriden to display more detail on the picklist, and just the guid as the selected value.
