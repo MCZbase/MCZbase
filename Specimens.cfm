@@ -757,15 +757,8 @@ function getVersion4UUID() {
 			id: 'collection_object_id',
 			url: '/specimens/component/search.cfc?' + $("##"+gridPrefix+"SearchForm").serialize(),
 			timeout: 30000,  // units not specified, miliseconds?
-			loadError: function(jqXHR, status, error) {
-				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') {
-			   	message = ' Server took too long to respond.';
-				} else {
-					message = jqXHR.responseText;
-				}
-			messageDialog('Error:' + message ,'Error: ' + error);
+			loadError: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 			},
 			async: true
 		};
@@ -913,15 +906,8 @@ function getVersion4UUID() {
 				id: 'collection_object_id',
 				url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
 				timeout: 30000,  // units not specified, miliseconds?
-				loadError: function(jqXHR, status, error) {
-					$("##overlay").hide();
-					var message = "";
-					if (error == 'timeout') {
-				   	message = ' Server took too long to respond.';
-					} else {
-						message = jqXHR.responseText;
-					}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				loadError: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 				},
 				async: true
 			};
