@@ -343,7 +343,7 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-success font-weight-light ml-1">(#ctPart.ct#)</span>
+										Parts <span class="text-success font-weight-light">(#ctPart.ct#)</span>
 									</button>
 									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>

@@ -323,7 +323,7 @@ limitations under the License.
 							AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfif accepted_id_fg is 1>
-						<ul class="list-group border-green mx-2 rounded px-3 py-2 h4 font-weight-normal">
+						<ul class="list-group border-green mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
