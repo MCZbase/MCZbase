@@ -304,7 +304,6 @@ limitations under the License.
 		<cfthread name="removeMediaThread"> 
 		<cfoutput>
 			<cftry>
-				
 				<cfquery name="mediaDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete
 						media_relations
@@ -313,16 +312,36 @@ limitations under the License.
 					and 
 						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 				</cfquery>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "saved">
+				<cfset row["id"] = "#media_id#">
+				<cfset data[1] = row>
+				<cftransaction action="commit">
 				<cfcatch>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
+					<cftransaction action="rollback">
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+						<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfheader statusCode="500" statusText="#message#">
+					<cfoutput>
+						<div class="container">
+							<div class="row">
+								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+									<h2>Internal Server Error.</h2>
+									<p>#message#</p>
+									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+								</div>
+							</div>
+						</div>
+					</cfoutput>
+					<cfabort>
 				</cfcatch>
 			</cftry>
-		</cfoutput>
-		</cfthread>
-	<cfthread action="join" name="removeMediaThread" />
-	<cfreturn removeMediaThread.output>
+		</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 <!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
