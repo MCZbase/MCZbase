@@ -207,7 +207,7 @@ function getVersion4UUID() {
 					<div class="tab-content">
 						<!---Keyword Search/results tab panel--->
 						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
-							<section role="search" class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
+							<section role="search" class="container-fluid">
 								<form name= "keywordSearchForm" id="keywordSearchForm">
 									<input id="result_id_keywordSearch" type="hidden" name="result_id" value="">
 									<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
@@ -228,8 +228,8 @@ function getVersion4UUID() {
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-12 col-sm-3 col-md-3">
+									<div class="form-row mt-1">
+										<div class="col-12">
 											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
 											<button type="submit" class="btn btn-xs btn-primary px-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 										</div>
@@ -282,10 +282,10 @@ function getVersion4UUID() {
 
 							<!---Query Builder tab panel--->
 						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
-							<section role="search" class="bg-0 col-sm-12 col-md-12 p-0">
+							<section role="search" class="container-fluid">
 								<form id="builderSearchForm">
 									<input id="result_id_builderSearch" type="hidden" name="result_id" value="">
-									<div class="input-group">
+									<div class="row">
 										<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 											<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 												<div class="col-md-3 col-sm-12 p-0 mx-1">
@@ -338,7 +338,7 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mt-1">
-											<div class="col-sm-10">
+											<div class="col-12">
 												<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 													<!--- TODO: Move to top of search results bar, available after running search --->
@@ -388,7 +388,7 @@ function getVersion4UUID() {
 
 						<!---Fixed Search tab panel--->
 						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
-							<section role="search">
+							<section role="search" class="container-fluid">
 								<form id="fixedSearchForm">
 									<input id="result_id_fixedSearch" type="hidden" name="result_id" value="">
 									<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
@@ -518,7 +518,7 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mt-1">
-											<div class="col-sm-10">
+											<div class="col-12">
 												<button type="submit" class="btn mr-1 px-3 pb-1 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 											</div>
 										</div>
