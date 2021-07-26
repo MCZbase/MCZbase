@@ -744,7 +744,6 @@ function getVersion4UUID() {
 
 	/* execute arbitrary search and populate jqxgrid  */
 	function setupGrid(gridId,gridPrefix) { 
-		evt.preventDefault();
 		var uuid = getVersion4UUID();
 		$("##result_id_"+gridPrefix+"Search").val(uuid);
 
@@ -887,149 +886,16 @@ function getVersion4UUID() {
 
 	$(document).ready(function() {
 		/* Setup jqxgrid for keyword Search */
-		$('##keywordSearchForm').bind('submit', setupGrid('keywordSearchForm','keyword'));
+		$('##keywordSearchForm').bind('submit', function(evt){ 
+			evt.preventDefault();
+			setupGrid('keywordSearchResultsGrid','keyword');
+		});
 
 		/* Setup jqxgrid for builder Search */
 		$('##builderSearchForm').bind('submit', function(evt){
 			evt.preventDefault();
-			//getVersion4UUID()
-
-			$("##overlay").show();
-
-			$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-			$('##builderresultCount').html('');
-			$('##builderresultLink').html('');
-			/*var debug = $('##builderSearchForm').serialize();
-			console.log(debug);*/
-			/*var datafieldlist = [ ];//add synchronous call to cf component*/
-
-			var search =
-			{
-				datatype: "json",
-				datafields:
-				[
-					{name: 'GUID', type: 'string' },
-					{name: 'IMAGEURL', type: 'string' },
-					{name: 'COLLECTION_OBJECT_ID', type: 'n' },
-					{name: 'COLLECTION', type: 'string' },
-					{name: 'CAT_NUM', type: 'string' },
-					{name: 'BEGAN_DATE', type: 'string' },
-					{name: 'ENDED_DATE', type: 'string' },
-					{name: 'SCIENTIFIC_NAME', type: 'string' },
-					{name: 'SPEC_LOCALITY', type: 'string' },
-					{name: 'LOCALITY_ID', type: 'n' },
-					{name: 'HIGHER_GEOG', type: 'string' },
-					{name: 'COLLECTORS', type: 'string' },
-					{name: 'VERBATIM_DATE', type: 'string' },
-					{name: 'COLL_OBJECT_DISPOSITION', type: 'string' },
-					{name: 'OTHERCATALOGNUMBERS', type: 'string' }
-				],
-				updaterow: function (rowid, rowdata, commit) {
-					commit(true);
-				},
-				root: 'specimenRecord',
-				id: 'collection_object_id',
-				url: '/specimens/component/search.cfc?' + $('##builderSearchForm').serialize(),
-				timeout: 30000,  // units not specified, miliseconds?
-				loadError: function(jqXHR, status, error) {
-					$("##overlay").hide();
-					var message = "";
-					if (error == 'timeout') {
-				   	message = ' Server took too long to respond.';
-					} else {
-						message = jqXHR.responseText;
-					}
-				messageDialog('Error:' + message ,'Error: ' + error);
-				},
-				async: true
-			};
-
-			var dataAdapter = new $.jqx.dataAdapter(search);
-			var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-				// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-				var details = $($(parentElement).children()[0]);
-				details.html("<div id='rowDetailsTarget" + index + "'></div>");
-				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-				// Workaround, expansion sits below row in zindex.
-				var maxZIndex = getMaxZIndex();
-				$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-			}
-
-			$("##buildersearchResultsGrid").jqxGrid({
-				width: '100%',
-				autoheight: 'true',
-				source: dataAdapter,
-				filterable: true,
-				sortable: true,
-				pageable: true,
-				editable: false,
-				pagesize: '50',
-				pagesizeoptions: ['5','50','100'], // reset in gridLoaded
-				showaggregates: true,
-				columnsresize: true,
-				autoshowfiltericon: true,
-				autoshowcolumnsmenubutton: false,
-				autoshowloadelement: false,  // overlay acts as load element for form+results
-				columnsreorder: true,
-				groupable: true,
-				selectionmode: 'singlerow',
-				altrows: true,
-				showtoolbar: false,
-				ready: function () {
-					$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
-				},
-				// This part needs to be dynamic.
-				columns: [
-					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
-					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
-					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
-					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
-					{text: 'Began Date', datafield: 'BEGAN_DATE', width: 180, cellsformat: 'yyyy-mm-dd', filtertype: 'date', hidable: true, hidden: getColHidProp('BEGAN_DATE', false) },
-					{text: 'Ended Date', datafield: 'ENDED_DATE',filtertype: 'date', cellsformat: 'yyyy-mm-dd',width: 180, hidable: true, hidden: getColHidProp('ENDED_DATE', false) },
-					{text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width: 250, hidable: true, hidden: getColHidProp('SCIENTIFIC_NAME', false) },
-					{text: 'Specific Locality', datafield: 'SPEC_LOCALITY', width: 250, hidable: true, hidden: getColHidProp('SPEC_LOCALITY', false) },
-					{text: 'Locality by ID', datafield: 'LOCALITY_ID', width: 100, hidable: true, hidden: getColHidProp('LOCALITY_ID', true)  },
-					{text: 'Higher Geography', datafield: 'HIGHER_GEOG', width: 280, hidable: true, hidden: getColHidProp('HIGHER_GEOG', false) },
-					{text: 'Collectors', datafield: 'COLLECTORS', width: 180, hidable: true, hidden: getColHidProp('COLLECTORS', false) },
-					{text: 'Verbatim Date', datafield: 'VERBATIM_DATE', width: 190, hidable: true, hidden: getColHidProp('VERBATIM_DATE', false) },
-					{text: 'Other IDs', datafield: 'OTHERCATALOGNUMBERS', hidable: true, hidden: getColHidProp('OTHERCATALOGNUMBERS', false)  }
-				],
-				rowdetails: true,
-				rowdetailstemplate: {
-					rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-					rowdetailsheight:  1 // row details will be placed in popup dialog
-				},
-				initrowdetails: initRowDetails
-			});
-
-			$("##buildersearchResultsGrid").on("bindingcomplete", function(event) {
-				// add a link out to this search, serializing the form as http get parameters
-				$('##builderresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##builderSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-				gridLoaded('buildersearchResultsGrid','occurence record','builder');
-			});
-			$('##buildersearchResultsGrid').on('rowexpand', function (event) {
-				//  Create a content div, add it to the detail row, and make it into a dialog.
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				var datarecord = args.owner.source.records[rowIndex];
-				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-			});
-			$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
-				// remove the dialog holding the row details
-				var args = event.args;
-				var rowIndex = args.rowindex;
-				$("##buildersearchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-			});
-			// display selected row index.
-			$("##buildersearchResultsGrid").on('rowselect', function (event) {
-				$("##builderselectrowindex").text(event.args.rowindex);
-			});
-			// display unselected row index.
-			$("##buildersearchResultsGrid").on('rowunselect', function (event) {
-				$("##builderunselectrowindex").text(event.args.rowindex);
-			});
+			setupGrid('builderSearchResultsGrid','builder');
 		});
-		/* End Setup jqxgrid for builder Search ************************************************************************************************/
 
 		/* Setup jqxgrid for fixed Search */
 		$('##fixedSearchForm').bind('submit', function(evt){
