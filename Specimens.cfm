@@ -743,7 +743,7 @@ function getVersion4UUID() {
 
 
 	/* execute arbitrary search and populate jqxgrid  */
-	function setupGrid(gridId,gridPrefix)
+	function setupGrid(gridId,gridPrefix) { 
 		evt.preventDefault();
 		var uuid = getVersion4UUID();
 		$("##result_id_"+gridPrefix+"Search").val(uuid);
