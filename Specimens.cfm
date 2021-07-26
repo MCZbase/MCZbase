@@ -857,7 +857,7 @@ function getVersion4UUID() {
 
 		$("##"+gridId).on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
-			$('##resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##'+gridPrefix+'resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded(gridId,'occurrence record',gridPrefix);
 		});
 		$('##'+gridId).on('rowexpand', function (event) {
