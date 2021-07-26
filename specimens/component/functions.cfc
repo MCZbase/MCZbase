@@ -302,7 +302,7 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="removeMediaThread"> 
-		<cfoutput>
+		<cftransaction>
 			<cftry>
 				<cfquery name="mediaDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete
