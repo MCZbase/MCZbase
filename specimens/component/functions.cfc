@@ -269,7 +269,7 @@ limitations under the License.
 																		</div>
 																		<div class="col-7 p-2 float-left">
 																			<p class="small95">#description#</p>
-																			<button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeMedia(related_primary_id, media_id)">Remove from Specimen Record</button>
+																			<button type="button" aria-label="Remove Media" class="btn btn-xs btn-danger" onclick="removeMedia(#related_primary_key#, #media_id#)">Remove from Specimen Record</button>
 																			<output id="removeMediaResultDiv" class="text-danger">&nbsp;</output>
 																		</div>
 																	</div>
@@ -292,14 +292,42 @@ limitations under the License.
 					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
 				</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getEditMediaThread" />
 	<cfreturn getEditMediaThread.output>
+</cffunction>
+<!---remove media --button for removing media relationship = shows cataloged_item--->
+<cffunction name="removeMedia" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfthread name="removeMediaThread"> 
+		<cfoutput>
+			<cftry>
+				<cfquery name="mediaDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					delete
+						media_relations
+					where
+						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+					and 
+						media_relations.related_primary_key = <cfqueryparam value=#related_primary_key# CFSQLType="CF_SQL_DECIMAL" >
+				</cfquery>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
+				</cfcatch>
+			</cftry>
+		</output>
+		</cfthread>
+	<cfthread action="join" name="removeMediaThread" />
+	<cfreturn removeMediaThread.output>
 </cffunction>
 <!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="getEditMediaDetailsThread"> <cfoutput>
+	<cfthread name="getEditMediaDetailsThread"> 
+		<cfoutput>
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
