@@ -212,7 +212,7 @@ function getVersion4UUID() {
 									<input id="result_id_keywordSearch" type="hidden" name="result_id" value="">
 									<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
 									<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
-									<div class="row">
+									<div class="form-row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 												<label for="collmultiselect" class="sr-only">Collection</label>
@@ -285,7 +285,7 @@ function getVersion4UUID() {
 							<section role="search" class="container-fluid">
 								<form id="builderSearchForm">
 									<input id="result_id_builderSearch" type="hidden" name="result_id" value="">
-									<div class="row">
+									<div class="form-row">
 										<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 											<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 												<div class="col-md-3 col-sm-12 p-0 mx-1">
@@ -296,7 +296,7 @@ function getVersion4UUID() {
 															search_category, table_name, label
 													</cfquery>
 													<label for="selectType" class="sr-only">Search Field</label>
-													<!--- TODO: Mopve into a backing component for reuse with an ajax add field --->
+													<!--- TODO: Move into a backing component for reuse with an ajax add field --->
 													<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
 														<option>Select Type...</option>
 														<cfset category = "">
@@ -336,18 +336,18 @@ function getVersion4UUID() {
 													<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 												</div>
 											</div>
-										</div>
-										<div class="form-row mt-1">
-											<div class="col-12">
-												<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-													<!--- TODO: Move to top of search results bar, available after running search --->
-													<!--- TODO: Add handler to carry out this action --->
-													<button type="button" class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
-														Save to My Account <i class="fa fa-user-cog"></i>
-													</button>
-												</cfif>
-											</div>
+										</div><!--- end customFields: new form rows get appended here --->
+									</div>
+									<div class="form-row mt-1">
+										<div class="col-12">
+											<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+												<!--- TODO: Move to top of search results bar, available after running search --->
+												<!--- TODO: Add handler to carry out this action --->
+												<button type="button" class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
+													Save to My Account <i class="fa fa-user-cog"></i>
+												</button>
+											</cfif>
 										</div>
 									</div>
 								</form>
