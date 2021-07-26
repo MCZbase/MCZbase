@@ -318,7 +318,7 @@ limitations under the License.
 					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
 				</cfcatch>
 			</cftry>
-		</output>
+		</cfoutput>
 		</cfthread>
 	<cfthread action="join" name="removeMediaThread" />
 	<cfreturn removeMediaThread.output>
