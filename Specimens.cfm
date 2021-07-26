@@ -574,38 +574,6 @@ function getVersion4UUID() {
 			});
 		</script>
 	
-		<!--Grid Related code below along with search handler for keyword search-->
-		<section class="container-fluid">
-			<div class="row mx-0">
-				<div class="col-12">
-					<div class="mb-5">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-							<h1 class="h4">Results: </h1>
-							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-							<div id="columnPickDialog">
-								<div class="container-fluid">
-									<div class="row">
-										<div class="col-12 col-md-6">
-											<div id="columnPick" class="px-1"></div>
-										</div>
-										<div class="col-12 col-md-6">
-											<div id="columnPick1" class="px-1"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer"></div>
-						</div>
-						<div class="row mt-0"> 
-							<!--- Grid Related code is below along with search handlers --->
-							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-							<div id="enableselection"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
 	</main>
 	<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 		<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
@@ -857,7 +825,7 @@ function getVersion4UUID() {
 
 		$("##"+gridId).on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
-			$('##resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##'+gridPrefix+'resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded(gridId,'occurrence record',gridPrefix);
 		});
 		$('##'+gridId).on('rowexpand', function (event) {
@@ -888,13 +856,13 @@ function getVersion4UUID() {
 		/* Setup jqxgrid for keyword Search */
 		$('##keywordSearchForm').bind('submit', function(evt){ 
 			evt.preventDefault();
-			setupGrid('keywordSearchResultsGrid','keyword');
+			setupGrid('keywordsearchResultsGrid','keyword');
 		});
 
 		/* Setup jqxgrid for builder Search */
 		$('##builderSearchForm').bind('submit', function(evt){
 			evt.preventDefault();
-			setupGrid('builderSearchResultsGrid','builder');
+			setupGrid('buildersearchResultsGrid','builder');
 		});
 
 		/* Setup jqxgrid for fixed Search */
@@ -985,7 +953,7 @@ function getVersion4UUID() {
 				altrows: true,
 				showtoolbar: false,
 				ready: function () {
-					$("##searchResultsGrid").jqxGrid('selectrow', 0);
+					$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 				},
 				// This part needs to be dynamic.
 				columns: [
@@ -1164,7 +1132,7 @@ function getVersion4UUID() {
 			});
 			$("##"+whichGrid+"columnPickDialogButton").html(
 				`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-				<button id="pinGuidToggle" onclick=" togglePinGuidColumn(`+gridId+`,'GUID'); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
+				<button id="pinGuidToggle" onclick=" togglePinColumn(`+gridId+`,'GUID'); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
 				`
 			);
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1175,7 +1143,7 @@ function getVersion4UUID() {
 			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-			$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\''+whichGrid+'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 		}
 
 		function togglePinColumn(gridId,column) { 
