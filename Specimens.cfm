@@ -340,14 +340,13 @@ function getVersion4UUID() {
 										<div class="form-row mt-1">
 											<div class="col-sm-10">
 												<button type="submit" class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<span class="d-flex justify-content-center col-sm-12 px-1">
-													<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-														<!--- TODO: Move to top of search results bar, available after running search --->
-														<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="save this search">
-															Save to My Account <i class="fa fa-user-cog"></i>
-														</button>
-													</cfif>
-												</span> 
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+													<!--- TODO: Move to top of search results bar, available after running search --->
+													<!--- TODO: Add handler to carry out this action --->
+													<button type="button" class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
+														Save to My Account <i class="fa fa-user-cog"></i>
+													</button>
+												</cfif>
 											</div>
 										</div>
 									</div>
