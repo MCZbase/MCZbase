@@ -87,7 +87,7 @@ limitations under the License.
 		</cfif>
 		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 	<cfreturn #search_json#>
-</cfunction>
+</cffunction>
 
 <!--- Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
