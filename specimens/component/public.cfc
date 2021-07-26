@@ -1853,21 +1853,39 @@ limitations under the License.
 					coll_order
 			</cfquery>
 			<ul class="list-unstyled list-group form-row p-1 mb-0">
-					<cfif colls.recordcount gt 0>
+				<cfif colls.recordcount gt 0>
+					<cfif colls.recordcount eq 1>
+						<li class="list-group-item"><h5 class="my-0">Collector:&nbsp;</h5>
+							<cfloop query="colls">
+								#colls.collectors#
+							</cfloop>
+						</li>
+					<cfelse>
 						<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
 							<cfloop query="colls">
 								#colls.collectors#<span>,</span>
 							</cfloop>
 						</li>
 					</cfif>
-					<cfif preps.recordcount gt 0>
-						<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
+				</cfif>
+				<cfif preps.recordcount gt 0>
+					<cfif preps.recordcount eq 1>
+						<li class="list-group-item">
+							<h5 class="my-0">Preparator:&nbsp;</h5>
+							<cfloop query="preps">
+								#preps.preparators#
+							</cfloop>
+						</li>
+					<cfelse>
+						<li class="list-group-item">
+							<h5 class="my-0">Preparators:&nbsp;</h5>
 							<cfloop query="preps">
 								#preps.preparators#<span>,</span>
 							</cfloop>
 						</li>
 					</cfif>
 				</ul>
+				</cfif>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
