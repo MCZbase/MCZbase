@@ -1290,13 +1290,8 @@ function getVersion4UUID() {
 				}
 			});
 			$("##"+whichGrid+"columnPickDialogButton").html(
-				`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide
-					<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-					<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
-					<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
-					<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
-				</span>
-				<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
+				`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+				<button id="pinGuidToggle" onclick=" togglePinGuidColumn(`+gridID+`); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
 				`
 			);
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1309,14 +1304,25 @@ function getVersion4UUID() {
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			$('##'+whichGrid+'resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 		}
+
+		function togglePinGuidColumn(gridId) { 
+			var state = $('##'+gridId).jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+			$("##"+gridId).jqxGrid('beginupdate');
+			if (state==true) {
+				$('##'+gridId).jqxGrid('unpincolumn', 'display_name_author');
+			} else {
+				$('##'+gridId).jqxGrid('pincolumn', 'display_name_author');
+			}
+			$("##"+gridId).jqxGrid('endupdate');
+		}
 </script>
 
 <script>
 	//this is the search builder main dropdown for all the columns found in flat
 	$(document).ready(function(){
 		var newControls = '<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
-      newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
-      newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
+		newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
+		newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
 
 		newControls = newControls + '<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">';
 		newControls = newControls + '<option>Select Type...</option>';
@@ -1340,7 +1346,7 @@ function getVersion4UUID() {
 		newControls = newControls + '</select>';
 
 		newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
-      newControls = newControls + '<select title="Comparator" name="comparator" id="comparator" class="bg-white data-entry-select d-flex"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="data-entry-input" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/>';
+		newControls = newControls + '<select title="Comparator" name="comparator" id="comparator" class="bg-white data-entry-select d-flex"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="data-entry-input" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/>';
 		newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
 		newControls = newControls + '<button href="javascript:void(0);" arial-label="remove" class="btn-xs px-3 btn-primary remCF mr-auto">Remove</button>';
 		newControls = newControls + '</li></ul>';
