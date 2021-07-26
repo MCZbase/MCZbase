@@ -226,10 +226,12 @@ function getVersion4UUID() {
 												<label for="searchText" class="sr-only">Keyword input field </label>
 												<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 											</div>
-											<div class="col-12 col-sm-3 col-md-3 input-group-btn">
-												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-												<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
-											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12 col-sm-3 col-md-3">
+											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
+											<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 										</div>
 									</div>
 								</form>
@@ -335,15 +337,19 @@ function getVersion4UUID() {
 												</div>
 											</div>
 										</div>
-										<span class="d-flex justify-content-center col-sm-12 px-1">
-											<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-												<!--- TODO: Move to top of search results bar, available after running search --->
-												<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="save this search">
-													Save to My Account <i class="fa fa-user-cog"></i>
-												</button>
-											</cfif>
-										</span> 
+										<div class="form-row mt-1">
+											<div class="col-sm-10">
+												<button type="submit" class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+												<span class="d-flex justify-content-center col-sm-12 px-1">
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+														<!--- TODO: Move to top of search results bar, available after running search --->
+														<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="save this search">
+															Save to My Account <i class="fa fa-user-cog"></i>
+														</button>
+													</cfif>
+												</span> 
+											</div>
+										</div>
 									</div>
 								</form>
 							</section>
