@@ -71,7 +71,7 @@ limitations under the License.
 
 <!--- Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
-	@param debug if given a value, dump the json that would be sent to build_query instead of 
+	@param debug if given a value, dump the json that would be sent to build_query instead of
 	  running the query and returning a result.
 --->
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
