@@ -340,6 +340,8 @@ limitations under the License.
 					<cfabort>
 				</cfcatch>
 			</cftry>
+			<cfthread action="join" name="removeMediaThread" />
+		<cfreturn removeMediaThread.output>
 		</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
