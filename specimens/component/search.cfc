@@ -78,16 +78,16 @@ limitations under the License.
 		<cfif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = 'comparator: "="'>
-		<cfelseif left(anyName,1) is "~">
+		<cfelseif left(value,1) is "~">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = 'comparator: "JARO_WINKLER"'>
-		<cfelseif left(anyName,2) is "!~">
+		<cfelseif left(value,2) is "!~">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = 'comparator: "NOT JARO_WINKLER"'>
-		<cfelseif left(anyName,1) is "$">
+		<cfelseif left(value,1) is "$">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = 'comparator: "SOUNDEX"'>
-		<cfelseif left(anyName,2) is "!$">
+		<cfelseif left(value,2) is "!$">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = 'comparator: "NOT SOUNDEX"'>
 		<cfelseif left(value,1) IS "!">
@@ -128,7 +128,7 @@ limitations under the License.
 
 	<cfif isDefined("genus") AND len(genus) GT 0>
 		<cfset field = 'field: "genus"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#")>
 		<cfset join='join="and",'>
 	</cfif>
 
