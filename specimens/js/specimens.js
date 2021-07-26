@@ -278,7 +278,52 @@ function loadMedia(media_id,form) {
 		dataType: "html"
 	});
 };
+function removeMedia(media_id,form) {
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "removeMedia",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#mediaHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing media");
+		},
+		dataType: "html"
+	});
+};
 
+/** updateIdentifications function 
+ * @method updateOID in functions.cfc
+ * @param identification_id
+ * @param targetDiv the id
+ **/
+function updateIdentifications(identification_id,targetDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "updateOID",
+			identification_id : idenification_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are identifications";
+	
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
+};
 /** loadMedia populate an html block with the media 
  * @param collection_object_id 
  * @param targetDivId 
