@@ -829,9 +829,9 @@ function getVersion4UUID() {
 				ready: function () {
 					$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
 				},
-				// This part needs to be dynamic.
+				// This part needs to be dynamic
 				columns: [
-					{text: 'Link', datafield: 'GUID', width: 100, hidable: false, cellsrenderer: linkGuidCellRenderer },
+					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
 					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
 					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
@@ -973,7 +973,7 @@ function getVersion4UUID() {
 				},
 				// This part needs to be dynamic.
 				columns: [
-					{text: 'Link', datafield: 'GUID', width: 100, hidable: false, cellsrenderer: linkGuidCellRenderer },
+					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
 					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
 					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
@@ -1116,7 +1116,7 @@ function getVersion4UUID() {
 				},
 				// This part needs to be dynamic.
 				columns: [
-					{text: 'Link', datafield: 'GUID', width: 100, hidable: false, cellsrenderer: linkGuidCellRenderer },
+					{text: 'GUID', datafield: 'GUID', width: 130, hidable: false, cellsrenderer: linkGuidCellRenderer },
 					{text: 'CollObjectID', datafield: 'COLLECTION_OBJECT_ID', width: 100, hidable: true, hidden: getColHidProp('COLLECTION_OBJECT_ID',true), cellsrenderer: linkIdCellRenderer },
 					{text: 'Collection', datafield: 'COLLECTION', width: 150, hidable: true, hidden: getColHidProp('COLLECTION', false) },
 					{text: 'Catalog Number', datafield: 'CAT_NUM', width: 130, hidable: true, hidden: getColHidProp('CAT_NUM', false) },
