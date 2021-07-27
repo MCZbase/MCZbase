@@ -519,6 +519,17 @@ function getVersion4UUID() {
 												</script>
 											</div>
 											<div class="col-12 col-md-2">
+												<label for="island_group" class="data-entry-label">Island Group</label>
+												<cfif not isdefined("island_group")><cfset island_group=""></cfif>
+												<input type="text" class="data-entry-input" id="island_group" name="island_group" aria-label="island_group" value="#island_group#">
+												<script>
+													jQuery(document).ready(function() {
+														makeGeogSearchAutocomplete('island_group','island_group');
+													});
+												</script>
+											</div>
+										</div>
+											<div class="col-12 col-md-2">
 												<label for="island" class="data-entry-label">Island</label>
 												<cfif not isdefined("island")><cfset island=""></cfif>
 												<input type="text" class="data-entry-input" id="island" name="island" aria-label="island" value="#island#">
