@@ -1014,6 +1014,61 @@ function makeTaxonSearchAutocomplete(fieldId, targetRank) {
 	};
 };
 
+/** makeCountrySearchAutocomplete make an input control into a picker for a country field.
+ *  This version of the function prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for country search fields.
+ * @param fieldId the id for the input without a leading # selector.
+**/
+function makeCountrySearchAutocomplete(fieldId) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getCountryAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a country search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
+/** makeGeogSearchAutocomplete make an input control into a picker for a geog_auth_rec field of arbitrary rank.
+ *  This version of the function prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for higher geography search fields.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param targetRank the geographic rank (field in geog_auth_rec) to bind the autocomplete to.  
+**/
+function makeGeogSearchAutocomplete(fieldId, targetRank) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getGeogAutocomplete', rank: targetRank },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a geography search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
 
 /** function getColumnVisibilities obtain the current set of hidden properties for a search results grid
  in the form of an object containing key value pairs where the key is the datafield name for the column
