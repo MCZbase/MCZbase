@@ -112,6 +112,11 @@ limitations under the License.
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
+	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="scientific_name" type="string" required="no">
+	<cfargument name="taxon_name_id" type="string" required="no">
+	<cfargument name="country" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
@@ -164,6 +169,13 @@ limitations under the License.
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
+	</cfif>
+	
+	<cfif isDefined("country") AND len(country) GT 0>
+		<cfset field = 'field: "country"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
 	</cfif>
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
