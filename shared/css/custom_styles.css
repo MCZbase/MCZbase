@@ -34,7 +34,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 a {
 	cursor: pointer;
 }
-.blueFocus img:focus {
+.blueFocus a img:focus {
 	box-shadow: 0 0 0 0.15rem rgb(0 123 255/25%);
 } 
 /** Styling of external links out, shared with production **/
