@@ -431,7 +431,7 @@ function getVersion4UUID() {
 												<input id="phylorder" name="phylorder" class="data-entry-input" aria-label="phylorder" value="#phylorder#" >
 												<script>
 													jQuery(document).ready(function() {
-														makeTaxonSearchAutocomplete('phylorder','phylorder');
+														makeTaxonSearchAutocomplete('phylorder','order');
 													});
 												</script>
 											</div>
@@ -458,10 +458,12 @@ function getVersion4UUID() {
 											<div class="col-12 col-md-2">
 												<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 												<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
-												<input id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific_name" value="#scientific_name#" >
+												<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+												<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific_name" value="#scientific_name#" >
+												<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
 												<script>
 													jQuery(document).ready(function() {
-														makeTaxonSearchAutocomplete('scientific_name','scientific_name');
+														makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
 													});
 												</script>
 											</div>

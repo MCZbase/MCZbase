@@ -120,41 +120,50 @@ limitations under the License.
 	<cfset separator = "">
 	<cfset join = ''>
 
-	<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
-		<cfset field = 'field: "full_taxon_name"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
+		<cfset field = 'field: "taxon_name_id"'>
+		<cfset comparator = 'comparator: "="'>
+		<cfset value = encodeForJavaScript(taxon_name_id)>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
-	</cfif>
-	<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
-		<cfset field = 'field: "scientific_name"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#scientific_name#",separator="#separator#")>
-		<cfset separator = ",">
-		<cfset join='join="and",'>
-	</cfif>
-	<cfif isDefined("author_text") AND len(author_text) GT 0>
-		<cfset field = 'field: "author_text"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
-		<cfset separator = ",">
-		<cfset join='join="and",'>
-	</cfif>
-	<cfif isDefined("genus") AND len(genus) GT 0>
-		<cfset field = 'field: "genus"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#",separator="#separator#")>
-		<cfset separator = ",">
-		<cfset join='join="and",'>
-	</cfif>
-	<cfif isDefined("family") AND len(family) GT 0>
-		<cfset field = 'field: "family"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#")>
-		<cfset separator = ",">
-		<cfset join='join="and",'>
-	</cfif>
-	<cfif isDefined("phylorder") AND len(phylorder) GT 0>
-		<cfset field = 'field: "phylorder"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#phylorder#",separator="#separator#")>
-		<cfset separator = ",">
-		<cfset join='join="and",'>
+	<cfelse>
+		<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
+			<cfset field = 'field: "scientific_name"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#scientific_name#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
+		<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
+			<cfset field = 'field: "full_taxon_name"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
+		<cfif isDefined("author_text") AND len(author_text) GT 0>
+			<cfset field = 'field: "author_text"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
+		<cfif isDefined("genus") AND len(genus) GT 0>
+			<cfset field = 'field: "genus"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
+		<cfif isDefined("family") AND len(family) GT 0>
+			<cfset field = 'field: "family"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
+		<cfif isDefined("phylorder") AND len(phylorder) GT 0>
+			<cfset field = 'field: "phylorder"'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#phylorder#",separator="#separator#")>
+			<cfset separator = ",">
+			<cfset join='join="and",'>
+		</cfif>
 	</cfif>
 
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
