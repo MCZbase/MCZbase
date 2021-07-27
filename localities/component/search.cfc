@@ -36,7 +36,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				count(flat.collection_object_id) as ct,
-				count(geog_auth_rec.geog_auth_rec_id) as geoct,
+				count(distinc geog_auth_rec.geog_auth_rec_id) as geoct,
 				geog_auth_rec.country
 			FROM 
 				geog_auth_rec
@@ -53,7 +53,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.country#">
 			<cfset row["value"] = "#search.country#" >
-			<cfset row["meta"] = "#search.geoct#;#search.ct#" >
+			<cfset row["meta"] = "#search.geoct# geog., #search.ct# spec." >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -77,7 +77,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 @return a json structure containing id and value, and meta, with matching with matched name in value and id, 
   and count metadata in meta.
 --->
-<cffunction name="getHigherRankAutocomplete" access="remote" returntype="any" returnformat="json">
+<cffunction name="getGeogAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="rank" type="string" required="yes">
 	<!--- perform wildcard search anywhere in target field --->
