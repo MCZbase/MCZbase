@@ -237,6 +237,8 @@ function getVersion4UUID() {
 										<div class="col-12">
 											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
 											<button type="submit" class="btn btn-xs btn-primary px-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+											<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset this search form to inital values">Reset</button>
+											<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=keywordSearch';">New Search</button>
 										</div>
 									</div>
 								</form>
@@ -343,9 +345,11 @@ function getVersion4UUID() {
 											</div>
 										</div><!--- end customFields: new form rows get appended here --->
 									</div>
-									<div class="form-row mt-1">
+									<div class="form-row mt-1 mb-1">
 										<div class="col-12">
 											<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+											<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset this search form to inital values">Reset</button>
+											<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												<!--- TODO: Move to top of search results bar, available after running search --->
 												<!--- TODO: Add handler to carry out this action --->
@@ -606,9 +610,11 @@ function getVersion4UUID() {
 												</cfif>
 											</div>
 										</div>
-										<div class="form-row mt-1">
+										<div class="form-row mt-1 mb-1">
 											<div class="col-12">
-												<button type="submit" class="btn mr-1 px-3 pb-1 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+												<button type="submit" class="btn mr-1 px-3 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+												<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 											</div>
 										</div>
 									</div><!--- end container-flex --->
