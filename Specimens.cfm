@@ -207,12 +207,12 @@ function getVersion4UUID() {
 					<div class="tab-content">
 						<!---Keyword Search/results tab panel--->
 						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
-							<section role="search" class="col-12 col-md-12 col-lg-11 mt-2 pl-3">
+							<section role="search" class="container-fluid">
 								<form name= "keywordSearchForm" id="keywordSearchForm">
 									<input id="result_id_keywordSearch" type="hidden" name="result_id" value="">
 									<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
 									<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
-									<div class="row">
+									<div class="form-row">
 										<div class="input-group mt-1 px-3">
 											<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
 												<label for="collmultiselect" class="sr-only">Collection</label>
@@ -226,10 +226,12 @@ function getVersion4UUID() {
 												<label for="searchText" class="sr-only">Keyword input field </label>
 												<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 											</div>
-											<div class="col-12 col-sm-3 col-md-3 input-group-btn">
-												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-												<button class="btn btn-xs btn-primary px-2" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
-											</div>
+										</div>
+									</div>
+									<div class="form-row mt-1">
+										<div class="col-12">
+											<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
+											<button type="submit" class="btn btn-xs btn-primary px-2" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 										</div>
 									</div>
 								</form>
@@ -280,10 +282,10 @@ function getVersion4UUID() {
 
 							<!---Query Builder tab panel--->
 						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
-							<section role="search" class="bg-0 col-sm-12 col-md-12 p-0">
+							<section role="search" class="container-fluid">
 								<form id="builderSearchForm">
 									<input id="result_id_builderSearch" type="hidden" name="result_id" value="">
-									<div class="input-group">
+									<div class="form-row">
 										<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 											<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
 												<div class="col-md-3 col-sm-12 p-0 mx-1">
@@ -294,7 +296,7 @@ function getVersion4UUID() {
 															search_category, table_name, label
 													</cfquery>
 													<label for="selectType" class="sr-only">Search Field</label>
-													<!--- TODO: Mopve into a backing component for reuse with an ajax add field --->
+													<!--- TODO: Move into a backing component for reuse with an ajax add field --->
 													<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
 														<option>Select Type...</option>
 														<cfset category = "">
@@ -334,16 +336,19 @@ function getVersion4UUID() {
 													<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 												</div>
 											</div>
-										</div>
-										<span class="d-flex justify-content-center col-sm-12 px-1">
-											<button class="btn-sm px-3 btn-primary m-1 ml-0" id="searchbuilder-search" aria-label="searchbuilder search" type="submit">Search <i class="fa fa-search"></i></button>
+										</div><!--- end customFields: new form rows get appended here --->
+									</div>
+									<div class="form-row mt-1">
+										<div class="col-12">
+											<button type="submit" class="btn btn-xs px-2 btn-primary" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 												<!--- TODO: Move to top of search results bar, available after running search --->
-												<button class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" type="submit" aria-label="save this search">
+												<!--- TODO: Add handler to carry out this action --->
+												<button type="button" class="btn-sm px-3 btn-primary m-1 ml-0" id="save-account" aria-label="save this search">
 													Save to My Account <i class="fa fa-user-cog"></i>
 												</button>
 											</cfif>
-										</span> 
+										</div>
 									</div>
 								</form>
 							</section>
@@ -383,7 +388,7 @@ function getVersion4UUID() {
 
 						<!---Fixed Search tab panel--->
 						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
-							<section role="search">
+							<section role="search" class="container-fluid">
 								<form id="fixedSearchForm">
 									<input id="result_id_fixedSearch" type="hidden" name="result_id" value="">
 									<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
@@ -416,11 +421,21 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
 												<label for="taxa" class="data-entry-label">Any Taxonomy</label>
-												<input id="taxa" class="data-entry-input" aria-label="any taxonomy" disabled>
+												<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy">
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
+												<label for="phylorder" class="data-entry-label">Order</label>
+												<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
+												<input id="phylorder" name="phylorder" class="data-entry-input" aria-label="phylorder" value="#phylorder#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeTaxonSearchAutocomplete('phylorder','order');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
 												<label for="family" class="data-entry-label">Family</label>
 												<cfif not isdefined("family")><cfset family=""></cfif>
 												<input id="family" name="family" class="data-entry-input" aria-label="family" value="#family#" >
@@ -430,7 +445,7 @@ function getVersion4UUID() {
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
 												<label for="genus" class="data-entry-label">Genus</label>
 												<cfif not isdefined("genus")><cfset genus=""></cfif>
 												<input type="text" class="data-entry-input" id="genus" name="genus" aria-label="genus" value="#genus#">
@@ -440,6 +455,30 @@ function getVersion4UUID() {
 													});
 												</script>
 											</div>
+											<div class="col-12 col-md-2">
+												<label for="scientific_name" class="data-entry-label">Scientific Name</label>
+												<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
+												<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+												<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific_name" value="#scientific_name#" >
+												<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="author_text" class="data-entry-label">Authorship</label>
+												<cfif not isdefined("author_text")><cfset author_text=""></cfif>
+												<input id="author_text" name="author_text" class="data-entry-input" aria-label="author_text" value="#author_text#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeTaxonSearchAutocomplete('author_text','author_text');
+													});
+												</script>
+											</div>
+										</div>
+										<div class="form-row mb-2">
 											<div class="col-12 col-md-3">
 												<label for="geography" class="data-entry-label">Any Geography</label>
 												<input type="text" class="data-entry-input" id="geography" aria-label="any geography" disabled>
@@ -513,7 +552,7 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mt-1">
-											<div class="col-sm-10">
+											<div class="col-12">
 												<button type="submit" class="btn mr-1 px-3 pb-1 btn-primary btn-xs" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 											</div>
 										</div>
@@ -752,15 +791,8 @@ function getVersion4UUID() {
 			id: 'collection_object_id',
 			url: '/specimens/component/search.cfc?' + $("##"+gridPrefix+"SearchForm").serialize(),
 			timeout: 30000,  // units not specified, miliseconds?
-			loadError: function(jqXHR, status, error) {
-				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') {
-			   	message = ' Server took too long to respond.';
-				} else {
-					message = jqXHR.responseText;
-				}
-			messageDialog('Error:' + message ,'Error: ' + error);
+			loadError: function(jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 			},
 			async: true
 		};
@@ -908,15 +940,8 @@ function getVersion4UUID() {
 				id: 'collection_object_id',
 				url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
 				timeout: 30000,  // units not specified, miliseconds?
-				loadError: function(jqXHR, status, error) {
-					$("##overlay").hide();
-					var message = "";
-					if (error == 'timeout') {
-				   	message = ' Server took too long to respond.';
-					} else {
-						message = jqXHR.responseText;
-					}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				loadError: function(jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 				},
 				async: true
 			};
