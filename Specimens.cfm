@@ -528,7 +528,6 @@ function getVersion4UUID() {
 													});
 												</script>
 											</div>
-										</div>
 											<div class="col-12 col-md-2">
 												<label for="island" class="data-entry-label">Island</label>
 												<cfif not isdefined("island")><cfset island=""></cfif>
