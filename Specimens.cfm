@@ -316,7 +316,7 @@ function getVersion4UUID() {
 																	</optgroup>
 																	<cfset optgroupOpen = false>
 																</cfif>
-																<optgroup label="fields.search_category">
+																<optgroup label="#fields.search_category#">
 																<cfset optgroupOpen = true>
 																<cfset category = fields.search_category>
 															</cfif>
@@ -1263,7 +1263,7 @@ function getVersion4UUID() {
 					newControls = newControls + '</optgroup>';
 					<cfset optgroupOpen = false>
 				</cfif>
-				newControls = newControls + '<optgroup label="fields.search_category">';
+				newControls = newControls + '<optgroup label="#fields.search_category#">';
 				<cfset optgroupOpen = true>
 				<cfset category = fields.search_category>
 			</cfif>
