@@ -491,30 +491,42 @@ function getVersion4UUID() {
 											<div class="col-12 col-md-2">
 												<label for="country" class="data-entry-label">Country</label>
 												<cfif not isdefined("country")><cfset country=""></cfif>
-												<cfset providedcountry="#country#">
-												<select title="country" name="country" id="country" class="data-entry-select">
-													<option value=""></option>
-													<cfloop query="distinctCountry">
-														<cfif distinctCountry.country EQ providedcountry><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-														<option value="#distinctCountry.country#" #selected#>#distinctCountry.country#</option>
-													</cfloop>
-												</select>
 												<input type="text" class="data-entry-input" id="country" name="country" aria-label="country" value="#country#">
+												<script>
+													jQuery(document).ready(function() {
+														makeCountrySearchAutocomplete('country');
+													});
+												</script>
 											</div>
 											<div class="col-12 col-md-2">
 												<label for="state_prov" class="data-entry-label">State/Province</label>
 												<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 												<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state_prov" value="#state_prov#">
+												<script>
+													jQuery(document).ready(function() {
+														makeGeogSearchAutocomplete('state_prov','state_prov');
+													});
+												</script>
 											</div>
 											<div class="col-12 col-md-2">
 												<label for="county" class="data-entry-label">County/Shire/Parish</label>
 												<cfif not isdefined("county")><cfset county=""></cfif>
 												<input type="text" class="data-entry-input" id="county" name="county" aria-label="county" value="#county#">
+												<script>
+													jQuery(document).ready(function() {
+														makeGeogSearchAutocomplete('county','county');
+													});
+												</script>
 											</div>
 											<div class="col-12 col-md-2">
 												<label for="island" class="data-entry-label">Island</label>
 												<cfif not isdefined("island")><cfset island=""></cfif>
 												<input type="text" class="data-entry-input" id="island" name="island" aria-label="island" value="#island#">
+												<script>
+													jQuery(document).ready(function() {
+														makeGeogSearchAutocomplete('island','island');
+													});
+												</script>
 											</div>
 										</div>
 										<div class="form-row mb-2">
