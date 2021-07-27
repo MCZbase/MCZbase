@@ -145,31 +145,31 @@ limitations under the License.
 		</cfif>
 		<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
 			<cfset field = 'field: "full_taxon_name"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
 		<cfif isDefined("author_text") AND len(author_text) GT 0>
 			<cfset field = 'field: "author_text"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
 		<cfif isDefined("genus") AND len(genus) GT 0>
 			<cfset field = 'field: "genus"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#",separator="#separator#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#genus#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
 		<cfif isDefined("family") AND len(family) GT 0>
 			<cfset field = 'field: "family"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
 		<cfif isDefined("phylorder") AND len(phylorder) GT 0>
 			<cfset field = 'field: "phylorder"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#phylorder#",separator="#separator#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#phylorder#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
@@ -177,31 +177,31 @@ limitations under the License.
 	
 	<cfif isDefined("country") AND len(country) GT 0>
 		<cfset field = 'field: "country"'>
-		<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("state_prov") AND len(state_prov) GT 0>
 		<cfset field = 'field: "state_prov"'>
-		<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#state_prov#",separator="#separator#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#state_prov#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("county") AND len(county) GT 0>
 		<cfset field = 'field: "county"'>
-		<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#county#",separator="#separator#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#county#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("island_group") AND len(island) GT 0>
 		<cfset field = 'field: "island_group"'>
-		<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
 	<cfif isDefined("island") AND len(island) GT 0>
 		<cfset field = 'field: "island"'>
-		<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#")>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
@@ -216,7 +216,7 @@ limitations under the License.
 	<cfelse>
 		<cfif isDefined("collector") AND len(collector) GT 0>
 			<cfset field = 'field: "collector"'>
-			<cfset search_json = search_json = constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#")>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
