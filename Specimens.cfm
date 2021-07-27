@@ -484,7 +484,7 @@ function getVersion4UUID() {
 												<input type="text" class="data-entry-input" id="geography" aria-label="any geography" disabled>
 											</div>
 											<div class="col-12 col-md-2">
-												<label for="country" class="data-entry-label">Genus</label>
+												<label for="country" class="data-entry-label">Country</label>
 												<cfif not isdefined("country")><cfset country=""></cfif>
 												<input type="text" class="data-entry-input" id="country" name="country" aria-label="country" value="#country#">
 											</div>
