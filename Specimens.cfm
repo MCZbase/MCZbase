@@ -214,8 +214,8 @@ function getVersion4UUID() {
 						<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #keywordTabActive#" #keywordTabShow#>
 							<section role="search" class="container-fluid">
 								<form name= "keywordSearchForm" id="keywordSearchForm">
-									<input id="result_id_keywordSearch" type="hidden" name="result_id" value="">
-									<input type="hidden" name="method" value="getSpecimens" class="keeponclear">
+									<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
+									<input type="hidden" name="method" value="getSpecimens" class="keeponclear excludeFromLink">
 									<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 									<div class="form-row">
 										<div class="input-group mt-1 px-3">
@@ -291,7 +291,9 @@ function getVersion4UUID() {
 						<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 							<section role="search" class="container-fluid">
 								<form id="builderSearchForm">
-									<input id="result_id_builderSearch" type="hidden" name="result_id" value="">
+									<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
+									<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
+									<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 									<div class="form-row">
 										<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 											<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
@@ -399,8 +401,8 @@ function getVersion4UUID() {
 						<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="0" class="mx-0 #fixedTabActive#"  #fixedTabShow#>
 							<section role="search" class="container-fluid">
 								<form id="fixedSearchForm">
-									<input id="result_id_fixedSearch" type="hidden" name="result_id" value="">
-									<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear">
+									<input id="result_id_fixedSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
+									<input id="method_fixedSearch" type="hidden" name="method" value="executeFixedSearch" class="keeponclear excludeFromLink">
 									<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 									<div class="container-flex">
 										<div class="form-row mb-2">
@@ -918,7 +920,7 @@ function getVersion4UUID() {
 
 		$("##"+gridId).on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
-			$('##'+gridPrefix+'resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			$('##'+gridPrefix+'resultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##'+gridPrefix+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 			gridLoaded(gridId,'occurrence record',gridPrefix);
 		});
 		$('##'+gridId).on('rowexpand', function (event) {
@@ -1067,7 +1069,7 @@ function getVersion4UUID() {
 
 			$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 				// add a link out to this search, serializing the form as http get parameters
-				$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+				$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 				gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 			});
 			$('##fixedsearchResultsGrid').on('rowexpand', function (event) {
