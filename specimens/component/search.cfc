@@ -117,6 +117,9 @@ limitations under the License.
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
 	<cfargument name="country" type="string" required="no">
+	<cfargument name="state_prov" type="string" required="no">
+	<cfargument name="county" type="string" required="no">
+	<cfargument name="islan" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="debug" type="string" required="no">
@@ -174,6 +177,24 @@ limitations under the License.
 	<cfif isDefined("country") AND len(country) GT 0>
 		<cfset field = 'field: "country"'>
 		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("state_prov") AND len(state_prov) GT 0>
+		<cfset field = 'field: "state_prov"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#state_prov#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("county") AND len(county) GT 0>
+		<cfset field = 'field: "county"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#county#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("island") AND len(island) GT 0>
+		<cfset field = 'field: "island"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
