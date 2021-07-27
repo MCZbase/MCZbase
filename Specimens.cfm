@@ -1075,7 +1075,7 @@ function getVersion4UUID() {
 				var args = event.args;
 				var rowIndex = args.rowindex;
 				var datarecord = args.owner.source.records[rowIndex];
-				createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+				createRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 			});
 			$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
 				// remove the dialog holding the row details
