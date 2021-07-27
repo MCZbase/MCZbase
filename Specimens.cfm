@@ -1217,7 +1217,7 @@ function getVersion4UUID() {
 				}
 			});
 			$("##"+whichGrid+"columnPickDialogButton").html(
-				`<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+				`<button id="columnPickDialogOpener" onclick=" $('##`+whichGrid+`columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin GUID Column</button>
 				`
 			);
