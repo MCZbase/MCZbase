@@ -41,6 +41,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 			FROM 
 				geog_auth_rec
 					LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+						on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
 			WHERE
 				upper(geog_auth_rec.country) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
