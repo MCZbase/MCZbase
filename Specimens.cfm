@@ -421,11 +421,21 @@ function getVersion4UUID() {
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
 												<label for="taxa" class="data-entry-label">Any Taxonomy</label>
 												<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy">
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
+												<label for="phylorder" class="data-entry-label">Order</label>
+												<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
+												<input id="phylorder" name="phylorder" class="data-entry-input" aria-label="phylorder" value="#phylorder#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeTaxonSearchAutocomplete('phylorder','phylorder');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
 												<label for="family" class="data-entry-label">Family</label>
 												<cfif not isdefined("family")><cfset family=""></cfif>
 												<input id="family" name="family" class="data-entry-input" aria-label="family" value="#family#" >
@@ -435,7 +445,7 @@ function getVersion4UUID() {
 													});
 												</script>
 											</div>
-											<div class="col-12 col-md-3">
+											<div class="col-12 col-md-2">
 												<label for="genus" class="data-entry-label">Genus</label>
 												<cfif not isdefined("genus")><cfset genus=""></cfif>
 												<input type="text" class="data-entry-input" id="genus" name="genus" aria-label="genus" value="#genus#">
@@ -445,6 +455,28 @@ function getVersion4UUID() {
 													});
 												</script>
 											</div>
+											<div class="col-12 col-md-2">
+												<label for="scientific_name" class="data-entry-label">Scientific Name</label>
+												<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
+												<input id="scientific_name" name="scientific_name" class="data-entry-input" aria-label="scientific_name" value="#scientific_name#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeTaxonSearchAutocomplete('scientific_name','scientific_name');
+													});
+												</script>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="author_text" class="data-entry-label">Authorship</label>
+												<cfif not isdefined("author_text")><cfset author_text=""></cfif>
+												<input id="author_text" name="author_text" class="data-entry-input" aria-label="author_text" value="#author_text#" >
+												<script>
+													jQuery(document).ready(function() {
+														makeTaxonSearchAutocomplete('author_text','author_text');
+													});
+												</script>
+											</div>
+										</div>
+										<div class="form-row mb-2">
 											<div class="col-12 col-md-3">
 												<label for="geography" class="data-entry-label">Any Geography</label>
 												<input type="text" class="data-entry-input" id="geography" aria-label="any geography" disabled>

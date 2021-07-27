@@ -73,6 +73,7 @@ limitations under the License.
 	<cfargument name="join" type="string" required="yes">
 	<cfargument name="field" type="string" required="yes">
 	<cfargument name="value" type="string" required="yes">
+	<cfargument name="separator" type="string" required="yes">
 
 	<cfset search_json = "">
 		<cfif left(value,1) is "=">
@@ -125,29 +126,37 @@ limitations under the License.
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
-
-	<cfif isDefined("genus") AND len(genus) GT 0>
-		<cfset field = 'field: "genus"'>
-		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#")>
-		<cfset join='join="and",'>
-	</cfif>
-
-	<cfif isDefined("family") AND len(family) GT 0>
-		<cfset field = 'field: "family"'>
-		<cfif left(family,1) is "=">
-			<cfset value="#ucase(right(family,len(family)-1))#">
-			<cfset comparator = 'comparator: "="'>
-		<cfelseif left(family,1) IS "!">
-			<cfset value="#ucase(right(family,len(family)-1))#">
-			<cfset comparator = 'comparator: "not like"'>
-		<cfelse>
-			<cfset comparator = 'comparator: "like"'>
-			<cfset value = encodeForJavaScript(family)>
-		</cfif>
-		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+	<cfif isDefined("scientific_name") AND len(scientific_name) GT 0>
+		<cfset field = 'field: "scientific_name"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#scientific_name#",separator="#separator#")>
 		<cfset separator = ",">
 		<cfset join='join="and",'>
 	</cfif>
+	<cfif isDefined("author_text") AND len(author_text) GT 0>
+		<cfset field = 'field: "author_text"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("genus") AND len(genus) GT 0>
+		<cfset field = 'field: "genus"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#genus#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("family") AND len(family) GT 0>
+		<cfset field = 'field: "family"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#family#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+	<cfif isDefined("phylorder") AND len(phylorder) GT 0>
+		<cfset field = 'field: "phylorder"'>
+		<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#phylorder#",separator="#separator#")>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
+
 	<cfif isDefined("collector_agent_id") AND len(collector_agent_id) GT 0>
 		<cfset field = 'field: "collector_agent_id"'>
 		<cfset comparator = 'comparator: "="'>
@@ -158,17 +167,7 @@ limitations under the License.
 	<cfelse>
 		<cfif isDefined("collector") AND len(collector) GT 0>
 			<cfset field = 'field: "collector"'>
-			<cfif left(collector,1) is "=">
-				<cfset value="#ucase(right(collector,len(collector)-1))#">
-				<cfset comparator = 'comparator: "="'>
-			<cfelseif left(collector,1) IS "!">
-				<cfset value="#ucase(right(collector,len(collector)-1))#">
-				<cfset comparator = 'comparator: "not like"'>
-			<cfelse>
-				<cfset comparator = 'comparator: "like"'>
-				<cfset value = encodeForJavaScript(collector)>
-			</cfif>
-			<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+			<cfset search_json = constructJsonForField(join="#join#",field="#field#",value="#collector#",separator="#separator#")>
 			<cfset separator = ",">
 			<cfset join='join="and",'>
 		</cfif>
