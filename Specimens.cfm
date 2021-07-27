@@ -96,16 +96,16 @@ limitations under the License.
 <cfquery name="ctDepthUnits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select depth_units from ctDepth_Units
 </cfquery>
-<cfquery name="ContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="distinctContOcean" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select continent_ocean from ctContinent ORDER BY continent_ocean
 </cfquery>
-<cfquery name="Country" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="distinctCountry" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(country) from geog_auth_rec order by country
 </cfquery>
 <cfquery name="IslGrp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select island_group from ctIsland_Group order by Island_Group
 </cfquery>
-<cfquery name="Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="distinctFeature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(Feature) from geog_auth_rec order by Feature
 </cfquery>
 <cfquery name="Water_Feature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
