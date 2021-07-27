@@ -302,48 +302,25 @@ limitations under the License.
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="removeMediaThread"> 
+	<cftry>
 		<cftransaction>
-			<cftry>
-				<cfquery name="mediaDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete
-						media_relations
-					where
-						media_relations.media_id = <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-					and 
-						media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-				</cfquery>
-				<cfset row = StructNew()>
-				<cfset row["status"] = "saved">
-				<cfset row["id"] = "#media_id#">
-				<cfset data[1] = row>
-				<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-						<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfheader statusCode="500" statusText="#message#">
-					<cfoutput>
-						<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
-					</cfoutput>
-					<cfabort>
-				</cfcatch>
-			</cftry>
-			<cfthread action="join" name="removeMediaThread" />
-		<cfreturn removeMediaThread.output>
+			<cfquery name="deleteMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				delete media_relations 
+				where media_relationship = 'shows cataloged_item'
+				and related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
+				and media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
 		</cftransaction>
-	<cfreturn #serializeJSON(data)#>
+			<cfset row["status"] = "deleted">
+			<cftransaction action="commit">
+		<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+		</cfcatch>
+	</cftry>
+	<cfreturn result>
 </cffunction>
 <!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">
