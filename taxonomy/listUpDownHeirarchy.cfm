@@ -88,7 +88,7 @@
 					<div class="card-header py-0" id="headingPart">
 						<h3 class="h4 my-0">
 							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseRelatedTaxa">
-								Related #qsubspecies.recordcount# subspecies, #qspecies.recordcount# species 
+								Related: #qspecies.recordcount# species, #qsubspecies.recordcount# subspecies 
 							</button>
 						</h3>
 					</div>
