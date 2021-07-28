@@ -831,11 +831,27 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
+				$("##searchResultsGrid").jqxGrid("beginUpdate");
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				if (currentState)  {
+					// state cardview switching to row view
+					$("##searchResultsGrid").jqxGrid('rowsheight',50);
+					$("##searchResultsGrid").jqxGrid('height',36);
+					//cardsize: 5,
+				} else {
+					// state is row view switching to cardview
+
+					$("##searchResultsGrid").jqxGrid('rowsheight',1);
+					$("##searchResultsGrid").jqxGrid('cardheight',620);
+					$("##searchResultsGrid").jqxGrid('height',650);
+					$("##searchResultsGrid").jqxGrid('cardsize',5);
+				}
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
 				});
+				$("##searchResultsGrid").jqxGrid("endUpdate");
 			};
+
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
