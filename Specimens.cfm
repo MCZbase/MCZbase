@@ -303,7 +303,7 @@ limitations under the License.
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row">
-											<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
+											<div class="mt-1 col-12 p-0 my-2 mb-3" id="customFields">
 												<div class="row border-0 p-0 my-1 mb-2">
 													<div class="col-12 col-md-4 col-sm-12">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
@@ -344,7 +344,7 @@ limitations under the License.
 														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-12 col-sm-4 col-md-2 pt-1 mx-1  d-flex justify-content-end">
+													<div class="col-12 col-sm-4 col-md-1 pt-3">
 														<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 													</div>
 												</div>
