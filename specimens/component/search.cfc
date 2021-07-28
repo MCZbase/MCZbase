@@ -102,6 +102,17 @@ limitations under the License.
 	<cfreturn #search_json#>
 </cffunction>
 
+<!--- Function executeBuilderSearch backing method for specimen search via the search builder
+	@param result_id a uuid which identifies this search.
+	@param debug if given a value, dump the json that would be sent to build_query instead of
+	  running the query and returning a result.
+--->
+<cffunction name="executeBuilderSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="builderMaxRows" type="number" required="yes">
+	<cfthrow message="Not yet implemented">
+</cffunction>
+
 <!--- Function executeFixedSearch backing method for specimen search
 	@param result_id a uuid which identifies this search.
 	@param debug if given a value, dump the json that would be sent to build_query instead of

@@ -298,12 +298,13 @@ limitations under the License.
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="0" class="mx-0 #builderTabActive#"  #builderTabShow#>
 								<section role="search" class="container-fluid">
 									<form id="builderSearchForm">
+										<input type="hidden" id="builderMaxRows" name="builderMaxRows" value="1">
 										<input id="result_id_builderSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row">
 											<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
-												<div class="row border-0 p-0 mx-1 my-1 px-2 mb-2">
+												<div class="row border-0 p-0 my-1 mb-2">
 													<div class="col-md-3 col-sm-12 p-0 mx-1">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, data_type, label
@@ -313,7 +314,7 @@ limitations under the License.
 														</cfquery>
 														<label for="selectType" class="sr-only">Search Field</label>
 														<!--- TODO: Move into a backing component for reuse with an ajax add field --->
-														<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
+														<select title="Select Field to search..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
 															<option>Select Type...</option>
 															<cfset category = "">
 															<cfset optgroupOpen = false>
@@ -334,19 +335,11 @@ limitations under the License.
 															</cfif>
 														</select>
 													</div>
-													<!--- TODO: Replace with operators and autocompletes on search values --->
-													<div class="col-md-2 col-sm-12 p-0 mx-1">
-														<label for="comparator" class="sr-only">Comparator</label>
-														<select title="Select Comparator..." name="comparator" id="comparator" class="custom-select-sm bg-white form-control-sm border d-flex">
-															<option>Compare with...</option>
-															<option label="contains" value="like">contains</option>
-															<option label="eq" value="eq">is</option>
-														</select>
-													</div>
 													<div class="col p-0 mx-1">
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
 														<label for="srchTxt" class="sr-only">Search For</label>
 														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
+														<input type="hidden" class="form-control-sm d-flex enter-search mx-0" name="srchId" id="srchId" placeholder="Enter Value"/>
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 														<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
@@ -1261,40 +1254,42 @@ limitations under the License.
 	<script>
 		//this is the search builder main dropdown for all the columns found in flat
 		$(document).ready(function(){
-			var newControls = '<ul class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
-			newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
-			newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
+			$(".addCF").click(function(){
+				var row = $("##builderMaxRows").val();
+				row = row + 1;
+				var newControls = '<ul id="builderRow'+row+'" class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
+				newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
+				newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
 	
-			newControls = newControls + '<select title="Select Type..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">';
-			newControls = newControls + '<option>Select Type...</option>';
-			<cfset category = "">
-			<cfset optgroupOpen = false>
-			<cfloop query="fields">
-				<cfif category NEQ fields.search_category>
-					<cfif optgroupOpen>
-						newControls = newControls + '</optgroup>';
-						<cfset optgroupOpen = false>
+				newControls = newControls + '<select title="Select Field..." name="field" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
+				newControls = newControls + '<option>Select Field...</option>';
+				<cfset category = "">
+				<cfset optgroupOpen = false>
+				<cfloop query="fields">
+					<cfif category NEQ fields.search_category>
+						<cfif optgroupOpen>
+							newControls = newControls + '</optgroup>';
+							<cfset optgroupOpen = false>
+						</cfif>
+						newControls = newControls + '<optgroup label="#fields.search_category#">';
+						<cfset optgroupOpen = true>
+						<cfset category = fields.search_category>
 					</cfif>
-					newControls = newControls + '<optgroup label="#fields.search_category#">';
-					<cfset optgroupOpen = true>
-					<cfset category = fields.search_category>
+					newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label#</option>';
+				</cfloop>
+				<cfif optgroupOpen>
+					newControls = newControls + '</optgroup>';
 				</cfif>
-				newControls = newControls + '<option value="#fields.table_name#:#fields.column_name#">#fields.label#</option>';
-			</cfloop>
-			<cfif optgroupOpen>
-				newControls = newControls + '</optgroup>';
-			</cfif>
-			newControls = newControls + '</select>';
-	
-			newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
-			newControls = newControls + '<select title="Comparator" name="comparator" id="comparator" class="bg-white data-entry-select d-flex"><option value="">Compare with...</option><option value="like">contains</option><option value="eq">is</option></select></li><li class="col d-inline mr-2 px-0"><input type="text" class="data-entry-input" name="customFieldValue[]" id="srchTxt" placeholder="Enter Value"/>';
-			newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
-			newControls = newControls + '<button href="javascript:void(0);" arial-label="remove" class="btn-xs px-3 btn-primary remCF mr-auto">Remove</button>';
-			newControls = newControls + '</li></ul>';
-			$(".addCF").click(function(){$("##customFields").append(newControls);
-			$("##customFields").on('click','.remCF',function(){
-				$(this).parent().parent().remove();
-				});
+				newControls = newControls + '</select>';
+		
+				newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
+				newControls = newControls + '<input type="text" class="data-entry-input" name="srchTxt'+row+'" id="srchTxt'+row+'" placeholder="Enter Value"/>';
+				newControls = newControls + '<input type="text" class="data-entry-input" name="srchId'+row+'" id="srchId'+row+'" placeholder="Enter Value"/>';
+				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
+				newControls = newControls + `<button href=' $("##builderRow'+row+'").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
+				newControls = newControls + '</li></ul>';
+				$("##customFields").append(newControls);
+				$("##builderMaxRows").val(row);
 			});
 		});
 	</script>
