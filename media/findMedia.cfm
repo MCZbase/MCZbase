@@ -1002,6 +1002,7 @@ limitations under the License.
 						width: '100%',
 						<cfif Application.serverrole NEQ "production" >
 						cardview: false,
+						</cfif>
 						//cardsize: 5,
 						width: '100%',
 						//cardheight: 620,
