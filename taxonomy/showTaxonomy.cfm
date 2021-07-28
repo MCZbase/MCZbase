@@ -475,7 +475,7 @@
 				
 				<div class="row" id="taxRelatedNames">
 					<div class="col-12">
-						<h2 class="h4">Related higher and lower rank Taxon Records:</h2>
+						<h2 class="h4">Related Taxon Records:</h2>
 						<cfset taxon_name_id = tnid>
 						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
 					<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
