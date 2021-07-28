@@ -125,31 +125,41 @@ limitations under the License.
 		search_category, table_name, label
 	</cfquery>
 
-	<cfloop index="i" from="1" to="#int(builderMaxRows) + 1#">
-		<cfset fieldProvided = Evaluate("field"&i)>
-		<cfset searchText = Evaluate("searchText"&i)>
-		<cfset searchId = Evaluate("searchId"&i)>
-		<cfset joinWith = Evaluate("joinOperator"&i)>
-		<cfif joinWith EQ "AND">
-			<cfset join='join="and",'>
-		<cfelseif joinWith EQ "OR">
-			<cfset join='join="or",'>
-		<cfelse>
-			<cfset join=''>
-		</cfif>
-		<cfset matched = false>
-		<cfloop query="fields">
-			<cfset tableField = "#fields.table_name#:#fields.column_name#">
-			<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
-				<cfset matched = true>
-				<cfset field = 'field: "#fields.column_alias#"'>
-				<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
-				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#")>
-				<cfset separator = ",">
+	<cfloop index="i" from="1" to="#int(builderMaxRows)#">
+		<cfset hasEntry = true>
+		<cftry>
+			<cfset fieldProvided = Evaluate("field"&i)>
+			<cfset searchText = Evaluate("searchText"&i)>
+			<cfif len(fieldProvided) EQ 0><cfthrow message="no field"></cfif>
+			<cfif len(searchText) EQ 0><cfthrow message="no text"></cfif>
+		<cfcatch>
+			<cfset hasEntry = false>
+		</cfcatch>
+		</cftry>
+		<cfif hasEntry>
+			<cfset searchId = Evaluate("searchId"&i)>
+			<cfset joinWith = Evaluate("joinOperator"&i)>
+			<cfif joinWith EQ "AND">
+				<cfset join='join="and",'>
+			<cfelseif joinWith EQ "OR">
+				<cfset join='join="or",'>
+			<cfelse>
+				<cfset join=''>
 			</cfif>
-		</cfloop>
-		<cfif not matched>
-			<cfthrow message="Unknown search field [#encodeForHtml(fieldProvided)#].">
+			<cfset matched = false>
+			<cfloop query="fields">
+				<cfset tableField = "#fields.table_name#:#fields.column_name#">
+				<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
+					<cfset matched = true>
+					<cfset field = 'field: "#fields.column_alias#"'>
+					<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
+					<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#")>
+					<cfset separator = ",">
+				</cfif>
+			</cfloop>
+			<cfif not matched>
+				<cfthrow message="Unknown search field [#encodeForHtml(fieldProvided)#].">
+			</cfif>
 		</cfif>
    </cfloop>
 
