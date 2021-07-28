@@ -305,7 +305,7 @@ limitations under the License.
 										<div class="form-row">
 											<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 												<div class="row border-0 p-0 my-1 mb-2">
-													<div class="col-12 col-md-4">
+													<div class="col-12 col-md-4 col-sm-12">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, label
 															FROM cf_spec_search_cols
@@ -335,7 +335,7 @@ limitations under the License.
 															</cfif>
 														</select>
 													</div>
-													<div class="col-12 col-md-8 p-0 mx-1">
+													<div class="col-12 col-sm-8 col-md-6 p-0 mx-1">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
@@ -344,7 +344,7 @@ limitations under the License.
 														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
+													<div class="col-12 col-sm-4 col-md-2 pt-1 mx-1  d-flex justify-content-end">
 														<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 													</div>
 												</div>
