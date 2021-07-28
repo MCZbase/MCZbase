@@ -1261,7 +1261,7 @@ limitations under the License.
 				var row = $("##builderMaxRows").val();
 				row = parseInt(row) + 1;
 				var newControls = '<ul id="builderRow'+row+'" class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
-				newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+				newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 				newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
 	
 				newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
