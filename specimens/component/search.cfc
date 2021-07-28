@@ -125,7 +125,7 @@ limitations under the License.
 		search_category, table_name, label
 	</cfquery>
 
-	<cfloop index="i" from="1" to="#floor(builderMaxRows) + 1#">
+	<cfloop index="i" from="1" to="#int(builderMaxRows) + 1#">
 		<cfset fieldProvided = eval("field"&i)>
 		<cfset searchText = eval("searchText"&i)>
 		<cfset searchId = eval("searchId"&i)>
