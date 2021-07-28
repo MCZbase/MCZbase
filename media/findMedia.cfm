@@ -841,12 +841,10 @@ limitations under the License.
 				} else {
 					// state is row view switching to cardview
 
-					$("##searchResultsGrid").jqxGrid('rowsheight',130);
+					$("##searchResultsGrid").jqxGrid('rowsheight',1);
 					$("##searchResultsGrid").jqxGrid('cardheight',620);
 					$("##searchResultsGrid").jqxGrid('height',650);
 					$("##searchResultsGrid").jqxGrid('cardsize',5);
-					//$("##searchResultsGrid").jqxGrid('autoheight',true);
-					//$("##searchResultsGrid").jqxGrid('autorowheight',true);
 					$("##searchResultsGrid").jqxGrid({
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
