@@ -947,7 +947,7 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'multiplecellsadvanced',
+						//selectionmode: 'multiplecellsadvanced',
 						altrows: true,
 						showtoolbar: false,
 						width: '100%',
