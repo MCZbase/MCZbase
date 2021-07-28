@@ -84,11 +84,11 @@
 					<cfset collapsed = "collapsed">
 					<cfset collapseshow = "collapse">
 				</cfif>
-				<div class="card mb-2 bg-light">
+				<div class="card mb-2 bg-light ml-3">
 					<div class="card-header py-0" id="headingPart">
 						<h3 class="h4 my-0">
 							<button type="button" class="headerLnk w-100 text-left #collapsed#" data-toggle="collapse" aria-expanded="false" data-target="##collapseRelatedTaxa">
-								#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species 
+								Related #qsubspecies.recordcount# subspecies, #qspecies.recordcount# species 
 							</button>
 						</h3>
 					</div>
