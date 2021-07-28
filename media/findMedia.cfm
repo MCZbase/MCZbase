@@ -825,7 +825,7 @@ limitations under the License.
 				var muri = rowData['media_uri'];
 				var alt = rowData['ac_description'];
 				if (puri != "") { 
-					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="50%"></a></span>';
+					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
