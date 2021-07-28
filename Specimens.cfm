@@ -313,7 +313,7 @@ limitations under the License.
 																search_category, table_name, label
 														</cfquery>
 														<label for="field" class="data-entry-label">Search Field</label>
-														<cfif not isDefined("field1"><cfset field1=""></cfif>
+														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfset category = "">
 															<cfset optgroupOpen = false>
