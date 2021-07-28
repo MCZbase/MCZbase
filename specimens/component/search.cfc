@@ -126,10 +126,10 @@ limitations under the License.
 	</cfquery>
 
 	<cfloop index="i" from="1" to="#floor(builderMaxRows) + 1#">
-		<cfset fieldProvided = eval("field"&i)
-		<cfset searchText = eval("searchText"&i)
-		<cfset searchId = eval("searchId"&i)
-		<cfset joinWith = eval("joinOperator"&i)
+		<cfset fieldProvided = eval("field"&i)>
+		<cfset searchText = eval("searchText"&i)>
+		<cfset searchId = eval("searchId"&i)>
+		<cfset joinWith = eval("joinOperator"&i)>
 		<cfif joinWith EQ "AND">
 			<cfset join='join="and",'>
 		<cfelseif joinWith EQ "OR">

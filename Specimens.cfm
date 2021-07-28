@@ -305,14 +305,14 @@ limitations under the License.
 										<div class="form-row">
 											<div class="mt-1 col-md-12 col-sm-12 p-0 my-2 mb-3" id="customFields">
 												<div class="row border-0 p-0 my-1 mb-2">
-													<div class="col-md-3 col-sm-12 p-0 mx-1">
+													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, label
 															FROM cf_spec_search_cols
 															ORDER BY
 																search_category, table_name, label
 														</cfquery>
-														<label for="field" class="sr-only">Search Field</label>
+														<label for="field" class="data-entry-label">Search Field</label>
 														<!--- TODO: Move into a backing component for reuse with an ajax add field --->
 														<select title="Select Field to search..." name="field1" id="field1" class="custom-select-sm bg-white form-control-sm border d-flex">
 															<option>Select Field...</option>
@@ -335,17 +335,17 @@ limitations under the License.
 															</cfif>
 														</select>
 													</div>
-													<div class="col p-0 mx-1">
+													<div class="col-12 col-md-8 p-0 mx-1">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
-														<label for="searchText1" class="sr-only">Search For</label>
-														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="searchText1" id="searchText1" value="#searchText1#">
+														<label for="searchText1" class="data-entry-label">Search For</label>
+														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#searchText1#">
 														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
-														<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
+														<a aria-label="Add more search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
 													</div>
 												</div>
 											</div><!--- end customFields: new form rows get appended here --->
@@ -1287,7 +1287,7 @@ limitations under the License.
 		
 				newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
 				newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
-				newControls = newControls + '<input type="text" class="data-entry-input" name="searchId'+row+'" id="searchId'+row+'" placeholder="Enter Value"/>';
+				newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
 				newControls = newControls + `<button href=' $("##builderRow'+row+'").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
 				newControls = newControls + '</li></ul>';
