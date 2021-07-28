@@ -226,19 +226,20 @@ limitations under the License.
 														function setKeywordCollectionValues() {
 															$('##keywordCollection').jqxComboBox('clearSelection');
 															<cfloop query="ctCollection">
-																<cfif ArrayContains(collection_array, ctCollection.collection)>
+																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
 																	$("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection#");
 																</cfif>
 															</cfloop>
 														};
 														$(document).ready(function () {
-															var dispositionsource = [
-																""
+															var collectionsource = [
+																<cfset comma="">
 																<cfloop query="ctCollection">
-																	,"#ctCollection.collection#"
+																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##keywordCollection").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
 															setKeywordCollectionValues();
 														});
 													</script> 
@@ -427,13 +428,14 @@ limitations under the License.
 															</cfloop>
 														};
 														$(document).ready(function () {
-															var dispositionsource = [
-																""
+															var collectionsource = [
+																<cfset comma="">
 																<cfloop query="ctCollection">
-																	,"#ctCollection.collection#"
+																	#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##fixedCollection").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '23px', width: '100%' });
+															$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
 															setFixedCollectionValues();
 														});
 													</script> 

@@ -109,6 +109,7 @@ limitations under the License.
 --->
 <cffunction name="executeFixedSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="collection" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
@@ -128,6 +129,15 @@ limitations under the License.
 	<cfset search_json = "[">
 	<cfset separator = "">
 	<cfset join = ''>
+
+	<cfif isDefined("collection") AND len(collection) GT 0>
+		<cfset field = 'field: "collection_cde"'>
+		<cfset comparator = 'comparator: "IN"'>
+		<cfset value = encodeForJavaScript(collection)>
+		<cfset search_json = '#search_json##separator#{#join##field#,#comparator#,value: "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='join="and",'>
+	</cfif>
 
 	<cfif isDefined("taxon_name_id") AND len(taxon_name_id) GT 0>
 		<cfset field = 'field: "taxon_name_id"'>
