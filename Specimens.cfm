@@ -218,8 +218,8 @@ limitations under the License.
 										<div class="form-row">
 											<div class="input-group mt-1 px-3">
 												<div class="input-group-btn col-12 col-sm-4 col-md-3 pr-md-0">
-													<label for="keywordCollection" class="sr-only">Collection</label>
-													<div name="collection" id="keywordCollection" class="w-100"></div>
+													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
+													<div name="collection" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection")><cfset collection=""></cfif>
 													<cfset collection_array = ListToArray(collection)>
 													<script>
@@ -227,7 +227,7 @@ limitations under the License.
 															$('##keywordCollection').jqxComboBox('clearSelection');
 															<cfloop query="ctCollection">
 																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-																	$("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection#");
+																	$("##keywordCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
 																</cfif>
 															</cfloop>
 														};
@@ -245,7 +245,7 @@ limitations under the License.
 													</script> 
 												</div>
 												<div class="col-12 col-sm-5 col-md-6 px-md-0">
-													<label for="searchText" class="sr-only">Keyword input field </label>
+													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
 												</div>
 											</div>
@@ -422,8 +422,8 @@ limitations under the License.
 														function setFixedCollectionValues() {
 															$('##fixedCollection').jqxComboBox('clearSelection');
 															<cfloop query="ctCollection">
-																<cfif ArrayContains(collection_array, ctCollection.collection)>
-																	$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection#");
+																<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																	$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
 																</cfif>
 															</cfloop>
 														};
