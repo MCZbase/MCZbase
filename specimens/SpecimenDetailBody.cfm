@@ -167,7 +167,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingMedia">
-								<h3 class="h4 my-0 float-left text-dark">
+								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
 										<span class="text-success font-weight-light">(#ctmedia.ct#)</span>

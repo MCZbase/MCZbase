@@ -825,7 +825,7 @@ limitations under the License.
 				var muri = rowData['media_uri'];
 				var alt = rowData['ac_description'];
 				if (puri != "") { 
-					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="50%"></a></span>';
+					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
@@ -855,7 +855,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -947,7 +947,7 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'multiplecellsadvanced',
+						//selectionmode: 'multiplecellsadvanced',
 						altrows: true,
 						showtoolbar: false,
 						width: '100%',
