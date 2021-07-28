@@ -109,8 +109,95 @@ limitations under the License.
 --->
 <cffunction name="executeBuilderSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
-	<cfargument name="builderMaxRows" type="number" required="yes">
-	<cfthrow message="Not yet implemented">
+	<cfargument name="builderMaxRows" type="string" required="yes">
+
+	<cfset search_json = "[">
+	<cfset separator = "">
+	<cfset join = ''>
+	<cfif isNumeric(builderMaxRows) EQ 0>
+		<cfthrow message="Value provided for builderMaxRows is not a number">
+	</cfif>
+
+	<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
+		SELECT search_category, table_name, column_name, column_alias, data_type, label
+		FROM cf_spec_search_cols
+		ORDER BY
+		search_category, table_name, label
+	</cfquery>
+
+	<cfloop index="i" from="1" to="#floor(builderMaxRows) + 1#">
+		<cfset fieldProvided = eval("field"&i)
+		<cfset searchText = eval("searchText"&i)
+		<cfset searchId = eval("searchId"&i)
+		<cfset joinWith = eval("joinOperator"&i)
+		<cfif joinWith EQ "AND">
+			<cfset join='join="and",'>
+		<cfelseif joinWith EQ "OR">
+			<cfset join='join="or",'>
+		<cfelse>
+			<cfset join=''>
+		</cfif>
+		<cfset matched = false>
+		<cfloop query="fields">
+			<cfset tableField = "#fields.table_name#:#fields.column_name#">
+			<cfif fieldProvided EQ tableField AND len(searchText) GT 0>
+				<cfset matched = true>
+				<cfset field = 'field: "#fields.column_alias#"'>
+				<!--- Warning: only searchText may be passed directly from the user here, join and field must be known good values ---> 
+				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#")>
+				<cfset separator = ",">
+			</cfif>
+		<cfloop>
+		<cfif not matched>
+			<cfthrow message="">
+		</cfif>
+   </cfloop>
+
+	<cfset search_json = "#search_json#]">
+
+	<cfif isdefined("debug") AND len(debug) GT 0>
+		<cfdump var="#search_json#">
+		<cfdump var="#session.dbuser#">
+		<cfabort>
+	</cfif>
+
+	<cftry>
+		<cfset username = session.dbuser>
+		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+			<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+			<cfprocresult name="search">
+		</cfstoredproc>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT *
+			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+				left join user_search_table on user_search_table.collection_object_id = flat.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+
+		<cfset rows = 0>
+		<cfset data = ArrayNew(1)>
+
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#ucase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!--- Function executeFixedSearch backing method for specimen search
@@ -254,6 +341,7 @@ limitations under the License.
 		<cfset username = session.dbuser>
 		<!--- TODO: Implement returnCode from build_query, 0=success, non zero error condition. --->
 		<!--- cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" returnCode="yes" --->
+		<!---  OR,  this could just be handled by build_query_dbms_sql throwing exceptions --->
 		<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
