@@ -320,7 +320,9 @@ limitations under the License.
 				<cfabort>
 		</cfcatch>
 	</cftry>
-	<cfreturn result>
+	</cfthread>
+	<cfthread action="join" name="getEditMediaThread" />
+	<cfreturn getEditMediaThread.output>
 </cffunction>
 <!---getEditMediaDetail --the dialog for editing one image--->
 <cffunction name="getEditMediaDetailsHTML" returntype="string" access="remote" returnformat="plain">

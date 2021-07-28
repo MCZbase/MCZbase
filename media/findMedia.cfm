@@ -831,11 +831,60 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
+				$("##searchResultsGrid").jqxGrid("beginUpdate");
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				if (currentState)  {
+					// state cardview switching to row view
+					$("##searchResultsGrid").jqxGrid('rowsheight',50);
+					$("##searchResultsGrid").jqxGrid('height',36);
+					//cardsize: 5,
+				} else {
+					// state is row view switching to cardview
+
+					$("##searchResultsGrid").jqxGrid('rowsheight',1);
+					$("##searchResultsGrid").jqxGrid('cardheight',620);
+					$("##searchResultsGrid").jqxGrid('height',650);
+				//	$("##searchResultsGrid").jqxGrid('cardsize',5);
+					$("##searchResultsGrid").jqxGrid({
+						cardviewcolumns: [
+							{ width: 'auto', datafield: 'media_id',hidable: true},
+							{ width: 'auto', datafield: 'preview_uri',hidable: true},
+							{ width: 'auto', datafield: 'mask_media_fg',hidable: true,hidden: getColHidProp('mask_media_fg', true)},
+							{ width: 'auto', datafield: 'media_type',hidable: true,hidden: getColHidProp('media_type', false)},
+							{ width: 'auto', datafield: 'mime_type',hidable: true,hidden: getColHidProp('mime_type', false)},
+							{ width: 'auto', datafield: 'protocol',hidable: true,hidden: getColHidProp('protocol', false)},
+							{ width: 'auto', datafield: 'host',hidable: true,hidden: getColHidProp('host', false)},
+							{ width: 'auto', datafield: 'path',hidable: true,hidden: getColHidProp('path', false)},
+							{ width: 'auto', datafield: 'filename',hidable: true,hidden: getColHidProp('filename', true)},
+							{ width: 'auto', datafield: 'extension',hidable: true,hidden: getColHidProp('extension', true)},
+							{ width: 'auto', datafield: 'aspect',hidable: true,hidden: getColHidProp('aspect', true)},
+							{ width: 'auto', datafield: 'description',hidable: true, hidden: getColHidProp('description', false)},
+							{ width: 'auto', datafield: 'made_date',hidable: true,hidden: getColHidProp('made_date', true)},
+							{ width: 'auto', datafield: 'subject',hidable: true,hidden: getColHidProp('subject', true)},
+							{ width: 'auto', datafield: 'original_filename',hidable: true,hidden: getColHidProp('original_filename', false)},
+							{ width: 'auto', datafield: 'internal_remarks',hidable: true,hidden: getColHidProp('internal_remarks', false)},
+							{ width: 'auto', datafield: 'remarks',hidable: true,hidden: getColHidProp('remarks', false)},
+							{ width: 'auto', datafield: 'spectrometer',hidable: true,hidden: getColHidProp('spectrometer', false)},
+							{ width: 'auto', datafield: 'light_source',hidable: true,hidden: getColHidProp('light_source', false)},
+							{ width: 'auto', datafield: 'spectrometer_reading_location',hidable: true,hidden: getColHidProp('spectrometer_reading_location', false)},
+							{ width: 'auto', datafield: 'height',hidable: true,hidden: getColHidProp('height', false)},
+							{ width: 'auto', datafield: 'width',hidable: true,hidden: getColHidProp('width', false)},
+							{ width: 'auto', datafield: 'creator',hidable: true,hidden: getColHidProp('creator', true)},
+							{ width: 'auto', datafield: 'owner',hidable: true,hidden: getColHidProp('owner', true)},
+							{ width: 'auto', datafield: 'credit',hidable: true,hidden: getColHidProp('credit', true)},
+							{ width: 'auto', datafield: 'dc_rights',hidable: true,hidden: getColHidProp('dc_rights', true)},
+							{ width: 'auto', datafield: 'license_display',hidable: true,hidden: getColHidProp('license_display', true)},
+							{ width: 'auto', datafield: 'relations',hidable: true,hidden: getColHidProp('relations', true)},
+							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
+							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
+						]});
+				}
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
 				});
+				$("##searchResultsGrid").jqxGrid("endUpdate");
 			};
+
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -855,7 +904,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;height:auto;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -953,42 +1002,10 @@ limitations under the License.
 						width: '100%',
 						<cfif Application.serverrole NEQ "production" >
 						cardview: false,
-						cardsize: 5,
-						width: '100%',
-						cardheight: 620,
-						cardviewcolumns: [
-							{ width: 'auto', datafield: 'media_id',hidable: true},
-							{ width: 'auto', datafield: 'preview_uri',hidable: true},
-							{ width: 'auto', datafield: 'mask_media_fg',hidable: true,hidden: getColHidProp('mask_media_fg', true)},
-							{ width: 'auto', datafield: 'media_type',hidable: true,hidden: getColHidProp('media_type', false)},
-							{ width: 'auto', datafield: 'mime_type',hidable: true,hidden: getColHidProp('mime_type', false)},
-							{ width: 'auto', datafield: 'protocol',hidable: true,hidden: getColHidProp('protocol', false)},
-							{ width: 'auto', datafield: 'host',hidable: true,hidden: getColHidProp('host', false)},
-							{ width: 'auto', datafield: 'path',hidable: true,hidden: getColHidProp('path', false)},
-							{ width: 'auto', datafield: 'filename',hidable: true,hidden: getColHidProp('filename', true)},
-							{ width: 'auto', datafield: 'extension',hidable: true,hidden: getColHidProp('extension', true)},
-							{ width: 'auto', datafield: 'aspect',hidable: true,hidden: getColHidProp('aspect', true)},
-							{ width: 'auto', datafield: 'description',hidable: true, hidden: getColHidProp('description', false)},
-							{ width: 'auto', datafield: 'made_date',hidable: true,hidden: getColHidProp('made_date', true)},
-							{ width: 'auto', datafield: 'subject',hidable: true,hidden: getColHidProp('subject', true)},
-							{ width: 'auto', datafield: 'original_filename',hidable: true,hidden: getColHidProp('original_filename', false)},
-							{ width: 'auto', datafield: 'internal_remarks',hidable: true,hidden: getColHidProp('internal_remarks', false)},
-							{ width: 'auto', datafield: 'remarks',hidable: true,hidden: getColHidProp('remarks', false)},
-							{ width: 'auto', datafield: 'spectrometer',hidable: true,hidden: getColHidProp('spectrometer', false)},
-							{ width: 'auto', datafield: 'light_source',hidable: true,hidden: getColHidProp('light_source', false)},
-							{ width: 'auto', datafield: 'spectrometer_reading_location',hidable: true,hidden: getColHidProp('spectrometer_reading_location', false)},
-							{ width: 'auto', datafield: 'height',hidable: true,hidden: getColHidProp('height', false)},
-							{ width: 'auto', datafield: 'width',hidable: true,hidden: getColHidProp('width', false)},
-							{ width: 'auto', datafield: 'creator',hidable: true,hidden: getColHidProp('creator', true)},
-							{ width: 'auto', datafield: 'owner',hidable: true,hidden: getColHidProp('owner', true)},
-							{ width: 'auto', datafield: 'credit',hidable: true,hidden: getColHidProp('credit', true)},
-							{ width: 'auto', datafield: 'dc_rights',hidable: true,hidden: getColHidProp('dc_rights', true)},
-							{ width: 'auto', datafield: 'license_display',hidable: true,hidden: getColHidProp('license_display', true)},
-							{ width: 'auto', datafield: 'relations',hidable: true,hidden: getColHidProp('relations', true)},
-							{ width: 'auto', datafield: 'ac_description',hidable: true,hidden: getColHidProp('ac_description', true)},
-							{ width: 'auto', datafield: 'media_uri',hidable: true,hidden: getColHidProp('media_uri', false)},
-						],
 						</cfif>
+						//cardsize: 5,
+						width: '100%',
+						//cardheight: 620,
 						columns: [
 							{text: 'ID', datafield: 'media_id', width:100, hideable: true, hidden: getColHidProp('media_id', false), cellsrenderer: linkIdCellRenderer },
 							{text: 'Preview URI', datafield: 'preview_uri', width: 100, hidable: true, hidden: getColHidProp('preview_uri', false), cellsrenderer: thumbCellRenderer },
