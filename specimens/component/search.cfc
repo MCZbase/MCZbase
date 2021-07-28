@@ -147,9 +147,9 @@ limitations under the License.
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#")>
 				<cfset separator = ",">
 			</cfif>
-		<cfloop>
+		</cfloop>
 		<cfif not matched>
-			<cfthrow message="">
+			<cfthrow message="Unknown search field [#encodeForHtml(fieldProvided)#].">
 		</cfif>
    </cfloop>
 
