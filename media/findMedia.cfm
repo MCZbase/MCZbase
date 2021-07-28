@@ -935,10 +935,10 @@ limitations under the License.
 						//autorowheight: true,
 						filterable: true,
 						sortable: true,
-						pageable: false,
+						pageable: true,
 						editable: false,
-						//pagesize: 50,
-						//pagesizeoptions: ['5','50','100'],
+						pagesize: 50,
+						pagesizeoptions: ['5','50','100'],
 						showaggregates: true,
 						columnsresize: true,
 						keyboardnavigation: true,
@@ -1079,13 +1079,13 @@ limitations under the License.
 					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 				}
 				// set maximum page size
-//				if (rowcount > 100) { 
-//					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
-//				} else if (rowcount > 50) { 
-//					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
-//				} else { 
-//					$('##' + gridId).jqxGrid({ pageable: false });
-//				}
+				if (rowcount > 100) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+				} else if (rowcount > 50) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+				} else { 
+					$('##' + gridId).jqxGrid({ pageable: false });
+				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
 				var halfcolumns = Math.round(columns.length/2);
