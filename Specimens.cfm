@@ -327,7 +327,7 @@ limitations under the License.
 																	<cfset optgroupOpen = true>
 																	<cfset category = fields.search_category>
 																</cfif>
-																<cfif fields1 EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+																<cfif field1 EQ "#fields.table_name#:#fields.column_name#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 																<option value="#fields.table_name#:#fields.column_name#" #selected#>#fields.label#</option>
 															</cfloop>
 															<cfif optgroupOpen>
