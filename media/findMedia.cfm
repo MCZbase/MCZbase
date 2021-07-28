@@ -855,7 +855,7 @@ limitations under the License.
 			
 					$("##overlay").show();
 			
-					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;max-height:620px;"></div>');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;width:100%;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
@@ -955,7 +955,7 @@ limitations under the License.
 						cardview: false,
 						cardsize: 5,
 						width: '100%',
-						cardheight: 620,
+						//cardheight: 620,
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
 							{ width: 'auto', datafield: 'preview_uri',hidable: true},
