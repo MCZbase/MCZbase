@@ -831,10 +831,24 @@ limitations under the License.
 				}
 			};
 			function toggleCardView() { 
+				$("##searchResultsGrid").jqxGrid("beginUpdate");
 				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
+				if (currentState)  {
+					// state cardview switching to row view
+					$("##searchResultsGrid").jqxGrid('rowheight',1);
+					$("##searchResultsGrid").jqxGrid('cardheight',620);
+					$("##searchResultsGrid").jqxGrid('height',650);
+					$("##searchResultsGrid").jqxGrid('cardsize',5);
+					//cardsize: 5,
+				} else {
+					// state is row view switching to cardview
+					$("##searchResultsGrid").jqxGrid('rowheight',50);
+					$("##searchResultsGrid").jqxGrid('height',36);
+				}
 				$("##searchResultsGrid").jqxGrid({
 					cardview: !currentState
 				});
+				$("##searchResultsGrid").jqxGrid("endUpdate");
 			};
 	
 			$(document).ready(function() {
@@ -929,8 +943,8 @@ limitations under the License.
 			
 					$("##searchResultsGrid").jqxGrid({
 						source: dataAdapter,
-						rowsheight: 50,
-						height: 650,
+						//rowsheight: 50,
+						//height: 650,
 						autoHeight: true,
 						//autorowheight: true,
 						filterable: true,
@@ -953,9 +967,9 @@ limitations under the License.
 						width: '100%',
 						<cfif Application.serverrole NEQ "production" >
 						cardview: false,
-						cardsize: 5,
+						//cardsize: 5,
 						width: '100%',
-						cardheight: 620,
+						//cardheight: 620,
 						cardviewcolumns: [
 							{ width: 'auto', datafield: 'media_id',hidable: true},
 							{ width: 'auto', datafield: 'preview_uri',hidable: true},
