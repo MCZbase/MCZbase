@@ -307,15 +307,15 @@ limitations under the License.
 												<div class="row border-0 p-0 my-1 mb-2">
 													<div class="col-md-3 col-sm-12 p-0 mx-1">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
-															SELECT search_category, table_name, column_name, data_type, label
+															SELECT search_category, table_name, column_name, column_alias, data_type, label
 															FROM cf_spec_search_cols
 															ORDER BY
 																search_category, table_name, label
 														</cfquery>
-														<label for="selectType" class="sr-only">Search Field</label>
+														<label for="field" class="sr-only">Search Field</label>
 														<!--- TODO: Move into a backing component for reuse with an ajax add field --->
-														<select title="Select Field to search..." name="selectType" id="selectType" class="custom-select-sm bg-white form-control-sm border d-flex">
-															<option>Select Type...</option>
+														<select title="Select Field to search..." name="field1" id="field1" class="custom-select-sm bg-white form-control-sm border d-flex">
+															<option>Select Field...</option>
 															<cfset category = "">
 															<cfset optgroupOpen = false>
 															<cfloop query="fields">
@@ -336,10 +336,13 @@ limitations under the License.
 														</select>
 													</div>
 													<div class="col p-0 mx-1">
+														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
+														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
-														<label for="srchTxt" class="sr-only">Search For</label>
-														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="srchTxt" id="srchTxt" placeholder="Enter Value"/>
-														<input type="hidden" class="form-control-sm d-flex enter-search mx-0" name="srchId" id="srchId" placeholder="Enter Value"/>
+														<label for="searchText1" class="sr-only">Search For</label>
+														<input type="text" class="form-control-sm d-flex enter-search mx-0" name="searchText1" id="searchText1" value="#searchText1#">
+														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
+														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<div class="col-md-1 col-sm-12 p-0 mx-1 d-flex justify-content-end">
 														<a aria-label="Add another set of search criteria" class="btn-sm btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a> 
@@ -1258,7 +1261,7 @@ limitations under the License.
 				var row = $("##builderMaxRows").val();
 				row = row + 1;
 				var newControls = '<ul id="builderRow'+row+'" class="row col-md-11 col-sm-12 mx-0 my-4"><li class="d-inline col-sm-12 col-md-1 px-0 mr-2">';
-				newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="">Join with...</option><option value="and">and</option><option value="or">or</option><option value="not">not</option></select>';
+				newControls = newControls + '<select title="Join Operator" name="JoinOperator" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 				newControls= newControls + '</li><li class="d-inline mr-2 col-sm-12 px-0 col-md-2">';
 	
 				newControls = newControls + '<select title="Select Field..." name="field" id="field'+row+'" class="custom-select-sm bg-white form-control-sm border d-flex">';
@@ -1283,8 +1286,8 @@ limitations under the License.
 				newControls = newControls + '</select>';
 		
 				newControls = newControls + '</li><li class="d-inline col-sm-12 px-0 mr-2 col-md-2">';
-				newControls = newControls + '<input type="text" class="data-entry-input" name="srchTxt'+row+'" id="srchTxt'+row+'" placeholder="Enter Value"/>';
-				newControls = newControls + '<input type="text" class="data-entry-input" name="srchId'+row+'" id="srchId'+row+'" placeholder="Enter Value"/>';
+				newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
+				newControls = newControls + '<input type="text" class="data-entry-input" name="searchId'+row+'" id="searchId'+row+'" placeholder="Enter Value"/>';
 				newControls = newControls + '</li><li class="d-inline mr-2 col-md-1 col-sm-1 px-0 d-flex justify-content-end">';
 				newControls = newControls + `<button href=' $("##builderRow'+row+'").remove();' arial-label='remove' class='btn-xs px-3 btn-primary mr-auto'>Remove</button>`;
 				newControls = newControls + '</li></ul>';
