@@ -30,8 +30,8 @@ Report on primary types, by department.
 			<section class="row">
 				<div class="col-12">
 					<form name="searchForm" id="searchForm">
-						<input type="hidden" name="method" value="getTypes" class="keeponclear excludefromlink">
-						<input type="hidden" name="kind" value="Primary" class="keeponclear excludefromlink">
+						<input type="hidden" name="method" value="getTypes" class="keeponclear excludeFromLink">
+						<input type="hidden" name="kind" value="Primary" class="keeponclear excludeFromLink">
 						<h1 class="h2">Primary Types By Department</h1>
 						<cfquery name="getcounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcounts_result">
 							select count(collection_object_id) ct, collection_cde, collection
