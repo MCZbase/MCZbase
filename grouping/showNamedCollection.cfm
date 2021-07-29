@@ -163,13 +163,263 @@ limitations under the License.
 							</div>
 						</div>
 
+								
+								
+					<cfquery name="specimenImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT * FROM (
+							SELECT DISTINCT media_uri, preview_uri,media_type, media.media_id,
+								MCZBASE.get_media_descriptor(media.media_id) as alt,
+								MCZBASE.get_medialabel(media.media_id,'width') as width,
+								MCZBASE.get_media_credit(media.media_id) as credit,
+								flat.guid
+							FROM
+								underscore_collection
+								left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+									on underscore_relation.collection_object_id = flat.collection_object_id
+								left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+								left join media on media_relations.media_id = media.media_id
+							WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+								AND flat.guid IS NOT NULL
+								AND media_relations.media_relationship = 'shows cataloged_item'
+								AND media.media_type = 'image'
+								AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+								AND MCZBASE.is_media_encumbered(media.media_id) < 1
+								AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
+							ORDER BY media.media_id
+						) 
+						WHERE rownum < 16
+					</cfquery>
+					<style>
+					.specimen_carousel {
+						overflow: hidden;
+						width: 90%;
+					}
+					.specimen_carousel * {
+						box-sizing: border-box;
+					}
+					.carousel {
+						transform-style: preserve-3d;
+					}
+					.carousel__image {
+						opacity: 0;
+						position: absolute;
+						top: 0;
+						width: 100%;
+						margin: auto;
+						padding: 1rem 4rem;
+						z-index: 100;
+						transition: transform .5s, opacity .5s, z-index .5s;
+					}
+					.carousel__image, .carousel__image.active {
+						opacity: 1;
+						position: relative;
+						z-index: 900;
+					}
+					.carousel__image.prev, .carousel__image.next {
+						z-index: 800;
+					}
+					.carousel__image.prev {
+						transform: translateX(-100%); /* go to previous item */
+					}
+					.carousel__image.next {
+						transform: translateX(100%); /* go to next item */
+					}
+					.carousel__button--prev, .carousel__button--next {
+						position: absolute;
+						top: 50%;
+						width: 3rem;
+						height: 3rem;
+						background-color: white;
+						transform: translateY(-50%);
+						border-radius: 50%;
+						cursor: pointer;
+						z-index: 1001; /* sit on top of everything */
+						border: 1px solid black;
+					}
+					.carousel__button--prev {
+						left: 0;
+					}
+					.carousel__button--next {
+						right: 0;
+					}
+					.carousel__button--prev::after, .carousel__button--next::after {
+						content: " ";
+						position: absolute;
+						width: 10px;
+						height: 10px;
+						top: 50%;
+						left: 54%;
+						border-right: 2px solid black;
+						border-bottom: 2px solid black;
+						transform: translate(-50%, -50%) rotate(135deg);
+					}
+					.carousel__button--next::after {
+						left: 47%;
+						transform: translate(-50%, -50%) rotate(-45deg);
+					}
+					</style>
+					<script>
+						!(function(d){
+						// Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
+						var itemClassName = "carousel__image";
+							items = d.getElementsByClassName(itemClassName),
+							totalItems = items.length,
+							slide = 0,
+							moving = true; 
+
+						// To initialise the carousel we'll want to update the DOM with our own classes
+						function setInitialClasses() {
+
+							// Target the last, initial, and next items and give them the relevant class.
+							// This assumes there are three or more items.
+							items[totalItems - 1].classList.add("prev");
+							items[0].classList.add("active");
+							items[1].classList.add("next");
+						}
+
+						// Set click events to navigation buttons
+
+						function setEventListeners() {
+							var next = d.getElementsByClassName('carousel__button--next')[0],
+								prev = d.getElementsByClassName('carousel__button--prev')[0];
+
+							next.addEventListener('click', moveNext);
+							prev.addEventListener('click', movePrev);
+						}
+
+						// Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
+						function disableInteraction() {
+							moving = true;
+
+							setTimeout(function(){
+								moving = false
+							}, 500);
+						}
+
+						function moveCarouselTo(slide) {
+
+							// Check if carousel is moving, if not, allow interaction
+							if(!moving) {
+
+							// temporarily disable interactivity
+							disableInteraction();
+
+							// Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
+							var newPrevious = slide - 1,
+								newNext = slide + 1,
+								oldPrevious = slide - 2,
+								oldNext = slide + 2;
+
+							// Test if carousel has more than three items
+							if ((totalItems - 1) > 3) {
+
+								// Checks if the new potential slide is out of bounds and sets slide numbers
+								if (newPrevious <= 0) {
+									oldPrevious = (totalItems - 1);
+								} else if (newNext >= (totalItems - 1)){
+									oldNext = 0;
+								}
+
+								// Check if current slide is at the beginning or end and sets slide numbers
+								if (slide === 0) {
+									newPrevious = (totalItems - 1);
+									oldPrevious = (totalItems - 2);
+									oldNext = (slide + 1);
+								} else if (slide === (totalItems -1)) {
+									newPrevious = (slide - 1);
+									newNext = 0;
+									oldNext = 1;
+								}
+
+								// Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
+
+								// Based on the current slide, reset to default classes.
+								items[oldPrevious].className = itemClassName;
+								items[oldNext].className = itemClassName;
+
+								// Add the new classes
+								items[newPrevious].className = itemClassName + " prev";
+								items[slide].className = itemClassName + " active";
+								items[newNext].className = itemClassName + " next";
+								}
+							}
+						}
+
+						// Next navigation handler
+						function moveNext() {
+
+							// Check if moving
+							if (!moving) {
+
+							// If it's the last slide, reset to 0, else +1
+							if (slide === (totalItems - 1)) {
+								slide = 0;
+							} else {
+								slide++;
+							}
+
+							// Move carousel to updated slide
+								moveCarouselTo(slide);
+							}
+						}
+
+						// Previous navigation handler
+						function movePrev() {
+
+							// Check if moving
+							if (!moving) {
+
+							// If it's the first slide, set as the last slide, else -1
+							if (slide === 0) {
+								slide = (totalItems - 1);
+							} else {
+								slide--;
+							}
+
+							// Move carousel to updated slide
+								moveCarouselTo(slide);
+							}
+						}
+
+						// Initialise carousel
+						function initCarousel() {
+							setInitialClasses();
+							setEventListeners();
+
+							// Set moving to false now that the carousel is ready
+							moving = false;
+						}
+
+						// make it rain
+							initCarousel();
+
+						}(document));
+						</script>
+						<div class="specimen_carousel">
+							<!---<img class="carousel__image initial" src="http://placekitten.com/1600/900">--->
+							<div class="carousel">
+							<cfset i=1>
+							<cfloop query="specimenImagesForCarousel">
+								<img class="d-block w-100 carousel__image" src="#specimenImagesForCarousel[media_id][i]#" />
+								<cfset i=i+1>
+							</cfloop>
+							</div>
+							<div class="carousel__button--next"></div>
+							<div class="carousel__button--prev"></div>
+						</div>
+
+
+
+
+
 						<div class="row mx-0 clearfix" id="everythingElseRow">
 							<!--- This row holds everything else --->
 
 							<cfset leftHandColumnOn = false>
 							<cfset hasSpecImages = false>
 							<cfset otherImageTypes = 0>
-			
+
 							<!--- count images of different types to decide if there will be a left hand image column or not --->
 							<!--- obtain a random set of images, limited to a small number, use only displayable images (jpegs and pngs) --->
 							<cfquery name="specimenImageQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImageQuery_result">
@@ -378,7 +628,7 @@ limitations under the License.
 												<cfset colClass = "col-3">
 											</cfdefaultcase>
 										</cfswitch>
-										
+
 										<cfif locImageQuery.recordcount GT 0>
 											<div class="#colClass#">
 												<!--- find out how many locality images there are in total --->
@@ -440,7 +690,7 @@ limitations under the License.
 												</cfif>
 											</div>
 										</cfif><!--- end locality images block --->
-			
+
 										<cfif collEventImageQuery.recordcount GT 0>
 											<div class="#colClass#">
 												<!--- find out how many collecting event images there are in total --->
@@ -570,7 +820,7 @@ limitations under the License.
 									</div><!--- end row for image blocks --->
 								</div><!--- end col-md-6 for images --->
 							</cfif><!--- end has any kind of images --->
-		
+
 							<cfif leftHandColumnOn >
 								<cfset hasleftcolumnclass = "mt-md-5">
 							<cfelse>
@@ -703,7 +953,7 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-	
+
 									<cfquery name="islandsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="islandsQuery_result">
 										SELECT DISTINCT flat.continent_ocean, flat.island as island
 										FROM
@@ -729,7 +979,7 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-	
+
 									<cfquery name="collectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectors_result">
 										SELECT DISTINCT preferred_agent_name.agent_name, collector.agent_id, person.last_name
 										FROM
@@ -767,6 +1017,5 @@ limitations under the License.
 		</main>
 	</cfloop>
 </cfoutput> 
-<!--- class="container" --->
 
 <cfinclude template = "/shared/_footer.cfm">
