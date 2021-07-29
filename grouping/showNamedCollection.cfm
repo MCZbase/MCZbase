@@ -192,15 +192,17 @@ limitations under the License.
 							WHERE rownum < 16
 				</cfquery>
 				<style>
-					.specimen_carouselX {
+					.carousel-wrapperX {
 						overflow: hidden;
 						width: 90%;
 						margin: auto;
 					}
-					.specimen_carouselX * {
+					.carousel-wrapperX * {
 						box-sizing: border-box;
 					}
 					.carouselX {
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
 					}
 					.carousel__imageX {
@@ -213,7 +215,7 @@ limitations under the License.
 						z-index: 100;
 						transition: transform .5s, opacity .5s, z-index .5s;
 					}
-					.carousel__imageX, .carousel__imageX.active {
+					.carousel__imageX.initial, .carousel__imageX.active {
 						opacity: 1;
 						position: relative;
 						z-index: 900;
@@ -245,7 +247,8 @@ limitations under the License.
 					.carousel__buttonX--next {
 						right: 0;
 					}
-					.carousel__buttonX--prev::after, .carousel__buttonX--next::after {
+					.carousel__buttonX--prev::after, 
+					.carousel__buttonX--next::after {
 						content: " ";
 						position: absolute;
 						width: 10px;
